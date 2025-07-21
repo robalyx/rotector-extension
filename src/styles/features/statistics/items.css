@@ -1,0 +1,45 @@
+/* Statistics item styles */
+
+/* Stat category title */
+@utility stat-category-title {
+  @apply text-center font-semibold uppercase tracking-wide pb-1.5 mb-2 border-b text-xs-plus;
+  color: var(--color-text-heading);
+  border-color: var(--color-border-subtle);
+}
+
+/* Individual stat item */
+@utility stat-item {
+  @apply text-center p-2 rounded border transition-all duration-300 relative overflow-hidden;
+  border-color: var(--color-border-subtle);
+  background-color: var(--color-bg-content);
+  
+  &:hover {
+    @apply shadow-hover -translate-y-0.5;
+    border-color: var(--color-primary);
+  }
+}
+
+/* Stat value styling */
+@utility stat-value {
+  @apply font-bold mb-1 leading-none text-xl transition-all duration-300;
+  color: var(--color-text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stat label styling */
+@utility stat-label {
+  @apply font-medium uppercase leading-tight text-2xs tracking-wide;
+  color: var(--color-text-subtle);
+}
+
+/* Last updated time styles */
+@utility statistics-last-updated {
+  @apply text-center mt-2 pt-1.5 border-t text-2xs font-normal;
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-subtle);
+}
+
+@utility last-updated-time {
+  @apply font-medium;
+  color: var(--color-text);
+} 

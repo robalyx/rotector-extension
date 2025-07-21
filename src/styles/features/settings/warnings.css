@@ -1,0 +1,44 @@
+/* Settings warning styles */
+
+/* Warning dialog */
+.warning-dialog {
+  @apply bg-[color-mix(in_srgb,var(--color-warning)_10%,transparent)] border border-[color-mix(in_srgb,var(--color-warning)_30%,transparent)] rounded-md p-3 flex flex-col gap-3;
+}
+
+/* Warning title */
+.warning-title {
+  @apply text-[var(--color-warning)] font-medium text-sm flex items-center gap-2;
+}
+
+/* Warning text */
+.warning-text {
+  @apply text-sm leading-relaxed;
+  color: var(--color-text-subtle);
+}
+
+/* Warning buttons */
+.warning-buttons {
+  @apply flex gap-2 justify-end;
+}
+
+/* Warning button base */
+.warning-button {
+  @apply px-3 py-1 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
+  
+  &.primary {
+    @apply bg-[var(--color-warning)] text-white;
+    
+    &:hover {
+      @apply bg-[color-mix(in_srgb,var(--color-warning)_90%,black)];
+    }
+  }
+  
+  &.secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    
+    &:hover {
+      background-color: var(--color-hover);
+    }
+  }
+} 

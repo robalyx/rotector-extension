@@ -1,0 +1,68 @@
+/* General utility styles */
+
+/* Scrollbar utility */
+@utility scrollbar-styled {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-subtle);
+  }
+}
+
+/* Social link utility */
+@utility social-link {
+  @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
+  color: var(--color-link);
+  
+  &:hover {
+    color: var(--color-link-hover);
+  }
+}
+
+/* Social icon utility */
+@utility social-icon {
+  @apply w-3.5 h-3.5 fill-current;
+}
+
+/* Help link utility */
+@utility help-link {
+  @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
+  color: var(--color-link);
+  
+  &:hover {
+    color: var(--color-link-hover);
+  }
+}
+
+/* Help icon utility */
+@utility help-icon {
+  @apply w-3.5 h-3.5 fill-current;
+}
+
+/* Legal text */
+@utility legal-link {
+  @apply underline;
+  color: var(--color-link);
+  
+  &:hover {
+    color: var(--color-link-hover);
+  }
+}
+
+@utility legal-divider {
+  color: var(--color-text-subtle);
+} 

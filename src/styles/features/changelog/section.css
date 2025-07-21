@@ -1,0 +1,70 @@
+/* Changelog section styles */
+
+/* Section header */
+.changelog-section-header {
+  @apply w-full px-3 py-2.5 cursor-pointer transition-all duration-200 border rounded-sm text-sm font-medium flex items-center justify-between;
+  background-color: var(--color-bg-content);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  
+  &:hover {
+    @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
+  }
+  
+  &:active {
+    @apply scale-[0.98];
+  }
+}
+
+/* Section content container */
+.changelog-section-content {
+  @apply flex flex-col;
+}
+
+/* Individual changelog item */
+.changelog-section-item {
+  @apply py-2;
+  
+  &.first {
+    @apply pt-0;
+  }
+}
+
+/* Divider between changelog entries */
+.changelog-section-divider {
+  @apply my-4 border-t;
+  border-color: var(--color-border-subtle);
+}
+
+/* Empty state */
+.changelog-section-empty {
+  @apply py-6;
+}
+
+/* Technical mode toggle button */
+.changelog-technical-toggle {
+  @apply w-8 h-8 p-1 cursor-pointer transition-all duration-200 border rounded-sm text-xs flex items-center justify-center;
+  background-color: var(--color-bg-content);
+  border-color: var(--color-border);
+  color: var(--color-text-subtle);
+  
+  &:hover {
+    @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
+    color: var(--color-text);
+  }
+  
+  &:active {
+    @apply scale-[0.95];
+  }
+  
+  &.active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-content);
+    
+    &:hover {
+      background-color: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+  }
+}

@@ -1,0 +1,27 @@
+/* Shadows */
+@theme {
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-badge: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --shadow-soft: 0 2px 8px rgba(255, 255, 255, 0.05);
+    --shadow-hover: 0 4px 12px rgba(255, 255, 255, 0.05);
+    --shadow-badge: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Shadow utilities */
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-hover {
+  box-shadow: var(--shadow-hover);
+}
+
+@utility shadow-badge {
+  box-shadow: var(--shadow-badge);
+} 

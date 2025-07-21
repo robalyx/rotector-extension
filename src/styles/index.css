@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* Theme imports */
+@import "./theme/colors.css";
+@import "./theme/typography.css";
+@import "./theme/shadows.css";
+@import "./theme/icons.css";
+
+/* Base imports */
+@import "./base/reset.css";
+@import "./base/animations.css";
+@import "./base/utilities.css";
+
+/* Component imports */
+@import "./components/buttons.css";
+@import "./components/forms.css";
+@import "./components/cards.css";
+@import "./components/badges.css";
+@import "./components/loading.css";
+@import "./components/status-indicator.css";
+@import "./components/number-input.css";
+
+/* Feature imports */
+@import "./features/statistics/containers.css";
+@import "./features/statistics/items.css";
+@import "./features/statistics/queue-flow.css";
+@import "./features/settings/sections.css";
+@import "./features/settings/inputs.css";
+@import "./features/settings/warnings.css";
+@import "./features/changelog/banner.css";
+@import "./features/changelog/section.css";
+@import "./features/changelog/content.css";
+
+/* Modal system imports */
+@import "./features/modal/base.css";
+@import "./features/modal/mature-content.css";
+@import "./features/modal/friend-warning.css";
+@import "./features/modal/queue-popup.css";
+@import "./features/modal/queue-modal.css";
+
+/* Tooltip system imports */
+@import "./features/tooltip/base.css";
+@import "./features/tooltip/expanded.css";
+@import "./features/tooltip/voting.css";
+@import "./features/tooltip/notices.css";
+
+/* Report helper imports */
+@import "./features/report-helper/report-helper.css";

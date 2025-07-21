@@ -1,0 +1,25 @@
+/* Statistics container styles */
+
+/* Statistics container */
+@utility stat-container {
+  @apply rounded-lg p-3 mb-2 border transition-all duration-300 shadow-soft;
+  border-color: var(--color-border);
+  background: linear-gradient(135deg, var(--color-bg-content) 0%, var(--color-bg) 100%);
+}
+
+/* Statistics grid utility */
+@utility stat-grid {
+  @apply grid gap-3;
+}
+
+/* Stat category container */
+@utility stat-category {
+  @apply p-2.5 rounded border transition-all duration-300;
+  border-color: var(--color-border-subtle);
+  background-color: var(--color-bg);
+  
+  &:hover {
+    border-color: var(--color-border);
+    @apply shadow-hover;
+  }
+} 

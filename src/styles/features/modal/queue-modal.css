@@ -1,0 +1,82 @@
+/* Queue success and error modal styles */
+
+/* Queue Success Modal */
+@utility queue-success-overlay {
+  @apply modal-overlay-base;
+}
+
+@utility queue-success-popup {
+  @apply modal-popup-base;
+  width: 480px;
+}
+
+@utility queue-success-popup-small {
+  @apply modal-popup-base-small;
+}
+
+@utility queue-success-header {
+  @apply modal-header-base;
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+}
+
+@utility queue-success-title {
+  @apply text-lg font-semibold m-0 text-[#22c55e] flex-grow;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@utility queue-success-content {
+  @apply modal-content-base;
+}
+
+@utility queue-success-content-small {
+  @apply modal-content-base-small;
+}
+
+@utility queue-success-actions {
+  @apply modal-actions-base;
+}
+
+@utility queue-success-actions-horizontal {
+  @apply modal-actions-horizontal;
+}
+
+/* Queue Error Modal */
+@utility queue-error-overlay {
+  @apply modal-overlay-base;
+}
+
+@utility queue-error-popup {
+  @apply modal-popup-base;
+  width: 480px;
+}
+
+@utility queue-error-popup-small {
+  @apply modal-popup-base-small;
+}
+
+@utility queue-error-header {
+  @apply modal-header-base;
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+}
+
+@utility queue-error-title {
+  @apply text-lg font-semibold m-0 text-[#ef4444] flex-grow;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+@utility queue-error-content {
+  @apply modal-content-base;
+}
+
+@utility queue-error-content-small {
+  @apply modal-content-base-small;
+}
+
+@utility queue-error-actions {
+  @apply modal-actions-base;
+}
+
+@utility queue-error-actions-horizontal {
+  @apply modal-actions-horizontal;
+}

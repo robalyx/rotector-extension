@@ -1,0 +1,17 @@
+/* Queue confirmation modal utilities */
+
+@utility mature-content-confirm-queue {
+  @apply bg-[#ff9800] !text-white;
+  
+  &:hover {
+    @apply bg-[#f57c00] shadow-md -translate-y-px;
+  }
+  
+  &:disabled {
+    @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
+    
+    &:hover {
+      @apply bg-[#ccc] translate-y-0 shadow-none;
+    }
+  }
+} 

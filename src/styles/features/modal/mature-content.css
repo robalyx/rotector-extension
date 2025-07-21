@@ -1,0 +1,75 @@
+/* Mature content warning modal utilities */
+
+@utility mature-content-overlay {
+  @apply modal-overlay-base;
+}
+
+@utility mature-content-popup {
+  @apply modal-popup-base w-[520px];
+}
+
+@utility mature-content-popup-small {
+  @apply modal-popup-base-small;
+}
+
+@utility mature-content-header {
+  @apply modal-header-base;
+  background: linear-gradient(to right, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.05));
+}
+
+@utility mature-content-title {
+  @apply text-lg font-semibold m-0 text-[#ff9800] flex-grow;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@utility mature-content-content {
+  @apply modal-content-base;
+}
+
+@utility mature-content-content-small {
+  @apply modal-content-base-small;
+}
+
+@utility mature-content-actions {
+  @apply modal-actions-base;
+}
+
+@utility mature-content-cancel {
+  @apply modal-button-base bg-[#333333] !text-white;
+  
+  &:hover {
+    @apply bg-[#3d3d3d] shadow-md -translate-y-px;
+  }
+}
+
+@utility mature-content-confirm {
+  @apply modal-button-base bg-[#ff9800] !text-white;
+  
+  &:hover {
+    @apply bg-[#f57c00] shadow-md -translate-y-px;
+  }
+  
+  &:disabled {
+    @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
+    
+    &:hover {
+      @apply bg-[#ccc] translate-y-0 shadow-none;
+    }
+  }
+  
+  &.mature-content-confirm-danger {
+    @apply bg-[#f44336];
+    
+    &:hover {
+      @apply bg-[#d32f2f];
+    }
+    
+    &:disabled {
+      @apply bg-[#ccc];
+      
+      &:hover {
+        @apply bg-[#ccc];
+      }
+    }
+  }
+} 

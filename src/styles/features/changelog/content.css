@@ -1,0 +1,122 @@
+/* Changelog content styles */
+
+/* Content containers */
+.changelog-content-compact {
+  @apply space-y-2;
+}
+
+.changelog-content-full {
+  @apply space-y-4;
+}
+
+/* Header styles */
+.changelog-header {
+  @apply mb-3;
+}
+
+.changelog-version-info {
+  @apply space-y-2;
+}
+
+.changelog-title {
+  @apply m-0 text-base font-semibold leading-tight;
+  color: var(--color-text-heading);
+}
+
+.changelog-meta {
+  @apply flex items-center gap-2 text-xs mt-2;
+  color: var(--color-text-subtle);
+}
+
+.changelog-version {
+  @apply font-medium px-1.5 py-0.5 rounded;
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.changelog-date {
+  color: var(--color-text-subtle);
+}
+
+/* Summary styles */
+.changelog-summary {
+  @apply mb-3;
+}
+
+.changelog-summary-text {
+  @apply m-0 text-sm leading-relaxed;
+  color: var(--color-text);
+}
+
+/* Changes section */
+.changelog-changes {
+  @apply space-y-3;
+}
+
+/* Type group styles */
+.changelog-type-group {
+  @apply space-y-2;
+}
+
+.changelog-type-header {
+  @apply flex items-center gap-2 text-sm font-medium;
+  color: var(--color-text-heading);
+}
+
+.changelog-type-icon {
+  @apply text-base leading-none;
+}
+
+.changelog-type-label {
+  @apply font-semibold;
+}
+
+.changelog-type-count {
+  @apply text-xs;
+  color: var(--color-text-subtle);
+}
+
+/* Type-specific colors */
+.changelog-entry-added {
+  color: var(--color-status-safe);
+}
+
+.changelog-entry-changed {
+  color: var(--color-primary);
+}
+
+.changelog-entry-fixed {
+  color: var(--color-warning);
+}
+
+.changelog-entry-security {
+  color: var(--color-status-unsafe);
+}
+
+.changelog-entry-deprecated {
+  color: var(--color-status-pending);
+}
+
+.changelog-entry-removed {
+  color: var(--color-status-error);
+}
+
+.changelog-entry-default {
+  color: var(--color-text);
+}
+
+/* Change list styles */
+.changelog-type-list {
+  @apply list-none m-0 pl-6 space-y-1;
+}
+
+.changelog-change-item {
+  @apply text-sm leading-relaxed relative;
+  color: var(--color-text);
+  
+  &::before {
+    @apply absolute left-[-16px] top-[6px] w-1.5 h-1.5 rounded-full;
+    content: '';
+    background-color: var(--color-border);
+  }
+}

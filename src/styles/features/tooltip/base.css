@@ -1,0 +1,271 @@
+/* Base tooltip structure utilities */
+
+@utility rtcr-tooltip-container {
+  @apply fixed rounded p-0 border max-h-[520px] text-sm-plus whitespace-normal break-words text-center flex flex-col cursor-pointer opacity-100 visible z-[9999];
+  background-color: var(--color-bg-content);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  pointer-events: auto;
+  line-height: 1.4;
+  min-width: 200px;
+  max-width: 350px;
+  width: max-content;
+  overflow: visible;
+  
+  &::before {
+    @apply absolute w-20 h-10 pointer-events-auto left-1/2 bottom-full;
+    content: '';
+    transform: translateX(calc(-50% + var(--bridge-offset-x, 0px)));
+  }
+}
+
+.rtcr-tooltip-container[style*="--tooltip-positioned-above: 1"] {
+  &::before {
+    @apply bottom-auto top-full;
+  }
+}
+
+/* Sticky header */
+@utility tooltip-sticky-header {
+  @apply sticky top-0 z-[3] border-b rounded-t-lg overflow-visible;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-content);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile header */
+@utility tooltip-profile-header {
+  @apply flex items-center p-5 rounded-t-lg relative overflow-visible mb-0 border-b-0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 90%);
+
+  &::before {
+    @apply absolute inset-0 opacity-50 z-0;
+    content: "";
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.05) 1%, transparent 1%),
+      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 1%, transparent 1%);
+    background-size: 20px 20px;
+  }
+}
+
+/* Profile avatar */
+@utility tooltip-avatar {
+  @apply w-[70px] h-[70px] rounded-full overflow-hidden flex-shrink-0 border-3 relative z-[1] transition-transform duration-300;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-content);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    @apply scale-105;
+  }
+
+  img {
+    @apply w-full h-full object-cover transition-all duration-300;
+  }
+}
+
+/* User info */
+@utility tooltip-user-info {
+  @apply ml-4 flex-grow overflow-hidden relative z-[1] text-left;
+}
+
+/* Username */
+@utility tooltip-username {
+  @apply text-lg font-semibold mb-1 whitespace-nowrap overflow-hidden text-ellipsis;
+  color: var(--color-text-heading);
+}
+
+/* User ID */
+@utility tooltip-user-id {
+  @apply text-xs opacity-90 font-medium;
+  color: var(--color-text-subtle);
+}
+
+/* Tooltip header */
+@utility tooltip-header {
+  @apply flex flex-col items-center text-center px-3 pt-2 pb-1;
+  margin: 8px 0;
+  gap: 8px;
+}
+
+/* Tooltip content */
+@utility tooltip-content {
+  @apply text-left;
+  padding: 0 12px 8px 12px;
+}
+
+/* Scrollable tooltip content */
+@utility tooltip-scrollable-content {
+  @apply overflow-y-auto overflow-x-hidden;
+  @apply scrollbar-styled;
+  max-height: 450px;
+}
+
+/* Engine version utilities */
+@utility engine-version-container-below-header {
+  @apply relative flex justify-center items-center mx-auto mt-2 w-full text-center overflow-visible;
+}
+
+@utility engine-version-container-inline {
+  @apply absolute top-2 right-2 z-10;
+}
+
+@utility engine-version-container-footer {
+  @apply relative flex justify-center items-center mx-auto w-full text-center overflow-visible;
+}
+
+/* Special positioning for expanded tooltip sticky header */
+.expanded-tooltip .tooltip-sticky-header {
+  @apply relative;
+}
+
+.expanded-tooltip .tooltip-sticky-header > .engine-version-container-inline {
+  @apply absolute top-2 right-4 z-10;
+}
+
+@utility engine-version-tag {
+  @apply inline-flex items-center justify-center px-1 py-0.5 rounded-md text-[6px] font-medium cursor-help transition-all duration-200 select-none border leading-none whitespace-nowrap;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+  &.latest {
+    @apply bg-emerald-500/90 text-white border-emerald-500/30;
+  }
+
+  &.behind-minor {
+    @apply bg-blue-500/90 text-white border-blue-500/30;
+  }
+
+  &.behind-major {
+    @apply bg-orange-500/90 text-white border-orange-500/30;
+  }
+
+  &.deprecated {
+    @apply bg-red-500/90 text-white border-red-500/30;
+  }
+
+  &.unknown {
+    @apply bg-gray-500/90 text-white border-gray-500/30;
+  }
+
+  &:hover {
+    @apply scale-105;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@utility engine-version-tooltip {
+  @apply absolute w-60 border rounded-lg p-3 text-xs leading-normal opacity-0 invisible transition-all duration-300 z-[10005] pointer-events-none translate-y-1;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-content);
+  color: var(--color-text);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  bottom: calc(100% + 8px);
+  right: 0;
+
+  &::after {
+    @apply absolute border-6 border-solid;
+    content: '';
+    top: 100%;
+    right: 12px;
+    border-color: var(--color-bg-content) transparent transparent transparent;
+  }
+
+  &.below-header {
+    @apply top-auto left-1/2 right-auto mx-auto -translate-x-1/2 -translate-y-1;
+    bottom: auto;
+    top: calc(100% + 8px);
+
+    &::after {
+      @apply top-auto left-1/2 right-auto -translate-x-1/2;
+      bottom: 100%;
+      border-color: transparent transparent var(--color-bg-content) transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-x-[-50%] translate-y-0 pointer-events-auto;
+    }
+  }
+
+  &.inline {
+    @apply top-auto right-0 -translate-y-1;
+    bottom: auto;
+    top: calc(100% + 8px);
+
+    &::after {
+      @apply top-auto right-3;
+      bottom: 100%;
+      border-color: transparent transparent var(--color-bg-content) transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-y-0 pointer-events-auto;
+    }
+  }
+
+  &.footer {
+    @apply left-1/2 right-auto -translate-x-1/2 translate-y-1;
+    bottom: calc(100% + 8px);
+    top: auto;
+
+    &::after {
+      @apply left-1/2 right-auto -translate-x-1/2;
+      top: 100%;
+      bottom: auto;
+      border-color: var(--color-bg-content) transparent transparent transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-x-[-50%] translate-y-0 pointer-events-auto;
+    }
+  }
+}
+
+@utility engine-version-tooltip-header {
+  @apply font-semibold mb-1.5 flex items-center gap-1.5;
+  color: var(--color-text-heading);
+
+  &.centered {
+    @apply justify-center;
+  }
+}
+
+@utility engine-version-status {
+  @apply text-2xs px-1.5 py-0.5 rounded-lg font-semibold;
+
+  &.latest {
+    @apply bg-emerald-500/20;
+    color: var(--color-status-safe);
+  }
+
+  &.behind-minor {
+    @apply bg-blue-500/20;
+    color: var(--color-primary);
+  }
+
+  &.behind-major {
+    @apply bg-orange-500/20;
+    color: var(--color-status-pending);
+  }
+
+  &.deprecated {
+    @apply bg-red-500/20;
+    color: var(--color-status-unsafe);
+  }
+
+  &.unknown {
+    @apply bg-gray-500/20;
+    color: var(--color-status-error);
+  }
+}
+
+@utility engine-version-description {
+  @apply mt-2 text-sm leading-tight;
+  color: var(--color-text-subtle);
+}
+
+@utility engine-version-impact {
+  @apply mt-1.5 text-sm italic;
+  color: var(--color-text-subtle);
+} 

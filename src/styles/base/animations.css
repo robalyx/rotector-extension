@@ -1,0 +1,58 @@
+/* Animation keyframes */
+@keyframes spin-smooth {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animation utilities */
+@utility spin-smooth {
+  animation: spin-smooth 1s linear infinite;
+}
+
+@utility animate-spin-smooth {
+  animation: spin-smooth 1s linear infinite;
+}
+
+@utility shimmer {
+  animation: shimmer 1.5s infinite;
+}
+
+@utility fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+@utility slideDown {
+  animation: slideDown 300ms ease-out;
+} 

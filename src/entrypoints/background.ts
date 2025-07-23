@@ -11,7 +11,7 @@ import type {
 } from '../lib/types/api';
 import type { Statistics } from '../lib/types/statistics';
 import { logger } from '../lib/utils/logger';
-import { sanitizeUserId, sanitizeErrorMessage } from '../lib/utils/sanitizer';
+import { extractErrorMessage, sanitizeUserId } from '../lib/utils/sanitizer';
 
 // Validates and sanitizes a user ID
 function validateUserId(userId: string | number): number {
@@ -47,7 +47,7 @@ async function getAdvancedViolationSetting(): Promise<boolean> {
 
 // Creates a standardized error response with optional error properties
 function createErrorResponse(error: Error): ApiResponse & { requestId?: string; code?: string; type?: string } {
-  const errorMessage = sanitizeErrorMessage(error);
+  const errorMessage = extractErrorMessage(error);
   const errorObj = error as Error & { requestId?: string; code?: string; type?: string };
   
   return {

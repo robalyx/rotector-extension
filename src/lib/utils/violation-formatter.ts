@@ -1,8 +1,6 @@
 import { STATUS } from '../types/constants';
 import type { ReasonData } from '../types/api';
-import { sanitizeText, sanitizeDisplayText } from './sanitizer';
 
-// Interface for formatted reason entry
 export interface FormattedReasonEntry {
   typeName: string;
   confidence: number;
@@ -10,7 +8,6 @@ export interface FormattedReasonEntry {
   evidence?: FormattedEvidence[];
 }
 
-// Interface for formatted evidence
 interface FormattedEvidence {
   type: 'regular' | 'outfit';
   content: string;
@@ -27,7 +24,7 @@ function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
     // Not the expected format, return as regular evidence
     return {
       type: 'regular',
-      content: sanitizeDisplayText(evidenceText)
+      content: evidenceText
     };
   }
 
@@ -40,8 +37,8 @@ function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
   return {
     type: 'outfit',
     content: evidenceText,
-    outfitName: sanitizeDisplayText(outfitName),
-    outfitReason: sanitizeDisplayText(reason),
+    outfitName,
+    outfitReason: reason,
     outfitConfidence: confidencePercent
   };
 }
@@ -54,7 +51,7 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
     } else {
       return {
         type: 'regular',
-        content: sanitizeDisplayText(item)
+        content: item
       };
     }
   });
@@ -75,13 +72,13 @@ export function formatViolationReasons(reasons: Record<string, ReasonData>): For
     const isOutfitReason = parseInt(reasonType) === STATUS.REASON_TYPES.AVATAR_OUTFIT;
     
     const formattedEntry: FormattedReasonEntry = {
-      typeName: sanitizeText(typeName),
+      typeName,
       confidence
     };
 
     // Add message if available
     if (reason.message) {
-      formattedEntry.message = sanitizeDisplayText(reason.message);
+      formattedEntry.message = reason.message;
     }
 
     // Add evidence if available

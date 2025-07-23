@@ -2,7 +2,7 @@
   import { STATUS, MESSAGES, PROFILE_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS } from '../../lib/types/constants';
   import type { UserStatus, VoteData, ReviewerInfo } from '../../lib/types/api';
   import { logger } from '../../lib/utils/logger';
-  import { sanitizeText, sanitizeUserId } from '../../lib/utils/sanitizer';
+  import { extractErrorMessage, sanitizeUserId } from '../../lib/utils/sanitizer';
   import { calculateStatusBadges } from '../../lib/utils/status-utils';
   import { apiClient } from '../../lib/services/api-client';
   import { voteDataService } from '../../lib/services/vote-data-service';
@@ -475,7 +475,7 @@
   {#if error}
     <!-- Error state -->
     <div class="error-details">
-      {sanitizeText(error)}
+      {extractErrorMessage(error)}
     </div>
   {:else if !status}
     <!-- Loading state -->

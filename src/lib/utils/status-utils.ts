@@ -1,7 +1,6 @@
 import { STATUS } from '../types/constants';
 import type { UserStatus } from '../types/api';
 
-// Interface for status badge calculations
 interface StatusBadges {
   isReportable: boolean;
   isOutfitOnly: boolean;

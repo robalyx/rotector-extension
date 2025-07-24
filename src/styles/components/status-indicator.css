@@ -1,6 +1,7 @@
-/* Status Indicator Component Styles */
+/* =================================
+   STATUS CONTAINER
+   ================================= */
 
-/* Status container */
 @utility status-container {
   @apply inline-flex items-center relative cursor-help leading-normal align-middle w-auto overflow-visible;
 }
@@ -14,12 +15,16 @@
   @apply mr-0;
 }
 
-/* Base status icon styles */
+/* =================================
+   STATUS ICON STYLES
+   ================================= */
 @utility status-icon-base {
   @apply block relative flex-shrink-0 bg-contain bg-no-repeat bg-center w-5 h-5 mr-1;
 }
 
-/* Status icon backgrounds */
+/* =================================
+   STATUS ICON BACKGROUNDS
+   ================================= */
 @utility icon-bg-safe {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2344cc44' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
 }
@@ -45,7 +50,9 @@
   will-change: transform;
 }
 
-/* Status icon classes */
+/* =================================
+   STATUS ICON CLASSES
+   ================================= */
 .status-icon-safe {
   @apply status-icon-base icon-bg-safe;
 }
@@ -67,7 +74,9 @@
   @apply status-icon-base icon-bg-loading animate-spin-loading;
 }
 
-/* Status text base */
+/* =================================
+   STATUS TEXT STYLES
+   ================================= */
 @utility status-text-base {
   @apply text-sm-plus whitespace-nowrap font-medium;
 }
@@ -89,7 +98,9 @@
   color: var(--color-status-error);
 }
 
-/* Status text classes */
+/* =================================
+   STATUS TEXT CLASSES
+   ================================= */
 .status-text-safe {
   @apply status-text-base text-status-safe;
 }
@@ -107,7 +118,9 @@
   @apply status-text-base text-status-error;
 }
 
-/* Badge base styles */
+/* =================================
+   BADGE STYLES
+   ================================= */
 @utility badge-base {
   @apply absolute flex items-center justify-center border-white rounded-full w-[15px] h-[15px] -bottom-1 -right-1 box-content z-[2] shadow-sm;
   border-style: solid;
@@ -131,7 +144,9 @@
   @apply bg-[length:9px_9px] bg-center bg-no-repeat;
 }
 
-/* Badge styles */
+/* =================================
+   BADGE CLASSES
+   ================================= */
 .reportable-badge {
   @apply badge-base badge-bg-reportable border-[1.5px];
 }
@@ -145,7 +160,9 @@
 }
 
 
-/* Fix cutoff issue on home page */
+/* =================================
+   LAYOUT FIXES
+   ================================= */
 .friend-tile-dropdown {
   z-index: 1010 !important; 
   position: fixed !important;

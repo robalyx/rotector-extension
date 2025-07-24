@@ -1,4 +1,6 @@
-/* Number Input Styles */
+/* =================================
+   NUMBER INPUT CONTAINER
+   ================================= */
 .number-input-container {
   display: flex;
   flex-direction: column;
@@ -18,6 +20,10 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+/* =================================
+   NUMBER INPUT FIELD
+   ================================= */
 
 .number-input {
   width: 80px;

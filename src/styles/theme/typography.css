@@ -1,3 +1,7 @@
+/* =================================
+   TYPOGRAPHY DEFINITIONS
+   ================================= */
+
 @theme {
   /* Font sizes */
   --text-2xs: 10px;
@@ -13,7 +17,9 @@
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Typography utilities */
+/* =================================
+   TYPOGRAPHY UTILITIES
+   ================================= */
 @utility text-2xs {
   font-size: var(--text-2xs);
   line-height: var(--text-2xs--line-height);

@@ -1,4 +1,6 @@
-/* Queue confirmation modal utilities */
+/* =================================
+   QUEUE CONFIRMATION MODAL
+   ================================= */
 
 @utility mature-content-confirm-queue {
   @apply bg-[#ff9800] !text-white;

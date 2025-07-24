@@ -1,11 +1,11 @@
-/* Settings input styles */
+/* =================================
+   API KEY INPUTS
+   ================================= */
 
-/* API key container */
 .api-key-container {
   @apply flex flex-col gap-2;
 }
 
-/* API key input */
 .api-key-input {
   @apply w-full px-3 py-2 text-sm rounded-md border transition-all duration-200;
   border-color: var(--color-border);
@@ -21,7 +21,9 @@
   }
 }
 
-/* Theme selector */
+/* =================================
+   THEME SELECTOR
+   ================================= */
 .theme-selector {
   @apply px-3 py-2 text-sm rounded-md border transition-all duration-200 cursor-pointer;
   border-color: var(--color-border);
@@ -38,7 +40,6 @@
   }
 }
 
-/* API key toggle */
 .api-key-toggle {
   @apply ml-2 transition-colors duration-200 cursor-pointer outline-none;
   color: var(--color-text-subtle);

@@ -1,4 +1,6 @@
-/* Report Helper Card Styles */
+/* =================================
+   REPORT HELPER CARD
+   ================================= */
 .report-helper-card {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
@@ -21,7 +23,9 @@
   border-left-color: var(--color-text-tertiary);
 }
 
-/* Header Section */
+/* =================================
+   HEADER SECTION
+   ================================= */
 .report-helper-header {
   display: flex;
   align-items: center;
@@ -61,7 +65,9 @@
   font-weight: 700;
 }
 
-/* Content Section */
+/* =================================
+   CONTENT SECTION
+   ================================= */
 .report-helper-content {
   color: var(--color-text-secondary);
   font-size: 14px;
@@ -77,7 +83,9 @@
   margin: 0;
 }
 
-/* Evidence Section */
+/* =================================
+   EVIDENCE SECTION
+   ================================= */
 .report-helper-evidence-section {
   background: var(--color-reason-bg);
   border-radius: 6px;
@@ -131,7 +139,9 @@
   line-height: 1.4;
 }
 
-/* Action Section */
+/* =================================
+   ACTION SECTION
+   ================================= */
 .report-helper-action-section {
   display: flex;
   flex-direction: column;
@@ -172,7 +182,9 @@
   cursor: not-allowed;
 }
 
-/* Success/Error Messages */
+/* =================================
+   STATUS MESSAGES
+   ================================= */
 .report-helper-success-message,
 .report-helper-error-message {
   font-size: 13px;
@@ -195,7 +207,9 @@
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-/* Warning Section */
+/* =================================
+   WARNING SECTION
+   ================================= */
 .report-helper-warning-section {
   background: rgba(245, 158, 11, 0.1);
   border: 1px solid rgba(245, 158, 11, 0.2);
@@ -220,7 +234,9 @@
   line-height: 1.4;
 }
 
-/* Info Section */
+/* =================================
+   INFO SECTION
+   ================================= */
 .report-helper-info-section {
   background: var(--color-bg-secondary);
   border-radius: 6px;
@@ -256,7 +272,9 @@
   line-height: 1.5;
 }
 
-/* List Items */
+/* =================================
+   LIST ITEMS
+   ================================= */
 .report-helper-list {
   background: var(--color-bg-tertiary);
   border-radius: 4px;
@@ -279,7 +297,9 @@
   color: var(--color-text-tertiary);
 }
 
-/* Dark Mode Adjustments */
+/* =================================
+   DARK MODE ADJUSTMENTS
+   ================================= */
 [data-theme="dark"] .report-helper-card {
   background-color: var(--color-bg-primary);
   border-color: var(--color-border-primary);

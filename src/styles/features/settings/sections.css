@@ -1,6 +1,7 @@
-/* Settings section styles */
+/* =================================
+   SETTINGS SECTIONS
+   ================================= */
 
-/* Settings header */
 .settings-header {
   @apply w-full px-3 py-2.5 cursor-pointer transition-all duration-200 border rounded-sm text-sm font-medium flex items-center justify-between;
   background-color: var(--color-bg-content);
@@ -20,29 +21,24 @@
   }
 }
 
-/* Settings content */
 .settings-content {
   @apply border-t pt-3 pb-0 px-3 flex flex-col gap-4;
   border-color: var(--color-border);
 }
 
-/* Settings category */
 .settings-category {
   @apply flex flex-col gap-2.5;
 }
 
-/* Setting item */
 .setting-item {
   @apply flex items-center justify-between gap-2 flex-nowrap;
 }
 
-/* Setting label */
 .setting-label {
   @apply flex items-center gap-1 text-sm flex-1 min-w-0 leading-tight;
   color: var(--color-text);
 }
 
-/* Progress ring */
 .progress-ring {
   @apply flex items-center justify-center;
   color: var(--color-primary);

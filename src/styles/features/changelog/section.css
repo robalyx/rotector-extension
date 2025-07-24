@@ -1,6 +1,7 @@
-/* Changelog section styles */
+/* =================================
+   SECTION HEADER
+   ================================= */
 
-/* Section header */
 .changelog-section-header {
   @apply w-full px-3 py-2.5 cursor-pointer transition-all duration-200 border rounded-sm text-sm font-medium flex items-center justify-between;
   background-color: var(--color-bg-content);
@@ -16,12 +17,13 @@
   }
 }
 
-/* Section content container */
+/* =================================
+   SECTION CONTENT
+   ================================= */
 .changelog-section-content {
   @apply flex flex-col;
 }
 
-/* Individual changelog item */
 .changelog-section-item {
   @apply py-2;
   
@@ -30,18 +32,18 @@
   }
 }
 
-/* Divider between changelog entries */
 .changelog-section-divider {
   @apply my-4 border-t;
   border-color: var(--color-border-subtle);
 }
 
-/* Empty state */
 .changelog-section-empty {
   @apply py-6;
 }
 
-/* Technical mode toggle button */
+/* =================================
+   TECHNICAL MODE TOGGLE
+   ================================= */
 .changelog-technical-toggle {
   @apply w-8 h-8 p-1 cursor-pointer transition-all duration-200 border rounded-sm text-xs flex items-center justify-center;
   background-color: var(--color-bg-content);

@@ -1,4 +1,6 @@
-/* General utility styles */
+/* =================================
+   SCROLLBAR UTILITIES
+   ================================= */
 
 /* Scrollbar utility */
 @utility scrollbar-styled {
@@ -23,7 +25,9 @@
   }
 }
 
-/* Social link utility */
+/* =================================
+   SOCIAL LINK UTILITIES
+   ================================= */
 @utility social-link {
   @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
   color: var(--color-link);
@@ -38,7 +42,9 @@
   @apply w-3.5 h-3.5 fill-current;
 }
 
-/* Help link utility */
+/* =================================
+   HELP LINK UTILITIES
+   ================================= */
 @utility help-link {
   @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
   color: var(--color-link);
@@ -53,7 +59,9 @@
   @apply w-3.5 h-3.5 fill-current;
 }
 
-/* Legal text */
+/* =================================
+   LEGAL TEXT UTILITIES
+   ================================= */
 @utility legal-link {
   @apply underline;
   color: var(--color-link);

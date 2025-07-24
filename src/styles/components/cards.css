@@ -1,6 +1,7 @@
-/* Card component styles */
+/* =================================
+   HELP INDICATOR UTILITIES
+   ================================= */
 
-/* Help indicator utility */
 @utility help-indicator {
   @apply inline-flex items-center justify-center w-4 h-4 rounded-full border cursor-help text-xs font-medium transition-colors duration-200;
   color: var(--color-text-subtle);
@@ -12,7 +13,9 @@
   }
 }
 
-/* Card container utility */
+/* =================================
+   CARD CONTAINER UTILITIES
+   ================================= */
 @utility card-container {
   @apply rounded-lg p-4 shadow-soft transition-all duration-300 hover:shadow-hover;
   background-color: var(--color-card);

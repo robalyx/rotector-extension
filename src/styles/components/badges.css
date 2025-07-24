@@ -1,6 +1,7 @@
-/* Badge component styles */
+/* =================================
+   QUEUE STATUS BADGES
+   ================================= */
 
-/* Queue status badge utilities */
 @utility queue-pending {
   @apply bg-gradient-to-br from-blue-500 to-blue-700 text-white border-blue-700;
 }
@@ -13,7 +14,6 @@
   @apply bg-gradient-to-br from-green-500 to-green-600 text-white border-green-600;
 }
 
-/* Override stat-label and stat-value colors for queue cards */
 .queue-pending .stat-label,
 .queue-flagged .stat-label,
 .queue-safe .stat-label {
@@ -26,12 +26,16 @@
   color: white;
 }
 
-/* General badge utility */
+/* =================================
+   GENERAL BADGE UTILITIES
+   ================================= */
 @utility status-badge {
   @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
 }
 
-/* Status badge utilities */
+/* =================================
+   STATUS BADGE UTILITIES  
+   ================================= */
 @utility status-badge-base {
   @apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center border-[1.5px] z-[2] shadow-badge;
   bottom: -4px;

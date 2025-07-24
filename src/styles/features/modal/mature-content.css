@@ -1,4 +1,6 @@
-/* Mature content warning modal utilities */
+/* =================================
+   MATURE CONTENT MODAL STRUCTURE
+   ================================= */
 
 @utility mature-content-overlay {
   @apply modal-overlay-base;

@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
-/* Theme imports */
+/* =================================
+   THEME IMPORTS
+   ================================= */
 @import "./theme/colors.css";
 @import "./theme/typography.css";
 @import "./theme/shadows.css";
 @import "./theme/icons.css";
 
-/* Base imports */
+/* =================================
+   BASE IMPORTS
+   ================================= */
 @import "./base/reset.css";
 @import "./base/animations.css";
 @import "./base/utilities.css";
 
-/* Component imports */
+/* =================================
+   COMPONENT IMPORTS
+   ================================= */
 @import "./components/buttons.css";
 @import "./components/forms.css";
 @import "./components/cards.css";
@@ -20,7 +26,9 @@
 @import "./components/status-indicator.css";
 @import "./components/number-input.css";
 
-/* Feature imports */
+/* =================================
+   FEATURE IMPORTS
+   ================================= */
 @import "./features/statistics/containers.css";
 @import "./features/statistics/items.css";
 @import "./features/statistics/queue-flow.css";
@@ -31,18 +39,23 @@
 @import "./features/changelog/section.css";
 @import "./features/changelog/content.css";
 
-/* Modal system imports */
+/* =================================
+   MODAL SYSTEM IMPORTS
+   ================================= */
 @import "./features/modal/base.css";
 @import "./features/modal/mature-content.css";
 @import "./features/modal/friend-warning.css";
 @import "./features/modal/queue-popup.css";
 @import "./features/modal/queue-modal.css";
 
-/* Tooltip system imports */
+/* =================================
+   TOOLTIP SYSTEM IMPORTS
+   ================================= */
 @import "./features/tooltip/base.css";
-@import "./features/tooltip/expanded.css";
+@import "./features/tooltip/content.css";
 @import "./features/tooltip/voting.css";
-@import "./features/tooltip/notices.css";
 
-/* Report helper imports */
+/* =================================
+   REPORT HELPER IMPORTS
+   ================================= */
 @import "./features/report-helper/report-helper.css";

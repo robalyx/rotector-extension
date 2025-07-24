@@ -1,4 +1,6 @@
-/* Reset and normalization */
+/* =================================
+   RESET AND NORMALIZATION
+   ================================= */
 * {
   @apply box-border;
 }

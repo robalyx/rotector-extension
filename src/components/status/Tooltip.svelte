@@ -16,11 +16,11 @@
     status?: UserStatus | null;
     error?: string | null;
     anchorElement: HTMLElement;
+    mode?: 'preview' | 'expanded';
     onQueue?: () => void;
     onClose?: () => void;
     onExpand?: () => void;
     element?: HTMLElement;
-    isExpanded?: boolean;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
   }
@@ -36,17 +36,18 @@
     status = null,
     error = null,
     anchorElement,
+    mode = 'preview',
     onQueue,
     onClose,
     onExpand,
     element = $bindable(),
-    isExpanded = false,
     onMouseEnter,
     onMouseLeave
   }: Props = $props();
 
   // Local state
   let tooltipRef = $state<HTMLElement>();
+  let overlayRef = $state<HTMLElement>();
   let voteData: VoteData | null = $state(null);
   let loadingVotes = $state(false);
   let voteError = $state<string | null>(null);
@@ -65,6 +66,8 @@
   const isSafeUserWithQueueOnly = $derived(() => 
     status && status.flagType === STATUS.FLAGS.SAFE
   );
+
+  const isExpanded = $derived(() => mode === 'expanded');
 
   // Get header message from flag and confidence
   function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
@@ -94,18 +97,11 @@
     const confidence = status.confidence || 0;
     
     switch (status.flagType) {
-      case STATUS.FLAGS.SAFE: {
+      case STATUS.FLAGS.SAFE:
+      case STATUS.FLAGS.UNSAFE:
+      case STATUS.FLAGS.PENDING:
+      case STATUS.FLAGS.QUEUED:
         return getHeaderMessageFromFlag(status.flagType, confidence);
-      }
-      case STATUS.FLAGS.UNSAFE: {
-        return getHeaderMessageFromFlag(status.flagType, confidence);
-      }
-      case STATUS.FLAGS.PENDING: {
-        return getHeaderMessageFromFlag(status.flagType, confidence);
-      }
-      case STATUS.FLAGS.QUEUED: {
-        return getHeaderMessageFromFlag(status.flagType, confidence);
-      }
       default:
         return 'Unknown Status';
     }
@@ -114,25 +110,17 @@
   const statusBadgeClass = $derived(() => {
     if (!status) return 'error';
     
-    let badgeClass: string;
     switch (status.flagType) {
       case STATUS.FLAGS.SAFE:
-        badgeClass = 'safe';
-        break;
+        return 'safe';
       case STATUS.FLAGS.UNSAFE:
-        badgeClass = 'unsafe';
-        break;
+        return 'unsafe';
       case STATUS.FLAGS.PENDING:
-        badgeClass = 'pending';
-        break;
       case STATUS.FLAGS.QUEUED:
-        badgeClass = 'pending';
-        break;
+        return 'pending';
       default:
-        badgeClass = 'error';
-        break;
+        return 'error';
     }
-    return badgeClass;
   });
 
   const statusBadgeText = $derived(() => {
@@ -154,17 +142,14 @@
 
   const reasonEntries = $derived((): FormattedReasonEntry[] => {
     if (!status?.reasons || status.flagType === STATUS.FLAGS.SAFE) return [];
-    
     return formatViolationReasons(status.reasons);
   });
 
-  // Get reviewer info from status
   const reviewerInfo = $derived((): ReviewerInfo | null => {
     if (!status?.reviewer) return null;
     return status.reviewer;
   });
 
-  // Compute badge status
   const badgeStatus = $derived(() => calculateStatusBadges(status));
 
   // Extract user info from the page DOM
@@ -184,19 +169,15 @@
     
     if (isCarouselTile) {
       const container = anchorElement.closest('.friends-carousel-tile');
-
       if (container) {
-        // Try to find username
         const usernameEl = container.querySelector('[class*="username"], [class*="name"], [class*="display-name"]') ||
                            container.querySelector('a[href*="/users/"] span, .text-overflow');
         if (usernameEl) {
           let text = usernameEl.textContent?.trim() || '';
-          // Remove @ symbol if present
           if (text.startsWith('@')) text = text.substring(1);
           if (text) username = text;
         }
 
-        // Try to find avatar
         const avatarEl = container.querySelector('img[src*="rbxcdn"], img[src*="roblox"]') as HTMLImageElement;
         if (avatarEl?.src) {
           avatarUrl = avatarEl.src;
@@ -204,18 +185,14 @@
       }
     } else if (isFriendsPage) {
       const container = anchorElement.closest('.avatar-card');
-
       if (container) {
-        // Use friends page specific selectors
         const usernameEl = container.querySelector(FRIENDS_SELECTORS.CARD.USERNAME);
         if (usernameEl) {
           let text = usernameEl.textContent?.trim() || '';
-          // Remove @ symbol if present
           if (text.startsWith('@')) text = text.substring(1);
           if (text) username = text;
         }
 
-        // Try to find avatar using friends page selector
         const avatarEl = container.querySelector(FRIENDS_SELECTORS.CARD.AVATAR_IMG) as HTMLImageElement;
         if (avatarEl?.src) {
           avatarUrl = avatarEl.src;
@@ -223,18 +200,14 @@
       }
     } else if (isGroupsPage) {
       const container = anchorElement.closest('.member');
-
       if (container) {
-        // Use groups page specific selectors
         const usernameEl = container.querySelector(GROUPS_SELECTORS.USERNAME);
         if (usernameEl) {
           let text = usernameEl.textContent?.trim() || '';
-          // Remove @ symbol if present
           if (text.startsWith('@')) text = text.substring(1);
           if (text) username = text;
         }
 
-        // Try to find avatar using groups page selector
         const avatarEl = container.querySelector(GROUPS_SELECTORS.AVATAR_IMG) as HTMLImageElement;
         if (avatarEl?.src) {
           avatarUrl = avatarEl.src;
@@ -243,16 +216,13 @@
     } else if (isProfilePage) {
       const profileHeader = document.querySelector(`${PROFILE_SELECTORS.PROFILE_HEADER_MAIN}`);
       if (profileHeader) {
-        // Get username from profile username element
         const usernameElement = profileHeader.querySelector(`${PROFILE_SELECTORS.USERNAME}`);
         if (usernameElement) {
           let text = usernameElement.textContent?.trim() || '';
-          // Remove @ symbol if present
           if (text.startsWith('@')) text = text.substring(1);
           if (text) username = text;
         }
         
-        // Get avatar image
         const avatarImg = profileHeader.querySelector(`${PROFILE_SELECTORS.AVATAR_IMG}`);
         if (avatarImg) {
           avatarUrl = (avatarImg as HTMLImageElement).src;
@@ -263,72 +233,55 @@
     return { userId, username, avatarUrl };
   }
 
-  // Position tooltip relative to anchor with arrow
+  // Simplified positioning for preview tooltips
   function positionTooltip() {
-    if (!tooltipRef || !anchorElement || isExpanded) return;
+    if (!tooltipRef || !anchorElement || isExpanded()) return;
 
-    // Get element dimensions and viewport info
     const anchorRect = anchorElement.getBoundingClientRect();
     const tooltipRect = tooltipRef.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Calculate initial position (centered below anchor with arrow spacing)
+    // Center below anchor with basic viewport checks
+    let left = anchorRect.left + (anchorRect.width / 2) - (tooltipRect.width / 2);
+    let top = anchorRect.bottom + 8;
+    
+    // Keep within viewport bounds
+    const padding = 16;
+    left = Math.max(padding, Math.min(left, viewportWidth - tooltipRect.width - padding));
+    
+    // If would overflow bottom, position above
+    if (top + tooltipRect.height > viewportHeight - padding && anchorRect.top > tooltipRect.height + padding) {
+      top = anchorRect.top - tooltipRect.height - 8;
+      tooltipRef.style.setProperty('--tooltip-positioned-above', '1');
+    } else {
+      tooltipRef.style.setProperty('--tooltip-positioned-above', '0');
+    }
+
+    // Calculate bridge offset
     const intendedLeft = anchorRect.left + (anchorRect.width / 2) - (tooltipRect.width / 2);
-    let left = intendedLeft;
-    let top = anchorRect.bottom + 8; // 8px accounts for arrow height
-    let isPositionedAbove = false;
-    
-    // Define edge padding to prevent tooltips from touching viewport edges
-    const edgePadding = 16;
-
-    // Ensure tooltip stays within viewport horizontally with edge padding
-    if (left < edgePadding) {
-      left = edgePadding;
-    }
-    if (left + tooltipRect.width > viewportWidth - edgePadding) {
-      left = viewportWidth - tooltipRect.width - edgePadding;
-    }
-
-    // Calculate positioning factors for smart vertical placement
-    const anchorVerticalPosition = anchorRect.top / viewportHeight; // 0 = top, 1 = bottom
-    const minimumOverflowToTriggerAbove = 20; // Must overflow by at least 20px to consider above
-    const maximumViewportPositionForAbove = 0.5; // Only consider above if anchor is in bottom 50%
-    
-    // Check if tooltip would overflow below viewport
-    const overflowBelow = (top + tooltipRect.height) - (viewportHeight - edgePadding);
-    const wouldOverflow = overflowBelow > minimumOverflowToTriggerAbove;
-    
-    // Check if anchor is low enough in viewport to justify positioning above
-    const anchorIsInLowerPortion = anchorVerticalPosition > maximumViewportPositionForAbove;
-    
-    // Only position above if BOTH conditions are met:
-    // 1. Anchor is in the bottom 50% of viewport AND
-    // 2. Tooltip would overflow by more than 20px below
-    if (anchorIsInLowerPortion && wouldOverflow) {
-      const positionAbove = anchorRect.top - tooltipRect.height - 8; // 8px for arrow
-      
-      // Only position above if there's adequate space (prevent cramming at top)
-      if (positionAbove >= edgePadding) {
-        top = positionAbove;
-        isPositionedAbove = true;
-      }
-      // If not enough space above, keep below and accept partial clipping
-    }
-
-    // Calculate horizontal offset for bridge and arrow positioning
     const horizontalOffset = left - intendedLeft;
-
-    // Apply final positioning
+    
     tooltipRef.style.left = `${left}px`;
     tooltipRef.style.top = `${top}px`;
-    
-    // Set CSS custom properties for bridge offset
     tooltipRef.style.setProperty('--bridge-offset-x', `${-horizontalOffset}px`);
-    tooltipRef.style.setProperty('--tooltip-positioned-above', isPositionedAbove ? '1' : '0');
   }
 
-  // Load vote data if needed using centralized service
+  // Calculate transform-origin for expanded tooltip animation
+  function calculateTransformOrigin() {
+    if (!anchorElement) return { originX: 50, originY: 50 };
+    
+    const sourceRect = anchorElement.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    const originX = ((sourceRect.left + sourceRect.width / 2) / viewportWidth) * 100;
+    const originY = ((sourceRect.top + sourceRect.height / 2) / viewportHeight) * 100;
+    
+    return { originX, originY };
+  }
+
+  // Load vote data if needed
   async function loadVoteData() {
     if (!shouldShowVoting() || loadingVotes || isSafeUserWithQueueOnly()) return;
 
@@ -358,7 +311,6 @@
       const result = await apiClient.submitVote(sanitizedUserId(), voteType as 1 | -1);
       voteData = result.newVoteData;
       
-      // Update centralized cache with new vote data
       voteDataService.updateCachedVoteData(sanitizedUserId(), result.newVoteData);
 
       logger.userAction('vote_submitted', { 
@@ -383,7 +335,7 @@
 
   // Handle expand tooltip click
   function handleExpand() {
-    if (!isExpanded && onExpand) {
+    if (!isExpanded() && onExpand) {
       onExpand();
     }
   }
@@ -412,44 +364,92 @@
     }
   }
 
+  // Handle overlay click for expanded tooltip
+  function handleOverlayClick(event: MouseEvent | KeyboardEvent) {
+    if (event.target === overlayRef && onClose) {
+      closeWithAnimation();
+    }
+  }
+
+  // Close expanded tooltip with animation
+  function closeWithAnimation() {
+    if (!overlayRef || !tooltipRef || !anchorElement) {
+      onClose?.();
+      return;
+    }
+
+    const { originX, originY } = calculateTransformOrigin();
+    tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
+    tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
+
+    overlayRef.classList.remove('visible');
+    tooltipRef.style.transform = 'translate(-50%, -50%) scale(0.05)';
+    tooltipRef.style.opacity = '0';
+
+    setTimeout(() => {
+      onClose?.();
+    }, 350);
+  }
+
   // Load vote data when tooltip becomes visible
   let hasLoadedVoteData = $state(false);
   
   $effect(() => {
-    // Only load vote data once when component is mounted and should show voting
     if (shouldShowVoting() && !hasLoadedVoteData && !loadingVotes) {
       hasLoadedVoteData = true;
       loadVoteData();
     }
   });
 
-
   // Setup and cleanup
   $effect(() => {
     element = tooltipRef;
     userInfo = extractUserInfo();
     
-    // Position tooltip for preview mode
-    if (!isExpanded) {
+    if (isExpanded()) {
+      // Expanded tooltip setup
+      if (anchorElement && tooltipRef) {
+        const { originX, originY } = calculateTransformOrigin();
+        tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
+        tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
+        tooltipRef.style.top = '50%';
+        tooltipRef.style.left = '50%';
+        tooltipRef.style.transform = 'translate(-50%, -50%) scale(0.05)';
+        tooltipRef.style.opacity = '0';
+      }
+
+      document.addEventListener('keydown', handleKeydown);
+
+      // Animate to expanded state
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (overlayRef && tooltipRef) {
+            overlayRef.classList.add('visible');
+            tooltipRef.style.transform = 'translate(-50%, -50%) scale(1)';
+            tooltipRef.style.opacity = '1';
+          }
+        });
+      });
+
+      return () => {
+        document.removeEventListener('keydown', handleKeydown);
+      };
+    } else {
+      // Preview tooltip setup
       requestAnimationFrame(() => {
         positionTooltip();
       });
-    }
 
-    // Add event listeners for preview tooltips
-    if (!isExpanded) {
       document.addEventListener('keydown', handleKeydown);
       document.addEventListener('click', handleClickOutside);
       window.addEventListener('resize', positionTooltip);
-    }
 
-    return () => {
-      if (!isExpanded) {
+      return () => {
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('click', handleClickOutside);
         window.removeEventListener('resize', positionTooltip);
-      }
-    };
+      };
+    }
   });
 </script>
 
@@ -603,57 +603,89 @@
   {/if}
 {/snippet}
 
-{#if isExpanded}
+{#if isExpanded()}
   <!-- Expanded tooltip structure -->
-  <div class="tooltip-sticky-header">
-    <!-- Engine Version -->
-    {#if status?.engineVersion}
-      <EngineVersionIndicator position="inline" {status} />
-    {/if}
-    
-    <!-- Profile Header -->
-    {#if userInfo}
-      <div class="tooltip-profile-header">
-        <div class="tooltip-avatar">
-          <img 
-            alt="" 
-            onerror={handleAvatarError}
-            src={userInfo.avatarUrl}
-          />
+  <div
+    bind:this={overlayRef}
+    class="expanded-tooltip-overlay"
+    aria-label="Click to close tooltip"
+    onclick={handleOverlayClick}
+    onkeydown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleOverlayClick(e);
+      }
+    }}
+    role="button"
+    tabindex="0"
+  >
+    <div
+      bind:this={tooltipRef}
+      class="expanded-tooltip"
+    >
+      <!-- Close button -->
+      <button
+        class="expanded-tooltip-close"
+        aria-label="Close"
+        onclick={closeWithAnimation}
+      >
+        ×
+      </button>
+
+      <!-- Tooltip content -->
+      <div class="expanded-tooltip-content">
+        <div class="tooltip-sticky-header">
+          <!-- Engine Version -->
+          {#if status?.engineVersion}
+            <EngineVersionIndicator position="inline" {status} />
+          {/if}
+          
+          <!-- Profile Header -->
+          {#if userInfo}
+            <div class="tooltip-profile-header">
+              <div class="tooltip-avatar">
+                <img 
+                  alt="" 
+                  onerror={handleAvatarError}
+                  src={userInfo.avatarUrl}
+                />
+              </div>
+              <div class="tooltip-user-info">
+                <div class="tooltip-username">{userInfo.username}</div>
+                <div class="tooltip-user-id">ID: {sanitizedUserId()}</div>
+                <div class="tooltip-status-badge {statusBadgeClass()}">
+                  <span class="status-indicator"></span>
+                  {statusBadgeText()}
+                </div>
+              </div>
+            </div>
+          {:else}
+            <!-- Fallback header -->
+            <div class="tooltip-header">
+              <div>{error ? 'Error Details' : 'Loading...'}</div>
+              <div class="tooltip-user-id">
+                User ID: {sanitizedUserId()}
+              </div>
+            </div>
+          {/if}
+
+          <!-- Header message -->
+          {#if userInfo && status}
+            <div class="tooltip-header">
+              <div>{headerMessage()}</div>
+            </div>
+          {/if}
+
+          <!-- Reviewer Section -->
+          {@render reviewerSection()}
         </div>
-        <div class="tooltip-user-info">
-          <div class="tooltip-username">{userInfo.username}</div>
-          <div class="tooltip-user-id">ID: {sanitizedUserId()}</div>
-          <div class="tooltip-status-badge {statusBadgeClass()}">
-            <span class="status-indicator"></span>
-            {statusBadgeText()}
-          </div>
+
+        <!-- Scrollable content -->
+        <div class="tooltip-scrollable-content px-5 py-4 flex-1">
+          {@render tooltipContent()}
         </div>
       </div>
-    {:else}
-      <!-- Fallback header -->
-      <div class="tooltip-header">
-        <div>{error ? 'Error Details' : 'Loading...'}</div>
-        <div class="tooltip-user-id">
-          User ID: {sanitizedUserId()}
-        </div>
-      </div>
-    {/if}
-
-    <!-- Header message -->
-    {#if userInfo && status}
-      <div class="tooltip-header">
-        <div>{headerMessage()}</div>
-      </div>
-    {/if}
-
-    <!-- Reviewer Section -->
-    {@render reviewerSection()}
-  </div>
-
-  <!-- Scrollable content -->
-  <div class="tooltip-scrollable-content px-5 py-4 flex-1">
-    {@render tooltipContent()}
+    </div>
   </div>
 {:else}
   <!-- Preview tooltip structure -->

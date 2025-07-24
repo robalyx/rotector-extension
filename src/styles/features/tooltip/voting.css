@@ -1,4 +1,6 @@
-/* Voting widget utilities */
+/* =================================
+   VOTING WIDGET
+   ================================= */
 
 @utility voting-container {
   @apply w-full overflow-hidden transition-all duration-200 relative rounded-lg p-4;
@@ -52,22 +54,12 @@
   color: var(--color-text-subtle);
 }
 
-@utility voting-percentage {
-  @apply text-xs-plus;
-  color: var(--color-text-subtle);
-}
-
-@utility voting-ratio {
-  @apply text-xs-plus;
-  color: var(--color-text-subtle);
-}
-
 @utility voting-buttons {
   @apply flex gap-2.5 mb-3;
 }
 
 @utility voting-button {
-  @apply flex-1 flex items-center justify-center gap-1.5 py-2.5 px-0 rounded-lg border cursor-pointer text-sm font-medium transition-all duration-200 relative overflow-hidden;
+  @apply flex-1 flex items-center justify-center gap-1.5 py-2 px-0 rounded-lg border cursor-pointer text-sm font-medium transition-all duration-200 relative overflow-hidden;
   color: var(--color-text);
   background-color: rgba(0, 0, 0, 0.1);
   border-color: rgba(255, 255, 255, 0.1);
@@ -101,10 +93,6 @@
   background-color: rgba(255, 0, 0, 0.1);
 }
 
-@utility voting-label {
-  @apply font-medium text-sm;
-}
-
 @utility voting-description {
   @apply text-center !text-xs-plus border-t border-dotted pt-2.5 mt-3 leading-normal italic opacity-90;
   border-color: var(--color-tooltip-divider);
@@ -119,4 +107,171 @@
   border-color: rgba(255, 0, 0, 0.2);
 }
 
- 
+/* =================================
+   ENGINE VERSION INDICATOR
+   ================================= */
+
+@utility engine-version-container-below-header {
+  @apply relative flex justify-center items-center mx-auto mt-2 w-full text-center overflow-visible;
+}
+
+@utility engine-version-container-inline {
+  @apply absolute top-2 right-2 z-10;
+}
+
+@utility engine-version-container-footer {
+  @apply relative flex justify-center items-center mx-auto w-full text-center overflow-visible;
+}
+
+.expanded-tooltip .tooltip-sticky-header {
+  @apply relative;
+}
+
+.expanded-tooltip .tooltip-sticky-header > .engine-version-container-inline {
+  @apply absolute top-2 right-4 z-10;
+}
+
+@utility engine-version-tag {
+  @apply inline-flex items-center justify-center px-1 py-0.5 rounded-md text-[6px] font-medium cursor-help transition-all duration-200 select-none border leading-none whitespace-nowrap;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+  &.latest {
+    @apply bg-emerald-500/90 text-white border-emerald-500/30;
+  }
+
+  &.behind-minor {
+    @apply bg-blue-500/90 text-white border-blue-500/30;
+  }
+
+  &.behind-major {
+    @apply bg-orange-500/90 text-white border-orange-500/30;
+  }
+
+  &.deprecated {
+    @apply bg-red-500/90 text-white border-red-500/30;
+  }
+
+  &.unknown {
+    @apply bg-gray-500/90 text-white border-gray-500/30;
+  }
+
+  &:hover {
+    @apply scale-105;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@utility engine-version-tooltip {
+  @apply absolute w-60 border rounded-lg p-3 text-xs leading-normal opacity-0 invisible transition-all duration-300 z-[10005] pointer-events-none translate-y-1;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-content);
+  color: var(--color-text);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  bottom: calc(100% + 8px);
+  right: 0;
+
+  &::after {
+    @apply absolute border-6 border-solid;
+    content: '';
+    top: 100%;
+    right: 12px;
+    border-color: var(--color-bg-content) transparent transparent transparent;
+  }
+
+  &.below-header {
+    @apply top-auto left-1/2 right-auto mx-auto -translate-x-1/2 -translate-y-1;
+    bottom: auto;
+    top: calc(100% + 8px);
+
+    &::after {
+      @apply top-auto left-1/2 right-auto -translate-x-1/2;
+      bottom: 100%;
+      border-color: transparent transparent var(--color-bg-content) transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-x-[-50%] translate-y-0 pointer-events-auto;
+    }
+  }
+
+  &.inline {
+    @apply top-auto right-0 -translate-y-1;
+    bottom: auto;
+    top: calc(100% + 8px);
+
+    &::after {
+      @apply top-auto right-3;
+      bottom: 100%;
+      border-color: transparent transparent var(--color-bg-content) transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-y-0 pointer-events-auto;
+    }
+  }
+
+  &.footer {
+    @apply left-1/2 right-auto -translate-x-1/2 translate-y-1;
+    bottom: calc(100% + 8px);
+    top: auto;
+
+    &::after {
+      @apply left-1/2 right-auto -translate-x-1/2;
+      top: 100%;
+      bottom: auto;
+      border-color: var(--color-bg-content) transparent transparent transparent;
+    }
+
+    &.visible {
+      @apply opacity-100 visible translate-x-[-50%] translate-y-0 pointer-events-auto;
+    }
+  }
+}
+
+@utility engine-version-tooltip-header {
+  @apply font-semibold mb-1.5 flex items-center gap-1.5;
+  color: var(--color-text-heading);
+
+  &.centered {
+    @apply justify-center;
+  }
+}
+
+@utility engine-version-status {
+  @apply text-2xs px-1.5 py-0.5 rounded-lg font-semibold;
+
+  &.latest {
+    @apply bg-emerald-500/20;
+    color: var(--color-status-safe);
+  }
+
+  &.behind-minor {
+    @apply bg-blue-500/20;
+    color: var(--color-primary);
+  }
+
+  &.behind-major {
+    @apply bg-orange-500/20;
+    color: var(--color-status-pending);
+  }
+
+  &.deprecated {
+    @apply bg-red-500/20;
+    color: var(--color-status-unsafe);
+  }
+
+  &.unknown {
+    @apply bg-gray-500/20;
+    color: var(--color-status-error);
+  }
+}
+
+@utility engine-version-description {
+  @apply mt-2 text-sm leading-tight;
+  color: var(--color-text-subtle);
+}
+
+@utility engine-version-impact {
+  @apply mt-1.5 text-sm italic;
+  color: var(--color-text-subtle);
+}

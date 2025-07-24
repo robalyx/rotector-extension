@@ -1,4 +1,6 @@
-/* Animation keyframes */
+/* =================================
+   ANIMATION KEYFRAMES
+   ================================= */
 @keyframes spin-smooth {
   to {
     transform: rotate(360deg);
@@ -36,7 +38,9 @@
   }
 }
 
-/* Animation utilities */
+/* =================================
+   ANIMATION UTILITIES
+   ================================= */
 @utility spin-smooth {
   animation: spin-smooth 1s linear infinite;
 }

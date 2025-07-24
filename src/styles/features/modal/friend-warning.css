@@ -1,4 +1,6 @@
-/* Friend warning modal utilities */
+/* =================================
+   FRIEND WARNING MODAL STRUCTURE
+   ================================= */
 
 @utility friend-warning-overlay {
   @apply modal-overlay-base;
@@ -86,7 +88,9 @@
   }
 }
 
-/* User information box */
+/* =================================
+   USER INFORMATION SECTION
+   ================================= */
 @utility friend-warning-user-info {
   @apply modal-content-section flex items-center gap-4;
   background: var(--color-bg-subtle);
@@ -125,7 +129,9 @@
   color: var(--color-text-subtle);
 }
 
-/* Why this matters section */
+/* =================================
+   WHY THIS MATTERS SECTION
+   ================================= */
 @utility friend-warning-why-matters {
   @apply modal-content-section-warning;
 }
@@ -148,7 +154,9 @@
   @apply modal-content-list-item-warning;
 }
 
-/* Recommended actions section */
+/* =================================
+   RECOMMENDED ACTIONS SECTION
+   ================================= */
 @utility friend-warning-recommendations {
   @apply modal-content-section-recommendation;
 }
@@ -171,7 +179,9 @@
   @apply modal-content-list-item-recommendation;
 }
 
-/* Risk assessment box */
+/* =================================
+   RISK ASSESSMENT SECTION
+   ================================= */
 @utility friend-warning-risk-assessment {
   @apply modal-content-section;
   background: var(--color-bg-subtle);

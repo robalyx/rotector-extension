@@ -1,6 +1,7 @@
-/* Tooltip notices and badges utilities */
+/* =================================
+   STATUS BADGES & INDICATORS
+   ================================= */
 
-/* Status badge utilities */
 @utility tooltip-status-badge {
   @apply inline-flex items-center mt-2 px-2 py-1 rounded-xl text-xs font-medium;
 
@@ -45,7 +46,6 @@
   }
 }
 
-/* Badge utility classes */
 @utility tooltip-badge {
   @apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
 }
@@ -65,10 +65,23 @@
   background-color: var(--color-status-outfit);
 }
 
-/* Reportable notice */
+/* =================================
+   CONTENT SECTIONS
+   ================================= */
+
+@utility tooltip-divider {
+  @apply my-2 border-t;
+  border-color: var(--color-tooltip-divider);
+}
+
 @utility reportable-notice {
   @apply flex gap-2.5 p-2 rounded mt-1.5;
   background-color: rgba(255, 68, 68, 0.1);
+}
+
+@utility outfit-notice {
+  @apply flex gap-2.5 p-2 rounded mt-1.5;
+  background-color: rgba(156, 39, 176, 0.1);
 }
 
 @utility reportable-text {
@@ -85,12 +98,6 @@
   }
 }
 
-/* Outfit notice */
-@utility outfit-notice {
-  @apply flex gap-2.5 p-2 rounded mt-1.5;
-  background-color: rgba(156, 39, 176, 0.1);
-}
-
 @utility outfit-text {
   @apply flex-1 text-left;
 
@@ -105,22 +112,6 @@
   }
 }
 
-/* Report button */
-@utility report-button {
-  @apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
-  background-color: var(--color-status-unsafe) !important;
-
-  &:hover {
-    @apply no-underline;
-    background-color: #ff2222;
-  }
-
-  &:active {
-    background-color: #e03333;
-  }
-}
-
-/* Queue buttons */
 @utility queue-button {
   @apply text-white border rounded-lg px-4 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
   background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
@@ -139,21 +130,18 @@
   }
 }
 
-@utility queue-button-outfit {
-  @apply queue-button;
-  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
-  border-color: #9c27b0;
+@utility report-button {
+  @apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
+  background-color: var(--color-status-unsafe) !important;
 
   &:hover {
-    background: linear-gradient(135deg, #ba68c8, #9c27b0);
-    border-color: #ba68c8;
+    @apply no-underline;
+    background-color: #ff2222;
   }
-}
 
-/* Tooltip elements */
-@utility tooltip-divider {
-  @apply my-2 border-t;
-  border-color: var(--color-tooltip-divider);
+  &:active {
+    background-color: #e03333;
+  }
 }
 
 @utility reasons-container {
@@ -173,11 +161,6 @@
   @apply font-semibold mb-1 flex justify-between items-center;
   color: var(--color-reason-header);
   font-size: 12px;
-}
-
-@utility reason-details {
-  @apply text-xs-plus leading-normal;
-  color: var(--color-reason-message);
 }
 
 @utility reason-message {
@@ -222,7 +205,6 @@
   color: var(--color-evidence-text);
 }
 
-/* Reviewer section */
 @utility reviewer-section {
   @apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;
 }
@@ -237,9 +219,8 @@
   color: var(--color-text);
 }
 
-/* Error details */
 @utility error-details {
   @apply mt-1.5 pt-1.5 text-xs-plus whitespace-pre-wrap break-words border-t text-left;
   border-color: var(--color-border);
   color: var(--color-text-subtle);
-} 
+}

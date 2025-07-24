@@ -5,9 +5,8 @@
   import { sanitizeUserId } from '../../lib/utils/sanitizer';
   import { calculateStatusBadges } from '../../lib/utils/status-utils';
   import { userStatusService } from '../../lib/services/user-status-service';
-  import { tooltipManager } from '../../lib/services/tooltip-manager';
-  import UserTooltip from './UserTooltip.svelte';
-  import ExpandedTooltip from './ExpandedTooltip.svelte';
+
+  import Tooltip from './Tooltip.svelte';
   import Portal from 'svelte-portal';
 
   interface Props {
@@ -39,8 +38,7 @@
   let showPreviewTooltip = $state(false);
   let showExpandedTooltip = $state(false);
   let isTooltipHovered = $state(false);
-  let tooltipId = $state<string>(`tooltip-${Math.random().toString(36).substr(2, 9)}`);
-  let expandedTooltipId = $state<string>(`expanded-${Math.random().toString(36).substr(2, 9)}`);
+
   let cachedStatus = $state<UserStatus | null>(null);
   let hoverTimeout = $state<ReturnType<typeof setTimeout> | null>(null);
 
@@ -198,7 +196,6 @@
   function handleTooltipMouseLeave() {
     isTooltipHovered = false;
     showPreviewTooltip = false;
-    tooltipManager.hide(tooltipId);
   }
 
   // Handle queue action
@@ -217,7 +214,6 @@
   // Close expanded tooltip
   function closeExpandedTooltip() {
     showExpandedTooltip = false;
-    tooltipManager.hide(expandedTooltipId);
   }
 
   // Fetch and cache user status
@@ -260,46 +256,6 @@
         clearTimeout(hoverTimeout);
         hoverTimeout = null;
       }
-    };
-  });
-
-  // Handle tooltip registration
-  $effect(() => {
-    const id = sanitizedUserId();
-    if (!id || !container) return;
-
-    // Register/show preview tooltip
-    if (showPreviewTooltip) {
-      tooltipManager.register({
-        id: tooltipId,
-        type: 'preview',
-        userId: id,
-        element: container,
-        priority: 1
-      });
-      tooltipManager.show(tooltipId);
-    } else {
-      tooltipManager.hide(tooltipId);
-    }
-
-    // Register/show expanded tooltip
-    if (showExpandedTooltip) {
-      tooltipManager.register({
-        id: expandedTooltipId,
-        type: 'expanded',
-        userId: id,
-        element: container,
-        priority: 2
-      });
-      tooltipManager.show(expandedTooltipId);
-    } else {
-      tooltipManager.hide(expandedTooltipId);
-    }
-
-    // Cleanup on unmount
-    return () => {
-      tooltipManager.unregister(tooltipId);
-      tooltipManager.unregister(expandedTooltipId);
     };
   });
 
@@ -362,9 +318,10 @@
 <!-- Preview Tooltip -->
 {#if showTooltips && showPreviewTooltip && container}
   <Portal target="#rotector-tooltip-portal">
-    <UserTooltip
+    <Tooltip
       anchorElement={container}
       {error}
+      mode="preview"
       onClose={() => showPreviewTooltip = false}
       onExpand={() => { showPreviewTooltip = false; showExpandedTooltip = true; }}
       onMouseEnter={handleTooltipMouseEnter}
@@ -379,11 +336,12 @@
 <!-- Expanded Tooltip -->
 {#if showExpandedTooltip && container}
   <Portal target="#rotector-tooltip-portal">
-    <ExpandedTooltip
+    <Tooltip
+      anchorElement={container}
       {error}
+      mode="expanded"
       onClose={closeExpandedTooltip}
       onQueue={handleExpandedQueue}
-      sourceElement={container}
       status={status || cachedStatus}
       {userId}
     />

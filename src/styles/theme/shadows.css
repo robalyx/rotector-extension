@@ -1,4 +1,6 @@
-/* Shadows */
+/* =================================
+   SHADOW DEFINITIONS
+   ================================= */
 @theme {
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -13,7 +15,9 @@
   }
 }
 
-/* Shadow utilities */
+/* =================================
+   SHADOW UTILITIES
+   ================================= */
 @utility shadow-soft {
   box-shadow: var(--shadow-soft);
 }

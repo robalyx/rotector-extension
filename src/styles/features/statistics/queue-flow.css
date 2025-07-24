@@ -1,6 +1,7 @@
-/* Queue flow visualization styles */
+/* =================================
+   QUEUE FLOW VISUALIZATION
+   ================================= */
 
-/* Queue flow container */
 @utility queue-flow-container {
   @apply flex items-center gap-3;
 }

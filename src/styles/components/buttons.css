@@ -1,6 +1,7 @@
-/* Button component styles */
+/* =================================
+   BUTTON FOCUS UTILITIES
+   ================================= */
 
-/* Focus utility for buttons */
 @utility btn-focus {
   @apply outline-none transition-all duration-200 ease-in-out focus:outline-2 focus:outline-offset-2;
   
@@ -9,7 +10,9 @@
   }
 }
 
-/* Warning button utilities */
+/* =================================
+   WARNING BUTTON UTILITIES
+   ================================= */
 @utility warning-button {
   @apply px-4 py-3 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
   

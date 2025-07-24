@@ -1,4 +1,6 @@
-/* Base modal structure and overlay utilities */
+/* =================================
+   MODAL OVERLAY & STRUCTURE
+   ================================= */
 
 @utility modal-overlay-base {
   @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-300 p-5;
@@ -79,7 +81,9 @@
   background-color: var(--color-bg-content);
 }
 
-/* Base modal button styling */
+/* =================================
+   MODAL BUTTONS
+   ================================= */
 @utility modal-button-base {
   @apply px-[18px] py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm flex items-center justify-center w-full max-w-[220px] box-border min-w-0;
   
@@ -88,7 +92,9 @@
   }
 }
 
-/* Modal content utilities */
+/* =================================
+   MODAL CONTENT SECTIONS
+   ================================= */
 @utility modal-content-section {
   @apply mb-4 bg-black/15 rounded-[10px] p-3.5 px-4 relative overflow-hidden;
 }
@@ -127,7 +133,9 @@
   }
 }
 
-/* Modal content typography */
+/* =================================
+   MODAL CONTENT TYPOGRAPHY
+   ================================= */
 @utility modal-content-heading {
   @apply text-[15px] m-0 mb-2 font-semibold;
   color: var(--color-text-heading);
@@ -169,7 +177,9 @@
   }
 }
 
-/* Content styling for modals */
+/* =================================
+   MODAL TEXT STYLING
+   ================================= */
 .modal-content-base p {
   @apply m-0 mb-4 text-sm leading-relaxed;
   color: var(--color-text);

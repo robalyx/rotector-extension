@@ -1,6 +1,7 @@
-/* Queue success and error modal styles */
+/* =================================
+   QUEUE SUCCESS MODAL
+   ================================= */
 
-/* Queue Success Modal */
 @utility queue-success-overlay {
   @apply modal-overlay-base;
 }
@@ -40,7 +41,9 @@
   @apply modal-actions-horizontal;
 }
 
-/* Queue Error Modal */
+/* =================================
+   QUEUE ERROR MODAL
+   ================================= */
 @utility queue-error-overlay {
   @apply modal-overlay-base;
 }

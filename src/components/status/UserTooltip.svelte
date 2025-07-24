@@ -16,7 +16,7 @@
     status?: UserStatus | null;
     error?: string | null;
     anchorElement: HTMLElement;
-    onQueue?: (inappropriateOutfit?: boolean) => void;
+    onQueue?: () => void;
     onClose?: () => void;
     onExpand?: () => void;
     element?: HTMLElement;
@@ -375,9 +375,9 @@
   }
 
   // Handle queue submission
-  function handleQueueSubmit(inappropriateOutfit = false) {
+  function handleQueueSubmit() {
     if (onQueue) {
-      onQueue(inappropriateOutfit);
+      onQueue();
     }
   }
 
@@ -491,7 +491,7 @@
         <div class="flex gap-2">
           <button
             class="queue-button w-full"
-            onclick={(e) => { e.stopPropagation(); handleQueueSubmit(false); }}
+            onclick={(e) => { e.stopPropagation(); handleQueueSubmit(); }}
           >
             Queue for Review
           </button>

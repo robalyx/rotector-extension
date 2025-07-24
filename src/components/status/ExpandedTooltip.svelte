@@ -7,7 +7,7 @@
     status?: UserStatus | null;
     error?: string | null;
     sourceElement: HTMLElement;
-    onQueue?: (inappropriateOutfit?: boolean) => void;
+    onQueue?: () => void;
     onClose?: () => void;
   }
 
@@ -77,9 +77,9 @@
   }
 
   // Handle queue action
-  function handleQueueAction(inappropriateOutfit = false) {
+  function handleQueueAction() {
     if (onQueue) {
-      onQueue(inappropriateOutfit);
+      onQueue();
     }
     closeWithAnimation();
   }

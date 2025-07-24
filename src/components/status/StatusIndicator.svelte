@@ -19,7 +19,7 @@
     showText?: boolean;
     skipAutoFetch?: boolean;
     onClick?: (userId: string) => void;
-    onQueue?: (userId: string, inappropriateOutfit?: boolean) => void;
+    onQueue?: (userId: string) => void;
   }
 
   let {
@@ -202,15 +202,15 @@
   }
 
   // Handle queue action
-  function handleQueue(inappropriateOutfit = false) {
+  function handleQueue() {
     if (onQueue) {
-      onQueue(sanitizedUserId(), inappropriateOutfit);
+      onQueue(sanitizedUserId());
     }
   }
 
   // Handle expanded tooltip actions
-  function handleExpandedQueue(inappropriateOutfit = false) {
-    handleQueue(inappropriateOutfit);
+  function handleExpandedQueue() {
+    handleQueue();
     showExpandedTooltip = false;
   }
 

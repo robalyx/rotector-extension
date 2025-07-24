@@ -572,6 +572,10 @@
         type: errorObj.type || 'Error'
       };
       showErrorModal = true;
+    } finally {
+      // Reset queue modal state
+      showQueueModal = false;
+      queueUserId = '';
     }
   }
 

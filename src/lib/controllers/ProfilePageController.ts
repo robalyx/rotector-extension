@@ -278,7 +278,7 @@ export class ProfilePageController extends PageController {
       logger.debug('Friend button clicked - showing warning modal');
       
       // Show the friend warning modal
-      this.showFriendWarning();
+      this.setFriendWarningVisible(true);
     };
 
     // Add click listener with capture to intercept before other handlers
@@ -288,41 +288,46 @@ export class ProfilePageController extends PageController {
     (friendButton as HTMLElement & { __rotectorClickHandler?: EventListener }).__rotectorClickHandler = clickHandler;
   }
 
-  // Show the friend warning modal
-  private showFriendWarning(): void {
-    this.friendWarningOpen = true;
+  // Set friend warning visibility and manage component state
+  private setFriendWarningVisible(visible: boolean): void {
+    this.friendWarningOpen = visible;
     
-    // Remount the component with isOpen = true
-    if (this.friendWarning && this.userId) {
-      this.friendWarning.cleanup();
-      
-      const container = this.friendWarning.element;
-      container.style.display = 'block';
-      
-      this.friendWarning = this.mountComponent(FriendWarning, container, {
-        isOpen: true,
-        userId: this.userId,
-        status: this.userStatus,
-        onProceed: this.handleFriendProceed.bind(this),
-        onCancel: this.handleFriendCancel.bind(this),
-        onBlock: this.handleFriendBlock.bind(this)
-      });
-    }
+    if (!this.friendWarning || !this.userId) return;
+
+    // Clean up existing component and remount with new visibility state
+    this.friendWarning.cleanup();
+    
+    // Remount with new visibility state
+    this.friendWarning = this.mountComponent(FriendWarning, this.friendWarning.element, {
+      isOpen: visible,
+      userId: this.userId,
+      status: this.userStatus,
+      onProceed: this.handleFriendProceed.bind(this),
+      onCancel: this.handleFriendCancel.bind(this),
+      onBlock: this.handleFriendBlock.bind(this)
+    });
   }
 
-  // Hide the friend warning modal
-  private hideFriendWarning(): void {
-    this.friendWarningOpen = false;
+  // Set queue popup visibility and manage component state
+  private setQueuePopupVisible(visible: boolean): void {
+    if (!this.queuePopup || !this.userId) return;
+
+    // Clean up existing component
+    this.queuePopup.cleanup();
     
-    if (this.friendWarning) {
-      this.friendWarning.element.style.display = 'none';
-    }
+    // Remount with new visibility state
+    this.queuePopup = this.mountComponent(QueuePopup, this.queuePopup.element, {
+      isOpen: visible,
+      userId: this.userId,
+      onConfirm: this.handleConfirmQueue.bind(this),
+      onCancel: this.handleCancelQueue.bind(this)
+    });
   }
 
   // Set up queue popup modal
   private setupQueuePopup(): void {
     try {
-      // Create container for modal (will be shown/hidden)
+      // Create container for modal
       const container = this.createComponentContainer(COMPONENT_CLASSES.QUEUE_MODAL);
       container.style.display = 'none';
       document.body.appendChild(container);
@@ -352,7 +357,7 @@ export class ProfilePageController extends PageController {
   // Set up report helper modal
   private setupReportHelper(): void {
     try {
-      // Create container for modal (will be shown/hidden)
+      // Create container for modal
       const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
       container.style.display = 'none';
       document.body.appendChild(container);
@@ -467,13 +472,11 @@ export class ProfilePageController extends PageController {
   }
 
   // Handle queue user request
-  private handleQueueUser(userId: string, inappropriateOutfit = false): void {
-    logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId, inappropriateOutfit });
+  private handleQueueUser(userId: string): void {
+    logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId });
     
     // Show queue popup for confirmation
-    if (this.queuePopup) {
-      this.queuePopup.element.style.display = 'block';
-    }
+    this.setQueuePopupVisible(true);
   }
 
   // Handle confirmed queue action
@@ -489,9 +492,7 @@ export class ProfilePageController extends PageController {
       await apiClient.queueUser(this.userId, inappropriateOutfit);
       
       // Hide popup
-      if (this.queuePopup) {
-        this.queuePopup.element.style.display = 'none';
-      }
+      this.setQueuePopupVisible(false);
 
       // Refresh user status
       await this.loadUserStatus();
@@ -505,9 +506,7 @@ export class ProfilePageController extends PageController {
   private handleCancelQueue(): void {
     logger.userAction(USER_ACTIONS.QUEUE_CANCELLED, { userId: this.userId });
     
-    if (this.queuePopup) {
-      this.queuePopup.element.style.display = 'none';
-    }
+    this.setQueuePopupVisible(false);
   }
 
   // Handle vote submission
@@ -531,16 +530,14 @@ export class ProfilePageController extends PageController {
       logger.debug('Friend request proceeded - simulated click');
     }
 
-    this.hideFriendWarning();
+    this.setFriendWarningVisible(false);
   }
 
   // Handle friend request cancel
   private handleFriendCancel(): void {
     logger.userAction(USER_ACTIONS.FRIEND_CANCEL, { userId: this.userId });
     
-    if (this.friendWarning) {
-      this.friendWarning.element.style.display = 'none';
-    }
+    this.setFriendWarningVisible(false);
     
     logger.debug('Friend request cancelled by user');
   }
@@ -577,14 +574,28 @@ export class ProfilePageController extends PageController {
     }
 
     // Hide the modal
-    this.hideFriendWarning();
+    this.setFriendWarningVisible(false);
   }
 
   // Handle report helper close
   private handleReportClose(): void {
-    if (this.reportHelper) {
-      this.reportHelper.element.style.display = 'none';
-    }
+    this.setReportHelperVisible(false);
+  }
+
+  // Set report helper visibility and manage component state
+  private setReportHelperVisible(visible: boolean): void {
+    if (!this.reportHelper || !this.userId) return;
+
+    // Clean up existing component
+    this.reportHelper.cleanup();
+    
+    // Remount with new visibility state
+    this.reportHelper = this.mountComponent(ReportHelper, this.reportHelper.element, {
+      isOpen: visible,
+      userId: this.userId,
+      status: this.userStatus,
+      onClose: this.handleReportClose.bind(this)
+    });
   }
 
   // Page cleanup

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { STATUS, MESSAGES, PROFILE_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS } from '../../lib/types/constants';
+  import { STATUS, MESSAGES } from '../../lib/types/constants';
   import type { UserStatus, VoteData, ReviewerInfo } from '../../lib/types/api';
   import { logger } from '../../lib/utils/logger';
   import { extractErrorMessage, sanitizeUserId } from '../../lib/utils/sanitizer';
@@ -7,6 +7,8 @@
   import { apiClient } from '../../lib/services/api-client';
   import { voteDataService } from '../../lib/services/vote-data-service';
   import { formatViolationReasons, type FormattedReasonEntry } from '../../lib/utils/violation-formatter';
+  import { detectPageContext, extractUserInfo, type UserInfo } from '../../lib/utils/page-detection';
+  import { calculateTooltipPosition, calculateTransformOrigin, applyTooltipPosition } from '../../lib/utils/tooltip-positioning';
   import LoadingSpinner from '../ui/LoadingSpinner.svelte';
   import VotingWidget from './VotingWidget.svelte';
   import EngineVersionIndicator from './EngineVersionIndicator.svelte';
@@ -25,11 +27,6 @@
     onMouseLeave?: () => void;
   }
 
-  interface UserInfo {
-    userId: string;
-    username: string;
-    avatarUrl?: string;
-  }
 
   let {
     userId,
@@ -153,132 +150,27 @@
   const badgeStatus = $derived(() => calculateStatusBadges(status));
 
   // Extract user info from the page DOM
-  function extractUserInfo(): UserInfo | null {
+  function getPageUserInfo(): UserInfo | null {
     if (!anchorElement) return null;
 
     const userId = sanitizedUserId();
     if (!userId) return null;
 
-    let username = 'Unknown User';
-    let avatarUrl: string | undefined;
-
-    const isCarouselTile = anchorElement.closest('.friends-carousel-tile');
-    const isFriendsPage = anchorElement.closest('.avatar-card');
-    const isGroupsPage = anchorElement.closest('.member');
-    const isProfilePage = window.location.pathname.includes('/users/');
-    
-    if (isCarouselTile) {
-      const container = anchorElement.closest('.friends-carousel-tile');
-      if (container) {
-        const usernameEl = container.querySelector('[class*="username"], [class*="name"], [class*="display-name"]') ||
-                           container.querySelector('a[href*="/users/"] span, .text-overflow');
-        if (usernameEl) {
-          let text = usernameEl.textContent?.trim() || '';
-          if (text.startsWith('@')) text = text.substring(1);
-          if (text) username = text;
-        }
-
-        const avatarEl = container.querySelector('img[src*="rbxcdn"], img[src*="roblox"]') as HTMLImageElement;
-        if (avatarEl?.src) {
-          avatarUrl = avatarEl.src;
-        }
-      }
-    } else if (isFriendsPage) {
-      const container = anchorElement.closest('.avatar-card');
-      if (container) {
-        const usernameEl = container.querySelector(FRIENDS_SELECTORS.CARD.USERNAME);
-        if (usernameEl) {
-          let text = usernameEl.textContent?.trim() || '';
-          if (text.startsWith('@')) text = text.substring(1);
-          if (text) username = text;
-        }
-
-        const avatarEl = container.querySelector(FRIENDS_SELECTORS.CARD.AVATAR_IMG) as HTMLImageElement;
-        if (avatarEl?.src) {
-          avatarUrl = avatarEl.src;
-        }
-      }
-    } else if (isGroupsPage) {
-      const container = anchorElement.closest('.member');
-      if (container) {
-        const usernameEl = container.querySelector(GROUPS_SELECTORS.USERNAME);
-        if (usernameEl) {
-          let text = usernameEl.textContent?.trim() || '';
-          if (text.startsWith('@')) text = text.substring(1);
-          if (text) username = text;
-        }
-
-        const avatarEl = container.querySelector(GROUPS_SELECTORS.AVATAR_IMG) as HTMLImageElement;
-        if (avatarEl?.src) {
-          avatarUrl = avatarEl.src;
-        }
-      }
-    } else if (isProfilePage) {
-      const profileHeader = document.querySelector(`${PROFILE_SELECTORS.PROFILE_HEADER_MAIN}`);
-      if (profileHeader) {
-        const usernameElement = profileHeader.querySelector(`${PROFILE_SELECTORS.USERNAME}`);
-        if (usernameElement) {
-          let text = usernameElement.textContent?.trim() || '';
-          if (text.startsWith('@')) text = text.substring(1);
-          if (text) username = text;
-        }
-        
-        const avatarImg = profileHeader.querySelector(`${PROFILE_SELECTORS.AVATAR_IMG}`);
-        if (avatarImg) {
-          avatarUrl = (avatarImg as HTMLImageElement).src;
-        }
-      }
-    }
-
-    return { userId, username, avatarUrl };
+    const { pageType, container } = detectPageContext(anchorElement);
+    return extractUserInfo(userId, pageType, container);
   }
 
   // Simplified positioning for preview tooltips
   function positionTooltip() {
     if (!tooltipRef || !anchorElement || isExpanded()) return;
 
-    const anchorRect = anchorElement.getBoundingClientRect();
-    const tooltipRect = tooltipRef.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // Center below anchor with basic viewport checks
-    let left = anchorRect.left + (anchorRect.width / 2) - (tooltipRect.width / 2);
-    let top = anchorRect.bottom + 8;
-    
-    // Keep within viewport bounds
-    const padding = 16;
-    left = Math.max(padding, Math.min(left, viewportWidth - tooltipRect.width - padding));
-    
-    // If would overflow bottom, position above
-    if (top + tooltipRect.height > viewportHeight - padding && anchorRect.top > tooltipRect.height + padding) {
-      top = anchorRect.top - tooltipRect.height - 8;
-      tooltipRef.style.setProperty('--tooltip-positioned-above', '1');
-    } else {
-      tooltipRef.style.setProperty('--tooltip-positioned-above', '0');
-    }
-
-    // Calculate bridge offset
-    const intendedLeft = anchorRect.left + (anchorRect.width / 2) - (tooltipRect.width / 2);
-    const horizontalOffset = left - intendedLeft;
-    
-    tooltipRef.style.left = `${left}px`;
-    tooltipRef.style.top = `${top}px`;
-    tooltipRef.style.setProperty('--bridge-offset-x', `${-horizontalOffset}px`);
+    const position = calculateTooltipPosition(tooltipRef, anchorElement);
+    applyTooltipPosition(tooltipRef, position);
   }
 
   // Calculate transform-origin for expanded tooltip animation
-  function calculateTransformOrigin() {
-    if (!anchorElement) return { originX: 50, originY: 50 };
-    
-    const sourceRect = anchorElement.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    const originX = ((sourceRect.left + sourceRect.width / 2) / viewportWidth) * 100;
-    const originY = ((sourceRect.top + sourceRect.height / 2) / viewportHeight) * 100;
-    
-    return { originX, originY };
+  function getTransformOrigin() {
+    return anchorElement ? calculateTransformOrigin(anchorElement) : { originX: 50, originY: 50 };
   }
 
   // Load vote data if needed
@@ -378,7 +270,7 @@
       return;
     }
 
-    const { originX, originY } = calculateTransformOrigin();
+    const { originX, originY } = getTransformOrigin();
     tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
     tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
 
@@ -404,12 +296,12 @@
   // Setup and cleanup
   $effect(() => {
     element = tooltipRef;
-    userInfo = extractUserInfo();
+    userInfo = getPageUserInfo();
     
     if (isExpanded()) {
       // Expanded tooltip setup
       if (anchorElement && tooltipRef) {
-        const { originX, originY } = calculateTransformOrigin();
+        const { originX, originY } = getTransformOrigin();
         tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
         tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
         tooltipRef.style.top = '50%';

@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { STATUS } from '../../lib/types/constants';
   import type { UserStatus } from '../../lib/types/api';
   import { logger } from '../../lib/utils/logger';
   import { sanitizeUserId } from '../../lib/utils/sanitizer';
-  import { calculateStatusBadges } from '../../lib/utils/status-utils';
+  import { getStatusConfig } from '../../lib/utils/status-config';
   import { userStatusService } from '../../lib/services/user-status-service';
 
   import Tooltip from './Tooltip.svelte';
@@ -48,90 +47,7 @@
     return id ? id.toString() : '';
   });
 
-  const statusConfig = $derived(() => {
-    if (error) {
-      return {
-        iconClass: 'status-icon-error',
-        textContent: 'Error',
-        textClass: 'status-text-error',
-        confidence: null,
-        isReportable: false,
-        isQueued: false,
-        isOutfitOnly: false
-      };
-    }
-
-    const activeStatus = status || cachedStatus;
-
-    if (loading || !activeStatus) {
-      return {
-        iconClass: 'status-icon-loading',
-        textContent: 'Checking...',
-        textClass: '',
-        confidence: null,
-        isReportable: false,
-        isQueued: false,
-        isOutfitOnly: false
-      };
-    }
-
-    const confidence = Math.round(activeStatus.confidence * 100);
-    
-    const { isReportable, isOutfitOnly } = calculateStatusBadges(activeStatus);
-
-    switch (activeStatus.flagType) {
-      case STATUS.FLAGS.SAFE:
-        return {
-          iconClass: 'status-icon-safe',
-          textContent: 'Safe',
-          textClass: 'status-text-safe',
-          confidence,
-          isReportable,
-          isQueued: !!activeStatus.isQueued,
-          isOutfitOnly
-        };
-      case STATUS.FLAGS.UNSAFE:
-        return {
-          iconClass: 'status-icon-unsafe',
-          textContent: 'Unsafe',
-          textClass: 'status-text-unsafe',
-          confidence,
-          isReportable,
-          isQueued: !!activeStatus.isQueued,
-          isOutfitOnly
-        };
-      case STATUS.FLAGS.PENDING:
-        return {
-          iconClass: 'status-icon-pending',
-          textContent: `Under Review (${confidence}%)`,
-          textClass: 'status-text-pending',
-          confidence,
-          isReportable,
-          isQueued: !!activeStatus.isQueued,
-          isOutfitOnly
-        };
-      case STATUS.FLAGS.QUEUED:
-        return {
-          iconClass: 'status-icon-queued',
-          textContent: 'Flagged (Pending)',
-          textClass: 'status-text-queued',
-          confidence,
-          isReportable,
-          isQueued: true,
-          isOutfitOnly
-        };
-      default:
-        return {
-          iconClass: 'status-icon-error',
-          textContent: 'Unknown',
-          textClass: 'status-text-error',
-          confidence,
-          isReportable: false,
-          isQueued: false,
-          isOutfitOnly: false
-        };
-    }
-  });
+  const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error));
 
   // Handle click to show expanded tooltip
   function handleClick(event: MouseEvent | KeyboardEvent) {
@@ -159,13 +75,19 @@
     }
   }
 
+  // Clear hover timeout
+  function clearHoverTimeout() {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+  }
+
   // Handle mouse enter for preview tooltip
   function handleMouseEnter() {
     if (!showTooltips || loading || (!status && !error && !cachedStatus) || showExpandedTooltip) return;
     
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
+    clearHoverTimeout();
     
     hoverTimeout = setTimeout(() => {
       if (!showExpandedTooltip) {
@@ -176,10 +98,7 @@
 
   // Handle mouse leave
   function handleMouseLeave() {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = null;
-    }
+    clearHoverTimeout();
     
     requestAnimationFrame(() => {
       if (!isTooltipHovered) {
@@ -251,11 +170,7 @@
   // Setup hover handlers
   $effect(() => {
     return () => {
-      // Cleanup hover timeout on unmount
-      if (hoverTimeout) {
-        clearTimeout(hoverTimeout);
-        hoverTimeout = null;
-      }
+      clearHoverTimeout();
     };
   });
 

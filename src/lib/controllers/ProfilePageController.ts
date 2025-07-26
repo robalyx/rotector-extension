@@ -5,7 +5,8 @@ import {
   PROFILE_SELECTORS,
   COMPONENT_CLASSES,
   PAGE_TYPES,
-  USER_ACTIONS
+  USER_ACTIONS,
+  type ComponentClassType
 } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { apiClient } from '../services/api-client';
@@ -59,13 +60,10 @@ export class ProfilePageController extends PageController {
       // Wait for profile elements to load
       await this.waitForProfileElements();
 
-      // Mount status indicator with loading state
-      await this.mountStatusIndicator();
-
       // Load user status
       await this.loadUserStatus();
 
-      // Remount status indicator with data
+      // Mount status indicator with data
       await this.mountStatusIndicator();
 
       // Mount other components
@@ -95,26 +93,15 @@ export class ProfilePageController extends PageController {
 
   // Wait for profile elements to be available
   private async waitForProfileElements(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error('Profile elements not found after timeout'));
-      }, 20000);
-
-      const checkForElements = () => {
-        const usernameElement = this.findElement('[data-testid="profile-username"]') ||
-                               this.findElement('.profile-header-username') ||
-                               this.findElement('.header-username');
-        
-        if (usernameElement) {
-          clearTimeout(timeout);
-          resolve();
-        } else {
-          setTimeout(checkForElements, 500);
-        }
-      };
-
-      checkForElements();
+    // Wait for the profile header username element
+    const result = await waitForElement('.profile-header-username', {
+      timeout: 20000,
+      onTimeout: () => {}
     });
+    
+    if (!result.success) {
+      throw new Error('Profile username element not found after timeout');
+    }
   }
 
   // Load user status from API with caching
@@ -226,10 +213,7 @@ export class ProfilePageController extends PageController {
   // Mount friend warning if this looks like a friend request page
   private async mountFriendWarning(): Promise<void> {
     try {
-      // Simple friend button selectors
-      const friendButton = this.findElement('#friend-button') ||
-                           this.findElement('[data-testid="add-friend-button"]') ||
-                           this.findElement('.btn-friendship-request');
+      const friendButton = this.findElement('#friend-button');
 
       if (!friendButton || !this.userStatus) return;
 
@@ -324,63 +308,69 @@ export class ProfilePageController extends PageController {
     });
   }
 
-  // Set up queue popup modal
-  private setupQueuePopup(): void {
+  // Generic method to set up modal components
+  private setupModal(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentClass: any,
+    containerClass: ComponentClassType,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    props: Record<string, any>,
+    debugName: string
+  ): { element: HTMLElement; cleanup: () => void } | null {
     try {
       // Create container for modal
-      const container = this.createComponentContainer(COMPONENT_CLASSES.QUEUE_MODAL);
+      const container = this.createComponentContainer(containerClass);
       container.style.display = 'none';
       document.body.appendChild(container);
 
-      // Mount QueuePopup
+      // Mount component
       if (this.userId) {
-        this.queuePopup = this.mountComponent(
-          QueuePopup,
+        const component = this.mountComponent(
+          componentClass,
           container,
           {
             isOpen: false,
             userId: this.userId,
-            username: null,
-            onConfirm: this.handleConfirmQueue.bind(this),
-            onCancel: this.handleCancelQueue.bind(this)
+            ...props
           }
         );
+
+        logger.debug(`${debugName} set up`);
+        return component;
       }
 
-      logger.debug('Queue popup set up');
-
+      return null;
     } catch (error) {
-      this.handleError(error, 'setupQueuePopup');
+      this.handleError(error, `setup${debugName}`);
+      return null;
     }
+  }
+
+  // Set up queue popup modal
+  private setupQueuePopup(): void {
+    this.queuePopup = this.setupModal(
+      QueuePopup,
+      COMPONENT_CLASSES.QUEUE_MODAL,
+      {
+        username: null,
+        onConfirm: this.handleConfirmQueue.bind(this),
+        onCancel: this.handleCancelQueue.bind(this)
+      },
+      'Queue popup'
+    );
   }
 
   // Set up report helper modal
   private setupReportHelper(): void {
-    try {
-      // Create container for modal
-      const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
-      container.style.display = 'none';
-      document.body.appendChild(container);
-
-      // Mount ReportHelper
-      if (this.userId) {
-        this.reportHelper = this.mountComponent(
-          ReportHelper,
-          container,
-          {
-            isOpen: false,
-            userId: this.userId,
-            status: this.userStatus,
-            onClose: this.handleReportClose.bind(this)
-          }
-        );
-      }
-
-      logger.debug('Report helper set up');
-
-    } catch (error) {
-      this.handleError(error, 'setupReportHelper');
-    }
+    this.reportHelper = this.setupModal(
+      ReportHelper,
+      COMPONENT_CLASSES.REPORT_HELPER,
+      {
+        status: this.userStatus,
+        onClose: this.handleReportClose.bind(this)
+      },
+      'Report helper'
+    );
   }
 
   // Mount carousel manager for friends carousel on profile page
@@ -519,9 +509,7 @@ export class ProfilePageController extends PageController {
     logger.userAction(USER_ACTIONS.FRIEND_PROCEED, { userId: this.userId });
     
     // Find the friend button and simulate click to proceed with friend request
-    const friendButton = this.findElement('#friend-button') ||
-                         this.findElement('[data-testid="add-friend-button"]') ||
-                         this.findElement('.btn-friendship-request');
+    const friendButton = this.findElement('#friend-button');
     
     if (friendButton) {
       (friendButton as HTMLElement).dataset.skipWarning = 'true';
@@ -602,9 +590,7 @@ export class ProfilePageController extends PageController {
   protected async cleanupPage(): Promise<void> {
     try {
       // Clean up friend button event listener
-      const friendButton = this.findElement('#friend-button') ||
-                           this.findElement('[data-testid="add-friend-button"]') ||
-                           this.findElement('.btn-friendship-request');
+      const friendButton = this.findElement('#friend-button');
       
       const typedFriendButton = friendButton as HTMLElement & { __rotectorClickHandler?: EventListener };
       if (friendButton && typedFriendButton.__rotectorClickHandler) {

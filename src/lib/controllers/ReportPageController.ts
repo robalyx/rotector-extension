@@ -57,24 +57,22 @@ export class ReportPageController extends PageController {
   // Extract user ID from report page
   private async extractUserId(): Promise<string | null> {
     try {
-      // Try to get from hidden form field
-      const idField = this.findElement('#Id') as HTMLInputElement;
-      if (idField && idField.value) {
-        const sanitized = sanitizeUserId(idField.value);
-        if (sanitized) {
-          logger.debug('User ID extracted from form field', { userId: sanitized });
-          return sanitized.toString();
-        }
-      }
-
-      // Try to get from URL parameter
+      // Sources to check for user ID  
       const urlParams = new URLSearchParams(window.location.search);
-      const idParam = urlParams.get('id');
-      if (idParam) {
-        const sanitized = sanitizeUserId(idParam);
-        if (sanitized) {
-          logger.debug('User ID extracted from URL parameter', { userId: sanitized });
-          return sanitized.toString();
+      const sources = [
+        { source: 'targetId URL parameter', getValue: () => urlParams.get('targetId') },
+        { source: 'id URL parameter', getValue: () => urlParams.get('id') },
+        { source: 'form field', getValue: () => (this.findElement('#Id') as HTMLInputElement)?.value }
+      ];
+
+      for (const { source, getValue } of sources) {
+        const value = getValue();
+        if (value) {
+          const sanitized = sanitizeUserId(value);
+          if (sanitized) {
+            logger.debug(`User ID extracted from ${source}`, { userId: sanitized });
+            return sanitized.toString();
+          }
         }
       }
 
@@ -110,6 +108,56 @@ export class ReportPageController extends PageController {
     return "0" in this.userStatus.reasons;
   }
 
+  // Find and validate required form elements
+  private findFormElements(): { categoryButton: HTMLButtonElement; commentTextarea: HTMLTextAreaElement } {
+    const categoryButton = this.findElement('.foundation-web-dropdown-trigger') as HTMLButtonElement;
+    const commentTextarea = this.findElement('.free-comment-component textarea') as HTMLTextAreaElement;
+
+    if (!categoryButton || !commentTextarea) {
+      logger.error('Could not find report form elements');
+      throw new Error('Could not find report form elements');
+    }
+
+    return { categoryButton, commentTextarea };
+  }
+
+  // Wait for dropdown and select the Inappropriate Language category
+  private async selectInappropriateLanguageCategory(): Promise<void> {
+    try {
+      // Wait for dropdown to open
+      let attempts = 0;
+      let isDropdownOpen = false;
+      
+      while (attempts < 10 && !isDropdownOpen) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const categoryButton = this.findElement('.foundation-web-dropdown-trigger') as HTMLButtonElement;
+        isDropdownOpen = categoryButton?.getAttribute('aria-expanded') === 'true';
+        attempts++;
+      }
+
+      if (!isDropdownOpen) {
+        logger.warn('Dropdown did not open after waiting');
+        return;
+      }
+
+      // Find the Inappropriate Language option
+      const inappropriateLanguageOption = Array.from(document.querySelectorAll('[role="option"]'))
+        .find(option => {
+          const textElement = option.querySelector('span');
+          return textElement?.textContent?.includes('Inappropriate Language');
+        }) as HTMLElement;
+
+      if (inappropriateLanguageOption) {
+        inappropriateLanguageOption.click();
+        logger.debug('Selected Inappropriate Language category');
+      } else {
+        logger.warn('Could not find Inappropriate Language category option');
+      }
+    } catch (error) {
+      logger.error('Failed to select category:', error);
+    }
+  }
+
   // Mount report helper card on the page
   private async mountReportHelper(): Promise<void> {
     try {
@@ -120,10 +168,7 @@ export class ReportPageController extends PageController {
       }
 
       // Find the report form container
-      const formContainer = this.findElement('#report-form') || 
-                           this.findElement('.report-abuse-form') || 
-                           this.findElement('#report-abuse-form') ||
-                           this.findElement('.form-container');
+      const formContainer = this.findElement('.abuse-report-container');
 
       if (!formContainer) {
         logger.warn('Could not find report form container');
@@ -168,20 +213,18 @@ export class ReportPageController extends PageController {
       });
 
       // Find form elements
-      const categorySelect = this.findElement('#ReportCategory') as HTMLSelectElement;
-      const commentTextarea = this.findElement('#Comment') as HTMLTextAreaElement;
+      const { categoryButton, commentTextarea } = this.findFormElements();
 
-      if (!categorySelect || !commentTextarea) {
-        logger.error('Could not find report form elements');
-        throw new Error('Could not find report form elements');
-      }
+      // Focus and use Enter key to open dropdown
+      categoryButton.focus();
+      categoryButton.dispatchEvent(new KeyboardEvent('keydown', { 
+        key: 'Enter', 
+        keyCode: 13, 
+        bubbles: true 
+      }));
 
-      // Set category to "1" (Inappropriate Language - Profanity & Adult Content)
-      categorySelect.value = '1';
-
-      // Trigger change event on select
-      const changeEvent = new Event('change', { bubbles: true });
-      categorySelect.dispatchEvent(changeEvent);
+      // Wait for dropdown to appear and select appropriate category
+      await this.selectInappropriateLanguageCategory();
 
       // Build comment text
       let commentText = 'This user\'s profile contains inappropriate content that violates Roblox\'s Terms of Service.\n\n';
@@ -210,7 +253,7 @@ export class ReportPageController extends PageController {
       commentTextarea.dispatchEvent(inputEvent);
 
       // Scroll form into view
-      categorySelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      commentTextarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       // Show success message
       this.showSuccessMessage();
@@ -232,32 +275,21 @@ export class ReportPageController extends PageController {
         this.successMessageElement = null;
       }
 
-      // Find the submit group
-      const submitGroup = this.findElement('.submit-group');
-      if (!submitGroup || !submitGroup.parentNode) {
-        logger.warn('Could not find submit group to insert success message');
+      // Find the footer section
+      const footer = this.findElement('.single-step-footer');
+      if (!footer || !footer.parentNode) {
+        logger.warn('Could not find footer to insert success message');
         return;
       }
 
       // Create success message element
       this.successMessageElement = document.createElement('div');
       this.successMessageElement.className = 'report-helper-success-message';
-      this.successMessageElement.style.cssText = `
-        font-size: 13px;
-        padding: 8px 12px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(34, 197, 94, 0.1);
-        color: #22c55e;
-        border: 1px solid rgba(34, 197, 94, 0.2);
-        margin-top: 12px;
-      `;
-      this.successMessageElement.textContent = '✅ Form filled successfully! Review and submit when ready.';
+      this.successMessageElement.style.marginTop = '12px';
+      this.successMessageElement.textContent = '✅ Form filled successfully! Category and comment have been set. Review and submit when ready.';
 
-      // Insert after submit group
-      submitGroup.parentNode.insertBefore(this.successMessageElement, submitGroup.nextSibling);
+      // Insert after footer
+      footer.parentNode.insertBefore(this.successMessageElement, footer.nextSibling);
 
       // Remove after 5 seconds
       setTimeout(() => {

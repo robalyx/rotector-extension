@@ -539,7 +539,7 @@
               <p>This user has clear evidence of inappropriate content that is visible to Roblox moderators.</p>
               <a 
                 class="report-button"
-                href="https://www.roblox.com/abusereport/UserProfile?id={sanitizedUserId()}&redirectUrl=https%3a%2f%2fwww.roblox.com%2fusers%2f{sanitizedUserId()}%2fprofile" 
+                href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId()}&submitterId=0&abuseVector=userprofile&nl=true" 
                 onclick={(e) => e.stopPropagation()}
                 target="_blank"
               >

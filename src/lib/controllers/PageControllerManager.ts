@@ -133,7 +133,7 @@ export class PageControllerManager {
       }
 
       // Report pages
-      if (pathname.includes('/abusereport/userprofile')) {
+      if (pathname.includes('/report-abuse/')) {
         return PAGE_TYPES.REPORT;
       }
 

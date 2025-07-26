@@ -3,6 +3,8 @@ import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
 import type { PageType } from '../types/api';
 import type { Observer } from '../utils/observer';
 import { mount, type Component } from 'svelte';
+import UserListManager from '../../components/features/UserListManager.svelte';
+import type { UserStatus } from '../types/api';
 
 /**
  * Base class for all page controllers
@@ -221,5 +223,86 @@ export abstract class PageController {
   // Handle errors that occur during page operation
   protected handleError(error: unknown, context: string): void {
     logger.error(`Error in ${this.constructor.name} (${context}):`, error);
+  }
+
+  // Mount UserListManager with standard configuration
+  protected mountUserListManager(
+    containerSelector: string,
+    componentClass: ComponentClassType,
+    pageType: PageType,
+    showTooltips: boolean,
+    onUserProcessed?: (userId: string, status: UserStatus) => void,
+    onError?: (error: string) => void
+  ): { element: HTMLElement; cleanup: () => void } | null {
+    try {
+      const targetContainer = this.findElement(containerSelector);
+      
+      if (!targetContainer) {
+        throw new Error(`Container not found: ${containerSelector}`);
+      }
+
+      // Create a wrapper for our component
+      const componentContainer = this.createComponentContainer(componentClass);
+      targetContainer.appendChild(componentContainer);
+
+      // Mount UserListManager
+      const component = this.mountComponent(
+        UserListManager,
+        componentContainer,
+        {
+          pageType,
+          showTooltips,
+          onUserProcessed: onUserProcessed || this.handleUserProcessed.bind(this),
+          onError: onError || this.handleUserListError.bind(this)
+        }
+      );
+
+      logger.debug('UserListManager mounted successfully', { 
+        container: containerSelector,
+        pageType 
+      });
+
+      return component;
+
+    } catch (error) {
+      this.handleError(error, 'mountUserListManager');
+      throw error;
+    }
+  }
+
+  // Default user processed handler
+  protected handleUserProcessed(userId: string, status: UserStatus): void {
+    logger.debug('User processed', { userId, status: status.flagType });
+  }
+
+  // Default user list error handler
+  protected handleUserListError(error: string): void {
+    logger.error('UserListManager error:', error);
+  }
+
+  // Generic method to update modal visibility by remounting component
+  protected updateModalVisibility(
+    modalRef: { element: HTMLElement; cleanup: () => void } | null,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentClass: any,
+    visible: boolean,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    props: Record<string, any>
+  ): { element: HTMLElement; cleanup: () => void } | null {
+    if (!modalRef) return null;
+
+    try {
+      // Clean up existing component
+      modalRef.cleanup();
+      
+      // Remount with new visibility state
+      return this.mountComponent(componentClass, modalRef.element, {
+        isOpen: visible,
+        ...props
+      });
+    } catch (error) {
+      this.handleError(error, 'updateModalVisibility');
+      return null;
+    }
   }
 } 

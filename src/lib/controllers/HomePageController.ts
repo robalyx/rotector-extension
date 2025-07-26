@@ -3,9 +3,8 @@ import { PageController } from './PageController';
 import { FRIENDS_CAROUSEL_SELECTORS, COMPONENT_CLASSES, PAGE_TYPES } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { settings } from '../stores/settings';
-import UserListManager from '../../components/features/UserListManager.svelte';
-import type { UserStatus } from '../types/api';
 import { logger } from '../utils/logger';
+import { waitForElement } from '../utils/element-waiter';
 
 /**
  * Handles home page with friends carousel
@@ -28,10 +27,19 @@ export class HomePageController extends PageController {
       }
 
       // Wait for friends carousel to load
-      await this.waitForFriendsCarousel();
+      const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.CONTAINER, {
+        timeout: 30000,
+        onTimeout: () => {
+          logger.debug('Friends carousel timeout');
+        }
+      });
+
+      if (!result.success) {
+        throw new Error(`Friends carousel not found after timeout: ${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`);
+      }
 
       // Mount UserListManager component
-      await this.mountUserListManager();
+      await this.mountHomeUserListManager();
 
       logger.debug('HomePageController initialized successfully');
 
@@ -41,74 +49,17 @@ export class HomePageController extends PageController {
     }
   }
 
-  // Wait for the friends carousel to be available
-  private async waitForFriendsCarousel(): Promise<void> {
-    const containerSelector = `${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`;
-
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error(`Friends carousel not found after timeout: ${containerSelector}`));
-      }, 30000);
-
-      const checkForCarousel = () => {
-        const container = this.findElement(containerSelector);
-        if (container) {
-          clearTimeout(timeout);
-          resolve();
-        } else {
-          setTimeout(checkForCarousel, 1000);
-        }
-      };
-
-      checkForCarousel();
-    });
-  }
-
   // Mount the UserListManager component
-  private async mountUserListManager(): Promise<void> {
-    try {
-      const containerSelector = `${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`;
-      const targetContainer = this.findElement(containerSelector);
-      
-      if (!targetContainer) {
-        throw new Error(`Container not found: ${containerSelector}`);
-      }
-
-      // Create a wrapper for our component
-      const componentContainer = this.createComponentContainer(COMPONENT_CLASSES.HOME_CAROUSEL_MANAGER);
-      targetContainer.appendChild(componentContainer);
-
-      // Mount UserListManager for friends carousel
-      const currentSettings = get(settings);
-      const showTooltips = currentSettings[SETTINGS_KEYS.HOME_TOOLTIPS_ENABLED];
-      
-      this.userListManager = this.mountComponent(
-        UserListManager,
-        componentContainer,
-        {
-          pageType: PAGE_TYPES.FRIENDS_CAROUSEL,
-          showTooltips,
-          onUserProcessed: this.handleUserProcessed.bind(this),
-          onError: this.handleUserListError.bind(this)
-        }
-      );
-
-      logger.debug('UserListManager mounted successfully for home page carousel');
-
-    } catch (error) {
-      this.handleError(error, 'mountUserListManager');
-      throw error;
-    }
-  }
-
-  // Handle user processed event from UserListManager
-  private handleUserProcessed(userId: string, status: UserStatus): void {
-    logger.debug('Home carousel user processed', { userId, status: status.flagType });
-  }
-
-  // Handle errors from UserListManager
-  private handleUserListError(error: string): void {
-    logger.error('UserListManager error in home page:', error);
+  private async mountHomeUserListManager(): Promise<void> {
+    const currentSettings = get(settings);
+    const showTooltips = currentSettings[SETTINGS_KEYS.HOME_TOOLTIPS_ENABLED];
+    
+    this.userListManager = this.mountUserListManager(
+      FRIENDS_CAROUSEL_SELECTORS.CONTAINER,
+      COMPONENT_CLASSES.HOME_CAROUSEL_MANAGER,
+      PAGE_TYPES.FRIENDS_CAROUSEL,
+      showTooltips
+    );
   }
 
   // Page cleanup

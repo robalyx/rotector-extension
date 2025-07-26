@@ -149,9 +149,11 @@
     }
     
     try {
-      // For friends page, use hybrid approach due to container replacement during pagination
+      // For friends and groups pages, use hybrid approach due to container replacement during pagination
       if (pageType === PAGE_TYPES.FRIENDS_LIST) {
         await initializeFriendsPageObserver();
+      } else if (pageType === PAGE_TYPES.GROUPS) {
+        await initializeGroupsPageObserver();
       } else {
         // Standard list observer for other page types
         const config = createObserverConfig();
@@ -169,16 +171,21 @@
     }
   }
 
-  // Initialize observer specifically for friends page with container replacement handling
-  async function initializeFriendsPageObserver() {
+  // Initialize observer for paginated pages
+  async function initializePaginatedPageObserver(pageConfig: {
+    pageName: string;
+    containerSelector: string;
+    itemSelector: string;
+    observerName: string;
+  }) {
     containerWatcher = observerFactory.createContainerWatcher({
-      name: `friends-container-watcher`,
-      containerSelector: FRIENDS_SELECTORS.CONTAINER,
+      name: `${pageConfig.pageName}-container-watcher`,
+      containerSelector: pageConfig.containerSelector,
       onContainerAdded: async (container: Element) => {
-        logger.debug('Friends container detected/replaced, processing new items');
+        logger.debug(`${pageConfig.pageName} container detected/replaced, processing new items`);
         
         // Process all items in the new container immediately
-        const items = Array.from(container.querySelectorAll(FRIENDS_SELECTORS.CARD.CONTAINER));
+        const items = Array.from(container.querySelectorAll(pageConfig.itemSelector));
         if (items.length > 0) {
           await handleNewUsers(items);
         }
@@ -191,7 +198,7 @@
         
         // Create new list observer for the new container
         const config = createObserverConfig({
-          name: 'friends-list-observer',
+          name: pageConfig.observerName,
           processExistingItems: false,
           restartDelay: 500
         });
@@ -205,16 +212,36 @@
     await containerWatcher.start();
 
     // Also create initial list observer if container already exists
-    const existingContainer = document.querySelector(FRIENDS_SELECTORS.CONTAINER);
+    const existingContainer = document.querySelector(pageConfig.containerSelector);
     if (existingContainer) {
       const config = createObserverConfig({
-        name: 'friends-list-observer',
+        name: pageConfig.observerName,
         restartDelay: 500
       });
 
       observer = observerFactory.createListObserver(config);
       await observer.start();
     }
+  }
+
+  // Initialize observer for friends page
+  async function initializeFriendsPageObserver() {
+    await initializePaginatedPageObserver({
+      pageName: 'Friends',
+      containerSelector: FRIENDS_SELECTORS.CONTAINER,
+      itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
+      observerName: 'friends-list-observer'
+    });
+  }
+
+  // Initialize observer for groups page
+  async function initializeGroupsPageObserver() {
+    await initializePaginatedPageObserver({
+      pageName: 'Groups',
+      containerSelector: GROUPS_SELECTORS.CONTAINER,
+      itemSelector: GROUPS_SELECTORS.TILE,
+      observerName: 'groups-list-observer'
+    });
   }
 
   // Get container selector based on page type

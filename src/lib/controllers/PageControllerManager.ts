@@ -111,30 +111,25 @@ export class PageControllerManager {
       const urlObj = new URL(url);
       const pathname = urlObj.pathname.toLowerCase();
 
-      // Home page
-      if (pathname === '/' || pathname === '/home') {
-        return PAGE_TYPES.HOME;
+      // URL pattern to page type mapping
+      const pagePatterns = [
+        { pattern: /^\/(?:home)?$/, type: PAGE_TYPES.HOME },
+        { pattern: /\/users\/.*\/friends/, type: PAGE_TYPES.FRIENDS_LIST },
+        { pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE },
+        { pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT }
+      ];
+
+      // Check standard patterns
+      for (const { pattern, type } of pagePatterns) {
+        if (pattern.test(pathname)) {
+          return type;
+        }
       }
 
-      // Friends pages
-      if (pathname.includes('/users/') && pathname.includes('/friends')) {
-        return PAGE_TYPES.FRIENDS_LIST;
-      }
-
-      // User profile pages  
-      if (pathname.match(/\/users\/\d+(?:\/profile)?/)) {
-        return PAGE_TYPES.PROFILE;
-      }
-
-      // Groups/Communities pages
+      // Special case: Groups/Communities with hash
       if ((pathname.includes('/groups') || pathname.includes('/communities')) && 
           urlObj.hash.includes('#!/about')) {
         return PAGE_TYPES.GROUPS;
-      }
-
-      // Report pages
-      if (pathname.includes('/report-abuse/')) {
-        return PAGE_TYPES.REPORT;
       }
 
       return null;

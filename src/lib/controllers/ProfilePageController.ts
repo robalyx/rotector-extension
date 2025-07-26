@@ -18,7 +18,6 @@ import StatusIndicator from '../../components/status/StatusIndicator.svelte';
 import FriendWarning from '../../components/features/FriendWarning.svelte';
 import QueuePopup from '../../components/features/QueuePopup.svelte';
 import ReportHelper from '../../components/features/ReportHelper.svelte';
-import UserListManager from '../../components/features/UserListManager.svelte';
 import type { UserStatus } from '../types/api';
 import { logger } from '../utils/logger';
 
@@ -278,34 +277,34 @@ export class ProfilePageController extends PageController {
     
     if (!this.friendWarning || !this.userId) return;
 
-    // Clean up existing component and remount with new visibility state
-    this.friendWarning.cleanup();
-    
-    // Remount with new visibility state
-    this.friendWarning = this.mountComponent(FriendWarning, this.friendWarning.element, {
-      isOpen: visible,
-      userId: this.userId,
-      status: this.userStatus,
-      onProceed: this.handleFriendProceed.bind(this),
-      onCancel: this.handleFriendCancel.bind(this),
-      onBlock: this.handleFriendBlock.bind(this)
-    });
+    this.friendWarning = this.updateModalVisibility(
+      this.friendWarning,
+      FriendWarning,
+      visible,
+      {
+        userId: this.userId,
+        status: this.userStatus,
+        onProceed: this.handleFriendProceed.bind(this),
+        onCancel: this.handleFriendCancel.bind(this),
+        onBlock: this.handleFriendBlock.bind(this)
+      }
+    );
   }
 
   // Set queue popup visibility and manage component state
   private setQueuePopupVisible(visible: boolean): void {
     if (!this.queuePopup || !this.userId) return;
 
-    // Clean up existing component
-    this.queuePopup.cleanup();
-    
-    // Remount with new visibility state
-    this.queuePopup = this.mountComponent(QueuePopup, this.queuePopup.element, {
-      isOpen: visible,
-      userId: this.userId,
-      onConfirm: this.handleConfirmQueue.bind(this),
-      onCancel: this.handleCancelQueue.bind(this)
-    });
+    this.queuePopup = this.updateModalVisibility(
+      this.queuePopup,
+      QueuePopup,
+      visible,
+      {
+        userId: this.userId,
+        onConfirm: this.handleConfirmQueue.bind(this),
+        onCancel: this.handleCancelQueue.bind(this)
+      }
+    );
   }
 
   // Generic method to set up modal components
@@ -376,70 +375,34 @@ export class ProfilePageController extends PageController {
   // Mount carousel manager for friends carousel on profile page
   private async mountCarouselManager(): Promise<void> {
     try {
-      const containerSelector = `${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`;
+      const containerSelector = FRIENDS_CAROUSEL_SELECTORS.CONTAINER;
       
-      logger.debug('Starting carousel container search', { 
-        selector: containerSelector,
-        pageUrl: this.url 
-      });
-
-      // Wait for carousel container with retry logic
+      // Wait for carousel container
       const result = await waitForElement(containerSelector, {
-        onRetry: (attempt, delay) => {
-          logger.debug(`Carousel search retry ${attempt}`, {
-            selector: containerSelector,
-            nextDelay: delay
-          });
-        },
         onTimeout: () => {
-          logger.info('Carousel search timed out - carousel may not exist on this profile');
+          logger.debug('Carousel search timed out - carousel may not exist on this profile');
         }
       });
 
-      if (!result.success || !result.element) {
-        logger.debug('No friends carousel found on profile page after retries', {
-          selector: containerSelector,
-          attempts: result.attempts,
-          totalTime: result.totalTime
-        });
+      if (!result.success) {
+        logger.debug('No friends carousel found on profile page');
         return;
       }
 
-      logger.info('Friends carousel container found', {
-        selector: containerSelector,
-        attempts: result.attempts,
-        totalTime: result.totalTime,
-        element: {
-          tagName: result.element.tagName,
-          className: result.element.className,
-          id: result.element.id
-        }
-      });
-
-      // Create a wrapper for our component
-      const componentContainer = this.createComponentContainer(COMPONENT_CLASSES.FRIENDS_MANAGER);
-      result.element.appendChild(componentContainer);
-
-      // Mount UserListManager for carousel
+      // Mount carousel manager
       const currentSettings = get(settings);
       const showTooltips = currentSettings[SETTINGS_KEYS.PROFILE_TOOLTIPS_ENABLED];
       
-      this.carouselManager = this.mountComponent(
-        UserListManager,
-        componentContainer,
-        {
-          pageType: PAGE_TYPES.FRIENDS_CAROUSEL,
-          showTooltips,
-          onUserProcessed: this.handleCarouselUserProcessed.bind(this),
-          onError: this.handleCarouselError.bind(this)
-        }
+      this.carouselManager = this.mountUserListManager(
+        containerSelector,
+        COMPONENT_CLASSES.FRIENDS_MANAGER,
+        PAGE_TYPES.FRIENDS_CAROUSEL,
+        showTooltips,
+        this.handleCarouselUserProcessed.bind(this),
+        this.handleCarouselError.bind(this)
       );
 
-      logger.info('Profile carousel UserListManager mounted successfully', { 
-        container: containerSelector,
-        attempts: result.attempts,
-        totalTime: result.totalTime
-      });
+      logger.debug('Profile carousel UserListManager mounted successfully');
 
     } catch (error) {
       this.handleError(error, 'mountCarouselManager');
@@ -574,16 +537,16 @@ export class ProfilePageController extends PageController {
   private setReportHelperVisible(visible: boolean): void {
     if (!this.reportHelper || !this.userId) return;
 
-    // Clean up existing component
-    this.reportHelper.cleanup();
-    
-    // Remount with new visibility state
-    this.reportHelper = this.mountComponent(ReportHelper, this.reportHelper.element, {
-      isOpen: visible,
-      userId: this.userId,
-      status: this.userStatus,
-      onClose: this.handleReportClose.bind(this)
-    });
+    this.reportHelper = this.updateModalVisibility(
+      this.reportHelper,
+      ReportHelper,
+      visible,
+      {
+        userId: this.userId,
+        status: this.userStatus,
+        onClose: this.handleReportClose.bind(this)
+      }
+    );
   }
 
   // Page cleanup
@@ -599,26 +562,21 @@ export class ProfilePageController extends PageController {
       }
 
       // Cleanup all mounted components
-      const components = [
-        this.statusIndicator,
-        this.friendWarning, 
-        this.queuePopup,
-        this.reportHelper,
-        this.carouselManager
+      const componentRefs = [
+        { ref: 'statusIndicator', component: this.statusIndicator },
+        { ref: 'friendWarning', component: this.friendWarning },
+        { ref: 'queuePopup', component: this.queuePopup },
+        { ref: 'reportHelper', component: this.reportHelper },
+        { ref: 'carouselManager', component: this.carouselManager }
       ];
 
-      for (const component of components) {
+      for (const { ref, component } of componentRefs) {
         if (component) {
           component.cleanup();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this as any)[ref] = null;
         }
       }
-
-      // Reset component references
-      this.statusIndicator = null;
-      this.friendWarning = null;
-      this.queuePopup = null;
-      this.reportHelper = null;
-      this.carouselManager = null;
 
       // Reset state
       this.userId = null;

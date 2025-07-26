@@ -1,5 +1,6 @@
 import { PageController } from './PageController';
 import { COMPONENT_CLASSES, USER_ACTIONS } from '../types/constants';
+import { SETTINGS_KEYS } from '../types/settings';
 import { userStatusService } from '../services/user-status-service';
 import { sanitizeUserId } from '../utils/sanitizer';
 import ReportHelper from '../../components/features/ReportHelper.svelte';
@@ -26,7 +27,7 @@ export class ReportPageController extends PageController {
 
       // Check if report helper is enabled
       const currentSettings = get(settings);
-      if (!currentSettings.reportHelperEnabled) {
+      if (!currentSettings[SETTINGS_KEYS.REPORT_HELPER_ENABLED]) {
         logger.debug('Report helper is disabled in settings');
         return;
       }
@@ -238,7 +239,7 @@ export class ReportPageController extends PageController {
 
       // Add evidence if advanced info is enabled
       const currentSettings = get(settings);
-      if (currentSettings.advancedViolationInfoEnabled && profileReason?.evidence) {
+      if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
         commentText += 'Evidence Snippets:\n';
         profileReason.evidence.forEach((snippet: string, index: number) => {
           commentText += `${index + 1}. ${snippet}\n`;

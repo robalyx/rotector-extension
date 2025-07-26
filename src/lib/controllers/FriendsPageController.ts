@@ -8,9 +8,8 @@ import {
 } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { settings } from '../stores/settings';
-import UserListManager from '../../components/features/UserListManager.svelte';
-import type { UserStatus } from '../types/api';
 import { logger } from '../utils/logger';
+import { waitForElement } from '../utils/element-waiter';
 
 /**
  * Handles friends list and friends carousel pages
@@ -33,14 +32,11 @@ export class FriendsPageController extends PageController {
         return;
       }
 
-      // Determine if this is friends list or carousel
-      const isFriendsList = this.pageType === PAGE_TYPES.FRIENDS_LIST;
-
-      if (isFriendsList) {
-        // For friends list pages, handle both friends list and carousel sections
+      // Handle friends list page
+      if (this.pageType === PAGE_TYPES.FRIENDS_LIST) {
         await this.initializeFriendsListPage();
       } else {
-        // For carousel-only pages, just handle carousel
+        // Handle carousel page
         await this.initializeCarouselPage();
       }
 
@@ -54,141 +50,60 @@ export class FriendsPageController extends PageController {
 
   // Initialize friends list page with both friends list and carousel sections
   private async initializeFriendsListPage(): Promise<void> {
-    const friendsListExists = await this.waitForContainer(FRIENDS_SELECTORS.CONTAINER, 'friends list');
+    const result = await waitForElement(FRIENDS_SELECTORS.CONTAINER, {
+      timeout: 30000,
+      onTimeout: () => {
+        logger.debug('Friends list container timeout');
+      }
+    });
 
-    if (friendsListExists) {
-      await this.mountFriendsListManager();
-    }
-
-    if (!friendsListExists) {
+    if (!result.success) {
       throw new Error('Friends list container not found on friends page');
     }
+
+    await this.mountFriendsListManager();
   }
 
   // Initialize carousel-only page
   private async initializeCarouselPage(): Promise<void> {
-    const carouselExists = await this.waitForContainer(`${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`, 'friends carousel');
+    const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.CONTAINER, {
+      timeout: 30000,
+      onTimeout: () => {
+        logger.debug('Friends carousel container timeout');
+      }
+    });
     
-    if (carouselExists) {
-      await this.mountCarouselManager();
-    } else {
+    if (!result.success) {
       throw new Error('Friends carousel container not found');
     }
-  }
 
-  // Wait for a specific container to be available
-  private async waitForContainer(containerSelector: string, containerName: string, required: boolean = true): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        if (required) {
-          reject(new Error(`${containerName} container not found after timeout: ${containerSelector}`));
-        } else {
-          logger.debug(`Optional ${containerName} container not found: ${containerSelector}`);
-          resolve(false);
-        }
-      }, 30000);
-
-      const checkForContainer = () => {
-        const container = this.findElement(containerSelector);
-        if (container) {
-          clearTimeout(timeout);
-          logger.debug(`Found ${containerName} container: ${containerSelector}`);
-          resolve(true);
-        } else {
-          setTimeout(checkForContainer, 500);
-        }
-      };
-
-      checkForContainer();
-    });
+    await this.mountCarouselManager();
   }
 
   // Mount the UserListManager component for friends list
   private async mountFriendsListManager(): Promise<void> {
-    try {
-      const containerSelector = FRIENDS_SELECTORS.CONTAINER;
-      const targetContainer = this.findElement(containerSelector);
-      
-      if (!targetContainer) {
-        throw new Error(`Friends list container not found: ${containerSelector}`);
-      }
-
-      // Create a wrapper for our component
-      const componentContainer = this.createComponentContainer(COMPONENT_CLASSES.FRIENDS_MANAGER);
-      targetContainer.appendChild(componentContainer);
-
-      // Mount UserListManager for friends list
-      const currentSettings = get(settings);
-      const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
-      
-      this.friendsListManager = this.mountComponent(
-        UserListManager,
-        componentContainer,
-        {
-          pageType: PAGE_TYPES.FRIENDS_LIST,
-          showTooltips,
-          onUserProcessed: this.handleUserProcessed.bind(this),
-          onError: this.handleUserListError.bind(this)
-        }
-      );
-
-      logger.debug('Friends list UserListManager mounted successfully', { 
-        container: containerSelector 
-      });
-
-    } catch (error) {
-      this.handleError(error, 'mountFriendsListManager');
-      throw error;
-    }
+    const currentSettings = get(settings);
+    const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
+    
+    this.friendsListManager = this.mountUserListManager(
+      FRIENDS_SELECTORS.CONTAINER,
+      COMPONENT_CLASSES.FRIENDS_MANAGER,
+      PAGE_TYPES.FRIENDS_LIST,
+      showTooltips
+    );
   }
 
   // Mount the UserListManager component for carousel
   private async mountCarouselManager(): Promise<void> {
-    try {
-      const containerSelector = `${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`;
-      const targetContainer = this.findElement(containerSelector);
-      
-      if (!targetContainer) {
-        throw new Error(`Friends carousel container not found: ${containerSelector}`);
-      }
-
-      // Create a wrapper for our component
-      const componentContainer = this.createComponentContainer(COMPONENT_CLASSES.FRIENDS_MANAGER);
-      targetContainer.appendChild(componentContainer);
-
-      // Mount UserListManager for carousel
-      const currentSettings = get(settings);
-      const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
-      
-      this.carouselManager = this.mountComponent(
-        UserListManager,
-        componentContainer,
-        {
-          pageType: PAGE_TYPES.FRIENDS_CAROUSEL,
-          showTooltips,
-          onUserProcessed: this.handleUserProcessed.bind(this),
-          onError: this.handleUserListError.bind(this)
-        }
-      );
-
-      logger.debug('Friends carousel UserListManager mounted successfully', { 
-        container: containerSelector 
-      });
-
-    } catch (error) {
-      this.handleError(error, 'mountCarouselManager');
-      throw error;
-    }
-  }
-
-  // Handle user processed event from UserListManager
-  private handleUserProcessed(userId: string, status: UserStatus): void {
-    logger.debug('User processed', { userId, status: status.flagType });
-  }
-
-  // Handle errors from UserListManager
-  private handleUserListError(error: string): void {
-    logger.error('UserListManager error:', error);
+    const currentSettings = get(settings);
+    const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
+    
+    this.carouselManager = this.mountUserListManager(
+      FRIENDS_CAROUSEL_SELECTORS.CONTAINER,
+      COMPONENT_CLASSES.FRIENDS_MANAGER,
+      PAGE_TYPES.FRIENDS_CAROUSEL,
+      showTooltips
+    );
   }
 
   // Page cleanup

@@ -3,7 +3,7 @@
    ================================= */
 
 @utility modal-overlay-base {
-  @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-300 p-5;
+  @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
   
   &.visible {
     @apply opacity-100 visible;
@@ -18,7 +18,7 @@
   @apply max-w-[95%] rounded-xl shadow-2xl border border-white/5 flex flex-col;
   background-color: var(--color-bg-content);
   transform: scale(0.95) translateY(20px);
-  transition: transform 400ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
   max-height: 800px;
 }
 

@@ -200,7 +200,7 @@
   cancelText="Cancel Request"
   confirmText="Proceed Anyway"
   confirmVariant={riskLevel() === 'high' ? 'danger' : 'primary'}
-  icon=""
+  icon="warning"
   modalType="friend-warning"
   onBlock={handleBlock}
   onCancel={handleCancel}
@@ -233,7 +233,6 @@
     <!-- Risk assessment -->
     <div class="friend-warning-risk-assessment">
       <div class="friend-warning-risk-title">
-        <span class="friend-warning-risk-title-icon"></span>
         {riskConfig().title}
       </div>
       <div class="friend-warning-risk-message">

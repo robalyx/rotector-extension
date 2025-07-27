@@ -124,7 +124,7 @@
           {#if icon}
             <div class="mr-2 flex items-center">
               {#if icon === 'warning'}
-                <div class="mature-content-warning-icon"></div>
+                <div class={modalType === 'friend-warning' ? 'friend-warning-icon' : 'mature-content-warning-icon'}></div>
               {:else}
                 <div class="text-2xl">{icon}</div>
               {/if}

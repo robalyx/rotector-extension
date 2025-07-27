@@ -156,18 +156,22 @@
   // Set up friend warning if applicable
   async function setupFriendWarning() {
     try {
-      const friendButton = document.querySelector('#friend-button');
+      if (!userStatus || userStatus.flagType === 0) return;
 
-      if (!friendButton || !userStatus) return;
+      // Wait for friend button to be available
+      const result = await waitForElement('#friend-button', {
+        timeout: 10000,
+        onTimeout: () => {}
+      });
 
-      // Only show warning for potentially unsafe users
-      if (userStatus.flagType === 0) return;
+      if (!result.success || !result.element) return;
+
+      const friendButton = result.element;
 
       // Set up click interception
       friendButtonHandler = (event: Event) => {
         // Check if user specifically wants to skip the warning
         if ((friendButton as HTMLElement).dataset.skipWarning) {
-          logger.debug('Skipping friend warning - user confirmed');
           delete (friendButton as HTMLElement).dataset.skipWarning;
           return;
         }
@@ -176,16 +180,13 @@
         event.preventDefault();
         event.stopPropagation();
         
-        logger.debug('Friend button clicked - showing warning modal');
-        
         // Show the friend warning modal
         friendWarningOpen = true;
       };
 
       // Add click listener with capture to intercept before other handlers
       friendButton.addEventListener('click', friendButtonHandler, true);
-
-      logger.debug('Friend warning set up and interception configured');
+    
     } catch (error) {
       logger.error('Failed to setup friend warning:', error);
     }

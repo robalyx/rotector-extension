@@ -95,12 +95,6 @@
   @apply modal-content-section flex items-center gap-4;
   background: var(--color-bg-subtle);
   border: 1px solid var(--color-border);
-  
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #4287f5, #4287f5aa);
-  }
 }
 
 @utility friend-warning-user-info-avatar {
@@ -143,7 +137,7 @@
 
 @utility friend-warning-why-matters-icon {
   @apply w-5 h-5 flex-shrink-0 bg-contain bg-no-repeat;
-  background-image: var(--icon-warning);
+  background-image: var(--icon-warning-triangle);
 }
 
 @utility friend-warning-why-matters-list {

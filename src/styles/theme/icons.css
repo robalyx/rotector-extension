@@ -10,6 +10,9 @@
   --icon-reportable-flag: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z'/%3E%3C/svg%3E");
   --icon-queue-hourglass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z'/%3E%3C/svg%3E");
   --icon-outfit-shirt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M17,2H14.62l-.29.46a2.75,2.75,0,0,1-4.65,0L9.38,2H7A5,5,0,0,0,2,7v5H6V22H18V12h4V7A5,5,0,0,0,17,2Z'/%3E%3C/svg%3E");
+  --icon-clipboard: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V5H19V19H5V5H7V7Z'/%3E%3C/svg%3E");
+  --icon-person: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z'/%3E%3C/svg%3E");
+  --icon-groups: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M16 13C15.71 13 15.38 13 15 13.03C16.19 14.19 17 15.8 17 17.5V20H23V18C23 15.34 19.67 14 16 13M8 13C5.33 14 2 15.34 2 18V20H14V18C14 15.34 10.67 14 8 13M8 11C10.21 11 12 9.21 12 7C12 4.79 10.21 3 8 3C5.79 3 4 4.79 4 7C4 9.21 5.79 11 8 11M16 11C18.21 11 20 9.21 20 7C20 4.79 18.21 3 16 3C15.53 3 15.09 3.1 14.67 3.24C15.5 4.26 16 5.58 16 7S15.5 9.74 14.67 10.76C15.09 10.9 15.53 11 16 11Z'/%3E%3C/svg%3E");
 
   /* Voting icons */
   --icon-upvote: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300aa00' d='M12 4.5l-8 8h4v7h8v-7h4l-8-8z'/%3E%3C/svg%3E");
@@ -56,6 +59,14 @@
 
 @utility bg-icon-outfit-shirt {
   background-image: var(--icon-outfit-shirt);
+}
+
+@utility bg-icon-clipboard {
+  background-image: var(--icon-clipboard);
+}
+
+@utility bg-icon-person {
+  background-image: var(--icon-person);
 }
 
 @utility bg-icon-upvote {
@@ -133,6 +144,24 @@
   @apply w-6 h-6 flex-shrink-0 bg-contain bg-no-repeat rounded p-0.5;
   background-color: var(--color-status-outfit);
   background-image: var(--icon-outfit-shirt);
+}
+
+@utility profile-icon {
+  @apply w-6 h-6 flex-shrink-0 bg-contain bg-no-repeat rounded p-0.5;
+  background-color: var(--color-status-profile);
+  background-image: var(--icon-clipboard);
+}
+
+@utility friends-icon {
+  @apply w-6 h-6 flex-shrink-0 bg-contain bg-no-repeat rounded p-0.5;
+  background-color: var(--color-status-friends);
+  background-image: var(--icon-person);
+}
+
+@utility groups-icon {
+  @apply w-6 h-6 flex-shrink-0 bg-contain bg-no-repeat rounded p-0.5;
+  background-color: var(--color-status-groups);
+  background-image: var(--icon-groups);
 }
 
 @utility reviewer-icon {

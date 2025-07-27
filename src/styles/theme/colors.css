@@ -38,6 +38,8 @@
   --primitive-purple-500: #9c27b0;
   --primitive-indigo-400: #818cf8;
   --primitive-indigo-500: #6366f1;
+  --primitive-teal-400: #4fd1c7;
+  --primitive-teal-500: #14b8a6;
   --primitive-brown-500: #8b4513;
   --primitive-brown-600: #cd853f;
 
@@ -123,6 +125,9 @@
   --color-status-error: var(--primitive-gray-400);
   --color-status-queued: var(--primitive-indigo-500);
   --color-status-outfit: var(--primitive-purple-500);
+  --color-status-profile: var(--primitive-blue-600);
+  --color-status-friends: var(--primitive-indigo-500);
+  --color-status-groups: var(--primitive-teal-500);
   --color-status-deprecated: var(--primitive-brown-500);
 
   /* Form controls */
@@ -195,6 +200,9 @@
     --color-status-error: var(--primitive-gray-400);
     --color-status-queued: var(--primitive-indigo-400);
     --color-status-outfit: var(--primitive-purple-400);
+    --color-status-profile: var(--primitive-blue-400);
+    --color-status-friends: var(--primitive-indigo-400);
+    --color-status-groups: var(--primitive-teal-400);
     --color-status-deprecated: var(--primitive-brown-600);
 
     /* Form adjustments */
@@ -252,6 +260,9 @@
   --color-status-error: var(--primitive-gray-400);
   --color-status-queued: var(--primitive-indigo-400);
   --color-status-outfit: var(--primitive-purple-400);
+  --color-status-profile: var(--primitive-blue-400);
+  --color-status-friends: var(--primitive-indigo-400);
+  --color-status-groups: var(--primitive-teal-400);
   --color-status-deprecated: var(--primitive-brown-600);
   --color-switch-bg-active: var(--primitive-switch-active-dark);
   --color-switch-handle: var(--primitive-dark-text);
@@ -302,6 +313,8 @@
   --color-status-error: var(--primitive-gray-400);
   --color-status-queued: var(--primitive-indigo-500);
   --color-status-outfit: var(--primitive-purple-500);
+  --color-status-friends: var(--primitive-indigo-500);
+  --color-status-groups: var(--primitive-teal-500);
   --color-status-deprecated: var(--primitive-brown-500);
   --color-switch-bg-active: var(--primitive-blue-400);
   --color-switch-handle: var(--primitive-gray-200);

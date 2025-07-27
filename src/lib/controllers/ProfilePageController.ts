@@ -433,16 +433,19 @@ export class ProfilePageController extends PageController {
   }
 
   // Handle confirmed queue action
-  private async handleConfirmQueue(inappropriateOutfit = false): Promise<void> {
+  private async handleConfirmQueue(inappropriateOutfit = false, inappropriateProfile = false, inappropriateFriends = false, inappropriateGroups = false): Promise<void> {
     if (!this.userId) return;
 
     try {
       logger.userAction(USER_ACTIONS.QUEUE_CONFIRMED, { 
         userId: this.userId, 
-        inappropriateOutfit 
+        inappropriateOutfit,
+        inappropriateProfile,
+        inappropriateFriends,
+        inappropriateGroups
       });
       
-      await apiClient.queueUser(this.userId, inappropriateOutfit);
+      await apiClient.queueUser(this.userId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups);
       
       // Hide popup
       this.setQueuePopupVisible(false);

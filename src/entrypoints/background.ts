@@ -90,7 +90,7 @@ export default defineBackground(() => {
             if (!request.userId) {
               throw new Error('User ID is required for queue user');
             }
-            response = await queueUser(request.userId, request.inappropriateOutfit);
+            response = await queueUser(request.userId, request.inappropriateOutfit, request.inappropriateProfile, request.inappropriateFriends, request.inappropriateGroups);
             break;
           case API_ACTIONS.SUBMIT_VOTE:
             if (!request.userId || !request.voteType) {
@@ -330,12 +330,15 @@ export default defineBackground(() => {
   }
 
   // Queue a user for review by the moderation system
-  async function queueUser(userId: string | number, inappropriateOutfit: boolean = false): Promise<QueueResult> {
+  async function queueUser(userId: string | number, inappropriateOutfit: boolean = false, inappropriateProfile: boolean = false, inappropriateFriends: boolean = false, inappropriateGroups: boolean = false): Promise<QueueResult> {
     const sanitizedUserId = validateUserId(userId);
 
     const requestBody = {
       id: sanitizedUserId,
-      ...(inappropriateOutfit !== undefined && { inappropriate_outfit: inappropriateOutfit })
+      ...(inappropriateOutfit !== undefined && { inappropriate_outfit: inappropriateOutfit }),
+      ...(inappropriateProfile !== undefined && { inappropriate_profile: inappropriateProfile }),
+      ...(inappropriateFriends !== undefined && { inappropriate_friends: inappropriateFriends }),
+      ...(inappropriateGroups !== undefined && { inappropriate_groups: inappropriateGroups })
     };
 
     const response = await makeApiRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {

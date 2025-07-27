@@ -547,11 +547,11 @@
   }
 
   // Handle queue confirmation from modal
-  async function handleQueueConfirm(inappropriateOutfit = false) {
+  async function handleQueueConfirm(inappropriateOutfit = false, inappropriateProfile = false, inappropriateFriends = false, inappropriateGroups = false) {
     try {
-      logger.userAction(`${pageType}_queue_user`, { userId: queueUserId, inappropriateOutfit });
+      logger.userAction(`${pageType}_queue_user`, { userId: queueUserId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups });
       
-      const result = await apiClient.queueUser(queueUserId, inappropriateOutfit);
+      const result = await apiClient.queueUser(queueUserId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups);
       
       // Handle successful queue submission
       if (result.success && result.data) {

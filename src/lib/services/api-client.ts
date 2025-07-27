@@ -206,12 +206,15 @@ class RotectorApiClient {
   async queueUser(
     userId: string | number, 
     inappropriateOutfit: boolean = false,
+    inappropriateProfile: boolean = false,
+    inappropriateFriends: boolean = false,
+    inappropriateGroups: boolean = false,
     options?: RequestOptions
   ): Promise<QueueResult> {
     const parsedUserId = this.parseUserId(userId);
     return this.sendMessage<QueueResult>(
       API_ACTIONS.QUEUE_USER,
-      { userId: parsedUserId, inappropriateOutfit },
+      { userId: parsedUserId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups },
       { maxRetries: 2, retryDelay: 2000, ...options }
     );
   }

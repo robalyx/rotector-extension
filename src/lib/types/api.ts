@@ -118,5 +118,8 @@ export interface ContentMessage {
   userIds?: (string | number)[];
   voteType?: VoteType;
   inappropriateOutfit?: boolean;
+  inappropriateProfile?: boolean;
+  inappropriateFriends?: boolean;
+  inappropriateGroups?: boolean;
   options?: BatchOptions;
 } 

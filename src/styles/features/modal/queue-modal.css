@@ -83,3 +83,198 @@
 @utility queue-error-actions-horizontal {
   @apply modal-actions-horizontal;
 }
+
+
+/* =================================
+   QUEUE SELECTION SECTION
+   ================================= */
+
+@utility queue-selection-section {
+  @apply bg-black/10 rounded-lg p-5 mb-6 border border-white/10;
+}
+
+@utility queue-option-card {
+  @apply p-4 rounded-[10px] cursor-pointer transition-all duration-200 bg-black/15 border-l-4 relative overflow-hidden;
+  border-left-color: transparent;
+}
+
+@utility queue-option-card-outfit {
+  @apply queue-option-card;
+  
+  &:hover {
+    @apply bg-black/25;
+  }
+  
+  &.selected {
+    @apply bg-orange-500/20;
+    border-color: var(--color-warning);
+  }
+  
+  &.locked {
+    @apply cursor-not-allowed opacity-75 bg-black/30;
+  }
+}
+
+@utility queue-option-card-profile {
+  @apply queue-option-card;
+  
+  &:hover {
+    @apply bg-black/25;
+  }
+  
+  &.selected {
+    @apply bg-blue-500/20;
+    border-color: var(--color-primary);
+  }
+  
+  &.locked {
+    @apply cursor-not-allowed opacity-75 bg-black/30;
+  }
+}
+
+@utility queue-option-card-friends {
+  @apply queue-option-card;
+  
+  &:hover {
+    @apply bg-black/25;
+  }
+  
+  &.selected {
+    @apply bg-indigo-500/20;
+    border-color: var(--color-status-friends);
+  }
+  
+  &.locked {
+    @apply cursor-not-allowed opacity-75 bg-black/30;
+  }
+}
+
+@utility queue-option-card-groups {
+  @apply queue-option-card;
+  
+  &:hover {
+    @apply bg-black/25;
+  }
+  
+  &.selected {
+    @apply bg-teal-500/20;
+    border-color: var(--color-status-groups);
+  }
+  
+  &.locked {
+    @apply cursor-not-allowed opacity-75 bg-black/30;
+  }
+}
+
+@utility queue-option-header {
+  @apply flex items-center gap-3 mb-2;
+}
+
+@utility queue-option-title {
+  @apply text-base font-semibold;
+  color: var(--color-text);
+}
+
+@utility queue-option-description {
+  @apply text-sm leading-relaxed;
+  color: var(--color-text-subtle);
+}
+
+@utility queue-lock-button {
+  @apply px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed;
+}
+
+@utility queue-lock-button-locked {
+  @apply px-6 py-3 bg-green-600 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
+  user-select: none;
+  
+  &:hover {
+    @apply bg-green-700;
+  }
+  
+  &:active {
+    @apply bg-green-800;
+  }
+}
+
+@utility queue-lock-button-unlocking {
+  @apply px-6 py-3 bg-orange-600 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
+  user-select: none;
+  
+  &:hover {
+    @apply bg-orange-700;
+  }
+}
+
+@utility queue-validation-error {
+  @apply p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* =================================
+   QUEUE SUMMARY STYLES
+   ================================= */
+
+@utility queue-summary-container {
+  @apply space-y-3 mb-6;
+}
+
+@utility queue-summary-item {
+  @apply flex items-center gap-3 p-3 rounded-lg;
+}
+
+@utility queue-summary-item-selected {
+  @apply queue-summary-item bg-green-500/10 border border-green-500/20;
+}
+
+@utility queue-summary-item-unselected {
+  @apply queue-summary-item bg-red-500/10 border border-red-500/20;
+}
+
+@utility queue-summary-icon {
+  @apply w-6 h-6 flex-shrink-0 rounded flex items-center justify-center text-sm font-bold;
+}
+
+@utility queue-summary-icon-selected {
+  @apply queue-summary-icon bg-green-500 text-white;
+}
+
+@utility queue-summary-icon-unselected {
+  @apply queue-summary-icon bg-red-500 text-white;
+}
+
+@utility queue-summary-content {
+  @apply flex-1;
+}
+
+@utility queue-summary-title {
+  @apply font-medium text-sm;
+  color: var(--color-text);
+}
+
+@utility queue-summary-description {
+  @apply text-xs mt-1;
+  color: var(--color-text-subtle);
+}
+
+/* =================================
+   UNLOCK PROGRESS STYLES
+   ================================= */
+
+@utility unlock-progress-container {
+  @apply relative w-full h-full flex items-center justify-center;
+}
+
+@utility unlock-progress-bar {
+  @apply absolute left-0 top-0 h-full bg-white/30 transition-all duration-100 ease-out rounded-l-lg;
+}
+
+@utility unlock-progress-text {
+  @apply relative z-10 font-medium text-white;
+}

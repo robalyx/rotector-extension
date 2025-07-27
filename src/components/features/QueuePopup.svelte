@@ -194,7 +194,7 @@
   confirmDisabled={!canSubmit}
   confirmText={submitting ? "Submitting..." : "Submit for Review"}
   confirmVariant="queue"
-  icon="⚠️"
+  icon="warning"
   onCancel={handleCancel}
   onConfirm={handleConfirm}
   title="Queue User for Review"
@@ -310,7 +310,10 @@
         <!-- Lock Options Section -->
         {#if showValidationError}
           <div class="queue-validation-error mb-4">
-            <strong>⚠️ Selection Required:</strong> Please select at least one flagging reason before proceeding.
+            <div class="flex items-center gap-2">
+              <div class="mature-content-warning-icon"></div>
+              <strong>Selection Required:</strong> Please select at least one flagging reason before proceeding.
+            </div>
           </div>
         {/if}
         
@@ -468,8 +471,8 @@
     </div>
     
     <div class="modal-content-section-warning">
-      <h3 class="modal-content-heading">
-        <span class="text-orange-500 mr-2">⚠️</span>
+      <h3 class="modal-content-heading flex items-center">
+        <div class="warning-triangle-icon mr-2"></div>
         Important Warning
       </h3>
       <p style:color="var(--color-text)"><strong>Abuse of this feature</strong> (submitting users without valid reason) may result in your IP being banned from using Rotector. We have automatic abuse detection measures in place.</p>

@@ -122,7 +122,13 @@
                     modalType === 'queue-success' ? 'queue-success-header' :
                     modalType === 'queue-error' ? 'queue-error-header' : 'mature-content-header'}>
           {#if icon}
-            <div class="text-2xl mr-2 flex items-center">{icon}</div>
+            <div class="mr-2 flex items-center">
+              {#if icon === 'warning'}
+                <div class="mature-content-warning-icon"></div>
+              {:else}
+                <div class="text-2xl">{icon}</div>
+              {/if}
+            </div>
           {/if}
           <h3 class={modalType === 'friend-warning' ? 'friend-warning-title' : 
                      modalType === 'queue-success' ? 'queue-success-title' :

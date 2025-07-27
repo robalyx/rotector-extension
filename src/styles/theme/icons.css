@@ -23,6 +23,7 @@
 
   /* Warning icon */
   --icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9800' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+  --icon-warning-triangle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9800' d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E");
   
   /* Lightbulb icon for recommendations */
   --icon-lightbulb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234caf50' d='M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6A4.997 4.997 0 0 1 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1zM10 19h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1z'/%3E%3C/svg%3E");
@@ -173,6 +174,11 @@
 @utility mature-content-warning-icon {
   @apply w-8 h-8 mr-3 flex-shrink-0 bg-contain bg-no-repeat bg-center;
   background-image: var(--icon-warning);
+}
+
+@utility warning-triangle-icon {
+  @apply w-6 h-6 flex-shrink-0 bg-contain bg-no-repeat bg-center;
+  background-image: var(--icon-warning-triangle);
 }
 
 @media (prefers-color-scheme: dark) {

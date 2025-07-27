@@ -10,16 +10,13 @@
     COMPONENT_CLASSES,
     USER_ACTIONS
   } from '../../lib/types/constants';
-  import { apiClient } from '../../lib/services/api-client';
   import { userStatusService } from '../../lib/services/user-status-service';
   import { sanitizeUserId } from '../../lib/utils/sanitizer';
   import { logger } from '../../lib/utils/logger';
-  import type { UserStatus, PageType, QueueSuccessData, QueueErrorData } from '../../lib/types/api';
+  import type { UserStatus, PageType } from '../../lib/types/api';
   import type { Observer } from '../../lib/utils/observer';
   import StatusIndicator from '../status/StatusIndicator.svelte';
-  import QueuePopup from './QueuePopup.svelte';
-  import QueueSuccessModal from './QueueSuccessModal.svelte';
-  import QueueErrorModal from './QueueErrorModal.svelte';
+  import QueueModalManager from './QueueModalManager.svelte';
 
   interface Props {
     pageType: PageType;
@@ -47,13 +44,8 @@
   let elementToComponent = new WeakMap<Element, { userId: string; component: { unmount?: () => void } }>();
   let destroyed = $state(false);
   
-  // Queue modal state
-  let showQueueModal = $state(false);
-  let queueUserId = $state<string>('');
-  let showSuccessModal = $state(false);
-  let showErrorModal = $state(false);
-  let successData = $state<QueueSuccessData | null>(null);
-  let errorData = $state<QueueErrorData | null>(null);
+  // Queue modal manager reference
+  let queueModalManager: QueueModalManager;
 
   // Type definitions for user details
   interface UserDetails {
@@ -211,7 +203,7 @@
     // Start the container watcher
     await containerWatcher.start();
 
-    // Also create initial list observer if container already exists
+    // Create initial list observer if container already exists
     const existingContainer = document.querySelector(pageConfig.containerSelector);
     if (existingContainer) {
       const config = createObserverConfig({
@@ -542,87 +534,35 @@
 
   // Handle queue user action
   function handleQueueUser(userId: string) {
-    queueUserId = userId;
-    showQueueModal = true;
+    logger.userAction(`${pageType}_queue_requested`, { userId });
+    queueModalManager?.showQueue(userId);
   }
 
-  // Handle queue confirmation from modal
-  async function handleQueueConfirm(inappropriateOutfit = false, inappropriateProfile = false, inappropriateFriends = false, inappropriateGroups = false) {
+  // Handle status refresh after successful queue operation
+  async function handleStatusRefresh(userId: string) {
     try {
-      logger.userAction(`${pageType}_queue_user`, { userId: queueUserId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups });
+      // Refresh user status
+      const newStatus = await userStatusService.getStatus(userId);
+      if (newStatus) {
+        userStatuses.set(userId, newStatus);
+      }
       
-      const result = await apiClient.queueUser(queueUserId, inappropriateOutfit, inappropriateProfile, inappropriateFriends, inappropriateGroups);
-      
-      // Handle successful queue submission
-      if (result.success && result.data) {
-        successData = result.data;
-        showSuccessModal = true;
-        
-        // Refresh user status
-        const newStatus = await userStatusService.getStatus(queueUserId);
-        if (newStatus) {
-          userStatuses.set(queueUserId, newStatus);
-        }
-        
-        // Re-mount status indicator with updated status
-        const userElement = document.querySelector(`[data-rotector-processed] [href*="/users/${queueUserId}"]`)?.closest('[data-rotector-processed]');
-        if (userElement) {
-          // Find and update existing status indicator
-          const statusContainer = userElement.querySelector(`.${COMPONENT_CLASSES.STATUS_CONTAINER}`);
-          if (statusContainer) {
-            statusContainer.remove();
-            const user = extractUserDetails(userElement);
-            if (user) {
-              mountStatusIndicator(user);
-            }
+      // Re-mount status indicator with updated status
+      const userElement = document.querySelector(`[data-rotector-processed] [href*="/users/${userId}"]`)?.closest('[data-rotector-processed]');
+      if (userElement) {
+        // Find and update existing status indicator
+        const statusContainer = userElement.querySelector(`.${COMPONENT_CLASSES.STATUS_CONTAINER}`);
+        if (statusContainer) {
+          statusContainer.remove();
+          const user = extractUserDetails(userElement);
+          if (user) {
+            mountStatusIndicator(user);
           }
         }
-      } else {
-        errorData = {
-          error: result.error || 'Unknown error occurred',
-          requestId: result.requestId || 'N/A',
-          code: result.code || 'UNKNOWN_ERROR',
-          type: result.type || 'Error'
-        };
-        showErrorModal = true;
       }
     } catch (error) {
-      logger.error('Failed to queue user:', error);
-      
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      const errorObj = error as Error & { requestId?: string; code?: string; type?: string };
-      
-      errorData = {
-        error: errorMessage,
-        requestId: errorObj.requestId || 'N/A',
-        code: errorObj.code || 'NETWORK_ERROR',
-        type: errorObj.type || 'Error'
-      };
-      showErrorModal = true;
-    } finally {
-      // Reset queue modal state
-      showQueueModal = false;
-      queueUserId = '';
+      logger.error('Failed to refresh status after queue operation:', error);
     }
-  }
-
-  // Handle queue cancellation from modal
-  function handleQueueCancel() {
-    logger.userAction(`${pageType}_queue_cancel`, { userId: queueUserId });
-    showQueueModal = false;
-    queueUserId = '';
-  }
-
-  // Handle success modal close
-  function handleSuccessModalClose() {
-    showSuccessModal = false;
-    successData = null;
-  }
-
-  // Handle error modal close
-  function handleErrorModalClose() {
-    showErrorModal = false;
-    errorData = null;
   }
 
   // Warm the cache with visible users on page load
@@ -685,29 +625,8 @@
   }
 </script>
 
-<!-- Queue confirmation modal -->
-<QueuePopup
-  onCancel={handleQueueCancel}
-  onConfirm={handleQueueConfirm}
-  userId={queueUserId}
-  bind:isOpen={showQueueModal}
-/>
-
-<!-- Success Modal -->
-{#if successData}
-  <QueueSuccessModal
-    onClose={handleSuccessModalClose}
-    {successData}
-    bind:isOpen={showSuccessModal}
-  />
-{/if}
-
-<!-- Error Modal -->
-{#if errorData}
-  <QueueErrorModal
-    {errorData}
-    onClose={handleErrorModalClose}
-    userId={queueUserId}
-    bind:isOpen={showErrorModal}
-  />
-{/if} 
+<!-- Queue Modal Manager -->
+<QueueModalManager
+  bind:this={queueModalManager}
+  onStatusRefresh={handleStatusRefresh}
+/> 

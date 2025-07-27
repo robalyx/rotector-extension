@@ -1,22 +1,16 @@
 import { get } from 'svelte/store';
 import { PageController } from './PageController';
-import { 
-  FRIENDS_CAROUSEL_SELECTORS, 
-  FRIENDS_SELECTORS,
-  PAGE_TYPES,
-  COMPONENT_CLASSES
-} from '../types/constants';
+import { COMPONENT_CLASSES } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { settings } from '../stores/settings';
 import { logger } from '../utils/logger';
-import { waitForElement } from '../utils/element-waiter';
+import FriendsPageManager from '../../components/features/FriendsPageManager.svelte';
 
 /**
  * Handles friends list and friends carousel pages
  */
 export class FriendsPageController extends PageController {
-  private friendsListManager: { element: HTMLElement; cleanup: () => void } | null = null;
-  private carouselManager: { element: HTMLElement; cleanup: () => void } | null = null;
+  private friendsPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
   protected async initializePage(): Promise<void> {
     try {
@@ -32,13 +26,8 @@ export class FriendsPageController extends PageController {
         return;
       }
 
-      // Handle friends list page
-      if (this.pageType === PAGE_TYPES.FRIENDS_LIST) {
-        await this.initializeFriendsListPage();
-      } else {
-        // Handle carousel page
-        await this.initializeCarouselPage();
-      }
+      // Mount friends page manager
+      await this.mountFriendsPageManager();
 
       logger.debug('FriendsPageController initialized successfully');
 
@@ -48,75 +37,32 @@ export class FriendsPageController extends PageController {
     }
   }
 
-  // Initialize friends list page with both friends list and carousel sections
-  private async initializeFriendsListPage(): Promise<void> {
-    const result = await waitForElement(FRIENDS_SELECTORS.CONTAINER, {
-      timeout: 30000,
-      onTimeout: () => {
-        logger.debug('Friends list container timeout');
-      }
-    });
+  // Mount friends page manager
+  private async mountFriendsPageManager(): Promise<void> {
+    try {
+      // Create container for friends page manager
+      const container = this.createComponentContainer(COMPONENT_CLASSES.FRIENDS_MANAGER);
 
-    if (!result.success) {
-      throw new Error('Friends list container not found on friends page');
+      // Mount FriendsPageManager
+      this.friendsPageManager = this.mountComponent(
+        FriendsPageManager,
+        container,
+        {}
+      );
+
+      logger.debug('FriendsPageManager mounted successfully');
+
+    } catch (error) {
+      this.handleError(error, 'mountFriendsPageManager');
     }
-
-    await this.mountFriendsListManager();
-  }
-
-  // Initialize carousel-only page
-  private async initializeCarouselPage(): Promise<void> {
-    const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.CONTAINER, {
-      timeout: 30000,
-      onTimeout: () => {
-        logger.debug('Friends carousel container timeout');
-      }
-    });
-    
-    if (!result.success) {
-      throw new Error('Friends carousel container not found');
-    }
-
-    await this.mountCarouselManager();
-  }
-
-  // Mount the UserListManager component for friends list
-  private async mountFriendsListManager(): Promise<void> {
-    const currentSettings = get(settings);
-    const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
-    
-    this.friendsListManager = this.mountUserListManager(
-      FRIENDS_SELECTORS.CONTAINER,
-      COMPONENT_CLASSES.FRIENDS_MANAGER,
-      PAGE_TYPES.FRIENDS_LIST,
-      showTooltips
-    );
-  }
-
-  // Mount the UserListManager component for carousel
-  private async mountCarouselManager(): Promise<void> {
-    const currentSettings = get(settings);
-    const showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
-    
-    this.carouselManager = this.mountUserListManager(
-      FRIENDS_CAROUSEL_SELECTORS.CONTAINER,
-      COMPONENT_CLASSES.FRIENDS_MANAGER,
-      PAGE_TYPES.FRIENDS_CAROUSEL,
-      showTooltips
-    );
   }
 
   // Page cleanup
   protected async cleanupPage(): Promise<void> {
     try {
-      if (this.friendsListManager) {
-        this.friendsListManager.cleanup();
-        this.friendsListManager = null;
-      }
-
-      if (this.carouselManager) {
-        this.carouselManager.cleanup();
-        this.carouselManager = null;
+      if (this.friendsPageManager) {
+        this.friendsPageManager.cleanup();
+        this.friendsPageManager = null;
       }
 
       logger.debug('FriendsPageController cleanup completed');

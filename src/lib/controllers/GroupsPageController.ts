@@ -1,16 +1,16 @@
 import { get } from 'svelte/store';
 import { PageController } from './PageController';
-import { GROUPS_SELECTORS, COMPONENT_CLASSES } from '../types/constants';
+import { COMPONENT_CLASSES } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { settings } from '../stores/settings';
 import { logger } from '../utils/logger';
-import { waitForElement } from '../utils/element-waiter';
+import GroupsPageManager from '../../components/features/GroupsPageManager.svelte';
 
 /**
  * Handles group pages with member lists
  */
 export class GroupsPageController extends PageController {
-  private userListManager: { element: HTMLElement; cleanup: () => void } | null = null;
+  private groupsPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
   protected async initializePage(): Promise<void> {
     try {
@@ -26,20 +26,8 @@ export class GroupsPageController extends PageController {
         return;
       }
 
-      // Wait for group container to load
-      const result = await waitForElement(GROUPS_SELECTORS.CONTAINER, {
-        timeout: 20000,
-        onTimeout: () => {
-          logger.debug('Groups container timeout');
-        }
-      });
-
-      if (!result.success) {
-        throw new Error(`Group container not found after timeout: ${GROUPS_SELECTORS.CONTAINER}`);
-      }
-
-      // Mount UserListManager component
-      await this.mountGroupUserListManager();
+      // Mount groups page manager
+      await this.mountGroupsPageManager();
 
       logger.debug('GroupsPageController initialized successfully');
 
@@ -49,25 +37,34 @@ export class GroupsPageController extends PageController {
     }
   }
 
-  // Mount the UserListManager component
-  private async mountGroupUserListManager(): Promise<void> {
-    const currentSettings = get(settings);
-    const showTooltips = currentSettings[SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED];
-    
-    this.userListManager = this.mountUserListManager(
-      GROUPS_SELECTORS.CONTAINER,
-      COMPONENT_CLASSES.GROUPS_MANAGER,
-      this.pageType,
-      showTooltips
-    );
+  // Mount groups page manager
+  private async mountGroupsPageManager(): Promise<void> {
+    try {
+      // Create container for groups page manager
+      const container = this.createComponentContainer(COMPONENT_CLASSES.GROUPS_MANAGER);
+
+      // Mount GroupsPageManager
+      this.groupsPageManager = this.mountComponent(
+        GroupsPageManager,
+        container,
+        {
+          pageType: this.pageType
+        }
+      );
+
+      logger.debug('GroupsPageManager mounted successfully');
+
+    } catch (error) {
+      this.handleError(error, 'mountGroupsPageManager');
+    }
   }
 
   // Page cleanup
   protected async cleanupPage(): Promise<void> {
     try {
-      if (this.userListManager) {
-        this.userListManager.cleanup();
-        this.userListManager = null;
+      if (this.groupsPageManager) {
+        this.groupsPageManager.cleanup();
+        this.groupsPageManager = null;
       }
 
       logger.debug('GroupsPageController cleanup completed');

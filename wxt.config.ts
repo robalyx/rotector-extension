@@ -23,7 +23,7 @@ export default defineConfig({
   manifest: {
     name: 'Rotector',
     description: 'Rotector uses AI and smart algorithms to identify inappropriate Roblox accounts, helping create safer online communities.',
-    version: '2.0.0',
+    version: '2.1.0',
     permissions: ['storage'],
     host_permissions: [
       'https://*.roblox.com/*',

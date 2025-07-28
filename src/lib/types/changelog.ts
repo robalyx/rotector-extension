@@ -16,6 +16,76 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
   {
+    id: 'v2.1.0',
+    version: '2.1.0',
+    date: '2025-07-28',
+    title: 'Improved Queue System & Bug Fixes',
+    summary: 'This update introduces a new multi-option queue selection system and fixes bugs from the rewrite.',
+    changes: [
+      {
+        type: 'added',
+        description: 'Improved queue selection system - Choose specific data types to queue (outfits, profile, friends, groups) with lock-in confirmation',
+        technicalDescription: 'Transformed queue popup from simple checkbox to three-option selection system with mandatory lock-in, summary view, and click-and-hold unlock mechanism'
+      },
+      {
+        type: 'added',
+        description: 'Banned users statistics - View count of users banned by Roblox in the statistics panel',
+        technicalDescription: 'Added subtitle text below detection system stats in StatisticsSection component'
+      },
+      {
+        type: 'changed',
+        description: 'Improved modal animations - Reduced transition durations for snappier interface interactions',
+        technicalDescription: 'Reduced modal transition duration for better user experience and responsive feedback'
+      },
+      {
+        type: 'changed',
+        description: 'Improved friend warning modal - Better visual design and updated styling',
+        technicalDescription: 'Improved friend warning modal visual design with updated styling and icon improvements'
+      },
+      {
+        type: 'changed',
+        technicalDescription: 'Combined separate UserTooltip and ExpandedTooltip components into single Tooltip component, eliminated tooltip manager service'
+      },
+      {
+        type: 'changed',
+        technicalDescription: 'Created dedicated manager components for each page type, extracting UI logic from controllers to Svelte components for better reactivity and maintainability'
+      },
+      {
+        type: 'changed',
+        technicalDescription: 'Simplified Tooltip and StatusIndicator components by extracting reusable utilities (page-detection, status-config, tooltip-positioning) and removing code duplication'
+      },
+      {
+        type: 'changed',
+        technicalDescription: 'Extracted shared UserListManager logic to base PageController class, consolidated modal visibility management, and optimized ProfilePageController logic'
+      },
+      {
+        type: 'changed',
+        description: 'Updated Roblox compatibility - Adapted to new Roblox report page structure and URL patterns',
+        technicalDescription: 'Updated ReportPageController to work with Roblox new report page URL structure and HTML layout changes'
+      },
+      {
+        type: 'fixed',
+        description: 'Queue modal display issues - Resolved problem where queue modal would not appear on profile pages',
+        technicalDescription: 'Fixed issue where queue modal would not appear for users on profile pages by consolidating duplicate modal methods and ensuring proper component state cleanup'
+      },
+      {
+        type: 'fixed',
+        description: 'Friend button interception - Fixed more reliable friend button detection and interception',
+        technicalDescription: 'Improved friend warning modal with proper element waiting for friend button interception to ensure more reliable functionality'
+      },
+      {
+        type: 'fixed',
+        description: 'Text display issues - Removed redundant escaping that was causing text to be displayed incorrectly',
+        technicalDescription: 'Removed redundant HTML escaping functions that were causing double-escaping issues with Svelte built-in XSS protection, simplified sanitizer utility'
+      },
+      {
+        type: 'fixed',
+        description: 'Statistics last updated time - Now shows when server data was generated instead of when extension fetched it',
+        technicalDescription: 'Changed lastUpdated.set() to use server timestamp from API response (data.lastUpdated) instead of client Date.now() for accurate data freshness display'
+      }
+    ]
+  },
+  {
     id: 'v2.0.0',
     version: '2.0.0',
     date: '2025-07-20',

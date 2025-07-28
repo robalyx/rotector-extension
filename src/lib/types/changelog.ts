@@ -1,6 +1,6 @@
 export interface ChangelogEntry {
   type: 'added' | 'changed' | 'deprecated' | 'removed' | 'fixed' | 'security';
-  description: string;
+  description?: string;
   technicalDescription?: string;
 }
 

@@ -74,17 +74,29 @@
     if (technicalMode && change.technicalDescription) {
       return change.technicalDescription;
     }
-    return change.description;
+    return change.description || '';
+  }
+
+  // Check if a change should be displayed based on technical mode
+  function shouldShowChange(change: ChangelogEntry): boolean {
+    // If there's no description but there is technicalDescription, it's technical-only
+    if (!change.description && change.technicalDescription) {
+      return technicalMode;
+    }
+    // Otherwise, show if it has a description or we're in technical mode
+    return Boolean(change.description) || (technicalMode && Boolean(change.technicalDescription));
   }
 
   // Group changes by type for better organization
   const groupedChanges = $derived.by(() => {
     const groups: Record<string, ChangelogEntry[]> = {};
     changelog.changes.forEach(change => {
-      if (!groups[change.type]) {
-        groups[change.type] = [];
+      if (shouldShowChange(change)) {
+        if (!groups[change.type]) {
+          groups[change.type] = [];
+        }
+        groups[change.type].push(change);
       }
-      groups[change.type].push(change);
     });
     return groups;
   });
@@ -126,7 +138,7 @@
             <span class="changelog-type-count">({groupedChanges[type].length})</span>
           </div>
           <ul class="changelog-type-list">
-            {#each groupedChanges[type] as change (change.description)}
+            {#each groupedChanges[type] as change, index (`${type}-${index}-${change.description || change.technicalDescription}`)}
               <li class="changelog-change-item">
                 {getChangeDescription(change)}
               </li>

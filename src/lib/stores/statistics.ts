@@ -85,7 +85,7 @@ export async function loadStatistics(forceRefresh: boolean = false): Promise<voi
     }
     
     statistics.set(data);
-    lastUpdated.set(Date.now());
+    lastUpdated.set(new Date(data.lastUpdated).getTime());
     statisticsState.set('loaded');
   } catch (error) {
     console.error('Failed to load statistics:', error);

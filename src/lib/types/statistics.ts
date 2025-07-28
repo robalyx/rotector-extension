@@ -2,6 +2,7 @@
 export interface Statistics {
   totalFlaggedUsers: number;
   totalConfirmedUsers: number;
+  totalBannedUsers: number;
   pendingQueuedUsers: number;
   queuedUsersFlagged: number;
   queuedUsersNotFlagged: number;

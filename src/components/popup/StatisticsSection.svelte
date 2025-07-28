@@ -83,6 +83,13 @@
             <div class="stat-label">Confirmed</div>
           </div>
         </div>
+        <div class="mt-3 text-center">
+          <div class="text-2xs text-text-subtle dark:text-text-subtle-dark flex items-center justify-center gap-1">
+            <span class="text-orange-600 dark:text-orange-400">🚫</span>
+            <span class="font-medium">{formatNumber($statistics.totalBannedUsers)}</span>
+            other users banned by Roblox
+          </div>
+        </div>
       </div>
       
       <!-- Queue System Flow -->

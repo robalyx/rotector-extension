@@ -11,6 +11,7 @@
   let apiKeyVisible = $state(false);
   let showMatureWarning = $state(false);
   let apiBaseUrlError = $state('');
+  let highlightedSetting = $state<string | null>(null);
   
   // Developer mode unlock state
   let holdTimer: ReturnType<typeof setTimeout> | null = null;
@@ -172,13 +173,22 @@
     }
   }
 
+  // Highlight a specific setting temporarily
+  export function highlightSetting(settingKey: string) {
+    highlightedSetting = settingKey;
+    
+    setTimeout(() => {
+      highlightedSetting = null;
+    }, 4000);
+  }
+
   $effect(() => {
     initializeSettings();
     isExpanded = $settings[SETTINGS_KEYS.SETTINGS_EXPANDED];
   });
 </script>
 
-<div class="mb-1.5">
+<div id="settings-section" class="mb-1.5">
   <button 
     class="settings-header"
     class:expanded={isExpanded}
@@ -260,7 +270,11 @@
               value={$settings[setting.key] as number}
             />
           {:else if setting.key === SETTINGS_KEYS.THEME}
-            <div class="setting-item">
+            <div 
+              class="setting-item"
+              class:setting-highlighted={highlightedSetting === setting.key}
+              data-setting-key={setting.key}
+            >
               <div class="setting-label">
                 {setting.label}
                 {#if setting.helpText}
@@ -278,7 +292,11 @@
               </select>
             </div>
           {:else}
-            <div class="setting-item">
+            <div 
+              class="setting-item"
+              class:setting-highlighted={highlightedSetting === setting.key}
+              data-setting-key={setting.key}
+            >
               <div class="setting-label">
                 {setting.label}
                 {#if setting.helpText}
@@ -336,7 +354,11 @@
               {/if}
             </div>
           {:else}
-            <div class="setting-item">
+            <div 
+              class="setting-item"
+              class:setting-highlighted={highlightedSetting === setting.key}
+              data-setting-key={setting.key}
+            >
               <div class="setting-label">
                 {setting.label}
                 {#if setting.helpText}

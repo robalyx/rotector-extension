@@ -1,0 +1,109 @@
+/* =================================
+   BANNER CONTAINER
+   ================================= */
+
+.advanced-violation-banner {
+  @apply relative mb-3 rounded-lg border transition-all duration-300 ease-in-out slideDown;
+  background: linear-gradient(135deg, #f59e0b 0%, color-mix(in srgb, #f59e0b 85%, transparent) 100%);
+  border-color: #f59e0b;
+  
+  &.closing {
+    @apply opacity-0 scale-95 -translate-y-2;
+  }
+}
+
+/* =================================
+   BANNER LAYOUT
+   ================================= */
+.advanced-violation-banner-content {
+  @apply relative flex flex-col gap-3 p-3;
+  background: var(--color-bg-content);
+  border-radius: inherit;
+  margin: 2px;
+}
+
+.advanced-violation-banner-header {
+  @apply flex items-center justify-between;
+}
+
+.advanced-violation-banner-footer {
+  @apply flex justify-center pt-1;
+}
+
+/* =================================
+   BANNER BADGE
+   ================================= */
+.advanced-violation-banner-badge {
+  @apply flex-shrink-0;
+  
+  .advanced-violation-badge-text {
+    @apply inline-flex items-center justify-center px-2 py-1 text-xs font-bold rounded-full;
+    background-color: #f59e0b;
+    color: white;
+    letter-spacing: 0.025em;
+  }
+}
+
+.advanced-violation-banner-body {
+  @apply flex-1 min-w-0;
+}
+
+/* =================================
+   BANNER CONTENT
+   ================================= */
+.advanced-violation-banner-title {
+  @apply text-sm font-semibold mb-1;
+  color: var(--color-text);
+}
+
+.advanced-violation-banner-description {
+  @apply text-xs leading-relaxed;
+  color: var(--color-text-subtle);
+}
+
+/* =================================
+   BANNER BUTTONS
+   ================================= */
+.advanced-violation-banner-enable {
+  @apply px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer border-none;
+  background-color: #f59e0b;
+  color: white;
+  
+  &:hover {
+    background-color: #d97706;
+  }
+  
+  &:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 2px #f59e0b;
+  }
+  
+  &:active {
+    @apply scale-95;
+  }
+}
+
+.advanced-violation-banner-dismiss {
+  @apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent;
+  color: var(--color-text-subtle);
+  
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text);
+  }
+  
+  &:focus {
+    @apply outline-none;
+    background-color: var(--color-hover);
+    color: var(--color-text);
+    box-shadow: 0 0 0 2px #f59e0b;
+  }
+  
+  &:active {
+    @apply scale-95;
+  }
+}
+
+.advanced-violation-dismiss-icon {
+  @apply w-4 h-4 fill-current;
+}

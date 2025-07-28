@@ -2,7 +2,10 @@
   import StatisticsSection from '../../components/popup/StatisticsSection.svelte';
   import SettingsSection from '../../components/popup/SettingsSection.svelte';
   import ChangelogBanner from '../../components/popup/ChangelogBanner.svelte';
+  import AdvancedViolationBanner from '../../components/popup/AdvancedViolationBanner.svelte';
   import ChangelogSection from '../../components/popup/ChangelogSection.svelte';
+
+  let settingsSection = $state<SettingsSection>();
   import { initializeSettings } from '../../lib/stores/settings.js';
   import { themeManager } from '../../lib/utils/theme.js';
 
@@ -33,11 +36,14 @@
   <!-- Changelog Banner -->
   <ChangelogBanner />
 
+  <!-- Advanced Violation Banner -->
+  <AdvancedViolationBanner {settingsSection} />
+
   <!-- Statistics Section -->
   <StatisticsSection />
 
   <!-- Settings Section -->
-  <SettingsSection />
+  <SettingsSection bind:this={settingsSection} />
 
   <!-- Changelog Section -->
   <ChangelogSection />

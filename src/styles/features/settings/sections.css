@@ -47,3 +47,24 @@
 .progress-ring-progress {
   transition: stroke-dashoffset 0.1s ease-out;
 } 
+
+.setting-highlighted {
+  @apply relative;
+  animation: setting-highlight 4s ease-out;
+}
+
+@keyframes setting-highlight {
+  0% {
+    background-color: color-mix(in srgb, #f59e0b 20%, transparent);
+    box-shadow: 0 0 0 2px #f59e0b;
+    border-radius: 6px;
+  }
+  25% {
+    background-color: color-mix(in srgb, #f59e0b 15%, transparent);
+    box-shadow: 0 0 0 1px #f59e0b;
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}

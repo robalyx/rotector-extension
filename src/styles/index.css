@@ -39,6 +39,7 @@
 @import "./features/changelog/section.css";
 @import "./features/changelog/content.css";
 @import "./features/advanced-violation/banner.css";
+@import "./features/footer/footer.css";
 
 /* =================================
    MODAL SYSTEM IMPORTS

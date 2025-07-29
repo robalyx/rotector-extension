@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="footer-container">
   <!-- Social Media / Community Links -->
   <div class="footer-social-section">

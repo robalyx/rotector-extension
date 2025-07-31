@@ -2,7 +2,7 @@
   "name": "rotector-extension-v2",
   "description": "Rotector uses AI and smart algorithms to identify inappropriate Roblox accounts, helping create safer online communities.",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",

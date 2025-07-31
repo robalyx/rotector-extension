@@ -16,6 +16,40 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
   {
+    id: 'v2.1.1',
+    version: '2.1.1',
+    date: '2025-07-31',
+    title: 'Bug Fixes & UI Improvements',
+    summary: 'This update fixes several compatibility issues and adds an advanced violation banner for better user experience.',
+    changes: [
+      {
+        type: 'added',
+        description: 'Violation banner - New banner component for alerting about disabled violation information in popup',
+        technicalDescription: 'Added AdvancedViolationBanner component with dedicated store and styling for enhanced violation display'
+      },
+      {
+        type: 'changed',
+        description: 'Redesigned popup footer - Improved layout and styling of footer section',
+        technicalDescription: 'Extracted FooterSection component from App.svelte with dedicated styling and improved organization'
+      },
+      {
+        type: 'changed',
+        description: 'Updated statistics formatting - Improved number formatting for better readability',
+        technicalDescription: 'Modified statistics store to use higher thresholds for number formatting display'
+      },
+      {
+        type: 'fixed',
+        description: 'Extension compatibility issues - Resolved CSS conflicts that could affect compatibility with other extensions',
+        technicalDescription: 'Fixed CSS specificity issues in status indicators, settings inputs, statistics containers, and tooltip voting components'
+      },
+      {
+        type: 'fixed',
+        description: 'Report page functionality - Updated selectors to work with latest Roblox report page changes',
+        technicalDescription: 'Updated ReportPageManager component selectors to match current Roblox report page structure'
+      }
+    ]
+  },
+  {
     id: 'v2.1.0',
     version: '2.1.0',
     date: '2025-07-28',

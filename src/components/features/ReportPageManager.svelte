@@ -51,7 +51,7 @@
 
   // Find and validate required form elements
   function findFormElements(): { categoryButton: HTMLButtonElement; commentTextarea: HTMLTextAreaElement } {
-    const categoryButton = document.querySelector('.foundation-web-dropdown-trigger') as HTMLButtonElement;
+    const categoryButton = document.querySelector('button[role="combobox"]') as HTMLButtonElement;
     const commentTextarea = document.querySelector('.free-comment-component textarea') as HTMLTextAreaElement;
 
     if (!categoryButton || !commentTextarea) {
@@ -71,7 +71,7 @@
       
       while (attempts < 10 && !isDropdownOpen) {
         await new Promise(resolve => setTimeout(resolve, 100));
-        const categoryButton = document.querySelector('.foundation-web-dropdown-trigger') as HTMLButtonElement;
+        const categoryButton = document.querySelector('button[role="combobox"]') as HTMLButtonElement;
         isDropdownOpen = categoryButton?.getAttribute('aria-expanded') === 'true';
         attempts++;
       }

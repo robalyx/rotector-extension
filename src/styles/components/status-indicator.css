@@ -4,6 +4,8 @@
 
 @utility status-container {
   @apply inline-flex items-center relative cursor-help leading-normal align-middle w-auto overflow-visible;
+  background: transparent !important;
+  border: none !important;
 }
 
 @utility status-positioned-absolute {

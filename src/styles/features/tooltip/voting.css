@@ -94,8 +94,7 @@
 }
 
 @utility voting-description {
-  @apply text-center !text-xs-plus border-t border-dotted pt-2.5 mt-3 leading-normal italic opacity-90;
-  border-color: var(--color-tooltip-divider);
+  @apply text-center !text-xs-plus pt-2.5 mt-3 leading-normal italic opacity-90;
   color: var(--color-text) !important;
   margin: 12px 0 0 0;
 }

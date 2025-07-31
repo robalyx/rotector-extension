@@ -398,7 +398,7 @@
         <!-- Reset developer mode button -->
         <div class="mt-3 pt-3 border-t border-border dark:border-border-dark">
           <button 
-            class="text-xs text-text-subtle dark:text-text-subtle-dark hover:text-text-primary dark:hover:text-text-primary-dark underline cursor-pointer"
+            class="developer-reset-button"
             onclick={resetDeveloperMode}
             type="button"
           >

@@ -29,7 +29,7 @@
       System Statistics
     </h2>
     <button 
-      class="btn-focus bg-transparent border border-border dark:border-border-dark rounded-md w-8 h-8 flex items-center justify-center text-text-subtle dark:text-text-subtle-dark hover:bg-link-hover-bg dark:hover:bg-link-hover-bg-dark hover:border-link-hover-border dark:hover:border-link-hover-border-dark hover:text-link-hover-text dark:hover:text-link-hover-text-dark hover:-translate-y-px active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+      class="refresh-stats-button"
       class:spin-smooth={isRefreshing}
       disabled={isRefreshing}
       onclick={handleRefresh}

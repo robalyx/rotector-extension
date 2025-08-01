@@ -1,4 +1,4 @@
-import { PROFILE_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS } from '../types/constants';
+import { PROFILE_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS, FRIENDS_CAROUSEL_SELECTORS } from '../types/constants';
 
 export interface UserInfo {
   userId: string;
@@ -44,14 +44,14 @@ export function extractUserInfo(userId: string, pageType: string, container: Ele
   let avatarUrl: string | undefined;
 
   const usernameSelectors = {
-    carousel: '[class*="username"], [class*="name"], [class*="display-name"], a[href*="/users/"] span, .text-overflow',
+    carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
     friends: FRIENDS_SELECTORS.CARD.USERNAME,
     groups: GROUPS_SELECTORS.USERNAME,
     profile: PROFILE_SELECTORS.USERNAME
   };
 
   const avatarSelectors = {
-    carousel: 'img[src*="rbxcdn"], img[src*="roblox"]',
+    carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
     friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
     groups: GROUPS_SELECTORS.AVATAR_IMG,
     profile: PROFILE_SELECTORS.AVATAR_IMG

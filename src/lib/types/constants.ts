@@ -136,7 +136,7 @@ export const FRIENDS_CAROUSEL_SELECTORS = {
   PROFILE_LINK: ".avatar-card-link",
   TILE_UNPROCESSED: `.friends-carousel-tile:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
   DISPLAY_NAME: ".friends-carousel-display-name",
-  AVATAR_IMG: ".thumbnail-2d-container img",
+  AVATAR_IMG: ".avatar-card-image img",
 } as const;
 
 // DOM selectors for profile page

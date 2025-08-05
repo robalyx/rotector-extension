@@ -10,6 +10,8 @@ export const SETTINGS_KEYS = {
   REPORT_HELPER_ENABLED: 'reportHelperEnabled',
   DEBUG_MODE_ENABLED: 'debugModeEnabled',
   ADVANCED_VIOLATION_INFO_ENABLED: 'advancedViolationInfoEnabled',
+  ROTECTOR_INTEGRATION_ENABLED: 'rotectorIntegrationEnabled',
+  BLOXDB_INTEGRATION_ENABLED: 'bloxdbIntegrationEnabled',
   API_KEY: 'apiKey',
   SETTINGS_EXPANDED: 'settingsExpanded',
   CACHE_DURATION_MINUTES: 'cacheDurationMinutes',
@@ -38,6 +40,8 @@ export interface Settings {
   [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: boolean;
   [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: boolean;
   [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: boolean;
+  [SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED]: boolean;
+  [SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]: boolean;
   [SETTINGS_KEYS.API_KEY]: string;
   [SETTINGS_KEYS.SETTINGS_EXPANDED]: boolean;
   [SETTINGS_KEYS.CACHE_DURATION_MINUTES]: number;
@@ -62,6 +66,8 @@ export const SETTINGS_DEFAULTS: Settings = {
   [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: true,
   [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: false,
   [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
+  [SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED]: true,
+  [SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]: true,
   [SETTINGS_KEYS.API_KEY]: '',
   [SETTINGS_KEYS.SETTINGS_EXPANDED]: false,
   [SETTINGS_KEYS.CACHE_DURATION_MINUTES]: 5,
@@ -98,6 +104,21 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
         label: 'Show Advanced Violation Details',
         helpText: 'Display detailed violation messages and evidence. May contain mature content.',
         requiresConfirmation: true
+      }
+    ]
+  },
+  {
+    title: 'Integrations',
+    settings: [
+      {
+        key: SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED,
+        label: 'Rotector Integration',
+        helpText: 'Core safety analysis powered by Rotector. This integration is required and cannot be disabled.'
+      },
+      {
+        key: SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED,
+        label: 'BloxDB Integration',
+        helpText: 'Include BloxDB analysis data in user safety checks. Disabling this excludes BloxDB-sourced information from results.'
       }
     ]
   },

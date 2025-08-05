@@ -1,5 +1,5 @@
 import { SETTINGS_DEFAULTS, SETTINGS_KEYS } from '../lib/types/settings';
-import { API_CONFIG, API_ACTIONS, MESSAGES, VOTE_TYPES, STATUS } from '../lib/types/constants';
+import { API_CONFIG, API_ACTIONS, MESSAGES, VOTE_TYPES, STATUS, INTEGRATION_SOURCES } from '../lib/types/constants';
 import type { VoteType } from '../lib/types/constants';
 import type { 
   UserStatus, 
@@ -43,6 +43,12 @@ function processBatchUserIds(userIds: (string | number)[]): number[] {
 async function getAdvancedViolationSetting(): Promise<boolean> {
   const settings = await browser.storage.sync.get(['advancedViolationInfoEnabled']);
   return !settings.advancedViolationInfoEnabled;
+}
+
+// Gets the BloxDB integration setting from storage
+async function getBloxdbIntegrationSetting(): Promise<boolean> {
+  const settings = await browser.storage.sync.get([SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]);
+  return settings[SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED] !== false; // Default to true if not set
 }
 
 // Creates a standardized error response with optional error properties
@@ -289,8 +295,16 @@ export default defineBackground(() => {
   async function checkUserStatus(userId: string | number): Promise<UserStatus> {
     const sanitizedUserId = validateUserId(userId);
     const excludeInfo = await getAdvancedViolationSetting();
+    const bloxdbEnabled = await getBloxdbIntegrationSetting();
     
-    const url = `${API_CONFIG.ENDPOINTS.USER_CHECK}/${sanitizedUserId}?excludeInfo=${excludeInfo}`;
+    const params = new URLSearchParams();
+    params.set('excludeInfo', excludeInfo.toString());
+    
+    if (!bloxdbEnabled) {
+      params.set('excludeIntegrations', INTEGRATION_SOURCES.BLOXDB);
+    }
+    
+    const url = `${API_CONFIG.ENDPOINTS.USER_CHECK}/${sanitizedUserId}?${params.toString()}`;
     const response = await makeApiRequest(url, { method: 'GET' });
     
     const data = extractResponseData<UserStatus>(response);
@@ -307,11 +321,16 @@ export default defineBackground(() => {
   async function checkMultipleUsers(userIds: (string | number)[]): Promise<UserStatus[]> {
     const sanitizedUserIds = processBatchUserIds(userIds);
     const excludeInfo = await getAdvancedViolationSetting();
+    const bloxdbEnabled = await getBloxdbIntegrationSetting();
     
-    const requestBody = { 
+    const requestBody: Record<string, unknown> = { 
       ids: sanitizedUserIds,
       ...(excludeInfo && { excludeInfo: true })
     };
+    
+    if (!bloxdbEnabled) {
+      requestBody.excludeIntegrations = [INTEGRATION_SOURCES.BLOXDB];
+    }
     
     const response = await makeApiRequest(API_CONFIG.ENDPOINTS.MULTIPLE_USER_CHECK, {
       method: 'POST',

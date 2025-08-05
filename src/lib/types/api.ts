@@ -16,6 +16,7 @@ export interface UserStatus {
   isReportable?: boolean;
   isOutfitOnly?: boolean;
   engineVersion?: string;
+  integrationSources?: Record<string, string>;
   versionCompatibility?: 'current' | 'compatible' | 'outdated' | 'deprecated';
   timestamp?: number;
   reviewer?: ReviewerInfo;

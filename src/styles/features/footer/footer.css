@@ -33,6 +33,24 @@
   }
 }
 
+.footer-social-link-discord {
+  &:hover {
+    background-color: #4752c4 !important;
+    border-color: #4752c4 !important;
+    color: white !important;
+    transform: translateY(-1px);
+  }
+}
+
+.footer-social-link-github {
+  &:hover {
+    background-color: #1b1f23 !important;
+    border-color: #1b1f23 !important;
+    color: white !important;
+    transform: translateY(-1px);
+  }
+}
+
 .footer-social-icon {
   @apply w-3.5 h-3.5 flex-shrink-0;
   fill: currentColor;

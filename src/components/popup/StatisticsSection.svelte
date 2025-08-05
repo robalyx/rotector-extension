@@ -1,6 +1,11 @@
 <script lang="ts">
   import LoadingSpinner from '../ui/LoadingSpinner.svelte';
   import { statistics, statisticsState, lastUpdatedFormatted, loadStatistics, refreshStatistics, formatNumber } from '../../lib/stores/statistics.js';
+  import { updateSetting } from '../../lib/stores/settings.js';
+  import { SETTINGS_KEYS } from '../../lib/types/settings.js';
+  
+  // Props  
+  let { settingsSection }: { settingsSection?: { highlightSetting: (key: string) => void } } = $props();
 
   let isRefreshing = $state(false);
 
@@ -15,6 +20,33 @@
       console.error('Failed to refresh statistics:', error);
     } finally {
       isRefreshing = false;
+    }
+  }
+
+  // Handle BloxDB card click to navigate to BloxDB setting
+  function handleBloxDBCardClick() {
+    if (settingsSection?.highlightSetting) {
+      // Expand the settings section if it's collapsed
+      updateSetting(SETTINGS_KEYS.SETTINGS_EXPANDED, true);
+      
+      // Highlight the BloxDB integration setting
+      setTimeout(() => {
+        settingsSection.highlightSetting(SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED);
+        
+        // Scroll to the setting
+        const settingElement = document.querySelector(`[data-setting-key="${SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED}"]`);
+        if (settingElement) {
+          settingElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 300);
+    }
+  }
+
+  // Handle keyboard events for accessibility
+  function handleBloxDBCardKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleBloxDBCardClick();
     }
   }
 
@@ -70,24 +102,51 @@
     </div>
   {:else if $statistics}
     <div class="stat-grid">
-      <!-- Detection System -->
+      <!-- Rotector System -->
       <div class="stat-category">
-        <h3 class="stat-category-title">Detection System</h3>
+        <h3 class="stat-category-title">Rotector System</h3>
         <div class="grid grid-cols-2 gap-2">
           <div class="stat-item">
-            <div class="stat-value">{formatNumber($statistics.totalFlaggedUsers)}</div>
+            <div class="stat-value">{formatNumber($statistics?.totalFlaggedUsers)}</div>
             <div class="stat-label">Total Flagged</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">{formatNumber($statistics.totalConfirmedUsers)}</div>
+            <div class="stat-value">{formatNumber($statistics?.totalConfirmedUsers)}</div>
             <div class="stat-label">Confirmed</div>
           </div>
         </div>
         <div class="mt-3 text-center">
           <div class="text-2xs text-text-subtle dark:text-text-subtle-dark flex items-center justify-center gap-1">
             <span class="text-orange-600 dark:text-orange-400">🚫</span>
-            <span class="font-medium">{formatNumber($statistics.totalBannedUsers)}</span>
+            <span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
             other users banned by Roblox
+          </div>
+        </div>
+      </div>
+      
+      <!-- Integrated Systems -->
+      <div class="stat-category col-span-full">
+        <h3 class="stat-category-title">Integrated Systems</h3>
+        <div class="flex justify-center">
+          <div 
+            style:max-width="200px" 
+            style:width="100%" 
+            class="stat-item cursor-pointer hover:shadow-lg transition-all duration-200"
+            onclick={handleBloxDBCardClick}
+            onkeydown={handleBloxDBCardKeydown}
+            role="button"
+            tabindex="0"
+            title="Click to view BloxDB integration settings"
+          >
+            <div class="stat-value">{formatNumber($statistics?.totalBloxdbUniqueUsers)}</div>
+            <div class="stat-label">BloxDB Unique Users</div>
+            <div 
+              style:border-color="var(--color-border-subtle)"
+              style:color="var(--color-text-subtle)"
+              class="mt-2 -mx-2 px-2 pt-2 border-t text-2xs"
+            >
+              {formatNumber($statistics?.totalBloxdbExistingUsers)} existing users
+            </div>
           </div>
         </div>
       </div>
@@ -100,7 +159,7 @@
           <div class="queue-stage">
             <div class="stage-label">Input</div>
             <div class="stat-item queue-pending">
-              <div class="stat-value">{formatNumber($statistics.pendingQueuedUsers)}</div>
+              <div class="stat-value">{formatNumber($statistics?.pendingQueuedUsers)}</div>
               <div class="stat-label">Pending</div>
             </div>
           </div>
@@ -121,11 +180,11 @@
             <div class="stage-label">Output</div>
             <div class="queue-output-grid">
               <div class="stat-item queue-flagged">
-                <div class="stat-value">{formatNumber($statistics.queuedUsersFlagged)}</div>
+                <div class="stat-value">{formatNumber($statistics?.queuedUsersFlagged)}</div>
                 <div class="stat-label">Flagged</div>
               </div>
               <div class="stat-item queue-safe">
-                <div class="stat-value">{formatNumber($statistics.queuedUsersNotFlagged)}</div>
+                <div class="stat-value">{formatNumber($statistics?.queuedUsersNotFlagged)}</div>
                 <div class="stat-label">Safe</div>
               </div>
             </div>
@@ -142,7 +201,7 @@
             style:width="100%" 
             class="stat-item"
           >
-            <div class="stat-value">{formatNumber($statistics.totalVotesCast)}</div>
+            <div class="stat-value">{formatNumber($statistics?.totalVotesCast)}</div>
             <div class="stat-label">Total Votes Cast</div>
           </div>
         </div>

@@ -5,6 +5,7 @@ export const STATUS = {
     PENDING: 1,
     UNSAFE: 2,
     QUEUED: 3,
+    INTEGRATION: 4,
   },
   REASON_TYPES: {
     USER_PROFILE: 0,
@@ -28,9 +29,18 @@ export const STATUS = {
   },
 } as const;
 
-// Type definitions based on constants
+// Integration source constants
+export const INTEGRATION_SOURCES = {
+  BLOXDB: 'bloxdb',
+} as const;
+
+export const INTEGRATION_SOURCE_NAMES = {
+  [INTEGRATION_SOURCES.BLOXDB]: 'BloxDB Analysis',
+} as const;
+
 export type StatusFlag = typeof STATUS.FLAGS[keyof typeof STATUS.FLAGS];
 export type ReasonType = typeof STATUS.REASON_TYPES[keyof typeof STATUS.REASON_TYPES];
+export type IntegrationSource = typeof INTEGRATION_SOURCES[keyof typeof INTEGRATION_SOURCES];
 
 // API Configuration
 export const API_CONFIG = {
@@ -199,6 +209,7 @@ export const MESSAGES = {
     UNSAFE: "This user has been verified as inappropriate by Rotector's human moderators.",
     PENDING: "This user has been flagged by AI with confidence level.",
     QUEUED: "This user was flagged after being added to the queue but has not yet been officially confirmed by our system.",
+    INTEGRATION: "This user has been flagged by a third-party content analysis system.",
   },
 } as const;
 

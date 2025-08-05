@@ -7,6 +7,8 @@ export interface Statistics {
   queuedUsersFlagged: number;
   queuedUsersNotFlagged: number;
   totalVotesCast: number;
+  totalBloxdbUniqueUsers: number;
+  totalBloxdbExistingUsers: number;
   lastUpdated: string;
 }
 

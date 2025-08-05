@@ -41,7 +41,7 @@
   <AdvancedViolationBanner {settingsSection} />
 
   <!-- Statistics Section -->
-  <StatisticsSection />
+  <StatisticsSection {settingsSection} />
 
   <!-- Settings Section -->
   <SettingsSection bind:this={settingsSection} />

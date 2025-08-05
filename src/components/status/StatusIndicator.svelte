@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { UserStatus } from '../../lib/types/api';
+  import { STATUS } from '../../lib/types/constants';
   import { logger } from '../../lib/utils/logger';
   import { sanitizeUserId } from '../../lib/utils/sanitizer';
   import { getStatusConfig } from '../../lib/utils/status-config';
@@ -37,6 +38,7 @@
   let showPreviewTooltip = $state(false);
   let showExpandedTooltip = $state(false);
   let isTooltipHovered = $state(false);
+  let showBadgeExpansion = $state(false);
 
   let cachedStatus = $state<UserStatus | null>(null);
   let hoverTimeout = $state<ReturnType<typeof setTimeout> | null>(null);
@@ -48,6 +50,35 @@
   });
 
   const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error));
+
+  const integrationCount = $derived(() => {
+    const activeStatus = status || cachedStatus;
+    return activeStatus?.integrationSources ? Object.keys(activeStatus.integrationSources).length : 0;
+  });
+
+  const shouldShowIntegrationBadge = $derived(() => {
+    const activeStatus = status || cachedStatus;
+    return integrationCount() > 0 && activeStatus?.flagType !== STATUS.FLAGS.INTEGRATION;
+  });
+
+  // Compute visible badges in priority order
+  const visibleBadges = $derived(() => {
+    const badges: string[] = [];
+    if (statusConfig().isReportable) badges.push('reportable');
+    if (statusConfig().isQueued) badges.push('queue');
+    if (shouldShowIntegrationBadge()) badges.push('integration');
+    if (statusConfig().isOutfitOnly) badges.push('outfit');
+    return badges;
+  });
+
+  // Compute stack classes for each badge type
+  const badgeStackClasses = $derived(() => {
+    const classes: Record<string, string> = {};
+    visibleBadges().forEach((badge, index) => {
+      classes[badge] = `badge-stack-${index + 1}`;
+    });
+    return classes;
+  });
 
   // Handle click to show expanded tooltip
   function handleClick(event: MouseEvent | KeyboardEvent) {
@@ -65,6 +96,7 @@
     if (showTooltips) {
       showPreviewTooltip = false;
       showExpandedTooltip = true;
+      showBadgeExpansion = false;
     }
   }
 
@@ -85,6 +117,10 @@
 
   // Handle mouse enter for preview tooltip
   function handleMouseEnter() {
+    if (!showExpandedTooltip) {
+      showBadgeExpansion = true;
+    }
+    
     if (!showTooltips || loading || (!status && !error && !cachedStatus) || showExpandedTooltip) return;
     
     clearHoverTimeout();
@@ -93,7 +129,7 @@
       if (!showExpandedTooltip) {
         showPreviewTooltip = true;
       }
-    }, 300);
+    }, 150);
   }
 
   // Handle mouse leave
@@ -103,18 +139,21 @@
     requestAnimationFrame(() => {
       if (!isTooltipHovered) {
         showPreviewTooltip = false;
+        showBadgeExpansion = false;
       }
     });
   }
 
-  // Handle tooltip mouse events
+  // Handle tooltip mouse enter
   function handleTooltipMouseEnter() {
     isTooltipHovered = true;
   }
 
+  // Handle tooltip mouse leave
   function handleTooltipMouseLeave() {
     isTooltipHovered = false;
     showPreviewTooltip = false;
+    showBadgeExpansion = false;
   }
 
   // Handle queue action
@@ -133,6 +172,7 @@
   // Close expanded tooltip
   function closeExpandedTooltip() {
     showExpandedTooltip = false;
+    showBadgeExpansion = false;
   }
 
   // Fetch and cache user status
@@ -197,7 +237,7 @@
 
 <button
   bind:this={container}
-  class="status-container"
+  class="status-container" class:badge-expanded={showBadgeExpansion}
   aria-label={showTooltips ? `Status: ${statusConfig().textContent}. Click for details.` : statusConfig().textContent}
   data-status-flag={status?.flagType}
   data-user-id={sanitizedUserId()}
@@ -209,17 +249,24 @@
 >
   <!-- Status Icon -->
   <div class="{statusConfig().iconClass}">
-    {#if statusConfig().isReportable}
-      <div class="reportable-badge"></div>
-    {/if}
+    <!-- Badge Container -->
+    <div class="badge-container">
+      {#if statusConfig().isReportable}
+        <div class="reportable-badge {badgeStackClasses().reportable}"></div>
+      {/if}
 
-    {#if statusConfig().isQueued}
-      <div class="queue-badge"></div>
-    {/if}
+      {#if statusConfig().isQueued}
+        <div class="queue-badge {badgeStackClasses().queue}"></div>
+      {/if}
 
-    {#if statusConfig().isOutfitOnly}
-      <div class="outfit-badge"></div>
-    {/if}
+      {#if shouldShowIntegrationBadge()}
+        <div class="integration-badge {badgeStackClasses().integration}">{integrationCount()}</div>
+      {/if}
+
+      {#if statusConfig().isOutfitOnly}
+        <div class="outfit-badge {badgeStackClasses().outfit}"></div>
+      {/if}
+    </div>
   </div>
 
   <!-- Status Text -->

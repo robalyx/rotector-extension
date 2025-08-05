@@ -86,6 +86,13 @@ export function getStatusConfig(
         textClass: 'status-text-queued',
         isQueued: true
       };
+    case STATUS.FLAGS.INTEGRATION:
+      return {
+        ...baseConfig,
+        iconClass: 'status-icon-integration',
+        textContent: `Integration (${confidence}%)`,
+        textClass: 'status-text-integration'
+      };
     default:
       return {
         ...baseConfig,

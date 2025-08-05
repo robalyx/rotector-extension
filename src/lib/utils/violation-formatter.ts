@@ -1,4 +1,4 @@
-import { STATUS } from '../types/constants';
+import { STATUS, INTEGRATION_SOURCE_NAMES } from '../types/constants';
 import type { ReasonData } from '../types/api';
 
 export interface FormattedReasonEntry {
@@ -58,18 +58,39 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 }
 
 // Formats the reasons from the API response into a structured format for display
-export function formatViolationReasons(reasons: Record<string, ReasonData>): FormattedReasonEntry[] {
+export function formatViolationReasons(
+  reasons: Record<string, ReasonData>, 
+  integrationSources?: Record<string, string>
+): FormattedReasonEntry[] {
   if (!reasons || Object.keys(reasons).length === 0) {
     return [];
   }
 
   return Object.entries(reasons).map(([reasonType, reason]) => {
-    const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.REASON_TYPE_NAMES;
-    const typeName = STATUS.REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+    let typeName: string;
+    
+    // Handle integration source reasons
+    if (integrationSources && reasonType in integrationSources) {
+      const integrationName = INTEGRATION_SOURCE_NAMES[reasonType as keyof typeof INTEGRATION_SOURCE_NAMES];
+      const version = integrationSources[reasonType];
+      
+      if (integrationName && version) {
+        const formattedVersion = version.startsWith('v') ? version : `v${version}`;
+        typeName = `${integrationName} (${formattedVersion})`;
+      } else if (integrationName) {
+        typeName = integrationName;
+      } else {
+        typeName = `${reasonType.charAt(0).toUpperCase() + reasonType.slice(1)} Analysis`;
+      }
+    } else {
+      const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.REASON_TYPE_NAMES;
+      typeName = STATUS.REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+    }
+    
     const confidence = Math.round(reason.confidence * 100);
 
-    // Check if this is an outfit reason
-    const isOutfitReason = parseInt(reasonType) === STATUS.REASON_TYPES.AVATAR_OUTFIT;
+    const isIntegrationReason = integrationSources && reasonType in integrationSources;
+    const isOutfitReason = !isIntegrationReason && parseInt(reasonType) === STATUS.REASON_TYPES.AVATAR_OUTFIT;
     
     const formattedEntry: FormattedReasonEntry = {
       typeName,

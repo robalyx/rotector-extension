@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { STATUS, MESSAGES } from '../../lib/types/constants';
+  import { STATUS, MESSAGES, INTEGRATION_SOURCE_NAMES } from '../../lib/types/constants';
   import type { UserStatus, VoteData, ReviewerInfo } from '../../lib/types/api';
   import { logger } from '../../lib/utils/logger';
   import { extractErrorMessage, sanitizeUserId } from '../../lib/utils/sanitizer';
@@ -57,7 +57,7 @@
   });
 
   const shouldShowVoting = $derived(() => 
-    status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING)
+    status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING || status.flagType === STATUS.FLAGS.INTEGRATION)
   );
 
   const isSafeUserWithQueueOnly = $derived(() => 
@@ -80,6 +80,8 @@
       }
       case STATUS.FLAGS.QUEUED:
         return MESSAGES.STATUS.QUEUED;
+      case STATUS.FLAGS.INTEGRATION:
+        return MESSAGES.STATUS.INTEGRATION;
       case STATUS.FLAGS.SAFE:
         return MESSAGES.STATUS.SAFE;
       default:
@@ -98,6 +100,7 @@
       case STATUS.FLAGS.UNSAFE:
       case STATUS.FLAGS.PENDING:
       case STATUS.FLAGS.QUEUED:
+      case STATUS.FLAGS.INTEGRATION:
         return getHeaderMessageFromFlag(status.flagType, confidence);
       default:
         return 'Unknown Status';
@@ -115,6 +118,8 @@
       case STATUS.FLAGS.PENDING:
       case STATUS.FLAGS.QUEUED:
         return 'pending';
+      case STATUS.FLAGS.INTEGRATION:
+        return 'integration';
       default:
         return 'error';
     }
@@ -132,6 +137,8 @@
         return 'Under Review';
       case STATUS.FLAGS.QUEUED:
         return 'Queued';
+      case STATUS.FLAGS.INTEGRATION:
+        return 'Integration';
       default:
         return 'Unknown';
     }
@@ -139,7 +146,7 @@
 
   const reasonEntries = $derived((): FormattedReasonEntry[] => {
     if (!status?.reasons || status.flagType === STATUS.FLAGS.SAFE) return [];
-    return formatViolationReasons(status.reasons);
+    return formatViolationReasons(status.reasons, status.integrationSources);
   });
 
   const reviewerInfo = $derived((): ReviewerInfo | null => {
@@ -148,6 +155,23 @@
   });
 
   const badgeStatus = $derived(() => calculateStatusBadges(status));
+
+  const integrationCount = $derived(() => {
+    return status?.integrationSources ? Object.keys(status.integrationSources).length : 0;
+  });
+
+  const shouldShowIntegrationBadge = $derived(() => {
+    return integrationCount() > 0 && status?.flagType !== STATUS.FLAGS.INTEGRATION;
+  });
+
+  // Check if a reason comes from an integration source
+  function isIntegrationReason(reason: FormattedReasonEntry): boolean {
+    if (!status?.integrationSources) return false;
+    
+    return Object.values(INTEGRATION_SOURCE_NAMES).some(integrationName =>
+      reason.typeName.includes(integrationName)
+    );
+  }
 
   // Extract user info from the page DOM
   function getPageUserInfo(): UserInfo | null {
@@ -160,7 +184,7 @@
     return extractUserInfo(userId, pageType, container);
   }
 
-  // Simplified positioning for preview tooltips
+  // Positioning for preview tooltips
   function positionTooltip() {
     if (!tooltipRef || !anchorElement || isExpanded()) return;
 
@@ -391,7 +415,7 @@
       {:else}
         <!-- Non-safe users: Show full content -->
         <!-- Status badges -->
-        {#if badgeStatus().isReportable || status.isQueued || badgeStatus().isOutfitOnly}
+        {#if badgeStatus().isReportable || status.isQueued || badgeStatus().isOutfitOnly || shouldShowIntegrationBadge()}
           <div class="flex gap-1.5 mb-2 justify-center flex-wrap">
             {#if badgeStatus().isReportable}
               <span class="tooltip-badge tooltip-badge-reportable">
@@ -401,6 +425,11 @@
             {#if status.isQueued}
               <span class="tooltip-badge tooltip-badge-queued">
                 Queued
+              </span>
+            {/if}
+            {#if shouldShowIntegrationBadge()}
+              <span class="tooltip-badge tooltip-badge-integration">
+                {integrationCount() === 1 ? 'Integration' : `Integration (${integrationCount()})`}
               </span>
             {/if}
             {#if badgeStatus().isOutfitOnly}
@@ -459,7 +488,7 @@
           <div class="reasons-container">
             {#each reasonEntries() as reason (reason.typeName)}
               <div class="reason-item">
-                <div class="reason-header">
+                <div class="reason-header" class:integration={isIntegrationReason(reason)}>
                   {reason.typeName} ({reason.confidence}%)
                 </div>
                 {#if reason.message}

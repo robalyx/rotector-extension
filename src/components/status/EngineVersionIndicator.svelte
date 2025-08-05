@@ -9,12 +9,14 @@
   let { status, position = 'below-header' }: Props = $props();
 
   const versionStatus = $derived(() => {
-    if (!status.engineVersion) return { 
-      status: 'unknown', 
-      statusText: 'Unknown',
-      description: 'This analysis used an AI engine with unknown compatibility status.',
-      impact: 'Version compatibility could not be determined.'
-    };
+    if (!status.engineVersion) {
+      return { 
+        status: 'unknown', 
+        statusText: 'Unknown',
+        description: 'This analysis used an AI engine with unknown compatibility status.',
+        impact: 'Version compatibility could not be determined.'
+      };
+    }
     
     const compatibility = status.versionCompatibility;
     

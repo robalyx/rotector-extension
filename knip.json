@@ -11,7 +11,7 @@
   ],
   "ignore": [
     ".wxt/**",
-    ".output/**",
+    ".output/**",    
     "dist/**",
     "build/**",
     "legacy_extension/**",

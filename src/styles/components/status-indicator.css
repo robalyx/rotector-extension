@@ -47,6 +47,10 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z'/%3E%3Cpath fill='%23666' d='M12 4v2a6 6 0 0 1 0 12v2a8 8 0 0 0 0-16z'/%3E%3C/svg%3E");
 }
 
+@utility icon-bg-integration {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2314b8a6' d='M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 4h2v6h-2V6zm0 8h2v2h-2v-2z'/%3E%3Cpath fill='%2314b8a6' opacity='0.5' d='M4 10h3v4H4v-4zm13 0h3v4h-3v-4z'/%3E%3C/svg%3E");
+}
+
 @utility animate-spin-loading {
   animation: spin-smooth 1s linear infinite;
   will-change: transform;
@@ -76,6 +80,10 @@
   @apply status-icon-base icon-bg-loading animate-spin-loading;
 }
 
+.status-icon-integration {
+  @apply status-icon-base icon-bg-integration;
+}
+
 /* =================================
    STATUS TEXT STYLES
    ================================= */
@@ -83,7 +91,6 @@
   @apply text-sm-plus whitespace-nowrap font-medium;
 }
 
-/* Status text color utilities */
 @utility text-status-safe {
   color: var(--color-status-safe);
 }
@@ -98,6 +105,10 @@
 
 @utility text-status-error {
   color: var(--color-status-error);
+}
+
+@utility text-status-integration {
+  color: var(--color-status-integration);
 }
 
 /* =================================
@@ -120,12 +131,55 @@
   @apply status-text-base text-status-error;
 }
 
+.status-text-integration {
+  @apply status-text-base text-status-integration;
+}
+
 /* =================================
    BADGE STYLES
    ================================= */
 @utility badge-base {
-  @apply absolute flex items-center justify-center border-white rounded-full w-[15px] h-[15px] -bottom-1 -right-1 box-content z-[2] shadow-sm;
+  @apply absolute flex items-center justify-center border-white rounded-full w-[15px] h-[15px] box-content shadow-sm transition-all duration-400 pointer-events-auto;
   border-style: solid;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  top: 0;
+  left: 0;
+}
+
+.badge-stack-1 {
+  z-index: 4;
+  transform: translate(0, 0) scale(1);
+}
+
+.badge-stack-2 {
+  z-index: 3;
+  transform: translate(2px, 0) scale(0.97);
+}
+
+.badge-stack-3 {
+  z-index: 2;
+  transform: translate(3px, 0) scale(0.94);
+}
+
+.badge-stack-4 {
+  z-index: 1;
+  transform: translate(4px, 0) scale(0.91);
+}
+
+.status-container.badge-expanded .badge-stack-1 {
+  transform: translate(0, 0) scale(1);
+}
+
+.status-container.badge-expanded .badge-stack-2 {
+  transform: translate(12px, 0) scale(0.97);
+}
+
+.status-container.badge-expanded .badge-stack-3 {
+  transform: translate(20px, 0) scale(0.94);
+}
+
+.status-container.badge-expanded .badge-stack-4 {
+  transform: translate(28px, 0) scale(0.91);
 }
 
 @utility badge-bg-reportable {
@@ -146,9 +200,18 @@
   @apply bg-[length:9px_9px] bg-center bg-no-repeat;
 }
 
+@utility badge-bg-integration {
+  @apply text-2xs font-bold text-white leading-none;
+  background-color: var(--color-status-integration);
+}
+
 /* =================================
    BADGE CLASSES
    ================================= */
+.badge-container {
+  @apply absolute -bottom-1 -right-1 w-[15px] h-[15px] pointer-events-none;
+}
+
 .reportable-badge {
   @apply badge-base badge-bg-reportable border-[1.5px];
 }
@@ -157,10 +220,13 @@
   @apply badge-base badge-bg-queue border;
 }
 
+.integration-badge {
+  @apply badge-base badge-bg-integration border;
+}
+
 .outfit-badge {
   @apply badge-base badge-bg-outfit border;
 }
-
 
 /* =================================
    LAYOUT FIXES

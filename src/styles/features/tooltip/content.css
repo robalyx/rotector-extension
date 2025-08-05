@@ -44,6 +44,15 @@
       background-color: var(--color-status-error);
     }
   }
+
+  &.integration {
+    @apply bg-teal-500/15;
+    color: var(--color-status-integration);
+
+    .status-indicator {
+      background-color: var(--color-status-integration);
+    }
+  }
 }
 
 @utility tooltip-badge {
@@ -63,6 +72,11 @@
 @utility tooltip-badge-outfit {
   @apply tooltip-badge text-white;
   background-color: var(--color-status-outfit);
+}
+
+@utility tooltip-badge-integration {
+  @apply tooltip-badge text-white;
+  background-color: var(--color-status-integration);
 }
 
 /* =================================
@@ -161,10 +175,14 @@
   @apply font-semibold mb-1 flex justify-between items-center;
   color: var(--color-reason-header);
   font-size: 12px;
+
+  &.integration {
+    color: var(--color-status-integration);
+  }
 }
 
 @utility reason-message {
-  @apply text-xs-plus leading-normal mb-2;
+  @apply text-xs-plus leading-normal mb-2 whitespace-pre-wrap;
   color: var(--color-reason-message);
 }
 

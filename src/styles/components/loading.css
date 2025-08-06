@@ -4,15 +4,15 @@
 
 @utility loading-spinner {
   @apply inline-block border-2 border-current border-t-transparent rounded-full animate-spin-smooth;
-  
+
   &.small {
     @apply w-4 h-4;
   }
-  
+
   &.medium {
     @apply w-6 h-6;
   }
-  
+
   &.large {
     @apply w-8 h-8;
   }

@@ -53,7 +53,7 @@
   --primitive-dark-text: #e0e0e0;
   --primitive-dark-text-heading: #ffffff;
   --primitive-dark-text-subtle: #aaaaaa;
-  
+
   /* Value replacements */
   --primitive-link-bg-light: #3a3a3a;
   --primitive-link-bg-dark: #2c2c2c;
@@ -68,7 +68,7 @@
   --active-light: rgba(0, 0, 0, 0.1);
   --hover-dark: rgba(255, 255, 255, 0.05);
   --active-dark: rgba(255, 255, 255, 0.1);
-  
+
   /* Utility opacity values */
   --divider-light: rgba(0, 0, 0, 0.1);
   --divider-dark: rgba(255, 255, 255, 0.1);
@@ -78,21 +78,29 @@
   --surface-overlay-dark: rgba(255, 255, 255, 0.05);
 }
 
+/*noinspection DuplicatedCode*/
 :root {
   /* Base surface colors */
   --color-bg: var(--primitive-gray-50);
+  --color-background: var(--primitive-white);
   --color-bg-content: var(--primitive-white);
   --color-bg-primary: var(--primitive-white);
   --color-bg-secondary: var(--primitive-gray-100);
   --color-bg-tertiary: var(--primitive-gray-200);
+  --color-bg-subtle: var(--primitive-gray-100);
 
   /* Text hierarchy */
   --color-text: var(--primitive-gray-900);
+  --color-text-primary: var(--primitive-gray-900);
+  --color-text-secondary: var(--primitive-gray-700);
+  --color-text-tertiary: var(--primitive-gray-500);
   --color-text-heading: var(--primitive-gray-950);
   --color-text-subtle: var(--primitive-gray-700);
 
   /* Border system */
   --color-border: var(--primitive-gray-300);
+  --color-border-primary: var(--primitive-gray-300);
+  --color-border-hover: var(--primitive-gray-400);
   --color-border-subtle: var(--primitive-gray-200);
 
   /* Interactive surfaces */
@@ -104,6 +112,9 @@
   /* Brand system */
   --color-primary: var(--primitive-blue-500);
   --color-primary-hover: var(--primitive-blue-600);
+  --color-primary-alpha: rgba(33, 150, 243, 0.1);
+  --color-accent: var(--primitive-blue-500);
+  --color-accent-hover: var(--primitive-blue-600);
   --color-success: var(--primitive-green-500);
   --color-warning: var(--primitive-orange-500);
   --color-error: var(--primitive-red-600);
@@ -147,32 +158,40 @@
   --color-reason-evidence-text: var(--primitive-gray-800);
   --color-reason-evidence-border: var(--evidence-light);
   --color-reason-message: var(--primitive-gray-900);
-  
+
   --color-evidence-bg: var(--primitive-gray-50);
   --color-evidence-text: var(--primitive-gray-700);
   --color-evidence-border: var(--primitive-gray-300);
   --color-outfit-evidence-bg: var(--primitive-purple-50);
-  
+
   --color-tooltip-divider: var(--divider-light);
 }
 
 /* Auto dark theme */
 @media (prefers-color-scheme: dark) {
+  /*noinspection DuplicatedCode*/
   :root {
     /* Surface colors */
     --color-bg: var(--primitive-dark-bg);
+    --color-background: var(--primitive-dark-surface);
     --color-bg-content: var(--primitive-dark-surface);
     --color-bg-primary: var(--primitive-dark-surface);
     --color-bg-secondary: var(--primitive-dark-surface-2);
     --color-bg-tertiary: var(--primitive-dark-surface-3);
+    --color-bg-subtle: var(--primitive-dark-surface-2);
 
     /* Text colors */
     --color-text: var(--primitive-dark-text);
+    --color-text-primary: var(--primitive-dark-text);
+    --color-text-secondary: var(--primitive-dark-text-subtle);
+    --color-text-tertiary: var(--primitive-gray-500);
     --color-text-heading: var(--primitive-dark-text-heading);
     --color-text-subtle: var(--primitive-dark-text-subtle);
 
     /* Border colors */
     --color-border: var(--primitive-dark-border);
+    --color-border-primary: var(--primitive-dark-border);
+    --color-border-hover: var(--primitive-gray-500);
     --color-border-subtle: var(--primitive-dark-border-subtle);
 
     /* Interactive surfaces */
@@ -183,6 +202,9 @@
 
     /* Brand adjustments */
     --color-primary-hover: var(--primitive-blue-700);
+    --color-primary-alpha: rgba(88, 166, 255, 0.1);
+    --color-accent: var(--primitive-blue-400);
+    --color-accent-hover: var(--primitive-blue-500);
 
     /* Link adjustments */
     --color-link: var(--primitive-blue-400);
@@ -221,33 +243,44 @@
     --color-reason-evidence-text: var(--primitive-gray-400);
     --color-reason-evidence-border: var(--evidence-dark);
     --color-reason-message: var(--primitive-dark-text);
-    
+
     --color-evidence-bg: var(--surface-overlay-dark);
     --color-evidence-text: var(--primitive-gray-400);
     --color-evidence-border: rgba(255, 255, 255, 0.15);
     --color-outfit-evidence-bg: rgba(186, 104, 200, 0.1);
-    
+
     --color-tooltip-divider: var(--divider-dark);
   }
 }
 
 /* Manual dark theme (overrides auto dark) */
+/*noinspection DuplicatedCode*/
 [data-theme="dark"] {
   --color-bg: var(--primitive-dark-bg);
+  --color-background: var(--primitive-dark-surface);
   --color-bg-content: var(--primitive-dark-surface);
   --color-bg-primary: var(--primitive-dark-surface);
   --color-bg-secondary: var(--primitive-dark-surface-2);
   --color-bg-tertiary: var(--primitive-dark-surface-3);
+  --color-bg-subtle: var(--primitive-dark-surface-2);
   --color-text: var(--primitive-dark-text);
+  --color-text-primary: var(--primitive-dark-text);
+  --color-text-secondary: var(--primitive-dark-text-subtle);
+  --color-text-tertiary: var(--primitive-gray-500);
   --color-text-heading: var(--primitive-dark-text-heading);
   --color-text-subtle: var(--primitive-dark-text-subtle);
   --color-border: var(--primitive-dark-border);
+  --color-border-primary: var(--primitive-dark-border);
+  --color-border-hover: var(--primitive-gray-500);
   --color-border-subtle: var(--primitive-dark-border-subtle);
   --color-card: var(--primitive-dark-surface);
   --color-card-hover: var(--primitive-dark-surface-2);
   --color-hover: var(--hover-dark);
   --color-active: var(--active-dark);
   --color-primary-hover: var(--primitive-blue-700);
+  --color-primary-alpha: rgba(88, 166, 255, 0.1);
+  --color-accent: var(--primitive-blue-400);
+  --color-accent-hover: var(--primitive-blue-500);
   --color-link: var(--primitive-blue-400);
   --color-link-hover: #80bfff;
   --color-link-bg: var(--primitive-link-bg-dark);
@@ -286,22 +319,33 @@
 }
 
 /* Manual light theme (overrides auto light) */
+/*noinspection DuplicatedCode*/
 [data-theme="light"] {
   --color-bg: var(--primitive-gray-50);
+  --color-background: var(--primitive-white);
   --color-bg-content: var(--primitive-white);
   --color-bg-primary: var(--primitive-white);
   --color-bg-secondary: var(--primitive-gray-100);
   --color-bg-tertiary: var(--primitive-gray-200);
+  --color-bg-subtle: var(--primitive-gray-100);
   --color-text: var(--primitive-gray-900);
+  --color-text-primary: var(--primitive-gray-900);
+  --color-text-secondary: var(--primitive-gray-700);
+  --color-text-tertiary: var(--primitive-gray-500);
   --color-text-heading: var(--primitive-gray-950);
   --color-text-subtle: var(--primitive-gray-700);
   --color-border: var(--primitive-gray-300);
+  --color-border-primary: var(--primitive-gray-300);
+  --color-border-hover: var(--primitive-gray-400);
   --color-border-subtle: var(--primitive-gray-200);
   --color-card: var(--primitive-white);
   --color-card-hover: var(--primitive-gray-100);
   --color-hover: var(--hover-light);
   --color-active: var(--active-light);
   --color-primary-hover: var(--primitive-blue-600);
+  --color-primary-alpha: rgba(33, 150, 243, 0.1);
+  --color-accent: var(--primitive-blue-500);
+  --color-accent-hover: var(--primitive-blue-600);
   --color-link: var(--primitive-blue-classic);
   --color-link-hover: var(--primitive-blue-classic-dark);
   --color-link-bg: var(--primitive-link-bg-light);

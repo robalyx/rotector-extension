@@ -11,11 +11,11 @@
   border-color: var(--color-border);
   background-color: var(--color-bg-content);
   color: var(--color-text);
-  
+
   &::placeholder {
     @apply text-[var(--color-placeholder)];
   }
-  
+
   &:focus {
     @apply outline-none shadow-[0_0_0_2px_var(--color-primary)] border-transparent;
   }
@@ -26,17 +26,17 @@
   border-color: var(--color-border);
   background-color: var(--color-bg-secondary);
   color: var(--color-text-subtle);
-  
+
   &:hover {
     background-color: var(--color-hover);
     color: var(--color-text);
     border-color: var(--color-text-subtle);
   }
-  
+
   &:focus {
     @apply outline-none shadow-[0_0_0_2px_var(--color-primary)] border-transparent;
   }
-  
+
   &:active {
     @apply scale-95;
   }
@@ -51,11 +51,11 @@
   background-color: var(--color-bg-content);
   color: var(--color-text);
   min-width: 90px;
-  
+
   &:focus {
     @apply outline-none shadow-[0_0_0_2px_var(--color-primary)] border-transparent;
   }
-  
+
   &:hover {
     border-color: var(--color-text-subtle);
   }
@@ -69,17 +69,17 @@
   color: var(--color-text-subtle);
   text-decoration: underline;
   text-underline-offset: 2px;
-  
+
   &:hover {
     color: var(--color-text);
     background-color: var(--color-hover);
     text-decoration: none;
   }
-  
+
   &:focus {
     @apply outline-none shadow-[0_0_0_2px_var(--color-primary)];
   }
-  
+
   &:active {
     @apply scale-95;
   }

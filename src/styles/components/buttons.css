@@ -4,7 +4,7 @@
 
 @utility btn-focus {
   @apply outline-none transition-all duration-200 ease-in-out focus:outline-2 focus:outline-offset-2;
-  
+
   &:focus {
     outline-color: var(--color-primary);
   }
@@ -15,20 +15,20 @@
    ================================= */
 @utility warning-button {
   @apply px-4 py-3 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
-  
+
   &.primary {
     @apply text-white;
     background-color: var(--color-warning);
-    
+
     &:hover {
       background-color: color-mix(in srgb, var(--color-warning) 90%, black);
     }
   }
-  
+
   &.secondary {
     background-color: var(--color-secondary);
     color: var(--color-text);
-    
+
     &:hover {
       background-color: var(--color-hover);
     }

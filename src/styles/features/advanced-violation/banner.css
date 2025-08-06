@@ -6,7 +6,7 @@
   @apply relative mb-3 rounded-lg border transition-all duration-300 ease-in-out slideDown;
   background: linear-gradient(135deg, #f59e0b 0%, color-mix(in srgb, #f59e0b 85%, transparent) 100%);
   border-color: #f59e0b;
-  
+
   &.closing {
     @apply opacity-0 scale-95 -translate-y-2;
   }
@@ -35,7 +35,7 @@
    ================================= */
 .advanced-violation-banner-badge {
   @apply flex-shrink-0;
-  
+
   .advanced-violation-badge-text {
     @apply inline-flex items-center justify-center px-2 py-1 text-xs font-bold rounded-full;
     background-color: #f59e0b;
@@ -68,16 +68,16 @@
   @apply px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer border-none;
   background-color: #f59e0b;
   color: white;
-  
+
   &:hover {
     background-color: #d97706;
   }
-  
+
   &:focus {
     @apply outline-none;
     box-shadow: 0 0 0 2px #f59e0b;
   }
-  
+
   &:active {
     @apply scale-95;
   }
@@ -86,19 +86,19 @@
 .advanced-violation-banner-dismiss {
   @apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent;
   color: var(--color-text-subtle);
-  
+
   &:hover {
     background-color: var(--color-hover);
     color: var(--color-text);
   }
-  
+
   &:focus {
     @apply outline-none;
     background-color: var(--color-hover);
     color: var(--color-text);
     box-shadow: 0 0 0 2px #f59e0b;
   }
-  
+
   &:active {
     @apply scale-95;
   }

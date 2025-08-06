@@ -232,6 +232,6 @@
    LAYOUT FIXES
    ================================= */
 .friend-tile-dropdown {
-  z-index: 1010 !important; 
+  z-index: 1010 !important;
   position: fixed !important;
 }

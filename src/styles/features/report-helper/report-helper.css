@@ -9,18 +9,13 @@
   margin: 24px 0;
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
-  border-left-width: 5px;
-  border-left-style: solid;
 }
 
 .report-helper-card.reportable {
-  border-left-color: var(--color-error);
   background-color: rgba(239, 68, 68, 0.05);
-  border-color: rgba(239, 68, 68, 0.2);
-}
-
-.report-helper-card.not-reportable {
-  border-left-color: var(--color-text-tertiary);
+  border-top-color: rgba(239, 68, 68, 0.2);
+  border-right-color: rgba(239, 68, 68, 0.2);
+  border-bottom-color: rgba(239, 68, 68, 0.2);
 }
 
 /* =================================
@@ -29,12 +24,12 @@
 .report-helper-header {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
   gap: 12px;
   padding: 12px;
   margin: -20px -24px 12px -24px;
   background-color: rgba(239, 68, 68, 0.08);
   border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 10px 10px 0 0;
 }
 
 .report-helper-icon {
@@ -285,8 +280,7 @@
 .report-helper-list-item {
   font-size: 12px;
   color: var(--color-text-secondary);
-  padding: 4px 0;
-  padding-left: 16px;
+  padding: 4px 0 4px 16px;
   position: relative;
 }
 

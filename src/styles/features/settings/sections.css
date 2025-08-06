@@ -7,15 +7,15 @@
   background-color: var(--color-bg-content);
   border-color: var(--color-border);
   color: var(--color-text);
-  
+
   &:hover {
     @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
   }
-  
+
   &:active {
     @apply scale-[0.98];
   }
-  
+
   &.holding {
     @apply border-blue-400 bg-blue-50 dark:bg-blue-900/20;
   }
@@ -46,7 +46,7 @@
 
 .progress-ring-progress {
   transition: stroke-dashoffset 0.1s ease-out;
-} 
+}
 
 .setting-highlighted {
   @apply relative;

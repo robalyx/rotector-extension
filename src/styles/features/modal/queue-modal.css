@@ -100,16 +100,16 @@
 
 @utility queue-option-card-outfit {
   @apply queue-option-card;
-  
+
   &:hover {
     @apply bg-black/25;
   }
-  
+
   &.selected {
     @apply bg-orange-500/20;
     border-color: var(--color-warning);
   }
-  
+
   &.locked {
     @apply cursor-not-allowed opacity-75 bg-black/30;
   }
@@ -117,16 +117,16 @@
 
 @utility queue-option-card-profile {
   @apply queue-option-card;
-  
+
   &:hover {
     @apply bg-black/25;
   }
-  
+
   &.selected {
     @apply bg-blue-500/20;
     border-color: var(--color-primary);
   }
-  
+
   &.locked {
     @apply cursor-not-allowed opacity-75 bg-black/30;
   }
@@ -134,16 +134,16 @@
 
 @utility queue-option-card-friends {
   @apply queue-option-card;
-  
+
   &:hover {
     @apply bg-black/25;
   }
-  
+
   &.selected {
     @apply bg-indigo-500/20;
     border-color: var(--color-status-friends);
   }
-  
+
   &.locked {
     @apply cursor-not-allowed opacity-75 bg-black/30;
   }
@@ -151,16 +151,16 @@
 
 @utility queue-option-card-groups {
   @apply queue-option-card;
-  
+
   &:hover {
     @apply bg-black/25;
   }
-  
+
   &.selected {
     @apply bg-teal-500/20;
     border-color: var(--color-status-groups);
   }
-  
+
   &.locked {
     @apply cursor-not-allowed opacity-75 bg-black/30;
   }
@@ -187,11 +187,11 @@
 @utility queue-lock-button-locked {
   @apply px-6 py-3 bg-green-600 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
   user-select: none;
-  
+
   &:hover {
     @apply bg-green-700;
   }
-  
+
   &:active {
     @apply bg-green-800;
   }
@@ -200,7 +200,7 @@
 @utility queue-lock-button-unlocking {
   @apply px-6 py-3 bg-orange-600 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
   user-select: none;
-  
+
   &:hover {
     @apply bg-orange-700;
   }
@@ -212,9 +212,15 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* =================================

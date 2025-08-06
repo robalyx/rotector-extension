@@ -55,7 +55,7 @@
   background: linear-gradient(135deg, #ff5f5f 0%, #ff4757 100%);
   color: white;
   border-color: #ff4757;
-  
+
   &:hover {
     transform: translateY(-1px);
     @apply shadow-md;
@@ -84,11 +84,11 @@
 
 @utility funding-progress-fill {
   @apply h-full transition-all duration-500 ease-out;
-  
+
   &.funding-in-progress {
     background: var(--color-primary);
   }
-  
+
   &.funding-complete {
     background: var(--color-success);
   }

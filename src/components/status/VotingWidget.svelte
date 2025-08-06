@@ -1,64 +1,64 @@
 <script lang="ts">
-  import { VOTE_TYPES } from '../../lib/types/constants';
-  import type { VoteData } from '../../lib/types/api';
-  import { logger } from '../../lib/utils/logger';
+    import {VOTE_TYPES} from '@/lib/types/constants';
+    import type {VoteData} from '@/lib/types/api';
+    import {logger} from '@/lib/utils/logger';
 
-  interface Props {
-    voteData?: VoteData | null;
-    loading?: boolean;
-    error?: string | null;
-    onVote?: (voteType: number) => void;
-  }
-
-  let {
-    voteData = null,
-    loading = false,
-    error = null,
-    onVote
-  }: Props = $props();
-
-  // Computed values
-  const voteStats = $derived(() => {
-    if (!voteData) {
-      return {
-        upvotes: 0,
-        downvotes: 0,
-        totalVotes: 0,
-        percentage: 0,
-        currentVote: null
-      };
+    interface Props {
+        voteData?: VoteData | null;
+        loading?: boolean;
+        error?: string | null;
+        onVote?: (voteType: number) => void;
     }
 
-    const total = voteData.upvotes + voteData.downvotes;
-    const percentage = total > 0 ? Math.round((voteData.upvotes / total) * 100) : 0;
+    let {
+        voteData = null,
+        loading = false,
+        error = null,
+        onVote
+    }: Props = $props();
 
-    return {
-      upvotes: voteData.upvotes,
-      downvotes: voteData.downvotes,
-      totalVotes: total,
-      percentage,
-      currentVote: voteData.currentVote
-    };
-  });
+    // Computed values
+    const voteStats = $derived(() => {
+        if (!voteData) {
+            return {
+                upvotes: 0,
+                downvotes: 0,
+                totalVotes: 0,
+                percentage: 0,
+                currentVote: null
+            };
+        }
 
-  const fillWidth = $derived(() => {
-    return `${voteStats().percentage}%`;
-  });
+        const total = voteData.upvotes + voteData.downvotes;
+        const percentage = total > 0 ? Math.round((voteData.upvotes / total) * 100) : 0;
 
-  // Handle vote submission
-  function handleVoteClick(voteType: number) {
-    if (loading || !onVote) return;
-
-    const stats = voteStats();
-    
-    logger.userAction('voting_widget_click', { 
-      voteType,
-      previousVote: stats.currentVote,
-      action: stats.currentVote === voteType ? 'undo_vote' : 'change_vote'
+        return {
+            upvotes: voteData.upvotes,
+            downvotes: voteData.downvotes,
+            totalVotes: total,
+            percentage,
+            currentVote: voteData.currentVote
+        };
     });
 
-    onVote(voteType);
-  }
+    const fillWidth = $derived(() => {
+        return `${voteStats().percentage}%`;
+    });
+
+    // Handle vote submission
+    function handleVoteClick(voteType: number) {
+        if (loading || !onVote) return;
+
+        const stats = voteStats();
+
+        logger.userAction('voting_widget_click', {
+            voteType,
+            previousVote: stats.currentVote,
+            action: stats.currentVote === voteType ? 'undo_vote' : 'change_vote'
+        });
+
+        onVote(voteType);
+    }
 </script>
 
 <div class="voting-container" class:voting-loading={loading}>
@@ -77,9 +77,9 @@
   <!-- Vote bar and stats -->
   <div class="voting-bar">
     <div class="voting-meter">
-      <div 
-        style:width="{fillWidth()}"
-        class="voting-meter-fill"
+      <div
+          style:width="{fillWidth()}"
+          class="voting-meter-fill"
       ></div>
     </div>
     <div class="voting-stats">
@@ -95,22 +95,22 @@
   <!-- Vote buttons -->
   <div class="voting-buttons">
     <button
-      class="voting-button voting-upvote"
-      class:voting-button-upvote-active={voteStats().currentVote === VOTE_TYPES.UPVOTE}
-      aria-label="Agree with this status"
-      disabled={loading}
-onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.UPVOTE); }}
+        class="voting-button voting-upvote"
+        class:voting-button-upvote-active={voteStats().currentVote === VOTE_TYPES.UPVOTE}
+        aria-label="Agree with this status"
+        disabled={loading}
+        onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.UPVOTE); }}
     >
       <span class="voting-icon voting-icon-upvote"></span>
       <span class="voting-label">Agree</span>
     </button>
 
     <button
-      class="voting-button voting-downvote"
-      class:voting-button-downvote-active={voteStats().currentVote === VOTE_TYPES.DOWNVOTE}
-      aria-label="Disagree with this status"
-      disabled={loading}
-onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.DOWNVOTE); }}
+        class="voting-button voting-downvote"
+        class:voting-button-downvote-active={voteStats().currentVote === VOTE_TYPES.DOWNVOTE}
+        aria-label="Disagree with this status"
+        disabled={loading}
+        onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.DOWNVOTE); }}
     >
       <span class="voting-icon voting-icon-downvote"></span>
       <span class="voting-label">Disagree</span>

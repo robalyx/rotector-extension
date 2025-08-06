@@ -4,11 +4,11 @@
 
 @utility modal-overlay-base {
   @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
-  
+
   &.visible {
     @apply opacity-100 visible;
   }
-  
+
   &.closing {
     @apply opacity-0;
   }
@@ -43,7 +43,7 @@
 @utility modal-close-base {
   @apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200 ml-auto;
   color: var(--color-text);
-  
+
   &:hover {
     @apply bg-white/10;
   }
@@ -86,7 +86,7 @@
    ================================= */
 @utility modal-button-base {
   @apply px-[18px] py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm flex items-center justify-center w-full max-w-[220px] box-border min-w-0;
-  
+
   &:active {
     @apply translate-y-0 shadow-sm;
   }
@@ -101,7 +101,7 @@
 
 @utility modal-content-section-info {
   @apply modal-content-section;
-  
+
   &::before {
     content: '';
     @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
@@ -111,13 +111,13 @@
 
 @utility modal-content-section-warning {
   @apply modal-content-section;
-  
+
   &::before {
     content: '';
     @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
     background: linear-gradient(to bottom, #ff9800, #ff9800aa);
   }
-  
+
   & p {
     @apply text-sm;
   }
@@ -125,7 +125,7 @@
 
 @utility modal-content-section-recommendation {
   @apply modal-content-section;
-  
+
   &::before {
     content: '';
     @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
@@ -152,7 +152,7 @@
 
 @utility modal-content-list-item-info {
   @apply modal-content-list-item;
-  
+
   &::before {
     content: '•';
     @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4287f5] text-transparent mt-[0.6em];
@@ -161,7 +161,7 @@
 
 @utility modal-content-list-item-warning {
   @apply modal-content-list-item;
-  
+
   &::before {
     content: '•';
     @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#ff9800] text-transparent mt-[0.6em];
@@ -170,7 +170,7 @@
 
 @utility modal-content-list-item-recommendation {
   @apply modal-content-list-item;
-  
+
   &::before {
     content: '•';
     @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4caf50] text-transparent mt-[0.6em];

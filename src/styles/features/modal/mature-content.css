@@ -38,7 +38,7 @@
 
 @utility mature-content-cancel {
   @apply modal-button-base bg-[#333333] !text-white;
-  
+
   &:hover {
     @apply bg-[#3d3d3d] shadow-md -translate-y-px;
   }
@@ -46,29 +46,29 @@
 
 @utility mature-content-confirm {
   @apply modal-button-base bg-[#ff9800] !text-white;
-  
+
   &:hover {
     @apply bg-[#f57c00] shadow-md -translate-y-px;
   }
-  
+
   &:disabled {
     @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
-    
+
     &:hover {
       @apply bg-[#ccc] translate-y-0 shadow-none;
     }
   }
-  
+
   &.mature-content-confirm-danger {
     @apply bg-[#f44336];
-    
+
     &:hover {
       @apply bg-[#d32f2f];
     }
-    
+
     &:disabled {
       @apply bg-[#ccc];
-      
+
       &:hover {
         @apply bg-[#ccc];
       }

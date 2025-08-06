@@ -41,7 +41,7 @@
 }
 
 @utility font-system {
-  font-family: var(--font-system);
+  font-family: var(--font-system), sans-serif;
 }
 
  

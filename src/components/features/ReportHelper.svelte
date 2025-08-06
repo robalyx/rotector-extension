@@ -1,83 +1,83 @@
 <script lang="ts">
-  import { logger } from '../../lib/utils/logger';
-  import { sanitizeUserId } from '../../lib/utils/sanitizer';
-  import type { UserStatus } from '../../lib/types/api';
-  import Modal from '../ui/Modal.svelte';
-  import LoadingSpinner from '../ui/LoadingSpinner.svelte';
+    import {logger} from '@/lib/utils/logger';
+    import {sanitizeUserId} from '@/lib/utils/sanitizer';
+    import type {UserStatus} from '@/lib/types/api';
+    import Modal from '../ui/Modal.svelte';
+    import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 
-  interface Props {
-    isOpen?: boolean;
-    userId?: string | number | null;
-    status?: UserStatus | null;
-    isCard?: boolean;
-    onFillForm?: () => void | Promise<void>;
-    onClose?: () => void;
-  }
-
-  let {
-    isOpen = $bindable(true),
-    userId = null,
-    status = null,
-    isCard = false,
-    onFillForm,
-    onClose
-  }: Props = $props();
-
-  // Local state
-  let processing = $state(false);
-
-  // Computed values
-  const sanitizedUserId = $derived(() => {
-    if (!userId) return '';
-    const id = sanitizeUserId(userId);
-    return id ? id.toString() : '';
-  });
-
-  const isReportable = $derived(() => {
-    if (!status) return false;
-    return "0" in (status.reasons || {});
-  });
-
-  const reportableContent = $derived(() => {
-    if (!status || !isReportable()) return null;
-    
-    const profileReason = status.reasons?.["0"];
-    
-    return {
-      message: profileReason?.message || 'Inappropriate content detected',
-      evidence: profileReason?.evidence || [],
-      confidence: profileReason?.confidence || status.confidence || 0
-    };
-  });
-
-  const canAutoFill = $derived(() => {
-    return isReportable() && onFillForm;
-  });
-
-  // Handle fill form button click
-  async function handleFillForm() {
-    if (!canAutoFill() || processing) return;
-    
-    processing = true;
-    
-    try {
-      // Call the parent's fill form handler
-      await onFillForm?.();
-    } catch (error) {
-      logger.error('Failed to fill report form:', error);
-      throw error;
-    } finally {
-      processing = false;
+    interface Props {
+        isOpen?: boolean;
+        userId?: string | number | null;
+        status?: UserStatus | null;
+        isCard?: boolean;
+        onFillForm?: () => void | Promise<void>;
+        onClose?: () => void;
     }
-  }
 
-  // Handle close
-  function handleClose() {
-    if (!isCard) {
-      isOpen = false;
+    let {
+        isOpen = $bindable(true),
+        userId = null,
+        status = null,
+        isCard = false,
+        onFillForm,
+        onClose
+    }: Props = $props();
+
+    // Local state
+    let processing = $state(false);
+
+    // Computed values
+    const sanitizedUserId = $derived(() => {
+        if (!userId) return '';
+        const id = sanitizeUserId(userId);
+        return id ? id.toString() : '';
+    });
+
+    const isReportable = $derived(() => {
+        if (!status) return false;
+        return "0" in (status.reasons || {});
+    });
+
+    const reportableContent = $derived(() => {
+        if (!status || !isReportable()) return null;
+
+        const profileReason = status.reasons?.["0"];
+
+        return {
+            message: profileReason?.message || 'Inappropriate content detected',
+            evidence: profileReason?.evidence || [],
+            confidence: profileReason?.confidence || status.confidence || 0
+        };
+    });
+
+    const canAutoFill = $derived(() => {
+        return isReportable() && onFillForm;
+    });
+
+    // Handle fill form button click
+    async function handleFillForm() {
+        if (!canAutoFill() || processing) return;
+
+        processing = true;
+
+        try {
+            // Call the parent's fill form handler
+            await onFillForm?.();
+        } catch (error) {
+            logger.error('Failed to fill report form:', error);
+            throw error;
+        } finally {
+            processing = false;
+        }
     }
-    onClose?.();
-  }
+
+    // Handle close
+    function handleClose() {
+        if (!isCard) {
+            isOpen = false;
+        }
+        onClose?.();
+    }
 </script>
 
 {#if isCard}
@@ -101,12 +101,12 @@
             <div class="report-helper-evidence-section">
               <h4 class="report-helper-evidence-header">Detected Issue</h4>
               <div class="report-helper-evidence-details">
-                <strong>Reason:</strong> {reportableContent()?.message}<br /><br />
-                
-                {#if reportableContent()?.evidence && reportableContent()!.evidence.length > 0}
+                <strong>Reason:</strong> {reportableContent()?.message}<br/><br/>
+
+                {#if (reportableContent()?.evidence?.length ?? 0) > 0}
                   <strong>Evidence Snippets:</strong>
                   <ul class="report-helper-evidence-list">
-                    {#each reportableContent()!.evidence as item (item)}
+                    {#each reportableContent()?.evidence || [] as item (item)}
                       <li class="report-helper-evidence-item">{item}</li>
                     {/each}
                   </ul>
@@ -116,15 +116,16 @@
           {/if}
 
           <div class="report-helper-action-section">
-            <p>Click below and Rotector will automatically fill the report form with the appropriate category and details.</p>
-            
+            <p>Click below and Rotector will automatically fill the report form with the appropriate
+              category and details.</p>
+
             <button
-              class="report-helper-button primary"
-              disabled={processing}
-              onclick={handleFillForm}
+                class="report-helper-button primary"
+                disabled={processing}
+                onclick={handleFillForm}
             >
               {#if processing}
-                <LoadingSpinner size="small" />
+                <LoadingSpinner size="small"/>
                 Filling...
               {:else}
                 Fill Report Form
@@ -135,7 +136,8 @@
           <div class="report-helper-warning-section">
             <div class="report-helper-warning-icon"></div>
             <div class="report-helper-warning-text">
-              <strong>Important:</strong> Reports are filed under <strong>your</strong> Roblox account. Review all information before submitting and only report genuine violations.
+              <strong>Important:</strong> Reports are filed under <strong>your</strong> Roblox account.
+              Review all information before submitting and only report genuine violations.
             </div>
           </div>
         {/if}
@@ -144,13 +146,15 @@
         <p class="report-helper-subtitle">
           Rotector hasn't detected any clearly reportable content in this user's profile description yet.
         </p>
-        
+
         <div class="report-helper-info-section">
           <div class="report-helper-info-icon"></div>
           <div class="report-helper-info-text">
-            <p><strong>You can still submit a report</strong> if you believe this user is violating Roblox's Terms of Service.</p>
-            <p>Rotector allows reporting of inappropriate content in profile descriptions. We don't detect most report categories, including:</p>
-            
+            <p><strong>You can still submit a report</strong> if you believe this user is violating Roblox's
+              Terms of Service.</p>
+            <p>Rotector allows reporting of inappropriate content in profile descriptions. We don't detect
+              most report categories, including:</p>
+
             <div class="report-helper-list">
               <div class="report-helper-list-item">Asking for or giving private information</div>
               <div class="report-helper-list-item">Bullying, harassment, discrimination</div>
@@ -158,8 +162,9 @@
               <div class="report-helper-list-item">Account theft (phishing, hacking, trading)</div>
               <div class="report-helper-list-item">Real life threats or suicide threats</div>
             </div>
-            
-            <p>If you're reporting any of these violations, please continue with your report and provide specific details to help Roblox moderators.</p>
+
+            <p>If you're reporting any of these violations, please continue with your report and provide
+              specific details to help Roblox moderators.</p>
           </div>
         </div>
       {/if}
@@ -167,12 +172,12 @@
   </div>
 {:else}
   <Modal
-    confirmText="Close"
-    icon="📋"
-    onConfirm={handleClose}
-    showCancel={false}
-    title="Report Helper"
-    bind:isOpen
+      confirmText="Close"
+      icon="📋"
+      onConfirm={handleClose}
+      showCancel={false}
+      title="Report Helper"
+      bind:isOpen
   >
     <div class="space-y-4">
       <!-- User Information -->

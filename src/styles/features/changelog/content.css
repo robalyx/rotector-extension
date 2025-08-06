@@ -123,7 +123,7 @@
 .changelog-change-item {
   @apply text-sm leading-relaxed relative;
   color: var(--color-text);
-  
+
   &::before {
     @apply absolute left-[-16px] top-[6px] w-1.5 h-1.5 rounded-full;
     content: '';

@@ -7,11 +7,11 @@
   background-color: var(--color-bg-content);
   border-color: var(--color-border);
   color: var(--color-text);
-  
+
   &:hover {
     @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
   }
-  
+
   &:active {
     @apply scale-[0.98];
   }
@@ -26,7 +26,7 @@
 
 .changelog-section-item {
   @apply py-2;
-  
+
   &.first {
     @apply pt-0;
   }
@@ -49,21 +49,21 @@
   background-color: var(--color-bg-content);
   border-color: var(--color-border);
   color: var(--color-text-subtle);
-  
+
   &:hover {
     @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
     color: var(--color-text);
   }
-  
+
   &:active {
     @apply scale-[0.95];
   }
-  
+
   &.active {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
     color: var(--color-bg-content);
-    
+
     &:hover {
       background-color: var(--color-accent-hover);
       border-color: var(--color-accent-hover);

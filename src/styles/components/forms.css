@@ -5,11 +5,11 @@
 @utility toggle-switch {
   @apply absolute inset-0 w-full h-full rounded-full cursor-pointer transition-colors duration-200;
   background-color: var(--color-switch-bg-inactive);
-  
+
   &.checked {
     background-color: var(--color-switch-bg-active);
   }
-  
+
   &.disabled {
     background-color: var(--color-switch-bg-disabled);
     @apply cursor-not-allowed opacity-60;
@@ -19,11 +19,11 @@
 @utility toggle-handle {
   @apply absolute rounded-full shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] transition-transform duration-200 top-[3px] left-[3px] w-4 h-4;
   background-color: var(--color-switch-handle);
-  
+
   &.checked {
     @apply translate-x-[18px];
   }
-  
+
   &.disabled {
     background-color: var(--color-switch-handle-disabled);
   }
@@ -37,7 +37,7 @@
   border-color: var(--color-border);
   background-color: var(--color-bg-content);
   color: var(--color-text);
-  
+
   &::placeholder {
     color: var(--color-placeholder);
   }

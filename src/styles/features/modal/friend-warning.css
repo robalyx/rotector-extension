@@ -42,7 +42,7 @@
 
 @utility friend-warning-cancel {
   @apply modal-button-base bg-[#333333] !text-white;
-  
+
   &:hover {
     @apply bg-[#3d3d3d] shadow-md -translate-y-px;
   }
@@ -50,7 +50,7 @@
 
 @utility friend-warning-block {
   @apply modal-button-base bg-[#2a2a2a] !text-white;
-  
+
   &:hover {
     @apply bg-[#1e1e1e] shadow-md -translate-y-px;
   }
@@ -58,29 +58,29 @@
 
 @utility friend-warning-confirm {
   @apply modal-button-base bg-[#ff9800] !text-white;
-  
+
   &:hover {
     @apply bg-[#f57c00] shadow-md -translate-y-px;
   }
-  
+
   &:disabled {
     @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
-    
+
     &:hover {
       @apply bg-[#ccc] translate-y-0 shadow-none;
     }
   }
-  
+
   &.friend-warning-confirm-danger {
     @apply bg-[#f44336];
-    
+
     &:hover {
       @apply bg-[#d32f2f];
     }
-    
+
     &:disabled {
       @apply bg-[#ccc];
-      
+
       &:hover {
         @apply bg-[#ccc];
       }
@@ -93,7 +93,6 @@
    ================================= */
 @utility friend-warning-user-info {
   @apply modal-content-section flex items-center gap-4;
-  background: var(--color-bg-subtle);
   border: 1px solid var(--color-border);
 }
 
@@ -102,7 +101,7 @@
   border-color: var(--color-border);
   background-color: var(--color-bg-content);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  
+
   img {
     @apply w-full h-full object-cover;
   }
@@ -178,9 +177,8 @@
    ================================= */
 @utility friend-warning-risk-assessment {
   @apply modal-content-section;
-  background: var(--color-bg-subtle);
   border: 1px solid var(--color-border);
-  
+
   &::before {
     content: '';
     @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
@@ -213,7 +211,7 @@
   @apply modal-content-section;
   background: rgba(244, 67, 54, 0.1);
   border: 1px solid rgba(244, 67, 54, 0.3);
-  
+
   &::before {
     content: '';
     @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;

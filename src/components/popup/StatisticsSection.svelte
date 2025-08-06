@@ -1,5 +1,6 @@
 <script lang="ts">
   import LoadingSpinner from '../ui/LoadingSpinner.svelte';
+  import FinancialSection from './FinancialSection.svelte';
   import { statistics, statisticsState, lastUpdatedFormatted, loadStatistics, refreshStatistics, formatNumber } from '../../lib/stores/statistics.js';
   import { updateSetting } from '../../lib/stores/settings.js';
   import { SETTINGS_KEYS } from '../../lib/types/settings.js';
@@ -206,6 +207,9 @@
           </div>
         </div>
       </div>
+      
+      <!-- Support -->
+      <FinancialSection />
     </div>
     
     <div class="statistics-last-updated">

@@ -6,6 +6,7 @@
   @apply text-center font-semibold uppercase tracking-wide pb-1.5 mb-2 border-b text-xs-plus;
   color: var(--color-text-heading);
   border-color: var(--color-border-subtle);
+  margin-top: 0;
 }
 
 @utility stat-item {

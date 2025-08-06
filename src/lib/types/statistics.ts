@@ -9,6 +9,9 @@ export interface Statistics {
   totalVotesCast: number;
   totalBloxdbUniqueUsers: number;
   totalBloxdbExistingUsers: number;
+  aiTotalCost: number;
+  totalDonations: number;
+  remainingCosts: number;
   lastUpdated: string;
 }
 

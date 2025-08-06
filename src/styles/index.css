@@ -34,6 +34,7 @@
 @import "./features/statistics/containers.css";
 @import "./features/statistics/items.css";
 @import "./features/statistics/queue-flow.css";
+@import "./features/financial/financial.css";
 @import "./features/settings/sections.css";
 @import "./features/settings/inputs.css";
 @import "./features/settings/warnings.css";

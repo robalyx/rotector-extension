@@ -111,4 +111,23 @@ export function formatNumber(num: number | undefined): string {
     return `${(num / 1000).toFixed(1)}K`;
   }
   return num.toLocaleString();
-} 
+}
+
+// Format currency for display
+export function formatCurrency(amount: number | undefined): string {
+  if (amount === undefined || amount === null || isNaN(amount)) {
+    return '$0.00';
+  }
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(Math.abs(amount));
+}
+
+// Calculate funding percentage (donations vs costs)
+export function calculateFundingPercentage(donations: number | undefined, costs: number | undefined): number {
+  if (!donations || !costs || costs === 0) return 0;
+  return Math.min(Math.round((donations / costs) * 100), 100);
+}

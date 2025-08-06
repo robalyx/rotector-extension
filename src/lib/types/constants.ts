@@ -40,7 +40,6 @@ export const INTEGRATION_SOURCE_NAMES = {
 
 export type StatusFlag = typeof STATUS.FLAGS[keyof typeof STATUS.FLAGS];
 export type ReasonType = typeof STATUS.REASON_TYPES[keyof typeof STATUS.REASON_TYPES];
-export type IntegrationSource = typeof INTEGRATION_SOURCES[keyof typeof INTEGRATION_SOURCES];
 
 // API Configuration
 export const API_CONFIG = {

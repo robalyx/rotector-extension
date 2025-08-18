@@ -178,12 +178,6 @@
 @utility friend-warning-risk-assessment {
   @apply modal-content-section;
   border: 1px solid var(--color-border);
-
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #f44336, #f44336aa);
-  }
 }
 
 @utility friend-warning-risk-title {
@@ -211,12 +205,6 @@
   @apply modal-content-section;
   background: rgba(244, 67, 54, 0.1);
   border: 1px solid rgba(244, 67, 54, 0.3);
-
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #f44336, #f44336aa);
-  }
 }
 
 @utility friend-warning-high-risk-text {

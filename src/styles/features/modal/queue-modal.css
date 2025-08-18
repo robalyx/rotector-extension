@@ -94,8 +94,8 @@
 }
 
 @utility queue-option-card {
-  @apply p-4 rounded-[10px] cursor-pointer transition-all duration-200 bg-black/15 border-l-4 relative overflow-hidden;
-  border-left-color: transparent;
+  @apply p-4 rounded-[10px] cursor-pointer transition-all duration-200 bg-black/15 border-4 relative overflow-hidden;
+  border-color: transparent;
 }
 
 @utility queue-option-card-outfit {

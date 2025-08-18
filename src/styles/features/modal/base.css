@@ -101,22 +101,10 @@
 
 @utility modal-content-section-info {
   @apply modal-content-section;
-
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #4287f5, #4287f5aa);
-  }
 }
 
 @utility modal-content-section-warning {
   @apply modal-content-section;
-
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #ff9800, #ff9800aa);
-  }
 
   & p {
     @apply text-sm;
@@ -125,12 +113,6 @@
 
 @utility modal-content-section-recommendation {
   @apply modal-content-section;
-
-  &::before {
-    content: '';
-    @apply absolute top-0 bottom-0 left-0 w-1 rounded-sm;
-    background: linear-gradient(to bottom, #4caf50, #4caf50aa);
-  }
 }
 
 /* =================================

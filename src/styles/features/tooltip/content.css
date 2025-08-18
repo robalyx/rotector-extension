@@ -194,13 +194,13 @@
   @apply text-2xs px-2 py-1 rounded;
   background-color: var(--color-evidence-bg);
   color: var(--color-evidence-text);
-  border-left: 2px solid var(--color-evidence-border);
+  border: 1px solid var(--color-evidence-border);
 }
 
 @utility outfit-evidence-item {
   @apply evidence-item;
   background-color: var(--color-outfit-evidence-bg);
-  border-left-color: var(--color-status-outfit);
+  border-color: var(--color-status-outfit);
 }
 
 @utility outfit-evidence-header {

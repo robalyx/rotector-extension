@@ -107,7 +107,6 @@
         }
     });
 
-
     // Handle proceed with friend request
     function handleProceed() {
         logger.userAction('friend_warning_proceed', {
@@ -196,6 +195,7 @@
 
 <Modal
     actionsLayout="horizontal"
+    bind:isOpen
     blockText="Block User"
     cancelText="Cancel Request"
     confirmText="Proceed Anyway"
@@ -207,7 +207,6 @@
     onConfirm={handleProceed}
     showBlock={true}
     title="Warning: Unsafe User"
-    bind:isOpen
 >
   <div>
     <!-- User information -->

@@ -205,8 +205,8 @@
     onCancel={handleCancel}
     onConfirm={handleProceed}
     showBlock={true}
-    bind:isOpen
     title="Warning: Unsafe User"
+    bind:isOpen
 >
   <div>
     <!-- User information -->

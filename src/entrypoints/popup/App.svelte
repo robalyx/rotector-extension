@@ -20,7 +20,7 @@
     const logoSrc = $derived($theme === 'dark' ? '/assets/rotector-logo-dark.png' : '/assets/rotector-logo-light.png');
 </script>
 
-<div class="flex flex-col gap-3 p-3 w-[350px] min-h-[400px] scrollbar-styled">
+<div class="app flex flex-col gap-3 p-3 w-[350px] min-h-[400px] scrollbar-styled">
   <!-- Header Section -->
   <div class="text-center pb-2">
     <div class="flex justify-center mb-2">

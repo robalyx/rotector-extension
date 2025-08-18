@@ -1,12 +1,8 @@
-/* =================================
-   RESET AND NORMALIZATION
-   ================================= */
-* {
-  @apply box-border;
-}
-
 body {
-  @apply m-0 p-0 font-system transition-colors duration-200;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-system), sans-serif;
+  transition: color 0.2s, background-color 0.2s;
   color: var(--color-text);
   background-color: var(--color-bg);
   font-synthesis: none;
@@ -23,6 +19,12 @@ body {
   }
 }
 
-#app {
-  @apply contents;
-} 
+[data-theme="dark"] body {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+[data-theme="light"] body {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}

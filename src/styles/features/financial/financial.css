@@ -2,6 +2,19 @@
    FINANCIAL SECTION
    ================================= */
 
+@utility financial-section {
+  @apply rounded-lg p-3 border transition-all duration-300;
+  border-color: var(--color-border-subtle);
+  background-color: var(--color-bg);
+}
+
+@utility financial-section-title {
+  @apply text-center font-semibold uppercase tracking-wide pb-1.5 mb-2 border-b text-xs-plus;
+  color: var(--color-text-heading);
+  border-color: var(--color-border-subtle);
+  margin-top: 0;
+}
+
 @utility financial-compact {
   @apply space-y-2;
 }

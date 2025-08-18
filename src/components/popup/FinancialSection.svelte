@@ -25,8 +25,8 @@
     }
 </script>
 
-<div class="stat-category col-span-full">
-  <h3 class="stat-category-title">Funding Goal</h3>
+<div class="financial-section">
+  <h3 class="financial-section-title">Funding Goal</h3>
 
   <div class="financial-compact">
     <!-- Progress section -->

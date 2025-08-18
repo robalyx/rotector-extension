@@ -195,7 +195,6 @@
 
 <Modal
     actionsLayout="horizontal"
-    bind:isOpen
     blockText="Block User"
     cancelText="Cancel Request"
     confirmText="Proceed Anyway"
@@ -206,6 +205,7 @@
     onCancel={handleCancel}
     onConfirm={handleProceed}
     showBlock={true}
+    bind:isOpen
     title="Warning: Unsafe User"
 >
   <div>

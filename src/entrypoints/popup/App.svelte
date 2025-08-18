@@ -4,6 +4,7 @@
     import ChangelogBanner from '../../components/popup/ChangelogBanner.svelte';
     import AdvancedViolationBanner from '../../components/popup/AdvancedViolationBanner.svelte';
     import ChangelogSection from '../../components/popup/ChangelogSection.svelte';
+    import FinancialSection from '../../components/popup/FinancialSection.svelte';
     import FooterSection from '../../components/popup/FooterSection.svelte';
     import {initializeSettings} from '@/lib/stores/settings';
     import {themeManager} from '@/lib/utils/theme';
@@ -49,6 +50,9 @@
 
   <!-- Changelog Section -->
   <ChangelogSection/>
+
+  <!-- Financial Section -->
+  <FinancialSection/>
 
   <!-- Footer Section -->
   <FooterSection/>

@@ -1,6 +1,5 @@
 <script lang="ts">
     import LoadingSpinner from '../ui/LoadingSpinner.svelte';
-    import FinancialSection from './FinancialSection.svelte';
     import {
         formatNumber,
         lastUpdatedFormatted,
@@ -216,8 +215,6 @@
         </div>
       </div>
 
-      <!-- Support -->
-      <FinancialSection/>
     </div>
 
     <div class="statistics-last-updated">

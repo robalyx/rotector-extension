@@ -132,7 +132,7 @@ export class PageControllerManager {
             // URL pattern to page type mapping
             const pagePatterns = [
                 {pattern: /^\/(?:home)?$/, type: PAGE_TYPES.HOME},
-                {pattern: /\/users\/.*\/friends/, type: PAGE_TYPES.FRIENDS_LIST},
+                {pattern: /\/users\/(?:\d+\/)?(?:friends|followers|following)/, type: PAGE_TYPES.FRIENDS_LIST},
                 {pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE},
                 {pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT}
             ];

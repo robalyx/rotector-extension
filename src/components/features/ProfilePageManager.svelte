@@ -73,8 +73,11 @@
         try {
             await setupStatusIndicator();
             await setupFriendWarning();
-            await setupCarousel();
-            await setupGroupsShowcase();
+            
+            await Promise.all([
+                setupCarousel(),
+                setupGroupsShowcase()
+            ]);
 
             logger.debug('ProfilePageManager initialized successfully');
         } catch (error) {

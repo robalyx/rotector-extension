@@ -1,8 +1,8 @@
 import {PageController} from './PageController';
 import {COMPONENT_CLASSES} from '../types/constants';
 import {SETTINGS_KEYS} from '../types/settings';
-import {userStatusService} from '../services/user-status-service';
-import {sanitizeUserId} from '../utils/sanitizer';
+import {userStatusService} from '../services/entity-status-service';
+import {sanitizeEntityId} from '../utils/sanitizer';
 import ReportPageManager from '../../components/features/ReportPageManager.svelte';
 import type {UserStatus} from '../types/api';
 import {logger} from '../utils/logger';
@@ -89,7 +89,7 @@ export class ReportPageController extends PageController {
             for (const {source, getValue} of sources) {
                 const value = getValue();
                 if (value) {
-                    const sanitized = sanitizeUserId(value);
+                    const sanitized = sanitizeEntityId(value);
                     if (sanitized) {
                         logger.debug(`User ID extracted from ${source}`, {userId: sanitized});
                         return sanitized.toString();

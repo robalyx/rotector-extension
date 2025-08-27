@@ -181,7 +181,8 @@
 }
 
 @utility queue-lock-button {
-  @apply px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed;
+  @apply px-6 py-3 bg-blue-600 font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed;
+  color: white !important;
 }
 
 @utility queue-lock-button-locked {

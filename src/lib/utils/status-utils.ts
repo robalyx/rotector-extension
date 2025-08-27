@@ -18,12 +18,12 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 
     // Detect reportable status - user has description violations
     const isReportable = !!(
-        status.reasons[STATUS.REASON_TYPES.USER_PROFILE.toString()]
+        status.reasons[STATUS.USER_REASON_TYPES.USER_PROFILE.toString()]
     );
 
     // Detect outfit-only status - user is flagged only for outfit with no other violations
     const reasonTypes = Object.keys(status.reasons);
-    const hasOutfitReason = reasonTypes.includes(STATUS.REASON_TYPES.AVATAR_OUTFIT.toString());
+    const hasOutfitReason = reasonTypes.includes(STATUS.USER_REASON_TYPES.AVATAR_OUTFIT.toString());
     const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;
 
     return {

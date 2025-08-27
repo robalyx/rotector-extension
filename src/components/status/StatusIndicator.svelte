@@ -1,28 +1,32 @@
 <script lang="ts">
-    import type {UserStatus} from '@/lib/types/api';
-    import {STATUS} from '@/lib/types/constants';
+    import type {UserStatus, GroupStatus} from '@/lib/types/api';
+    import {STATUS, ENTITY_TYPES} from '@/lib/types/constants';
     import {logger} from '@/lib/utils/logger';
-    import {sanitizeUserId} from '@/lib/utils/sanitizer';
+    import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import {getStatusConfig} from '@/lib/utils/status-config';
-    import {userStatusService} from '@/lib/services/user-status-service';
+    import {userStatusService, groupStatusService} from '@/lib/services/entity-status-service';
 
     import Tooltip from './Tooltip.svelte';
     import Portal from 'svelte-portal';
 
+    type EntityStatus = UserStatus | GroupStatus;
+
     interface Props {
-        userId: string | number;
-        status?: UserStatus | null;
+        entityId: string;
+        entityType: 'user' | 'group';
+        status?: EntityStatus | null;
         loading?: boolean;
         error?: string | null;
         showTooltips?: boolean;
         showText?: boolean;
         skipAutoFetch?: boolean;
-        onClick?: (userId: string) => void;
-        onQueue?: (userId: string) => void;
+        onClick?: (entityId: string) => void;
+        onQueue?: (entityId: string) => void;
     }
 
     let {
-        userId,
+        entityId,
+        entityType,
         status = null,
         loading = false,
         error = null,
@@ -40,20 +44,27 @@
     let isTooltipHovered = $state(false);
     let showBadgeExpansion = $state(false);
 
-    let cachedStatus = $state<UserStatus | null>(null);
+    let cachedStatus = $state<EntityStatus | null>(null);
     let hoverTimeout = $state<ReturnType<typeof setTimeout> | null>(null);
 
+    // Get the appropriate service based on entity type
+    const statusService = $derived(() => {
+        return entityType === ENTITY_TYPES.USER ? userStatusService : groupStatusService;
+    });
+
     // Computed values
-    const sanitizedUserId = $derived(() => {
-        const id = sanitizeUserId(userId);
-        return id ? id.toString() : '';
+    const sanitizedEntityId = $derived(() => {
+        return sanitizeEntityId(entityId) || '';
     });
 
     const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error));
 
     const integrationCount = $derived(() => {
+        if (entityType !== ENTITY_TYPES.USER) return 0;
+        
         const activeStatus = status || cachedStatus;
-        return activeStatus?.integrationSources ? Object.keys(activeStatus.integrationSources).length : 0;
+        const userStatus = activeStatus as UserStatus;
+        return userStatus?.integrationSources ? Object.keys(userStatus.integrationSources).length : 0;
     });
 
     const shouldShowIntegrationBadge = $derived(() => {
@@ -61,13 +72,15 @@
         return integrationCount() > 0 && activeStatus?.flagType !== STATUS.FLAGS.INTEGRATION;
     });
 
+    const isGroup = $derived(() => entityType === 'group');
+
     // Compute visible badges in priority order
     const visibleBadges = $derived(() => {
         const badges: string[] = [];
-        if (statusConfig().isReportable) badges.push('reportable');
+        if (!isGroup() && statusConfig().isReportable) badges.push('reportable');
         if (statusConfig().isQueued) badges.push('queue');
         if (shouldShowIntegrationBadge()) badges.push('integration');
-        if (statusConfig().isOutfitOnly) badges.push('outfit');
+        if (!isGroup() && statusConfig().isOutfitOnly) badges.push('outfit');
         return badges;
     });
 
@@ -87,10 +100,10 @@
 
         if (loading || !status) return;
 
-        logger.userAction('status_indicator_clicked', {userId: sanitizedUserId()});
+        logger.userAction('status_indicator_clicked', {entityId: sanitizedEntityId(), entityType});
 
         if (onClick) {
-            onClick(sanitizedUserId());
+            onClick(sanitizedEntityId());
         }
 
         if (showTooltips) {
@@ -159,7 +172,7 @@
     // Handle queue action
     function handleQueue() {
         if (onQueue) {
-            onQueue(sanitizedUserId());
+            onQueue(sanitizedEntityId());
         }
     }
 
@@ -177,30 +190,33 @@
 
     // Fetch and cache user status
     $effect(() => {
-        const id = sanitizedUserId();
+        const id = sanitizedEntityId();
         if (!id) return;
 
         // If no status provided and not loading, check cache or fetch
         if (!status && !loading && !error && !skipAutoFetch) {
-            const cached = userStatusService.getCachedStatus(id);
+            const service = statusService();
+            const cached = service.getCachedStatus(id);
             if (cached) {
                 cachedStatus = cached;
                 logger.debug('StatusIndicator: using cached status', {
-                    userId: id,
+                    entityId: id,
+                    entityType,
                     flagType: cached.flagType
                 });
             } else {
                 // Fetch status asynchronously
-                userStatusService.getStatus(id).then(result => {
+                service.getStatus(id).then(result => {
                     if (result) {
                         cachedStatus = result;
                         logger.debug('StatusIndicator: fetched new status', {
-                            userId: id,
+                            entityId: id,
+                            entityType,
                             flagType: result.flagType
                         });
                     }
                 }).catch(err => {
-                    logger.error('StatusIndicator: failed to fetch status', {userId: id, error: err});
+                    logger.error('StatusIndicator: failed to fetch status', {entityId: id, entityType, error: err});
                 });
             }
         }
@@ -240,7 +256,7 @@
     class="status-container" class:badge-expanded={showBadgeExpansion}
     aria-label={showTooltips ? `Status: ${statusConfig().textContent}. Click for details.` : statusConfig().textContent}
     data-status-flag={status?.flagType}
-    data-user-id={sanitizedUserId()}
+    data-user-id={sanitizedEntityId()}
     onclick={handleClick}
     onkeydown={handleKeydown}
     onmouseenter={handleMouseEnter}
@@ -251,7 +267,7 @@
   <span class="{statusConfig().iconClass}">
     <!-- Badge Container -->
     <span class="badge-container">
-      {#if statusConfig().isReportable}
+      {#if !isGroup() && statusConfig().isReportable}
         <span class="reportable-badge {badgeStackClasses().reportable}"></span>
       {/if}
 
@@ -263,7 +279,7 @@
         <span class="integration-badge {badgeStackClasses().integration}">{integrationCount()}</span>
       {/if}
 
-      {#if statusConfig().isOutfitOnly}
+      {#if !isGroup() && statusConfig().isOutfitOnly}
         <span class="outfit-badge {badgeStackClasses().outfit}"></span>
       {/if}
     </span>
@@ -282,6 +298,7 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
+        {entityType}
         {error}
         mode="preview"
         onClose={() => showPreviewTooltip = false}
@@ -290,7 +307,7 @@
         onMouseLeave={handleTooltipMouseLeave}
         onQueue={handleQueue}
         status={status || cachedStatus}
-        {userId}
+        userId={entityId}
     />
   </Portal>
 {/if}
@@ -300,12 +317,13 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
+        {entityType}
         {error}
         mode="expanded"
         onClose={closeExpandedTooltip}
         onQueue={handleExpandedQueue}
         status={status || cachedStatus}
-        {userId}
+        userId={entityId}
     />
   </Portal>
 {/if} 

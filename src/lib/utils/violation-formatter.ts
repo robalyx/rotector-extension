@@ -1,4 +1,4 @@
-import {INTEGRATION_SOURCE_NAMES, STATUS} from '../types/constants';
+import {ENTITY_TYPES, INTEGRATION_SOURCE_NAMES, STATUS} from '../types/constants';
 import type {ReasonData} from '../types/api';
 
 export interface FormattedReasonEntry {
@@ -60,7 +60,8 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 // Formats the reasons from the API response into a structured format for display
 export function formatViolationReasons(
     reasons: Record<string, ReasonData>,
-    integrationSources?: Record<string, string>
+    integrationSources?: Record<string, string>,
+    entityType?: string
 ): FormattedReasonEntry[] {
     if (!reasons || Object.keys(reasons).length === 0) {
         return [];
@@ -83,14 +84,19 @@ export function formatViolationReasons(
                 typeName = `${reasonType.charAt(0).toUpperCase() + reasonType.slice(1)} Analysis`;
             }
         } else {
-            const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.REASON_TYPE_NAMES;
-            typeName = STATUS.REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+            if (entityType === ENTITY_TYPES.GROUP) {
+                const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.GROUP_REASON_TYPE_NAMES;
+                typeName = STATUS.GROUP_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+            } else {
+                const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.USER_REASON_TYPE_NAMES;
+                typeName = STATUS.USER_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+            }
         }
 
         const confidence = Math.round(reason.confidence * 100);
 
         const isIntegrationReason = integrationSources && reasonType in integrationSources;
-        const isOutfitReason = !isIntegrationReason && parseInt(reasonType) === STATUS.REASON_TYPES.AVATAR_OUTFIT;
+        const isOutfitReason = !isIntegrationReason && parseInt(reasonType) === STATUS.USER_REASON_TYPES.AVATAR_OUTFIT;
 
         const formattedEntry: FormattedReasonEntry = {
             typeName,

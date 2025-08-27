@@ -7,7 +7,7 @@ export const STATUS = {
         QUEUED: 3,
         INTEGRATION: 4,
     },
-    REASON_TYPES: {
+    USER_REASON_TYPES: {
         USER_PROFILE: 0,
         FRIEND_NETWORK: 1,
         AVATAR_OUTFIT: 2,
@@ -17,7 +17,13 @@ export const STATUS = {
         GAME_FAVORITES: 6,
         EARNED_BADGES: 7,
     },
-    REASON_TYPE_NAMES: {
+    GROUP_REASON_TYPES: {
+        MEMBER: 0,
+        PURPOSE: 1,
+        DESCRIPTION: 2,
+        SHOUT: 3,
+    },
+    USER_REASON_TYPE_NAMES: {
         0: "User Profile",
         1: "Friend Network",
         2: "Avatar Outfit",
@@ -26,6 +32,12 @@ export const STATUS = {
         5: "Chat Messages",
         6: "Game Favorites",
         7: "Earned Badges",
+    },
+    GROUP_REASON_TYPE_NAMES: {
+        0: "Member Analysis",
+        1: "Group Purpose",
+        2: "Group Description",
+        3: "Group Shout",
     },
 } as const;
 
@@ -39,7 +51,16 @@ export const INTEGRATION_SOURCE_NAMES = {
 } as const;
 
 export type StatusFlag = typeof STATUS.FLAGS[keyof typeof STATUS.FLAGS];
-export type ReasonType = typeof STATUS.REASON_TYPES[keyof typeof STATUS.REASON_TYPES];
+export type UserReasonType = typeof STATUS.USER_REASON_TYPES[keyof typeof STATUS.USER_REASON_TYPES];
+export type GroupReasonType = typeof STATUS.GROUP_REASON_TYPES[keyof typeof STATUS.GROUP_REASON_TYPES];
+
+// Entity types for status indicators
+export const ENTITY_TYPES = {
+    USER: 'user',
+    GROUP: 'group',
+} as const;
+
+export type EntityType = typeof ENTITY_TYPES[keyof typeof ENTITY_TYPES];
 
 // API Configuration
 export const API_CONFIG = {
@@ -47,6 +68,7 @@ export const API_CONFIG = {
     ENDPOINTS: {
         USER_CHECK: '/v1/lookup/roblox/user',
         MULTIPLE_USER_CHECK: '/v1/lookup/roblox/user',
+        GROUP_CHECK: '/v1/lookup/roblox/group',
         QUEUE_USER: '/v1/queue/roblox/user',
         SUBMIT_VOTE: '/v1/votes/roblox/user',
         GET_VOTES: '/v1/votes/roblox/user',
@@ -63,6 +85,7 @@ export const API_CONFIG = {
 export const API_ACTIONS = {
     CHECK_USER_STATUS: 'checkUserStatus',
     CHECK_MULTIPLE_USERS: 'checkMultipleUsers',
+    CHECK_GROUP_STATUS: 'checkGroupStatus',
     QUEUE_USER: 'queueUser',
     SUBMIT_VOTE: 'submitVote',
     GET_VOTES: 'getVotes',
@@ -190,26 +213,14 @@ export const GROUPS_SELECTORS = {
     NO_RESULTS: '.section-content-off',
 } as const;
 
-// Message constants
-export const MESSAGES = {
-    ERROR: {
-        GENERIC: 'An error occurred. Please try again.',
-        INVALID_USER_ID: 'Invalid user ID provided.',
-        NETWORK_ERROR: 'Network error. Please check your connection.',
-        API_ERROR: 'API error. Please try again later.',
-        TIMEOUT: 'Request timed out. Please try again.',
-    },
-    SUCCESS: {
-        USER_QUEUED: 'User successfully queued for review.',
-        VOTE_SUBMITTED: 'Vote submitted successfully.',
-    },
-    STATUS: {
-        SAFE: "No inappropriate behavior has been detected yet.",
-        UNSAFE: "This user has been verified as inappropriate by Rotector's human moderators.",
-        PENDING: "This user has been flagged by AI with confidence level.",
-        QUEUED: "This user was flagged after being added to the queue but has not yet been officially confirmed by our system.",
-        INTEGRATION: "This user has been flagged by a third-party content analysis system.",
-    },
+// DOM selectors for group header
+export const GROUP_HEADER_SELECTORS = {
+    HEADER_INFO: '.group-profile-header-info',
+    ACTIONS_CONTAINER: '.actions-container',
+    NAMES_CONTAINER: '.profile-header-details-names-container',
+    GROUP_NAME: '.profile-header-details-community-name',
+    OWNER_NAME: '.profile-header-details-owner-name',
+    GROUP_IMAGE: '.profile-header-details-avatar-container img',
 } as const;
 
 // Vote types

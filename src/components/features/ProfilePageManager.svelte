@@ -6,6 +6,7 @@
     import {waitForElement} from '@/lib/utils/element-waiter';
     import {
         COMPONENT_CLASSES,
+        ENTITY_TYPES,
         FRIENDS_CAROUSEL_SELECTORS,
         PAGE_TYPES,
         PROFILE_SELECTORS,
@@ -135,13 +136,13 @@
             statusIndicatorComponent = mount(StatusIndicator, {
                 target: statusContainer,
                 props: {
-                    userId,
+                    entityId: userId,
+                    entityType: ENTITY_TYPES.USER,
                     status: userStatus,
                     loading: !userStatus,
                     showTooltips,
                     onClick: handleStatusClick,
-                    onQueue: handleQueueUser,
-                    onVote: handleVote
+                    onQueue: handleQueueUser
                 }
             });
             logger.debug('StatusIndicator component mounted');
@@ -224,11 +225,6 @@
     function handleQueueUser(clickedUserId: string) {
         logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, {userId: clickedUserId});
         queueModalManager?.showQueue(clickedUserId);
-    }
-
-    // Handle vote submission
-    function handleVote(clickedUserId: string, voteType: number) {
-        logger.userAction(USER_ACTIONS.VOTE_SUBMITTED, {userId: clickedUserId, voteType});
     }
 
     // Handle friend request proceed

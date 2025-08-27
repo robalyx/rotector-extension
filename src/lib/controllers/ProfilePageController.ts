@@ -1,8 +1,8 @@
 import {get} from 'svelte/store';
 import {PageController} from './PageController';
 import {SETTINGS_KEYS} from '../types/settings';
-import {userStatusService} from '../services/user-status-service';
-import {sanitizeUserId} from '../utils/sanitizer';
+import {userStatusService} from '../services/entity-status-service';
+import {sanitizeEntityId} from '../utils/sanitizer';
 import {waitForElement} from '../utils/element-waiter';
 import {settings} from '../stores/settings';
 import ProfilePageManager from '../../components/features/ProfilePageManager.svelte';
@@ -80,7 +80,7 @@ export class ProfilePageController extends PageController {
         try {
             const match = this.url.match(/\/users\/(\d+)/);
             if (match && match[1]) {
-                return sanitizeUserId(match[1])?.toString() || null;
+                return sanitizeEntityId(match[1]) || null;
             }
             return null;
         } catch (error) {

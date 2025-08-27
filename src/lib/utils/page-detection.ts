@@ -1,9 +1,15 @@
-import {FRIENDS_CAROUSEL_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS, PROFILE_SELECTORS} from '../types/constants';
+import {FRIENDS_CAROUSEL_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS, PROFILE_SELECTORS, GROUP_HEADER_SELECTORS} from '../types/constants';
 
 export interface UserInfo {
     userId: string;
     username: string;
     avatarUrl?: string;
+}
+
+export interface GroupInfo {
+    groupId: string;
+    groupName: string;
+    groupImageUrl?: string;
 }
 
 interface PageDetectionResult {
@@ -79,3 +85,30 @@ export function extractUserInfo(userId: string, pageType: string, container: Ele
 
     return {userId, username, avatarUrl};
 }
+
+// Extract group information from the page DOM
+export function extractGroupInfo(groupId: string): GroupInfo {
+    let groupName = 'Unknown Group';
+    let groupImageUrl: string | undefined;
+
+    // Try to extract group name from the header
+    const groupNameEl = document.querySelector(GROUP_HEADER_SELECTORS.GROUP_NAME);
+    if (groupNameEl) {
+        const text = groupNameEl.textContent?.trim();
+        if (text) {
+            groupName = text;
+        }
+    }
+
+    // Try to extract group image from the header
+    const headerInfo = document.querySelector(GROUP_HEADER_SELECTORS.HEADER_INFO);
+    if (headerInfo) {
+        const avatarImg = headerInfo.querySelector(GROUP_HEADER_SELECTORS.GROUP_IMAGE);
+        if (avatarImg instanceof HTMLImageElement && avatarImg.src) {
+            groupImageUrl = avatarImg.src;
+        }
+    }
+
+    return {groupId, groupName, groupImageUrl};
+}
+

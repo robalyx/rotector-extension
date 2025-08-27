@@ -1,6 +1,6 @@
-import {STATUS} from '../types/constants';
+import {STATUS, ENTITY_TYPES, type EntityType} from '../types/constants';
 import {calculateStatusBadges} from './status-utils';
-import type {UserStatus} from '../types/api';
+import type {UserStatus, GroupStatus} from '../types/api';
 
 interface StatusConfig {
     iconClass: string;
@@ -14,10 +14,11 @@ interface StatusConfig {
 
 // Get status configuration for display
 export function getStatusConfig(
-    status: UserStatus | null,
-    cachedStatus: UserStatus | null,
+    status: UserStatus | GroupStatus | null,
+    cachedStatus: UserStatus | GroupStatus | null,
     loading: boolean,
-    error: string | null
+    error: string | null,
+    entityType: EntityType = ENTITY_TYPES.USER
 ): StatusConfig {
     if (error) {
         return {
@@ -48,6 +49,19 @@ export function getStatusConfig(
     const confidence = Math.round(activeStatus.confidence * 100);
     const {isReportable, isOutfitOnly} = calculateStatusBadges(activeStatus);
     const isQueued = !!activeStatus.isQueued;
+    
+    // Handle mixed status for groups (flag type 0)
+    if (entityType === ENTITY_TYPES.GROUP && activeStatus.flagType === STATUS.FLAGS.SAFE) {
+        return {
+            confidence,
+            isReportable,
+            isQueued,
+            isOutfitOnly: false, // Groups don't have outfit-only status
+            iconClass: 'status-icon-unsafe',
+            textContent: 'Mixed',
+            textClass: 'status-text-unsafe'
+        };
+    }
 
     const baseConfig = {
         confidence,

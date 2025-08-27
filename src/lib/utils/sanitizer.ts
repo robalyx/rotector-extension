@@ -5,17 +5,17 @@
 class Sanitizer {
     private static readonly ALLOWED_PROTOCOLS = ['http:', 'https:', 'mailto:'];
 
-    // Sanitizes user ID input
-    static sanitizeUserId(userId: string | number): number | null {
+    // Sanitizes entity ID input (users, groups)
+    static sanitizeEntityId(entityId: string | number): string | null {
         try {
-            const parsed = typeof userId === 'string' ? parseInt(userId, 10) : userId;
+            const parsed = typeof entityId === 'string' ? parseInt(entityId, 10) : entityId;
 
-            // Validate range (Roblox user IDs are positive integers)
+            // Validate range (Roblox IDs are positive integers)
             if (isNaN(parsed) || parsed <= 0 || parsed > Number.MAX_SAFE_INTEGER) {
                 return null;
             }
 
-            return parsed;
+            return parsed.toString();
         } catch {
             return null;
         }
@@ -69,6 +69,6 @@ class Sanitizer {
     }
 }
 
-export const sanitizeUserId = (userId: string | number) => Sanitizer.sanitizeUserId(userId);
+export const sanitizeEntityId = (entityId: string | number) => Sanitizer.sanitizeEntityId(entityId);
 export const sanitizeUrl = (url: string) => Sanitizer.sanitizeUrl(url);
 export const extractErrorMessage = (error: unknown) => Sanitizer.extractErrorMessage(error); 

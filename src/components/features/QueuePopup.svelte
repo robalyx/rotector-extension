@@ -1,6 +1,6 @@
 <script lang="ts">
     import {logger} from '@/lib/utils/logger';
-    import {sanitizeUserId} from '@/lib/utils/sanitizer';
+    import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import Modal from '../ui/Modal.svelte';
 
     interface Props {
@@ -37,7 +37,7 @@
 
     // Computed values
     const sanitizedUserId = $derived(() => {
-        const id = sanitizeUserId(userId);
+        const id = sanitizeEntityId(userId);
         return id ? id.toString() : '';
     });
 

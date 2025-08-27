@@ -1,4 +1,4 @@
-import type {ReasonType, StatusFlag, VoteType} from './constants';
+import type {UserReasonType, GroupReasonType, StatusFlag, VoteType} from './constants';
 
 // Reviewer information interface
 export interface ReviewerInfo {
@@ -22,9 +22,19 @@ export interface UserStatus {
     reviewer?: ReviewerInfo;
 }
 
-// Reason data structure
+// Group status interface
+export interface GroupStatus {
+    id: string;
+    flagType: StatusFlag;
+    confidence: number;
+    reasons: Record<string, ReasonData>;
+    isQueued?: boolean;
+    timestamp?: number;
+}
+
+// Reason data structure  
 export interface ReasonData {
-    type: ReasonType;
+    type: UserReasonType | GroupReasonType;
     confidence: number;
     message?: string;
     evidence?: string[] | null;
@@ -117,6 +127,7 @@ export interface ContentMessage {
     action: string;
     userId?: string | number;
     userIds?: (string | number)[];
+    groupId?: string | number;
     voteType?: VoteType;
     inappropriateOutfit?: boolean;
     inappropriateProfile?: boolean;

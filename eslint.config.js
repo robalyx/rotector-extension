@@ -14,7 +14,6 @@ export default ts.config(
       '**/dist/**',
       '**/build/**',
       '**/.svelte-kit/**',
-      '**/legacy_extension/**',
       '**/public/**',
       '**/*.min.js'
     ]

@@ -1,13 +1,19 @@
 <script lang="ts">
-    import {INTEGRATION_SOURCE_NAMES, MESSAGES, STATUS} from '@/lib/types/constants';
+    import {INTEGRATION_SOURCE_NAMES, STATUS} from '@/lib/types/constants';
     import type {ReviewerInfo, UserStatus, VoteData} from '@/lib/types/api';
     import {logger} from '@/lib/utils/logger';
-    import {extractErrorMessage, sanitizeUserId} from '@/lib/utils/sanitizer';
+    import {extractErrorMessage, sanitizeEntityId} from '@/lib/utils/sanitizer';
     import {calculateStatusBadges} from '@/lib/utils/status-utils';
     import {apiClient} from '@/lib/services/api-client';
     import {voteDataService} from '@/lib/services/vote-data-service';
     import {type FormattedReasonEntry, formatViolationReasons} from '@/lib/utils/violation-formatter';
-    import {detectPageContext, extractUserInfo, type UserInfo} from '@/lib/utils/page-detection';
+    import {
+        detectPageContext,
+        extractGroupInfo,
+        extractUserInfo,
+        type GroupInfo,
+        type UserInfo
+    } from '@/lib/utils/page-detection';
     import {
         applyTooltipPosition,
         calculateTooltipPosition,
@@ -23,6 +29,7 @@
         error?: string | null;
         anchorElement: HTMLElement;
         mode?: 'preview' | 'expanded';
+        entityType?: 'user' | 'group';
         onQueue?: () => void;
         onClose?: () => void;
         onExpand?: () => void;
@@ -38,6 +45,7 @@
         error = null,
         anchorElement,
         mode = 'preview',
+        entityType = 'user',
         onQueue,
         onClose,
         onExpand,
@@ -53,15 +61,18 @@
     let loadingVotes = $state(false);
     let voteError = $state<string | null>(null);
     let userInfo: UserInfo | null = $state(null);
+    let groupInfo: GroupInfo | null = $state(null);
 
     // Computed values
     const sanitizedUserId = $derived(() => {
-        const id = sanitizeUserId(userId);
+        const id = sanitizeEntityId(userId);
         return id ? id.toString() : '';
     });
 
+    const isGroup = $derived(() => entityType === 'group');
+
     const shouldShowVoting = $derived(() =>
-        status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING || status.flagType === STATUS.FLAGS.INTEGRATION)
+        !isGroup() && status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING || status.flagType === STATUS.FLAGS.INTEGRATION)
     );
 
     const isSafeUserWithQueueOnly = $derived(() =>
@@ -74,20 +85,20 @@
     function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
         switch (flag) {
             case STATUS.FLAGS.UNSAFE:
-                return MESSAGES.STATUS.UNSAFE;
+                return "This user has been verified as inappropriate by Rotector's human moderators.";
             case STATUS.FLAGS.PENDING: {
                 const confidencePercent = Math.round(confidence * 100);
-                return MESSAGES.STATUS.PENDING.replace(
+                return "This user has been flagged by AI with confidence level.".replace(
                     "confidence level",
                     `${confidencePercent}% confidence`
                 );
             }
             case STATUS.FLAGS.QUEUED:
-                return MESSAGES.STATUS.QUEUED;
+                return "This user was flagged after being added to the queue but has not yet been officially confirmed by our system.";
             case STATUS.FLAGS.INTEGRATION:
-                return MESSAGES.STATUS.INTEGRATION;
+                return "This user has been flagged by a third-party content analysis system.";
             case STATUS.FLAGS.SAFE:
-                return MESSAGES.STATUS.SAFE;
+                return "No inappropriate behavior has been detected yet.";
             default:
                 return "Status information unavailable.";
         }
@@ -150,7 +161,7 @@
 
     const reasonEntries = $derived((): FormattedReasonEntry[] => {
         if (!status?.reasons || status.flagType === STATUS.FLAGS.SAFE) return [];
-        return formatViolationReasons(status.reasons, status.integrationSources);
+        return formatViolationReasons(status.reasons, status.integrationSources, entityType);
     });
 
     const reviewerInfo = $derived((): ReviewerInfo | null => {
@@ -186,6 +197,16 @@
 
         const {pageType, container} = detectPageContext(anchorElement);
         return extractUserInfo(userId, pageType, container);
+    }
+
+    // Extract group info from the page DOM
+    function getPageGroupInfo(): GroupInfo | null {
+        if (!anchorElement) return null;
+
+        const groupId = sanitizedUserId();
+        if (!groupId) return null;
+
+        return extractGroupInfo(groupId);
     }
 
     // Positioning for preview tooltips
@@ -318,7 +339,12 @@
     // Setup and cleanup
     $effect(() => {
         element = tooltipRef;
-        userInfo = getPageUserInfo();
+        
+        if (isGroup()) {
+            groupInfo = getPageGroupInfo();
+        } else {
+            userInfo = getPageUserInfo();
+        }
 
         if (isExpanded()) {
             // Expanded tooltip setup
@@ -415,9 +441,9 @@
       {:else}
         <!-- Non-safe users: Show full content -->
         <!-- Status badges -->
-        {#if badgeStatus().isReportable || status.isQueued || badgeStatus().isOutfitOnly || shouldShowIntegrationBadge()}
+        {#if (!isGroup() && (badgeStatus().isReportable || badgeStatus().isOutfitOnly)) || status.isQueued || shouldShowIntegrationBadge()}
           <div class="flex gap-1.5 mb-2 justify-center flex-wrap">
-            {#if badgeStatus().isReportable}
+            {#if !isGroup() && badgeStatus().isReportable}
               <span class="tooltip-badge tooltip-badge-reportable">
                 Reportable
               </span>
@@ -432,7 +458,7 @@
                 {integrationCount() === 1 ? 'Integration' : `Integration (${integrationCount()})`}
               </span>
             {/if}
-            {#if badgeStatus().isOutfitOnly}
+            {#if !isGroup() && badgeStatus().isOutfitOnly}
               <span class="tooltip-badge tooltip-badge-outfit">
                 Outfit Only
               </span>
@@ -450,8 +476,8 @@
           />
         {/if}
 
-        <!-- Reportable notice -->
-        {#if badgeStatus().isReportable}
+        <!-- Reportable notice (only for users) -->
+        {#if !isGroup() && badgeStatus().isReportable}
           <div class="tooltip-divider"></div>
           <div class="reportable-notice">
             <div class="reportable-icon"></div>
@@ -471,8 +497,8 @@
           </div>
         {/if}
 
-        <!-- Outfit notice -->
-        {#if badgeStatus().isOutfitOnly}
+        <!-- Outfit notice (only for users) -->
+        {#if !isGroup() && badgeStatus().isOutfitOnly}
           <div class="tooltip-divider"></div>
           <div class="outfit-notice">
             <div class="outfit-icon"></div>
@@ -486,7 +512,10 @@
 
         <!-- Reasons -->
         {#if reasonEntries().length > 0}
-          <div class="tooltip-divider"></div>
+          <!-- Only show divider if there's content above (voting, badges, or notices) -->
+          {#if shouldShowVoting() || (!isGroup() && (badgeStatus().isReportable || badgeStatus().isOutfitOnly))}
+            <div class="tooltip-divider"></div>
+          {/if}
           <div class="reasons-container">
             {#each reasonEntries() as reason (reason.typeName)}
               <div class="reason-item">
@@ -566,7 +595,26 @@
           {/if}
 
           <!-- Profile Header -->
-          {#if userInfo}
+          {#if isGroup() && groupInfo}
+            <!-- Group Header -->
+            <div class="tooltip-profile-header">
+              <div class="tooltip-avatar">
+                <img
+                    alt=""
+                    src={groupInfo.groupImageUrl}
+                />
+              </div>
+              <div class="tooltip-user-info">
+                <div class="tooltip-username">{groupInfo.groupName}</div>
+                <div class="tooltip-user-id">Group ID: {sanitizedUserId()}</div>
+                <div class="tooltip-status-badge {statusBadgeClass()}">
+                  <span class="status-indicator"></span>
+                  {statusBadgeText()}
+                </div>
+              </div>
+            </div>
+          {:else if !isGroup() && userInfo}
+            <!-- User Header -->
             <div class="tooltip-profile-header">
               <div class="tooltip-avatar">
                 <img
@@ -588,13 +636,13 @@
             <div class="tooltip-header">
               <div>{error ? 'Error Details' : 'Loading...'}</div>
               <div class="tooltip-user-id">
-                User ID: {sanitizedUserId()}
+                {isGroup() ? 'Group' : 'User'} ID: {sanitizedUserId()}
               </div>
             </div>
           {/if}
 
           <!-- Header message -->
-          {#if userInfo && status}
+          {#if (userInfo || groupInfo) && status}
             <div class="tooltip-header">
               <div>{headerMessage()}</div>
             </div>

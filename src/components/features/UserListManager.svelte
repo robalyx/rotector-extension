@@ -5,14 +5,15 @@
     import {observerFactory} from '@/lib/utils/observer';
     import {
         COMPONENT_CLASSES,
+        ENTITY_TYPES,
         FRIENDS_CAROUSEL_SELECTORS,
         FRIENDS_SELECTORS,
         GROUPS_SELECTORS,
         PAGE_TYPES,
         USER_ACTIONS
     } from '@/lib/types/constants';
-    import {userStatusService} from '@/lib/services/user-status-service';
-    import {sanitizeUserId} from '@/lib/utils/sanitizer';
+    import {userStatusService} from '@/lib/services/entity-status-service';
+    import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import {logger} from '@/lib/utils/logger';
     import type {PageType, UserStatus} from '@/lib/types/api';
     import StatusIndicator from '../status/StatusIndicator.svelte';
@@ -333,7 +334,7 @@
             const userIdMatch = href.match(/\/users\/(\d+)/);
             if (!userIdMatch) return null;
 
-            const userId = sanitizeUserId(userIdMatch[1]);
+            const userId = sanitizeEntityId(userIdMatch[1]);
             if (!userId) return null;
 
             return {
@@ -460,7 +461,8 @@
             const component = mount(StatusIndicator, {
                 target: container,
                 props: {
-                    userId: user.userId,
+                    entityId: user.userId,
+                    entityType: ENTITY_TYPES.USER,
                     status: isLoading ? null : status,
                     loading: isLoading,
                     showTooltips,

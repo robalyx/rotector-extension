@@ -1,16 +1,16 @@
 import {SETTINGS_DEFAULTS, SETTINGS_KEYS} from '@/lib/types/settings';
 import type {VoteType} from '@/lib/types/constants';
-import {API_ACTIONS, API_CONFIG, INTEGRATION_SOURCES, MESSAGES, STATUS, VOTE_TYPES} from '@/lib/types/constants';
-import type {ApiResponse, ContentMessage, QueueResult, UserStatus, VoteData, VoteResult} from '@/lib/types/api';
+import {API_ACTIONS, API_CONFIG, INTEGRATION_SOURCES, STATUS, VOTE_TYPES} from '@/lib/types/constants';
+import type {ApiResponse, ContentMessage, GroupStatus, QueueResult, UserStatus, VoteData, VoteResult} from '@/lib/types/api';
 import type {Statistics} from '@/lib/types/statistics';
 import {logger} from '@/lib/utils/logger';
-import {extractErrorMessage, sanitizeUserId} from '@/lib/utils/sanitizer';
+import {extractErrorMessage, sanitizeEntityId} from '@/lib/utils/sanitizer';
 
-// Validates and sanitizes a user ID
-function validateUserId(userId: string | number): number {
-    const sanitized = sanitizeUserId(userId);
+// Validates and sanitizes an entity ID (user or group)
+function validateEntityId(entityId: string | number): string {
+    const sanitized = sanitizeEntityId(entityId);
     if (!sanitized) {
-        throw new Error(MESSAGES.ERROR.INVALID_USER_ID);
+        throw new Error('Invalid entity ID');
     }
     return sanitized;
 }
@@ -23,14 +23,14 @@ function extractResponseData<T>(response: unknown): T {
     return response as T;
 }
 
-// Processes and validates batch user IDs
-function processBatchUserIds(userIds: (string | number)[]): number[] {
-    const sanitized = userIds
-        .map(id => sanitizeUserId(id))
-        .filter((id): id is number => id !== null);
+// Processes and validates batch entity IDs
+function processBatchEntityIds(entityIds: (string | number)[]): string[] {
+    const sanitized = entityIds
+        .map(id => sanitizeEntityId(id))
+        .filter((id): id is string => id !== null);
 
     if (sanitized.length === 0) {
-        throw new Error("No valid user IDs provided for batch check");
+        throw new Error("No valid entity IDs provided for batch check");
     }
     return sanitized;
 }
@@ -83,6 +83,12 @@ export default defineBackground(() => {
                             throw new Error('User ID is required for check user status');
                         }
                         response = await checkUserStatus(request.userId);
+                        break;
+                    case API_ACTIONS.CHECK_GROUP_STATUS:
+                        if (!request.groupId) {
+                            throw new Error('Group ID is required for check group status');
+                        }
+                        response = await checkGroupStatus(request.groupId);
                         break;
                     case API_ACTIONS.CHECK_MULTIPLE_USERS:
                         if (!request.userIds) {
@@ -266,7 +272,7 @@ export default defineBackground(() => {
             error: lastError?.message
         });
 
-        throw lastError || new Error(MESSAGES.ERROR.API_ERROR);
+        throw lastError || new Error('API error. Please try again later.');
     }
 
     // Determine if error should trigger retry
@@ -291,7 +297,7 @@ export default defineBackground(() => {
 
     // Check the status of a single user by ID
     async function checkUserStatus(userId: string | number): Promise<UserStatus> {
-        const sanitizedUserId = validateUserId(userId);
+        const sanitizedUserId = validateEntityId(userId);
         const excludeInfo = await getAdvancedViolationSetting();
         const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
@@ -315,14 +321,31 @@ export default defineBackground(() => {
         return data;
     }
 
+    // Check the status of a single group by ID
+    async function checkGroupStatus(groupId: string | number): Promise<GroupStatus> {
+        const sanitizedGroupId = validateEntityId(groupId);
+
+        const url = `${API_CONFIG.ENDPOINTS.GROUP_CHECK}/${sanitizedGroupId}`;
+        const response = await makeApiRequest(url, {method: 'GET'});
+
+        const data = extractResponseData<GroupStatus>(response);
+        data.id = data.id.toString();
+
+        if (data.flagType === STATUS.FLAGS.SAFE) {
+            data.reasons = {};
+        }
+
+        return data;
+    }
+
     // Check the status of multiple users in a batch request
     async function checkMultipleUsers(userIds: (string | number)[]): Promise<UserStatus[]> {
-        const sanitizedUserIds = processBatchUserIds(userIds);
+        const sanitizedUserIds = processBatchEntityIds(userIds);
         const excludeInfo = await getAdvancedViolationSetting();
         const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
         const requestBody: Record<string, unknown> = {
-            ids: sanitizedUserIds,
+            ids: sanitizedUserIds.map(id => parseInt(id, 10)),
             ...(excludeInfo && {excludeInfo: true})
         };
 
@@ -348,10 +371,10 @@ export default defineBackground(() => {
 
     // Queue a user for review by the moderation system
     async function queueUser(userId: string | number, inappropriateOutfit: boolean = false, inappropriateProfile: boolean = false, inappropriateFriends: boolean = false, inappropriateGroups: boolean = false): Promise<QueueResult> {
-        const sanitizedUserId = validateUserId(userId);
+        const sanitizedUserId = validateEntityId(userId);
 
         const requestBody = {
-            id: sanitizedUserId,
+            id: parseInt(sanitizedUserId, 10),
             ...(inappropriateOutfit !== undefined && {inappropriate_outfit: inappropriateOutfit}),
             ...(inappropriateProfile !== undefined && {inappropriate_profile: inappropriateProfile}),
             ...(inappropriateFriends !== undefined && {inappropriate_friends: inappropriateFriends}),
@@ -368,7 +391,7 @@ export default defineBackground(() => {
 
     // Submit a community vote (upvote/downvote) for a user
     async function submitVote(userId: string | number, voteType: number): Promise<VoteResult> {
-        const sanitizedUserId = validateUserId(userId);
+        const sanitizedUserId = validateEntityId(userId);
 
         if (voteType !== VOTE_TYPES.UPVOTE && voteType !== VOTE_TYPES.DOWNVOTE) {
             throw new Error("Invalid vote type. Must be 1 (upvote) or -1 (downvote)");
@@ -391,7 +414,7 @@ export default defineBackground(() => {
 
     // Get vote data for a single user
     async function getVotes(userId: string | number): Promise<VoteData> {
-        const sanitizedUserId = validateUserId(userId);
+        const sanitizedUserId = validateEntityId(userId);
 
         const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}/${sanitizedUserId}?includeVote=true`, {
             method: 'GET'
@@ -402,7 +425,7 @@ export default defineBackground(() => {
 
     // Get vote data for multiple users in a batch request
     async function getMultipleVotes(userIds: (string | number)[]): Promise<VoteData[]> {
-        const sanitizedUserIds = processBatchUserIds(userIds);
+        const sanitizedUserIds = processBatchEntityIds(userIds);
 
         const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
             method: 'POST',

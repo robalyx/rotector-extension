@@ -1,9 +1,10 @@
-import {API_ACTIONS, API_CONFIG, MESSAGES, VOTE_TYPES, type VoteType} from '../types/constants';
+import {API_ACTIONS, API_CONFIG, VOTE_TYPES, type VoteType} from '../types/constants';
 import type {
     ApiClientConfig,
     ApiResponse,
     BatchOptions,
     ContentMessage,
+    GroupStatus,
     QueueResult,
     RequestOptions,
     UserStatus,
@@ -11,6 +12,7 @@ import type {
     VoteResult
 } from '../types/api';
 import type {Statistics} from '../types/statistics';
+import {sanitizeEntityId} from '../utils/sanitizer';
 
 // API client for backend communication
 class RotectorApiClient {
@@ -33,10 +35,26 @@ class RotectorApiClient {
 
     // Checks the status of a single user
     async checkUser(userId: string | number, options?: RequestOptions): Promise<UserStatus> {
-        const parsedUserId = this.parseUserId(userId);
+        const sanitizedUserId = sanitizeEntityId(userId);
+        if (!sanitizedUserId) {
+            throw new Error('Invalid user ID provided.');
+        }
         return this.sendMessage<UserStatus>(
             API_ACTIONS.CHECK_USER_STATUS,
-            {userId: parsedUserId},
+            {userId: sanitizedUserId},
+            options
+        );
+    }
+
+    // Checks the status of a single group
+    async checkGroup(groupId: string | number, options?: RequestOptions): Promise<GroupStatus> {
+        const sanitizedGroupId = sanitizeEntityId(groupId);
+        if (!sanitizedGroupId) {
+            throw new Error('Invalid group ID');
+        }
+        return this.sendMessage<GroupStatus>(
+            API_ACTIONS.CHECK_GROUP_STATUS,
+            {groupId: sanitizedGroupId},
             options
         );
     }
@@ -46,18 +64,12 @@ class RotectorApiClient {
         userIds: (string | number)[],
         batchOptions: BatchOptions = {}
     ): Promise<UserStatus[]> {
-        // Validate and parse all IDs first
-        const parsedUserIds = userIds
-            .map(id => {
-                try {
-                    return this.parseUserId(id);
-                } catch {
-                    return null;
-                }
-            })
-            .filter((id): id is number => id !== null);
+        // Validate and sanitize all IDs
+        const sanitizedUserIds = userIds
+            .map(id => sanitizeEntityId(id))
+            .filter((id): id is string => id !== null);
 
-        if (parsedUserIds.length === 0) {
+        if (sanitizedUserIds.length === 0) {
             throw new Error("No valid user IDs provided for batch check");
         }
 
@@ -65,7 +77,7 @@ class RotectorApiClient {
         const batchDelay = batchOptions.batchDelay ?? API_CONFIG.BATCH_DELAY;
 
         // Split into batches
-        const batches = this.chunkArray(parsedUserIds, batchSize);
+        const batches = this.chunkArray(sanitizedUserIds, batchSize);
         const results: UserStatus[] = [];
 
         for (let i = 0; i < batches.length; i++) {
@@ -109,11 +121,14 @@ class RotectorApiClient {
         inappropriateGroups: boolean = false,
         options?: RequestOptions
     ): Promise<QueueResult> {
-        const parsedUserId = this.parseUserId(userId);
+        const sanitizedUserId = sanitizeEntityId(userId);
+        if (!sanitizedUserId) {
+            throw new Error('Invalid user ID provided.');
+        }
         return this.sendMessage<QueueResult>(
             API_ACTIONS.QUEUE_USER,
             {
-                userId: parsedUserId,
+                userId: sanitizedUserId,
                 inappropriateOutfit,
                 inappropriateProfile,
                 inappropriateFriends,
@@ -129,7 +144,10 @@ class RotectorApiClient {
         voteType: VoteType,
         options?: RequestOptions
     ): Promise<VoteResult> {
-        const parsedUserId = this.parseUserId(userId);
+        const sanitizedUserId = sanitizeEntityId(userId);
+        if (!sanitizedUserId) {
+            throw new Error('Invalid user ID provided.');
+        }
 
         if (voteType !== VOTE_TYPES.UPVOTE && voteType !== VOTE_TYPES.DOWNVOTE) {
             throw new Error("Invalid vote type. Must be 1 (upvote) or -1 (downvote)");
@@ -137,17 +155,20 @@ class RotectorApiClient {
 
         return this.sendMessage<VoteResult>(
             API_ACTIONS.SUBMIT_VOTE,
-            {userId: parsedUserId, voteType},
+            {userId: sanitizedUserId, voteType},
             {maxRetries: 2, retryDelay: 1000, ...options}
         );
     }
 
     // Gets vote data for a single user
     async getVotes(userId: string | number, options?: RequestOptions): Promise<VoteData> {
-        const parsedUserId = this.parseUserId(userId);
+        const sanitizedUserId = sanitizeEntityId(userId);
+        if (!sanitizedUserId) {
+            throw new Error('Invalid user ID provided.');
+        }
         return this.sendMessage<VoteData>(
             API_ACTIONS.GET_VOTES,
-            {userId: parsedUserId},
+            {userId: sanitizedUserId},
             options
         );
     }
@@ -157,18 +178,12 @@ class RotectorApiClient {
         userIds: (string | number)[],
         batchOptions: BatchOptions = {}
     ): Promise<VoteData[]> {
-        // Validate and parse all IDs first
-        const parsedUserIds = userIds
-            .map(id => {
-                try {
-                    return this.parseUserId(id);
-                } catch {
-                    return null;
-                }
-            })
-            .filter((id): id is number => id !== null);
+        // Validate and sanitize all IDs first
+        const sanitizedUserIds = userIds
+            .map(id => sanitizeEntityId(id))
+            .filter((id): id is string => id !== null);
 
-        if (parsedUserIds.length === 0) {
+        if (sanitizedUserIds.length === 0) {
             throw new Error("No valid user IDs provided for vote batch check");
         }
 
@@ -176,7 +191,7 @@ class RotectorApiClient {
         const batchDelay = batchOptions.batchDelay ?? API_CONFIG.BATCH_DELAY;
 
         // Split into batches
-        const batches = this.chunkArray(parsedUserIds, batchSize);
+        const batches = this.chunkArray(sanitizedUserIds, batchSize);
         const results: VoteData[] = [];
 
         for (let i = 0; i < batches.length; i++) {
@@ -237,7 +252,7 @@ class RotectorApiClient {
                     return response.data as T;
                 } else {
                     // Create structured error with additional properties
-                    const error = new Error(response.error || MESSAGES.ERROR.GENERIC) as Error & {
+                    const error = new Error(response.error || 'An error occurred. Please try again.') as Error & {
                         requestId?: string;
                         code?: string;
                         type?: string;
@@ -279,7 +294,7 @@ class RotectorApiClient {
             }
         }
 
-        throw new Error(MESSAGES.ERROR.GENERIC);
+        throw new Error('An error occurred. Please try again.');
     }
 
     // Determines if an error should trigger a retry attempt
@@ -306,15 +321,6 @@ class RotectorApiClient {
             chunks.push(array.slice(i, i + size));
         }
         return chunks;
-    }
-
-    // Validates and parses user ID to number
-    private parseUserId(userId: string | number): number {
-        const parsed = typeof userId === 'string' ? parseInt(userId, 10) : userId;
-        if (isNaN(parsed) || parsed <= 0) {
-            throw new Error(MESSAGES.ERROR.INVALID_USER_ID);
-        }
-        return parsed;
     }
 }
 

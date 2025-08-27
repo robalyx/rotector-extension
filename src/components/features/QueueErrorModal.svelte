@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {sanitizeUserId} from '@/lib/utils/sanitizer';
+    import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import Modal from '../ui/Modal.svelte';
     import type {QueueErrorData} from '@/lib/types/api';
 
@@ -19,7 +19,7 @@
 
     // Computed values
     const sanitizedUserId = $derived(() => {
-        const id = sanitizeUserId(userId);
+        const id = sanitizeEntityId(userId);
         return id ? id.toString() : '';
     });
 

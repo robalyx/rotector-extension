@@ -89,22 +89,26 @@
 
     // Get header message from flag and confidence
     function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
+        // Handle mixed status for groups (flag type 0)
+        if (isGroup() && flag === STATUS.FLAGS.SAFE) {
+            return "This group contains a mix of appropriate and inappropriate members.";
+        }
+        
+        const entityType = isGroup() ? 'group' : 'user';
+        
         switch (flag) {
             case STATUS.FLAGS.UNSAFE:
-                return "This user has been verified as inappropriate by Rotector's human moderators.";
+                return `This ${entityType} has been verified as inappropriate by Rotector's human moderators.`;
             case STATUS.FLAGS.PENDING: {
                 const confidencePercent = Math.round(confidence * 100);
-                return "This user has been flagged by AI with confidence level.".replace(
-                    "confidence level",
-                    `${confidencePercent}% confidence`
-                );
+                return `This ${entityType} has been flagged by AI with ${confidencePercent}% confidence.`;
             }
             case STATUS.FLAGS.QUEUED:
-                return "This user was flagged after being added to the queue but has not yet been officially confirmed by our system.";
+                return `This ${entityType} was flagged after being added to the queue but has not yet been officially confirmed by our system.`;
             case STATUS.FLAGS.INTEGRATION:
-                return "This user has been flagged by a third-party content analysis system.";
+                return `This ${entityType} has been flagged by a third-party content analysis system.`;
             case STATUS.FLAGS.SAFE:
-                return "No inappropriate behavior has been detected yet.";
+                return `No inappropriate behavior has been detected yet.`;
             default:
                 return "Status information unavailable.";
         }
@@ -131,6 +135,11 @@
     const statusBadgeClass = $derived(() => {
         if (!status) return 'error';
 
+        // Handle mixed status for groups (flag type 0)
+        if (isGroup() && status.flagType === STATUS.FLAGS.SAFE) {
+            return 'unsafe';
+        }
+
         switch (status.flagType) {
             case STATUS.FLAGS.SAFE:
                 return 'safe';
@@ -148,6 +157,11 @@
 
     const statusBadgeText = $derived(() => {
         if (!status) return 'Unknown';
+
+        // Handle mixed status for groups (flag type 0)
+        if (isGroup() && status.flagType === STATUS.FLAGS.SAFE) {
+            return 'Mixed';
+        }
 
         switch (status.flagType) {
             case STATUS.FLAGS.SAFE:

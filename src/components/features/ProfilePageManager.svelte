@@ -44,8 +44,8 @@
     // Component references
     let queueModalManager: QueueModalManager;
     let statusContainer: HTMLElement | null = null;
-    let statusIndicatorComponent: { unmount?: () => void } | null = null;
     let friendButtonHandler: ((event: Event) => void) | null = null;
+    let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
     // Reactive settings
     $effect(() => {
@@ -135,17 +135,18 @@
         if (!statusContainer || !userId) return;
 
         try {
-            // Unmount existing component if any
-            if (statusIndicatorComponent) {
-                statusIndicatorComponent.unmount?.();
-                statusIndicatorComponent = null;
+            // Check and unmount existing component
+            const existingComponent = mountedComponents.get('profile-status');
+            if (existingComponent) {
+                existingComponent.unmount?.();
+                mountedComponents.delete('profile-status');
             }
 
             // Clear container content
             statusContainer.innerHTML = '';
 
             // Mount new StatusIndicator
-            statusIndicatorComponent = mount(StatusIndicator, {
+            const component = mount(StatusIndicator, {
                 target: statusContainer,
                 props: {
                     entityId: userId,
@@ -157,6 +158,10 @@
                     onQueue: handleQueueUser
                 }
             });
+
+            // Track the component
+            mountedComponents.set('profile-status', component);
+
             logger.debug('StatusIndicator component mounted');
 
         } catch (error) {
@@ -355,11 +360,9 @@
                 friendButtonHandler = null;
             }
 
-            // Clean up status indicator component
-            if (statusIndicatorComponent) {
-                statusIndicatorComponent.unmount?.();
-                statusIndicatorComponent = null;
-            }
+            // Clean up mounted components
+            mountedComponents.forEach(component => component.unmount?.());
+            mountedComponents.clear();
 
             // Clean up status container
             if (statusContainer) {

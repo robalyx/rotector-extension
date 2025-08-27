@@ -21,7 +21,7 @@
 
     let showGroups = $state(false);
     let showTooltips = $derived(get(settings)[SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]);
-    let statusIndicator: { unmount?: () => void } | null = $state(null);
+    let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
     $effect(() => {
         initialize();
@@ -69,10 +69,26 @@
     
     // Insert and mount status indicator component
     function insertStatusIndicator(ownerElement: Element) {
+        // Check and unmount existing component
+        const existingComponent = mountedComponents.get('group-owner');
+        if (existingComponent) {
+            existingComponent.unmount?.();
+            mountedComponents.delete('group-owner');
+        }
+        
+        // Remove any existing container from DOM
+        const existingContainer = ownerElement.parentNode?.querySelector('.rotector-group-status-container');
+        if (existingContainer) {
+            existingContainer.remove();
+        }
+        
+        // Create new container
         const container = document.createElement('span');
+        container.className = 'rotector-group-status-container';
         ownerElement.parentNode?.insertBefore(container, ownerElement.nextSibling);
         
-        statusIndicator = mount(StatusIndicator, {
+        // Mount new component
+        const component = mount(StatusIndicator, {
             target: container,
             props: {
                 entityId: groupId!,
@@ -83,6 +99,9 @@
                 showTooltips
             }
         });
+        
+        // Track the component
+        mountedComponents.set('group-owner', component);
     }
 
     // Wait for groups container and enable groups functionality
@@ -106,8 +125,8 @@
 
     // Clean up mounted components and resources
     function cleanup() {
-        statusIndicator?.unmount?.();
-        statusIndicator = null;
+        mountedComponents.forEach(component => component.unmount?.());
+        mountedComponents.clear();
         logger.debug('GroupPageManager cleanup completed');
     }
 </script>

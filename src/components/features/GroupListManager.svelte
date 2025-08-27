@@ -250,14 +250,22 @@
 
     // Mount status indicator for a group
     async function mountStatusIndicator(groupId: string, status: GroupStatus, nameElement: Element, groupName: string, groupImageUrl?: string, element?: Element) {
+        // Check and unmount existing component
+        const existingComponent = mountedComponents.get(groupId);
+        if (existingComponent) {
+            existingComponent.unmount?.();
+            mountedComponents.delete(groupId);
+        }
+        
+        // Check if container already exists (defensive)
         if (hasStatusIndicator(nameElement)) return;
 
         // Detect if this is a grid view item (no space for text)
         const isGridView = element?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM) || false;
 
-        // Create container for status indicator
+        // Create container with consistent class naming
         const container = document.createElement('span');
-        container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
+        container.className = 'rotector-group-status-container ' + COMPONENT_CLASSES.STATUS_CONTAINER;
         container.style.marginLeft = '8px';
         container.style.display = 'inline-flex';
         container.style.alignItems = 'center';

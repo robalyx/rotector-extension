@@ -63,7 +63,7 @@
         return sanitizeEntityId(entityId) || '';
     });
 
-    const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error, entityType));
+    const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error));
 
     const integrationCount = $derived(() => {
         if (entityType !== ENTITY_TYPES.USER) return 0;

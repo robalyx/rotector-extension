@@ -6,6 +6,7 @@ export const STATUS = {
         UNSAFE: 2,
         QUEUED: 3,
         INTEGRATION: 4,
+        MIXED: 5,
     },
     USER_REASON_TYPES: {
         USER_PROFILE: 0,
@@ -59,8 +60,6 @@ export const ENTITY_TYPES = {
     USER: 'user',
     GROUP: 'group',
 } as const;
-
-export type EntityType = typeof ENTITY_TYPES[keyof typeof ENTITY_TYPES];
 
 // API Configuration
 export const API_CONFIG = {

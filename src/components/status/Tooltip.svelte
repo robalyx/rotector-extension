@@ -89,8 +89,8 @@
 
     // Get header message from flag and confidence
     function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
-        // Handle mixed status for groups (flag type 0)
-        if (isGroup() && flag === STATUS.FLAGS.SAFE) {
+        // Handle mixed status for groups
+        if (isGroup() && flag === STATUS.FLAGS.MIXED) {
             return "This group contains a mix of appropriate and inappropriate members.";
         }
         
@@ -126,6 +126,7 @@
             case STATUS.FLAGS.PENDING:
             case STATUS.FLAGS.QUEUED:
             case STATUS.FLAGS.INTEGRATION:
+            case STATUS.FLAGS.MIXED:
                 return getHeaderMessageFromFlag(status.flagType, confidence);
             default:
                 return 'Unknown Status';
@@ -134,11 +135,6 @@
 
     const statusBadgeClass = $derived(() => {
         if (!status) return 'error';
-
-        // Handle mixed status for groups (flag type 0)
-        if (isGroup() && status.flagType === STATUS.FLAGS.SAFE) {
-            return 'unsafe';
-        }
 
         switch (status.flagType) {
             case STATUS.FLAGS.SAFE:
@@ -150,6 +146,8 @@
                 return 'pending';
             case STATUS.FLAGS.INTEGRATION:
                 return 'integration';
+            case STATUS.FLAGS.MIXED:
+                return 'unsafe';
             default:
                 return 'error';
         }
@@ -157,11 +155,6 @@
 
     const statusBadgeText = $derived(() => {
         if (!status) return 'Unknown';
-
-        // Handle mixed status for groups (flag type 0)
-        if (isGroup() && status.flagType === STATUS.FLAGS.SAFE) {
-            return 'Mixed';
-        }
 
         switch (status.flagType) {
             case STATUS.FLAGS.SAFE:
@@ -174,6 +167,8 @@
                 return 'Queued';
             case STATUS.FLAGS.INTEGRATION:
                 return 'Integration';
+            case STATUS.FLAGS.MIXED:
+                return 'Mixed';
             default:
                 return 'Unknown';
         }

@@ -1,4 +1,4 @@
-import {STATUS, ENTITY_TYPES, type EntityType} from '../types/constants';
+import {STATUS} from '../types/constants';
 import {calculateStatusBadges} from './status-utils';
 import type {UserStatus, GroupStatus} from '../types/api';
 
@@ -17,8 +17,7 @@ export function getStatusConfig(
     status: UserStatus | GroupStatus | null,
     cachedStatus: UserStatus | GroupStatus | null,
     loading: boolean,
-    error: string | null,
-    entityType: EntityType = ENTITY_TYPES.USER
+    error: string | null
 ): StatusConfig {
     if (error) {
         return {
@@ -50,18 +49,6 @@ export function getStatusConfig(
     const {isReportable, isOutfitOnly} = calculateStatusBadges(activeStatus);
     const isQueued = !!activeStatus.isQueued;
     
-    // Handle mixed status for groups (flag type 0)
-    if (entityType === ENTITY_TYPES.GROUP && activeStatus.flagType === STATUS.FLAGS.SAFE) {
-        return {
-            confidence,
-            isReportable,
-            isQueued,
-            isOutfitOnly: false, // Groups don't have outfit-only status
-            iconClass: 'status-icon-unsafe',
-            textContent: 'Mixed',
-            textClass: 'status-text-unsafe'
-        };
-    }
 
     const baseConfig = {
         confidence,
@@ -106,6 +93,14 @@ export function getStatusConfig(
                 iconClass: 'status-icon-integration',
                 textContent: `Integration (${confidence}%)`,
                 textClass: 'status-text-integration'
+            };
+        case STATUS.FLAGS.MIXED:
+            return {
+                ...baseConfig,
+                iconClass: 'status-icon-unsafe',
+                textContent: 'Mixed',
+                textClass: 'status-text-unsafe',
+                isOutfitOnly: false // Groups don't have outfit-only status
             };
         default:
             return {

@@ -223,5 +223,6 @@ export const userStatusService = new EntityStatusService<UserStatus>(
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(
     'group',
-    (id: string) => apiClient.checkGroup(id)
+    (id: string) => apiClient.checkGroup(id),
+    (ids: string[]) => apiClient.checkMultipleGroups(ids, {batchSize: 50, batchDelay: 100})
 );

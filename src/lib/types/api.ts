@@ -128,6 +128,7 @@ export interface ContentMessage {
     userId?: string | number;
     userIds?: (string | number)[];
     groupId?: string | number;
+    groupIds?: (string | number)[];
     voteType?: VoteType;
     inappropriateOutfit?: boolean;
     inappropriateProfile?: boolean;

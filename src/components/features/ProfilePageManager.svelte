@@ -9,6 +9,7 @@
         ENTITY_TYPES,
         FRIENDS_CAROUSEL_SELECTORS,
         PAGE_TYPES,
+        PROFILE_GROUPS_SHOWCASE_SELECTORS,
         PROFILE_SELECTORS,
         USER_ACTIONS
     } from '@/lib/types/constants';
@@ -18,6 +19,7 @@
     import FriendWarning from './FriendWarning.svelte';
     import QueueModalManager from './QueueModalManager.svelte';
     import UserListManager from './UserListManager.svelte';
+    import GroupListManager from './GroupListManager.svelte';
 
     interface Props {
         userId: string;
@@ -36,6 +38,7 @@
     // Component state
     let friendWarningOpen = $state(false);
     let showCarousel = $state(false);
+    let showGroupsShowcase = $state(false);
     let showTooltips = $state(true);
 
     // Component references
@@ -71,6 +74,7 @@
             await setupStatusIndicator();
             await setupFriendWarning();
             await setupCarousel();
+            await setupGroupsShowcase();
 
             logger.debug('ProfilePageManager initialized successfully');
         } catch (error) {
@@ -216,6 +220,36 @@
         }
     }
 
+    // Set up groups showcase manager if groups showcase exists
+    async function setupGroupsShowcase() {
+        try {
+            // Check if groups checks are enabled
+            const currentSettings = get(settings);
+            if (!currentSettings[SETTINGS_KEYS.GROUPS_CHECK_ENABLED]) {
+                logger.debug('Groups checks disabled, skipping groups showcase setup');
+                return;
+            }
+
+            // Wait for groups showcase container
+            const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER, {
+                timeout: 5000,
+                onTimeout: () => {
+                    logger.debug('Groups showcase search timed out - groups showcase may not exist on this profile');
+                }
+            });
+
+            if (result.success) {
+                showGroupsShowcase = true;
+                logger.debug('Profile groups showcase detected and will be managed');
+            } else {
+                logger.debug('No groups showcase found on profile page');
+            }
+
+        } catch (error) {
+            logger.error('Failed to setup groups showcase:', error);
+        }
+    }
+
     // Handle status indicator click
     function handleStatusClick(clickedUserId: string) {
         logger.userAction(USER_ACTIONS.STATUS_CLICKED, {userId: clickedUserId});
@@ -297,6 +331,11 @@
         logger.error('Profile carousel UserListManager error:', error);
     }
 
+    // Handle groups showcase errors
+    function handleGroupsShowcaseError(error: string) {
+        logger.error('Profile groups showcase GroupListManager error:', error);
+    }
+
     // Cleanup resources
     function cleanup() {
         try {
@@ -352,6 +391,14 @@
       onError={handleCarouselError}
       onUserProcessed={handleCarouselUserProcessed}
       pageType={PAGE_TYPES.FRIENDS_CAROUSEL}
+      {showTooltips}
+  />
+{/if}
+
+<!-- Groups Showcase Manager -->
+{#if showGroupsShowcase}
+  <GroupListManager
+      onError={handleGroupsShowcaseError}
       {showTooltips}
   />
 {/if}

@@ -22,6 +22,11 @@
         skipAutoFetch?: boolean;
         onClick?: (entityId: string) => void;
         onQueue?: (entityId: string) => void;
+        entityMetadata?: {
+            name?: string;
+            imageUrl?: string;
+            description?: string;
+        };
     }
 
     let {
@@ -34,7 +39,8 @@
         showText = true,
         skipAutoFetch = false,
         onClick,
-        onQueue
+        onQueue,
+        entityMetadata
     }: Props = $props();
 
     // Local state
@@ -298,6 +304,7 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
+        {entityMetadata}
         {entityType}
         {error}
         mode="preview"
@@ -317,6 +324,7 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
+        {entityMetadata}
         {entityType}
         {error}
         mode="expanded"

@@ -1,4 +1,10 @@
-import {FRIENDS_CAROUSEL_SELECTORS, FRIENDS_SELECTORS, GROUPS_SELECTORS, PROFILE_SELECTORS, GROUP_HEADER_SELECTORS} from '../types/constants';
+import {
+    FRIENDS_CAROUSEL_SELECTORS,
+    FRIENDS_SELECTORS,
+    GROUP_HEADER_SELECTORS,
+    GROUPS_SELECTORS,
+    PROFILE_SELECTORS
+} from '../types/constants';
 
 export interface UserInfo {
     userId: string;
@@ -91,7 +97,7 @@ export function extractGroupInfo(groupId: string): GroupInfo {
     let groupName = 'Unknown Group';
     let groupImageUrl: string | undefined;
 
-    // Try to extract group name from the header
+    // Try to extract from group page header
     const groupNameEl = document.querySelector(GROUP_HEADER_SELECTORS.GROUP_NAME);
     if (groupNameEl) {
         const text = groupNameEl.textContent?.trim();
@@ -100,7 +106,6 @@ export function extractGroupInfo(groupId: string): GroupInfo {
         }
     }
 
-    // Try to extract group image from the header
     const headerInfo = document.querySelector(GROUP_HEADER_SELECTORS.HEADER_INFO);
     if (headerInfo) {
         const avatarImg = headerInfo.querySelector(GROUP_HEADER_SELECTORS.GROUP_IMAGE);

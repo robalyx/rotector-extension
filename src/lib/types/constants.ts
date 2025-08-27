@@ -86,6 +86,7 @@ export const API_ACTIONS = {
     CHECK_USER_STATUS: 'checkUserStatus',
     CHECK_MULTIPLE_USERS: 'checkMultipleUsers',
     CHECK_GROUP_STATUS: 'checkGroupStatus',
+    CHECK_MULTIPLE_GROUPS: 'checkMultipleGroups',
     QUEUE_USER: 'queueUser',
     SUBMIT_VOTE: 'submitVote',
     GET_VOTES: 'getVotes',
@@ -221,6 +222,40 @@ export const GROUP_HEADER_SELECTORS = {
     GROUP_NAME: '.profile-header-details-community-name',
     OWNER_NAME: '.profile-header-details-owner-name',
     GROUP_IMAGE: '.profile-header-details-avatar-container img',
+} as const;
+
+// DOM selectors for profile groups showcase
+export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
+    CONTAINER: '.groups-showcase',
+    SECTION: '.section, .container-list',
+    SECTION_CONTENT: '.profile-slide-container.section-content',
+    VIEW_BUTTONS: '.container-buttons',
+    SLIDESHOW_BUTTON: '.btn-generic-slideshow-xs',
+    GRID_BUTTON: '.btn-generic-grid-xs',
+    // Slideshow mode selectors
+    SLIDESHOW: {
+        CONTAINER: '#groups-switcher.slide-switcher.groups',
+        ITEMS_CONTAINER: '.slide-items-container.switcher-items.hlist',
+        ITEM: '.switcher-item.slide-item-container',
+        ITEM_UNPROCESSED: `.switcher-item.slide-item-container:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+        GROUP_LINK: '.slide-item-container-left a',
+        GROUP_NAME: '.slide-item-name.text-overflow.groups.font-title',
+        GROUP_DESCRIPTION: '.text-description.slide-item-description.groups',
+        THUMBNAIL: '.thumbnail-2d-container img',
+        STATS: '.slide-item-stats',
+    },
+    // Grid mode selectors
+    GRID: {
+        CONTAINER: '.groups-showcase-grid',
+        ITEMS_CONTAINER: '.hlist.game-cards.group-list',
+        ITEM: '.list-item.group-container',
+        ITEM_UNPROCESSED: `.list-item.group-container:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+        CARD: '.game-card',
+        GROUP_LINK: '.card-item.game-card-container',
+        GROUP_NAME: '.text-overflow.game-card-name',
+        THUMBNAIL: '.thumbnail-2d-container img',
+        LOAD_MORE: '#groups-load-more',
+    }
 } as const;
 
 // Vote types

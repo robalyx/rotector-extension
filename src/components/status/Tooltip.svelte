@@ -30,6 +30,11 @@
         anchorElement: HTMLElement;
         mode?: 'preview' | 'expanded';
         entityType?: 'user' | 'group';
+        entityMetadata?: {
+            name?: string;
+            imageUrl?: string;
+            description?: string;
+        };
         onQueue?: () => void;
         onClose?: () => void;
         onExpand?: () => void;
@@ -46,6 +51,7 @@
         anchorElement,
         mode = 'preview',
         entityType = 'user',
+        entityMetadata,
         onQueue,
         onClose,
         onExpand,
@@ -76,7 +82,7 @@
     );
 
     const isSafeUserWithQueueOnly = $derived(() =>
-        status && status.flagType === STATUS.FLAGS.SAFE
+        !isGroup() && status && status.flagType === STATUS.FLAGS.SAFE
     );
 
     const isExpanded = $derived(() => mode === 'expanded');
@@ -206,6 +212,16 @@
         const groupId = sanitizedUserId();
         if (!groupId) return null;
 
+        // Use provided metadata if available
+        if (entityMetadata) {
+            return {
+                groupId,
+                groupName: entityMetadata.name || 'Unknown Group',
+                groupImageUrl: entityMetadata.imageUrl
+            };
+        }
+
+        // Fall back to extracting from page DOM
         return extractGroupInfo(groupId);
     }
 

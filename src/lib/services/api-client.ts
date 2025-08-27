@@ -112,6 +112,59 @@ class RotectorApiClient {
         return results;
     }
 
+    // Checks the status of multiple groups with automatic batching
+    async checkMultipleGroups(
+        groupIds: (string | number)[],
+        batchOptions: BatchOptions = {}
+    ): Promise<GroupStatus[]> {
+        // Validate and sanitize all IDs
+        const sanitizedGroupIds = groupIds
+            .map(id => sanitizeEntityId(id))
+            .filter((id): id is string => id !== null);
+
+        if (sanitizedGroupIds.length === 0) {
+            throw new Error("No valid group IDs provided for batch check");
+        }
+
+        const batchSize = batchOptions.batchSize ?? API_CONFIG.BATCH_SIZE;
+        const batchDelay = batchOptions.batchDelay ?? API_CONFIG.BATCH_DELAY;
+
+        // Split into batches
+        const batches = this.chunkArray(sanitizedGroupIds, batchSize);
+        const results: GroupStatus[] = [];
+
+        for (let i = 0; i < batches.length; i++) {
+            const batch = batches[i];
+
+            try {
+                const batchData = await this.sendMessage<GroupStatus[]>(
+                    API_ACTIONS.CHECK_MULTIPLE_GROUPS,
+                    {groupIds: batch},
+                    {
+                        maxRetries: batchOptions.maxRetries,
+                        retryDelay: batchOptions.retryDelay
+                    }
+                );
+
+                if (Array.isArray(batchData)) {
+                    results.push(...batchData);
+                } else {
+                    console.warn("Unexpected batch response format:", batchData);
+                }
+
+                // Add delay between batches if not the last batch
+                if (i < batches.length - 1) {
+                    await this.sleep(batchDelay);
+                }
+            } catch (error) {
+                console.error(`Failed to process group batch ${i + 1}/${batches.length}:`, error);
+                throw error;
+            }
+        }
+
+        return results;
+    }
+
     // Queues a user for manual review
     async queueUser(
         userId: string | number,

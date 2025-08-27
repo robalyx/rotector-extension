@@ -96,6 +96,12 @@ export default defineBackground(() => {
                         }
                         response = await checkMultipleUsers(request.userIds);
                         break;
+                    case API_ACTIONS.CHECK_MULTIPLE_GROUPS:
+                        if (!request.groupIds) {
+                            throw new Error('Group IDs are required for check multiple groups');
+                        }
+                        response = await checkMultipleGroups(request.groupIds);
+                        break;
                     case API_ACTIONS.QUEUE_USER:
                         if (!request.userId) {
                             throw new Error('User ID is required for queue user');
@@ -359,6 +365,30 @@ export default defineBackground(() => {
         });
 
         const responseData = extractResponseData<Record<string, UserStatus>>(response);
+        const data = Object.values(responseData);
+        data.forEach(status => {
+            status.id = status.id.toString();
+            if (status.flagType === STATUS.FLAGS.SAFE) {
+                status.reasons = {};
+            }
+        });
+        return data;
+    }
+
+    // Check the status of multiple groups in a batch request
+    async function checkMultipleGroups(groupIds: (string | number)[]): Promise<GroupStatus[]> {
+        const sanitizedGroupIds = processBatchEntityIds(groupIds);
+
+        const requestBody = {
+            ids: sanitizedGroupIds.map(id => parseInt(id, 10))
+        };
+
+        const response = await makeApiRequest(API_CONFIG.ENDPOINTS.GROUP_CHECK, {
+            method: 'POST',
+            body: JSON.stringify(requestBody)
+        });
+
+        const responseData = extractResponseData<Record<string, GroupStatus>>(response);
         const data = Object.values(responseData);
         data.forEach(status => {
             status.id = status.id.toString();

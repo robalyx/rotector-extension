@@ -23,7 +23,7 @@ export default defineConfig({
   manifest: {
     name: 'Rotector',
     description: 'Real-time warnings about inappropriate Roblox users before you interact with them.',
-    version: '2.2.1',
+    version: '2.2.2',
     permissions: ['storage'],
     host_permissions: [
       'https://*.roblox.com/*',

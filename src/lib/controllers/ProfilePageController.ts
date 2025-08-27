@@ -94,6 +94,7 @@ export class ProfilePageController extends PageController {
         // Wait for the profile header username element
         const result = await waitForElement('.profile-header-username', {
             timeout: 20000,
+            baseDelay: 200,
             onTimeout: () => {
             }
         });

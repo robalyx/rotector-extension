@@ -47,29 +47,26 @@
         if (!groupId) return;
         
         try {
-            const ownerElement = findOwnerElement();
-            if (ownerElement) {
-                insertStatusIndicator(ownerElement);
-                logger.debug('Group status indicator mounted successfully');
-            } else {
+            // Wait for group owner name element
+            const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME, {
+                timeout: 20000,
+                onTimeout: () => {
+                    logger.debug('Group owner name search timed out - may not be a group detail page or owner not visible');
+                }
+            });
+
+            if (!ownerResult.success || !ownerResult.element) {
                 logger.warn('Could not find group owner element for status indicator');
+                return;
             }
+
+            insertStatusIndicator(ownerResult.element);
+            logger.debug('Group status indicator mounted successfully');
         } catch (error) {
             logger.error('Failed to setup group status indicator:', error);
         }
     }
-
-    // Find DOM element for group owner name
-    function findOwnerElement() {
-        const headerInfo = document.querySelector(GROUP_HEADER_SELECTORS.HEADER_INFO);
-        if (!headerInfo) return null;
-
-        const namesContainer = headerInfo.querySelector(GROUP_HEADER_SELECTORS.NAMES_CONTAINER);
-        if (!namesContainer) return null;
-
-        return namesContainer.querySelector(GROUP_HEADER_SELECTORS.OWNER_NAME);
-    }
-
+    
     // Insert and mount status indicator component
     function insertStatusIndicator(ownerElement: Element) {
         const container = document.createElement('span');

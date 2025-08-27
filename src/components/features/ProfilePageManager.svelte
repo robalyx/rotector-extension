@@ -85,15 +85,20 @@
     // Set up status indicator in profile header
     async function setupStatusIndicator() {
         try {
-            // Find profile header title container
-            const titleContainer = document.querySelector(PROFILE_SELECTORS.TITLE_CONTAINER) ||
-                document.querySelector(PROFILE_SELECTORS.PROFILE_HEADER) ||
-                document.querySelector('.profile-header-title-container');
+            // Wait for profile header title container
+            const titleResult = await waitForElement(`${PROFILE_SELECTORS.TITLE_CONTAINER}, ${PROFILE_SELECTORS.PROFILE_HEADER}, .profile-header-title-container`, {
+                timeout: 20000,
+                onTimeout: () => {
+                    logger.debug('Profile header title container search timed out');
+                }
+            });
 
-            if (!titleContainer) {
+            if (!titleResult.success || !titleResult.element) {
                 logger.warn('Could not find profile header title container for status indicator');
                 return;
             }
+
+            const titleContainer = titleResult.element;
 
             // Check if container already exists, reuse it
             let container = titleContainer.querySelector(`.${COMPONENT_CLASSES.PROFILE_STATUS}`) as HTMLElement;
@@ -232,7 +237,7 @@
 
             // Wait for groups showcase container
             const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER, {
-                timeout: 5000,
+                timeout: 10000,
                 onTimeout: () => {
                     logger.debug('Groups showcase search timed out - groups showcase may not exist on this profile');
                 }

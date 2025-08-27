@@ -202,9 +202,9 @@
         
         let groupImageUrl: string | undefined;
         if (thumbnailElement instanceof HTMLImageElement) {
-            const src = thumbnailElement.src;
             const lazyImg = thumbnailElement.getAttribute('lazy-img');
-            groupImageUrl = (src && src !== '') ? src : (lazyImg || undefined);
+            const src = thumbnailElement.src;
+            groupImageUrl = (lazyImg && lazyImg !== '') ? lazyImg : (src && src !== '' ? src : undefined);
         }
 
         return {

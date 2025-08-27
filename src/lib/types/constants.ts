@@ -276,10 +276,10 @@ export const OBSERVER_CONFIG = {
 
 // Element detection retry configuration
 export const RETRY_CONFIG = {
-    MAX_RETRIES: 20,
-    BASE_DELAY: 1000, // ms
-    BACKOFF_MULTIPLIER: 1.5,
-    MAX_DELAY: 10000, // ms
+    MAX_RETRIES: 30,
+    BASE_DELAY: 300, // ms
+    BACKOFF_MULTIPLIER: 1.3,
+    MAX_DELAY: 3000, // ms
     TIMEOUT: 30000, // 30 seconds total timeout
 } as const;
 

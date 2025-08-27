@@ -1,4 +1,4 @@
-import { defineConfig } from 'wxt';
+import {defineConfig} from 'wxt';
 import tailwindcss from "@tailwindcss/vite";
 
 // See https://wxt.dev/api/config.html
@@ -22,8 +22,8 @@ export default defineConfig({
   }),
   manifest: {
     name: 'Rotector',
-    description: 'Rotector uses AI and smart algorithms to identify inappropriate Roblox accounts, helping create safer online communities.',
-    version: '2.1.1',
+    description: 'Real-time warnings about inappropriate Roblox users before you interact with them.',
+    version: '2.2.0',
     permissions: ['storage'],
     host_permissions: [
       'https://*.roblox.com/*',
@@ -37,7 +37,7 @@ export default defineConfig({
     ],
     browser_specific_settings: {
       gecko: {
-        id: 'rotector@jaxron.me'
+        id: 'extension@rotector.com'
       }
     }
   }

@@ -31,8 +31,7 @@
       />
     </div>
     <p class="m-0 text-text-subtle dark:text-text-subtle-dark text-xs">
-      Uses AI and smart algorithms to identify inappropriate Roblox accounts, helping create safer online
-      communities.
+      Real-time safety indicators that warn you about inappropriate Roblox users before you interact with them.
     </p>
   </div>
 

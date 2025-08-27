@@ -23,7 +23,7 @@ export default defineConfig({
   manifest: {
     name: 'Rotector',
     description: 'Real-time warnings about inappropriate Roblox users before you interact with them.',
-    version: '2.2.0',
+    version: '2.2.1',
     permissions: ['storage'],
     host_permissions: [
       'https://*.roblox.com/*',
@@ -37,7 +37,7 @@ export default defineConfig({
     ],
     browser_specific_settings: {
       gecko: {
-        id: 'extension@rotector.com'
+        id: 'rotector@jaxron.me'
       }
     }
   }

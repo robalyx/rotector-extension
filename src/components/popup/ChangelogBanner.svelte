@@ -34,6 +34,9 @@
                 await toggleChangelogSection();
             }
 
+            // Dismiss the banner since user has viewed the details
+            await dismissChangelogBanner();
+
             // Scroll to the changelog section
             setTimeout(() => {
                 const changelogSection = document.getElementById('changelog-section-content');

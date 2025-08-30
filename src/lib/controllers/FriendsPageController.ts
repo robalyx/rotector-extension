@@ -12,7 +12,7 @@ import FriendsPageManager from '../../components/features/FriendsPageManager.sve
 export class FriendsPageController extends PageController {
     private friendsPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected initializePage(): void {
+    protected override async initializePage(): Promise<void> {
         try {
             logger.debug('Initializing FriendsPageController', {
                 pageType: this.pageType,
@@ -38,7 +38,7 @@ export class FriendsPageController extends PageController {
     }
 
     // Page cleanup
-    protected cleanupPage(): void {
+    protected override async cleanupPage(): Promise<void> {
         try {
             if (this.friendsPageManager) {
                 this.friendsPageManager.cleanup();
@@ -48,6 +48,7 @@ export class FriendsPageController extends PageController {
             logger.debug('FriendsPageController cleanup completed');
         } catch (error) {
             this.handleError(error, 'cleanupPage');
+            throw error;
         }
     }
 

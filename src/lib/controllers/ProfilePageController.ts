@@ -17,7 +17,7 @@ export class ProfilePageController extends PageController {
     private userStatus: UserStatus | null = null;
     private profilePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected async initializePage(): Promise<void> {
+    protected override async initializePage(): Promise<void> {
         try {
             logger.debug('Initializing ProfilePageController', {
                 pageType: this.pageType,
@@ -57,7 +57,7 @@ export class ProfilePageController extends PageController {
     }
 
     // Page cleanup
-    protected cleanupPage(): void {
+    protected override async cleanupPage(): Promise<void> {
         try {
             // Cleanup profile page manager
             if (this.profilePageManager) {
@@ -72,6 +72,7 @@ export class ProfilePageController extends PageController {
             logger.debug('ProfilePageController cleanup completed');
         } catch (error) {
             this.handleError(error, 'cleanupPage');
+            throw error;
         }
     }
 
@@ -79,7 +80,7 @@ export class ProfilePageController extends PageController {
     private extractUserIdFromUrl(): string | null {
         try {
             const match = /\/users\/(\d+)/.exec(this.url);
-            if (match?.length > 1) {
+            if (match && match.length > 1 && match[1]) {
                 return sanitizeEntityId(match[1]) ?? null;
             }
             return null;

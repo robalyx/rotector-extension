@@ -19,7 +19,6 @@
   "ignoreDependencies": [
     "@tailwindcss/vite",
     "@wxt-dev/module-svelte",
-    "tailwindcss",
     "lightningcss",
     "tslib"
   ],

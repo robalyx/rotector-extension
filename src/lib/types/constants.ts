@@ -253,9 +253,27 @@ export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
         CARD: '.game-card',
         GROUP_LINK: '.card-item.game-card-container',
         GROUP_NAME: '.text-overflow.game-card-name',
+        IMAGE_CONTAINER: '.game-card-thumb-container',
         THUMBNAIL: '.thumbnail-2d-container img',
+        THUMBNAIL_CONTAINER: '.thumbnail-2d-container',
         LOAD_MORE: '#groups-load-more',
     }
+} as const;
+
+// DOM selectors for BTRoblox extension modified groups view
+export const BTROBLOX_GROUPS_SELECTORS = {
+    CONTAINER: '.btr-profile-groups',
+    SECTION_CONTENT: '.section-content',
+    ITEMS_CONTAINER: '.hlist[ng-non-bindable]',
+    ITEM: '.list-item.game-card',
+    ITEM_UNPROCESSED: `.list-item.game-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+    GROUP_LINK: '.card-item.game-card-container a',
+    GROUP_NAME: '.text-overflow.game-card-name',
+    IMAGE_CONTAINER: '.game-card-thumb-container',
+    THUMBNAIL: '.game-card-thumb',
+    MEMBER_COUNT: '.text-overflow.game-card-name-secondary.text-secondary.small',
+    PAGER_CONTAINER: '.btr-pager-holder',
+    PAGER: '.btr-pager'
 } as const;
 
 // Vote types

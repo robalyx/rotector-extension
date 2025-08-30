@@ -18,7 +18,7 @@ export class GroupsPageController extends PageController {
     private groupId: string | null = null;
     private groupStatus: GroupStatus | null = null;
 
-    protected async initializePage(): Promise<void> {
+    protected override async initializePage(): Promise<void> {
         try {
             logger.debug('Initializing GroupsPageController', {
                 pageType: this.pageType,
@@ -56,7 +56,7 @@ export class GroupsPageController extends PageController {
     }
 
     // Page cleanup
-    protected cleanupPage(): void {
+    protected override async cleanupPage(): Promise<void> {
         try {
             if (this.groupPageManager) {
                 this.groupPageManager.cleanup();
@@ -69,6 +69,7 @@ export class GroupsPageController extends PageController {
             logger.debug('GroupsPageController cleanup completed');
         } catch (error) {
             this.handleError(error, 'cleanupPage');
+            throw error;
         }
     }
 
@@ -101,7 +102,7 @@ export class GroupsPageController extends PageController {
     private extractGroupIdFromUrl(): string | null {
         try {
             const match = /\/(groups|communities)\/(\d+)/.exec(this.url);
-            if (match?.length > 2) {
+            if (match && match.length > 2 && match[2]) {
                 return sanitizeEntityId(match[2]) ?? null;
             }
             return null;

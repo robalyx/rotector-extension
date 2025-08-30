@@ -12,7 +12,7 @@ import HomePageManager from '../../components/features/HomePageManager.svelte';
 export class HomePageController extends PageController {
     private homePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected initializePage(): void {
+    protected override async initializePage(): Promise<void> {
         try {
             logger.debug('Initializing HomePageController', {
                 pageType: this.pageType,
@@ -38,7 +38,7 @@ export class HomePageController extends PageController {
     }
 
     // Page cleanup
-    protected cleanupPage(): void {
+    protected override async cleanupPage(): Promise<void> {
         try {
             if (this.homePageManager) {
                 this.homePageManager.cleanup();
@@ -48,6 +48,7 @@ export class HomePageController extends PageController {
             logger.debug('HomePageController cleanup completed');
         } catch (error) {
             this.handleError(error, 'cleanupPage');
+            throw error;
         }
     }
 

@@ -17,7 +17,7 @@ export class ReportPageController extends PageController {
     private userStatus: UserStatus | null = null;
     private reportPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected async initializePage(): Promise<void> {
+    protected override async initializePage(): Promise<void> {
         try {
             logger.debug('Initializing ReportPageController', {
                 pageType: this.pageType,
@@ -57,7 +57,7 @@ export class ReportPageController extends PageController {
     /**
      * Page cleanup
      */
-    protected cleanupPage(): void {
+    protected override async cleanupPage(): Promise<void> {
         try {
             // Cleanup report page manager
             if (this.reportPageManager) {
@@ -72,6 +72,7 @@ export class ReportPageController extends PageController {
             logger.debug('ReportPageController cleanup completed');
         } catch (error) {
             this.handleError(error, 'cleanupPage');
+            throw error;
         }
     }
 

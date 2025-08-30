@@ -248,6 +248,7 @@
                 document.removeEventListener('keydown', handleEscape);
             };
         }
+        return () => {}; // No-op cleanup when tooltips are not shown
     });
 </script>
 

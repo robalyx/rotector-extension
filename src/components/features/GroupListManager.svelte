@@ -4,6 +4,7 @@
     import type {Observer} from '@/lib/utils/observer';
     import {observerFactory} from '@/lib/utils/observer';
     import {
+        BTROBLOX_GROUPS_SELECTORS,
         COMPONENT_CLASSES,
         ENTITY_TYPES,
         PROFILE_GROUPS_SHOWCASE_SELECTORS,
@@ -30,6 +31,7 @@
     // Local state
     let slideshowObserver: Observer | null = null;
     let gridObserver: Observer | null = null;
+    let btrobloxObserver: Observer | null = null;
     let containerWatcher: Observer | null = null;
     let viewSwitchObserver: MutationObserver | null = null;
     let groupStatuses = new SvelteMap<string, GroupStatus>();
@@ -71,7 +73,7 @@
     async function setupContainerWatcher() {
         containerWatcher = observerFactory.createContainerWatcher({
             name: 'groups-showcase-container-watcher',
-            containerSelector: PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER,
+            containerSelector: `${PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER}, ${BTROBLOX_GROUPS_SELECTORS.CONTAINER}`,
             onContainerAdded: () => {
                 void setupGroupsObservers();
             }
@@ -79,9 +81,9 @@
 
         await containerWatcher.start();
 
-        // Process existing container if already present
-        const existingContainer = document.querySelector(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER);
-        if (existingContainer) {
+        // Handle containers that exist on page load
+        const combinedSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER}, ${BTROBLOX_GROUPS_SELECTORS.CONTAINER}`;
+        if (document.querySelector(combinedSelector)) {
             await setupGroupsObservers();
         }
     }
@@ -90,19 +92,27 @@
     async function setupGroupsObservers() {
         try {
             // Clean up existing observers
-            [slideshowObserver, gridObserver].forEach(observer => {
+            [slideshowObserver, gridObserver, btrobloxObserver].forEach(observer => {
                 if (observer) {
                     observer.stop();
                     observer.cleanup();
                 }
             });
 
-            // Set up both observers
-            slideshowObserver = await createListObserver('slideshow', PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW);
-            gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
+            // Detect whether BTRoblox extension is active
+            const btrContainer = document.querySelector(BTROBLOX_GROUPS_SELECTORS.CONTAINER);
+            const standardContainer = document.querySelector(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER);
 
-            // Set up view switch observer
-            setupViewSwitchObserver();
+            if (btrContainer) {
+                // Monitor BTRoblox group elements
+                btrobloxObserver = await createBTRobloxObserver();
+            } else if (standardContainer) {
+                // Monitor both slideshow and grid layouts
+                slideshowObserver = await createListObserver('slideshow', PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW);
+                gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
+
+                setupViewSwitchObserver();
+            }
         } catch (error) {
             logger.error('Failed to setup groups observers:', error);
         }
@@ -124,6 +134,22 @@
         return observer;
     }
 
+    // Monitor group cards in BTRoblox extension layout
+    async function createBTRobloxObserver() {
+        const observer = observerFactory.createListObserver({
+            name: 'btroblox-groups-observer',
+            containerSelector: BTROBLOX_GROUPS_SELECTORS.ITEMS_CONTAINER,
+            unprocessedItemSelector: BTROBLOX_GROUPS_SELECTORS.ITEM_UNPROCESSED,
+            processItems: handleNewGroups,
+            processExistingItems: true,
+            maxRetries: 3,
+            restartDelay: 1000
+        });
+
+        await observer.start();
+        return observer;
+    }
+    
     // Set up observer to detect view switches
     function setupViewSwitchObserver() {
         viewSwitchObserver?.disconnect();
@@ -180,12 +206,24 @@
 
     // Extract group details from DOM element
     function extractGroupDetails(element: Element): GroupDetails | null {
-        const selectors = element.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM)
-            ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
-            : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID;
+        let groupLink: Element | null = null;
+        let nameElement: Element | null = null;
+        
+        // Use BTRoblox or standard selectors based on container type
+        if (element.matches(BTROBLOX_GROUPS_SELECTORS.ITEM)) {
+            // BTRoblox extension layout
+            groupLink = element.querySelector(BTROBLOX_GROUPS_SELECTORS.GROUP_LINK);
+            nameElement = element.querySelector(BTROBLOX_GROUPS_SELECTORS.GROUP_NAME);
+        } else {
+            // Native Roblox layout
+            const selectors = element.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM)
+                ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
+                : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID;
 
-        const groupLink = element.querySelector(selectors.GROUP_LINK);
-        const nameElement = element.querySelector(selectors.GROUP_NAME);
+            groupLink = element.querySelector(selectors.GROUP_LINK);
+            nameElement = element.querySelector(selectors.GROUP_NAME);
+        }
+
         const href = groupLink?.getAttribute('href');
 
         if (!href || !nameElement) return null;
@@ -244,20 +282,39 @@
             mountedComponents.delete(groupId);
         }
 
-        // Check if container already exists (defensive)
+        // Prevent duplicate status indicators
         if (hasStatusIndicator(nameElement)) return;
 
-        // Detect if this is a grid view item (no space for text)
-        const isGridView = element?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM) || false;
+        // Configure text display for different layouts
+        const isBTRobloxView = element?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
+        const isGridView = element?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
 
-        // Create container with consistent class naming
+        // Wrapper element for status indicator component
         const container = document.createElement('span');
         container.className = 'rotector-group-status-container ' + COMPONENT_CLASSES.STATUS_CONTAINER;
-        container.style.marginLeft = '8px';
-        container.style.display = 'inline-flex';
-        container.style.alignItems = 'center';
-
-        nameElement.parentNode?.insertBefore(container, nameElement.nextSibling);
+        
+        if (isBTRobloxView || isGridView) {
+            // Overlay positioning for compact card layouts
+            const imageElement = element?.querySelector(
+                isBTRobloxView 
+                    ? BTROBLOX_GROUPS_SELECTORS.IMAGE_CONTAINER
+                    : `${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.IMAGE_CONTAINER}, ${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.THUMBNAIL_CONTAINER}`
+            ) as HTMLElement;
+            
+            container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
+            
+            if (imageElement.style.position !== 'relative' && imageElement.style.position !== 'absolute') {
+                imageElement.style.position = 'relative';
+            }
+            
+            imageElement.appendChild(container);
+        } else {
+            // Inline positioning for slideshow layout
+            container.style.marginLeft = '8px';
+            container.style.display = 'inline-flex';
+            container.style.alignItems = 'center';
+            nameElement.parentNode?.insertBefore(container, nameElement.nextSibling);
+        }
 
         // Mount StatusIndicator component
         const component = mount(StatusIndicator, {
@@ -268,7 +325,7 @@
                 status,
                 loading: false,
                 showTooltips,
-                showText: !isGridView,
+                showText: !isGridView && !isBTRobloxView,
                 onClick: handleStatusClick
             }
         });
@@ -287,11 +344,11 @@
         destroyed = true;
 
         // Stop observers
-        [slideshowObserver, gridObserver, containerWatcher].forEach(observer => {
+        [slideshowObserver, gridObserver, btrobloxObserver, containerWatcher].forEach(observer => {
             observer?.stop();
             observer?.cleanup();
         });
-        slideshowObserver = gridObserver = containerWatcher = null;
+        slideshowObserver = gridObserver = btrobloxObserver = containerWatcher = null;
 
         viewSwitchObserver?.disconnect();
         viewSwitchObserver = null;

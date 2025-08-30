@@ -1,4 +1,5 @@
 import {
+    BTROBLOX_GROUPS_SELECTORS,
     FRIENDS_CAROUSEL_SELECTORS,
     FRIENDS_SELECTORS,
     GROUP_HEADER_SELECTORS,
@@ -32,6 +33,7 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
     const isMembersTile = anchorElement.closest(GROUPS_SELECTORS.TILE);
     const isGroupCardGrid = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
     const isGroupCardSlideshow = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM);
+    const isBTRobloxGroupCard = anchorElement.closest(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
     // URL-based page detection (fallback)
     const isProfilePage = window.location.pathname.includes('/users/');
@@ -47,8 +49,8 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
     if (isMembersTile) {
         return {pageType: 'members', container: isMembersTile};
     }
-    if (isGroupCardGrid || isGroupCardSlideshow) {
-        return {pageType: 'profile', container: isGroupCardGrid ?? isGroupCardSlideshow};
+    if (isGroupCardGrid || isGroupCardSlideshow || isBTRobloxGroupCard) {
+        return {pageType: 'profile', container: isGroupCardGrid ?? isGroupCardSlideshow ?? isBTRobloxGroupCard};
     }
 
     // URL-based detection for page-level containers
@@ -117,20 +119,25 @@ export function extractGroupInfo(groupId: string, pageType: string, container: E
     let groupName = 'Unknown Group';
     let groupImageUrl: string | undefined;
 
-    // Determine if this is slideshow or grid mode for profile pages
+    // Check what type of groups container we're working with
     const isSlideshowContainer = container?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM);
+    const isBTRobloxContainer = container?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
     const groupNameSelectors = {
-        profile: isSlideshowContainer
-            ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_NAME
-            : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_NAME,
+        profile: isBTRobloxContainer
+            ? BTROBLOX_GROUPS_SELECTORS.GROUP_NAME
+            : isSlideshowContainer
+                ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_NAME
+                : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_NAME,
         group: GROUP_HEADER_SELECTORS.GROUP_NAME
     };
 
     const groupImageSelectors = {
-        profile: isSlideshowContainer
-            ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.THUMBNAIL
-            : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.THUMBNAIL,
+        profile: isBTRobloxContainer
+            ? BTROBLOX_GROUPS_SELECTORS.THUMBNAIL
+            : isSlideshowContainer
+                ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.THUMBNAIL
+                : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.THUMBNAIL,
         group: GROUP_HEADER_SELECTORS.GROUP_IMAGE
     };
 

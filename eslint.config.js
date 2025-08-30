@@ -134,7 +134,7 @@ export default tseslint.config(
       
       /* === Promise/Async Handling === */
       '@typescript-eslint/await-thenable': 'error',
-      '@typescript-eslint/require-await': 'error',
+      '@typescript-eslint/require-await': 'off', // note: we disable this for interface consistency
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': ['error', {
         checksVoidReturn: {

@@ -89,6 +89,7 @@
             });
             return () => document.removeEventListener("keydown", handleEscape);
         }
+        return () => {}; // No-op cleanup for when isOpen is false
     });
 </script>
 

@@ -123,6 +123,7 @@
                 class="report-helper-button primary"
                 disabled={processing}
                 onclick={handleFillForm}
+                type="button"
             >
               {#if processing}
                 <LoadingSpinner size="small"/>
@@ -182,15 +183,27 @@
     <div class="space-y-4">
       <!-- User Information -->
       {#if sanitizedUserId()}
-        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
-          <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+        <div class="
+          rounded-lg bg-gray-50 p-3
+          dark:bg-gray-800
+        ">
+          <div class="
+            mb-1 text-sm text-gray-600
+            dark:text-gray-400
+          ">
             Report Target:
           </div>
-          <div class="font-medium text-gray-800 dark:text-gray-200">
+          <div class="
+            font-medium text-gray-800
+            dark:text-gray-200
+          ">
             User ID: {sanitizedUserId()}
           </div>
           {#if status}
-            <div class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+            <div class="
+              mt-1 text-xs text-gray-500
+              dark:text-gray-500
+            ">
               Status: {status.flagType === 2 ? 'Unsafe' : status.flagType === 1 ? 'Pending' : 'Safe'}
               {#if status.confidence > 0}
                 ({Math.round(status.confidence * 100)}% confidence)
@@ -202,19 +215,39 @@
 
       <!-- Report Status -->
       {#if isReportable()}
-        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+        <div class="
+          rounded-lg border border-red-200 bg-red-50 p-3
+          dark:border-red-800 dark:bg-red-900/20
+        ">
           <div class="flex items-center gap-2">
-            <div class="text-red-600 dark:text-red-400">⚠️</div>
-            <div class="text-sm text-red-800 dark:text-red-200">
+            <div class="
+              text-red-600
+              dark:text-red-400
+            ">⚠️
+            </div>
+            <div class="
+              text-sm text-red-800
+              dark:text-red-200
+            ">
               Reportable content detected in profile
             </div>
           </div>
         </div>
       {:else}
-        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+        <div class="
+          rounded-lg border border-blue-200 bg-blue-50 p-3
+          dark:border-blue-800 dark:bg-blue-900/20
+        ">
           <div class="flex items-center gap-2">
-            <div class="text-blue-600 dark:text-blue-400">ℹ️</div>
-            <div class="text-sm text-blue-800 dark:text-blue-200">
+            <div class="
+              text-blue-600
+              dark:text-blue-400
+            ">ℹ️
+            </div>
+            <div class="
+              text-sm text-blue-800
+              dark:text-blue-200
+            ">
               No reportable content detected
             </div>
           </div>
@@ -222,12 +255,22 @@
       {/if}
 
       <!-- Instructions -->
-      <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-3">
+      <div class="
+        rounded-lg bg-yellow-50 p-3
+        dark:bg-yellow-900/20
+      ">
         <div class="flex items-start gap-2">
-          <div class="text-yellow-600 dark:text-yellow-400 text-sm">💡</div>
-          <div class="text-xs text-yellow-800 dark:text-yellow-200">
+          <div class="
+            text-sm text-yellow-600
+            dark:text-yellow-400
+          ">💡
+          </div>
+          <div class="
+            text-xs text-yellow-800
+            dark:text-yellow-200
+          ">
             <strong>How to Report:</strong>
-            <ul class="mt-1 space-y-1 list-disc list-inside">
+            <ul class="mt-1 list-inside list-disc space-y-1">
               <li>Navigate to the user's profile page</li>
               <li>Click the "Report Abuse" link</li>
               <li>Use Rotector's auto-fill feature if available</li>

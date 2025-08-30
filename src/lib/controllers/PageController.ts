@@ -11,7 +11,7 @@ import UserListManager from '../../components/features/UserListManager.svelte';
 export abstract class PageController {
     protected isInitialized = false;
     protected observers: Observer[] = [];
-    protected mountedComponents: { element: HTMLElement; cleanup: () => void }[] = [];
+    protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
 
     constructor(
         protected pageType: PageType,
@@ -95,10 +95,12 @@ export abstract class PageController {
     protected abstract initializePage(): Promise<void>;
 
     // Wait for DOM to be ready
-    protected waitForDOM(): Promise<void> {
+    protected async waitForDOM(): Promise<void> {
         return new Promise((resolve) => {
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => resolve(), {once: true});
+                document.addEventListener('DOMContentLoaded', () => {
+                    resolve();
+                }, {once: true});
             } else {
                 resolve();
             }
@@ -129,7 +131,7 @@ export abstract class PageController {
             const component = mount(ComponentClass, {
                 target,
                 props: enhancedProps
-            });
+            }) as { unmount?: () => void };
 
             // Create cleanup function
             const cleanup = () => {
@@ -140,7 +142,7 @@ export abstract class PageController {
                     }
 
                     // Unmount the Svelte component
-                    if (component && typeof component.unmount === 'function') {
+                    if (component?.unmount) {
                         component.unmount();
                     }
                     logger.debug('Component unmounted successfully');
@@ -228,8 +230,8 @@ export abstract class PageController {
                 {
                     pageType,
                     showTooltips,
-                    onUserProcessed: onUserProcessed || this.handleUserProcessed.bind(this),
-                    onError: onError || this.handleUserListError.bind(this)
+                    onUserProcessed: onUserProcessed ?? this.handleUserProcessed.bind(this),
+                    onError: onError ?? this.handleUserListError.bind(this)
                 }
             );
 
@@ -272,7 +274,7 @@ export abstract class PageController {
             modalRef.cleanup();
 
             // Remount with new visibility state
-            return this.mountComponent(componentClass, modalRef.element, {
+            return this.mountComponent(componentClass as Component<Record<string, unknown>, Record<string, unknown>>, modalRef.element, {
                 isOpen: visible,
                 ...props
             });

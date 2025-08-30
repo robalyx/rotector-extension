@@ -1,6 +1,6 @@
 import {STATUS} from '../types/constants';
 import {calculateStatusBadges} from './status-utils';
-import type {UserStatus, GroupStatus} from '../types/api';
+import type {GroupStatus, UserStatus} from '../types/api';
 
 interface StatusConfig {
     iconClass: string;
@@ -31,7 +31,7 @@ export function getStatusConfig(
         };
     }
 
-    const activeStatus = status || cachedStatus;
+    const activeStatus = status ?? cachedStatus;
 
     if (loading || !activeStatus) {
         return {
@@ -48,7 +48,7 @@ export function getStatusConfig(
     const confidence = Math.round(activeStatus.confidence * 100);
     const {isReportable, isOutfitOnly} = calculateStatusBadges(activeStatus);
     const isQueued = !!activeStatus.isQueued;
-    
+
 
     const baseConfig = {
         confidence,

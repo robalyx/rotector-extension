@@ -82,12 +82,12 @@ export const SETTINGS_DEFAULTS: Settings = {
 
 interface SettingCategory {
     title: string;
-    settings: {
+    settings: Array<{
         key: SettingsKey;
         label: string;
         helpText?: string;
         requiresConfirmation?: boolean;
-    }[];
+    }>;
 }
 
 export const SETTING_CATEGORIES: SettingCategory[] = [

@@ -1,7 +1,14 @@
 import {SETTINGS_DEFAULTS, SETTINGS_KEYS} from '@/lib/types/settings';
-import type {VoteType} from '@/lib/types/constants';
-import {API_ACTIONS, API_CONFIG, INTEGRATION_SOURCES, STATUS, VOTE_TYPES} from '@/lib/types/constants';
-import type {ApiResponse, ContentMessage, GroupStatus, QueueResult, UserStatus, VoteData, VoteResult} from '@/lib/types/api';
+import {API_ACTIONS, API_CONFIG, INTEGRATION_SOURCES, STATUS, VOTE_TYPES, type VoteType} from '@/lib/types/constants';
+import type {
+    ApiResponse,
+    ContentMessage,
+    GroupStatus,
+    QueueResult,
+    UserStatus,
+    VoteData,
+    VoteResult
+} from '@/lib/types/api';
 import type {Statistics} from '@/lib/types/statistics';
 import {logger} from '@/lib/utils/logger';
 import {extractErrorMessage, sanitizeEntityId} from '@/lib/utils/sanitizer';
@@ -24,7 +31,7 @@ function extractResponseData<T>(response: unknown): T {
 }
 
 // Processes and validates batch entity IDs
-function processBatchEntityIds(entityIds: (string | number)[]): string[] {
+function processBatchEntityIds(entityIds: Array<string | number>): string[] {
     const sanitized = entityIds
         .map(id => sanitizeEntityId(id))
         .filter((id): id is string => id !== null);
@@ -73,7 +80,7 @@ export default defineBackground(() => {
         _sender: unknown,
         sendResponse: (response: ApiResponse) => void
     ) => {
-        (async () => {
+        void (async () => {
             try {
                 let response: unknown;
 
@@ -172,7 +179,7 @@ export default defineBackground(() => {
     async function getApiKey(): Promise<string | null> {
         try {
             const result = await browser.storage.sync.get(['apiKey']);
-            return result.apiKey || null;
+            return typeof result.apiKey === 'string' ? result.apiKey || null : null;
         } catch (error) {
             logger.error('Background: Failed to get API key:', error);
             return null;
@@ -186,7 +193,8 @@ export default defineBackground(() => {
 
         // Get API base URL from settings
         const settings = await browser.storage.sync.get([SETTINGS_KEYS.API_BASE_URL]);
-        let baseUrl = settings[SETTINGS_KEYS.API_BASE_URL] || API_CONFIG.BASE_URL;
+        const settingValue: unknown = settings[SETTINGS_KEYS.API_BASE_URL];
+        let baseUrl = typeof settingValue === 'string' ? settingValue ?? API_CONFIG.BASE_URL : API_CONFIG.BASE_URL;
 
         // Remove trailing slash
         baseUrl = baseUrl.replace(/\/$/, '');
@@ -200,7 +208,7 @@ export default defineBackground(() => {
             ...options.headers as Record<string, string>
         };
 
-        if (apiKey && apiKey.trim()) {
+        if (apiKey?.trim()) {
             headers['X-Auth-Token'] = apiKey.trim();
         }
 
@@ -214,7 +222,7 @@ export default defineBackground(() => {
 
         for (let attempt = 1; attempt <= API_CONFIG.MAX_RETRIES; attempt++) {
             try {
-                logger.debug(`API Request attempt ${attempt}: ${options.method || 'GET'} ${url}`);
+                logger.debug(`API Request attempt ${attempt}: ${options.method ?? 'GET'} ${url}`);
 
                 const response = await fetch(url, requestOptions);
                 const duration = Date.now() - startTime;
@@ -223,7 +231,13 @@ export default defineBackground(() => {
                     let errorData: { error?: string; requestId?: string; code?: string; type?: string };
                     try {
                         // Try to parse as JSON first
-                        errorData = await response.json();
+                        const jsonData: unknown = await response.json();
+                        errorData = typeof jsonData === 'object' && jsonData !== null ? jsonData as {
+                            error?: string;
+                            requestId?: string;
+                            code?: string;
+                            type?: string
+                        } : {};
                     } catch {
                         // Fallback to text
                         const errorText = await response.text().catch(() => 'Unknown error');
@@ -231,7 +245,7 @@ export default defineBackground(() => {
                     }
 
                     // Create a structured error
-                    const error = new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`) as Error & {
+                    const error = new Error(errorData.error ?? `HTTP ${response.status}: ${response.statusText}`) as Error & {
                         status: number;
                         requestId?: string;
                         code?: string;
@@ -248,8 +262,8 @@ export default defineBackground(() => {
                     throw error;
                 }
 
-                const data = await response.json();
-                logger.apiCall(options.method || 'GET', url, response.status, duration);
+                const data: unknown = await response.json();
+                logger.apiCall(options.method ?? 'GET', url, response.status, duration);
 
                 return data;
             } catch (error) {
@@ -278,7 +292,7 @@ export default defineBackground(() => {
             error: lastError?.message
         });
 
-        throw lastError || new Error('API error. Please try again later.');
+        throw lastError ?? new Error('API error. Please try again later.');
     }
 
     // Determine if error should trigger retry
@@ -345,7 +359,7 @@ export default defineBackground(() => {
     }
 
     // Check the status of multiple users in a batch request
-    async function checkMultipleUsers(userIds: (string | number)[]): Promise<UserStatus[]> {
+    async function checkMultipleUsers(userIds: Array<string | number>): Promise<UserStatus[]> {
         const sanitizedUserIds = processBatchEntityIds(userIds);
         const excludeInfo = await getAdvancedViolationSetting();
         const bloxdbEnabled = await getBloxdbIntegrationSetting();
@@ -376,7 +390,7 @@ export default defineBackground(() => {
     }
 
     // Check the status of multiple groups in a batch request
-    async function checkMultipleGroups(groupIds: (string | number)[]): Promise<GroupStatus[]> {
+    async function checkMultipleGroups(groupIds: Array<string | number>): Promise<GroupStatus[]> {
         const sanitizedGroupIds = processBatchEntityIds(groupIds);
 
         const requestBody = {
@@ -454,7 +468,7 @@ export default defineBackground(() => {
     }
 
     // Get vote data for multiple users in a batch request
-    async function getMultipleVotes(userIds: (string | number)[]): Promise<VoteData[]> {
+    async function getMultipleVotes(userIds: Array<string | number>): Promise<VoteData[]> {
         const sanitizedUserIds = processBatchEntityIds(userIds);
 
         const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
@@ -471,7 +485,7 @@ export default defineBackground(() => {
             method: 'GET'
         });
 
-        return (response as { data?: Statistics }).data || (response as Statistics);
+        return (response as { data?: Statistics }).data ?? (response as Statistics);
     }
 
     logger.info('Rotector Background Script: Initialization complete');

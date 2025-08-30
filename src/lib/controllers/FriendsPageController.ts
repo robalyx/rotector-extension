@@ -12,7 +12,7 @@ import FriendsPageManager from '../../components/features/FriendsPageManager.sve
 export class FriendsPageController extends PageController {
     private friendsPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected async initializePage(): Promise<void> {
+    protected initializePage(): void {
         try {
             logger.debug('Initializing FriendsPageController', {
                 pageType: this.pageType,
@@ -27,7 +27,7 @@ export class FriendsPageController extends PageController {
             }
 
             // Mount friends page manager
-            await this.mountFriendsPageManager();
+            this.mountFriendsPageManager();
 
             logger.debug('FriendsPageController initialized successfully');
 
@@ -38,7 +38,7 @@ export class FriendsPageController extends PageController {
     }
 
     // Page cleanup
-    protected async cleanupPage(): Promise<void> {
+    protected cleanupPage(): void {
         try {
             if (this.friendsPageManager) {
                 this.friendsPageManager.cleanup();
@@ -52,7 +52,7 @@ export class FriendsPageController extends PageController {
     }
 
     // Mount friends page manager
-    private async mountFriendsPageManager(): Promise<void> {
+    private mountFriendsPageManager(): void {
         try {
             // Create container for friends page manager
             const container = this.createComponentContainer(COMPONENT_CLASSES.FRIENDS_MANAGER);

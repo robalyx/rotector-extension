@@ -2,7 +2,7 @@ import {logger} from '../utils/logger';
 import {sanitizeUrl} from '../utils/sanitizer';
 import {PAGE_TYPES} from '../types/constants';
 import type {PageType} from '../types/api';
-import {PageController} from './PageController';
+import type {PageController} from './PageController';
 import {FriendsPageController} from './FriendsPageController';
 import {ProfilePageController} from './ProfilePageController';
 import {GroupsPageController} from './GroupsPageController';
@@ -23,12 +23,12 @@ export class PageControllerManager {
         this.controllers.set(PAGE_TYPES.FRIENDS_LIST, FriendsPageController);
         this.controllers.set(PAGE_TYPES.FRIENDS_CAROUSEL, FriendsPageController);
         this.controllers.set(PAGE_TYPES.PROFILE, ProfilePageController);
-        this.controllers.set(PAGE_TYPES.GROUPS, GroupsPageController);
+        this.controllers.set(PAGE_TYPES.MEMBERS, GroupsPageController);
         this.controllers.set(PAGE_TYPES.REPORT, ReportPageController);
     }
 
     // Initialize the page controller manager
-    async initialize(): Promise<void> {
+    initialize(): void {
         if (this.isInitialized) {
             logger.warn('PageControllerManager already initialized');
             return;
@@ -68,7 +68,7 @@ export class PageControllerManager {
 
     // Get the current page type
     getCurrentPageType(): PageType | null {
-        return this.currentController?.getPageType() || null;
+        return this.currentController?.getPageType() ?? null;
     }
 
     // Cleanup all resources
@@ -147,7 +147,7 @@ export class PageControllerManager {
             // Special case: Groups/Communities with hash
             if ((pathname.includes('/groups') || pathname.includes('/communities')) &&
                 urlObj.hash.includes('#!/about')) {
-                return PAGE_TYPES.GROUPS;
+                return PAGE_TYPES.MEMBERS;
             }
 
             return null;

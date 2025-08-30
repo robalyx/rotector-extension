@@ -41,8 +41,6 @@
         groupId: string;
         element: Element;
         nameElement: Element;
-        groupName: string;
-        groupImageUrl?: string;
     }
 
     // Initialize component
@@ -51,7 +49,7 @@
             return;
         }
 
-        initialize();
+        void initialize();
         onMount?.(cleanup);
         return cleanup;
     });
@@ -74,7 +72,9 @@
         containerWatcher = observerFactory.createContainerWatcher({
             name: 'groups-showcase-container-watcher',
             containerSelector: PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER,
-            onContainerAdded: setupGroupsObservers
+            onContainerAdded: () => {
+                void setupGroupsObservers();
+            }
         });
 
         await containerWatcher.start();
@@ -102,7 +102,7 @@
             gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
 
             // Set up view switch observer
-            await setupViewSwitchObserver();
+            setupViewSwitchObserver();
         } catch (error) {
             logger.error('Failed to setup groups observers:', error);
         }
@@ -119,15 +119,15 @@
             maxRetries: 3,
             restartDelay: 1000
         });
-        
+
         await observer.start();
         return observer;
     }
 
     // Set up observer to detect view switches
-    async function setupViewSwitchObserver() {
+    function setupViewSwitchObserver() {
         viewSwitchObserver?.disconnect();
-        
+
         const gridContainer = document.querySelector(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.CONTAINER);
         if (!gridContainer) return;
 
@@ -140,7 +140,7 @@
                         return details && !hasStatusIndicator(details.nameElement);
                     });
                     if (itemsToProcess.length > 0) {
-                        handleNewGroups(itemsToProcess);
+                        void handleNewGroups(itemsToProcess);
                     }
                 }, 100);
             }
@@ -180,8 +180,8 @@
 
     // Extract group details from DOM element
     function extractGroupDetails(element: Element): GroupDetails | null {
-        const selectors = element.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM) 
-            ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW 
+        const selectors = element.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM)
+            ? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
             : PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID;
 
         const groupLink = element.querySelector(selectors.GROUP_LINK);
@@ -196,23 +196,10 @@
         const groupId = sanitizeEntityId(groupIdMatch[1]);
         if (!groupId) return null;
 
-        // Extract metadata for tooltips
-        const groupName = nameElement.textContent?.trim();
-        const thumbnailElement = element.querySelector(selectors.THUMBNAIL);
-        
-        let groupImageUrl: string | undefined;
-        if (thumbnailElement instanceof HTMLImageElement) {
-            const lazyImg = thumbnailElement.getAttribute('lazy-img');
-            const src = thumbnailElement.src;
-            groupImageUrl = (lazyImg && lazyImg !== '') ? lazyImg : (src && src !== '' ? src : undefined);
-        }
-
         return {
             groupId,
             element,
-            nameElement,
-            groupName,
-            groupImageUrl
+            nameElement
         };
     }
 
@@ -221,11 +208,11 @@
         try {
             // Fetch statuses for groups we haven't cached yet
             const groupsToFetch = groupDetails.filter(({groupId}) => !groupStatuses.has(groupId));
-            
+
             if (groupsToFetch.length > 0) {
                 const groupIds = groupsToFetch.map(({groupId}) => groupId);
                 const fetchedResults = await groupStatusService.getStatuses(groupIds);
-                
+
                 for (const [groupId, status] of fetchedResults.entries()) {
                     if (status) {
                         groupStatuses.set(groupId, status);
@@ -235,12 +222,12 @@
 
             // Mount status indicators
             for (const groupDetail of groupDetails) {
-                const {groupId, element, nameElement, groupName, groupImageUrl} = groupDetail;
+                const {groupId, element, nameElement} = groupDetail;
                 const status = groupStatuses.get(groupId);
-                
+
                 if (status) {
                     element.classList.add('status-processed');
-                    await mountStatusIndicator(groupId, status, nameElement, groupName, groupImageUrl, element);
+                    mountStatusIndicator(groupId, status, nameElement, element);
                 }
             }
         } catch (error) {
@@ -249,14 +236,14 @@
     }
 
     // Mount status indicator for a group
-    async function mountStatusIndicator(groupId: string, status: GroupStatus, nameElement: Element, groupName: string, groupImageUrl?: string, element?: Element) {
+    function mountStatusIndicator(groupId: string, status: GroupStatus, nameElement: Element, element?: Element) {
         // Check and unmount existing component
         const existingComponent = mountedComponents.get(groupId);
         if (existingComponent) {
             existingComponent.unmount?.();
             mountedComponents.delete(groupId);
         }
-        
+
         // Check if container already exists (defensive)
         if (hasStatusIndicator(nameElement)) return;
 
@@ -282,11 +269,7 @@
                 loading: false,
                 showTooltips,
                 showText: !isGridView,
-                onClick: handleStatusClick,
-                entityMetadata: {
-                    name: groupName,
-                    imageUrl: groupImageUrl
-                }
+                onClick: handleStatusClick
             }
         });
 

@@ -50,6 +50,7 @@ export abstract class Observer {
     async start(): Promise<void> {
         this.active = true;
         logger.debug(`${this.name} observer started`);
+        return Promise.resolve();
     }
 
     // Stops the observer
@@ -90,7 +91,7 @@ export abstract class Observer {
  * A mutation observer manager with health checking and auto-recovery
  */
 export class ObserverManager extends Observer {
-    private config: Required<ObserverConfig>;
+    private readonly config: Required<ObserverConfig>;
     private observer: MutationObserver | null = null;
     private reconnectTimer: number | null = null;
     private healthCheckTimer: number | null = null;
@@ -103,29 +104,29 @@ export class ObserverManager extends Observer {
         super(config);
 
         this.config = {
-            targetSelector: config.targetSelector || '',
-            callback: config.callback || (() => {
+            targetSelector: config.targetSelector ?? '',
+            callback: config.callback ?? (() => {
             }),
-            observerOptions: config.observerOptions || {childList: true, subtree: true},
-            onNoTarget: config.onNoTarget || (() => {
+            observerOptions: config.observerOptions ?? {childList: true, subtree: true},
+            onNoTarget: config.onNoTarget ?? (() => {
             }),
-            onNewMutations: config.onNewMutations || (() => {
+            onNewMutations: config.onNewMutations ?? (() => {
             }),
-            onStart: config.onStart || (() => {
+            onStart: config.onStart ?? (() => {
             }),
-            onResizeComplete: config.onResizeComplete || (() => {
+            onResizeComplete: config.onResizeComplete ?? (() => {
             }),
-            healthCheckInterval: config.healthCheckInterval || OBSERVER_CONFIG.DEFAULT_HEALTH_CHECK_INTERVAL,
-            restartDelay: config.restartDelay || OBSERVER_CONFIG.DEFAULT_RESTART_DELAY,
-            maxRetries: config.maxRetries || OBSERVER_CONFIG.DEFAULT_MAX_RETRIES,
+            healthCheckInterval: config.healthCheckInterval ?? OBSERVER_CONFIG.DEFAULT_HEALTH_CHECK_INTERVAL,
+            restartDelay: config.restartDelay ?? OBSERVER_CONFIG.DEFAULT_RESTART_DELAY,
+            maxRetries: config.maxRetries ?? OBSERVER_CONFIG.DEFAULT_MAX_RETRIES,
             ignoreResizeEvents: config.ignoreResizeEvents !== false,
-            enablePostResizeProcessing: config.enablePostResizeProcessing || false,
+            enablePostResizeProcessing: config.enablePostResizeProcessing ?? false,
             ...config,
         };
     }
 
     // Starts the MutationObserver on the target element
-    async start(): Promise<void> {
+    override async start(): Promise<void> {
         // Disconnect previous observer if active
         if (this.observer) {
             this.observer.disconnect();
@@ -193,7 +194,7 @@ export class ObserverManager extends Observer {
     }
 
     // Stops the observer and cleans up
-    stop(): void {
+    override stop(): void {
         super.stop();
 
         if (this.observer) {
@@ -218,7 +219,7 @@ export class ObserverManager extends Observer {
     }
 
     // Cleans up all resources
-    cleanup(): void {
+    override cleanup(): void {
         this.stop();
         this.retryCount = 0;
         this.isResizing = false;
@@ -264,7 +265,7 @@ export class ObserverManager extends Observer {
             this.isResizing = true;
             logger.debug(`${this.name} observer: Resize detected, pausing mutations`);
 
-            this.resizeTimer = window.setTimeout(async () => {
+            this.resizeTimer = window.setTimeout(() => {
                 this.isResizing = false;
                 logger.debug(`${this.name} observer: Resize complete, resuming mutations`);
 
@@ -272,7 +273,7 @@ export class ObserverManager extends Observer {
                 if (this.config.enablePostResizeProcessing && this.config.onResizeComplete) {
                     try {
                         logger.debug(`${this.name} observer: Triggering post-resize processing`);
-                        await this.config.onResizeComplete();
+                        void this.config.onResizeComplete();
                     } catch (error) {
                         logger.error(`${this.name} observer: Error in post-resize processing:`, error);
                     }
@@ -297,12 +298,12 @@ export class ObserverManager extends Observer {
             return;
         }
 
-        const actualDelay = delay || (this.config.restartDelay * this.retryCount);
+        const actualDelay = delay ?? (this.config.restartDelay * this.retryCount);
         logger.debug(`${this.name} observer: Scheduling restart in ${actualDelay}ms (attempt ${this.retryCount}/${this.config.maxRetries})`);
 
-        this.reconnectTimer = window.setTimeout(async () => {
+        this.reconnectTimer = window.setTimeout(() => {
             logger.debug(`${this.name} observer: Attempting restart...`);
-            await this.start();
+            void this.start();
         }, actualDelay);
     }
 
@@ -341,7 +342,7 @@ export class ObserverManager extends Observer {
  * Observer for URL changes in single-page applications
  */
 export class UrlChangeObserver extends Observer {
-    private config: Required<UrlChangeObserverConfig>;
+    private readonly config: Required<UrlChangeObserverConfig>;
     private currentUrl: string;
     private timer: number | null = null;
 
@@ -357,7 +358,7 @@ export class UrlChangeObserver extends Observer {
     }
 
     // Starts monitoring URL changes
-    async start(): Promise<void> {
+    override async start(): Promise<void> {
         await super.start();
 
         this.currentUrl = window.location.href;
@@ -369,7 +370,7 @@ export class UrlChangeObserver extends Observer {
     }
 
     // Stops monitoring URL changes
-    stop(): void {
+    override stop(): void {
         super.stop();
 
         if (this.timer) {
@@ -379,7 +380,7 @@ export class UrlChangeObserver extends Observer {
     }
 
     // Cleans up the observer
-    cleanup(): void {
+    override cleanup(): void {
         this.stop();
         super.cleanup();
     }
@@ -435,19 +436,25 @@ export const observerFactory = {
                 childList: true,
                 subtree: true,
             },
-            callback: async () => {
-                await processItemsInContainer();
+            callback: () => {
+                processItemsInContainer().catch(error => {
+                    logger.error(`${name}: Error in containerAdded processItems:`, error);
+                });
             },
             onNoTarget: () => {
                 logger.debug(`${name}: Container not found, will retry`);
             },
-            onStart: processExistingItems ? async () => {
+            onStart: processExistingItems ? () => {
                 logger.debug(`${name}: Processing existing items on start`);
-                await processItemsInContainer();
+                processItemsInContainer().catch(error => {
+                    logger.error(`${name}: Error in start processItems:`, error);
+                });
             } : undefined,
-            onResizeComplete: onResizeComplete || (enablePostResizeProcessing ? async () => {
+            onResizeComplete: onResizeComplete ?? (enablePostResizeProcessing ? () => {
                 logger.debug(`${name}: Post-resize processing triggered`);
-                await processItemsInContainer();
+                processItemsInContainer().catch(error => {
+                    logger.error(`${name}: Error in resize processItems:`, error);
+                });
             } : undefined),
             enablePostResizeProcessing,
             maxRetries,

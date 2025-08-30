@@ -1,4 +1,4 @@
-import type {UserReasonType, GroupReasonType, StatusFlag, VoteType} from './constants';
+import type {GroupReasonType, StatusFlag, UserReasonType, VoteType} from './constants';
 
 // Reviewer information interface
 export interface ReviewerInfo {
@@ -119,16 +119,16 @@ export type PageType =
     | 'friends-list'
     | 'friends-carousel'
     | 'profile'
-    | 'groups'
+    | 'members'
     | 'report';
 
 // Content script message data
 export interface ContentMessage {
     action: string;
     userId?: string | number;
-    userIds?: (string | number)[];
+    userIds?: Array<string | number>;
     groupId?: string | number;
-    groupIds?: (string | number)[];
+    groupIds?: Array<string | number>;
     voteType?: VoteType;
     inappropriateOutfit?: boolean;
     inappropriateProfile?: boolean;

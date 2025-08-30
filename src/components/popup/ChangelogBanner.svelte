@@ -12,17 +12,15 @@
     let isClosing = $state(false);
 
     // Handle dismiss button click
-    async function handleDismiss() {
+    function handleDismiss() {
         isClosing = true;
 
         // Add a small delay to show the closing animation
-        setTimeout(async () => {
-            try {
-                await dismissChangelogBanner();
-            } catch (error) {
+        setTimeout(() => {
+            dismissChangelogBanner().catch(error => {
                 console.error('Failed to dismiss changelog banner:', error);
                 isClosing = false;
-            }
+            });
         }, 200);
     }
 

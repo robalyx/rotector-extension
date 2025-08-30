@@ -216,11 +216,12 @@ export const GROUPS_SELECTORS = {
 // DOM selectors for group header
 export const GROUP_HEADER_SELECTORS = {
     HEADER_INFO: '.group-profile-header-info',
+    DETAILS_CONTAINER: '.profile-header-details-container',
     ACTIONS_CONTAINER: '.actions-container',
     NAMES_CONTAINER: '.profile-header-details-names-container',
     GROUP_NAME: '.profile-header-details-community-name',
     OWNER_NAME: '.profile-header-details-owner-name',
-    GROUP_IMAGE: '.profile-header-details-avatar-container img',
+    GROUP_IMAGE: '.profile-header-details-avatar-container img'
 } as const;
 
 // DOM selectors for profile groups showcase
@@ -288,7 +289,7 @@ export const PAGE_TYPES = {
     FRIENDS_LIST: 'friends-list',
     FRIENDS_CAROUSEL: 'friends-carousel',
     PROFILE: 'profile',
-    GROUPS: 'groups',
+    MEMBERS: 'members',
     REPORT: 'report'
 } as const;
 

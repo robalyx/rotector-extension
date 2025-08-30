@@ -25,7 +25,7 @@
 
     // Initialize components when mounted
     $effect(() => {
-        initialize();
+        void initialize();
         onMount?.(cleanup);
 
         return cleanup;
@@ -144,7 +144,7 @@
                     element: container,
                     cleanup: () => {
                         if ('unmount' in component && typeof component.unmount === 'function') {
-                            component.unmount();
+                            (component as { unmount: () => void }).unmount();
                         }
                         container.remove();
                     }

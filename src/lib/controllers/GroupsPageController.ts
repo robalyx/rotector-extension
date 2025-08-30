@@ -34,7 +34,7 @@ export class GroupsPageController extends PageController {
 
             // Extract group ID from URL
             this.groupId = this.extractGroupIdFromUrl();
-            
+
             // Wait for group elements and load
             if (this.groupId) {
                 logger.debug('Group ID extracted', {groupId: this.groupId});
@@ -45,7 +45,7 @@ export class GroupsPageController extends PageController {
             }
 
             // Mount unified group page manager
-            await this.mountGroupPageManager();
+            this.mountGroupPageManager();
 
             logger.debug('GroupsPageController initialized successfully');
 
@@ -56,7 +56,7 @@ export class GroupsPageController extends PageController {
     }
 
     // Page cleanup
-    protected async cleanupPage(): Promise<void> {
+    protected cleanupPage(): void {
         try {
             if (this.groupPageManager) {
                 this.groupPageManager.cleanup();
@@ -73,7 +73,7 @@ export class GroupsPageController extends PageController {
     }
 
     // Mount unified group page manager
-    private async mountGroupPageManager(): Promise<void> {
+    private mountGroupPageManager(): void {
         try {
             // Create container for group page manager
             const container = this.createComponentContainer(COMPONENT_CLASSES.GROUPS_MANAGER);
@@ -100,9 +100,9 @@ export class GroupsPageController extends PageController {
     // Extract group ID from the current URL
     private extractGroupIdFromUrl(): string | null {
         try {
-            const match = this.url.match(/\/(groups|communities)\/(\d+)/);
-            if (match && match[2]) {
-                return sanitizeEntityId(match[2]) || null;
+            const match = /\/(groups|communities)\/(\d+)/.exec(this.url);
+            if (match?.length > 2) {
+                return sanitizeEntityId(match[2]) ?? null;
             }
             return null;
         } catch (error) {

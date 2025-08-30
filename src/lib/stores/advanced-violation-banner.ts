@@ -12,9 +12,7 @@ export const shouldShowAdvancedViolationBanner = derived(
         const currentAdvancedViolationEnabled = $settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED];
 
         // Initialize previous state on first run
-        if (previousAdvancedViolationEnabled === null) {
-            previousAdvancedViolationEnabled = currentAdvancedViolationEnabled;
-        }
+        previousAdvancedViolationEnabled ??= currentAdvancedViolationEnabled;
 
         // If the setting was turned off , reset the banner dismissal
         if (previousAdvancedViolationEnabled && !currentAdvancedViolationEnabled) {

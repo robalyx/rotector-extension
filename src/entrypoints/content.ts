@@ -46,7 +46,7 @@ export default defineContentScript({
 
             // Initialize page controller manager
             const pageManager = new PageControllerManager();
-            await pageManager.initialize();
+            pageManager.initialize();
             logger.debug('Page controller manager initialized');
 
             // Handle page navigation changes
@@ -59,7 +59,7 @@ export default defineContentScript({
                         pathname: window.location.pathname,
                         hash: window.location.hash
                     });
-                    pageManager.handleNavigation(currentUrl);
+                    void pageManager.handleNavigation(currentUrl);
                 }
             };
 

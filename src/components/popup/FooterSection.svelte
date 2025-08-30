@@ -10,6 +10,7 @@
         style:color="white"
         class="footer-social-link footer-social-link-discord"
         href="https://discord.gg/2Cn7kXqqhY"
+        rel="noopener noreferrer"
         target="_blank"
     >
       <svg class="footer-social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -25,6 +26,7 @@
         style:color="white"
         class="footer-social-link footer-social-link-github"
         href="https://github.com/robalyx"
+        rel="noopener noreferrer"
         target="_blank"
     >
       <svg class="footer-social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +45,7 @@
         style:color="white"
         class="footer-social-link footer-social-link-github"
         href="https://github.com/robalyx/rotector-extension"
+        rel="noopener noreferrer"
         target="_blank"
     >
       <svg class="footer-social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +58,7 @@
 
   <!-- Help Link -->
   <div class="footer-help-section">
-    <a class="footer-help-link" href="https://rotector.com" target="_blank">
+    <a class="footer-help-link" href="https://rotector.com" rel="noopener noreferrer" target="_blank">
       <svg class="footer-help-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
@@ -66,9 +69,11 @@
 
   <!-- Legal Links -->
   <div class="footer-legal-section">
-    <a class="footer-legal-link" href="https://rotector.com/privacy" target="_blank">Privacy Policy</a>
+    <a class="footer-legal-link" href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">Privacy
+      Policy</a>
     <span class="footer-legal-divider">|</span>
-    <a class="footer-legal-link" href="https://rotector.com/terms" target="_blank">Terms of Service</a>
+    <a class="footer-legal-link" href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">Terms of
+      Service</a>
   </div>
 
   <!-- Creator Credit -->

@@ -201,15 +201,17 @@
     bind:isOpen
 >
   <div>
-    <p style:color="var(--color-text)" class="!mb-6">You are about to submit this user (ID: {sanitizedUserId()}) for
+    <p style:color="var(--color-text)" class="mb-6!">You are about to submit this user (ID: {sanitizedUserId()}) for
       analysis by our system.</p>
 
     <!-- Option Selection Section -->
     <div class="queue-selection-section">
       {#if !optionsLocked}
         <!-- Option Selection Cards -->
-        <div class="space-y-4 mb-6">
-          <h3 style:color="var(--color-text)" class="text-lg font-semibold mb-3">Select flagging
+        <div class="mb-6 space-y-4">
+          <h3 style:color="var(--color-text)" class="
+            mb-3 text-lg font-semibold
+          ">Select flagging
             reason(s):</h3>
 
           <!-- Inappropriate Outfit Card -->
@@ -315,7 +317,7 @@
 
         <!-- Lock Options Section -->
         {#if showValidationError}
-          <div class="queue-validation-error mb-4">
+          <div class="mb-4 queue-validation-error">
             <div class="flex items-center gap-2">
               <div class="mature-content-warning-icon"></div>
               <strong>Selection Required:</strong> Please select at least one flagging reason before
@@ -330,6 +332,7 @@
               class="queue-lock-button"
               disabled={!canLockOptions}
               onclick={handleLockOptions}
+              type="button"
           >
             Lock In My Selection
           </button>
@@ -340,11 +343,17 @@
       {:else}
         <!-- Summary View -->
         <div class="queue-summary-container">
-          <h3 style:color="var(--color-text)" class="text-lg font-semibold mb-4">Selected Options:</h3>
+          <h3 style:color="var(--color-text)" class="
+            mb-4 text-lg font-semibold
+          ">Selected Options:</h3>
 
           <!-- Outfit Option Summary -->
-          <div class={inappropriateOutfit ? "queue-summary-item-selected" : "queue-summary-item-unselected"}>
-            <div class={inappropriateOutfit ? "queue-summary-icon-selected" : "queue-summary-icon-unselected"}>
+          <div class={inappropriateOutfit ? "queue-summary-item-selected" : `
+            queue-summary-item-unselected
+          `}>
+            <div class={inappropriateOutfit ? "queue-summary-icon-selected" : `
+              queue-summary-icon-unselected
+            `}>
               {inappropriateOutfit ? "✓" : "✗"}
             </div>
             <div class="outfit-icon"></div>
@@ -357,8 +366,12 @@
           </div>
 
           <!-- Profile Option Summary -->
-          <div class={inappropriateProfile ? "queue-summary-item-selected" : "queue-summary-item-unselected"}>
-            <div class={inappropriateProfile ? "queue-summary-icon-selected" : "queue-summary-icon-unselected"}>
+          <div class={inappropriateProfile ? "queue-summary-item-selected" : `
+            queue-summary-item-unselected
+          `}>
+            <div class={inappropriateProfile ? "queue-summary-icon-selected" : `
+              queue-summary-icon-unselected
+            `}>
               {inappropriateProfile ? "✓" : "✗"}
             </div>
             <div class="profile-icon"></div>
@@ -371,8 +384,12 @@
           </div>
 
           <!-- Friends Option Summary -->
-          <div class={inappropriateFriends ? "queue-summary-item-selected" : "queue-summary-item-unselected"}>
-            <div class={inappropriateFriends ? "queue-summary-icon-selected" : "queue-summary-icon-unselected"}>
+          <div class={inappropriateFriends ? "queue-summary-item-selected" : `
+            queue-summary-item-unselected
+          `}>
+            <div class={inappropriateFriends ? "queue-summary-icon-selected" : `
+              queue-summary-icon-unselected
+            `}>
               {inappropriateFriends ? "✓" : "✗"}
             </div>
             <div class="friends-icon"></div>
@@ -385,8 +402,12 @@
           </div>
 
           <!-- Groups Option Summary -->
-          <div class={inappropriateGroups ? "queue-summary-item-selected" : "queue-summary-item-unselected"}>
-            <div class={inappropriateGroups ? "queue-summary-icon-selected" : "queue-summary-icon-unselected"}>
+          <div class={inappropriateGroups ? "queue-summary-item-selected" : `
+            queue-summary-item-unselected
+          `}>
+            <div class={inappropriateGroups ? "queue-summary-icon-selected" : `
+              queue-summary-icon-unselected
+            `}>
               {inappropriateGroups ? "✓" : "✗"}
             </div>
             <div class="groups-icon"></div>
@@ -402,7 +423,9 @@
         <div class="text-center">
           <div
               style:margin-bottom="16px"
-              class={isUnlocking ? "queue-lock-button-unlocking" : "queue-lock-button-locked"}
+              class={isUnlocking ? "queue-lock-button-unlocking" : `
+                queue-lock-button-locked
+              `}
               aria-label={isUnlocking ? "Unlocking options..." : "Hold to unlock your selection"}
               onkeydown={(e) => {
               if (e.key === ' ' || e.key === 'Enter') {
@@ -453,7 +476,7 @@
 
     <div class="modal-content-section-info">
       <h3 class="modal-content-heading">
-        <span class="text-blue-500 mr-2">✓</span>
+        <span class="mr-2 text-blue-500">✓</span>
         Review Process
       </h3>
       <ul class="modal-content-list">
@@ -469,7 +492,7 @@
 
     <div class="modal-content-section-recommendation">
       <h3 class="modal-content-heading">
-        <span class="text-green-500 mr-2">✓</span>
+        <span class="mr-2 text-green-500">✓</span>
         Only submit users who
       </h3>
       <ul class="modal-content-list">
@@ -483,7 +506,7 @@
 
     <div class="modal-content-section-warning">
       <h3 class="modal-content-heading flex items-center">
-        <span class="warning-triangle-icon mr-2"></span>
+        <span class="mr-2 warning-triangle-icon"></span>
         Important Warning
       </h3>
       <p style:color="var(--color-text)"><strong>Abuse of this feature</strong> (submitting users without valid

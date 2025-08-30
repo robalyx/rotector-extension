@@ -2,18 +2,17 @@ import {derived, writable} from 'svelte/store';
 import {browser} from 'wxt/browser';
 import {logger} from './logger';
 import {settings, updateSetting} from '../stores/settings';
-import type {Theme} from '../types/settings';
-import {SETTINGS_KEYS} from '../types/settings';
+import {SETTINGS_KEYS, type Theme} from '../types/settings';
 
 /**
  * Theme management utility with reactive Svelte stores and Roblox theme detection
  */
 class ThemeManager {
-    private _systemTheme = writable<'light' | 'dark'>('light');
+    private readonly _systemTheme = writable<'light' | 'dark'>('light');
     public readonly systemTheme = {subscribe: this._systemTheme.subscribe};
-    private _robloxTheme = writable<'light' | 'dark'>('light');
+    private readonly _robloxTheme = writable<'light' | 'dark'>('light');
     public readonly robloxTheme = {subscribe: this._robloxTheme.subscribe};
-    private _contentScriptTheme = writable<'light' | 'dark' | null>(null);
+    private readonly _contentScriptTheme = writable<'light' | 'dark' | null>(null);
     public readonly effectiveTheme = derived(
         [settings, this._systemTheme, this._robloxTheme, this._contentScriptTheme],
         ([currentSettings, systemTheme, robloxTheme, contentScriptTheme]) => {
@@ -32,14 +31,14 @@ class ThemeManager {
                 return effectiveTheme;
             } else {
                 // Popup: use stored content script theme if available, otherwise system theme
-                return contentScriptTheme || systemTheme;
+                return contentScriptTheme ?? systemTheme;
             }
         }
     );
     private mediaQuery: MediaQueryList | null = null;
     private mediaQueryHandler: ((e: MediaQueryListEvent) => void) | null = null;
     private robloxObserver: MutationObserver | null = null;
-    private portalContainers: Set<HTMLElement> = new Set();
+    private readonly portalContainers: Set<HTMLElement> = new Set();
 
     constructor() {
         this.initializeSystemThemeDetection();
@@ -109,7 +108,7 @@ class ThemeManager {
 
     // Applies theme to a specific element
     applyThemeToElement(element: HTMLElement, theme?: 'light' | 'dark'): void {
-        const targetTheme = theme || this.getCurrentTheme();
+        const targetTheme = theme ?? this.getCurrentTheme();
 
         try {
             element.setAttribute('data-theme', targetTheme);
@@ -138,7 +137,7 @@ class ThemeManager {
     async getContentScriptTheme(): Promise<'light' | 'dark' | null> {
         try {
             const result = await browser.storage.local.get(['rotector-content-theme']);
-            return result['rotector-content-theme'] || null;
+            return (result['rotector-content-theme'] as 'light' | 'dark' | null) ?? null;
         } catch (error) {
             logger.error('Failed to get content script theme:', error);
             return null;
@@ -159,7 +158,7 @@ class ThemeManager {
             // Listen for changes to content script theme
             browser.storage.onChanged.addListener((changes, namespace) => {
                 if (namespace === 'local' && changes['rotector-content-theme']) {
-                    const newTheme = changes['rotector-content-theme'].newValue;
+                    const newTheme = changes['rotector-content-theme'].newValue as 'light' | 'dark' | null;
                     if (newTheme) {
                         this._contentScriptTheme.set(newTheme);
                         logger.debug(`Popup synced with content script theme change: ${newTheme}`);
@@ -321,8 +320,12 @@ class ThemeManager {
 export const themeManager = new ThemeManager();
 
 // Export portal management functions
-export const registerPortalContainer = (container: HTMLElement) => themeManager.registerPortalContainer(container);
-export const unregisterPortalContainer = (container: HTMLElement) => themeManager.unregisterPortalContainer(container);
+export const registerPortalContainer = (container: HTMLElement) => {
+    themeManager.registerPortalContainer(container);
+};
+export const unregisterPortalContainer = (container: HTMLElement) => {
+    themeManager.unregisterPortalContainer(container);
+};
 
 // Export popup theme sync function
-export const initializePopupThemeSync = () => themeManager.initializePopupThemeSync(); 
+export const initializePopupThemeSync = async () => themeManager.initializePopupThemeSync(); 

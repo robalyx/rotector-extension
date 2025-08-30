@@ -8,29 +8,39 @@
     import FooterSection from '../../components/popup/FooterSection.svelte';
     import {initializeSettings} from '@/lib/stores/settings';
     import {themeManager} from '@/lib/utils/theme';
+    import type {SettingsSectionInstance} from '@/lib/types/components';
 
-    let settingsSection = $state<SettingsSection>();
+    let settingsSection = $state<SettingsSectionInstance>();
 
     $effect(() => {
-        initializeSettings();
-        themeManager.initializePopupThemeSync();
+        initializeSettings().catch(error => {
+            console.error('Failed to initialize settings:', error);
+        });
+        themeManager.initializePopupThemeSync().catch(error => {
+            console.error('Failed to initialize popup theme sync:', error);
+        });
     });
 
     const theme = themeManager.effectiveTheme;
     const logoSrc = $derived($theme === 'dark' ? '/assets/rotector-logo-dark.png' : '/assets/rotector-logo-light.png');
 </script>
 
-<div class="app flex flex-col gap-3 p-3 w-[350px] min-h-[400px] scrollbar-styled">
+<div class="
+  app flex min-h-[400px] scrollbar-styled w-[350px] flex-col gap-3 p-3
+">
   <!-- Header Section -->
-  <div class="text-center pb-2">
-    <div class="flex justify-center mb-2">
+  <div class="pb-2 text-center">
+    <div class="mb-2 flex justify-center">
       <img
           class="h-20 w-auto max-w-[260px] object-contain"
           alt="Rotector"
           src={logoSrc}
       />
     </div>
-    <p class="m-0 text-text-subtle dark:text-text-subtle-dark text-xs">
+    <p class="
+      text-text-subtle m-0 text-xs
+      dark:text-text-subtle-dark
+    ">
       Real-time safety indicators that warn you about inappropriate Roblox users before you interact with them.
     </p>
   </div>

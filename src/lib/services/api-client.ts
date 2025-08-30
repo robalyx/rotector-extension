@@ -16,7 +16,7 @@ import {sanitizeEntityId} from '../utils/sanitizer';
 
 // API client for backend communication
 class RotectorApiClient {
-    private config: ApiClientConfig;
+    private readonly config: ApiClientConfig;
 
     constructor(config: Partial<ApiClientConfig> = {}) {
         this.config = {
@@ -61,7 +61,7 @@ class RotectorApiClient {
 
     // Checks the status of multiple users with automatic batching
     async checkMultipleUsers(
-        userIds: (string | number)[],
+        userIds: Array<string | number>,
         batchOptions: BatchOptions = {}
     ): Promise<UserStatus[]> {
         // Validate and sanitize all IDs
@@ -114,7 +114,7 @@ class RotectorApiClient {
 
     // Checks the status of multiple groups with automatic batching
     async checkMultipleGroups(
-        groupIds: (string | number)[],
+        groupIds: Array<string | number>,
         batchOptions: BatchOptions = {}
     ): Promise<GroupStatus[]> {
         // Validate and sanitize all IDs
@@ -228,7 +228,7 @@ class RotectorApiClient {
 
     // Gets vote data for multiple users with batching
     async getMultipleVotes(
-        userIds: (string | number)[],
+        userIds: Array<string | number>,
         batchOptions: BatchOptions = {}
     ): Promise<VoteData[]> {
         // Validate and sanitize all IDs first
@@ -299,13 +299,13 @@ class RotectorApiClient {
         while (attempt <= maxRetries) {
             try {
                 const message: ContentMessage = {action, ...data};
-                const response = await browser.runtime.sendMessage(message) as ApiResponse<T>;
+                const response: ApiResponse<T> = await browser.runtime.sendMessage(message);
 
-                if (response && response.success) {
+                if (response?.success) {
                     return response.data as T;
                 } else {
                     // Create structured error with additional properties
-                    const error = new Error(response.error || 'An error occurred. Please try again.') as Error & {
+                    const error = new Error(response.error ?? 'An error occurred. Please try again.') as Error & {
                         requestId?: string;
                         code?: string;
                         type?: string;
@@ -363,7 +363,7 @@ class RotectorApiClient {
     }
 
     // Utility function to pause execution
-    private sleep(ms: number): Promise<void> {
+    private async sleep(ms: number): Promise<void> {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 

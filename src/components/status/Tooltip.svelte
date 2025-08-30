@@ -30,11 +30,6 @@
         anchorElement: HTMLElement;
         mode?: 'preview' | 'expanded';
         entityType?: 'user' | 'group';
-        entityMetadata?: {
-            name?: string;
-            imageUrl?: string;
-            description?: string;
-        };
         onQueue?: () => void;
         onClose?: () => void;
         onExpand?: () => void;
@@ -51,7 +46,6 @@
         anchorElement,
         mode = 'preview',
         entityType = 'user',
-        entityMetadata,
         onQueue,
         onClose,
         onExpand,
@@ -93,9 +87,9 @@
         if (isGroup() && flag === STATUS.FLAGS.MIXED) {
             return "This group contains a mix of appropriate and inappropriate members.";
         }
-        
+
         const entityType = isGroup() ? 'group' : 'user';
-        
+
         switch (flag) {
             case STATUS.FLAGS.UNSAFE:
                 return `This ${entityType} has been verified as inappropriate by Rotector's human moderators.`;
@@ -221,17 +215,8 @@
         const groupId = sanitizedUserId();
         if (!groupId) return null;
 
-        // Use provided metadata if available
-        if (entityMetadata) {
-            return {
-                groupId,
-                groupName: entityMetadata.name || 'Unknown Group',
-                groupImageUrl: entityMetadata.imageUrl
-            };
-        }
-
-        // Fall back to extracting from page DOM
-        return extractGroupInfo(groupId);
+        const {pageType, container} = detectPageContext(anchorElement);
+        return extractGroupInfo(groupId, pageType, container);
     }
 
     // Positioning for preview tooltips
@@ -316,9 +301,9 @@
 
     // Handle clicks outside tooltip
     function handleClickOutside(event: MouseEvent) {
-        if (tooltipRef &&
-            !tooltipRef.contains(event.target as Node) &&
-            !anchorElement.contains(event.target as Node) &&
+        if (tooltipRef && event.target instanceof Node &&
+            !tooltipRef.contains(event.target) &&
+            !anchorElement.contains(event.target) &&
             onClose) {
             onClose();
         }
@@ -357,14 +342,16 @@
     $effect(() => {
         if (shouldShowVoting() && !hasLoadedVoteData && !loadingVotes) {
             hasLoadedVoteData = true;
-            loadVoteData();
+            loadVoteData().catch(error => {
+                logger.error('Failed to load vote data:', error);
+            });
         }
     });
 
     // Setup and cleanup
     $effect(() => {
         element = tooltipRef;
-        
+
         if (isGroup()) {
             groupInfo = getPageGroupInfo();
         } else {
@@ -459,6 +446,7 @@
           <button
               class="queue-button w-full"
               onclick={(e) => { e.stopPropagation(); handleQueueSubmit(); }}
+              type="button"
           >
             Queue for Review
           </button>
@@ -514,6 +502,7 @@
                   class="report-button"
                   href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId()}&submitterId=0&abuseVector=userprofile&nl=true"
                   onclick={(e) => e.stopPropagation()}
+                  rel="noopener noreferrer"
                   target="_blank"
               >
                 Report to Roblox
@@ -607,6 +596,7 @@
           class="expanded-tooltip-close"
           aria-label="Close"
           onclick={closeWithAnimation}
+          type="button"
       >
         ×
       </button>

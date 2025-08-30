@@ -17,6 +17,7 @@
     import {logger} from '@/lib/utils/logger';
     import type {PageType, UserStatus} from '@/lib/types/api';
     import StatusIndicator from '../status/StatusIndicator.svelte';
+    import type {QueueModalManagerInstance} from '@/lib/types/components';
     import QueueModalManager from './QueueModalManager.svelte';
 
     interface Props {
@@ -46,7 +47,7 @@
     let destroyed = $state(false);
 
     // Queue modal manager reference
-    let queueModalManager: QueueModalManager;
+    let queueModalManager: QueueModalManagerInstance;
 
     // Type definitions for user details
     interface UserDetails {
@@ -68,7 +69,7 @@
             itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
             profileLinkSelector: FRIENDS_SELECTORS.PROFILE_LINK
         },
-        [PAGE_TYPES.GROUPS]: {
+        [PAGE_TYPES.MEMBERS]: {
             containerSelector: GROUPS_SELECTORS.CONTAINER,
             itemSelector: GROUPS_SELECTORS.TILE,
             profileLinkSelector: GROUPS_SELECTORS.PROFILE_LINK
@@ -122,7 +123,7 @@
         // Provide cleanup function to parent
         onMount?.(cleanup);
 
-        initializeObserver();
+        void initializeObserver();
 
         // Start periodic cleanup for orphaned components
         const cleanupInterval = setInterval(() => {
@@ -145,7 +146,7 @@
             // For friends and groups pages, use hybrid approach due to container replacement during pagination
             if (pageType === PAGE_TYPES.FRIENDS_LIST) {
                 await initializeFriendsPageObserver();
-            } else if (pageType === PAGE_TYPES.GROUPS) {
+            } else if (pageType === PAGE_TYPES.MEMBERS) {
                 await initializeGroupsPageObserver();
             } else {
                 // Standard list observer for other page types
@@ -174,13 +175,13 @@
         containerWatcher = observerFactory.createContainerWatcher({
             name: `${pageConfig.pageName}-container-watcher`,
             containerSelector: pageConfig.containerSelector,
-            onContainerAdded: async (container: Element) => {
+            onContainerAdded: (container: Element) => {
                 logger.debug(`${pageConfig.pageName} container detected/replaced, processing new items`);
 
                 // Process all items in the new container immediately
                 const items = Array.from(container.querySelectorAll(pageConfig.itemSelector));
                 if (items.length > 0) {
-                    await handleNewUsers(items);
+                    void handleNewUsers(items);
                 }
 
                 // Restart the list observer on the new container
@@ -197,7 +198,7 @@
                 });
 
                 observer = observerFactory.createListObserver(config);
-                await observer.start();
+                void observer.start();
             }
         });
 
@@ -412,7 +413,11 @@
                 mountedComponents.delete(user.userId);
             }
 
-            const tileElement = user.element as HTMLElement;
+            if (!(user.element instanceof HTMLElement)) {
+                logger.warn('User element is not an HTMLElement, skipping positioning');
+                return;
+            }
+            const tileElement = user.element;
             let targetElement: HTMLElement;
 
             // For friends list, place status indicator inside avatar-card-caption
@@ -439,7 +444,7 @@
                 container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
 
                 // Add absolute positioning modifier for friend carousel tiles and groups
-                if (pageType === PAGE_TYPES.FRIENDS_CAROUSEL || pageType === PAGE_TYPES.GROUPS) {
+                if (pageType === PAGE_TYPES.FRIENDS_CAROUSEL || pageType === PAGE_TYPES.MEMBERS) {
                     container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
                 }
 
@@ -452,7 +457,7 @@
                 targetElement.appendChild(container);
             }
 
-            const showTextValue = pageType !== PAGE_TYPES.FRIENDS_CAROUSEL && pageType !== PAGE_TYPES.GROUPS;
+            const showTextValue = pageType !== PAGE_TYPES.FRIENDS_CAROUSEL && pageType !== PAGE_TYPES.MEMBERS;
 
             // Clear container content before mounting to prevent duplicates
             container.innerHTML = '';

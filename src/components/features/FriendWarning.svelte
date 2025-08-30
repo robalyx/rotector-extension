@@ -176,8 +176,8 @@
 
                 // Get avatar image
                 const avatarImg = profileHeader.querySelector(`${PROFILE_SELECTORS.AVATAR_IMG}`);
-                if (avatarImg) {
-                    avatarUrl = (avatarImg as HTMLImageElement).src;
+                if (avatarImg instanceof HTMLImageElement && avatarImg.src) {
+                    avatarUrl = avatarImg.src;
                 }
             }
         }

@@ -32,7 +32,7 @@ export class ReportPageController extends PageController {
             }
 
             // Extract user ID from report page
-            this.userId = await this.extractUserId();
+            this.userId = this.extractUserId();
             if (!this.userId) {
                 logger.warn('Could not extract user ID from report page');
                 return;
@@ -44,7 +44,7 @@ export class ReportPageController extends PageController {
             await this.loadUserStatus();
 
             // Mount report page manager
-            await this.mountReportPageManager();
+            this.mountReportPageManager();
 
             logger.debug('ReportPageController initialized successfully');
 
@@ -57,7 +57,7 @@ export class ReportPageController extends PageController {
     /**
      * Page cleanup
      */
-    protected async cleanupPage(): Promise<void> {
+    protected cleanupPage(): void {
         try {
             // Cleanup report page manager
             if (this.reportPageManager) {
@@ -76,7 +76,7 @@ export class ReportPageController extends PageController {
     }
 
     // Extract user ID from report page
-    private async extractUserId(): Promise<string | null> {
+    private extractUserId(): string | null {
         try {
             // Sources to check for user ID
             const urlParams = new URLSearchParams(window.location.search);
@@ -122,7 +122,7 @@ export class ReportPageController extends PageController {
     }
 
     // Mount report page manager
-    private async mountReportPageManager(): Promise<void> {
+    private mountReportPageManager(): void {
         try {
             if (!this.userId || !this.userStatus) {
                 logger.debug('Missing userId or userStatus, not mounting ReportPageManager');

@@ -1,6 +1,11 @@
 import {derived, writable} from 'svelte/store';
-import type {Statistics, StatisticsCache, StatisticsState} from '../types/statistics.js';
-import {STATISTICS_CACHE_KEY, STATISTICS_CONFIG} from '../types/statistics.js';
+import {
+    type Statistics,
+    STATISTICS_CACHE_KEY,
+    STATISTICS_CONFIG,
+    type StatisticsCache,
+    type StatisticsState
+} from '../types/statistics.js';
 
 export const statistics = writable<Statistics | null>(null);
 export const statisticsState = writable<StatisticsState>('loading');
@@ -26,7 +31,7 @@ export const lastUpdatedFormatted = derived(
 async function getCachedStatistics(): Promise<Statistics | null> {
     try {
         const result = await browser.storage.local.get([STATISTICS_CACHE_KEY]);
-        const cache: StatisticsCache | undefined = result[STATISTICS_CACHE_KEY];
+        const cache: StatisticsCache | undefined = result[STATISTICS_CACHE_KEY] as StatisticsCache | undefined;
 
         if (!cache) return null;
 
@@ -57,14 +62,17 @@ async function cacheStatistics(data: Statistics): Promise<void> {
 
 // Load statistics from API
 async function fetchStatisticsFromAPI(): Promise<Statistics> {
-    const response = await browser.runtime.sendMessage({
+    const response: { success: boolean; error?: string; data?: Statistics } = await browser.runtime.sendMessage({
         action: 'getStatistics'
     });
 
     if (!response.success) {
-        throw new Error(response.error || 'Failed to fetch statistics');
+        throw new Error(response.error ?? 'Failed to fetch statistics');
     }
 
+    if (!response.data) {
+        throw new Error('No data returned from statistics API');
+    }
     return response.data;
 }
 

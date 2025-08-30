@@ -27,7 +27,7 @@ class VoteDataService {
     private readonly REQUEST_TIMEOUT = 10 * 1000; // 10 seconds
 
     // Store for reactive updates
-    private voteDataStore = writable<VoteDataCache>({});
+    private readonly voteDataStore = writable<VoteDataCache>({});
 
     constructor() {
         setInterval(() => {

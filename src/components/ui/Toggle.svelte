@@ -25,10 +25,15 @@
     }
 </script>
 
-<label style:height="22px" style:width="40px" class="relative inline-block flex-shrink-0">
+<label style:height="22px" style:width="40px" class="
+  relative inline-block shrink-0
+">
   <input
       name="toggle"
-      class="opacity-0 w-0 h-0 focus:outline-none peer"
+      class="
+        peer size-0 opacity-0
+        focus:outline-none
+      "
       {checked}
       {disabled}
       onchange={handleChange}

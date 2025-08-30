@@ -35,13 +35,13 @@
     bind:isOpen
 >
   <div>
-    <p style:color="var(--color-text)" class="!mb-4">
+    <p style:color="var(--color-text)" class="mb-4!">
       User ID {successData.queued} has been successfully queued for review.
     </p>
 
     <div class="modal-content-section">
       <h3 class="modal-content-heading">
-        <span class="text-blue-500 mr-2">✓</span>
+        <span class="mr-2 text-blue-500">✓</span>
         What happens next
       </h3>
       <ul class="modal-content-list">

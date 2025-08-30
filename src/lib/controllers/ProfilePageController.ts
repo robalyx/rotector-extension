@@ -46,7 +46,7 @@ export class ProfilePageController extends PageController {
             await this.loadUserStatus();
 
             // Mount profile page manager to handle all UI components
-            await this.mountProfilePageManager();
+            this.mountProfilePageManager();
 
             logger.debug('ProfilePageController initialized successfully');
 
@@ -57,7 +57,7 @@ export class ProfilePageController extends PageController {
     }
 
     // Page cleanup
-    protected async cleanupPage(): Promise<void> {
+    protected cleanupPage(): void {
         try {
             // Cleanup profile page manager
             if (this.profilePageManager) {
@@ -78,9 +78,9 @@ export class ProfilePageController extends PageController {
     // Extract user ID from profile URL
     private extractUserIdFromUrl(): string | null {
         try {
-            const match = this.url.match(/\/users\/(\d+)/);
-            if (match && match[1]) {
-                return sanitizeEntityId(match[1]) || null;
+            const match = /\/users\/(\d+)/.exec(this.url);
+            if (match?.length > 1) {
+                return sanitizeEntityId(match[1]) ?? null;
             }
             return null;
         } catch (error) {
@@ -121,7 +121,7 @@ export class ProfilePageController extends PageController {
     }
 
     // Mount profile page manager to handle all UI components
-    private async mountProfilePageManager(): Promise<void> {
+    private mountProfilePageManager(): void {
         try {
             if (!this.userId) {
                 throw new Error('Cannot mount ProfilePageManager without userId');
@@ -159,7 +159,7 @@ export class ProfilePageController extends PageController {
 
             // Remount profile page manager with updated status
             if (this.profilePageManager) {
-                await this.mountProfilePageManager();
+                this.mountProfilePageManager();
             }
         } catch (error) {
             logger.error('Failed to refresh status after queue operation:', error);

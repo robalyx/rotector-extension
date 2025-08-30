@@ -24,7 +24,7 @@
     let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
     $effect(() => {
-        initialize();
+        void initialize();
         onMount?.(cleanup);
         return cleanup;
     });
@@ -45,7 +45,7 @@
     // Setup status indicator for group owner
     async function setupStatusIndicator() {
         if (!groupId) return;
-        
+
         try {
             // Wait for group owner name element
             const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME, {
@@ -66,7 +66,7 @@
             logger.error('Failed to setup group status indicator:', error);
         }
     }
-    
+
     // Insert and mount status indicator component
     function insertStatusIndicator(ownerElement: Element) {
         // Check and unmount existing component
@@ -75,18 +75,18 @@
             existingComponent.unmount?.();
             mountedComponents.delete('group-owner');
         }
-        
+
         // Remove any existing container from DOM
         const existingContainer = ownerElement.parentNode?.querySelector('.rotector-group-status-container');
         if (existingContainer) {
             existingContainer.remove();
         }
-        
+
         // Create new container
         const container = document.createElement('span');
         container.className = 'rotector-group-status-container';
         ownerElement.parentNode?.insertBefore(container, ownerElement.nextSibling);
-        
+
         // Mount new component
         const component = mount(StatusIndicator, {
             target: container,
@@ -99,7 +99,7 @@
                 showTooltips
             }
         });
-        
+
         // Track the component
         mountedComponents.set('group-owner', component);
     }

@@ -15,7 +15,7 @@ class Logger {
         // Listen for storage changes
         browser.storage.onChanged.addListener((changes, namespace) => {
             if (namespace === 'sync' && changes.debugModeEnabled) {
-                this.debugEnabled = changes.debugModeEnabled.newValue || false;
+                this.debugEnabled = Boolean(changes.debugModeEnabled.newValue);
                 console.log('[Rotector] Debug mode changed to:', this.debugEnabled);
             }
         });
@@ -76,7 +76,7 @@ class Logger {
     private async initializeDebugMode(): Promise<void> {
         try {
             const result = await browser.storage.sync.get('debugModeEnabled');
-            this.debugEnabled = result.debugModeEnabled || SETTINGS_DEFAULTS.debugModeEnabled || false;
+            this.debugEnabled = Boolean(result.debugModeEnabled ?? SETTINGS_DEFAULTS.debugModeEnabled);
             if (this.debugEnabled) {
                 console.log('[Rotector] Debug mode is enabled');
             }

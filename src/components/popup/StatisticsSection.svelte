@@ -10,9 +10,10 @@
     } from '@/lib/stores/statistics';
     import {updateSetting} from '@/lib/stores/settings';
     import {SETTINGS_KEYS} from '@/lib/types/settings';
+    import type {SettingsSectionInstance} from '@/lib/types/components';
 
     // Props
-    let {settingsSection}: { settingsSection?: { highlightSetting: (key: string) => void } } = $props();
+    let {settingsSection}: { settingsSection?: SettingsSectionInstance } = $props();
 
     let isRefreshing = $state(false);
 
@@ -34,7 +35,9 @@
     function handleBloxDBCardClick() {
         if (settingsSection?.highlightSetting) {
             // Expand the settings section if it's collapsed
-            updateSetting(SETTINGS_KEYS.SETTINGS_EXPANDED, true);
+            updateSetting(SETTINGS_KEYS.SETTINGS_EXPANDED, true).catch(error => {
+                console.error('Failed to update settings expanded state:', error);
+            });
 
             // Highlight the BloxDB integration setting
             setTimeout(() => {
@@ -58,13 +61,22 @@
     }
 
     $effect(() => {
-        loadStatistics();
+        loadStatistics().catch(error => {
+            console.error('Failed to load statistics:', error);
+        });
     });
 </script>
 
 <div class="stat-container">
-  <div class="flex items-center justify-between mb-3 pb-1.5 border-b border-border dark:border-border-dark">
-    <h2 class="m-0 text-base font-semibold text-text-heading dark:text-text-heading-dark flex items-center gap-1.5 tracking-tight">
+  <div class="
+    border-border mb-3 flex items-center justify-between border-b pb-1.5
+    dark:border-border-dark
+  ">
+    <h2 class="
+      text-text-heading m-0 flex items-center gap-1.5 text-base font-semibold
+      tracking-tight
+      dark:text-text-heading-dark
+    ">
       System Statistics
     </h2>
     <button
@@ -75,12 +87,12 @@
         title="Refresh Statistics"
         type="button"
     >
-      <span class="w-4 h-4 transition-transform duration-300 inline-block">
+      <span class="inline-block size-4 transition-transform duration-300">
         {#if isRefreshing}
           <LoadingSpinner size="small"/>
         {:else}
           <svg
-              class="w-4 h-4 fill-current"
+              class="size-4 fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
           >
@@ -93,15 +105,22 @@
   </div>
 
   {#if $statisticsState === 'loading'}
-    <div class="flex flex-col items-center gap-3 py-8 text-text-subtle dark:text-text-subtle-dark text-sm">
+    <div class="
+      text-text-subtle flex flex-col items-center gap-3 py-8 text-sm
+      dark:text-text-subtle-dark
+    ">
       <LoadingSpinner size="medium"/>
       <span>Loading statistics...</span>
     </div>
   {:else if $statisticsState === 'error'}
-    <div class="text-center py-8">
-      <div class="text-error text-sm font-medium mb-3">Failed to load statistics</div>
+    <div class="py-8 text-center">
+      <div class="text-error mb-3 text-sm font-medium">Failed to load statistics</div>
       <button
-          class="btn-focus px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md text-sm font-medium"
+          class="
+            bg-primary rounded-md px-4 py-2 text-sm font-medium text-white
+            btn-focus
+            hover:bg-primary-dark
+          "
           onclick={handleRefresh}
           type="button"
       >
@@ -124,8 +143,14 @@
           </div>
         </div>
         <div class="mt-3 text-center">
-          <div class="text-2xs text-text-subtle dark:text-text-subtle-dark flex items-center justify-center gap-1">
-            <span class="text-orange-600 dark:text-orange-400">🚫</span>
+          <div class="
+            text-text-subtle flex items-center justify-center gap-1 text-2xs
+            dark:text-text-subtle-dark
+          ">
+            <span class="
+              text-orange-600
+              dark:text-orange-400
+            ">🚫</span>
             <span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
             other users banned by Roblox
           </div>
@@ -133,13 +158,16 @@
       </div>
 
       <!-- Integrated Systems -->
-      <div class="stat-category col-span-full">
+      <div class="col-span-full stat-category">
         <h3 class="stat-category-title">Integrated Systems</h3>
         <div class="flex justify-center">
           <div
               style:max-width="200px"
               style:width="100%"
-              class="stat-item cursor-pointer hover:shadow-lg transition-all duration-200"
+              class="
+                stat-item cursor-pointer transition-all duration-200
+                hover:shadow-lg
+              "
               onclick={handleBloxDBCardClick}
               onkeydown={handleBloxDBCardKeydown}
               role="button"
@@ -151,7 +179,7 @@
             <div
                 style:border-color="var(--color-border-subtle)"
                 style:color="var(--color-text-subtle)"
-                class="mt-2 -mx-2 px-2 pt-2 border-t text-2xs"
+                class="-mx-2 mt-2 border-t px-2 pt-2 text-2xs"
             >
               {formatNumber($statistics?.totalBloxdbExistingUsers)} existing users
             </div>
@@ -175,7 +203,7 @@
           <!-- Arrow -->
           <div class="queue-arrow">
             <svg
-                class="w-full h-full fill-current"
+                class="size-full fill-current"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
             >
@@ -201,7 +229,7 @@
       </div>
 
       <!-- Community -->
-      <div class="stat-category col-span-full">
+      <div class="col-span-full stat-category">
         <h3 class="stat-category-title">Community</h3>
         <div class="flex justify-center">
           <div

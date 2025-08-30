@@ -55,13 +55,13 @@
     bind:isOpen
 >
   <div>
-    <p style:color="var(--color-text)" class="!mb-4">
+    <p style:color="var(--color-text)" class="mb-4!">
       Failed to queue user ID {sanitizedUserId()} for review.
     </p>
 
     <div class="modal-content-section-warning">
       <h3 class="modal-content-heading">
-        <span class="text-orange-500 mr-2">⚠️</span>
+        <span class="mr-2 text-orange-500">⚠️</span>
         Error Details
       </h3>
       <div>
@@ -80,7 +80,7 @@
 
     <div class="modal-content-section-info">
       <h3 class="modal-content-heading">
-        <span class="text-blue-500 mr-2">ℹ️</span>
+        <span class="mr-2 text-blue-500">ℹ️</span>
         What to do next
       </h3>
       <ul class="modal-content-list">

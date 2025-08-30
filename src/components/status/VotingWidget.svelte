@@ -95,24 +95,26 @@
   <!-- Vote buttons -->
   <div class="voting-buttons">
     <button
-        class="voting-button voting-upvote"
+        class="voting-upvote voting-button"
         class:voting-button-upvote-active={voteStats().currentVote === VOTE_TYPES.UPVOTE}
         aria-label="Agree with this status"
         disabled={loading}
         onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.UPVOTE); }}
+        type="button"
     >
-      <span class="voting-icon voting-icon-upvote"></span>
+      <span class="voting-icon-upvote voting-icon"></span>
       <span class="voting-label">Agree</span>
     </button>
 
     <button
-        class="voting-button voting-downvote"
+        class="voting-downvote voting-button"
         class:voting-button-downvote-active={voteStats().currentVote === VOTE_TYPES.DOWNVOTE}
         aria-label="Disagree with this status"
         disabled={loading}
         onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.DOWNVOTE); }}
+        type="button"
     >
-      <span class="voting-icon voting-icon-downvote"></span>
+      <span class="voting-icon-downvote voting-icon"></span>
       <span class="voting-label">Disagree</span>
     </button>
   </div>

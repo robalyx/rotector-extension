@@ -12,7 +12,7 @@ import HomePageManager from '../../components/features/HomePageManager.svelte';
 export class HomePageController extends PageController {
     private homePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
-    protected async initializePage(): Promise<void> {
+    protected initializePage(): void {
         try {
             logger.debug('Initializing HomePageController', {
                 pageType: this.pageType,
@@ -27,7 +27,7 @@ export class HomePageController extends PageController {
             }
 
             // Mount home page manager
-            await this.mountHomePageManager();
+            this.mountHomePageManager();
 
             logger.debug('HomePageController initialized successfully');
 
@@ -38,7 +38,7 @@ export class HomePageController extends PageController {
     }
 
     // Page cleanup
-    protected async cleanupPage(): Promise<void> {
+    protected cleanupPage(): void {
         try {
             if (this.homePageManager) {
                 this.homePageManager.cleanup();
@@ -52,7 +52,7 @@ export class HomePageController extends PageController {
     }
 
     // Mount home page manager
-    private async mountHomePageManager(): Promise<void> {
+    private mountHomePageManager(): void {
         try {
             // Create container for home page manager
             const container = this.createComponentContainer(COMPONENT_CLASSES.HOME_CAROUSEL_MANAGER);

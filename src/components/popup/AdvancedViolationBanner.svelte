@@ -5,10 +5,10 @@
     } from '@/lib/stores/advanced-violation-banner';
     import {settings, updateSetting} from '@/lib/stores/settings';
     import {SETTINGS_KEYS} from '@/lib/types/settings';
-    import type SettingsSection from './SettingsSection.svelte';
+    import type {SettingsSectionInstance} from '@/lib/types/components';
 
     interface Props {
-        settingsSection?: SettingsSection;
+        settingsSection?: SettingsSectionInstance;
     }
 
     let {settingsSection}: Props = $props();
@@ -16,17 +16,15 @@
     let isClosing = $state(false);
 
     // Handle dismiss button click
-    async function handleDismiss() {
+    function handleDismiss() {
         isClosing = true;
 
         // Add a small delay to show the closing animation
-        setTimeout(async () => {
-            try {
-                await dismissAdvancedViolationBanner();
-            } catch (error) {
+        setTimeout(() => {
+            dismissAdvancedViolationBanner().catch(error => {
                 console.error('Failed to dismiss advanced violation banner:', error);
                 isClosing = false;
-            }
+            });
         }, 200);
     }
 
@@ -48,9 +46,7 @@
                     });
                 }
 
-                if (settingsSection && settingsSection.highlightSetting) {
-                    settingsSection.highlightSetting(SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED);
-                }
+                settingsSection?.highlightSetting(SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED);
             }, 150);
         } catch (error) {
             console.error('Failed to navigate to advanced violation setting:', error);

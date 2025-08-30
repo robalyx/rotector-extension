@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type {UserStatus, GroupStatus} from '@/lib/types/api';
-    import {STATUS, ENTITY_TYPES} from '@/lib/types/constants';
+    import type {GroupStatus, UserStatus} from '@/lib/types/api';
+    import {ENTITY_TYPES, STATUS} from '@/lib/types/constants';
     import {logger} from '@/lib/utils/logger';
     import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import {getStatusConfig} from '@/lib/utils/status-config';
-    import {userStatusService, groupStatusService} from '@/lib/services/entity-status-service';
+    import {groupStatusService, userStatusService} from '@/lib/services/entity-status-service';
 
     import Tooltip from './Tooltip.svelte';
     import Portal from 'svelte-portal';
@@ -22,11 +22,6 @@
         skipAutoFetch?: boolean;
         onClick?: (entityId: string) => void;
         onQueue?: (entityId: string) => void;
-        entityMetadata?: {
-            name?: string;
-            imageUrl?: string;
-            description?: string;
-        };
     }
 
     let {
@@ -39,8 +34,7 @@
         showText = true,
         skipAutoFetch = false,
         onClick,
-        onQueue,
-        entityMetadata
+        onQueue
     }: Props = $props();
 
     // Local state
@@ -67,7 +61,7 @@
 
     const integrationCount = $derived(() => {
         if (entityType !== ENTITY_TYPES.USER) return 0;
-        
+
         const activeStatus = status || cachedStatus;
         const userStatus = activeStatus as UserStatus;
         return userStatus?.integrationSources ? Object.keys(userStatus.integrationSources).length : 0;
@@ -221,7 +215,7 @@
                             flagType: result.flagType
                         });
                     }
-                }).catch(err => {
+                }).catch((err: unknown) => {
                     logger.error('StatusIndicator: failed to fetch status', {entityId: id, entityType, error: err});
                 });
             }
@@ -259,7 +253,8 @@
 
 <button
     bind:this={container}
-    class="status-container" class:badge-expanded={showBadgeExpansion}
+    class="status-container"
+    class:badge-expanded={showBadgeExpansion}
     aria-label={showTooltips ? `Status: ${statusConfig().textContent}. Click for details.` : statusConfig().textContent}
     data-status-flag={status?.flagType}
     data-user-id={sanitizedEntityId()}
@@ -268,6 +263,7 @@
     onmouseenter={handleMouseEnter}
     onmouseleave={handleMouseLeave}
     title={showTooltips ? undefined : statusConfig().textContent}
+    type="button"
 >
   <!-- Status Icon -->
   <span class="{statusConfig().iconClass}">
@@ -304,7 +300,6 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
-        {entityMetadata}
         {entityType}
         {error}
         mode="preview"
@@ -324,7 +319,6 @@
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}
-        {entityMetadata}
         {entityType}
         {error}
         mode="expanded"

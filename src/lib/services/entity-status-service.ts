@@ -1,5 +1,5 @@
 import {derived, get, writable} from 'svelte/store';
-import type {UserStatus, GroupStatus} from '../types/api';
+import type {GroupStatus, UserStatus} from '../types/api';
 import {settings} from '../stores/settings';
 import {SETTINGS_KEYS} from '../types/settings';
 import {logger} from '../utils/logger';
@@ -18,17 +18,18 @@ interface StatusRequest<T> {
 type EntityStatus = UserStatus | GroupStatus;
 
 class EntityStatusService<T extends EntityStatus> {
-    private cache = new Map<string, CacheEntry<T>>();
-    private pendingRequests = new Map<string, StatusRequest<T>[]>();
-    private statusStore = writable<Map<string, T>>(new Map());
+    private readonly cache = new Map<string, CacheEntry<T>>();
+    private readonly pendingRequests = new Map<string, Array<StatusRequest<T>>>();
+    private readonly statusStore = writable<Map<string, T>>(new Map());
 
     public readonly statuses = derived(this.statusStore, ($store) => $store);
 
     constructor(
-        private entityType: 'user' | 'group',
-        private fetchSingle: (id: string) => Promise<T>,
-        private fetchMultiple?: (ids: string[]) => Promise<T[]>
-    ) {}
+        private readonly entityType: 'user' | 'group',
+        private readonly fetchSingle: (id: string) => Promise<T>,
+        private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
+    ) {
+    }
 
     // Gets entity status from cache or fetches from API
     public async getStatus(entityId: string): Promise<T | null> {
@@ -162,7 +163,7 @@ class EntityStatusService<T extends EntityStatus> {
     }
 
     // Returns cache size and entry age statistics
-    public getCacheStats(): {size: number; entries: Array<{entityId: string; age: number}>} {
+    public getCacheStats(): { size: number; entries: Array<{ entityId: string; age: number }> } {
         const entries = Array.from(this.cache.entries()).map(([entityId, entry]) => ({
             entityId,
             age: Date.now() - entry.timestamp
@@ -176,7 +177,7 @@ class EntityStatusService<T extends EntityStatus> {
 
     // Fetches status from API with request deduplication
     private async fetchStatus(entityId: string): Promise<T | null> {
-        const requestQueue: StatusRequest<T>[] = [];
+        const requestQueue: Array<StatusRequest<T>> = [];
         this.pendingRequests.set(entityId, requestQueue);
 
         try {
@@ -189,15 +190,21 @@ class EntityStatusService<T extends EntityStatus> {
                 });
                 this.updateStore();
 
-                requestQueue.forEach(({resolve}) => resolve(status));
+                requestQueue.forEach(({resolve}) => {
+                    resolve(status);
+                });
                 return status;
             } else {
-                requestQueue.forEach(({resolve}) => resolve(null));
+                requestQueue.forEach(({resolve}) => {
+                    resolve(null);
+                });
                 return null;
             }
         } catch (error) {
             const err = error instanceof Error ? error : new Error('Unknown error');
-            requestQueue.forEach(({reject}) => reject(err));
+            requestQueue.forEach(({reject}) => {
+                reject(err);
+            });
             throw err;
         } finally {
             this.pendingRequests.delete(entityId);
@@ -217,12 +224,12 @@ class EntityStatusService<T extends EntityStatus> {
 // Create service instances
 export const userStatusService = new EntityStatusService<UserStatus>(
     'user',
-    (id: string) => apiClient.checkUser(id),
-    (ids: string[]) => apiClient.checkMultipleUsers(ids, {batchSize: 50, batchDelay: 100})
+    async (id: string) => apiClient.checkUser(id),
+    async (ids: string[]) => apiClient.checkMultipleUsers(ids, {batchSize: 50, batchDelay: 100})
 );
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(
     'group',
-    (id: string) => apiClient.checkGroup(id),
-    (ids: string[]) => apiClient.checkMultipleGroups(ids, {batchSize: 50, batchDelay: 100})
+    async (id: string) => apiClient.checkGroup(id),
+    async (ids: string[]) => apiClient.checkMultipleGroups(ids, {batchSize: 50, batchDelay: 100})
 );

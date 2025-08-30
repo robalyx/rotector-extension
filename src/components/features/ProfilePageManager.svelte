@@ -18,6 +18,7 @@
     import StatusIndicator from '../status/StatusIndicator.svelte';
     import FriendWarning from './FriendWarning.svelte';
     import QueueModalManager from './QueueModalManager.svelte';
+    import type {QueueModalManagerInstance} from '@/lib/types/components';
     import UserListManager from './UserListManager.svelte';
     import GroupListManager from './GroupListManager.svelte';
 
@@ -42,7 +43,7 @@
     let showTooltips = $state(true);
 
     // Component references
-    let queueModalManager: QueueModalManager;
+    let queueModalManager: QueueModalManagerInstance | undefined;
     let statusContainer: HTMLElement | null = null;
     let friendButtonHandler: ((event: Event) => void) | null = null;
     let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
@@ -62,7 +63,7 @@
 
     // Initialize components when mounted
     $effect(() => {
-        initialize();
+        void initialize();
         onMount?.(cleanup);
 
         return cleanup;
@@ -73,7 +74,7 @@
         try {
             await setupStatusIndicator();
             await setupFriendWarning();
-            
+
             await Promise.all([
                 setupCarousel(),
                 setupGroupsShowcase()
@@ -188,8 +189,8 @@
             // Set up click interception
             friendButtonHandler = (event: Event) => {
                 // Check if user specifically wants to skip the warning
-                if ((friendButton as HTMLElement).dataset.skipWarning) {
-                    delete (friendButton as HTMLElement).dataset.skipWarning;
+                if (friendButton.dataset.skipWarning) {
+                    delete friendButton.dataset.skipWarning;
                     return;
                 }
 
@@ -281,9 +282,9 @@
         // Find the friend button and simulate click to proceed with friend request
         const friendButton = document.querySelector('#friend-button');
 
-        if (friendButton) {
-            (friendButton as HTMLElement).dataset.skipWarning = 'true';
-            (friendButton as HTMLElement).click();
+        if (friendButton instanceof HTMLElement) {
+            friendButton.dataset.skipWarning = 'true';
+            friendButton.click();
 
             logger.debug('Friend request proceeded - simulated click');
         }
@@ -307,16 +308,16 @@
             const moreButton = document.querySelector('.profile-header-dropdown') ||
                 document.querySelector('[aria-label="See More"]');
 
-            if (moreButton) {
+            if (moreButton instanceof HTMLElement) {
                 // Click the more button to open dropdown
-                (moreButton as HTMLElement).click();
+                moreButton.click();
 
                 // Wait for dropdown to appear and find block option
                 setTimeout(() => {
-                    const blockButton = document.querySelector('#block-button');
+                    const blockButton = document.querySelector('#block-button') as HTMLElement;
 
                     if (blockButton) {
-                        (blockButton as HTMLElement).click();
+                        blockButton.click();
                         logger.debug('Block user action triggered');
                     } else {
                         logger.warn('Could not find block button in dropdown');

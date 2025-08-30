@@ -28,12 +28,6 @@ export const changelogSectionExpanded = derived(
     ($settings) => $settings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]
 );
 
-// Store for whether technical mode is enabled
-export const changelogTechnicalMode = derived(
-    settings,
-    ($settings) => $settings[SETTINGS_KEYS.CHANGELOG_TECHNICAL_MODE]
-);
-
 // Dismiss the changelog banner for the current latest version
 export async function dismissChangelogBanner(): Promise<void> {
     const latest = getLatestChangelog();
@@ -48,11 +42,3 @@ export async function toggleChangelogSection(): Promise<void> {
     const currentExpanded = currentSettings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED];
     await updateSetting(SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED, !currentExpanded);
 }
-
-// Toggle the changelog technical mode
-export async function toggleChangelogTechnicalMode(): Promise<void> {
-    const currentSettings = get(settings);
-    const currentTechnicalMode = currentSettings[SETTINGS_KEYS.CHANGELOG_TECHNICAL_MODE];
-    await updateSetting(SETTINGS_KEYS.CHANGELOG_TECHNICAL_MODE, !currentTechnicalMode);
-}
-

@@ -40,33 +40,3 @@
 .changelog-section-empty {
   @apply py-6;
 }
-
-/* =================================
-   TECHNICAL MODE TOGGLE
-   ================================= */
-.changelog-technical-toggle {
-  @apply w-8 h-8 p-1 cursor-pointer transition-all duration-200 border rounded-sm text-xs flex items-center justify-center;
-  background-color: var(--color-bg-content);
-  border-color: var(--color-border);
-  color: var(--color-text-subtle);
-
-  &:hover {
-    @apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
-    color: var(--color-text);
-  }
-
-  &:active {
-    @apply scale-[0.95];
-  }
-
-  &.active {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-bg-content);
-
-    &:hover {
-      background-color: var(--color-accent-hover);
-      border-color: var(--color-accent-hover);
-    }
-  }
-}

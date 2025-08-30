@@ -1,12 +1,6 @@
 <script lang="ts">
     import ChangelogContent from './ChangelogContent.svelte';
-    import {
-        changelogs,
-        changelogSectionExpanded,
-        changelogTechnicalMode,
-        toggleChangelogSection,
-        toggleChangelogTechnicalMode
-    } from '@/lib/stores/changelog';
+    import {changelogs, changelogSectionExpanded, toggleChangelogSection} from '@/lib/stores/changelog';
 
     // Handle toggle of the changelog section
     async function handleToggle() {
@@ -14,15 +8,6 @@
             await toggleChangelogSection();
         } catch (error) {
             console.error('Failed to toggle changelog section:', error);
-        }
-    }
-
-    // Handle toggle of the technical mode
-    async function handleTechnicalModeToggle() {
-        try {
-            await toggleChangelogTechnicalMode();
-        } catch (error) {
-            console.error('Failed to toggle changelog technical mode:', error);
         }
     }
 </script>
@@ -47,18 +32,6 @@
           "
           class:rotate-180={$changelogSectionExpanded}
       ></span>
-    </button>
-
-    <!-- Technical mode toggle button -->
-    <button
-        class="changelog-technical-toggle"
-        class:active={$changelogTechnicalMode}
-        aria-label={$changelogTechnicalMode ? 'Switch to user-friendly descriptions' : 'Switch to technical descriptions'}
-        onclick={handleTechnicalModeToggle}
-        title={$changelogTechnicalMode ? 'Show simplified descriptions' : 'Show technical details'}
-        type="button"
-    >
-      {$changelogTechnicalMode ? '📝' : '🔧'}
     </button>
   </div>
 </div>
@@ -86,7 +59,7 @@
     ">
       {#each $changelogs as changelog, index (changelog.id)}
         <div class="changelog-section-item" class:first={index === 0}>
-          <ChangelogContent {changelog} compact={false} technicalMode={$changelogTechnicalMode}/>
+          <ChangelogContent {changelog} compact={false}/>
         </div>
         {#if index < $changelogs.length - 1}
           <div class="changelog-section-divider"></div>

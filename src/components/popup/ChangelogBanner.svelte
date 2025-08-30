@@ -2,7 +2,6 @@
     import ChangelogContent from './ChangelogContent.svelte';
     import {
         changelogSectionExpanded,
-        changelogTechnicalMode,
         dismissChangelogBanner,
         latestChangelog,
         shouldShowChangelogBanner,
@@ -78,7 +77,7 @@
 
       <!-- Content -->
       <div class="changelog-banner-body">
-        <ChangelogContent changelog={$latestChangelog} compact={true} technicalMode={$changelogTechnicalMode}/>
+        <ChangelogContent changelog={$latestChangelog} compact={true}/>
       </div>
 
       <!-- View Details button -->

@@ -4,10 +4,9 @@
     interface ChangelogContentProps {
         changelog: Changelog;
         compact?: boolean;
-        technicalMode?: boolean;
     }
 
-    let {changelog, compact = false, technicalMode = false}: ChangelogContentProps = $props();
+    let {changelog, compact = false}: ChangelogContentProps = $props();
 
     // Get icon for changelog entry type
     function getChangeTypeIcon(type: ChangelogEntry['type']): string {
@@ -69,34 +68,11 @@
         }
     }
 
-    // Get the appropriate description based on technical mode
-    function getChangeDescription(change: ChangelogEntry): string {
-        if (technicalMode && change.technicalDescription) {
-            return change.technicalDescription;
-        }
-        return change.description || '';
-    }
-
-    // Check if a change should be displayed based on technical mode
-    function shouldShowChange(change: ChangelogEntry): boolean {
-        // If there's no description but there is technicalDescription, it's technical-only
-        if (!change.description && change.technicalDescription) {
-            return technicalMode;
-        }
-        // Otherwise, show if it has a description, or we're in technical mode
-        return Boolean(change.description) || (technicalMode && Boolean(change.technicalDescription));
-    }
-
     // Group changes by type for better organization
     const groupedChanges = $derived.by(() => {
         const groups: Record<string, ChangelogEntry[]> = {};
         changelog.changes.forEach(change => {
-            if (shouldShowChange(change)) {
-                if (!groups[change.type]) {
-                    groups[change.type] = [];
-                }
-                groups[change.type].push(change);
-            }
+            (groups[change.type] ??= []).push(change);
         });
         return groups;
     });
@@ -138,9 +114,9 @@
             <span class="changelog-type-count">({groupedChanges[type].length})</span>
           </div>
           <ul class="changelog-type-list">
-            {#each groupedChanges[type] as change, index (`${type}-${index}-${change.description || change.technicalDescription}`)}
+            {#each groupedChanges[type] as change, index (`${type}-${index}-${change.description}`)}
               <li class="changelog-change-item">
-                {getChangeDescription(change)}
+                {change.description}
               </li>
             {/each}
           </ul>

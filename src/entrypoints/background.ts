@@ -193,8 +193,10 @@ export default defineBackground(() => {
 
         // Get API base URL from settings
         const settings = await browser.storage.sync.get([SETTINGS_KEYS.API_BASE_URL]);
-        const settingValue: unknown = settings[SETTINGS_KEYS.API_BASE_URL];
-        let baseUrl = typeof settingValue === 'string' ? settingValue ?? API_CONFIG.BASE_URL : API_CONFIG.BASE_URL;
+        const raw = typeof settings[SETTINGS_KEYS.API_BASE_URL] === 'string'
+            ? (settings[SETTINGS_KEYS.API_BASE_URL] as string).trim()
+            : '';
+        let baseUrl = raw ? raw : API_CONFIG.BASE_URL;
 
         // Remove trailing slash
         baseUrl = baseUrl.replace(/\/$/, '');

@@ -3,7 +3,7 @@
  * Note: HTML escaping is handled by Svelte's XSS protection in {expression} syntax
  */
 class Sanitizer {
-    private static readonly ALLOWED_PROTOCOLS = ['http:', 'https:', 'mailto:'];
+    private static readonly ALLOWED_PROTOCOLS = ['http:', 'https:'];
 
     // Sanitizes entity ID input (users, groups)
     static sanitizeEntityId(entityId: string | number): string | null {

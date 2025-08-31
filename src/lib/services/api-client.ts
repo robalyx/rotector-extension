@@ -351,15 +351,19 @@ class RotectorApiClient {
     }
 
     // Determines if an error should trigger a retry attempt
-    private isRetryableError(error: Error): boolean {
-        const errorStr = error.message?.toLowerCase() || '';
+    private isRetryableError(error: Error & { status?: number }): boolean {
+        if (error.status !== undefined) {
+            // Rate limits and server errors
+            if (error.status === 429 || (error.status >= 500 && error.status < 600)) {
+                return true;
+            }
+            // Request timeout
+            if (error.status === 408) {
+                return true;
+            }
+        }
 
-        // Network errors, timeouts, and rate limits are retryable
-        return errorStr.includes('network') ||
-            errorStr.includes('timeout') ||
-            errorStr.includes('fetch') ||
-            errorStr.includes('rate limit') ||
-            errorStr.includes('429');
+        return false;
     }
 
     // Utility function to pause execution

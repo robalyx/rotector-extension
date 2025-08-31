@@ -475,7 +475,7 @@ export default defineBackground(() => {
 
         const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
             method: 'POST',
-            body: JSON.stringify({ids: sanitizedUserIds})
+            body: JSON.stringify({ids: sanitizedUserIds.map(id => parseInt(id, 10))})
         });
 
         return extractResponseData<VoteData[]>(response);

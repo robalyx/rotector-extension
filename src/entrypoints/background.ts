@@ -205,7 +205,6 @@ export default defineBackground(() => {
 
         const headers: Record<string, string> = {
             'Content-Type': 'application/json',
-            'User-Agent': 'Rotector-Extension/2.0',
             'Accept': 'application/json',
             ...options.headers as Record<string, string>
         };

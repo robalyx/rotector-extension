@@ -1,5 +1,6 @@
 <script lang="ts">
     import {calculateFundingPercentage, formatCurrency, statistics} from '@/lib/stores/statistics';
+    import WeeklyUsageChart from './WeeklyUsageChart.svelte';
 
     // Reactive values derived from statistics
     const donations = $derived($statistics?.totalDonations ?? 0);
@@ -11,6 +12,9 @@
     const isFullyFunded = $derived(remaining === 0 && donations > 0);
     const surplus = $derived(isFullyFunded ? donations - totalGoal : 0);
 
+    // Charts expansion state
+    let chartsExpanded = $state(false);
+
     // Handle Ko-fi button click
     function handleKofiClick() {
         window.open('https://ko-fi.com/jaxron', '_blank', 'noopener,noreferrer');
@@ -21,6 +25,19 @@
         if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
             handleKofiClick();
+        }
+    }
+
+    // Toggle charts expansion
+    function toggleCharts() {
+        chartsExpanded = !chartsExpanded;
+    }
+
+    // Handle keyboard events for charts toggle
+    function handleChartsToggleKeydown(event: KeyboardEvent) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleCharts();
         }
     }
 </script>
@@ -77,5 +94,43 @@
       {isFullyFunded ? 'Thank you!' : 'Support Development'}
     </button>
   </div>
+
+  <!-- Charts Section -->
+  {#if $statistics?.weeklyUsage}
+    <div class="charts-section">
+      <!-- Charts Toggle Button -->
+      <button
+          class="charts-toggle"
+          class:expanded={chartsExpanded}
+          aria-controls="charts-content"
+          aria-expanded={chartsExpanded}
+          onclick={toggleCharts}
+          onkeydown={handleChartsToggleKeydown}
+          title={chartsExpanded ? 'Hide usage charts' : 'Show usage charts'}
+          type="button"
+      >
+        <span class="charts-toggle-icon">
+          <svg
+              class="chevron-icon"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+          </svg>
+        </span>
+        <span class="charts-toggle-text">Weekly Usage Charts</span>
+      </button>
+
+      <!-- Expandable Charts Content -->
+      <div
+          id="charts-content"
+          class="charts-content"
+          class:expanded={chartsExpanded}
+          aria-hidden={!chartsExpanded}
+      >
+        <WeeklyUsageChart weeklyUsage={$statistics.weeklyUsage} />
+      </div>
+    </div>
+  {/if}
 </div>
 

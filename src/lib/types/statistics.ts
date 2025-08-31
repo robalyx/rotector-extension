@@ -1,4 +1,22 @@
-// Statistics data structure
+// Individual week usage metrics
+interface WeekUsage {
+    startDate: string;
+    endDate: string;
+    totalCost: number;
+    totalRequests: number;
+    totalPromptTokens: number;
+    totalCompletionTokens: number;
+    totalReasoningTokens: number;
+}
+
+export interface WeeklyUsage {
+    week1: WeekUsage;
+    week2: WeekUsage;
+    week3: WeekUsage;
+    week4: WeekUsage;
+}
+
+// Main statistics interface
 export interface Statistics {
     totalFlaggedUsers: number;
     totalConfirmedUsers: number;
@@ -12,6 +30,7 @@ export interface Statistics {
     aiTotalCost: number;
     totalDonations: number;
     remainingCosts: number;
+    weeklyUsage: WeeklyUsage;
     lastUpdated: string;
 }
 

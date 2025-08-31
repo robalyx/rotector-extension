@@ -65,13 +65,15 @@ export default defineContentScript({
                 }
             };
 
-            // Set up navigation monitoring
-            setInterval(checkForNavigation, 1000);
+            // Listen for browser navigation events
+            window.addEventListener('popstate', () => {
+                logger.debug('Popstate event detected');
+                checkForNavigation();
+            });
 
-            // Listen for hash changes
             window.addEventListener('hashchange', () => {
                 logger.debug('Hash change detected', {hash: window.location.hash});
-                setTimeout(checkForNavigation, 100);
+                checkForNavigation();
             });
 
             // Initial page detection and setup

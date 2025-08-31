@@ -99,7 +99,6 @@ export interface BatchOptions {
 // API client configuration
 export interface ApiClientConfig {
     baseUrl: string;
-    apiKey?: string;
     timeout?: number;
     maxRetries?: number;
     retryDelay?: number;
@@ -111,7 +110,6 @@ export interface RequestOptions {
     retryDelay?: number;
     timeout?: number;
 }
-
 
 // Page types for content script controllers
 export type PageType =

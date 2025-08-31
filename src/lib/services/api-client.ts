@@ -28,11 +28,6 @@ class RotectorApiClient {
         };
     }
 
-    // Sets the API key for authenticated requests
-    setApiKey(apiKey: string): void {
-        this.config.apiKey = apiKey;
-    }
-
     // Checks the status of a single user
     async checkUser(userId: string | number, options?: RequestOptions): Promise<UserStatus> {
         const sanitizedUserId = sanitizeEntityId(userId);

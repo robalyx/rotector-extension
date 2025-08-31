@@ -43,9 +43,9 @@ function processBatchEntityIds(entityIds: Array<string | number>): string[] {
 }
 
 // Gets the advanced violation info setting from storage
-async function getAdvancedViolationSetting(): Promise<boolean> {
-    const settings = await browser.storage.sync.get(['advancedViolationInfoEnabled']);
-    return !settings.advancedViolationInfoEnabled;
+async function getExcludeAdvancedInfoSetting(): Promise<boolean> {
+    const settings = await browser.storage.sync.get([SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]);
+    return !settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED];
 }
 
 // Gets the BloxDB integration setting from storage
@@ -178,8 +178,9 @@ export default defineBackground(() => {
     // Get API key from settings
     async function getApiKey(): Promise<string | null> {
         try {
-            const result = await browser.storage.sync.get(['apiKey']);
-            return typeof result.apiKey === 'string' ? result.apiKey || null : null;
+            const result = await browser.storage.sync.get([SETTINGS_KEYS.API_KEY]);
+            const apiKey = result[SETTINGS_KEYS.API_KEY] as string | undefined;
+            return typeof apiKey === 'string' ? (apiKey || null) : null;
         } catch (error) {
             logger.error('Background: Failed to get API key:', error);
             return null;
@@ -319,7 +320,7 @@ export default defineBackground(() => {
     // Check the status of a single user by ID
     async function checkUserStatus(userId: string | number): Promise<UserStatus> {
         const sanitizedUserId = validateEntityId(userId);
-        const excludeInfo = await getAdvancedViolationSetting();
+        const excludeInfo = await getExcludeAdvancedInfoSetting();
         const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
         const params = new URLSearchParams();
@@ -362,7 +363,7 @@ export default defineBackground(() => {
     // Check the status of multiple users in a batch request
     async function checkMultipleUsers(userIds: Array<string | number>): Promise<UserStatus[]> {
         const sanitizedUserIds = processBatchEntityIds(userIds);
-        const excludeInfo = await getAdvancedViolationSetting();
+        const excludeInfo = await getExcludeAdvancedInfoSetting();
         const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
         const requestBody: Record<string, unknown> = {

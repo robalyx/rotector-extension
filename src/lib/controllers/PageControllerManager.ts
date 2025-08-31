@@ -17,6 +17,7 @@ export class PageControllerManager {
     private currentController: PageController | null = null;
     private readonly controllers = new Map<PageType, new (pageType: PageType, url: string) => PageController>();
     private isInitialized = false;
+    private currentUrl: string | null = null;
 
     constructor() {
         // Register page controllers
@@ -84,8 +85,8 @@ export class PageControllerManager {
     // Switch to a specific page controller
     private async switchToController(pageType: PageType, url: string): Promise<void> {
         try {
-            // Clean up current controller if it's different
-            if (this.currentController && this.currentController.getPageType() !== pageType) {
+            // Clean up current controller if page type is different or URL changed
+            if (this.currentController && (this.currentController.getPageType() !== pageType || this.currentUrl !== url)) {
                 await this.cleanupCurrentController();
             }
 
@@ -98,6 +99,7 @@ export class PageControllerManager {
                 }
 
                 this.currentController = new ControllerClass(pageType, url);
+                this.currentUrl = url;
             }
 
             // Initialize controller
@@ -121,6 +123,7 @@ export class PageControllerManager {
                 logger.error('Failed to cleanup current controller:', error);
             } finally {
                 this.currentController = null;
+                this.currentUrl = null;
             }
         }
     }

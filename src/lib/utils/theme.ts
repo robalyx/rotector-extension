@@ -93,8 +93,6 @@ class ThemeManager {
 
     // Detects if the system supports prefers-color-scheme
     supportsSystemTheme(): boolean {
-        if (typeof window === 'undefined') return false;
-
         try {
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').media !== 'not all';
         } catch {
@@ -184,14 +182,11 @@ class ThemeManager {
 
     // Check if current page is a Roblox page
     private isRobloxPage(): boolean {
-        if (typeof window === 'undefined') return false;
         return window.location.hostname.includes('roblox.com');
     }
 
     // Initializes system theme detection using prefers-color-scheme
     private initializeSystemThemeDetection(): void {
-        if (typeof window === 'undefined') return;
-
         try {
             this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             this.updateSystemTheme();
@@ -215,7 +210,7 @@ class ThemeManager {
 
     // Initializes Roblox theme detection by observing body class changes
     private initializeRobloxThemeDetection(): void {
-        if (typeof window === 'undefined' || !this.isRobloxPage()) return;
+        if (!this.isRobloxPage()) return;
 
         try {
             // Initial detection
@@ -257,8 +252,6 @@ class ThemeManager {
 
     // Updates the Roblox theme based on body class
     private updateRobloxTheme(): void {
-        if (typeof document === 'undefined') return;
-
         const isDark = document.body.classList.contains('dark-theme');
         this._robloxTheme.set(isDark ? 'dark' : 'light');
         logger.debug(`Roblox theme updated to: ${isDark ? 'dark' : 'light'}`);
@@ -266,8 +259,6 @@ class ThemeManager {
 
     // Sets up automatic theme application to document
     private setupThemeApplication(): void {
-        if (typeof window === 'undefined') return;
-
         this.effectiveTheme.subscribe((theme) => {
             this.applyThemeToDocument(theme);
         });
@@ -275,8 +266,6 @@ class ThemeManager {
 
     // Sets up theme persistence for content script synchronization
     private setupThemePersistence(): void {
-        if (typeof window === 'undefined') return;
-
         this.effectiveTheme.subscribe((theme) => {
             if (this.isRobloxPage()) {
                 this.storeContentScriptTheme(theme).catch((err) => {
@@ -288,8 +277,6 @@ class ThemeManager {
 
     // Applies theme to the document and all registered portal containers
     private applyThemeToDocument(theme: 'light' | 'dark'): void {
-        if (typeof document === 'undefined') return;
-
         try {
             const {documentElement} = document;
 

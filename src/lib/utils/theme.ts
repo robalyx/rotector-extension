@@ -22,12 +22,8 @@ class ThemeManager {
 
             // Auto mode
             if (this.isRobloxPage()) {
-                // Content script: use Roblox theme and store it
-                const effectiveTheme = robloxTheme;
-                this.storeContentScriptTheme(effectiveTheme).catch((err) => {
-                    logger.error('Failed to store content script theme:', err);
-                });
-                return effectiveTheme;
+                // Content script: use Roblox theme
+                return robloxTheme;
             } else {
                 // Popup: use stored content script theme if available, otherwise system theme
                 return contentScriptTheme ?? systemTheme;
@@ -43,6 +39,7 @@ class ThemeManager {
         this.initializeSystemThemeDetection();
         this.initializeRobloxThemeDetection();
         this.setupThemeApplication();
+        this.setupThemePersistence();
     }
 
     // Sets the theme preference
@@ -276,6 +273,19 @@ class ThemeManager {
         });
     }
 
+    // Sets up theme persistence for content script synchronization
+    private setupThemePersistence(): void {
+        if (typeof window === 'undefined') return;
+
+        this.effectiveTheme.subscribe((theme) => {
+            if (this.isRobloxPage()) {
+                this.storeContentScriptTheme(theme).catch((err) => {
+                    logger.error('Failed to store content script theme:', err);
+                });
+            }
+        });
+    }
+
     // Applies theme to the document and all registered portal containers
     private applyThemeToDocument(theme: 'light' | 'dark'): void {
         if (typeof document === 'undefined') return;
@@ -292,8 +302,6 @@ class ThemeManager {
                     portal.setAttribute('data-theme', theme);
                 } catch (error) {
                     logger.error('Failed to apply theme to portal container:', error);
-                    // Remove invalid portal containers
-                    this.portalContainers.delete(portal);
                 }
             });
 

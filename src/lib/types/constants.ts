@@ -197,6 +197,7 @@ export const FRIENDS_SELECTORS = {
         CAPTION: ".avatar-card-caption, .friend-caption, .avatar-card-label",
         USERNAME: ".avatar-name",
         AVATAR_IMG: ".thumbnail-2d-container img",
+        FULLBODY: ".avatar-card-fullbody",
     },
     NO_RESULTS: ".section-content-off",
     PROFILE_LINK: ".avatar-card-link, .avatar-container > a",
@@ -211,6 +212,21 @@ export const GROUPS_SELECTORS = {
     USERNAME: '.text-overflow.font-caption-header.member-name',
     AVATAR_IMG: '.thumbnail-2d-container img',
     NO_RESULTS: '.section-content-off',
+} as const;
+
+// DOM selectors for search users page
+export const SEARCH_SELECTORS = {
+    CONTAINER: 'ul.search-result.avatar-cards',
+    CARD: {
+        CONTAINER: 'li.player-item.avatar-card',
+        UNPROCESSED: `li.player-item.avatar-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+        CAPTION: '.avatar-card-caption',
+        USERNAME: '.avatar-name-container .avatar-name',
+        AVATAR_IMG: '.thumbnail-2d-container img',
+        FULLBODY: '.avatar-card-fullbody',
+    },
+    NO_RESULTS: '.section-content-off.no-results',
+    PROFILE_LINK: 'a.avatar-card-link',
 } as const;
 
 // DOM selectors for group header
@@ -308,7 +324,8 @@ export const PAGE_TYPES = {
     FRIENDS_CAROUSEL: 'friends-carousel',
     PROFILE: 'profile',
     MEMBERS: 'members',
-    REPORT: 'report'
+    REPORT: 'report',
+    SEARCH_USER: 'search-user'
 } as const;
 
 // Component Classes
@@ -317,6 +334,7 @@ export const COMPONENT_CLASSES = {
     STATUS_POSITIONED_ABSOLUTE: 'status-positioned-absolute',
     FRIENDS_MANAGER: 'rotector-friends-manager',
     GROUPS_MANAGER: 'rotector-groups-manager',
+    SEARCH_MANAGER: 'rotector-search-manager',
     HOME_CAROUSEL_MANAGER: 'rotector-home-carousel-manager',
     PROFILE_STATUS: 'rotector-profile-status',
     FRIEND_WARNING: 'rotector-friend-warning',

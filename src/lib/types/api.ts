@@ -120,7 +120,8 @@ export type PageType =
     | 'friends-carousel'
     | 'profile'
     | 'members'
-    | 'report';
+    | 'report'
+    | 'search-user';
 
 // Content script message data
 export interface ContentMessage {

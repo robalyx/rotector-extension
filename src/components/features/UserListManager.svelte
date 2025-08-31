@@ -10,6 +10,7 @@
         FRIENDS_SELECTORS,
         GROUPS_SELECTORS,
         PAGE_TYPES,
+        SEARCH_SELECTORS,
         USER_ACTIONS
     } from '@/lib/types/constants';
     import {userStatusService} from '@/lib/services/entity-status-service';
@@ -73,6 +74,11 @@
             containerSelector: GROUPS_SELECTORS.CONTAINER,
             itemSelector: GROUPS_SELECTORS.TILE,
             profileLinkSelector: GROUPS_SELECTORS.PROFILE_LINK
+        },
+        [PAGE_TYPES.SEARCH_USER]: {
+            containerSelector: SEARCH_SELECTORS.CONTAINER,
+            itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
+            profileLinkSelector: SEARCH_SELECTORS.PROFILE_LINK
         },
         [PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_CONFIG,
         [PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_CONFIG,
@@ -143,13 +149,13 @@
         }
 
         try {
-            // For friends and groups pages, use hybrid approach due to container replacement during pagination
             if (pageType === PAGE_TYPES.FRIENDS_LIST) {
                 await initializeFriendsPageObserver();
             } else if (pageType === PAGE_TYPES.MEMBERS) {
                 await initializeGroupsPageObserver();
+            } else if (pageType === PAGE_TYPES.SEARCH_USER) {
+                await initializeSearchPageObserver();
             } else {
-                // Standard list observer for other page types
                 const config = createObserverConfig();
 
                 observer = observerFactory.createListObserver(config);
@@ -235,6 +241,16 @@
             containerSelector: GROUPS_SELECTORS.CONTAINER,
             itemSelector: GROUPS_SELECTORS.TILE,
             observerName: 'groups-list-observer'
+        });
+    }
+
+    // Initialize observer for search page
+    async function initializeSearchPageObserver() {
+        await initializePaginatedPageObserver({
+            pageName: 'Search',
+            containerSelector: SEARCH_SELECTORS.CONTAINER,
+            itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
+            observerName: 'search-list-observer'
         });
     }
 
@@ -400,13 +416,11 @@
         try {
             const status = userStatuses.get(user.userId);
 
-            // If not loading and no status, skip mount
             if (!isLoading && !status) {
                 logger.warn(`No status found for user ${user.userId} - skipping mount`);
                 return;
             }
 
-            // Unmount existing component if any
             const existingComponent = mountedComponents.get(user.userId);
             if (existingComponent) {
                 existingComponent.unmount?.();
@@ -417,52 +431,40 @@
                 logger.warn('User element is not an HTMLElement, skipping positioning');
                 return;
             }
+
             const tileElement = user.element;
-            let targetElement: HTMLElement;
+            
+            const targetSelectors: Record<string, string> = {
+                [PAGE_TYPES.FRIENDS_LIST]: FRIENDS_SELECTORS.CARD.FULLBODY,
+                [PAGE_TYPES.SEARCH_USER]: SEARCH_SELECTORS.CARD.FULLBODY,
+            };
 
-            // For friends list, place status indicator inside avatar-card-caption
-            if (pageType === PAGE_TYPES.FRIENDS_LIST) {
-                const captionElement = tileElement.querySelector('.avatar-card-caption') as HTMLElement;
-                if (captionElement) {
-                    targetElement = captionElement;
-                } else {
-                    logger.warn(`Avatar card caption not found for user ${user.userId} - using tile element`);
-                    targetElement = tileElement;
-                }
-            } else {
-                // For other page types, use the tile element directly
-                targetElement = tileElement;
-            }
+            const targetSelector = targetSelectors[pageType];
+            const targetElement = targetSelector 
+                ? (tileElement.querySelector(targetSelector) as HTMLElement) || tileElement
+                : tileElement;
 
-            // Check if container already exists, reuse it
             let container = targetElement.querySelector(`.${COMPONENT_CLASSES.STATUS_CONTAINER}`) as HTMLElement;
             if (!container) {
-                // Create container for status indicator
                 container = document.createElement('div');
-
-                // Apply base status container class
                 container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
 
-                // Add absolute positioning modifier for friend carousel tiles and groups
-                if (pageType === PAGE_TYPES.FRIENDS_CAROUSEL || pageType === PAGE_TYPES.MEMBERS) {
+                const needsAbsolutePosition = pageType === PAGE_TYPES.FRIENDS_CAROUSEL ||
+                    pageType === PAGE_TYPES.MEMBERS ||
+                    pageType === PAGE_TYPES.FRIENDS_LIST ||
+                    pageType === PAGE_TYPES.SEARCH_USER;
+
+                if (needsAbsolutePosition) {
                     container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
+                    if (targetElement.style.position !== 'relative' && targetElement.style.position !== 'absolute') {
+                        targetElement.style.position = 'relative';
+                    }
                 }
 
-                // Ensure the target element has relative positioning for absolute positioning to work
-                if (targetElement.style.position !== 'relative' && targetElement.style.position !== 'absolute') {
-                    targetElement.style.position = 'relative';
-                }
-
-                // Insert into the target element
                 targetElement.appendChild(container);
             }
 
-            const showTextValue = pageType !== PAGE_TYPES.FRIENDS_CAROUSEL && pageType !== PAGE_TYPES.MEMBERS;
-
-            // Clear container content before mounting to prevent duplicates
             container.innerHTML = '';
-
-            // Mount StatusIndicator component
             const component = mount(StatusIndicator, {
                 target: container,
                 props: {
@@ -471,24 +473,20 @@
                     status: isLoading ? null : status,
                     loading: isLoading,
                     showTooltips,
-                    showText: showTextValue,
-                    skipAutoFetch: true, // Prevent individual API calls since this is batch-managed
+                    showText: false,
+                    skipAutoFetch: true,
                     onClick: handleStatusClick,
                     onQueue: handleQueueUser
                 }
             });
 
-            // Store component reference for potential cleanup
             mountedComponents.set(user.userId, component);
-
-            // Also track by DOM element for detecting when elements are removed
             elementToComponent.set(user.element, {userId: user.userId, component});
 
             logger.debug(`Status indicator mounted for user ${user.userId} on ${pageType}`, {
                 isLoading,
                 statusType: status?.flagType,
-                showText: showTextValue,
-                targetElement: pageType === PAGE_TYPES.FRIENDS_LIST ? 'avatar-card-caption' : 'tile'
+                targetElement: targetSelector ? 'fullbody' : 'tile'
             });
 
         } catch (error) {

@@ -22,6 +22,8 @@ export default defineContentScript({
         'https://*.roblox.com/groups/*',
         'https://*.roblox.com/communities*',
         'https://*.roblox.com/communities/*',
+        'https://*.roblox.com/search/users*',
+        'https://*.roblox.com/search/users/*',
         'https://*.roblox.com/report-abuse*',
         'https://*.roblox.com/report-abuse/*'
     ],

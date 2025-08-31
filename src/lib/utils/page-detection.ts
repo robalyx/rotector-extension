@@ -5,7 +5,8 @@ import {
     GROUP_HEADER_SELECTORS,
     GROUPS_SELECTORS,
     PROFILE_GROUPS_SHOWCASE_SELECTORS,
-    PROFILE_SELECTORS
+    PROFILE_SELECTORS,
+    SEARCH_SELECTORS
 } from '../types/constants';
 
 export interface UserInfo {
@@ -21,7 +22,7 @@ export interface GroupInfo {
 }
 
 interface PageDetectionResult {
-    pageType: 'carousel' | 'friends' | 'members' | 'profile' | 'group' | 'unknown';
+    pageType: 'carousel' | 'friends' | 'members' | 'profile' | 'group' | 'search' | 'unknown';
     container: Element | null;
 }
 
@@ -31,6 +32,7 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
     const isCarouselTile = anchorElement.closest(FRIENDS_CAROUSEL_SELECTORS.TILE);
     const isFriendsCard = anchorElement.closest(FRIENDS_SELECTORS.CARD.CONTAINER);
     const isMembersTile = anchorElement.closest(GROUPS_SELECTORS.TILE);
+    const isSearchCard = anchorElement.closest(SEARCH_SELECTORS.CARD.CONTAINER);
     const isGroupCardGrid = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
     const isGroupCardSlideshow = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM);
     const isBTRobloxGroupCard = anchorElement.closest(BTROBLOX_GROUPS_SELECTORS.ITEM);
@@ -48,6 +50,9 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
     }
     if (isMembersTile) {
         return {pageType: 'members', container: isMembersTile};
+    }
+    if (isSearchCard) {
+        return {pageType: 'search', container: isSearchCard};
     }
     if (isGroupCardGrid || isGroupCardSlideshow || isBTRobloxGroupCard) {
         return {pageType: 'profile', container: isGroupCardGrid ?? isGroupCardSlideshow ?? isBTRobloxGroupCard};
@@ -77,6 +82,7 @@ export function extractUserInfo(userId: string, pageType: string, container: Ele
         carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
         friends: FRIENDS_SELECTORS.CARD.USERNAME,
         members: GROUPS_SELECTORS.USERNAME,
+        search: SEARCH_SELECTORS.CARD.USERNAME,
         profile: PROFILE_SELECTORS.USERNAME
     };
 
@@ -84,6 +90,7 @@ export function extractUserInfo(userId: string, pageType: string, container: Ele
         carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
         friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
         members: GROUPS_SELECTORS.AVATAR_IMG,
+        search: SEARCH_SELECTORS.CARD.AVATAR_IMG,
         profile: PROFILE_SELECTORS.AVATAR_IMG
     };
 

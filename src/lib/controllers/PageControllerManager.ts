@@ -8,6 +8,7 @@ import {ProfilePageController} from './ProfilePageController';
 import {GroupsPageController} from './GroupsPageController';
 import {HomePageController} from './HomePageController';
 import {ReportPageController} from './ReportPageController';
+import {SearchPageController} from './SearchPageController';
 
 /**
  * Manages page controllers and handles navigation between different Roblox pages
@@ -25,6 +26,7 @@ export class PageControllerManager {
         this.controllers.set(PAGE_TYPES.PROFILE, ProfilePageController);
         this.controllers.set(PAGE_TYPES.MEMBERS, GroupsPageController);
         this.controllers.set(PAGE_TYPES.REPORT, ReportPageController);
+        this.controllers.set(PAGE_TYPES.SEARCH_USER, SearchPageController);
     }
 
     // Initialize the page controller manager
@@ -134,6 +136,7 @@ export class PageControllerManager {
                 {pattern: /^\/(?:home)?$/, type: PAGE_TYPES.HOME},
                 {pattern: /\/users\/(?:\d+\/)?(?:friends|followers|following)/, type: PAGE_TYPES.FRIENDS_LIST},
                 {pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE},
+                {pattern: /\/search\/users/, type: PAGE_TYPES.SEARCH_USER},
                 {pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT}
             ];
 

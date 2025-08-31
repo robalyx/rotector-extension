@@ -7,6 +7,8 @@ export const SETTINGS_KEYS = {
     FRIENDS_TOOLTIPS_ENABLED: 'friendsTooltipsEnabled',
     GROUPS_CHECK_ENABLED: 'groupsCheckEnabled',
     GROUPS_TOOLTIPS_ENABLED: 'groupsTooltipsEnabled',
+    SEARCH_CHECK_ENABLED: 'searchCheckEnabled',
+    SEARCH_TOOLTIPS_ENABLED: 'searchTooltipsEnabled',
     REPORT_HELPER_ENABLED: 'reportHelperEnabled',
     DEBUG_MODE_ENABLED: 'debugModeEnabled',
     ADVANCED_VIOLATION_INFO_ENABLED: 'advancedViolationInfoEnabled',
@@ -36,6 +38,8 @@ export interface Settings {
     [SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.GROUPS_CHECK_ENABLED]: boolean;
     [SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]: boolean;
+    [SETTINGS_KEYS.SEARCH_CHECK_ENABLED]: boolean;
+    [SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: boolean;
     [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: boolean;
     [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: boolean;
@@ -61,6 +65,8 @@ export const SETTINGS_DEFAULTS: Settings = {
     [SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.GROUPS_CHECK_ENABLED]: true,
     [SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]: true,
+    [SETTINGS_KEYS.SEARCH_CHECK_ENABLED]: true,
+    [SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: true,
     [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: false,
     [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
@@ -168,6 +174,19 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
             {
                 key: SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED,
                 label: 'Show tooltips on group members'
+            }
+        ]
+    },
+    {
+        title: 'Search Pages',
+        settings: [
+            {
+                key: SETTINGS_KEYS.SEARCH_CHECK_ENABLED,
+                label: 'Enable checks on search results'
+            },
+            {
+                key: SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED,
+                label: 'Show tooltips on search results'
             }
         ]
     },

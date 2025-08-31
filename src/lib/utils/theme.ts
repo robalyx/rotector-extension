@@ -1,5 +1,4 @@
 import {derived, writable} from 'svelte/store';
-import {browser} from 'wxt/browser';
 import {logger} from './logger';
 import {settings, updateSetting} from '../stores/settings';
 import {SETTINGS_KEYS, type Theme} from '../types/settings';

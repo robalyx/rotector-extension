@@ -1,5 +1,4 @@
 import {writable} from 'svelte/store';
-import {browser} from 'wxt/browser';
 import {type Settings, SETTINGS_DEFAULTS, type SettingsKey} from '../types/settings.js';
 
 export const settings = writable<Settings>(SETTINGS_DEFAULTS);

@@ -8,12 +8,6 @@
         statistics,
         statisticsState
     } from '@/lib/stores/statistics';
-    import {updateSetting} from '@/lib/stores/settings';
-    import {SETTINGS_KEYS} from '@/lib/types/settings';
-    import type {SettingsSectionInstance} from '@/lib/types/components';
-
-    // Props
-    let {settingsSection}: { settingsSection?: SettingsSectionInstance } = $props();
 
     let isRefreshing = $state(false);
 
@@ -31,34 +25,6 @@
         }
     }
 
-    // Handle BloxDB card click to navigate to BloxDB setting
-    function handleBloxDBCardClick() {
-        if (settingsSection?.highlightSetting) {
-            // Expand the settings section if it's collapsed
-            updateSetting(SETTINGS_KEYS.SETTINGS_EXPANDED, true).catch(error => {
-                console.error('Failed to update settings expanded state:', error);
-            });
-
-            // Highlight the BloxDB integration setting
-            setTimeout(() => {
-                settingsSection.highlightSetting(SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED);
-
-                // Scroll to the setting
-                const settingElement = document.querySelector(`[data-setting-key="${SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED}"]`);
-                if (settingElement) {
-                    settingElement.scrollIntoView({behavior: 'smooth', block: 'center'});
-                }
-            }, 300);
-        }
-    }
-
-    // Handle keyboard events for accessibility
-    function handleBloxDBCardKeydown(event: KeyboardEvent) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            handleBloxDBCardClick();
-        }
-    }
 
     $effect(() => {
         loadStatistics().catch(error => {
@@ -115,13 +81,13 @@
     <div class="py-8 text-center">
       <div class="text-error mb-3 text-sm font-medium">Failed to load statistics</div>
       <button
+          style:background-color="var(--color-primary)"
           class="
             rounded-md px-4 py-2 text-sm font-medium text-white
             btn-focus
             transition-colors duration-200
+            hover:bg-(--color-primary-hover)
           "
-          style="background-color: var(--color-primary);"
-          style:hover="background-color: var(--color-primary-hover);"
           onclick={handleRefresh}
           type="button"
       >
@@ -158,35 +124,6 @@
         </div>
       </div>
 
-      <!-- Integrated Systems -->
-      <div class="col-span-full stat-category">
-        <h3 class="stat-category-title">Integrated Systems</h3>
-        <div class="flex justify-center">
-          <div
-              style:max-width="200px"
-              style:width="100%"
-              class="
-                stat-item cursor-pointer transition-all duration-200
-                hover:shadow-lg
-              "
-              onclick={handleBloxDBCardClick}
-              onkeydown={handleBloxDBCardKeydown}
-              role="button"
-              tabindex="0"
-              title="Click to view BloxDB integration settings"
-          >
-            <div class="stat-value">{formatNumber($statistics?.totalBloxdbUniqueUsers)}</div>
-            <div class="stat-label">BloxDB Unique Users</div>
-            <div
-                style:border-color="var(--color-border-subtle)"
-                style:color="var(--color-text-subtle)"
-                class="-mx-2 mt-2 border-t px-2 pt-2 text-2xs"
-            >
-              {formatNumber($statistics?.totalBloxdbExistingUsers)} existing users
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Queue System Flow -->
       <div class="stat-category">

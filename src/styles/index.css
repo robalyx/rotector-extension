@@ -38,6 +38,7 @@
 @import "./features/settings/sections.css";
 @import "./features/settings/inputs.css";
 @import "./features/settings/warnings.css";
+@import "./features/settings/integration-tooltip.css";
 @import "./features/changelog/banner.css";
 @import "./features/changelog/section.css";
 @import "./features/changelog/content.css";

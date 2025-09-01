@@ -40,19 +40,12 @@
     let friendWarningOpen = $state(false);
     let showCarousel = $state(false);
     let showGroupsShowcase = $state(false);
-    let showTooltips = $state(true);
 
     // Component references
     let queueModalManager: QueueModalManagerInstance | undefined;
     let statusContainer: HTMLElement | null = null;
     let friendButtonHandler: ((event: Event) => void) | null = null;
     let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
-
-    // Reactive settings
-    $effect(() => {
-        const currentSettings = get(settings);
-        showTooltips = currentSettings[SETTINGS_KEYS.PROFILE_TOOLTIPS_ENABLED];
-    });
 
     // Update status indicator when userStatus changes
     $effect(() => {
@@ -154,7 +147,6 @@
                     entityType: ENTITY_TYPES.USER,
                     status: userStatus,
                     loading: !userStatus,
-                    showTooltips,
                     onClick: handleStatusClick,
                     onQueue: handleQueueUser
                 }
@@ -403,7 +395,6 @@
       onError={handleCarouselError}
       onUserProcessed={handleCarouselUserProcessed}
       pageType={PAGE_TYPES.FRIENDS_CAROUSEL}
-      {showTooltips}
   />
 {/if}
 
@@ -411,6 +402,5 @@
 {#if showGroupsShowcase}
   <GroupListManager
       onError={handleGroupsShowcaseError}
-      {showTooltips}
   />
 {/if}

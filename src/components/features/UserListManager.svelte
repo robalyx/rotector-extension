@@ -23,7 +23,6 @@
 
     interface Props {
         pageType: PageType;
-        showTooltips?: boolean;
         onUserProcessed?: (userId: string, status: UserStatus) => void;
         onError?: (error: string) => void;
         onMount?: (cleanup: () => void) => void;
@@ -31,7 +30,6 @@
 
     let {
         pageType,
-        showTooltips = true,
         onUserProcessed,
         onError,
         onMount
@@ -472,7 +470,6 @@
                     entityType: ENTITY_TYPES.USER,
                     status: isLoading ? null : status,
                     loading: isLoading,
-                    showTooltips,
                     showText: false,
                     skipAutoFetch: true,
                     onClick: handleStatusClick,

@@ -208,7 +208,6 @@ export abstract class PageController {
         containerSelector: string,
         componentClass: ComponentClassType,
         pageType: PageType,
-        showTooltips: boolean,
         onUserProcessed?: (userId: string, status: UserStatus) => void,
         onError?: (error: string) => void
     ): { element: HTMLElement; cleanup: () => void } | null {
@@ -229,7 +228,6 @@ export abstract class PageController {
                 componentContainer,
                 {
                     pageType,
-                    showTooltips,
                     onUserProcessed: onUserProcessed ?? this.handleUserProcessed.bind(this),
                     onError: onError ?? this.handleUserListError.bind(this)
                 }

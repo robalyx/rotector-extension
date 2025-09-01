@@ -1,11 +1,8 @@
 <script lang="ts">
-    import {get} from 'svelte/store';
     import {mount} from 'svelte';
-    import {settings} from '@/lib/stores/settings';
     import {logger} from '@/lib/utils/logger';
     import {waitForElement} from '@/lib/utils/element-waiter';
     import {ENTITY_TYPES, GROUP_HEADER_SELECTORS, GROUPS_SELECTORS} from '@/lib/types/constants';
-    import {SETTINGS_KEYS} from '@/lib/types/settings';
     import type {GroupStatus, PageType, UserStatus} from '@/lib/types/api';
     import StatusIndicator from '../status/StatusIndicator.svelte';
     import UserListManager from './UserListManager.svelte';
@@ -20,7 +17,6 @@
     let {groupId, groupStatus, pageType, onMount}: Props = $props();
 
     let showGroups = $state(false);
-    let showTooltips = $derived(get(settings)[SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]);
     let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
     $effect(() => {
@@ -96,7 +92,6 @@
                 status: groupStatus,
                 loading: !groupStatus,
                 showText: true,
-                showTooltips
             }
         });
 
@@ -137,6 +132,5 @@
       onError={handleError}
       onUserProcessed={handleUserProcessed}
       {pageType}
-      {showTooltips}
   />
 {/if}

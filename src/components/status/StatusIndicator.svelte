@@ -17,7 +17,6 @@
         status?: EntityStatus | null;
         loading?: boolean;
         error?: string | null;
-        showTooltips?: boolean;
         showText?: boolean;
         skipAutoFetch?: boolean;
         onClick?: (entityId: string) => void;
@@ -30,7 +29,6 @@
         status = null,
         loading = false,
         error = null,
-        showTooltips = true,
         showText = true,
         skipAutoFetch = false,
         onClick,
@@ -106,11 +104,9 @@
             onClick(sanitizedEntityId());
         }
 
-        if (showTooltips) {
-            showPreviewTooltip = false;
-            showExpandedTooltip = true;
-            showBadgeExpansion = false;
-        }
+        showPreviewTooltip = false;
+        showExpandedTooltip = true;
+        showBadgeExpansion = false;
     }
 
     // Handle keyboard events
@@ -134,7 +130,7 @@
             showBadgeExpansion = true;
         }
 
-        if (!showTooltips || loading || (!status && !error && !cachedStatus) || showExpandedTooltip) return;
+        if (loading || (!status && !error && !cachedStatus) || showExpandedTooltip) return;
 
         clearHoverTimeout();
 
@@ -256,14 +252,14 @@
     bind:this={container}
     class="status-container"
     class:badge-expanded={showBadgeExpansion}
-    aria-label={showTooltips ? `Status: ${statusConfig().textContent}. Click for details.` : statusConfig().textContent}
+    aria-label={`Status: ${statusConfig().textContent}. Click for details.`}
     data-status-flag={status?.flagType}
     data-user-id={sanitizedEntityId()}
     onclick={handleClick}
     onkeydown={handleKeydown}
     onmouseenter={handleMouseEnter}
     onmouseleave={handleMouseLeave}
-    title={showTooltips ? undefined : statusConfig().textContent}
+    title={undefined}
     type="button"
 >
   <!-- Status Icon -->
@@ -297,7 +293,7 @@
 </button>
 
 <!-- Preview Tooltip -->
-{#if showTooltips && showPreviewTooltip && container}
+{#if showPreviewTooltip && container}
   <Portal target="#rotector-tooltip-portal">
     <Tooltip
         anchorElement={container}

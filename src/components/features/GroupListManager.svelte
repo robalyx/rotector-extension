@@ -17,13 +17,11 @@
     import StatusIndicator from '../status/StatusIndicator.svelte';
 
     interface Props {
-        showTooltips?: boolean;
         onError?: (error: string) => void;
         onMount?: (cleanup: () => void) => void;
     }
 
     let {
-        showTooltips = true,
         onError,
         onMount
     }: Props = $props();
@@ -324,7 +322,6 @@
                 entityType: ENTITY_TYPES.GROUP,
                 status,
                 loading: false,
-                showTooltips,
                 showText: !isGridView && !isBTRobloxView,
                 onClick: handleStatusClick
             }

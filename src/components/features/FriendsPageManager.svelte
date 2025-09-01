@@ -1,10 +1,7 @@
 <script lang="ts">
-    import {get} from 'svelte/store';
-    import {settings} from '@/lib/stores/settings';
     import {logger} from '@/lib/utils/logger';
     import {waitForElement} from '@/lib/utils/element-waiter';
     import {FRIENDS_SELECTORS, PAGE_TYPES} from '@/lib/types/constants';
-    import {SETTINGS_KEYS} from '@/lib/types/settings';
     import type {UserStatus} from '@/lib/types/api';
     import UserListManager from './UserListManager.svelte';
 
@@ -18,17 +15,10 @@
 
     // Component state
     let showFriendsList = $state(false);
-    let showTooltips = $state(true);
-
-    // Reactive settings
-    $effect(() => {
-        const currentSettings = get(settings);
-        showTooltips = currentSettings[SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED];
-    });
 
     // Initialize components when mounted
     $effect(() => {
-        void initialize();
+        initialize();
         onMount?.(cleanup);
 
         return cleanup;
@@ -87,6 +77,5 @@
       onError={handleError}
       onUserProcessed={handleUserProcessed}
       pageType={PAGE_TYPES.FRIENDS_LIST}
-      {showTooltips}
   />
 {/if}

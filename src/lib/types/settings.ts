@@ -1,14 +1,9 @@
 export const SETTINGS_KEYS = {
     HOME_CHECK_ENABLED: 'homeCheckEnabled',
-    HOME_TOOLTIPS_ENABLED: 'homeTooltipsEnabled',
     PROFILE_CHECK_ENABLED: 'profileCheckEnabled',
-    PROFILE_TOOLTIPS_ENABLED: 'profileTooltipsEnabled',
     FRIENDS_CHECK_ENABLED: 'friendsCheckEnabled',
-    FRIENDS_TOOLTIPS_ENABLED: 'friendsTooltipsEnabled',
     GROUPS_CHECK_ENABLED: 'groupsCheckEnabled',
-    GROUPS_TOOLTIPS_ENABLED: 'groupsTooltipsEnabled',
     SEARCH_CHECK_ENABLED: 'searchCheckEnabled',
-    SEARCH_TOOLTIPS_ENABLED: 'searchTooltipsEnabled',
     REPORT_HELPER_ENABLED: 'reportHelperEnabled',
     DEBUG_MODE_ENABLED: 'debugModeEnabled',
     ADVANCED_VIOLATION_INFO_ENABLED: 'advancedViolationInfoEnabled',
@@ -31,15 +26,10 @@ export type Theme = 'light' | 'dark' | 'auto';
 
 export interface Settings {
     [SETTINGS_KEYS.HOME_CHECK_ENABLED]: boolean;
-    [SETTINGS_KEYS.HOME_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.PROFILE_CHECK_ENABLED]: boolean;
-    [SETTINGS_KEYS.PROFILE_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.FRIENDS_CHECK_ENABLED]: boolean;
-    [SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.GROUPS_CHECK_ENABLED]: boolean;
-    [SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.SEARCH_CHECK_ENABLED]: boolean;
-    [SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED]: boolean;
     [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: boolean;
     [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: boolean;
     [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: boolean;
@@ -58,15 +48,10 @@ export interface Settings {
 
 export const SETTINGS_DEFAULTS: Settings = {
     [SETTINGS_KEYS.HOME_CHECK_ENABLED]: true,
-    [SETTINGS_KEYS.HOME_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.PROFILE_CHECK_ENABLED]: true,
-    [SETTINGS_KEYS.PROFILE_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.FRIENDS_CHECK_ENABLED]: true,
-    [SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.GROUPS_CHECK_ENABLED]: true,
-    [SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.SEARCH_CHECK_ENABLED]: true,
-    [SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED]: true,
     [SETTINGS_KEYS.REPORT_HELPER_ENABLED]: true,
     [SETTINGS_KEYS.DEBUG_MODE_ENABLED]: false,
     [SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
@@ -126,76 +111,31 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
         ]
     },
     {
-        title: 'Home Page',
+        title: 'Page Settings',
         settings: [
             {
                 key: SETTINGS_KEYS.HOME_CHECK_ENABLED,
-                label: 'Enable checks on home page'
+                label: 'Home Page'
             },
-            {
-                key: SETTINGS_KEYS.HOME_TOOLTIPS_ENABLED,
-                label: 'Show tooltips on home page'
-            }
-        ]
-    },
-    {
-        title: 'Profile Page',
-        settings: [
             {
                 key: SETTINGS_KEYS.PROFILE_CHECK_ENABLED,
-                label: 'Enable checks on profiles'
+                label: 'Profile Pages'
             },
-            {
-                key: SETTINGS_KEYS.PROFILE_TOOLTIPS_ENABLED,
-                label: 'Show tooltips on profiles'
-            }
-        ]
-    },
-    {
-        title: 'Friends Pages',
-        settings: [
             {
                 key: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
-                label: 'Enable checks on lists'
+                label: 'Friends Pages'
             },
-            {
-                key: SETTINGS_KEYS.FRIENDS_TOOLTIPS_ENABLED,
-                label: 'Show tooltips on lists'
-            }
-        ]
-    },
-    {
-        title: 'Groups Page',
-        settings: [
             {
                 key: SETTINGS_KEYS.GROUPS_CHECK_ENABLED,
-                label: 'Enable checks on group members'
+                label: 'Groups Pages'
             },
-            {
-                key: SETTINGS_KEYS.GROUPS_TOOLTIPS_ENABLED,
-                label: 'Show tooltips on group members'
-            }
-        ]
-    },
-    {
-        title: 'Search Pages',
-        settings: [
             {
                 key: SETTINGS_KEYS.SEARCH_CHECK_ENABLED,
-                label: 'Enable checks on search results'
+                label: 'Search Pages'
             },
             {
-                key: SETTINGS_KEYS.SEARCH_TOOLTIPS_ENABLED,
-                label: 'Show tooltips on search results'
-            }
-        ]
-    },
-    {
-        title: 'Report Page',
-        settings: [
-            {
                 key: SETTINGS_KEYS.REPORT_HELPER_ENABLED,
-                label: 'Show report helper card'
+                label: 'Report Helper'
             }
         ]
     }

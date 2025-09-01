@@ -15,11 +15,11 @@
 
     let isClosing = $state(false);
 
-    // Handle dismiss button click
+    // Dismisses the banner with animation
     function handleDismiss() {
         isClosing = true;
 
-        // Add a small delay to show the closing animation
+        // Animation delay before hiding
         setTimeout(() => {
             dismissAdvancedViolationBanner().catch(error => {
                 console.error('Failed to dismiss advanced violation banner:', error);
@@ -28,15 +28,18 @@
         }, 200);
     }
 
-    // Handle go to setting button click
+    // Navigates to settings and highlights the advanced violation option
     async function handleGoToSetting() {
         try {
-            // Expand the settings section if it's not already expanded
+            // Hide banner when user takes action
+            await dismissAdvancedViolationBanner();
+            
+            // Open settings section if needed
             if (!$settings[SETTINGS_KEYS.SETTINGS_EXPANDED]) {
                 await updateSetting(SETTINGS_KEYS.SETTINGS_EXPANDED, true);
             }
 
-            // Wait for expansion animation then scroll and highlight
+            // Navigate to and highlight the setting
             setTimeout(() => {
                 const settingsSectionElement = document.getElementById('settings-section');
                 if (settingsSectionElement) {
@@ -57,14 +60,9 @@
 {#if $shouldShowAdvancedViolationBanner && !isClosing}
   <div class="advanced-violation-banner" class:closing={isClosing}>
     <div class="advanced-violation-banner-content">
-      <!-- Header row with badge and dismiss -->
-      <div class="advanced-violation-banner-header">
-        <!-- Recommended badge -->
-        <div class="advanced-violation-banner-badge">
-          <span class="advanced-violation-badge-text">RECOMMENDED</span>
-        </div>
-
-        <!-- Dismiss button -->
+      <!-- Banner content and controls -->
+      <div class="advanced-violation-banner-body">
+        <!-- Close button -->
         <button
             class="advanced-violation-banner-dismiss"
             aria-label="Dismiss recommendation banner"
@@ -77,21 +75,7 @@
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
         </button>
-      </div>
-
-      <!-- Content -->
-      <div class="advanced-violation-banner-body">
-        <div class="advanced-violation-banner-title">
-          Enhanced Experience Available
-        </div>
-        <div class="advanced-violation-banner-description">
-          Enable "Show Advanced Violation Details" to see detailed violation messages and evidence for better
-          understanding of detected issues.
-        </div>
-      </div>
-
-      <!-- Go to Setting button -->
-      <div class="advanced-violation-banner-footer">
+        <p class="advanced-violation-banner-message">Enable advanced violation details for better insights</p>
         <button
             class="advanced-violation-banner-enable"
             onclick={handleGoToSetting}

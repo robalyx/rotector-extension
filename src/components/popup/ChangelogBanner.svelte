@@ -1,5 +1,4 @@
 <script lang="ts">
-    import ChangelogContent from './ChangelogContent.svelte';
     import {
         changelogSectionExpanded,
         dismissChangelogBanner,
@@ -7,14 +6,19 @@
         shouldShowChangelogBanner,
         toggleChangelogSection
     } from '@/lib/stores/changelog';
+    import {formatTimeAgo} from '@/lib/utils/time';
 
     let isClosing = $state(false);
+    
+    const releaseTimeText = $derived(
+        $latestChangelog ? `A new update was released ${formatTimeAgo($latestChangelog.date)}!` : ''
+    );
 
-    // Handle dismiss button click
+    // Dismisses the banner with animation
     function handleDismiss() {
         isClosing = true;
 
-        // Add a small delay to show the closing animation
+        // Animation delay before hiding
         setTimeout(() => {
             dismissChangelogBanner().catch(error => {
                 console.error('Failed to dismiss changelog banner:', error);
@@ -23,18 +27,18 @@
         }, 200);
     }
 
-    // Handle view details button click
+    // Opens the full changelog section
     async function handleViewDetails() {
         try {
-            // Expand the changelog section if it's not already expanded
+            // Expand changelog section if needed
             if (!$changelogSectionExpanded) {
                 await toggleChangelogSection();
             }
 
-            // Dismiss the banner since user has viewed the details
+            // Hide banner once user accesses details
             await dismissChangelogBanner();
 
-            // Scroll to the changelog section
+            // Navigate to changelog content
             setTimeout(() => {
                 const changelogSection = document.getElementById('changelog-section-content');
                 if (changelogSection) {
@@ -43,7 +47,7 @@
                         block: 'start'
                     });
                 }
-            }, 100); // Small delay to allow expansion animation
+            }, 100);
         } catch (error) {
             console.error('Failed to navigate to changelog section:', error);
         }
@@ -53,14 +57,18 @@
 {#if $shouldShowChangelogBanner && $latestChangelog && !isClosing}
   <div class="changelog-banner" class:closing={isClosing}>
     <div class="changelog-banner-content">
-      <!-- Header row with badge and dismiss -->
-      <div class="changelog-banner-header">
-        <!-- New badge -->
-        <div class="changelog-banner-badge">
-          <span class="changelog-badge-text">NEW</span>
-        </div>
-
-        <!-- Dismiss button -->
+      <!-- Banner content and controls -->
+      <div class="changelog-banner-body">
+        <p class="changelog-banner-message">{releaseTimeText}</p>
+        <button
+            class="changelog-banner-view-details"
+            onclick={handleViewDetails}
+            title="View full changelog details"
+            type="button"
+        >
+          View Details
+        </button>
+        <!-- Close button -->
         <button
             class="changelog-banner-dismiss"
             aria-label="Dismiss changelog banner"
@@ -72,23 +80,6 @@
             <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
-        </button>
-      </div>
-
-      <!-- Content -->
-      <div class="changelog-banner-body">
-        <ChangelogContent changelog={$latestChangelog} compact={true}/>
-      </div>
-
-      <!-- View Details button -->
-      <div class="changelog-banner-footer">
-        <button
-            class="changelog-banner-view-details"
-            onclick={handleViewDetails}
-            title="View full changelog details"
-            type="button"
-        >
-          View Details
         </button>
       </div>
     </div>

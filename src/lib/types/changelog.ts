@@ -239,9 +239,3 @@ export const CHANGELOGS: Changelog[] = [
         ]
     }
 ];
-
-// Get the latest changelog
-export function getLatestChangelog(): Changelog | null {
-    return CHANGELOGS.length > 0 ? CHANGELOGS[0] : null;
-}
-

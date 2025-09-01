@@ -16,43 +16,26 @@
    BANNER LAYOUT
    ================================= */
 .changelog-banner-content {
-  @apply relative flex flex-col gap-3 p-3;
+  @apply relative p-3;
   background: var(--color-bg-content);
   border-radius: inherit;
   margin: 2px;
 }
 
-.changelog-banner-header {
-  @apply flex items-center justify-between;
-}
-
-.changelog-banner-footer {
-  @apply flex justify-center pt-1;
-}
-
-/* =================================
-   BANNER BADGE
-   ================================= */
-.changelog-banner-badge {
-  @apply flex-shrink-0;
-
-  .changelog-badge-text {
-    @apply inline-flex items-center justify-center px-2 py-1 text-xs font-bold rounded-full;
-    background-color: var(--color-primary);
-    color: white;
-    letter-spacing: 0.025em;
-  }
-}
-
 .changelog-banner-body {
-  @apply flex-1 min-w-0;
+  @apply flex items-center gap-3;
+}
+
+.changelog-banner-message {
+  @apply text-sm font-medium m-0 flex-1 order-1;
+  color: var(--color-text);
 }
 
 /* =================================
    BANNER BUTTONS
    ================================= */
 .changelog-banner-view-details {
-  @apply px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer border-none;
+  @apply px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer border-none flex-shrink-0 order-2;
   background-color: var(--color-primary);
   color: white;
 
@@ -71,7 +54,7 @@
 }
 
 .changelog-banner-dismiss {
-  @apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent;
+  @apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent order-3;
   color: var(--color-text-subtle);
 
   &:hover {

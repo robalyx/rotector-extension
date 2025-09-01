@@ -81,7 +81,6 @@
     </h2>
     <button
         class="refresh-stats-button"
-        class:spin-smooth={isRefreshing}
         disabled={isRefreshing}
         onclick={handleRefresh}
         title="Refresh Statistics"
@@ -117,10 +116,12 @@
       <div class="text-error mb-3 text-sm font-medium">Failed to load statistics</div>
       <button
           class="
-            bg-primary rounded-md px-4 py-2 text-sm font-medium text-white
+            rounded-md px-4 py-2 text-sm font-medium text-white
             btn-focus
-            hover:bg-primary-dark
+            transition-colors duration-200
           "
+          style="background-color: var(--color-primary);"
+          style:hover="background-color: var(--color-primary-hover);"
           onclick={handleRefresh}
           type="button"
       >

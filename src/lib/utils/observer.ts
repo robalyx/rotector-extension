@@ -12,7 +12,6 @@ interface ObserverConfig {
     onResizeComplete?: () => void | Promise<void>;
     healthCheckInterval?: number;
     restartDelay?: number;
-    maxRetries?: number;
     ignoreResizeEvents?: boolean;
     enablePostResizeProcessing?: boolean;
 }
@@ -23,7 +22,6 @@ interface ListObserverConfig {
     unprocessedItemSelector: string;
     processItems: (items: Element[]) => void | Promise<void>;
     processExistingItems?: boolean;
-    maxRetries?: number;
     restartDelay?: number;
     enablePostResizeProcessing?: boolean;
     onResizeComplete?: () => void | Promise<void>;
@@ -119,7 +117,6 @@ export class ObserverManager extends Observer {
             }),
             healthCheckInterval: config.healthCheckInterval ?? OBSERVER_CONFIG.DEFAULT_HEALTH_CHECK_INTERVAL,
             restartDelay: config.restartDelay ?? OBSERVER_CONFIG.DEFAULT_RESTART_DELAY,
-            maxRetries: config.maxRetries ?? OBSERVER_CONFIG.DEFAULT_MAX_RETRIES,
             ignoreResizeEvents: config.ignoreResizeEvents !== false,
             enablePostResizeProcessing: config.enablePostResizeProcessing ?? false,
             ...config,
@@ -245,11 +242,7 @@ export class ObserverManager extends Observer {
             // targetSelector is a string at this point
             const target = document.querySelector(this.config.targetSelector);
             if (!target) {
-                if (this.retryCount >= this.config.maxRetries) {
-                    logger.warn(`${this.name} observer: Target element not found (all ${this.config.maxRetries} attempts failed)`);
-                } else {
-                    logger.debug(`${this.name} observer: Target element not found (attempt ${this.retryCount + 1}/${this.config.maxRetries})`);
-                }
+                logger.debug(`${this.name} observer: Target element not found (attempt ${this.retryCount + 1})`);
             }
             return target;
         } catch (error) {
@@ -294,20 +287,20 @@ export class ObserverManager extends Observer {
         logger.debug(`${this.name} observer: Resize listener added`);
     }
 
-    // Schedules a restart attempt with exponential backoff
+    // Schedules a restart attempt with exponential backoff capped at 30 seconds
     private scheduleRestart(delay?: number): void {
         if (this.reconnectTimer) {
             window.clearTimeout(this.reconnectTimer);
         }
 
         this.retryCount++;
-        if (this.retryCount > this.config.maxRetries) {
-            logger.error(`${this.name} observer: Max retries (${this.config.maxRetries}) exceeded, giving up`);
-            return;
-        }
-
-        const actualDelay = delay ?? (this.config.restartDelay * this.retryCount);
-        logger.debug(`${this.name} observer: Scheduling restart in ${actualDelay}ms (attempt ${this.retryCount}/${this.config.maxRetries})`);
+        
+        // Calculate exponential backoff delay with maximum 30-second cap
+        const exponentialDelay = this.config.restartDelay * this.retryCount;
+        const maxBackoffDelay = 30000; // 30 seconds max delay
+        const actualDelay = delay ?? Math.min(exponentialDelay, maxBackoffDelay);
+        
+        logger.debug(`${this.name} observer: Scheduling restart in ${actualDelay}ms (attempt ${this.retryCount})`);
 
         this.reconnectTimer = window.setTimeout(() => {
             logger.debug(`${this.name} observer: Attempting restart...`);
@@ -420,7 +413,6 @@ export const observerFactory = {
             unprocessedItemSelector,
             processItems,
             processExistingItems = true,
-            maxRetries = OBSERVER_CONFIG.DEFAULT_MAX_RETRIES,
             restartDelay = OBSERVER_CONFIG.DEFAULT_RESTART_DELAY,
             enablePostResizeProcessing = false,
             onResizeComplete,
@@ -465,7 +457,6 @@ export const observerFactory = {
                 });
             } : undefined),
             enablePostResizeProcessing,
-            maxRetries,
             restartDelay,
         });
     },

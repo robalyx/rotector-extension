@@ -124,7 +124,6 @@
             unprocessedItemSelector: selectors.ITEM_UNPROCESSED,
             processItems: handleNewGroups,
             processExistingItems: true,
-            maxRetries: 3,
             restartDelay: 1000
         });
 
@@ -140,7 +139,6 @@
             unprocessedItemSelector: BTROBLOX_GROUPS_SELECTORS.ITEM_UNPROCESSED,
             processItems: handleNewGroups,
             processExistingItems: true,
-            maxRetries: 3,
             restartDelay: 1000
         });
 

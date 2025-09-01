@@ -111,7 +111,6 @@
             unprocessedItemSelector: config.itemSelector,
             processItems: handleNewUsers,
             processExistingItems: options.processExistingItems ?? true,
-            maxRetries: 3,
             enablePostResizeProcessing: isCarouselPageType,
             ...(options.restartDelay && {restartDelay: options.restartDelay})
         };

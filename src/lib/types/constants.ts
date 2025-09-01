@@ -304,7 +304,6 @@ export type VoteType = typeof VOTE_TYPES[keyof typeof VOTE_TYPES];
 export const OBSERVER_CONFIG = {
     DEFAULT_HEALTH_CHECK_INTERVAL: 3000,
     DEFAULT_RESTART_DELAY: 1000,
-    DEFAULT_MAX_RETRIES: 20,
     DEFAULT_BATCH_DELAY: 250,
 } as const;
 

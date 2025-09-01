@@ -42,7 +42,6 @@
     let userStatuses = new SvelteMap<string, UserStatus>();
     let loadingUsers = new SvelteSet<string>();
     let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
-    let elementToComponent = new WeakMap<Element, { userId: string; component: { unmount?: () => void } }>();
     let destroyed = $state(false);
 
     // Queue modal manager reference
@@ -478,7 +477,6 @@
             });
 
             mountedComponents.set(user.userId, component);
-            elementToComponent.set(user.element, {userId: user.userId, component});
 
             logger.debug(`Status indicator mounted for user ${user.userId} on ${pageType}`, {
                 isLoading,

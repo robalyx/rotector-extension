@@ -114,12 +114,7 @@ export class GroupsPageController extends PageController {
 
     // Wait for group elements to be available
     private async waitForGroupElements(): Promise<void> {
-        const result = await waitForElement(GROUP_HEADER_SELECTORS.HEADER_INFO, {
-            timeout: 20000,
-            onTimeout: () => {
-                logger.debug('Group header search timed out - may not be a group detail page');
-            }
-        });
+        const result = await waitForElement(GROUP_HEADER_SELECTORS.HEADER_INFO);
 
         if (!result.success) {
             logger.warn('Group header element not found after timeout');

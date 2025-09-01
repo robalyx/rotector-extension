@@ -44,12 +44,7 @@
 
         try {
             // Wait for group owner name element
-            const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME, {
-                timeout: 20000,
-                onTimeout: () => {
-                    logger.debug('Group owner name search timed out - may not be a group detail page or owner not visible');
-                }
-            });
+            const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME);
 
             if (!ownerResult.success || !ownerResult.element) {
                 logger.warn('Could not find group owner element for status indicator');
@@ -101,7 +96,7 @@
 
     // Wait for groups container and enable groups functionality
     async function setupGroups() {
-        const result = await waitForElement(GROUPS_SELECTORS.CONTAINER, {timeout: 20000});
+        const result = await waitForElement(GROUPS_SELECTORS.CONTAINER);
         if (result.success) {
             showGroups = true;
             logger.debug('Groups container detected');

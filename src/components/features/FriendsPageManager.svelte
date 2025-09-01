@@ -36,12 +36,7 @@
 
     // Set up friends list page
     async function setupFriendsListPage() {
-        const result = await waitForElement(FRIENDS_SELECTORS.CONTAINER, {
-            timeout: 30000,
-            onTimeout: () => {
-                logger.debug('Friends list container timeout');
-            }
-        });
+        const result = await waitForElement(FRIENDS_SELECTORS.CONTAINER);
 
         if (!result.success) {
             throw new Error('Friends list container not found on friends page');

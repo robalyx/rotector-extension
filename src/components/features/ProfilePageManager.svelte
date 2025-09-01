@@ -83,12 +83,7 @@
     async function setupStatusIndicator() {
         try {
             // Wait for profile header title container
-            const titleResult = await waitForElement(`${PROFILE_SELECTORS.TITLE_CONTAINER}, ${PROFILE_SELECTORS.PROFILE_HEADER}, .profile-header-title-container`, {
-                timeout: 20000,
-                onTimeout: () => {
-                    logger.debug('Profile header title container search timed out');
-                }
-            });
+            const titleResult = await waitForElement(`${PROFILE_SELECTORS.TITLE_CONTAINER}, ${PROFILE_SELECTORS.PROFILE_HEADER}, .profile-header-title-container`);
 
             if (!titleResult.success || !titleResult.element) {
                 logger.warn('Could not find profile header title container for status indicator');
@@ -168,11 +163,7 @@
             if (!userStatus || userStatus.flagType === 0) return;
 
             // Wait for friend button to be available
-            const result = await waitForElement('#friend-button', {
-                timeout: 10000,
-                onTimeout: () => {
-                }
-            });
+            const result = await waitForElement('#friend-button');
 
             if (!result.success || !result.element) return;
 
@@ -208,11 +199,7 @@
             const containerSelector = FRIENDS_CAROUSEL_SELECTORS.CONTAINER;
 
             // Wait for carousel container
-            const result = await waitForElement(containerSelector, {
-                onTimeout: () => {
-                    logger.debug('Carousel search timed out - carousel may not exist on this profile');
-                }
-            });
+            const result = await waitForElement(containerSelector);
 
             if (result.success) {
                 showCarousel = true;
@@ -237,12 +224,7 @@
             }
 
             // Wait for groups showcase container
-            const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER, {
-                timeout: 10000,
-                onTimeout: () => {
-                    logger.debug('Groups showcase search timed out - groups showcase may not exist on this profile');
-                }
-            });
+            const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER);
 
             if (result.success) {
                 showGroupsShowcase = true;

@@ -313,7 +313,6 @@ export const RETRY_CONFIG = {
     BASE_DELAY: 300, // ms
     BACKOFF_MULTIPLIER: 1.3,
     MAX_DELAY: 3000, // ms
-    TIMEOUT: 30000, // 30 seconds total timeout
 } as const;
 
 // Page Types

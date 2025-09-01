@@ -94,14 +94,11 @@ export class ProfilePageController extends PageController {
     private async waitForProfileElements(): Promise<void> {
         // Wait for the profile header username element
         const result = await waitForElement('.profile-header-username', {
-            timeout: 20000,
-            baseDelay: 200,
-            onTimeout: () => {
-            }
+            baseDelay: 200
         });
 
         if (!result.success) {
-            throw new Error('Profile username element not found after timeout');
+            throw new Error('Profile username element not found');
         }
     }
 

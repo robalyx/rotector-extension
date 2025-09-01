@@ -6,9 +6,7 @@ interface WaitForElementOptions {
     baseDelay?: number;
     backoffMultiplier?: number;
     maxDelay?: number;
-    timeout?: number;
     onRetry?: (attempt: number, delay: number) => void;
-    onTimeout?: () => void;
 }
 
 interface ElementWaiterResult<T = HTMLElement> {
@@ -28,9 +26,7 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
         baseDelay = RETRY_CONFIG.BASE_DELAY,
         backoffMultiplier = RETRY_CONFIG.BACKOFF_MULTIPLIER,
         maxDelay = RETRY_CONFIG.MAX_DELAY,
-        timeout = RETRY_CONFIG.TIMEOUT,
-        onRetry,
-        onTimeout
+        onRetry
     } = options;
 
     const startTime = Date.now();
@@ -39,8 +35,7 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
 
     logger.debug(`Starting element search for: ${selector}`, {
         maxRetries,
-        baseDelay,
-        timeout
+        baseDelay
     });
 
     while (attempt < maxRetries) {
@@ -68,25 +63,8 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
             };
         }
 
-        // Check timeout
-        const elapsed = Date.now() - startTime;
-        if (elapsed >= timeout) {
-            logger.warn(`Element search timed out: ${selector}`, {
-                attempts: attempt,
-                totalTime: elapsed,
-                timeout
-            });
-
-            onTimeout?.();
-            return {
-                element: null,
-                attempts: attempt,
-                totalTime: elapsed,
-                success: false
-            };
-        }
-
         // Log retry attempt
+        const elapsed = Date.now() - startTime;
         logger.debug(`Element not found, retrying: ${selector}`, {
             attempt,
             nextDelay: currentDelay,

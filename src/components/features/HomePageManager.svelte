@@ -36,15 +36,10 @@
 
     // Set up friends carousel
     async function setupCarousel() {
-        const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.CONTAINER, {
-            timeout: 30000,
-            onTimeout: () => {
-                logger.debug('Friends carousel timeout');
-            }
-        });
+        const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.CONTAINER);
 
         if (!result.success) {
-            throw new Error(`Friends carousel not found after timeout: ${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`);
+            throw new Error(`Friends carousel not found: ${FRIENDS_CAROUSEL_SELECTORS.CONTAINER}`);
         }
 
         showCarousel = true;

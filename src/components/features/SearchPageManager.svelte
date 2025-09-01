@@ -36,12 +36,7 @@
 
     // Set up search list page
     async function setupSearchListPage() {
-        const result = await waitForElement(SEARCH_SELECTORS.CONTAINER, {
-            timeout: 30000,
-            onTimeout: () => {
-                logger.debug('Search results container timeout');
-            }
-        });
+        const result = await waitForElement(SEARCH_SELECTORS.CONTAINER);
 
         if (!result.success) {
             throw new Error('Search results container not found on search page');

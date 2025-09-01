@@ -25,12 +25,13 @@ class VoteDataService {
     private cache: VoteDataCache = {};
     private pendingRequests: PendingRequests = {};
     private readonly REQUEST_TIMEOUT = 10 * 1000; // 10 seconds
+    private cleanupIntervalId: ReturnType<typeof setInterval> | null = null;
 
     // Store for reactive updates
     private readonly voteDataStore = writable<VoteDataCache>({});
 
     constructor() {
-        setInterval(() => {
+        this.cleanupIntervalId = setInterval(() => {
             this.cleanupCache();
             this.cleanupPendingRequests();
         }, 60 * 1000); // Every minute
@@ -173,6 +174,16 @@ class VoteDataService {
         delete this.cache[numericUserId];
         this.voteDataStore.set({...this.cache});
         logger.debug('VoteDataService: cleared cache for user', {userId: numericUserId});
+    }
+
+    // Clean up the service and stop intervals
+    cleanup(): void {
+        if (this.cleanupIntervalId !== null) {
+            clearInterval(this.cleanupIntervalId);
+            this.cleanupIntervalId = null;
+        }
+        this.clearCache();
+        logger.debug('VoteDataService: cleanup completed');
     }
 
     // Get cache TTL from settings

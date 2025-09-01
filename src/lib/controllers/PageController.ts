@@ -299,8 +299,9 @@ export abstract class PageController {
         for (const observer of this.observers) {
             try {
                 observer.stop();
+                observer.cleanup();
             } catch (error) {
-                logger.error('Failed to stop observer:', error);
+                logger.error('Failed to cleanup observer:', error);
             }
         }
         this.observers = [];

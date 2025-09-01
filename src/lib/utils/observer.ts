@@ -96,6 +96,7 @@ export class ObserverManager extends Observer {
     private reconnectTimer: number | null = null;
     private healthCheckTimer: number | null = null;
     private resizeTimer: number | null = null;
+    private resizeHandler: (() => void) | null = null;
     private isResizing: boolean = false;
     private retryCount: number = 0;
     private resizeListenerAdded: boolean = false;
@@ -216,6 +217,12 @@ export class ObserverManager extends Observer {
             window.clearTimeout(this.resizeTimer);
             this.resizeTimer = null;
         }
+
+        if (this.resizeHandler && this.resizeListenerAdded) {
+            window.removeEventListener('resize', this.resizeHandler);
+            this.resizeHandler = null;
+            this.resizeListenerAdded = false;
+        }
     }
 
     // Cleans up all resources
@@ -224,6 +231,7 @@ export class ObserverManager extends Observer {
         this.retryCount = 0;
         this.isResizing = false;
         this.resizeListenerAdded = false;
+        this.resizeHandler = null;
         super.cleanup();
     }
 
@@ -257,7 +265,7 @@ export class ObserverManager extends Observer {
             return;
         }
 
-        const resizeHandler = () => {
+        this.resizeHandler = () => {
             if (this.resizeTimer) {
                 window.clearTimeout(this.resizeTimer);
             }
@@ -281,7 +289,7 @@ export class ObserverManager extends Observer {
             }, 250);
         };
 
-        window.addEventListener('resize', resizeHandler);
+        window.addEventListener('resize', this.resizeHandler);
         this.resizeListenerAdded = true;
         logger.debug(`${this.name} observer: Resize listener added`);
     }

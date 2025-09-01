@@ -18,7 +18,7 @@
 
     // Initialize components when mounted
     $effect(() => {
-        initialize();
+        void initialize();
         onMount?.(cleanup);
 
         return cleanup;

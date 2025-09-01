@@ -259,11 +259,9 @@ export abstract class PageController {
     // Generic method to update modal visibility by remounting component
     protected updateModalVisibility(
         modalRef: { element: HTMLElement; cleanup: () => void } | null,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        componentClass: any,
+        componentClass: Component<Record<string, unknown>, Record<string, unknown>>,
         visible: boolean,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        props: Record<string, any>
+        props: Record<string, unknown>
     ): { element: HTMLElement; cleanup: () => void } | null {
         if (!modalRef) return null;
 
@@ -272,7 +270,7 @@ export abstract class PageController {
             modalRef.cleanup();
 
             // Remount with new visibility state
-            return this.mountComponent(componentClass as Component<Record<string, unknown>, Record<string, unknown>>, modalRef.element, {
+            return this.mountComponent(componentClass, modalRef.element, {
                 isOpen: visible,
                 ...props
             });

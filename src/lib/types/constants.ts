@@ -165,6 +165,7 @@ const STATUS_SELECTORS = {
 export const FRIENDS_CAROUSEL_SELECTORS = {
     CONTAINER: ".friends-carousel-container",
     TILE: ".friends-carousel-tile",
+    TILE_CONTENT: ".friend-tile-content",
     PROFILE_LINK: ".avatar-card-link",
     TILE_UNPROCESSED: `.friends-carousel-tile:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
     DISPLAY_NAME: ".friends-carousel-display-name",

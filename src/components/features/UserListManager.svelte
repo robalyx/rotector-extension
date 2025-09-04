@@ -433,9 +433,18 @@
             const targetSelectors: Record<string, string> = {
                 [PAGE_TYPES.FRIENDS_LIST]: FRIENDS_SELECTORS.CARD.FULLBODY,
                 [PAGE_TYPES.SEARCH_USER]: SEARCH_SELECTORS.CARD.FULLBODY,
+                [PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
+                [PAGE_TYPES.MEMBERS]: '',
+                [PAGE_TYPES.HOME]: '',
+                [PAGE_TYPES.PROFILE]: '',
+                [PAGE_TYPES.REPORT]: '',
             };
 
             const targetSelector = targetSelectors[pageType];
+            if (targetSelector === undefined) {
+                throw new Error(`No target selector defined for page type: ${pageType}`);
+            }
+            
             const targetElement = targetSelector 
                 ? (tileElement.querySelector(targetSelector) as HTMLElement) || tileElement
                 : tileElement;

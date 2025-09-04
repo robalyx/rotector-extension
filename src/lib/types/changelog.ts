@@ -15,6 +15,67 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
     {
+        id: 'v2.3.0',
+        version: '2.3.0',
+        date: '2025-09-03',
+        title: 'Compatibility & User Experience Improvements',
+        summary: 'This update fixes compatibility issues with other browser extensions, adds support for new Roblox pages, and improves the extension popup design.',
+        changes: [
+            {
+                type: 'added',
+                description: 'User search page support - Status indicators now appear on Roblox user search results pages'
+            },
+            {
+                type: 'added',
+                description: 'BTRoblox extension compatibility - Full support for BTRoblox\'s modified groups layout on profile pages'
+            },
+            {
+                type: 'added',
+                description: 'Weekly usage charts - View AI costs and usage transparency data with interactive weekly charts in popup'
+            },
+            {
+                type: 'changed',
+                description: 'Extension popup design - Streamlined banner layouts and moved integration stats to tooltips for cleaner interface'
+            },
+            {
+                type: 'changed',
+                description: 'Settings organization - Simplified page settings into single category and removed unnecessary tooltip toggles'
+            },
+            {
+                type: 'changed',
+                description: 'Page loading performance - Improved responsiveness when navigating between pages for better support for slow-loading pages'
+            },
+            {
+                type: 'changed',
+                description: 'Navigation detection - Faster page change detection using browser events instead of periodic checking'
+            },
+            {
+                type: 'changed',
+                description: 'Extension popup changelog - Simplified changelog display by removing technical descriptions for better readability'
+            },
+            {
+                type: 'changed',
+                description: 'Memory management - Improved extension stability during long browsing sessions'
+            },
+            {
+                type: 'changed',
+                description: 'Status indicator positioning - Repositioned indicators on user and group lists to be less visually distracting'
+            },
+            {
+                type: 'fixed',
+                description: 'Friend tile dropdown positioning - Resolved issue where Roblox\'s dropdown menus on homepage would get stuck in wrong screen position'
+            },
+            {
+                type: 'fixed',
+                description: 'Refresh button animation - Fixed spinner animation in statistics section not displaying properly'
+            },
+            {
+                type: 'fixed',
+                description: 'Page navigation reliability - Fixed rare issue where extension might not work properly when navigating between similar page types'
+            }
+        ]
+    },
+    {
         id: 'v2.2.0',
         version: '2.2.0',
         date: '2025-08-27',

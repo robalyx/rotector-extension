@@ -21,9 +21,9 @@ export default defineConfig({
     }
   }),
   manifest: {
-    name: 'Rotector',
+    name: 'Rotector - Roblox Safety Warnings',
     description: 'Real-time warnings about inappropriate Roblox users before you interact with them.',
-    version: '2.2.2',
+    version: '2.3.0',
     permissions: ['storage'],
     host_permissions: [
       'https://*.roblox.com/*',

@@ -15,6 +15,19 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
     {
+        id: 'v2.3.1',
+        version: '2.3.1',
+        date: '2025-09-05',
+        title: 'Friends Tile Dropdown Fix',
+        summary: 'This patch fixes remaining friend dropdown positioning issues on the Roblox homepage.',
+        changes: [
+            {
+                type: 'fixed',
+                description: 'Friend tile dropdown positioning - Resolved issue where dropdown menus would appear in the wrong position on homepage'
+            }
+        ]
+    },
+    {
         id: 'v2.3.0',
         version: '2.3.0',
         date: '2025-09-03',

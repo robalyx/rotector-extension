@@ -65,10 +65,9 @@
     // Initialize profile components
     async function initialize() {
         try {
-            await setupStatusIndicator();
-            await setupFriendWarning();
-
             await Promise.all([
+                setupStatusIndicator(),
+                setupFriendWarning(),
                 setupCarousel(),
                 setupGroupsShowcase()
             ]);

@@ -97,10 +97,6 @@
                 // Create container for status indicator
                 container = document.createElement('div');
                 container.className = COMPONENT_CLASSES.PROFILE_STATUS;
-                container.style.display = 'inline-flex';
-                container.style.alignItems = 'center';
-                container.style.verticalAlign = 'middle';
-                container.style.lineHeight = 'normal';
 
                 // Append directly to title container
                 titleContainer.appendChild(container);

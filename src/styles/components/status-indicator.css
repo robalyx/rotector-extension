@@ -227,3 +227,13 @@
 .outfit-badge {
   @apply badge-base badge-bg-outfit border;
 }
+
+/* =================================
+   PROFILE STATUS CONTAINER
+   ================================= */
+.rotector-profile-status {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  line-height: normal;
+}

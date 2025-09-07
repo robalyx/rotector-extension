@@ -119,7 +119,6 @@
             // Create container for report helper card
             const container = document.createElement('div');
             container.className = COMPONENT_CLASSES.REPORT_HELPER;
-            container.style.marginBottom = '20px';
 
             // Insert before the form
             formContainer.parentNode?.insertBefore(container, formContainer);
@@ -237,7 +236,6 @@
             // Create success message element
             successMessageElement = document.createElement('div');
             successMessageElement.className = 'report-helper-success-message';
-            successMessageElement.style.marginTop = '12px';
             successMessageElement.textContent = '✅ Form filled successfully! Category and comment have been set. Review and submit when ready.';
 
             // Insert after footer

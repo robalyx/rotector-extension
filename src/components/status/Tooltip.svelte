@@ -102,7 +102,7 @@
             case STATUS.FLAGS.INTEGRATION:
                 return `This ${entityType} has been flagged by a third-party content analysis system.`;
             case STATUS.FLAGS.SAFE:
-                return `No inappropriate behavior has been detected yet.`;
+                return `This ${entityType} has not been reviewed yet.`;
             default:
                 return "Status information unavailable.";
         }
@@ -152,7 +152,7 @@
 
         switch (status.flagType) {
             case STATUS.FLAGS.SAFE:
-                return 'Safe';
+                return 'Not Flagged';
             case STATUS.FLAGS.UNSAFE:
                 return 'Unsafe';
             case STATUS.FLAGS.PENDING:

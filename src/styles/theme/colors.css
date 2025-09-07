@@ -130,7 +130,7 @@
   --color-link-hover-text: var(--primitive-white);
 
   /* Status system */
-  --color-status-safe: var(--primitive-green-600);
+  --color-status-safe: var(--primitive-gray-500);
   --color-status-unsafe: var(--primitive-red-700);
   --color-status-pending: var(--primitive-orange-500);
   --color-status-error: var(--primitive-gray-400);
@@ -217,7 +217,7 @@
     --color-link-hover-text: var(--primitive-white);
 
     /* Status adjustments */
-    --color-status-safe: var(--primitive-green-400);
+    --color-status-safe: var(--primitive-gray-500);
     --color-status-unsafe: var(--primitive-red-400);
     --color-status-pending: var(--primitive-orange-400);
     --color-status-error: var(--primitive-gray-400);
@@ -289,7 +289,7 @@
   --color-link-hover-bg: var(--primitive-link-hover-bg-dark);
   --color-link-hover-border: var(--primitive-gray-700);
   --color-link-hover-text: var(--primitive-white);
-  --color-status-safe: var(--primitive-green-400);
+  --color-status-safe: var(--primitive-gray-500);
   --color-status-unsafe: var(--primitive-red-400);
   --color-status-pending: var(--primitive-orange-400);
   --color-status-error: var(--primitive-gray-400);
@@ -354,7 +354,7 @@
   --color-link-hover-bg: var(--primitive-link-hover-bg-light);
   --color-link-hover-border: var(--primitive-gray-600);
   --color-link-hover-text: var(--primitive-white);
-  --color-status-safe: var(--primitive-green-600);
+  --color-status-safe: var(--primitive-gray-500);
   --color-status-unsafe: var(--primitive-red-700);
   --color-status-pending: var(--primitive-orange-500);
   --color-status-error: var(--primitive-gray-400);

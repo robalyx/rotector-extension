@@ -10,11 +10,11 @@
   }
 
   &.safe {
-    @apply bg-green-500/15;
-    color: var(--color-status-safe);
+    @apply bg-gray-500/20;
+    color: var(--color-text-heading);
 
     .status-indicator {
-      background-color: var(--color-status-safe);
+      background-color: var(--color-text-heading);
     }
   }
 

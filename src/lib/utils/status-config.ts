@@ -62,7 +62,7 @@ export function getStatusConfig(
             return {
                 ...baseConfig,
                 iconClass: 'status-icon-safe',
-                textContent: 'Safe',
+                textContent: 'Not Flagged',
                 textClass: 'status-text-safe'
             };
         case STATUS.FLAGS.UNSAFE:

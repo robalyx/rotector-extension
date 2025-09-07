@@ -310,7 +310,7 @@ export const OBSERVER_CONFIG = {
 
 // Element detection retry configuration
 export const RETRY_CONFIG = {
-    MAX_RETRIES: 30,
+    MAX_RETRIES: 10,
     BASE_DELAY: 300, // ms
     BACKOFF_MULTIPLIER: 1.3,
     MAX_DELAY: 3000, // ms

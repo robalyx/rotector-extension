@@ -274,8 +274,7 @@
 
         try {
             // Find the more options button (three dots)
-            const moreButton = document.querySelector('.profile-header-dropdown') ||
-                document.querySelector('[aria-label="See More"]');
+            const moreButton = document.querySelector(PROFILE_SELECTORS.DROPDOWN);
 
             if (moreButton instanceof HTMLElement) {
                 // Click the more button to open dropdown

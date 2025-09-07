@@ -2,7 +2,7 @@
     import {mount} from 'svelte';
     import {logger} from '@/lib/utils/logger';
     import {waitForElement} from '@/lib/utils/element-waiter';
-    import {ENTITY_TYPES, GROUP_HEADER_SELECTORS, GROUPS_SELECTORS} from '@/lib/types/constants';
+    import {COMPONENT_CLASSES, ENTITY_TYPES, GROUP_HEADER_SELECTORS, GROUPS_SELECTORS} from '@/lib/types/constants';
     import type {GroupStatus, PageType, UserStatus} from '@/lib/types/api';
     import StatusIndicator from '../status/StatusIndicator.svelte';
     import UserListManager from './UserListManager.svelte';
@@ -68,14 +68,14 @@
         }
 
         // Remove any existing container from DOM
-        const existingContainer = ownerElement.parentNode?.querySelector('.rotector-group-status-container');
+        const existingContainer = ownerElement.parentNode?.querySelector(`.${COMPONENT_CLASSES.GROUP_STATUS_CONTAINER}`);
         if (existingContainer) {
             existingContainer.remove();
         }
 
         // Create new container
         const container = document.createElement('span');
-        container.className = 'rotector-group-status-container';
+        container.className = COMPONENT_CLASSES.GROUP_STATUS_CONTAINER;
         ownerElement.parentNode?.insertBefore(container, ownerElement.nextSibling);
 
         // Mount new component

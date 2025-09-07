@@ -94,71 +94,8 @@ export const API_ACTIONS = {
 } as const;
 
 // DOM selectors for status elements
-const STATUS_SELECTORS = {
-    CONTAINER: "status-container",
-    ICON: "status-icon",
-    TEXT: "status-text",
-    TOOLTIP: "status-tooltip",
-    TOOLTIPS_DISABLED: "tooltips-disabled",
-    LOADING: "loading",
-    SAFE: "safe",
-    UNSAFE: "unsafe",
-    PENDING: "pending",
-    ERROR: "error",
-    QUEUED: "queued",
-    REPORTABLE_BADGE: "reportable-badge",
-    QUEUE_BADGE: "queue-badge",
-    OUTFIT_BADGE: "outfit-badge",
-    REASONS_CONTAINER: "reasons-container",
-    ERROR_DETAILS: "error-details",
-    EXPANDED_OVERLAY: "expanded-tooltip-overlay",
-    EXPANDED_TOOLTIP: "expanded-tooltip",
-    EXPANDED_CLOSE: "expanded-tooltip-close",
-    EXPANDED_CONTENT: "expanded-tooltip-content",
-    TOOLTIP_HEADER: "tooltip-header",
-    REPORTABLE_NOTICE: "reportable-notice",
-    REPORTABLE_ICON: "reportable-icon",
-    REPORTABLE_TEXT: "reportable-text",
-    OUTFIT_NOTICE: "outfit-notice",
-    OUTFIT_ICON: "outfit-icon",
-    OUTFIT_TEXT: "outfit-text",
-    REPORT_BUTTON: "report-button",
-    TOOLTIP_DIVIDER: "tooltip-divider",
-    QUEUE_BUTTON: "queue-button",
+export const STATUS_SELECTORS = {
     PROCESSED_CLASS: "status-processed",
-    TOOLTIP_PROFILE_HEADER: "tooltip-profile-header",
-    TOOLTIP_AVATAR: "tooltip-avatar",
-    TOOLTIP_USER_INFO: "tooltip-user-info",
-    TOOLTIP_USERNAME: "tooltip-username",
-    TOOLTIP_USER_ID: "tooltip-user-id",
-    TOOLTIP_STATUS_BADGE: "tooltip-status-badge",
-    TOOLTIP_STATUS_INDICATOR: "status-indicator",
-    VOTING_CONTAINER: "voting-container",
-    VOTING_LOADING: "voting-loading",
-    VOTING_HEADER: "voting-header",
-    VOTING_TITLE: "voting-title",
-    VOTING_COUNT: "voting-count",
-    VOTING_BAR: "voting-bar",
-    VOTING_METER: "voting-meter",
-    VOTING_METER_FILL: "voting-meter-fill",
-    VOTING_STATS: "voting-stats",
-    VOTING_PERCENTAGE: "voting-percentage",
-    VOTING_RATIO: "voting-ratio",
-    VOTING_BUTTONS: "voting-buttons",
-    VOTING_BUTTON: "voting-button",
-    VOTING_BUTTON_ACTIVE: "active",
-    VOTING_ICON: "voting-icon",
-    VOTING_UPVOTE: "upvote",
-    VOTING_DOWNVOTE: "downvote",
-    VOTING_UPVOTE_ICON: "upvote-icon",
-    VOTING_DOWNVOTE_ICON: "downvote-icon",
-    VOTING_ERROR: "voting-error",
-    ENGINE_VERSION_TAG: "engine-version-tag",
-    ENGINE_VERSION_TOOLTIP: "engine-version-tooltip",
-    ENGINE_VERSION_CONTAINER: "engine-version-container",
-    ADVANCED_DETAILS_FOOTER: "advanced-details-footer",
-    ADVANCED_DETAILS_ICON: "advanced-details-icon",
-    ADVANCED_DETAILS_TEXT: "advanced-details-text",
 } as const;
 
 // DOM selectors for friends carousel
@@ -293,6 +230,12 @@ export const BTROBLOX_GROUPS_SELECTORS = {
     PAGER: '.btr-pager'
 } as const;
 
+// DOM selectors for report/abuse pages
+export const REPORT_PAGE_SELECTORS = {
+    FORM_CONTAINER: '.abuse-report-container',
+    FOOTER: '.single-step-footer'
+} as const;
+
 // Vote types
 export const VOTE_TYPES = {
     UPVOTE: 1,
@@ -339,6 +282,8 @@ export const COMPONENT_CLASSES = {
     FRIEND_WARNING: 'rotector-friend-warning',
     QUEUE_MODAL: 'rotector-queue-modal',
     REPORT_HELPER: 'rotector-report-helper',
+    REPORT_HELPER_SUCCESS_MESSAGE: 'report-helper-success-message',
+    GROUP_STATUS_CONTAINER: 'rotector-group-status-container',
     VOTING_WIDGET: 'rotector-voting-widget',
     COMPONENT_BASE: 'rotector-component'
 } as const;

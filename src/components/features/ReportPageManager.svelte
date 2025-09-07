@@ -2,7 +2,7 @@
     import {get} from 'svelte/store';
     import {settings} from '@/lib/stores/settings';
     import {logger} from '@/lib/utils/logger';
-    import {COMPONENT_CLASSES, USER_ACTIONS} from '@/lib/types/constants';
+    import {COMPONENT_CLASSES, USER_ACTIONS, REPORT_PAGE_SELECTORS} from '@/lib/types/constants';
     import {SETTINGS_KEYS} from '@/lib/types/settings';
     import type {UserStatus} from '@/lib/types/api';
     import ReportHelper from './ReportHelper.svelte';
@@ -109,7 +109,7 @@
             }
 
             // Find the report form container
-            const formContainer = document.querySelector('.abuse-report-container');
+            const formContainer = document.querySelector(REPORT_PAGE_SELECTORS.FORM_CONTAINER);
 
             if (!formContainer) {
                 logger.warn('Could not find report form container');
@@ -227,7 +227,7 @@
             }
 
             // Find the footer section
-            const footer = document.querySelector('.single-step-footer');
+            const footer = document.querySelector(REPORT_PAGE_SELECTORS.FOOTER);
             if (!footer || !footer.parentNode) {
                 logger.warn('Could not find footer to insert success message');
                 return;
@@ -235,7 +235,7 @@
 
             // Create success message element
             successMessageElement = document.createElement('div');
-            successMessageElement.className = 'report-helper-success-message';
+            successMessageElement.className = COMPONENT_CLASSES.REPORT_HELPER_SUCCESS_MESSAGE;
             successMessageElement.textContent = '✅ Form filled successfully! Category and comment have been set. Review and submit when ready.';
 
             // Insert after footer

@@ -8,6 +8,7 @@
         COMPONENT_CLASSES,
         ENTITY_TYPES,
         PROFILE_GROUPS_SHOWCASE_SELECTORS,
+        STATUS_SELECTORS,
         USER_ACTIONS
     } from '@/lib/types/constants';
     import {groupStatusService} from '@/lib/services/entity-status-service';
@@ -176,7 +177,7 @@
 
     // Check if element already has status indicator
     function hasStatusIndicator(nameElement: Element): boolean {
-        return !!nameElement.parentNode?.querySelector('.rtcr-status-container');
+        return !!nameElement.parentNode?.querySelector(`.${COMPONENT_CLASSES.STATUS_CONTAINER}`);
     }
 
     // Handle new groups detected
@@ -260,7 +261,7 @@
                 const status = groupStatuses.get(groupId);
 
                 if (status) {
-                    element.classList.add('status-processed');
+                    element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
                     mountStatusIndicator(groupId, status, nameElement, element);
                 }
             }
@@ -287,7 +288,7 @@
 
         // Wrapper element for status indicator component
         const container = document.createElement('span');
-        container.className = 'rotector-group-status-container ' + COMPONENT_CLASSES.STATUS_CONTAINER;
+        container.className = COMPONENT_CLASSES.GROUP_STATUS_CONTAINER + ' ' + COMPONENT_CLASSES.STATUS_CONTAINER;
         
         if (isBTRobloxView || isGridView) {
             // Overlay positioning for compact card layouts

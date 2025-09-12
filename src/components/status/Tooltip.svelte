@@ -72,17 +72,25 @@
     const isGroup = $derived(() => entityType === 'group');
 
     const shouldShowVoting = $derived(() =>
-        !isGroup() && status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING || status.flagType === STATUS.FLAGS.INTEGRATION)
+        !isGroup() && status && (
+            status.flagType === STATUS.FLAGS.UNSAFE || 
+            status.flagType === STATUS.FLAGS.PENDING || 
+            status.flagType === STATUS.FLAGS.INTEGRATION ||
+            (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true)
+        )
     );
 
     const isSafeUserWithQueueOnly = $derived(() =>
-        !isGroup() && status && status.flagType === STATUS.FLAGS.SAFE
+        !isGroup() && status && (
+            status.flagType === STATUS.FLAGS.SAFE ||
+            (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true)
+        )
     );
 
     const isExpanded = $derived(() => mode === 'expanded');
 
     // Get header message from flag and confidence
-    function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
+    function getHeaderMessageFromFlag(flag: number, confidence = 0, currentStatus?: UserStatus | null): string {
         // Handle mixed status for groups
         if (isGroup() && flag === STATUS.FLAGS.MIXED) {
             return "This group contains a mix of appropriate and inappropriate members.";
@@ -98,7 +106,12 @@
                 return `This ${entityType} has been flagged by AI with ${confidencePercent}% confidence.`;
             }
             case STATUS.FLAGS.QUEUED:
-                return `This ${entityType} was flagged after being added to the queue but has not yet been officially confirmed by our system.`;
+                // Check if processed to determine message
+                if (currentStatus?.processed === true) {
+                    return `This ${entityType} has been reviewed by our AI system and appears to be safe. Our system did not find any inappropriate activity. If this is a false positive, you can requeue for further review.`;
+                } else {
+                    return `This ${entityType} is currently being checked by our system. This may take a few minutes.`;
+                }
             case STATUS.FLAGS.INTEGRATION:
                 return `This ${entityType} has been flagged by a third-party content analysis system.`;
             case STATUS.FLAGS.SAFE:
@@ -121,7 +134,7 @@
             case STATUS.FLAGS.QUEUED:
             case STATUS.FLAGS.INTEGRATION:
             case STATUS.FLAGS.MIXED:
-                return getHeaderMessageFromFlag(status.flagType, confidence);
+                return getHeaderMessageFromFlag(status.flagType, confidence, status);
             default:
                 return 'Unknown Status';
         }
@@ -136,8 +149,9 @@
             case STATUS.FLAGS.UNSAFE:
                 return 'unsafe';
             case STATUS.FLAGS.PENDING:
-            case STATUS.FLAGS.QUEUED:
                 return 'pending';
+            case STATUS.FLAGS.QUEUED:
+                return status.processed === true ? 'likely-safe' : 'pending';
             case STATUS.FLAGS.INTEGRATION:
                 return 'integration';
             case STATUS.FLAGS.MIXED:
@@ -158,7 +172,7 @@
             case STATUS.FLAGS.PENDING:
                 return 'Under Review';
             case STATUS.FLAGS.QUEUED:
-                return 'Queued';
+                return status.processed === true ? 'Likely Safe' : 'Checking...';
             case STATUS.FLAGS.INTEGRATION:
                 return 'Integration';
             case STATUS.FLAGS.MIXED:

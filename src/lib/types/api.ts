@@ -20,6 +20,9 @@ export interface UserStatus {
     versionCompatibility?: 'current' | 'compatible' | 'outdated' | 'deprecated';
     timestamp?: number;
     reviewer?: ReviewerInfo;
+    queuedAt?: number;
+    processedAt?: number;
+    processed?: boolean;
 }
 
 // Group status interface

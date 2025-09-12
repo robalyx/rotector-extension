@@ -53,6 +53,15 @@
       background-color: var(--color-status-integration);
     }
   }
+
+  &.likely-safe {
+    @apply bg-green-500/15;
+    color: var(--color-status-likely-safe);
+
+    .status-indicator {
+      background-color: var(--color-status-likely-safe);
+    }
+  }
 }
 
 @utility tooltip-badge {

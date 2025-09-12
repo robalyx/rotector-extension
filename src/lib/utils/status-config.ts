@@ -79,14 +79,28 @@ export function getStatusConfig(
                 textContent: `Under Review (${confidence}%)`,
                 textClass: 'status-text-pending'
             };
-        case STATUS.FLAGS.QUEUED:
-            return {
-                ...baseConfig,
-                iconClass: 'status-icon-queued',
-                textContent: 'Flagged (Pending)',
-                textClass: 'status-text-queued',
-                isQueued: true
-            };
+        case STATUS.FLAGS.QUEUED: {
+            const userStatus = activeStatus as UserStatus;
+            if (userStatus.processed === true) {
+                // User was queued and processed but not flagged
+                return {
+                    ...baseConfig,
+                    iconClass: 'status-icon-likely-safe',
+                    textContent: 'Likely Safe',
+                    textClass: 'status-text-likely-safe',
+                    isQueued: false
+                };
+            } else {
+                // User is still being processed by the system
+                return {
+                    ...baseConfig,
+                    iconClass: 'status-icon-checking',
+                    textContent: 'Checking...',
+                    textClass: 'status-text-checking',
+                    isQueued: false
+                };
+            }
+        }
         case STATUS.FLAGS.INTEGRATION:
             return {
                 ...baseConfig,

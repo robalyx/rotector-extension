@@ -203,9 +203,9 @@
         return integrationCount() > 0 && status?.flagType !== STATUS.FLAGS.INTEGRATION;
     });
 
-    // Metadata information for queued users
+    // Metadata information for processed users
     const metadataInfo = $derived(() => {
-        if (!status || status.flagType !== STATUS.FLAGS.QUEUED) return null;
+        if (!status) return null;
 
         const queuedAt = status.queuedAt;
         const processedAt = status.processedAt;

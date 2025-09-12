@@ -172,6 +172,12 @@
                     return;
                 }
 
+                // Only intercept if this is an "Add Connection" button
+                const buttonText = friendButton.textContent?.trim().toLowerCase() || '';
+                if (!buttonText.includes('add connection')) {
+                    return;
+                }
+
                 // Prevent the default friend request behavior
                 event.preventDefault();
                 event.stopPropagation();

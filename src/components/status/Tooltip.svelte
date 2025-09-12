@@ -14,6 +14,7 @@
         type GroupInfo,
         type UserInfo
     } from '@/lib/utils/page-detection';
+    import {formatExactTimestamp, formatTimestamp, getDurationSince, getProcessingDuration} from '@/lib/utils/time';
     import {
         applyTooltipPosition,
         calculateTooltipPosition,
@@ -108,7 +109,7 @@
             case STATUS.FLAGS.QUEUED:
                 // Check if processed to determine message
                 if (currentStatus?.processed === true) {
-                    return `This ${entityType} has been reviewed by our AI system and appears to be safe. Our system did not find any inappropriate activity. If this is a false positive, you can requeue for further review.`;
+                    return `This ${entityType} has been reviewed by our AI system and appears to be safe. If this is a false positive, you can requeue for further review.`;
                 } else {
                     return `This ${entityType} is currently being checked by our system. This may take a few minutes.`;
                 }
@@ -200,6 +201,30 @@
 
     const shouldShowIntegrationBadge = $derived(() => {
         return integrationCount() > 0 && status?.flagType !== STATUS.FLAGS.INTEGRATION;
+    });
+
+    // Metadata information for queued users
+    const metadataInfo = $derived(() => {
+        if (!status || status.flagType !== STATUS.FLAGS.QUEUED) return null;
+
+        const queuedAt = status.queuedAt;
+        const processedAt = status.processedAt;
+        const processed = status.processed;
+
+        if (!queuedAt) return null;
+
+        return {
+            queuedTime: formatTimestamp(queuedAt),
+            queuedExact: formatExactTimestamp(queuedAt),
+            processedTime: processedAt ? formatTimestamp(processedAt) : null,
+            processedExact: processedAt ? formatExactTimestamp(processedAt) : null,
+            duration: processed === true && processedAt 
+                ? getProcessingDuration(queuedAt, processedAt)
+                : processed === false 
+                    ? getDurationSince(queuedAt) 
+                    : null,
+            isProcessing: processed === false
+        };
     });
 
     // Check if a reason comes from an integration source
@@ -439,6 +464,31 @@
   {/if}
 {/snippet}
 
+{#snippet metadataSection()}
+  {@const metadata = metadataInfo()}
+  {#if metadata}
+    <div class="tooltip-metadata">
+      <div class="tooltip-metadata-item" title={metadata.queuedExact}>
+        <div class="tooltip-metadata-icon tooltip-metadata-icon-clock"></div>
+        <span class="tooltip-metadata-label">Queued</span>
+        <span class="tooltip-metadata-value">{metadata.queuedTime}</span>
+      </div>
+      
+      {#if metadata.duration}
+        <div class="tooltip-metadata-item" 
+             class:processing={metadata.isProcessing}
+             title={metadata.processedExact || 'Processing...'}>
+          <div class="tooltip-metadata-icon {metadata.isProcessing ? 'tooltip-metadata-icon-processing' : 'tooltip-metadata-icon-completed'}"></div>
+          <span class="tooltip-metadata-label">
+            {#if metadata.isProcessing}Processing{:else}Took{/if}
+          </span>
+          <span class="tooltip-metadata-value">{metadata.duration}</span>
+        </div>
+      {/if}
+    </div>
+  {/if}
+{/snippet}
+
 {#snippet tooltipContent()}
   {#if error}
     <!-- Error state -->
@@ -465,6 +515,9 @@
             Queue for Review
           </button>
         </div>
+        
+        <!-- Queue timing information -->
+        {@render metadataSection()}
       {:else}
         <!-- Non-safe users: Show full content -->
         <!-- Status badges -->
@@ -580,6 +633,9 @@
             {/each}
           </div>
         {/if}
+        
+        <!-- Queue timing information -->
+        {@render metadataSection()}
       {/if}
     </div>
   {/if}

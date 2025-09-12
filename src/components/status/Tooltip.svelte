@@ -209,7 +209,6 @@
 
         const queuedAt = status.queuedAt;
         const processedAt = status.processedAt;
-        const processed = status.processed;
 
         if (!queuedAt) return null;
 
@@ -218,12 +217,10 @@
             queuedExact: formatExactTimestamp(queuedAt),
             processedTime: processedAt ? formatTimestamp(processedAt) : null,
             processedExact: processedAt ? formatExactTimestamp(processedAt) : null,
-            duration: processed === true && processedAt 
+            duration: processedAt 
                 ? getProcessingDuration(queuedAt, processedAt)
-                : processed === false 
-                    ? getDurationSince(queuedAt) 
-                    : null,
-            isProcessing: processed === false
+                : getDurationSince(queuedAt),
+            isProcessing: !processedAt
         };
     });
 

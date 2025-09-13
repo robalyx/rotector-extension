@@ -102,7 +102,7 @@
         <div class="grid grid-cols-2 gap-2">
           <div class="stat-item">
             <div class="stat-value">{formatNumber($statistics?.totalFlaggedUsers)}</div>
-            <div class="stat-label">Total Flagged</div>
+            <div class="stat-label">Flagged</div>
           </div>
           <div class="stat-item">
             <div class="stat-value">{formatNumber($statistics?.totalConfirmedUsers)}</div>
@@ -114,10 +114,18 @@
             text-text-subtle flex items-center justify-center gap-1 text-2xs
             dark:text-text-subtle-dark
           ">
-            <span class="
-              text-orange-600
-              dark:text-orange-400
-            ">🚫</span>
+            <svg
+                class="
+                  size-3 fill-current
+                  text-orange-600
+                  dark:text-orange-400
+                "
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" fill="none" r="10" stroke="currentColor" stroke-width="2"/>
+              <line stroke="currentColor" stroke-width="2" x1="4.93" x2="19.07" y1="4.93" y2="19.07"/>
+            </svg>
             <span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
             other users banned by Roblox
           </div>
@@ -142,10 +150,17 @@
             text-text-subtle flex items-center justify-center gap-1 text-2xs
             dark:text-text-subtle-dark
           ">
-            <span class="
-              text-amber-600
-              dark:text-amber-400
-            ">🔄</span>
+            <svg
+                class="
+                  size-3 fill-current
+                  text-amber-600
+                  dark:text-amber-400
+                "
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.48.41-2.86 1.12-4.06L12 14.82V20zm6.88-3.94L12 9.18V4c4.41 0 8 3.59 8 8 0 1.48-.41 2.86-1.12 4.06z"/>
+            </svg>
             <span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
             groups with mixed content
           </div>

@@ -96,9 +96,9 @@
     </div>
   {:else if $statistics}
     <div class="stat-grid">
-      <!-- Rotector System -->
+      <!-- Users -->
       <div class="stat-category">
-        <h3 class="stat-category-title">Rotector System</h3>
+        <h3 class="stat-category-title">Users</h3>
         <div class="grid grid-cols-2 gap-2">
           <div class="stat-item">
             <div class="stat-value">{formatNumber($statistics?.totalFlaggedUsers)}</div>
@@ -124,6 +124,33 @@
         </div>
       </div>
 
+      <!-- Groups -->
+      <div class="stat-category">
+        <h3 class="stat-category-title">Groups</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="stat-item">
+            <div class="stat-value">{formatNumber($statistics?.totalFlaggedGroups)}</div>
+            <div class="stat-label">Flagged</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{formatNumber($statistics?.totalConfirmedGroups)}</div>
+            <div class="stat-label">Confirmed</div>
+          </div>
+        </div>
+        <div class="mt-3 text-center">
+          <div class="
+            text-text-subtle flex items-center justify-center gap-1 text-2xs
+            dark:text-text-subtle-dark
+          ">
+            <span class="
+              text-amber-600
+              dark:text-amber-400
+            ">🔄</span>
+            <span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
+            groups with mixed content
+          </div>
+        </div>
+      </div>
 
       <!-- Community -->
       <div class="col-span-full stat-category">

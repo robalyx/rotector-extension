@@ -125,58 +125,17 @@
       </div>
 
 
-      <!-- Queue System Flow -->
-      <div class="stat-category">
-        <h3 class="stat-category-title">Queue System</h3>
-        <div class="queue-flow-container">
-          <!-- Input -->
-          <div class="queue-stage">
-            <div class="stage-label">Input</div>
-            <div class="stat-item queue-pending">
-              <div class="stat-value">{formatNumber($statistics?.pendingQueuedUsers)}</div>
-              <div class="stat-label">Pending</div>
-            </div>
-          </div>
-
-          <!-- Arrow -->
-          <div class="queue-arrow">
-            <svg
-                class="size-full fill-current"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-            </svg>
-          </div>
-
-          <!-- Output Grid -->
-          <div class="queue-stage">
-            <div class="stage-label">Output</div>
-            <div class="queue-output-grid">
-              <div class="stat-item queue-flagged">
-                <div class="stat-value">{formatNumber($statistics?.queuedUsersFlagged)}</div>
-                <div class="stat-label">Flagged</div>
-              </div>
-              <div class="stat-item queue-safe">
-                <div class="stat-value">{formatNumber($statistics?.queuedUsersNotFlagged)}</div>
-                <div class="stat-label">Safe</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Community -->
       <div class="col-span-full stat-category">
         <h3 class="stat-category-title">Community</h3>
-        <div class="flex justify-center">
-          <div
-              style:max-width="200px"
-              style:width="100%"
-              class="stat-item"
-          >
+        <div class="grid grid-cols-2 gap-2">
+          <div class="stat-item">
             <div class="stat-value">{formatNumber($statistics?.totalVotesCast)}</div>
             <div class="stat-label">Total Votes Cast</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{formatNumber($statistics?.totalQueuedUsers)}</div>
+            <div class="stat-label">Queued Users</div>
           </div>
         </div>
       </div>

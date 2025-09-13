@@ -1,30 +1,3 @@
-/* =================================
-   QUEUE STATUS BADGES
-   ================================= */
-
-@utility queue-pending {
-  @apply bg-gradient-to-br from-blue-500 to-blue-700 text-white border-blue-700;
-}
-
-@utility queue-flagged {
-  @apply bg-gradient-to-br from-red-500 to-red-700 text-white border-red-700;
-}
-
-@utility queue-safe {
-  @apply bg-gradient-to-br from-green-500 to-green-600 text-white border-green-600;
-}
-
-.queue-pending .stat-label,
-.queue-flagged .stat-label,
-.queue-safe .stat-label {
-  color: white;
-}
-
-.queue-pending .stat-value,
-.queue-flagged .stat-value,
-.queue-safe .stat-value {
-  color: white;
-}
 
 /* =================================
    GENERAL BADGE UTILITIES

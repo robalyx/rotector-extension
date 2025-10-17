@@ -4,141 +4,141 @@
 
 /* War Zone Chart Component */
 @utility war-zone-chart {
-  @apply space-y-3;
+	@apply space-y-3;
 }
 
 /* Chart Loading State */
 @utility war-zone-chart-loading {
-  @apply flex flex-col items-center justify-center p-6 space-y-2;
+	@apply flex flex-col items-center justify-center p-6 space-y-2;
 }
 
 /* Chart Error State */
 @utility war-zone-chart-error {
-  @apply flex flex-col items-center justify-center p-6 space-y-2;
+	@apply flex flex-col items-center justify-center p-6 space-y-2;
 }
 
 /* Chart Tabs */
 @utility war-zone-chart-tabs {
-  @apply flex rounded-md p-1;
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-subtle);
+	@apply flex rounded-md p-1;
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility war-zone-chart-tab {
-  @apply flex-1 px-3 py-1.5 text-2xs font-medium rounded transition-colors duration-200;
-  @apply text-center cursor-pointer border-none bg-transparent;
-  color: var(--color-text-subtle);
+	@apply flex-1 px-3 py-1.5 text-2xs font-medium rounded transition-colors duration-200;
+	@apply text-center cursor-pointer border-none bg-transparent;
+	color: var(--color-text-subtle);
 
-  &:hover {
-    background-color: var(--color-hover);
-    color: var(--color-text);
-  }
+	&:hover {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
 
-  &:focus {
-    @apply outline-none;
-  }
+	&:focus {
+		@apply outline-none;
+	}
 
-  &.active {
-    background-color: var(--color-bg-tertiary);
-    color: var(--color-text);
-  }
+	&.active {
+		background-color: var(--color-bg-tertiary);
+		color: var(--color-text);
+	}
 }
 
 /* Chart Container */
 @utility war-zone-chart-container {
-  @apply relative rounded-md p-3;
-  background-color: var(--color-bg-content);
-  border: 1px solid var(--color-border-subtle);
+	@apply relative rounded-md p-3;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility war-zone-chart-svg {
-  @apply w-full h-auto;
-  max-width: 100%;
-  overflow: visible;
+	@apply w-full h-auto;
+	max-width: 100%;
+	overflow: visible;
 }
 
 /* Chart Lines and Areas */
 @utility war-zone-chart-line {
-  @apply cursor-pointer;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+	@apply cursor-pointer;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 
-  &:hover {
-    stroke-width: 3;
-  }
+	&:hover {
+		stroke-width: 3;
+	}
 }
 
 @utility war-zone-chart-area {
-  pointer-events: none;
+	pointer-events: none;
 }
 
 @utility war-zone-chart-point {
-  @apply cursor-pointer;
-  transition: r 0.2s ease;
+	@apply cursor-pointer;
+	transition: r 0.2s ease;
 
-  &:hover {
-    r: 6;
-  }
+	&:hover {
+		r: 6;
+	}
 }
 
 /* Stacked Chart Bars */
 @utility war-zone-chart-stacked {
-  @apply cursor-pointer;
-  stroke: var(--color-bg-content);
-  stroke-width: 1;
+	@apply cursor-pointer;
+	stroke: var(--color-bg-content);
+	stroke-width: 1;
 
-  &:hover {
-    opacity: 0.8;
-  }
+	&:hover {
+		opacity: 0.8;
+	}
 }
 
 /* Chart Legend */
 @utility war-zone-chart-legend {
-  @apply flex justify-center gap-4 mt-4 text-2xs;
+	@apply flex justify-center gap-4 mt-4 text-2xs;
 }
 
 @utility legend-item {
-  @apply flex items-center gap-1;
+	@apply flex items-center gap-1;
 }
 
 @utility legend-color {
-  @apply w-2.5 h-2.5 rounded-sm;
+	@apply w-2.5 h-2.5 rounded-sm;
 }
 
 /* Chart Tooltip */
 @utility war-zone-chart-tooltip {
-  @apply fixed z-50 px-2 py-2 rounded-md shadow-lg border;
-  @apply text-2xs leading-tight pointer-events-none;
-  background-color: var(--color-bg-content);
-  border-color: var(--color-border);
-  color: var(--color-text);
-  width: 160px;
+	@apply fixed z-50 px-2 py-2 rounded-md shadow-lg border;
+	@apply text-2xs leading-tight pointer-events-none;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border);
+	color: var(--color-text);
+	width: 160px;
 }
 
 @utility tooltip-main-value {
-  @apply font-bold text-sm mb-1;
-  color: var(--color-text-heading);
+	@apply font-bold text-sm mb-1;
+	color: var(--color-text-heading);
 }
 
 @utility tooltip-subtitle {
-  @apply text-2xs mb-2;
-  color: var(--color-text-subtle);
+	@apply text-2xs mb-2;
+	color: var(--color-text-subtle);
 }
 
 @utility tooltip-details {
-  @apply space-y-0.5 pt-1 border-t;
-  border-color: var(--color-border-subtle);
+	@apply space-y-0.5 pt-1 border-t;
+	border-color: var(--color-border-subtle);
 }
 
 @utility tooltip-detail {
-  @apply flex justify-between gap-2;
+	@apply flex justify-between gap-2;
 }
 
 @utility tooltip-detail-label {
-  color: var(--color-text-subtle);
+	color: var(--color-text-subtle);
 }
 
 @utility tooltip-detail-value {
-  @apply font-medium;
-  color: var(--color-text);
+	@apply font-medium;
+	color: var(--color-text);
 }

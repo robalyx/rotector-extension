@@ -3,45 +3,44 @@
    ================================= */
 
 @theme {
-  /* Font sizes */
-  --text-2xs: 10px;
-  --text-2xs--line-height: 1.2;
-  --text-3xs: 9px;
-  --text-3xs--line-height: 1.1;
-  --text-xs-plus: 11px;
-  --text-xs-plus--line-height: 1.3;
-  --text-sm-plus: 13px;
-  --text-sm-plus--line-height: 1.4;
+	/* Font sizes */
+	--text-2xs: 10px;
+	--text-2xs--line-height: 1.2;
+	--text-3xs: 9px;
+	--text-3xs--line-height: 1.1;
+	--text-xs-plus: 11px;
+	--text-xs-plus--line-height: 1.3;
+	--text-sm-plus: 13px;
+	--text-sm-plus--line-height: 1.4;
 
-  /* Font families */
-  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	/* Font families */
+	--font-system:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* =================================
    TYPOGRAPHY UTILITIES
    ================================= */
 @utility text-2xs {
-  font-size: var(--text-2xs);
-  line-height: var(--text-2xs--line-height);
+	font-size: var(--text-2xs);
+	line-height: var(--text-2xs--line-height);
 }
 
 @utility text-3xs {
-  font-size: var(--text-3xs);
-  line-height: var(--text-3xs--line-height);
+	font-size: var(--text-3xs);
+	line-height: var(--text-3xs--line-height);
 }
 
 @utility text-xs-plus {
-  font-size: var(--text-xs-plus);
-  line-height: var(--text-xs-plus--line-height);
+	font-size: var(--text-xs-plus);
+	line-height: var(--text-xs-plus--line-height);
 }
 
 @utility text-sm-plus {
-  font-size: var(--text-sm-plus);
-  line-height: var(--text-sm-plus--line-height);
+	font-size: var(--text-sm-plus);
+	line-height: var(--text-sm-plus--line-height);
 }
 
 @utility font-system {
-  font-family: var(--font-system), sans-serif;
+	font-family: var(--font-system), sans-serif;
 }
-
- 

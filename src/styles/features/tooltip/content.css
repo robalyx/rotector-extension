@@ -3,98 +3,98 @@
    ================================= */
 
 @utility tooltip-status-badge {
-  @apply inline-flex items-center mt-2 px-2 py-1 rounded-xl text-xs font-medium;
+	@apply inline-flex items-center mt-2 px-2 py-1 rounded-xl text-xs font-medium;
 
-  .status-indicator {
-    @apply inline-block w-2 h-2 rounded-full mr-1.5;
-  }
+	.status-indicator {
+		@apply inline-block w-2 h-2 rounded-full mr-1.5;
+	}
 
-  &.safe {
-    @apply bg-gray-500/20;
-    color: var(--color-text-heading);
+	&.safe {
+		@apply bg-gray-500/20;
+		color: var(--color-text-heading);
 
-    .status-indicator {
-      background-color: var(--color-text-heading);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-text-heading);
+		}
+	}
 
-  &.unsafe {
-    @apply bg-red-500/15;
-    color: var(--color-status-unsafe);
+	&.unsafe {
+		@apply bg-red-500/15;
+		color: var(--color-status-unsafe);
 
-    .status-indicator {
-      background-color: var(--color-status-unsafe);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-unsafe);
+		}
+	}
 
-  &.pending {
-    @apply bg-orange-500/15;
-    color: var(--color-status-pending);
+	&.pending {
+		@apply bg-orange-500/15;
+		color: var(--color-status-pending);
 
-    .status-indicator {
-      background-color: var(--color-status-pending);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-pending);
+		}
+	}
 
-  &.error {
-    @apply bg-gray-500/15;
-    color: var(--color-status-error);
+	&.error {
+		@apply bg-gray-500/15;
+		color: var(--color-status-error);
 
-    .status-indicator {
-      background-color: var(--color-status-error);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-error);
+		}
+	}
 
-  &.integration {
-    @apply bg-teal-500/15;
-    color: var(--color-status-integration);
+	&.integration {
+		@apply bg-teal-500/15;
+		color: var(--color-status-integration);
 
-    .status-indicator {
-      background-color: var(--color-status-integration);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-integration);
+		}
+	}
 
-  &.likely-safe {
-    @apply bg-green-500/15;
-    color: var(--color-status-likely-safe);
+	&.likely-safe {
+		@apply bg-green-500/15;
+		color: var(--color-status-likely-safe);
 
-    .status-indicator {
-      background-color: var(--color-status-likely-safe);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-likely-safe);
+		}
+	}
 
-  &.past-offender {
-    @apply bg-blue-500/15;
-    color: var(--color-status-past-offender);
+	&.past-offender {
+		@apply bg-blue-500/15;
+		color: var(--color-status-past-offender);
 
-    .status-indicator {
-      background-color: var(--color-status-past-offender);
-    }
-  }
+		.status-indicator {
+			background-color: var(--color-status-past-offender);
+		}
+	}
 }
 
 @utility tooltip-badge {
-  @apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
+	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
 }
 
 @utility tooltip-badge-reportable {
-  @apply tooltip-badge text-white;
-  background-color: var(--color-status-unsafe);
+	@apply tooltip-badge text-white;
+	background-color: var(--color-status-unsafe);
 }
 
 @utility tooltip-badge-queued {
-  @apply tooltip-badge text-white;
-  background-color: var(--color-status-queued);
+	@apply tooltip-badge text-white;
+	background-color: var(--color-status-queued);
 }
 
 @utility tooltip-badge-outfit {
-  @apply tooltip-badge text-white;
-  background-color: var(--color-status-outfit);
+	@apply tooltip-badge text-white;
+	background-color: var(--color-status-outfit);
 }
 
 @utility tooltip-badge-integration {
-  @apply tooltip-badge text-white;
-  background-color: var(--color-status-integration);
+	@apply tooltip-badge text-white;
+	background-color: var(--color-status-integration);
 }
 
 /* =================================
@@ -102,18 +102,18 @@
    ================================= */
 
 @utility tooltip-divider {
-  @apply my-2 border-t;
-  border-color: var(--color-tooltip-divider);
+	@apply my-2 border-t;
+	border-color: var(--color-tooltip-divider);
 }
 
 @utility reportable-notice {
-  @apply flex gap-2.5 p-2 rounded mt-1.5;
-  background-color: rgba(255, 68, 68, 0.1);
+	@apply flex gap-2.5 p-2 rounded mt-1.5;
+	background-color: rgba(255, 68, 68, 0.1);
 }
 
 @utility outfit-notice {
-  @apply flex gap-2.5 p-2 rounded mt-1.5;
-  background-color: rgba(156, 39, 176, 0.1);
+	@apply flex gap-2.5 p-2 rounded mt-1.5;
+	background-color: rgba(156, 39, 176, 0.1);
 }
 
 /* =================================
@@ -121,194 +121,194 @@
    ================================= */
 
 @utility tooltip-metadata {
-  @apply flex flex-wrap gap-2 mt-3 justify-center;
-  padding: 4px 0;
+	@apply flex flex-wrap gap-2 mt-3 justify-center;
+	padding: 4px 0;
 }
 
 @utility tooltip-metadata-item {
-  @apply flex items-center gap-1.5 text-2xs font-normal px-2 py-1;
-  color: var(--color-text-tertiary);
-  opacity: 0.8;
+	@apply flex items-center gap-1.5 text-2xs font-normal px-2 py-1;
+	color: var(--color-text-tertiary);
+	opacity: 0.8;
 
-  &.processing {
-    color: var(--color-status-checking);
-  }
+	&.processing {
+		color: var(--color-status-checking);
+	}
 }
 
 @utility tooltip-metadata-icon {
-  @apply flex-shrink-0;
-  opacity: 0.7;
+	@apply flex-shrink-0;
+	opacity: 0.7;
 }
 
 @utility tooltip-metadata-label {
-  @apply text-2xs font-normal;
+	@apply text-2xs font-normal;
 }
 
 @utility tooltip-metadata-value {
-  @apply text-2xs font-medium;
+	@apply text-2xs font-medium;
 }
 
 @utility tooltip-metadata-reprocess {
-  @apply flex items-center gap-1.5 text-2xs font-medium px-2 py-1;
-  color: var(--color-warning);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  opacity: 0.9;
+	@apply flex items-center gap-1.5 text-2xs font-medium px-2 py-1;
+	color: var(--color-warning);
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	opacity: 0.9;
 
-  &:hover {
-    opacity: 1;
-    background: rgba(255, 152, 0, 0.15);
-    border-radius: 3px;
-  }
+	&:hover {
+		opacity: 1;
+		background: rgba(255, 152, 0, 0.15);
+		border-radius: 3px;
+	}
 
-  &:active {
-    background: rgba(255, 152, 0, 0.25);
-  }
+	&:active {
+		background: rgba(255, 152, 0, 0.25);
+	}
 }
 
 @utility reportable-text {
-  @apply flex-1 text-left;
+	@apply flex-1 text-left;
 
-  strong {
-    @apply block mb-1 text-left text-base;
-    color: var(--color-status-unsafe);
-  }
+	strong {
+		@apply block mb-1 text-left text-base;
+		color: var(--color-status-unsafe);
+	}
 
-  p {
-    @apply m-0 text-sm leading-normal text-left;
-    color: var(--color-text) !important;
-  }
+	p {
+		@apply m-0 text-sm leading-normal text-left;
+		color: var(--color-text) !important;
+	}
 }
 
 @utility outfit-text {
-  @apply flex-1 text-left;
+	@apply flex-1 text-left;
 
-  strong {
-    @apply block mb-1 text-left text-base;
-    color: var(--color-status-outfit);
-  }
+	strong {
+		@apply block mb-1 text-left text-base;
+		color: var(--color-status-outfit);
+	}
 
-  p {
-    @apply m-0 text-sm leading-normal text-left;
-    color: var(--color-text) !important;
-  }
+	p {
+		@apply m-0 text-sm leading-normal text-left;
+		color: var(--color-text) !important;
+	}
 }
 
 @utility queue-button {
-  @apply text-white border rounded-lg px-4 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
-  background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
-  border-color: #3f7ee3;
+	@apply text-white border rounded-lg px-4 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
+	background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
+	border-color: #3f7ee3;
 
-  &:hover {
-    @apply -translate-y-0.5;
-    background: linear-gradient(135deg, #5da0ff, #3f7ee3);
-    border-color: #5da0ff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+	&:hover {
+		@apply -translate-y-0.5;
+		background: linear-gradient(135deg, #5da0ff, #3f7ee3);
+		border-color: #5da0ff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
 
-  &:active {
-    @apply translate-y-0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
+	&:active {
+		@apply translate-y-0;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
 }
 
 @utility report-button {
-  @apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
-  background-color: var(--color-status-unsafe) !important;
+	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
+	background-color: var(--color-status-unsafe) !important;
 
-  &:hover {
-    @apply no-underline;
-    background-color: #ff2222;
-  }
+	&:hover {
+		@apply no-underline;
+		background-color: #ff2222;
+	}
 
-  &:active {
-    background-color: #e03333;
-  }
+	&:active {
+		background-color: #e03333;
+	}
 }
 
 @utility reasons-container {
-  @apply text-left mt-2;
+	@apply text-left mt-2;
 }
 
 @utility reason-item {
-  @apply mb-3 rounded-md p-2.5;
-  background-color: var(--color-reason-bg);
+	@apply mb-3 rounded-md p-2.5;
+	background-color: var(--color-reason-bg);
 
-  &:last-child {
-    @apply mb-0;
-  }
+	&:last-child {
+		@apply mb-0;
+	}
 }
 
 @utility reason-header {
-  @apply font-semibold mb-1 flex justify-between items-center;
-  color: var(--color-reason-header);
-  font-size: 12px;
+	@apply font-semibold mb-1 flex justify-between items-center;
+	color: var(--color-reason-header);
+	font-size: 12px;
 
-  &.integration {
-    color: var(--color-status-integration);
-  }
+	&.integration {
+		color: var(--color-status-integration);
+	}
 }
 
 @utility reason-message {
-  @apply text-xs-plus leading-normal mb-2 whitespace-pre-wrap;
-  color: var(--color-reason-message);
+	@apply text-xs-plus leading-normal mb-2 whitespace-pre-wrap;
+	color: var(--color-reason-message);
 }
 
 @utility reason-evidence {
-  @apply mt-2 space-y-1;
+	@apply mt-2 space-y-1;
 }
 
 @utility evidence-item {
-  @apply text-2xs px-2 py-1 rounded;
-  background-color: var(--color-evidence-bg);
-  color: var(--color-evidence-text);
-  border: 1px solid var(--color-evidence-border);
+	@apply text-2xs px-2 py-1 rounded;
+	background-color: var(--color-evidence-bg);
+	color: var(--color-evidence-text);
+	border: 1px solid var(--color-evidence-border);
 }
 
 @utility outfit-evidence-item {
-  @apply evidence-item;
-  background-color: var(--color-outfit-evidence-bg);
-  border-color: var(--color-status-outfit);
+	@apply evidence-item;
+	background-color: var(--color-outfit-evidence-bg);
+	border-color: var(--color-status-outfit);
 }
 
 @utility outfit-evidence-header {
-  @apply flex justify-between items-center mb-1;
+	@apply flex justify-between items-center mb-1;
 }
 
 @utility outfit-name {
-  @apply font-semibold text-2xs;
-  color: var(--color-text);
+	@apply font-semibold text-2xs;
+	color: var(--color-text);
 }
 
 @utility outfit-confidence-badge {
-  @apply px-1.5 py-0.5 rounded text-3xs font-bold;
-  background-color: var(--color-status-outfit);
-  color: white;
+	@apply px-1.5 py-0.5 rounded text-3xs font-bold;
+	background-color: var(--color-status-outfit);
+	color: white;
 }
 
 @utility outfit-reason {
-  @apply text-2xs leading-tight;
-  color: var(--color-evidence-text);
+	@apply text-2xs leading-tight;
+	color: var(--color-evidence-text);
 }
 
 @utility reviewer-section {
-  @apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;
+	@apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;
 }
 
 @utility reviewer-text {
-  @apply text-xs-plus font-normal leading-tight;
-  color: var(--color-text-subtle);
+	@apply text-xs-plus font-normal leading-tight;
+	color: var(--color-text-subtle);
 }
 
 @utility reviewer-name {
-  @apply font-semibold;
-  color: var(--color-text);
+	@apply font-semibold;
+	color: var(--color-text);
 }
 
 @utility error-details {
-  @apply mt-1.5 pt-1.5 text-xs-plus whitespace-pre-wrap break-words border-t text-left;
-  border-color: var(--color-border);
-  color: var(--color-text-subtle);
+	@apply mt-1.5 pt-1.5 text-xs-plus whitespace-pre-wrap break-words border-t text-left;
+	border-color: var(--color-border);
+	color: var(--color-text-subtle);
 }

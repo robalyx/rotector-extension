@@ -3,77 +3,81 @@
    ================================= */
 
 .changelog-banner {
-  @apply relative mb-3 rounded-lg border transition-all duration-300 ease-in-out slideDown;
-  background: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, transparent) 100%);
-  border-color: var(--color-primary);
+	@apply relative mb-3 rounded-lg border transition-all duration-300 ease-in-out slideDown;
+	background: linear-gradient(
+		135deg,
+		var(--color-primary) 0%,
+		color-mix(in srgb, var(--color-primary) 85%, transparent) 100%
+	);
+	border-color: var(--color-primary);
 
-  &.closing {
-    @apply opacity-0 scale-95 -translate-y-2;
-  }
+	&.closing {
+		@apply opacity-0 scale-95 -translate-y-2;
+	}
 }
 
 /* =================================
    BANNER LAYOUT
    ================================= */
 .changelog-banner-content {
-  @apply relative p-3;
-  background: var(--color-bg-content);
-  border-radius: inherit;
-  margin: 2px;
+	@apply relative p-3;
+	background: var(--color-bg-content);
+	border-radius: inherit;
+	margin: 2px;
 }
 
 .changelog-banner-body {
-  @apply flex items-center gap-3;
+	@apply flex items-center gap-3;
 }
 
 .changelog-banner-message {
-  @apply text-sm font-medium m-0 flex-1 order-1;
-  color: var(--color-text);
+	@apply text-sm font-medium m-0 flex-1 order-1;
+	color: var(--color-text);
 }
 
 /* =================================
    BANNER BUTTONS
    ================================= */
 .changelog-banner-view-details {
-  @apply px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer border-none flex-shrink-0 order-2;
-  background-color: var(--color-primary);
-  color: white;
+	@apply px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer border-none flex-shrink-0 order-2;
+	background-color: var(--color-primary);
+	color: white;
 
-  &:hover {
-    background-color: var(--color-primary-hover);
-  }
+	&:hover {
+		background-color: var(--color-primary-hover);
+	}
 
-  &:focus {
-    @apply outline-none;
-    box-shadow: 0 0 0 2px var(--color-primary);
-  }
+	&:focus {
+		@apply outline-none;
+		box-shadow: 0 0 0 2px var(--color-primary);
+	}
 
-  &:active {
-    @apply scale-95;
-  }
+	&:active {
+		@apply scale-95;
+	}
 }
 
 .changelog-banner-dismiss {
-  @apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent order-3;
-  color: var(--color-text-subtle);
+	@apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent order-3;
+	color: var(--color-text-subtle);
 
-  &:hover {
-    background-color: var(--color-hover);
-    color: var(--color-text);
-  }
+	&:hover {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
 
-  &:focus {
-    @apply outline-none;
-    background-color: var(--color-hover);
-    color: var(--color-text);
-    box-shadow: 0 0 0 2px var(--color-primary);
-  }
+	&:focus {
+		@apply outline-none;
+		background-color: var(--color-hover);
+		color: var(--color-text);
+		box-shadow: 0 0 0 2px var(--color-primary);
+	}
 
-  &:active {
-    @apply scale-95;
-  }
+	&:active {
+		@apply scale-95;
+	}
 }
 
 .changelog-dismiss-icon {
-  @apply w-4 h-4 fill-current;
+	@apply w-4 h-4 fill-current;
 }

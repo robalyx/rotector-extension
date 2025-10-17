@@ -2,29 +2,29 @@
    GENERAL BADGE UTILITIES
    ================================= */
 @utility status-badge {
-  @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
+	@apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
 }
 
 /* =================================
    STATUS BADGE UTILITIES
    ================================= */
 @utility status-badge-base {
-  @apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center z-[2] shadow-badge;
-  bottom: -4px;
-  right: -4px;
+	@apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center z-[2] shadow-badge;
+	bottom: -4px;
+	right: -4px;
 }
 
 @utility reportable-badge {
-  @apply status-badge-base;
-  background-color: var(--color-status-unsafe);
+	@apply status-badge-base;
+	background-color: var(--color-status-unsafe);
 }
 
 @utility queue-badge {
-  @apply status-badge-base;
-  background-color: var(--color-status-queued);
+	@apply status-badge-base;
+	background-color: var(--color-status-queued);
 }
 
 @utility outfit-badge {
-  @apply status-badge-base;
-  background-color: var(--color-status-outfit);
+	@apply status-badge-base;
+	background-color: var(--color-status-outfit);
 }

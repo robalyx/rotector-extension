@@ -2,23 +2,23 @@
    NUMBER INPUT CONTAINER
    ================================= */
 .number-input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
 }
 
 .number-input-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.875rem;
+	color: var(--color-text-secondary);
 }
 
 .number-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 /* =================================
@@ -26,32 +26,32 @@
    ================================= */
 
 .number-input {
-  width: 80px;
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  transition: border-color 0.2s;
+	width: 80px;
+	padding: 0.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 4px;
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-size: 0.875rem;
+	transition: border-color 0.2s;
 }
 
 .number-input:hover {
-  border-color: var(--color-border-hover);
+	border-color: var(--color-border-hover);
 }
 
 .number-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary-alpha);
+	outline: none;
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 2px var(--color-primary-alpha);
 }
 
 .number-input::-webkit-inner-spin-button,
 .number-input::-webkit-outer-spin-button {
-  height: auto;
+	height: auto;
 }
 
 .number-input-range {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
+	font-size: 0.75rem;
+	color: var(--color-text-tertiary);
 }

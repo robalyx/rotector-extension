@@ -3,41 +3,41 @@
    ================================= */
 
 .warning-dialog {
-  @apply rounded-md p-3 flex flex-col gap-3;
-  background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-warning) 30%, transparent);
+	@apply rounded-md p-3 flex flex-col gap-3;
+	background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 30%, transparent);
 }
 
 .warning-title {
-  @apply text-[var(--color-warning)] font-medium text-sm flex items-center gap-2;
+	@apply text-[var(--color-warning)] font-medium text-sm flex items-center gap-2;
 }
 
 .warning-text {
-  @apply text-sm leading-relaxed;
-  color: var(--color-text-subtle);
+	@apply text-sm leading-relaxed;
+	color: var(--color-text-subtle);
 }
 
 .warning-buttons {
-  @apply flex gap-2 justify-end;
+	@apply flex gap-2 justify-end;
 }
 
 .warning-button {
-  @apply px-3 py-1 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
+	@apply px-3 py-1 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
 
-  &.primary {
-    @apply bg-[var(--color-warning)] text-white;
+	&.primary {
+		@apply bg-[var(--color-warning)] text-white;
 
-    &:hover {
-      background-color: color-mix(in srgb, var(--color-warning) 90%, black);
-    }
-  }
+		&:hover {
+			background-color: color-mix(in srgb, var(--color-warning) 90%, black);
+		}
+	}
 
-  &.secondary {
-    background-color: var(--color-secondary);
-    color: var(--color-text);
+	&.secondary {
+		background-color: var(--color-secondary);
+		color: var(--color-text);
 
-    &:hover {
-      background-color: var(--color-hover);
-    }
-  }
-} 
+		&:hover {
+			background-color: var(--color-hover);
+		}
+	}
+}

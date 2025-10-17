@@ -1,131 +1,134 @@
 <script lang="ts">
-    import {mount} from 'svelte';
-    import {logger} from '@/lib/utils/logger';
-    import {waitForElement} from '@/lib/utils/element-waiter';
-    import {COMPONENT_CLASSES, ENTITY_TYPES, GROUP_HEADER_SELECTORS, GROUPS_SELECTORS} from '@/lib/types/constants';
-    import type {GroupStatus, PageType, UserStatus} from '@/lib/types/api';
-    import StatusIndicator from '../status/StatusIndicator.svelte';
-    import UserListManager from './UserListManager.svelte';
+	import { mount } from 'svelte';
+	import { logger } from '@/lib/utils/logger';
+	import { waitForElement } from '@/lib/utils/element-waiter';
+	import {
+		COMPONENT_CLASSES,
+		ENTITY_TYPES,
+		GROUP_HEADER_SELECTORS,
+		GROUPS_SELECTORS
+	} from '@/lib/types/constants';
+	import type { GroupStatus, PageType, UserStatus } from '@/lib/types/api';
+	import StatusIndicator from '../status/StatusIndicator.svelte';
+	import UserListManager from './UserListManager.svelte';
 
-    interface Props {
-        groupId: string | null;
-        groupStatus: GroupStatus | null;
-        pageType: PageType;
-        onMount?: (cleanup: () => void) => void;
-    }
+	interface Props {
+		groupId: string | null;
+		groupStatus: GroupStatus | null;
+		pageType: PageType;
+		onMount?: (cleanup: () => void) => void;
+	}
 
-    let {groupId, groupStatus, pageType, onMount}: Props = $props();
+	let { groupId, groupStatus, pageType, onMount }: Props = $props();
 
-    let showGroups = $state(false);
-    let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
+	let showGroups = $state(false);
+	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
-    $effect(() => {
-        void initialize();
-        onMount?.(cleanup);
-        return cleanup;
-    });
+	$effect(() => {
+		void initialize();
+		onMount?.(cleanup);
+		return cleanup;
+	});
 
-    // Initialize group page components and features
-    async function initialize() {
-        try {
-            await Promise.all([
-                setupStatusIndicator(),
-                setupGroups()
-            ]);
-            logger.debug('GroupPageManager initialized successfully');
-        } catch (error) {
-            logger.error('Failed to initialize GroupPageManager:', error);
-        }
-    }
+	// Initialize group page components and features
+	async function initialize() {
+		try {
+			await Promise.all([setupStatusIndicator(), setupGroups()]);
+			logger.debug('GroupPageManager initialized successfully');
+		} catch (error) {
+			logger.error('Failed to initialize GroupPageManager:', error);
+		}
+	}
 
-    // Setup status indicator for group owner
-    async function setupStatusIndicator() {
-        if (!groupId) return;
+	// Setup status indicator for group owner
+	async function setupStatusIndicator() {
+		if (!groupId) return;
 
-        try {
-            // Wait for group owner name element
-            const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME);
+		try {
+			// Wait for group owner name element
+			const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME);
 
-            if (!ownerResult.success || !ownerResult.element) {
-                logger.warn('Could not find group owner element for status indicator');
-                return;
-            }
+			if (!ownerResult.success || !ownerResult.element) {
+				logger.warn('Could not find group owner element for status indicator');
+				return;
+			}
 
-            insertStatusIndicator(ownerResult.element);
-            logger.debug('Group status indicator mounted successfully');
-        } catch (error) {
-            logger.error('Failed to setup group status indicator:', error);
-        }
-    }
+			insertStatusIndicator(ownerResult.element);
+			logger.debug('Group status indicator mounted successfully');
+		} catch (error) {
+			logger.error('Failed to setup group status indicator:', error);
+		}
+	}
 
-    // Insert and mount status indicator component
-    function insertStatusIndicator(ownerElement: Element) {
-        // Check and unmount existing component
-        const existingComponent = mountedComponents.get('group-owner');
-        if (existingComponent) {
-            existingComponent.unmount?.();
-            mountedComponents.delete('group-owner');
-        }
+	// Insert and mount status indicator component
+	function insertStatusIndicator(ownerElement: Element) {
+		// Check and unmount existing component
+		const existingComponent = mountedComponents.get('group-owner');
+		if (existingComponent) {
+			existingComponent.unmount?.();
+			mountedComponents.delete('group-owner');
+		}
 
-        // Remove any existing container from DOM
-        const existingContainer = ownerElement.parentNode?.querySelector(`.${COMPONENT_CLASSES.GROUP_STATUS_CONTAINER}`);
-        if (existingContainer) {
-            existingContainer.remove();
-        }
+		// Remove any existing container from DOM
+		const existingContainer = ownerElement.parentNode?.querySelector(
+			`.${COMPONENT_CLASSES.GROUP_STATUS_CONTAINER}`
+		);
+		if (existingContainer) {
+			existingContainer.remove();
+		}
 
-        // Create new container
-        const container = document.createElement('span');
-        container.className = COMPONENT_CLASSES.GROUP_STATUS_CONTAINER;
-        ownerElement.parentNode?.insertBefore(container, ownerElement.nextSibling);
+		// Create new container
+		const container = document.createElement('span');
+		container.className = COMPONENT_CLASSES.GROUP_STATUS_CONTAINER;
+		ownerElement.parentNode?.insertBefore(container, ownerElement.nextSibling);
 
-        // Mount new component
-        const component = mount(StatusIndicator, {
-            target: container,
-            props: {
-                entityId: groupId!,
-                entityType: ENTITY_TYPES.GROUP,
-                status: groupStatus,
-                loading: !groupStatus,
-                showText: true,
-            }
-        });
+		// Mount new component
+		const component = mount(StatusIndicator, {
+			target: container,
+			props: {
+				entityId: groupId!,
+				entityType: ENTITY_TYPES.GROUP,
+				status: groupStatus,
+				loading: !groupStatus,
+				showText: true
+			}
+		});
 
-        // Track the component
-        mountedComponents.set('group-owner', component);
-    }
+		// Track the component
+		mountedComponents.set('group-owner', component);
+	}
 
-    // Wait for groups container and enable groups functionality
-    async function setupGroups() {
-        const result = await waitForElement(GROUPS_SELECTORS.CONTAINER);
-        if (result.success) {
-            showGroups = true;
-            logger.debug('Groups container detected');
-        }
-    }
+	// Wait for groups container and enable groups functionality
+	async function setupGroups() {
+		const result = await waitForElement(GROUPS_SELECTORS.CONTAINER);
+		if (result.success) {
+			showGroups = true;
+			logger.debug('Groups container detected');
+		}
+	}
 
-    // Handle user processing completion from UserListManager
-    function handleUserProcessed(processedUserId: string, status: UserStatus) {
-        logger.debug('Groups page user processed', {userId: processedUserId, status: status?.flagType});
-    }
+	// Handle user processing completion from UserListManager
+	function handleUserProcessed(processedUserId: string, status: UserStatus) {
+		logger.debug('Groups page user processed', {
+			userId: processedUserId,
+			status: status?.flagType
+		});
+	}
 
-    // Handle errors from UserListManager
-    function handleError(error: string) {
-        logger.error('Groups page UserListManager error:', error);
-    }
+	// Handle errors from UserListManager
+	function handleError(error: string) {
+		logger.error('Groups page UserListManager error:', error);
+	}
 
-    // Clean up mounted components and resources
-    function cleanup() {
-        mountedComponents.forEach(component => component.unmount?.());
-        mountedComponents.clear();
-        logger.debug('GroupPageManager cleanup completed');
-    }
+	// Clean up mounted components and resources
+	function cleanup() {
+		mountedComponents.forEach((component) => component.unmount?.());
+		mountedComponents.clear();
+		logger.debug('GroupPageManager cleanup completed');
+	}
 </script>
 
 <!-- Groups Manager -->
 {#if showGroups}
-  <UserListManager
-      onError={handleError}
-      onUserProcessed={handleUserProcessed}
-      {pageType}
-  />
+	<UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />
 {/if}

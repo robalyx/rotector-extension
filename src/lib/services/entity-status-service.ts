@@ -1,235 +1,238 @@
-import {derived, get, writable} from 'svelte/store';
-import type {GroupStatus, UserStatus} from '../types/api';
-import {settings} from '../stores/settings';
-import {SETTINGS_KEYS} from '../types/settings';
-import {logger} from '../utils/logger';
-import {apiClient} from './api-client';
+import { derived, get, writable } from 'svelte/store';
+import type { GroupStatus, UserStatus } from '../types/api';
+import { settings } from '../stores/settings';
+import { SETTINGS_KEYS } from '../types/settings';
+import { logger } from '../utils/logger';
+import { apiClient } from './api-client';
 
 interface CacheEntry<T> {
-    data: T;
-    timestamp: number;
+	data: T;
+	timestamp: number;
 }
 
 interface StatusRequest<T> {
-    resolve: (value: T | null) => void;
-    reject: (error: Error) => void;
+	resolve: (value: T | null) => void;
+	reject: (error: Error) => void;
 }
 
 type EntityStatus = UserStatus | GroupStatus;
 
 class EntityStatusService<T extends EntityStatus> {
-    private readonly cache = new Map<string, CacheEntry<T>>();
-    private readonly pendingRequests = new Map<string, Array<StatusRequest<T>>>();
-    private readonly statusStore = writable<Map<string, T>>(new Map());
+	private readonly cache = new Map<string, CacheEntry<T>>();
+	private readonly pendingRequests = new Map<string, Array<StatusRequest<T>>>();
+	private readonly statusStore = writable<Map<string, T>>(new Map());
 
-    public readonly statuses = derived(this.statusStore, ($store) => $store);
+	public readonly statuses = derived(this.statusStore, ($store) => $store);
 
-    constructor(
-        private readonly entityType: 'user' | 'group',
-        private readonly fetchSingle: (id: string) => Promise<T>,
-        private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
-    ) {
-    }
+	constructor(
+		private readonly entityType: 'user' | 'group',
+		private readonly fetchSingle: (id: string) => Promise<T>,
+		private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
+	) {}
 
-    // Gets entity status from cache or fetches from API
-    public async getStatus(entityId: string): Promise<T | null> {
-        const cached = this.getCachedStatus(entityId);
-        if (cached) {
-            logger.info(`${this.entityType}StatusService`, 'Returning cached status', {entityId});
-            return cached;
-        }
+	// Gets entity status from cache or fetches from API
+	public async getStatus(entityId: string): Promise<T | null> {
+		const cached = this.getCachedStatus(entityId);
+		if (cached) {
+			logger.info(`${this.entityType}StatusService`, 'Returning cached status', { entityId });
+			return cached;
+		}
 
-        const pending = this.pendingRequests.get(entityId);
-        if (pending) {
-            logger.info(`${this.entityType}StatusService`, 'Request already pending, waiting...', {entityId});
-            return new Promise((resolve, reject) => {
-                pending.push({resolve, reject});
-            });
-        }
+		const pending = this.pendingRequests.get(entityId);
+		if (pending) {
+			logger.info(`${this.entityType}StatusService`, 'Request already pending, waiting...', {
+				entityId
+			});
+			return new Promise((resolve, reject) => {
+				pending.push({ resolve, reject });
+			});
+		}
 
-        logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', {entityId});
-        return this.fetchStatus(entityId);
-    }
+		logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', { entityId });
+		return this.fetchStatus(entityId);
+	}
 
-    // Returns cached status if valid, null if expired or not found
-    public getCachedStatus(entityId: string): T | null {
-        const entry = this.cache.get(entityId);
-        if (!entry) return null;
+	// Returns cached status if valid, null if expired or not found
+	public getCachedStatus(entityId: string): T | null {
+		const entry = this.cache.get(entityId);
+		if (!entry) return null;
 
-        const currentSettings = get(settings);
-        const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
-        const cacheTTL = cacheDurationMinutes * 60 * 1000;
+		const currentSettings = get(settings);
+		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
+		const cacheTTL = cacheDurationMinutes * 60 * 1000;
 
-        const isExpired = Date.now() - entry.timestamp > cacheTTL;
-        if (isExpired) {
-            this.cache.delete(entityId);
-            this.updateStore();
-            return null;
-        }
+		const isExpired = Date.now() - entry.timestamp > cacheTTL;
+		if (isExpired) {
+			this.cache.delete(entityId);
+			this.updateStore();
+			return null;
+		}
 
-        return entry.data;
-    }
+		return entry.data;
+	}
 
-    // Gets multiple entity statuses with batch fetching optimization
-    public async getStatuses(entityIds: string[]): Promise<Map<string, T | null>> {
-        if (!this.fetchMultiple) {
-            const results = new Map<string, T | null>();
-            for (const id of entityIds) {
-                results.set(id, await this.getStatus(id));
-            }
-            return results;
-        }
+	// Gets multiple entity statuses with batch fetching optimization
+	public async getStatuses(entityIds: string[]): Promise<Map<string, T | null>> {
+		if (!this.fetchMultiple) {
+			const results = new Map<string, T | null>();
+			for (const id of entityIds) {
+				results.set(id, await this.getStatus(id));
+			}
+			return results;
+		}
 
-        const results = new Map<string, T | null>();
-        const toFetch: string[] = [];
+		const results = new Map<string, T | null>();
+		const toFetch: string[] = [];
 
-        for (const entityId of entityIds) {
-            const cached = this.getCachedStatus(entityId);
-            if (cached) {
-                results.set(entityId, cached);
-            } else {
-                toFetch.push(entityId);
-            }
-        }
+		for (const entityId of entityIds) {
+			const cached = this.getCachedStatus(entityId);
+			if (cached) {
+				results.set(entityId, cached);
+			} else {
+				toFetch.push(entityId);
+			}
+		}
 
-        if (toFetch.length > 0) {
-            logger.info(`${this.entityType}StatusService`, 'Batch fetching statuses', {count: toFetch.length});
+		if (toFetch.length > 0) {
+			logger.info(`${this.entityType}StatusService`, 'Batch fetching statuses', {
+				count: toFetch.length
+			});
 
-            try {
-                const batchStatuses = await this.fetchMultiple(toFetch);
+			try {
+				const batchStatuses = await this.fetchMultiple(toFetch);
 
-                batchStatuses.forEach(status => {
-                    if (status && status.id) {
-                        const entityId = status.id.toString();
-                        this.cache.set(entityId, {
-                            data: status,
-                            timestamp: Date.now()
-                        });
-                        results.set(entityId, status);
-                    }
-                });
+				batchStatuses.forEach((status) => {
+					if (status && status.id) {
+						const entityId = status.id.toString();
+						this.cache.set(entityId, {
+							data: status,
+							timestamp: Date.now()
+						});
+						results.set(entityId, status);
+					}
+				});
 
-                toFetch.forEach(entityId => {
-                    if (!results.has(entityId)) {
-                        results.set(entityId, null);
-                    }
-                });
+				toFetch.forEach((entityId) => {
+					if (!results.has(entityId)) {
+						results.set(entityId, null);
+					}
+				});
 
-                this.updateStore();
-            } catch (error) {
-                logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
-                    error,
-                    entityCount: toFetch.length,
-                    entityIds: toFetch.slice(0, 5)
-                });
+				this.updateStore();
+			} catch (error) {
+				logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
+					error,
+					entityCount: toFetch.length,
+					entityIds: toFetch.slice(0, 5)
+				});
 
-                toFetch.forEach(entityId => {
-                    results.set(entityId, null);
-                });
-            }
-        }
+				toFetch.forEach((entityId) => {
+					results.set(entityId, null);
+				});
+			}
+		}
 
-        return results;
-    }
+		return results;
+	}
 
-    // Manually updates cache with new status data
-    public updateStatus(entityId: string, status: T): void {
-        this.cache.set(entityId, {
-            data: status,
-            timestamp: Date.now()
-        });
-        this.updateStore();
-        logger.info(`${this.entityType}StatusService`, 'Status manually updated', {entityId});
-    }
+	// Manually updates cache with new status data
+	public updateStatus(entityId: string, status: T): void {
+		this.cache.set(entityId, {
+			data: status,
+			timestamp: Date.now()
+		});
+		this.updateStore();
+		logger.info(`${this.entityType}StatusService`, 'Status manually updated', { entityId });
+	}
 
-    // Preloads cache with entity statuses
-    public async warmCache(entityIds: string[]): Promise<void> {
-        logger.info(`${this.entityType}StatusService`, 'Warming cache', {count: entityIds.length});
-        await this.getStatuses(entityIds);
-    }
+	// Preloads cache with entity statuses
+	public async warmCache(entityIds: string[]): Promise<void> {
+		logger.info(`${this.entityType}StatusService`, 'Warming cache', { count: entityIds.length });
+		await this.getStatuses(entityIds);
+	}
 
-    // Clears entire cache
-    public clearCache(): void {
-        this.cache.clear();
-        this.updateStore();
-        logger.info(`${this.entityType}StatusService`, 'Cache cleared');
-    }
+	// Clears entire cache
+	public clearCache(): void {
+		this.cache.clear();
+		this.updateStore();
+		logger.info(`${this.entityType}StatusService`, 'Cache cleared');
+	}
 
-    // Clears cache for specific entity
-    public clearEntityCache(entityId: string): void {
-        this.cache.delete(entityId);
-        this.updateStore();
-        logger.info(`${this.entityType}StatusService`, 'Cache cleared for entity', {entityId});
-    }
+	// Clears cache for specific entity
+	public clearEntityCache(entityId: string): void {
+		this.cache.delete(entityId);
+		this.updateStore();
+		logger.info(`${this.entityType}StatusService`, 'Cache cleared for entity', { entityId });
+	}
 
-    // Returns cache size and entry age statistics
-    public getCacheStats(): { size: number; entries: Array<{ entityId: string; age: number }> } {
-        const entries = Array.from(this.cache.entries()).map(([entityId, entry]) => ({
-            entityId,
-            age: Date.now() - entry.timestamp
-        }));
+	// Returns cache size and entry age statistics
+	public getCacheStats(): { size: number; entries: Array<{ entityId: string; age: number }> } {
+		const entries = Array.from(this.cache.entries()).map(([entityId, entry]) => ({
+			entityId,
+			age: Date.now() - entry.timestamp
+		}));
 
-        return {
-            size: this.cache.size,
-            entries
-        };
-    }
+		return {
+			size: this.cache.size,
+			entries
+		};
+	}
 
-    // Fetches status from API with request deduplication
-    private async fetchStatus(entityId: string): Promise<T | null> {
-        const requestQueue: Array<StatusRequest<T>> = [];
-        this.pendingRequests.set(entityId, requestQueue);
+	// Fetches status from API with request deduplication
+	private async fetchStatus(entityId: string): Promise<T | null> {
+		const requestQueue: Array<StatusRequest<T>> = [];
+		this.pendingRequests.set(entityId, requestQueue);
 
-        try {
-            const status = await this.fetchSingle(entityId);
+		try {
+			const status = await this.fetchSingle(entityId);
 
-            if (status) {
-                this.cache.set(entityId, {
-                    data: status,
-                    timestamp: Date.now()
-                });
-                this.updateStore();
+			if (status) {
+				this.cache.set(entityId, {
+					data: status,
+					timestamp: Date.now()
+				});
+				this.updateStore();
 
-                requestQueue.forEach(({resolve}) => {
-                    resolve(status);
-                });
-                return status;
-            } else {
-                requestQueue.forEach(({resolve}) => {
-                    resolve(null);
-                });
-                return null;
-            }
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error('Unknown error');
-            requestQueue.forEach(({reject}) => {
-                reject(err);
-            });
-            throw err;
-        } finally {
-            this.pendingRequests.delete(entityId);
-        }
-    }
+				requestQueue.forEach(({ resolve }) => {
+					resolve(status);
+				});
+				return status;
+			} else {
+				requestQueue.forEach(({ resolve }) => {
+					resolve(null);
+				});
+				return null;
+			}
+		} catch (error) {
+			const err = error instanceof Error ? error : new Error('Unknown error');
+			requestQueue.forEach(({ reject }) => {
+				reject(err);
+			});
+			throw err;
+		} finally {
+			this.pendingRequests.delete(entityId);
+		}
+	}
 
-    // Updates Svelte store with current cache data
-    private updateStore(): void {
-        const storeData = new Map<string, T>();
-        for (const [entityId, entry] of this.cache.entries()) {
-            storeData.set(entityId, entry.data);
-        }
-        this.statusStore.set(storeData);
-    }
+	// Updates Svelte store with current cache data
+	private updateStore(): void {
+		const storeData = new Map<string, T>();
+		for (const [entityId, entry] of this.cache.entries()) {
+			storeData.set(entityId, entry.data);
+		}
+		this.statusStore.set(storeData);
+	}
 }
 
 // Create service instances
 export const userStatusService = new EntityStatusService<UserStatus>(
-    'user',
-    async (id: string) => apiClient.checkUser(id),
-    async (ids: string[]) => apiClient.checkMultipleUsers(ids, {batchSize: 50, batchDelay: 100})
+	'user',
+	async (id: string) => apiClient.checkUser(id),
+	async (ids: string[]) => apiClient.checkMultipleUsers(ids, { batchSize: 50, batchDelay: 100 })
 );
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(
-    'group',
-    async (id: string) => apiClient.checkGroup(id),
-    async (ids: string[]) => apiClient.checkMultipleGroups(ids, {batchSize: 50, batchDelay: 100})
+	'group',
+	async (id: string) => apiClient.checkGroup(id),
+	async (ids: string[]) => apiClient.checkMultipleGroups(ids, { batchSize: 50, batchDelay: 100 })
 );

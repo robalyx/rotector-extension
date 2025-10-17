@@ -3,106 +3,106 @@
    ================================= */
 
 @utility financial-section {
-  @apply rounded-lg p-1.5 border transition-all duration-300;
-  border-color: var(--color-border-subtle);
-  background-color: var(--color-bg);
+	@apply rounded-lg p-1.5 border transition-all duration-300;
+	border-color: var(--color-border-subtle);
+	background-color: var(--color-bg);
 }
 
 @utility financial-section-title {
-  @apply text-center font-semibold uppercase tracking-wide pb-0.5 mb-1 border-b text-3xs;
-  color: var(--color-text-heading);
-  border-color: var(--color-border-subtle);
-  margin-top: 0;
+	@apply text-center font-semibold uppercase tracking-wide pb-0.5 mb-1 border-b text-3xs;
+	color: var(--color-text-heading);
+	border-color: var(--color-border-subtle);
+	margin-top: 0;
 }
 
 @utility financial-compact {
-  @apply space-y-1;
+	@apply space-y-1;
 }
 
 /* Progress section styles */
 @utility progress-section {
-  @apply space-y-1;
+	@apply space-y-1;
 }
 
 @utility progress-labels {
-  @apply flex items-center justify-between gap-2;
+	@apply flex items-center justify-between gap-2;
 }
 
 @utility progress-label-left {
-  @apply flex flex-col items-start;
+	@apply flex flex-col items-start;
 }
 
 @utility progress-label-right {
-  @apply flex flex-col items-end text-right;
+	@apply flex flex-col items-end text-right;
 }
 
 @utility progress-label {
-  @apply text-3xs font-medium uppercase tracking-wide;
-  color: var(--color-text-subtle);
+	@apply text-3xs font-medium uppercase tracking-wide;
+	color: var(--color-text-subtle);
 }
 
 @utility progress-amount {
-  @apply text-2xs font-bold;
-  color: var(--color-text);
+	@apply text-2xs font-bold;
+	color: var(--color-text);
 }
 
 @utility progress-amount-raised {
-  @apply text-2xs font-bold;
-  color: var(--color-success);
+	@apply text-2xs font-bold;
+	color: var(--color-success);
 }
 
 @utility progress-amount-remaining {
-  @apply text-2xs font-bold;
-  color: var(--color-warning);
+	@apply text-2xs font-bold;
+	color: var(--color-warning);
 }
 
 @utility progress-amount-surplus {
-  @apply text-2xs font-bold;
-  color: var(--color-primary);
+	@apply text-2xs font-bold;
+	color: var(--color-primary);
 }
 
 /* Support button */
 @utility kofi-support-button {
-  @apply w-full px-2 py-0.5 text-3xs font-semibold rounded transition-all duration-200 cursor-pointer;
-  @apply flex items-center justify-center gap-1 no-underline border;
-  background: linear-gradient(135deg, #ff5f5f 0%, #ff4757 100%);
-  color: white;
-  border-color: #ff4757;
+	@apply w-full px-2 py-0.5 text-3xs font-semibold rounded transition-all duration-200 cursor-pointer;
+	@apply flex items-center justify-center gap-1 no-underline border;
+	background: linear-gradient(135deg, #ff5f5f 0%, #ff4757 100%);
+	color: white;
+	border-color: #ff4757;
 
-  &:hover {
-    transform: translateY(-1px);
-    @apply shadow-md;
-    background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
-    color: white;
-    text-decoration: none;
-  }
+	&:hover {
+		transform: translateY(-1px);
+		@apply shadow-md;
+		background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+		color: white;
+		text-decoration: none;
+	}
 
-  &:active {
-    transform: translateY(0);
-  }
+	&:active {
+		transform: translateY(0);
+	}
 
-  &:focus {
-    @apply outline-none;
-    box-shadow: 0 0 0 2px rgba(255, 95, 95, 0.3);
-  }
+	&:focus {
+		@apply outline-none;
+		box-shadow: 0 0 0 2px rgba(255, 95, 95, 0.3);
+	}
 }
 
 /* Progress bar */
 @utility funding-progress-bar {
-  @apply relative w-full h-1.5 rounded-full overflow-hidden;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-subtle);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+	@apply relative w-full h-1.5 rounded-full overflow-hidden;
+	background: var(--color-bg-secondary);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 @utility funding-progress-fill {
-  @apply h-full transition-all duration-500 ease-out;
+	@apply h-full transition-all duration-500 ease-out;
 
-  &.funding-in-progress {
-    background: var(--color-primary);
-  }
+	&.funding-in-progress {
+		background: var(--color-primary);
+	}
 
-  &.funding-complete {
-    background: var(--color-success);
-  }
+	&.funding-complete {
+		background: var(--color-success);
+	}
 }

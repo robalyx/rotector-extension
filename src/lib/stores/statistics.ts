@@ -1,147 +1,145 @@
-import { derived, writable } from "svelte/store";
+import { derived, writable } from 'svelte/store';
 import {
-  type Statistics,
-  STATISTICS_CACHE_KEY,
-  STATISTICS_CONFIG,
-  type StatisticsCache,
-  type StatisticsState,
-} from "../types/statistics.js";
-import { logger } from "@/lib/utils/logger";
+	type Statistics,
+	STATISTICS_CACHE_KEY,
+	STATISTICS_CONFIG,
+	type StatisticsCache,
+	type StatisticsState
+} from '../types/statistics.js';
+import { logger } from '@/lib/utils/logger';
 
 export const statistics = writable<Statistics | null>(null);
-export const statisticsState = writable<StatisticsState>("loading");
+export const statisticsState = writable<StatisticsState>('loading');
 const lastUpdated = writable<number | null>(null);
 
 // Derive human-readable update time
 export const lastUpdatedFormatted = derived(lastUpdated, ($lastUpdated) => {
-  if (!$lastUpdated) return "Never";
+	if (!$lastUpdated) return 'Never';
 
-  const now = Date.now();
-  const diff = now - $lastUpdated;
+	const now = Date.now();
+	const diff = now - $lastUpdated;
 
-  if (diff < 60000) return "Just now";
-  if (diff < 3600000) return `${Math.floor(diff / 60000)} minutes ago`;
-  if (diff < 86400000) return `${Math.floor(diff / 3600000)} hours ago`;
-  return `${Math.floor(diff / 86400000)} days ago`;
+	if (diff < 60000) return 'Just now';
+	if (diff < 3600000) return `${Math.floor(diff / 60000)} minutes ago`;
+	if (diff < 86400000) return `${Math.floor(diff / 3600000)} hours ago`;
+	return `${Math.floor(diff / 86400000)} days ago`;
 });
 
 // Check if cached statistics are still valid
 async function getCachedStatistics(): Promise<Statistics | null> {
-  try {
-    const result = await browser.storage.local.get([STATISTICS_CACHE_KEY]);
-    const cache: StatisticsCache | undefined = result[STATISTICS_CACHE_KEY] as
-      | StatisticsCache
-      | undefined;
+	try {
+		const result = await browser.storage.local.get([STATISTICS_CACHE_KEY]);
+		const cache: StatisticsCache | undefined = result[STATISTICS_CACHE_KEY] as
+			| StatisticsCache
+			| undefined;
 
-    if (!cache) return null;
+		if (!cache) return null;
 
-    const now = Date.now();
-    if (now - cache.timestamp > STATISTICS_CONFIG.CACHE_DURATION) {
-      return null; // Cache expired
-    }
+		const now = Date.now();
+		if (now - cache.timestamp > STATISTICS_CONFIG.CACHE_DURATION) {
+			return null; // Cache expired
+		}
 
-    return cache.data;
-  } catch (error) {
-    logger.error("Failed to get cached statistics:", error);
-    return null;
-  }
+		return cache.data;
+	} catch (error) {
+		logger.error('Failed to get cached statistics:', error);
+		return null;
+	}
 }
 
 // Cache statistics data
 async function cacheStatistics(data: Statistics): Promise<void> {
-  try {
-    const cache: StatisticsCache = {
-      data,
-      timestamp: Date.now(),
-    };
-    await browser.storage.local.set({ [STATISTICS_CACHE_KEY]: cache });
-  } catch (error) {
-    logger.error("Failed to cache statistics:", error);
-  }
+	try {
+		const cache: StatisticsCache = {
+			data,
+			timestamp: Date.now()
+		};
+		await browser.storage.local.set({ [STATISTICS_CACHE_KEY]: cache });
+	} catch (error) {
+		logger.error('Failed to cache statistics:', error);
+	}
 }
 
 // Load statistics from API
 async function fetchStatisticsFromAPI(): Promise<Statistics> {
-  const response: { success: boolean; error?: string; data?: Statistics } =
-    await browser.runtime.sendMessage({
-      action: "getStatistics",
-    });
+	const response: { success: boolean; error?: string; data?: Statistics } =
+		await browser.runtime.sendMessage({
+			action: 'getStatistics'
+		});
 
-  if (!response.success) {
-    throw new Error(response.error ?? "Failed to fetch statistics");
-  }
+	if (!response.success) {
+		throw new Error(response.error ?? 'Failed to fetch statistics');
+	}
 
-  if (!response.data) {
-    throw new Error("No data returned from statistics API");
-  }
-  return response.data;
+	if (!response.data) {
+		throw new Error('No data returned from statistics API');
+	}
+	return response.data;
 }
 
 // Load statistics with caching
-export async function loadStatistics(
-  forceRefresh: boolean = false,
-): Promise<void> {
-  statisticsState.set("loading");
+export async function loadStatistics(forceRefresh: boolean = false): Promise<void> {
+	statisticsState.set('loading');
 
-  try {
-    let data: Statistics | null = null;
+	try {
+		let data: Statistics | null = null;
 
-    if (!forceRefresh) {
-      data = await getCachedStatistics();
-    }
+		if (!forceRefresh) {
+			data = await getCachedStatistics();
+		}
 
-    if (!data) {
-      data = await fetchStatisticsFromAPI();
-      await cacheStatistics(data);
-    }
+		if (!data) {
+			data = await fetchStatisticsFromAPI();
+			await cacheStatistics(data);
+		}
 
-    statistics.set(data);
-    lastUpdated.set(new Date(data.lastUpdated).getTime());
-    statisticsState.set("loaded");
-  } catch (error) {
-    logger.error("Failed to load statistics:", error);
-    statisticsState.set("error");
-    throw error;
-  }
+		statistics.set(data);
+		lastUpdated.set(new Date(data.lastUpdated).getTime());
+		statisticsState.set('loaded');
+	} catch (error) {
+		logger.error('Failed to load statistics:', error);
+		statisticsState.set('error');
+		throw error;
+	}
 }
 
 // Force refresh statistics
 export async function refreshStatistics(): Promise<void> {
-  return loadStatistics(true);
+	return loadStatistics(true);
 }
 
 // Format numbers for display
 export function formatNumber(num: number | undefined): string {
-  if (num === undefined || num === null || isNaN(num)) {
-    return "0";
-  }
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 100000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-  return num.toLocaleString();
+	if (num === undefined || num === null || isNaN(num)) {
+		return '0';
+	}
+	if (num >= 1000000) {
+		return `${(num / 1000000).toFixed(1)}M`;
+	}
+	if (num >= 100000) {
+		return `${(num / 1000).toFixed(1)}K`;
+	}
+	return num.toLocaleString();
 }
 
 // Format currency for display
 export function formatCurrency(amount: number | undefined): string {
-  if (amount === undefined || amount === null || isNaN(amount)) {
-    return "$0.00";
-  }
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(Math.abs(amount));
+	if (amount === undefined || amount === null || isNaN(amount)) {
+		return '$0.00';
+	}
+	return new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2
+	}).format(Math.abs(amount));
 }
 
 // Calculate funding percentage (donations vs costs)
 export function calculateFundingPercentage(
-  donations: number | undefined,
-  costs: number | undefined,
+	donations: number | undefined,
+	costs: number | undefined
 ): number {
-  if (!donations || !costs || costs === 0) return 0;
-  return Math.min(Math.round((donations / costs) * 100), 100);
+	if (!donations || !costs || costs === 0) return 0;
+	return Math.min(Math.round((donations / costs) * 100), 100);
 }

@@ -3,214 +3,213 @@
    ================================= */
 
 @utility friend-warning-overlay {
-  @apply modal-overlay-base;
+	@apply modal-overlay-base;
 }
 
 @utility friend-warning-popup {
-  @apply modal-popup-base w-[520px];
+	@apply modal-popup-base w-[520px];
 }
 
 @utility friend-warning-popup-small {
-  @apply modal-popup-base-small;
+	@apply modal-popup-base-small;
 }
 
 @utility friend-warning-header {
-  @apply modal-header-base;
+	@apply modal-header-base;
 }
 
 @utility friend-warning-title {
-  @apply text-lg font-semibold m-0 flex-grow;
-  color: var(--color-text-heading);
+	@apply text-lg font-semibold m-0 flex-grow;
+	color: var(--color-text-heading);
 }
 
 @utility friend-warning-content {
-  @apply modal-content-base;
+	@apply modal-content-base;
 }
 
 @utility friend-warning-content-small {
-  @apply modal-content-base-small;
+	@apply modal-content-base-small;
 }
 
 @utility friend-warning-actions {
-  @apply modal-actions-base;
+	@apply modal-actions-base;
 }
 
 @utility friend-warning-actions-horizontal {
-  @apply modal-actions-horizontal;
+	@apply modal-actions-horizontal;
 }
 
 @utility friend-warning-cancel {
-  @apply modal-button-base !text-white;
-  background-color: var(--primitive-gray-900);
+	@apply modal-button-base !text-white;
+	background-color: var(--primitive-gray-900);
 
-  &:hover {
-    background-color: var(--primitive-gray-800);
-    @apply shadow-md -translate-y-px;
-  }
+	&:hover {
+		background-color: var(--primitive-gray-800);
+		@apply shadow-md -translate-y-px;
+	}
 }
 
 @utility friend-warning-block {
-  @apply modal-button-base !text-white;
-  background-color: var(--primitive-gray-950);
+	@apply modal-button-base !text-white;
+	background-color: var(--primitive-gray-950);
 
-  &:hover {
-    background-color: var(--primitive-dark-surface);
-    @apply shadow-md -translate-y-px;
-  }
+	&:hover {
+		background-color: var(--primitive-dark-surface);
+		@apply shadow-md -translate-y-px;
+	}
 }
 
 @utility friend-warning-confirm {
-  @apply modal-button-base !text-white;
-  background-color: var(--color-warning);
+	@apply modal-button-base !text-white;
+	background-color: var(--color-warning);
 
-  &:hover {
-    background-color: var(--color-warning-hover);
-    @apply shadow-md -translate-y-px;
-  }
+	&:hover {
+		background-color: var(--color-warning-hover);
+		@apply shadow-md -translate-y-px;
+	}
 
-  &:disabled {
-    opacity: 0.5;
-    @apply cursor-not-allowed translate-y-0 shadow-none;
+	&:disabled {
+		opacity: 0.5;
+		@apply cursor-not-allowed translate-y-0 shadow-none;
 
-    &:hover {
-      @apply translate-y-0 shadow-none;
-    }
-  }
+		&:hover {
+			@apply translate-y-0 shadow-none;
+		}
+	}
 
-  &.friend-warning-confirm-danger {
-    background-color: var(--color-error);
+	&.friend-warning-confirm-danger {
+		background-color: var(--color-error);
 
-    &:hover {
-      filter: brightness(0.9);
-    }
+		&:hover {
+			filter: brightness(0.9);
+		}
 
-    &:disabled {
-      opacity: 0.5;
+		&:disabled {
+			opacity: 0.5;
 
-      &:hover {
-        filter: none;
-      }
-    }
-  }
+			&:hover {
+				filter: none;
+			}
+		}
+	}
 }
 
 /* =================================
    USER INFORMATION SECTION
    ================================= */
 @utility friend-warning-user-info {
-  @apply modal-content-section flex items-center gap-4;
-  border: 1px solid var(--color-border);
+	@apply modal-content-section flex items-center gap-4;
+	border: 1px solid var(--color-border);
 }
 
 @utility friend-warning-user-info-avatar {
-  @apply w-[60px] h-[60px] rounded-full overflow-hidden flex-shrink-0 border-2 relative z-[1];
-  border-color: var(--color-border);
-  background-color: var(--color-bg-content);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	@apply w-[60px] h-[60px] rounded-full overflow-hidden flex-shrink-0 border-2 relative z-[1];
+	border-color: var(--color-border);
+	background-color: var(--color-bg-content);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
-  img {
-    @apply w-full h-full object-cover;
-  }
+	img {
+		@apply w-full h-full object-cover;
+	}
 }
 
-
 @utility friend-warning-user-info-details {
-  @apply flex-1 min-w-0;
+	@apply flex-1 min-w-0;
 }
 
 @utility friend-warning-user-info-name {
-  @apply font-semibold text-base mb-1 truncate;
-  color: var(--color-text-heading);
+	@apply font-semibold text-base mb-1 truncate;
+	color: var(--color-text-heading);
 }
 
 @utility friend-warning-user-info-id {
-  @apply text-xs;
-  color: var(--color-text-subtle);
+	@apply text-xs;
+	color: var(--color-text-subtle);
 }
 
 /* =================================
    WHY THIS MATTERS SECTION
    ================================= */
 @utility friend-warning-why-matters {
-  @apply modal-content-section-warning;
+	@apply modal-content-section-warning;
 }
 
 @utility friend-warning-why-matters-heading {
-  @apply modal-content-heading flex items-center gap-2;
-  color: var(--color-text-heading);
+	@apply modal-content-heading flex items-center gap-2;
+	color: var(--color-text-heading);
 }
 
 @utility friend-warning-why-matters-icon {
-  @apply w-5 h-5 flex-shrink-0;
+	@apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-why-matters-list {
-  @apply modal-content-list;
+	@apply modal-content-list;
 }
 
 @utility friend-warning-why-matters-item {
-  @apply modal-content-list-item-warning;
+	@apply modal-content-list-item-warning;
 }
 
 /* =================================
    RECOMMENDED ACTIONS SECTION
    ================================= */
 @utility friend-warning-recommendations {
-  @apply modal-content-section-recommendation;
+	@apply modal-content-section-recommendation;
 }
 
 @utility friend-warning-recommendations-heading {
-  @apply modal-content-heading flex items-center gap-2;
-  color: var(--color-text-heading);
+	@apply modal-content-heading flex items-center gap-2;
+	color: var(--color-text-heading);
 }
 
 @utility friend-warning-recommendations-icon {
-  @apply w-5 h-5 flex-shrink-0;
+	@apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-recommendations-list {
-  @apply modal-content-list;
+	@apply modal-content-list;
 }
 
 @utility friend-warning-recommendations-item {
-  @apply modal-content-list-item-recommendation;
+	@apply modal-content-list-item-recommendation;
 }
 
 /* =================================
    RISK ASSESSMENT SECTION
    ================================= */
 @utility friend-warning-risk-assessment {
-  @apply modal-content-section;
-  border: 1px solid var(--color-border);
+	@apply modal-content-section;
+	border: 1px solid var(--color-border);
 }
 
 @utility friend-warning-risk-title {
-  @apply text-base font-semibold mb-1 flex items-center gap-2;
-  color: var(--color-text-heading);
+	@apply text-base font-semibold mb-1 flex items-center gap-2;
+	color: var(--color-text-heading);
 }
 
 @utility friend-warning-risk-title-icon {
-  @apply w-5 h-5 flex-shrink-0;
+	@apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-risk-message {
-  @apply text-sm mb-2;
-  color: var(--color-text);
+	@apply text-sm mb-2;
+	color: var(--color-text);
 }
 
 @utility friend-warning-risk-confidence {
-  @apply text-xs font-medium;
-  color: var(--color-text-subtle);
+	@apply text-xs font-medium;
+	color: var(--color-text-subtle);
 }
 
 /* High risk warning */
 @utility friend-warning-high-risk-warning {
-  @apply modal-content-section;
-  background: rgba(244, 67, 54, 0.1);
-  border: 1px solid rgba(244, 67, 54, 0.3);
+	@apply modal-content-section;
+	background: rgba(244, 67, 54, 0.1);
+	border: 1px solid rgba(244, 67, 54, 0.3);
 }
 
 @utility friend-warning-high-risk-text {
-  @apply text-sm font-medium;
-  color: var(--color-text-heading);
+	@apply text-sm font-medium;
+	color: var(--color-text-heading);
 }

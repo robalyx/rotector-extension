@@ -3,214 +3,214 @@
    ================================= */
 
 @utility status-container {
-  @apply inline-flex items-center relative cursor-help leading-normal align-middle w-auto overflow-visible;
-  background: transparent !important;
-  border: none !important;
+	@apply inline-flex items-center relative cursor-help leading-normal align-middle w-auto overflow-visible;
+	background: transparent !important;
+	border: none !important;
 }
 
 @utility status-positioned-absolute {
-  @apply absolute flex justify-center items-center pointer-events-auto top-1 right-1 z-[1000] rounded-full p-0 w-5 h-5;
-  background: rgba(0, 0, 0, 0.6);
+	@apply absolute flex justify-center items-center pointer-events-auto top-1 right-1 z-[1000] rounded-full p-0 w-5 h-5;
+	background: rgba(0, 0, 0, 0.6);
 }
 
-.status-positioned-absolute [class*="status-icon-"] {
-  @apply mr-0;
+.status-positioned-absolute [class*='status-icon-'] {
+	@apply mr-0;
 }
 
 /* =================================
    STATUS ICON STYLES
    ================================= */
 .status-icon-wrapper {
-  @apply block relative flex-shrink-0 w-5 h-5 mr-1;
+	@apply block relative flex-shrink-0 w-5 h-5 mr-1;
 }
 
 @utility status-icon-base {
-  @apply block w-5 h-5;
+	@apply block w-5 h-5;
 }
 
 @utility icon-bg-likely-safe {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2344cc44' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2344cc44' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
 }
 
 @utility icon-bg-checking {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z'/%3E%3Cpath fill='%23999' d='M12,7a1,1,0,0,0-1,1v4a1,1,0,0,0,.29.71l3,3a1,1,0,0,0,1.42-1.42L13,11.59V8A1,1,0,0,0,12,7Z'/%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z'/%3E%3Cpath fill='%23999' d='M12,7a1,1,0,0,0-1,1v4a1,1,0,0,0,.29.71l3,3a1,1,0,0,0,1.42-1.42L13,11.59V8A1,1,0,0,0,12,7Z'/%3E%3C/svg%3E");
 }
 
 @utility animate-spin-loading {
-  animation: spin-smooth 1s linear infinite;
-  will-change: transform;
+	animation: spin-smooth 1s linear infinite;
+	will-change: transform;
 }
 
 /* =================================
    STATUS TEXT STYLES
    ================================= */
 @utility status-text-base {
-  @apply text-sm-plus whitespace-nowrap font-medium;
+	@apply text-sm-plus whitespace-nowrap font-medium;
 }
 
 @utility text-status-safe {
-  color: var(--color-status-safe);
+	color: var(--color-status-safe);
 }
 
 @utility text-status-unsafe {
-  color: var(--color-status-unsafe);
+	color: var(--color-status-unsafe);
 }
 
 @utility text-status-pending {
-  color: var(--color-status-pending);
+	color: var(--color-status-pending);
 }
 
 @utility text-status-error {
-  color: var(--color-status-error);
+	color: var(--color-status-error);
 }
 
 @utility text-status-integration {
-  color: var(--color-status-integration);
+	color: var(--color-status-integration);
 }
 
 @utility text-status-likely-safe {
-  color: var(--color-status-likely-safe);
+	color: var(--color-status-likely-safe);
 }
 
 @utility text-status-checking {
-  color: var(--color-status-checking);
+	color: var(--color-status-checking);
 }
 
 @utility text-status-past-offender {
-  color: var(--color-status-past-offender);
+	color: var(--color-status-past-offender);
 }
 
 /* =================================
    STATUS TEXT CLASSES
    ================================= */
 .status-text-safe {
-  @apply status-text-base text-status-safe;
+	@apply status-text-base text-status-safe;
 }
 
 .status-text-unsafe {
-  @apply status-text-base text-status-unsafe;
+	@apply status-text-base text-status-unsafe;
 }
 
 .status-text-pending,
 .status-text-queued {
-  @apply status-text-base text-status-pending;
+	@apply status-text-base text-status-pending;
 }
 
 .status-text-error {
-  @apply status-text-base text-status-error;
+	@apply status-text-base text-status-error;
 }
 
 .status-text-integration {
-  @apply status-text-base text-status-integration;
+	@apply status-text-base text-status-integration;
 }
 
 .status-text-likely-safe {
-  @apply status-text-base text-status-likely-safe;
+	@apply status-text-base text-status-likely-safe;
 }
 
 .status-text-checking {
-  @apply status-text-base text-status-checking;
+	@apply status-text-base text-status-checking;
 }
 
 .status-text-past-offender {
-  @apply status-text-base text-status-past-offender;
+	@apply status-text-base text-status-past-offender;
 }
 
 /* =================================
    BADGE STYLES
    ================================= */
 @utility badge-base {
-  @apply absolute flex items-center justify-center rounded-full w-[15px] h-[15px] shadow-sm transition-all duration-400 pointer-events-auto;
-  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  top: 0;
-  left: 0;
+	@apply absolute flex items-center justify-center rounded-full w-[15px] h-[15px] shadow-sm transition-all duration-400 pointer-events-auto;
+	transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	top: 0;
+	left: 0;
 }
 
 .badge-stack-1 {
-  z-index: 4;
-  transform: translate(0, 0) scale(1);
+	z-index: 4;
+	transform: translate(0, 0) scale(1);
 }
 
 .badge-stack-2 {
-  z-index: 3;
-  transform: translate(2px, 0) scale(0.97);
+	z-index: 3;
+	transform: translate(2px, 0) scale(0.97);
 }
 
 .badge-stack-3 {
-  z-index: 2;
-  transform: translate(3px, 0) scale(0.94);
+	z-index: 2;
+	transform: translate(3px, 0) scale(0.94);
 }
 
 .badge-stack-4 {
-  z-index: 1;
-  transform: translate(4px, 0) scale(0.91);
+	z-index: 1;
+	transform: translate(4px, 0) scale(0.91);
 }
 
 .status-container.badge-expanded .badge-stack-1 {
-  transform: translate(0, 0) scale(1);
+	transform: translate(0, 0) scale(1);
 }
 
 .status-container.badge-expanded .badge-stack-2 {
-  transform: translate(12px, 0) scale(0.97);
+	transform: translate(12px, 0) scale(0.97);
 }
 
 .status-container.badge-expanded .badge-stack-3 {
-  transform: translate(20px, 0) scale(0.94);
+	transform: translate(20px, 0) scale(0.94);
 }
 
 .status-container.badge-expanded .badge-stack-4 {
-  transform: translate(28px, 0) scale(0.91);
+	transform: translate(28px, 0) scale(0.91);
 }
 
 @utility badge-bg-reportable {
-  background-color: var(--color-status-unsafe);
-  @apply flex items-center justify-center;
+	background-color: var(--color-status-unsafe);
+	@apply flex items-center justify-center;
 }
 
 @utility badge-bg-queue {
-  background-color: var(--color-status-queued);
-  @apply flex items-center justify-center;
+	background-color: var(--color-status-queued);
+	@apply flex items-center justify-center;
 }
 
 @utility badge-bg-outfit {
-  background-color: var(--color-status-outfit);
-  @apply flex items-center justify-center;
+	background-color: var(--color-status-outfit);
+	@apply flex items-center justify-center;
 }
 
 @utility badge-bg-integration {
-  @apply text-2xs font-bold text-white leading-none;
-  background-color: var(--color-status-integration);
+	@apply text-2xs font-bold text-white leading-none;
+	background-color: var(--color-status-integration);
 }
 
 /* =================================
    BADGE CLASSES
    ================================= */
 .badge-container {
-  @apply absolute -bottom-1 -right-1 w-[15px] h-[15px] pointer-events-none;
+	@apply absolute -bottom-1 -right-1 w-[15px] h-[15px] pointer-events-none;
 }
 
 .reportable-badge {
-  @apply badge-base badge-bg-reportable;
+	@apply badge-base badge-bg-reportable;
 }
 
 .queue-badge {
-  @apply badge-base badge-bg-queue;
+	@apply badge-base badge-bg-queue;
 }
 
 .integration-badge {
-  @apply badge-base badge-bg-integration;
+	@apply badge-base badge-bg-integration;
 }
 
 .outfit-badge {
-  @apply badge-base badge-bg-outfit;
+	@apply badge-base badge-bg-outfit;
 }
 
 /* =================================
    PROFILE STATUS CONTAINER
    ================================= */
 .rotector-profile-status {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: middle;
-  line-height: normal;
+	display: inline-flex;
+	align-items: center;
+	vertical-align: middle;
+	line-height: normal;
 }

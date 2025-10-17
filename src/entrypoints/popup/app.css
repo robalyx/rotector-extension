@@ -1,30 +1,32 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-system), sans-serif;
-  transition: color 0.2s, background-color 0.2s;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-system), sans-serif;
+	transition:
+		color 0.2s,
+		background-color 0.2s;
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    color: var(--color-text);
-    background-color: var(--color-bg);
-  }
+	body {
+		color: var(--color-text);
+		background-color: var(--color-bg);
+	}
 }
 
-[data-theme="dark"] body {
-  color: var(--color-text);
-  background-color: var(--color-bg);
+[data-theme='dark'] body {
+	color: var(--color-text);
+	background-color: var(--color-bg);
 }
 
-[data-theme="light"] body {
-  color: var(--color-text);
-  background-color: var(--color-bg);
+[data-theme='light'] body {
+	color: var(--color-text);
+	background-color: var(--color-bg);
 }

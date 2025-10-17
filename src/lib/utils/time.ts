@@ -130,7 +130,9 @@ export function getDurationSince(timestamp: number): string {
  */
 export function formatExactTimestamp(timestamp: number): string {
 	const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
-	return date.toLocaleDateString('en-US', {
+	if (isNaN(date.getTime())) return 'unknown time';
+
+	return date.toLocaleString('en-US', {
 		month: 'short',
 		day: 'numeric',
 		year: 'numeric',

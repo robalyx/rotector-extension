@@ -41,7 +41,7 @@ browser.storage.onChanged.addListener((changes, namespace) => {
 		settings.update((current) => {
 			const updated = { ...current };
 			for (const [key, change] of Object.entries(changes)) {
-				if (key in SETTINGS_DEFAULTS) {
+				if (key in SETTINGS_DEFAULTS && change.newValue !== undefined) {
 					(updated as Record<string, unknown>)[key] = change.newValue;
 				}
 			}

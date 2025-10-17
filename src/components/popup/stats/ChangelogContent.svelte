@@ -85,7 +85,7 @@
 	</div>
 
 	<!-- Summary -->
-	{#if compact || changelog.summary}
+	{#if changelog.summary}
 		<div class="changelog-summary">
 			<p class="changelog-summary-text">{changelog.summary}</p>
 		</div>

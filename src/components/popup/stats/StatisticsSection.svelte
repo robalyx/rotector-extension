@@ -27,6 +27,7 @@
 		}
 	}
 
+	// Load statistics on mount
 	$effect(() => {
 		loadStatistics().catch((error) => {
 			logger.error('Failed to load statistics:', error);

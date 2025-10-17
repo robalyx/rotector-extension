@@ -8,9 +8,11 @@
 
 	let { order }: Props = $props();
 
-	function formatDate(dateString: string): string {
+	function formatDate(dateString: string | undefined | null): string {
+		if (!dateString) return 'N/A';
 		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', {
+		if (isNaN(date.getTime())) return 'N/A';
+		return date.toLocaleString('en-US', {
 			month: 'short',
 			day: 'numeric',
 			year: 'numeric',
@@ -35,7 +37,7 @@
 		return labels[type] || type;
 	}
 
-	const isExpiringSoon = $derived(() => {
+	const isExpiringSoon = $derived.by(() => {
 		if (!order.expiresAt) return false;
 		const expiryDate = new Date(order.expiresAt);
 		const now = new Date();
@@ -44,7 +46,7 @@
 	});
 </script>
 
-<div class="major-order-card" class:expiring={isExpiringSoon()}>
+<div class="major-order-card" class:expiring={isExpiringSoon}>
 	<div class="order-header">
 		<div class="order-title-section">
 			<h4 class="order-title">{order.title}</h4>

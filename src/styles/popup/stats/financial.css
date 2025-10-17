@@ -9,7 +9,7 @@
 }
 
 @utility financial-section-title {
-	@apply text-center font-semibold uppercase tracking-wide pb-0.5 mb-1 border-b text-3xs;
+	@apply text-center font-semibold uppercase tracking-wide pb-0.5 mb-1 border-b text-2xs;
 	color: var(--color-text-heading);
 	border-color: var(--color-border-subtle);
 	margin-top: 0;
@@ -37,7 +37,7 @@
 }
 
 @utility progress-label {
-	@apply text-3xs font-medium uppercase tracking-wide;
+	@apply text-2xs font-medium uppercase tracking-wide;
 	color: var(--color-text-subtle);
 }
 
@@ -63,7 +63,7 @@
 
 /* Support button */
 @utility kofi-support-button {
-	@apply w-full px-2 py-0.5 text-3xs font-semibold rounded transition-all duration-200 cursor-pointer;
+	@apply w-full px-2 py-0.5 text-2xs font-semibold rounded transition-all duration-200 cursor-pointer;
 	@apply flex items-center justify-center gap-1 no-underline border;
 	background: linear-gradient(135deg, #ff5f5f 0%, #ff4757 100%);
 	color: white;

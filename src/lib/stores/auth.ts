@@ -27,12 +27,17 @@ export const authStore = writable<AuthState>(initialState);
 // Track ongoing initialization to prevent concurrent calls
 let initializationPromise: Promise<void> | null = null;
 
+// Epoch to prevent stale writes from overlapping auth operations
+let authEpoch = 0;
+
 // Load authentication state from storage
 export async function initializeAuth(): Promise<void> {
 	// Return existing promise if initialization is already in progress
 	if (initializationPromise) {
 		return initializationPromise;
 	}
+
+	const epoch = ++authEpoch;
 
 	initializationPromise = (async () => {
 		authStore.update((state) => ({ ...state, isLoading: true, error: null }));
@@ -46,6 +51,9 @@ export async function initializeAuth(): Promise<void> {
 				// Try to fetch profile with stored UUID
 				const profile = await apiClient.getExtensionProfile();
 
+				// Ignore if a newer auth operation started
+				if (epoch !== authEpoch) return;
+
 				authStore.set({
 					isAuthenticated: true,
 					profile,
@@ -56,6 +64,9 @@ export async function initializeAuth(): Promise<void> {
 
 				logger.info('Authentication restored from storage');
 			} else {
+				// Ignore if a newer auth operation started
+				if (epoch !== authEpoch) return;
+
 				// No stored UUID, user needs to login with Discord
 				authStore.set({
 					isAuthenticated: false,
@@ -72,6 +83,9 @@ export async function initializeAuth(): Promise<void> {
 
 			// Clear invalid UUID (could be due to IP address change or other invalidation)
 			await browser.storage.local.remove(['extension_uuid']);
+
+			// Ignore if a newer auth operation started
+			if (epoch !== authEpoch) return;
 
 			authStore.set({
 				isAuthenticated: false,
@@ -101,17 +115,22 @@ export async function initiateDiscordLogin(): Promise<void> {
 
 		authStore.update((state) => ({
 			...state,
-			isLoading: false,
 			error: error instanceof Error ? error.message : 'Failed to initiate Discord login'
 		}));
 
 		throw error;
+	} finally {
+		// Prevent indefinite spinner if window closed or flow deferred
+		authStore.update((state) => ({ ...state, isLoading: false }));
 	}
 }
 
 // Logout user
 export async function logout(): Promise<void> {
 	try {
+		// Increment epoch to invalidate any in-flight auth operations
+		authEpoch++;
+
 		await browser.storage.local.remove(['extension_uuid']);
 
 		authStore.set({
@@ -162,6 +181,13 @@ export async function handleDiscordAuthComplete(
 	uuid: string,
 	user: ExtensionUserProfile
 ): Promise<void> {
+	// Persist UUID for future sessions
+	try {
+		await browser.storage.local.set({ extension_uuid: uuid });
+	} catch (error) {
+		logger.error('Failed to persist extension_uuid:', error);
+	}
+
 	authStore.set({
 		isAuthenticated: true,
 		profile: user,
@@ -170,5 +196,5 @@ export async function handleDiscordAuthComplete(
 		error: null
 	});
 
-	logger.info('Discord authentication completed', { uuid });
+	logger.info('Discord authentication completed', { uuid: `${uuid.slice(0, 8)}…` });
 }

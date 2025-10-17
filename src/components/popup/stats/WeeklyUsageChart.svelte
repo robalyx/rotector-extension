@@ -422,7 +422,10 @@
 							role="graphics-symbol"
 							width={BAR_WIDTH}
 							x={data.x}
-							y={data.y - data.height}
+							y={data.y -
+								(data.stacked.prompt.height +
+									data.stacked.completion.height +
+									data.stacked.reasoning.height)}
 						/>
 					{:else}
 						<!-- Regular bars -->
@@ -445,7 +448,13 @@
 						class="bar-value"
 						text-anchor="middle"
 						x={data.x + BAR_WIDTH / 2}
-						y={data.y - data.height - 5}
+						y={data.y -
+							(selectedChart === 'tokens' && data.stacked
+								? data.stacked.prompt.height +
+									data.stacked.completion.height +
+									data.stacked.reasoning.height
+								: data.height) -
+							5}
 					>
 						{data.displayValue}
 					</text>

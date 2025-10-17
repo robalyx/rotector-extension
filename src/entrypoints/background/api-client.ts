@@ -66,14 +66,19 @@ export async function makeApiRequest(
 
 	const url = `${baseUrl}${endpoint}`;
 
-	const headers: Record<string, string> = {
+	const headers = new Headers({
 		'Content-Type': 'application/json',
-		Accept: 'application/json',
-		...(options.headers as Record<string, string>)
-	};
+		Accept: 'application/json'
+	});
+
+	if (options.headers) {
+		new Headers(options.headers).forEach((value, key) => {
+			headers.set(key, value);
+		});
+	}
 
 	if (apiKey?.trim()) {
-		headers['X-Auth-Token'] = apiKey.trim();
+		headers.set('X-Auth-Token', apiKey.trim());
 	}
 
 	const requestOptions: RequestInit = {
@@ -139,6 +144,11 @@ export async function makeApiRequest(
 				throw error;
 			}
 
+			if (response.status === 204) {
+				logger.apiCall(options.method ?? 'GET', url, response.status, duration);
+				return null;
+			}
+
 			const data: unknown = await response.json();
 			logger.apiCall(options.method ?? 'GET', url, response.status, duration);
 
@@ -183,10 +193,8 @@ export async function makeAuthenticatedApiRequest(
 		throw new Error('Extension not authenticated. Please login with Discord.');
 	}
 
-	const headers = {
-		...((options.headers as Record<string, string>) || {}),
-		'X-Extension-UUID': uuid
-	};
+	const headers = new Headers(options.headers ?? {});
+	headers.set('X-Extension-UUID', uuid);
 
 	try {
 		return await makeApiRequest(endpoint, {

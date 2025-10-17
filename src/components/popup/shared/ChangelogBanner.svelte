@@ -55,7 +55,7 @@
 	}
 </script>
 
-{#if $shouldShowChangelogBanner && $latestChangelog && !isClosing}
+{#if ($shouldShowChangelogBanner && $latestChangelog) || isClosing}
 	<div class="changelog-banner" class:closing={isClosing}>
 		<div class="changelog-banner-content">
 			<!-- Banner content and controls -->

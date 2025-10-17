@@ -110,7 +110,11 @@
 				category: category
 			});
 
-			await apiClient.submitExtensionReport(parseInt(userId), reportReason);
+			const id = Number.parseInt(userId, 10);
+			if (!Number.isFinite(id)) {
+				throw new Error('Invalid userId');
+			}
+			await apiClient.submitExtensionReport(id, reportReason);
 
 			logger.debug('Extension report submitted successfully', {
 				category,

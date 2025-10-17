@@ -35,9 +35,9 @@
 			{target.userName}
 		</a>
 		<span
-			style:background-color="{getStatusColor(target.userStatus)}15"
 			style:color={getStatusColor(target.userStatus)}
-			style:border-color="{getStatusColor(target.userStatus)}30"
+			style:background-color={`color-mix(in srgb, ${getStatusColor(target.userStatus)} 15%, transparent)`}
+			style:border-color={`color-mix(in srgb, ${getStatusColor(target.userStatus)} 30%, transparent)`}
 			class="target-status-badge"
 		>
 			{getStatusLabel(target.userStatus)}

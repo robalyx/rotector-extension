@@ -58,7 +58,7 @@
 	}
 </script>
 
-{#if $shouldShowAdvancedViolationBanner && !isClosing}
+{#if $shouldShowAdvancedViolationBanner || isClosing}
 	<div class="advanced-violation-banner" class:closing={isClosing}>
 		<div class="advanced-violation-banner-content">
 			<!-- Banner content and controls -->

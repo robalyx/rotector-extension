@@ -28,36 +28,25 @@
 	let processing = $state(false);
 
 	// Computed values
-	const sanitizedUserId = $derived(() => {
-		if (!userId) return '';
-		const id = sanitizeEntityId(userId);
-		return id ? id.toString() : '';
-	});
+	const sanitizedUserId = $derived(userId ? (sanitizeEntityId(userId)?.toString() ?? '') : '');
 
-	const isReportable = $derived(() => {
-		if (!status) return false;
-		return '0' in (status.reasons || {});
-	});
+	const isReportable = $derived(status ? '0' in (status.reasons || {}) : false);
 
-	const reportableContent = $derived(() => {
-		if (!status || !isReportable()) return null;
+	const reportableContent = $derived(
+		isReportable && status
+			? {
+					message: status.reasons?.['0']?.message || 'Inappropriate content detected',
+					evidence: status.reasons?.['0']?.evidence || [],
+					confidence: status.reasons?.['0']?.confidence || status.confidence || 0
+				}
+			: null
+	);
 
-		const profileReason = status.reasons?.['0'];
-
-		return {
-			message: profileReason?.message || 'Inappropriate content detected',
-			evidence: profileReason?.evidence || [],
-			confidence: profileReason?.confidence || status.confidence || 0
-		};
-	});
-
-	const canAutoFill = $derived(() => {
-		return isReportable() && onFillForm;
-	});
+	const canAutoFill = $derived(isReportable && onFillForm);
 
 	// Handle fill form button click
 	async function handleFillForm() {
-		if (!canAutoFill() || processing) return;
+		if (!canAutoFill || processing) return;
 
 		processing = true;
 
@@ -82,37 +71,37 @@
 </script>
 
 {#if isCard}
-	<div class="report-helper-card {isReportable() ? 'reportable' : 'not-reportable'}">
+	<div class="report-helper-card {isReportable ? 'reportable' : 'not-reportable'}">
 		<div class="report-helper-header">
-			{#if isReportable()}
+			{#if isReportable}
 				<AlertTriangle class="report-helper-icon reportable" size={24} />
 			{:else}
 				<Info class="report-helper-icon not-reportable" size={24} />
 			{/if}
 			<h3 class="report-helper-title">
-				{isReportable() ? 'Reportable Content Found' : 'No Reportable Content Detected'}
+				{isReportable ? 'Reportable Content Found' : 'No Reportable Content Detected'}
 			</h3>
 		</div>
 
 		<div class="report-helper-content">
-			{#if isReportable()}
-				{#if canAutoFill()}
+			{#if isReportable}
+				{#if canAutoFill}
 					<!-- Can auto-fill -->
 					<p class="report-helper-subtitle">
 						Rotector identified profile content violating Roblox's Terms of Service.
 					</p>
 
-					{#if reportableContent()}
+					{#if reportableContent}
 						<div class="report-helper-evidence-section">
 							<h4 class="report-helper-evidence-header">Detected Issue</h4>
 							<div class="report-helper-evidence-details">
 								<strong>Reason:</strong>
-								{reportableContent()?.message}<br /><br />
+								{reportableContent?.message}<br /><br />
 
-								{#if (reportableContent()?.evidence?.length ?? 0) > 0}
+								{#if (reportableContent?.evidence?.length ?? 0) > 0}
 									<strong>Evidence Snippets:</strong>
 									<ul class="report-helper-evidence-list">
-										{#each reportableContent()?.evidence || [] as item (item)}
+										{#each reportableContent?.evidence || [] as item, idx (idx)}
 											<li class="report-helper-evidence-item">
 												{item}
 											</li>
@@ -203,7 +192,7 @@
 	>
 		<div class="space-y-4">
 			<!-- User Information -->
-			{#if sanitizedUserId()}
+			{#if sanitizedUserId}
 				<div
 					class="
           rounded-lg bg-gray-50 p-3
@@ -224,7 +213,7 @@
             dark:text-gray-200
           "
 					>
-						User ID: {sanitizedUserId()}
+						User ID: {sanitizedUserId}
 					</div>
 					{#if status}
 						<div
@@ -247,7 +236,7 @@
 			{/if}
 
 			<!-- Report Status -->
-			{#if isReportable()}
+			{#if isReportable}
 				<div
 					class="
           rounded-lg border border-red-200 bg-red-50 p-3

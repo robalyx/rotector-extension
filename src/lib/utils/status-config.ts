@@ -98,14 +98,14 @@ export function getStatusConfig(
 					isQueued: false
 				};
 			} else {
-				// User is still being processed by the system
+				// User is still queued and being processed by the system
 				return {
 					...baseConfig,
 					iconName: 'checking',
 					iconColor: '#999',
 					textContent: 'Checking...',
 					textClass: 'status-text-checking',
-					isQueued: false
+					isQueued: true
 				};
 			}
 		}

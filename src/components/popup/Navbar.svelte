@@ -6,14 +6,14 @@
 	interface NavbarProps {
 		currentPage: Page | null;
 		onPageChange: (page: Page) => void;
-		onDeveloperUnlock: () => void;
+		onDeveloperUnlock: () => void | Promise<void>;
 	}
 
 	let { currentPage, onPageChange, onDeveloperUnlock }: NavbarProps = $props();
 
-	function handleSettingsClick(event: MouseEvent) {
+	async function handleSettingsClick(event: MouseEvent) {
 		if (event.altKey) {
-			onDeveloperUnlock();
+			await onDeveloperUnlock();
 		} else {
 			onPageChange('settings');
 		}

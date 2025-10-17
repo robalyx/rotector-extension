@@ -1,0 +1,78 @@
+/* =================================
+   WAR ZONE SECTION STYLES
+   ================================= */
+
+@utility war-zone-section {
+    @apply w-full rounded-lg mb-6;
+    background-color: var(--color-bg-content);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@utility war-zone-nav {
+    @apply border-b rounded-t-lg;
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border);
+}
+
+@utility war-zone-nav-tabs {
+    @apply flex;
+}
+
+@utility war-zone-nav-tab {
+    @apply flex-1 bg-transparent border-none px-4 py-3 text-sm font-medium cursor-pointer transition-colors duration-150 flex items-center justify-center gap-2;
+    color: var(--color-text-subtle);
+    border-right: 1px solid var(--color-border);
+
+    &:last-child {
+        border-right: none;
+    }
+
+    &:hover:not(.active) {
+        background-color: var(--color-hover);
+        color: var(--color-text);
+    }
+
+    &.active {
+        background-color: var(--color-bg-content);
+        color: var(--color-war-zone);
+        border-bottom: 2px solid var(--color-war-zone);
+    }
+}
+
+@utility war-zone-content {
+    @apply p-3 min-h-80;
+}
+
+@utility war-zone-loading {
+    @apply flex flex-col items-center justify-center p-12 text-center rounded-lg;
+    background-color: var(--color-bg-content);
+    border: 1px solid var(--color-border);
+}
+
+@utility war-zone-loading-text {
+    @apply mt-3 text-sm m-0;
+    color: var(--color-text-subtle);
+}
+
+/* =================================
+   WAR ZONE PLACEHOLDER STYLES
+   ================================= */
+
+@utility war-zone-placeholder {
+    @apply flex items-center justify-center min-h-80 text-center;
+}
+
+@utility war-zone-placeholder-content {
+    @apply max-w-sm;
+}
+
+@utility war-zone-placeholder-title {
+    @apply text-xl font-semibold mb-2 m-0;
+    color: var(--color-text-heading);
+}
+
+@utility war-zone-placeholder-text {
+    @apply text-sm m-0 leading-relaxed;
+    color: var(--color-text-subtle);
+}

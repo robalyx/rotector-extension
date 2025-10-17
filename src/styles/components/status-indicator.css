@@ -20,68 +20,25 @@
 /* =================================
    STATUS ICON STYLES
    ================================= */
+.status-icon-wrapper {
+  @apply block relative flex-shrink-0 w-5 h-5 mr-1;
+}
+
 @utility status-icon-base {
-  @apply block relative flex-shrink-0 bg-contain bg-no-repeat bg-center w-5 h-5 mr-1;
+  @apply block w-5 h-5;
 }
 
-/* =================================
-   STATUS ICON BACKGROUNDS
-   ================================= */
-@utility icon-bg-safe {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23888888' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+@utility icon-bg-likely-safe {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2344cc44' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
 }
 
-@utility icon-bg-unsafe {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff4444' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
-}
-
-@utility icon-bg-pending {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9800' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
-}
-
-@utility icon-bg-error {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
-}
-
-@utility icon-bg-loading {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z'/%3E%3Cpath fill='%23666' d='M12 4v2a6 6 0 0 1 0 12v2a8 8 0 0 0 0-16z'/%3E%3C/svg%3E");
-}
-
-@utility icon-bg-integration {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2314b8a6' d='M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 4h2v6h-2V6zm0 8h2v2h-2v-2z'/%3E%3Cpath fill='%2314b8a6' opacity='0.5' d='M4 10h3v4H4v-4zm13 0h3v4h-3v-4z'/%3E%3C/svg%3E");
+@utility icon-bg-checking {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z'/%3E%3Cpath fill='%23999' d='M12,7a1,1,0,0,0-1,1v4a1,1,0,0,0,.29.71l3,3a1,1,0,0,0,1.42-1.42L13,11.59V8A1,1,0,0,0,12,7Z'/%3E%3C/svg%3E");
 }
 
 @utility animate-spin-loading {
   animation: spin-smooth 1s linear infinite;
   will-change: transform;
-}
-
-/* =================================
-   STATUS ICON CLASSES
-   ================================= */
-.status-icon-safe {
-  @apply status-icon-base icon-bg-safe;
-}
-
-.status-icon-unsafe {
-  @apply status-icon-base icon-bg-unsafe;
-}
-
-.status-icon-pending,
-.status-icon-queued {
-  @apply status-icon-base icon-bg-pending;
-}
-
-.status-icon-error {
-  @apply status-icon-base icon-bg-error;
-}
-
-.status-icon-loading {
-  @apply status-icon-base icon-bg-loading animate-spin-loading;
-}
-
-.status-icon-integration {
-  @apply status-icon-base icon-bg-integration;
 }
 
 /* =================================
@@ -111,6 +68,18 @@
   color: var(--color-status-integration);
 }
 
+@utility text-status-likely-safe {
+  color: var(--color-status-likely-safe);
+}
+
+@utility text-status-checking {
+  color: var(--color-status-checking);
+}
+
+@utility text-status-past-offender {
+  color: var(--color-status-past-offender);
+}
+
 /* =================================
    STATUS TEXT CLASSES
    ================================= */
@@ -135,12 +104,23 @@
   @apply status-text-base text-status-integration;
 }
 
+.status-text-likely-safe {
+  @apply status-text-base text-status-likely-safe;
+}
+
+.status-text-checking {
+  @apply status-text-base text-status-checking;
+}
+
+.status-text-past-offender {
+  @apply status-text-base text-status-past-offender;
+}
+
 /* =================================
    BADGE STYLES
    ================================= */
 @utility badge-base {
-  @apply absolute flex items-center justify-center border-white rounded-full w-[15px] h-[15px] box-content shadow-sm transition-all duration-400 pointer-events-auto;
-  border-style: solid;
+  @apply absolute flex items-center justify-center rounded-full w-[15px] h-[15px] shadow-sm transition-all duration-400 pointer-events-auto;
   transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   top: 0;
   left: 0;
@@ -184,20 +164,17 @@
 
 @utility badge-bg-reportable {
   background-color: var(--color-status-unsafe);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z'/%3E%3C/svg%3E");
-  @apply bg-[length:10px_10px] bg-center bg-no-repeat;
+  @apply flex items-center justify-center;
 }
 
 @utility badge-bg-queue {
   background-color: var(--color-status-queued);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z'/%3E%3C/svg%3E");
-  @apply bg-[length:8px_8px] bg-center bg-no-repeat;
+  @apply flex items-center justify-center;
 }
 
 @utility badge-bg-outfit {
   background-color: var(--color-status-outfit);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M17,2H14.62l-.29.46a2.75,2.75,0,0,1-4.65,0L9.38,2H7A5,5,0,0,0,2,7v5H6V22H18V12h4V7A5,5,0,0,0,17,2Z'/%3E%3C/svg%3E");
-  @apply bg-[length:9px_9px] bg-center bg-no-repeat;
+  @apply flex items-center justify-center;
 }
 
 @utility badge-bg-integration {
@@ -213,19 +190,19 @@
 }
 
 .reportable-badge {
-  @apply badge-base badge-bg-reportable border-[1.5px];
+  @apply badge-base badge-bg-reportable;
 }
 
 .queue-badge {
-  @apply badge-base badge-bg-queue border;
+  @apply badge-base badge-bg-queue;
 }
 
 .integration-badge {
-  @apply badge-base badge-bg-integration border;
+  @apply badge-base badge-bg-integration;
 }
 
 .outfit-badge {
-  @apply badge-base badge-bg-outfit border;
+  @apply badge-base badge-bg-outfit;
 }
 
 /* =================================

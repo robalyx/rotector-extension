@@ -183,6 +183,9 @@ export default tseslint.config(
       },
       globals: {
         ...globals.browser,
+        ...globals.webextensions,
+        browser: 'readonly',
+        chrome: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',
         $effect: 'readonly',

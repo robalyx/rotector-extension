@@ -1,5 +1,6 @@
 <script lang="ts">
     import Portal from 'svelte-portal';
+    import {AlertCircle, AlertTriangle, X} from 'lucide-svelte';
 
     interface ModalProps {
         isOpen: boolean;
@@ -133,10 +134,11 @@
           {#if icon}
             <div class="mr-2 flex items-center">
               {#if icon === 'warning'}
-                <div
-                    class={modalType === 'friend-warning' ? `
-                      friend-warning-icon
-                    ` : `mature-content-warning-icon`}></div>
+                {#if modalType === 'friend-warning'}
+                  <AlertTriangle class="friend-warning-icon" color="#f44336" size={32} />
+                {:else}
+                  <AlertCircle class="mature-content-warning-icon" color="#ff9800" size={32} />
+                {/if}
               {:else}
                 <div class="text-2xl">{icon}</div>
               {/if}
@@ -152,7 +154,7 @@
               onclick={() => closeModal(false)}
               type="button"
           >
-            ×
+            <X color="var(--color-error)" size={24} />
           </button>
         </div>
 

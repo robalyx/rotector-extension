@@ -2,6 +2,7 @@
     import {VOTE_TYPES} from '@/lib/types/constants';
     import type {VoteData} from '@/lib/types/api';
     import {logger} from '@/lib/utils/logger';
+    import {ArrowUp, ArrowDown} from 'lucide-svelte';
 
     interface Props {
         voteData?: VoteData | null;
@@ -102,7 +103,7 @@
         onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.UPVOTE); }}
         type="button"
     >
-      <span class="voting-icon-upvote voting-icon"></span>
+      <ArrowUp class="voting-icon" color="#00aa00" size={14} strokeWidth={2.5} />
       <span class="voting-label">Agree</span>
     </button>
 
@@ -114,7 +115,7 @@
         onclick={(e) => { e.stopPropagation(); handleVoteClick(VOTE_TYPES.DOWNVOTE); }}
         type="button"
     >
-      <span class="voting-icon-downvote voting-icon"></span>
+      <ArrowDown class="voting-icon" color="#ff0000" size={14} strokeWidth={2.5} />
       <span class="voting-label">Disagree</span>
     </button>
   </div>

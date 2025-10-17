@@ -5,6 +5,8 @@
     import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import {getStatusConfig} from '@/lib/utils/status-config';
     import {groupStatusService, userStatusService} from '@/lib/services/entity-status-service';
+    import {Flag, Hourglass, Shirt} from 'lucide-svelte';
+    import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
     import Tooltip from './Tooltip.svelte';
     import Portal from 'svelte-portal';
@@ -20,7 +22,7 @@
         showText?: boolean;
         skipAutoFetch?: boolean;
         onClick?: (entityId: string) => void;
-        onQueue?: (entityId: string) => void;
+        onQueue?: (entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void;
     }
 
     let {
@@ -166,15 +168,18 @@
     }
 
     // Handle queue action
-    function handleQueue() {
+    function handleQueue(isReprocess = false) {
         if (onQueue) {
-            onQueue(sanitizedEntityId());
+            const tooltipStatus = status || cachedStatus;
+            onQueue(sanitizedEntityId(), isReprocess, tooltipStatus);
         }
     }
 
     // Handle expanded tooltip actions
-    function handleExpandedQueue() {
-        handleQueue();
+    function handleExpandedQueue(isReprocess = false, tooltipStatus: EntityStatus | null = null) {
+        if (onQueue) {
+            onQueue(sanitizedEntityId(), isReprocess, tooltipStatus);
+        }
         showExpandedTooltip = false;
     }
 
@@ -263,15 +268,24 @@
     type="button"
 >
   <!-- Status Icon -->
-  <span class="{statusConfig().iconClass}">
+  <span class="status-icon-wrapper" class:animate-spin-loading={statusConfig().iconName === 'loading'}>
+    <StatusIcon
+        name={statusConfig().iconName}
+        class="status-icon-base"
+        color={statusConfig().iconColor}
+    />
     <!-- Badge Container -->
     <span class="badge-container">
       {#if !isGroup() && statusConfig().isReportable}
-        <span class="reportable-badge {badgeStackClasses().reportable}"></span>
+        <span class="reportable-badge {badgeStackClasses().reportable}">
+          <Flag color="white" size={10} strokeWidth={2.5} />
+        </span>
       {/if}
 
       {#if statusConfig().isQueued}
-        <span class="queue-badge {badgeStackClasses().queue}"></span>
+        <span class="queue-badge {badgeStackClasses().queue}">
+          <Hourglass color="white" size={8} strokeWidth={2.5} />
+        </span>
       {/if}
 
       {#if shouldShowIntegrationBadge()}
@@ -279,7 +293,9 @@
       {/if}
 
       {#if !isGroup() && statusConfig().isOutfitOnly}
-        <span class="outfit-badge {badgeStackClasses().outfit}"></span>
+        <span class="outfit-badge {badgeStackClasses().outfit}">
+          <Shirt color="white" size={9} strokeWidth={2.5} />
+        </span>
       {/if}
     </span>
   </span>
@@ -295,6 +311,7 @@
 <!-- Preview Tooltip -->
 {#if showPreviewTooltip && container}
   <Portal target="#rotector-tooltip-portal">
+    {@const tooltipStatus = status || cachedStatus}
     <Tooltip
         anchorElement={container}
         {entityType}
@@ -305,7 +322,7 @@
         onMouseEnter={handleTooltipMouseEnter}
         onMouseLeave={handleTooltipMouseLeave}
         onQueue={handleQueue}
-        status={status || cachedStatus}
+        status={tooltipStatus}
         userId={entityId}
     />
   </Portal>
@@ -314,6 +331,7 @@
 <!-- Expanded Tooltip -->
 {#if showExpandedTooltip && container}
   <Portal target="#rotector-tooltip-portal">
+    {@const tooltipStatus = status || cachedStatus}
     <Tooltip
         anchorElement={container}
         {entityType}
@@ -321,7 +339,7 @@
         mode="expanded"
         onClose={closeExpandedTooltip}
         onQueue={handleExpandedQueue}
-        status={status || cachedStatus}
+        status={tooltipStatus}
         userId={entityId}
     />
   </Portal>

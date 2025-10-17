@@ -1,0 +1,177 @@
+/* =================================
+   LEADERBOARD VIEW STYLES
+   ================================= */
+
+@utility leaderboard-view {
+    @apply flex flex-col gap-3;
+}
+
+/* Leaderboard Controls */
+@utility leaderboard-controls {
+    @apply flex justify-between items-center p-2 rounded-lg border;
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border);
+}
+
+@utility anonymous-filter-toggle {
+    @apply flex items-center gap-1.5 cursor-pointer text-xs font-medium;
+    color: var(--color-text);
+
+    & input[type="checkbox"] {
+        @apply w-3.5 h-3.5 rounded cursor-pointer;
+        accent-color: var(--color-primary);
+    }
+}
+
+/* Leaderboard Stats */
+@utility leaderboard-stats {
+    @apply flex justify-between items-center p-2 rounded-lg border;
+    background-color: var(--color-bg-content);
+    border-color: var(--color-border);
+}
+
+@utility leaderboard-stats-total-users {
+    @apply text-xs font-semibold;
+    color: var(--color-text);
+}
+
+@utility leaderboard-stats-user-rank {
+    @apply text-xs font-bold px-2 py-0.5 rounded-full;
+    background-color: var(--color-primary-alpha);
+    color: var(--color-primary);
+}
+
+/* Podium Section */
+@utility podium-section {
+    @apply flex flex-col gap-2;
+}
+
+@utility podium {
+    @apply flex items-end justify-center gap-2;
+}
+
+@utility podium-position {
+    @apply flex flex-col items-center gap-1 p-2 rounded-xl border transition-all duration-200;
+    background-color: var(--color-bg-content);
+    border-color: var(--color-border);
+    min-width: 90px;
+
+    &:hover {
+        border-color: var(--color-border-hover);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+    }
+}
+
+@utility podium-first {
+    @apply order-2;
+    min-height: 130px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, var(--color-bg-content) 100%);
+    border-color: #ffd700;
+}
+
+@utility podium-second {
+    @apply order-1;
+    min-height: 100px;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.1) 0%, var(--color-bg-content) 100%);
+    border-color: #c0c0c0;
+}
+
+@utility podium-third {
+    @apply order-3;
+    min-height: 85px;
+    background: linear-gradient(135deg, rgba(205, 127, 50, 0.1) 0%, var(--color-bg-content) 100%);
+    border-color: #cd7f32;
+}
+
+@utility podium-rank {
+    @apply text-3xs font-semibold uppercase tracking-wide;
+    color: var(--color-text-subtle);
+}
+
+@utility podium-medal {
+    @apply text-2xl;
+}
+
+@utility podium-name {
+    @apply text-xs font-bold text-center;
+    color: var(--color-text-heading);
+}
+
+@utility podium-points {
+    @apply text-sm font-bold;
+    color: var(--color-primary);
+}
+
+/* Leaderboard List */
+@utility leaderboard-list-section {
+    @apply flex flex-col gap-2;
+}
+
+@utility leaderboard-list {
+    @apply flex flex-col gap-1;
+}
+
+@utility leaderboard-entry {
+    @apply flex items-center gap-2 p-2 rounded-lg border transition-all duration-200;
+    background-color: var(--color-bg-content);
+    border-color: var(--color-border);
+
+    &:hover {
+        border-color: var(--color-border-hover);
+        box-shadow: var(--shadow-soft);
+        transform: translateX(2px);
+    }
+
+    &.current-user {
+        border-color: var(--color-accent);
+        background-color: color-mix(in srgb, var(--color-accent) 5%, var(--color-bg-content));
+    }
+
+    &.top-three {
+        border-color: var(--color-primary);
+        background: linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 8%, transparent) 0%, transparent 100%);
+    }
+}
+
+@utility entry-rank {
+    @apply flex items-center justify-center min-w-8;
+}
+
+@utility entry-rank-rank-medal {
+    @apply text-lg;
+}
+
+@utility entry-rank-rank-number {
+    @apply text-xs font-bold;
+    color: var(--color-text);
+}
+
+@utility entry-info {
+    @apply flex-1 flex flex-col gap-0.5;
+}
+
+@utility entry-name {
+    @apply text-xs font-bold flex items-center gap-1.5;
+    color: var(--color-text-heading);
+}
+
+@utility you-badge {
+    @apply px-1.5 py-0.5 rounded text-3xs font-semibold uppercase;
+    background-color: var(--color-accent);
+    color: white;
+}
+
+@utility entry-stats {
+    @apply flex gap-2 text-3xs;
+    color: var(--color-text-subtle);
+}
+
+@utility entry-stats-entry-stat {
+    @apply font-medium;
+}
+
+@utility entry-points {
+    @apply text-sm font-bold;
+    color: var(--color-primary);
+}

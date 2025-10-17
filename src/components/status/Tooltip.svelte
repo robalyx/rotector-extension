@@ -14,11 +14,13 @@
         type GroupInfo,
         type UserInfo
     } from '@/lib/utils/page-detection';
+    import {formatExactTimestamp, formatTimestamp, getDaysSinceTimestamp, getDurationSince, getProcessingDuration} from '@/lib/utils/time';
     import {
         applyTooltipPosition,
         calculateTooltipPosition,
         calculateTransformOrigin
     } from '@/lib/utils/tooltip-positioning';
+    import {User, AlertCircle, Shirt, Clock, Loader2, Check, RefreshCw} from 'lucide-svelte';
     import LoadingSpinner from '../ui/LoadingSpinner.svelte';
     import VotingWidget from './VotingWidget.svelte';
     import EngineVersionIndicator from './EngineVersionIndicator.svelte';
@@ -30,7 +32,7 @@
         anchorElement: HTMLElement;
         mode?: 'preview' | 'expanded';
         entityType?: 'user' | 'group';
-        onQueue?: () => void;
+        onQueue?: (isReprocess?: boolean, userStatus?: UserStatus | null) => void;
         onClose?: () => void;
         onExpand?: () => void;
         element?: HTMLElement;
@@ -72,17 +74,26 @@
     const isGroup = $derived(() => entityType === 'group');
 
     const shouldShowVoting = $derived(() =>
-        !isGroup() && status && (status.flagType === STATUS.FLAGS.UNSAFE || status.flagType === STATUS.FLAGS.PENDING || status.flagType === STATUS.FLAGS.INTEGRATION)
+        !isGroup() && status && (
+            status.flagType === STATUS.FLAGS.UNSAFE ||
+            status.flagType === STATUS.FLAGS.PENDING ||
+            status.flagType === STATUS.FLAGS.INTEGRATION ||
+            (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true)
+        )
     );
 
     const isSafeUserWithQueueOnly = $derived(() =>
-        !isGroup() && status && status.flagType === STATUS.FLAGS.SAFE
+        !isGroup() && status && (
+            status.flagType === STATUS.FLAGS.SAFE ||
+            status.flagType === STATUS.FLAGS.PAST_OFFENDER ||
+            (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true)
+        )
     );
 
     const isExpanded = $derived(() => mode === 'expanded');
 
     // Get header message from flag and confidence
-    function getHeaderMessageFromFlag(flag: number, confidence = 0): string {
+    function getHeaderMessageFromFlag(flag: number, confidence = 0, currentStatus?: UserStatus | null): string {
         // Handle mixed status for groups
         if (isGroup() && flag === STATUS.FLAGS.MIXED) {
             return "This group contains a mix of appropriate and inappropriate members.";
@@ -98,9 +109,16 @@
                 return `This ${entityType} has been flagged by AI with ${confidencePercent}% confidence.`;
             }
             case STATUS.FLAGS.QUEUED:
-                return `This ${entityType} was flagged after being added to the queue but has not yet been officially confirmed by our system.`;
+                // Check if processed to determine message
+                if (currentStatus?.processed === true) {
+                    return `This ${entityType} has been reviewed by our AI system and appears to be safe. If this is a false positive, you can requeue for further review.`;
+                } else {
+                    return `This ${entityType} is currently being checked by our system. This may take a few minutes.`;
+                }
             case STATUS.FLAGS.INTEGRATION:
                 return `This ${entityType} has been flagged by a third-party content analysis system.`;
+            case STATUS.FLAGS.PAST_OFFENDER:
+                return `This ${entityType} had inappropriate content previously but their account currently appears clean and can be requeued for verification.`;
             case STATUS.FLAGS.SAFE:
                 return `This ${entityType} has not been reviewed yet.`;
             default:
@@ -121,7 +139,7 @@
             case STATUS.FLAGS.QUEUED:
             case STATUS.FLAGS.INTEGRATION:
             case STATUS.FLAGS.MIXED:
-                return getHeaderMessageFromFlag(status.flagType, confidence);
+                return getHeaderMessageFromFlag(status.flagType, confidence, status);
             default:
                 return 'Unknown Status';
         }
@@ -136,12 +154,15 @@
             case STATUS.FLAGS.UNSAFE:
                 return 'unsafe';
             case STATUS.FLAGS.PENDING:
-            case STATUS.FLAGS.QUEUED:
                 return 'pending';
+            case STATUS.FLAGS.QUEUED:
+                return status.processed === true ? 'likely-safe' : 'pending';
             case STATUS.FLAGS.INTEGRATION:
                 return 'integration';
             case STATUS.FLAGS.MIXED:
                 return 'unsafe';
+            case STATUS.FLAGS.PAST_OFFENDER:
+                return 'past-offender';
             default:
                 return 'error';
         }
@@ -158,11 +179,13 @@
             case STATUS.FLAGS.PENDING:
                 return 'Under Review';
             case STATUS.FLAGS.QUEUED:
-                return 'Queued';
+                return status.processed === true ? 'Likely Safe' : 'Checking...';
             case STATUS.FLAGS.INTEGRATION:
                 return 'Integration';
             case STATUS.FLAGS.MIXED:
                 return 'Mixed';
+            case STATUS.FLAGS.PAST_OFFENDER:
+                return 'Past Offender';
             default:
                 return 'Unknown';
         }
@@ -186,6 +209,38 @@
 
     const shouldShowIntegrationBadge = $derived(() => {
         return integrationCount() > 0 && status?.flagType !== STATUS.FLAGS.INTEGRATION;
+    });
+
+    const isOutdated = $derived(() => {
+        if (!status?.lastUpdated) return false;
+        const daysSince = getDaysSinceTimestamp(status.lastUpdated);
+        return daysSince >= 7;
+    });
+
+    // Metadata information for processed users
+    const metadataInfo = $derived(() => {
+        if (!status) return null;
+
+        const queuedAt = status.queuedAt;
+        const processedAt = status.processedAt;
+        const lastUpdated = status.lastUpdated;
+
+        if (!queuedAt && !lastUpdated) return null;
+
+        return {
+            queuedTime: queuedAt ? formatTimestamp(queuedAt) : null,
+            queuedExact: queuedAt ? formatExactTimestamp(queuedAt) : null,
+            processedTime: processedAt ? formatTimestamp(processedAt) : null,
+            processedExact: processedAt ? formatExactTimestamp(processedAt) : null,
+            duration: queuedAt && processedAt
+                ? getProcessingDuration(queuedAt, processedAt)
+                : queuedAt
+                    ? getDurationSince(queuedAt)
+                    : null,
+            isProcessing: queuedAt ? !processedAt : false,
+            lastUpdatedTime: lastUpdated ? formatTimestamp(lastUpdated) : null,
+            lastUpdatedExact: lastUpdated ? formatExactTimestamp(lastUpdated) : null
+        };
     });
 
     // Check if a reason comes from an integration source
@@ -281,6 +336,14 @@
     function handleQueueSubmit() {
         if (onQueue) {
             onQueue();
+        }
+    }
+
+    // Handle reprocess request
+    function handleReprocessRequest(event: MouseEvent) {
+        event.stopPropagation();
+        if (onQueue) {
+            onQueue(true, status);
         }
     }
 
@@ -410,7 +473,7 @@
     {@const reviewer = reviewerInfo()}
     {#if reviewer}
       <div class="reviewer-section">
-        <span class="reviewer-icon"></span>
+        <User class="reviewer-icon" color="#777" size={14} />
         <span class="reviewer-text">
         Reviewed by <span class="reviewer-name">
           {#if reviewer.displayName && reviewer.username && reviewer.displayName !== reviewer.username}
@@ -422,6 +485,57 @@
       </span>
       </div>
     {/if}
+  {/if}
+{/snippet}
+
+{#snippet metadataSection()}
+  {@const metadata = metadataInfo()}
+  {#if metadata}
+    <div class="tooltip-metadata">
+      {#if metadata.queuedTime}
+        <div class="tooltip-metadata-item" title={metadata.queuedExact}>
+          <Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
+          <span class="tooltip-metadata-label">Queued</span>
+          <span class="tooltip-metadata-value">{metadata.queuedTime}</span>
+        </div>
+      {/if}
+
+      {#if metadata.duration}
+        <div class="tooltip-metadata-item"
+             class:processing={metadata.isProcessing}
+             title={metadata.processedExact || 'Processing...'}>
+          {#if metadata.isProcessing}
+            <Loader2 class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
+          {:else}
+            <Check class="tooltip-metadata-icon" size={10} strokeWidth={2} />
+          {/if}
+          <span class="tooltip-metadata-label">
+            {#if metadata.isProcessing}Processing{:else}Took{/if}
+          </span>
+          <span class="tooltip-metadata-value">{metadata.duration}</span>
+        </div>
+      {/if}
+
+      {#if metadata.lastUpdatedTime}
+        <div class="tooltip-metadata-item" title={metadata.lastUpdatedExact}>
+          <Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
+          <span class="tooltip-metadata-label">Last Updated</span>
+          <span class="tooltip-metadata-value">{metadata.lastUpdatedTime}</span>
+        </div>
+      {/if}
+
+      {#if isOutdated()}
+        <button
+            class="tooltip-metadata-reprocess"
+            onclick={handleReprocessRequest}
+            title="This user's data is outdated. Click to requeue for analysis."
+            type="button"
+        >
+          <RefreshCw class="tooltip-metadata-icon" size={10} strokeWidth={2} />
+          <span class="tooltip-metadata-label">Reprocess?</span>
+        </button>
+      {/if}
+    </div>
   {/if}
 {/snippet}
 
@@ -451,6 +565,9 @@
             Queue for Review
           </button>
         </div>
+
+        <!-- Queue timing information -->
+        {@render metadataSection()}
       {:else}
         <!-- Non-safe users: Show full content -->
         <!-- Status badges -->
@@ -493,7 +610,7 @@
         {#if !isGroup() && badgeStatus().isReportable}
           <div class="tooltip-divider"></div>
           <div class="reportable-notice">
-            <div class="reportable-icon"></div>
+            <AlertCircle class="reportable-icon" color="#ff4444" size={24} />
             <div class="reportable-text">
               <strong>Reportable to Roblox</strong>
               <p>This user has clear evidence of inappropriate content that is visible to Roblox
@@ -515,7 +632,7 @@
         {#if !isGroup() && badgeStatus().isOutfitOnly}
           <div class="tooltip-divider"></div>
           <div class="outfit-notice">
-            <div class="outfit-icon"></div>
+            <Shirt class="outfit-icon" color="white" size={24} />
             <div class="outfit-text">
               <strong>Flagged for Outfit Only</strong>
               <p>This user was flagged solely based on their avatar outfit. Outfit detection can have
@@ -566,6 +683,9 @@
             {/each}
           </div>
         {/if}
+
+        <!-- Queue timing information -->
+        {@render metadataSection()}
       {/if}
     </div>
   {/if}

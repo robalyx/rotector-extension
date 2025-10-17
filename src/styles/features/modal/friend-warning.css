@@ -16,12 +16,11 @@
 
 @utility friend-warning-header {
   @apply modal-header-base;
-  background: linear-gradient(to right, rgba(244, 67, 54, 0.15), rgba(244, 67, 54, 0.05));
 }
 
 @utility friend-warning-title {
-  @apply text-lg font-semibold m-0 text-[#f44336] flex-grow;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  @apply text-lg font-semibold m-0 flex-grow;
+  color: var(--color-text-heading);
 }
 
 @utility friend-warning-content {
@@ -41,48 +40,55 @@
 }
 
 @utility friend-warning-cancel {
-  @apply modal-button-base bg-[#333333] !text-white;
+  @apply modal-button-base !text-white;
+  background-color: var(--primitive-gray-900);
 
   &:hover {
-    @apply bg-[#3d3d3d] shadow-md -translate-y-px;
+    background-color: var(--primitive-gray-800);
+    @apply shadow-md -translate-y-px;
   }
 }
 
 @utility friend-warning-block {
-  @apply modal-button-base bg-[#2a2a2a] !text-white;
+  @apply modal-button-base !text-white;
+  background-color: var(--primitive-gray-950);
 
   &:hover {
-    @apply bg-[#1e1e1e] shadow-md -translate-y-px;
+    background-color: var(--primitive-dark-surface);
+    @apply shadow-md -translate-y-px;
   }
 }
 
 @utility friend-warning-confirm {
-  @apply modal-button-base bg-[#ff9800] !text-white;
+  @apply modal-button-base !text-white;
+  background-color: var(--color-warning);
 
   &:hover {
-    @apply bg-[#f57c00] shadow-md -translate-y-px;
+    background-color: var(--color-warning-hover);
+    @apply shadow-md -translate-y-px;
   }
 
   &:disabled {
-    @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
+    opacity: 0.5;
+    @apply cursor-not-allowed translate-y-0 shadow-none;
 
     &:hover {
-      @apply bg-[#ccc] translate-y-0 shadow-none;
+      @apply translate-y-0 shadow-none;
     }
   }
 
   &.friend-warning-confirm-danger {
-    @apply bg-[#f44336];
+    background-color: var(--color-error);
 
     &:hover {
-      @apply bg-[#d32f2f];
+      filter: brightness(0.9);
     }
 
     &:disabled {
-      @apply bg-[#ccc];
+      opacity: 0.5;
 
       &:hover {
-        @apply bg-[#ccc];
+        filter: none;
       }
     }
   }
@@ -135,8 +141,7 @@
 }
 
 @utility friend-warning-why-matters-icon {
-  @apply w-5 h-5 flex-shrink-0 bg-contain bg-no-repeat;
-  background-image: var(--icon-warning-triangle);
+  @apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-why-matters-list {
@@ -160,8 +165,7 @@
 }
 
 @utility friend-warning-recommendations-icon {
-  @apply w-5 h-5 flex-shrink-0 bg-contain bg-no-repeat;
-  background-image: var(--icon-lightbulb);
+  @apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-recommendations-list {
@@ -186,8 +190,7 @@
 }
 
 @utility friend-warning-risk-title-icon {
-  @apply w-5 h-5 flex-shrink-0 bg-contain bg-no-repeat;
-  background-image: var(--icon-unsafe);
+  @apply w-5 h-5 flex-shrink-0;
 }
 
 @utility friend-warning-risk-message {

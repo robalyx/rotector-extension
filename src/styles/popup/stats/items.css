@@ -1,0 +1,42 @@
+/* =================================
+   STATISTICS ITEMS
+   ================================= */
+
+@utility stat-category-title {
+  @apply text-center font-semibold uppercase tracking-wide pb-1 mb-1.5 border-b text-2xs;
+  color: var(--color-text-heading);
+  border-color: var(--color-border-subtle);
+  margin-top: 0;
+}
+
+@utility stat-item {
+  @apply text-center p-1.5 rounded border transition-all duration-300 relative overflow-hidden;
+  border-color: var(--color-border-subtle);
+  background-color: var(--color-bg-content);
+
+  &:hover {
+    @apply shadow-hover -translate-y-0.5;
+    border-color: var(--color-primary);
+  }
+}
+
+@utility stat-value {
+  @apply font-bold mb-0.5 leading-none text-base transition-all duration-300;
+  color: var(--color-text-heading);
+}
+
+@utility stat-label {
+  @apply font-medium uppercase leading-tight text-3xs tracking-wide;
+  color: var(--color-text-subtle);
+}
+
+@utility statistics-last-updated {
+  @apply text-center mt-2 pt-1.5 border-t text-2xs font-normal;
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-subtle);
+}
+
+@utility last-updated-time {
+  @apply font-medium;
+  color: var(--color-text);
+} 

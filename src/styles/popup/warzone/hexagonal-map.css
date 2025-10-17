@@ -1,0 +1,79 @@
+/* =================================
+   HEXAGONAL WAR ZONE MAP STYLES
+   ================================= */
+
+@utility hexagonal-map {
+    @apply flex flex-col gap-6;
+}
+
+@utility hexagon-grid {
+    @apply flex flex-col items-center;
+}
+
+/* Honeycomb layout rows */
+@utility hexagon-row {
+    @apply flex items-center gap-0.5;
+
+    &:not(:first-child) {
+        margin-top: -20px;
+    }
+}
+
+/* Individual hexagon container */
+@utility hexagon-container {
+    @apply relative cursor-pointer transition-all duration-200;
+    width: 75px;
+    height: 85px;
+}
+
+/* Hexagon shape using SVG */
+@utility hexagon {
+    @apply w-full h-full flex flex-col items-center justify-center relative;
+    transition: all 0.2s ease;
+
+    .hexagon-container:hover & {
+        transform: scale(1.05);
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+    }
+
+    .hexagon-container:active & {
+        transform: scale(1);
+    }
+}
+
+/* SVG hexagon background */
+@utility hexagon-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    & polygon {
+        transition: stroke 0.2s ease;
+    }
+}
+
+/* Hexagon content */
+@utility hexagon-content {
+    @apply flex flex-col items-center gap-0.5 z-10 px-2;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+@utility hexagon-zone-id {
+    @apply text-2xs font-bold uppercase tracking-wide;
+    color: var(--color-text-heading);
+}
+
+@utility hexagon-liberation {
+    @apply text-base font-bold;
+    color: var(--color-text-heading);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+@utility hexagon-label {
+    @apply text-3xs font-medium uppercase tracking-wide;
+    color: var(--color-text-subtle);
+}

@@ -1,7 +1,7 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
-    "src/entrypoints/background.ts",
+    "src/entrypoints/background/index.ts",
     "src/entrypoints/content.ts",
     "src/entrypoints/popup/main.ts"
   ],
@@ -19,6 +19,7 @@
   "ignoreDependencies": [
     "@tailwindcss/vite",
     "@wxt-dev/module-svelte",
+    "dotenv",
     "lightningcss",
     "tslib"
   ],

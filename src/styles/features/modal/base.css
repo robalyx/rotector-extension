@@ -38,6 +38,7 @@
 
 @utility modal-header-base {
   @apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl;
+  background-color: var(--primitive-gray-950);
 }
 
 @utility modal-close-base {

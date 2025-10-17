@@ -3,6 +3,7 @@
     import type {UserStatus} from '@/lib/types/api';
     import {logger} from '@/lib/utils/logger';
     import {sanitizeEntityId} from '@/lib/utils/sanitizer';
+    import {AlertTriangle, Lightbulb} from 'lucide-svelte';
     import Modal from '../ui/Modal.svelte';
 
     interface Props {
@@ -66,7 +67,6 @@
         switch (risk) {
             case 'high':
                 return {
-                    icon: '🚨',
                     title: 'High Risk User',
                     message: 'This user has been flagged as unsafe by our detection system.',
                     colorClass: 'border-red-500 bg-red-50 dark:bg-red-900/20',
@@ -76,7 +76,6 @@
                 };
             case 'medium':
                 return {
-                    icon: '⚠️',
                     title: 'Potentially Risky User',
                     message: 'This user is pending review and may have concerning content.',
                     colorClass: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20',
@@ -86,7 +85,6 @@
                 };
             case 'low':
                 return {
-                    icon: '✅',
                     title: 'Low Risk User',
                     message: 'This user appears to be safe based on our analysis.',
                     colorClass: 'border-green-500 bg-green-50 dark:bg-green-900/20',
@@ -96,7 +94,6 @@
                 };
             default:
                 return {
-                    icon: '❓',
                     title: 'Unknown User',
                     message: 'Unable to determine the safety status of this user.',
                     colorClass: 'border-gray-500 bg-gray-50 dark:bg-gray-800',
@@ -247,7 +244,7 @@
     <!-- Why this matters section -->
     <div class="friend-warning-why-matters">
       <h3 class="friend-warning-why-matters-heading">
-        <span class="friend-warning-why-matters-icon"></span>
+        <AlertTriangle class="friend-warning-why-matters-icon" color="#ff9800" size={20} />
         Why this matters
       </h3>
       <ul class="friend-warning-why-matters-list">
@@ -269,7 +266,7 @@
     <!-- Recommended actions section -->
     <div class="friend-warning-recommendations">
       <h3 class="friend-warning-recommendations-heading">
-        <span class="friend-warning-recommendations-icon"></span>
+        <Lightbulb class="friend-warning-recommendations-icon" color="#4caf50" size={20} />
         Recommended actions
       </h3>
       <ul class="friend-warning-recommendations-list">

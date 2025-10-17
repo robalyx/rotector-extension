@@ -80,7 +80,6 @@
   @apply sticky top-0 z-[3] border-b rounded-t-lg overflow-visible;
   border-color: var(--color-border);
   background-color: var(--color-bg-content);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @utility tooltip-profile-header {
@@ -127,6 +126,7 @@
 
 @utility tooltip-header {
   @apply flex flex-col items-center text-center px-3 pt-2 pb-1;
+  border-bottom: none !important; /* workaround: not sure what's causing the border */
   margin: 8px 0;
   gap: 8px;
 }

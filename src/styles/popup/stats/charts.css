@@ -1,0 +1,203 @@
+/* =================================
+   WEEKLY USAGE CHARTS
+   ================================= */
+
+/* Charts Section */
+@utility charts-section {
+  @apply mt-3 border-t pt-3;
+  border-color: var(--color-border-subtle);
+}
+
+/* Charts Toggle Button */
+@utility charts-toggle {
+  @apply w-full flex items-center justify-between py-1.5 px-2 rounded-md transition-all duration-200 cursor-pointer;
+  @apply text-xs font-medium border;
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text);
+
+  &:hover {
+    background-color: var(--color-bg-hover);
+    transform: translateY(-1px);
+    @apply shadow-sm;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+
+  &.expanded {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text);
+    border-color: var(--color-bg-tertiary);
+
+    .chevron-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+@utility charts-toggle-icon {
+  @apply flex items-center justify-center;
+  
+  .chevron-icon {
+    @apply w-4 h-4 transition-transform duration-200;
+    fill: currentColor;
+  }
+}
+
+@utility charts-toggle-text {
+  @apply flex-1 text-left ml-2;
+}
+
+/* Charts Content Container */
+@utility charts-content {
+  @apply overflow-hidden transition-all duration-300 ease-in-out;
+  max-height: 0;
+  opacity: 0;
+
+  &.expanded {
+    max-height: 300px;
+    opacity: 1;
+    @apply mt-3;
+  }
+}
+
+/* Weekly Usage Chart Component */
+@utility weekly-usage-chart {
+  @apply space-y-3;
+}
+
+/* Chart Tabs */
+@utility chart-tabs {
+  @apply flex rounded-md p-1;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+@utility chart-tab {
+  @apply flex-1 px-3 py-1.5 text-2xs font-medium rounded transition-colors duration-200;
+  @apply text-center cursor-pointer border-none bg-transparent;
+  color: var(--color-text-subtle);
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text);
+  }
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  &.active {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text);
+  }
+}
+
+/* Chart Container */
+@utility chart-container {
+  @apply relative rounded-md p-3;
+  background-color: var(--color-bg-content);
+  border: 1px solid var(--color-border-subtle);
+}
+
+@utility chart-svg {
+  @apply w-full h-auto;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Chart Bars */
+@utility chart-bar {
+  @apply cursor-pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@utility stacked-bar {
+  stroke: var(--color-bg-content);
+  stroke-width: 1;
+}
+
+@utility week-label {
+  @apply text-2xs font-medium;
+  fill: var(--color-text-subtle);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@utility axis-label {
+  @apply text-2xs;
+  fill: var(--color-text-subtle);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@utility grid-line {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+@utility bar-value {
+  @apply text-2xs font-medium;
+  fill: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Chart Legend */
+@utility chart-legend {
+  @apply flex justify-center gap-4 mt-4 text-2xs;
+}
+
+@utility legend-item {
+  @apply flex items-center gap-1;
+}
+
+@utility legend-color {
+  @apply w-2.5 h-2.5 rounded-sm;
+}
+
+/* Chart Tooltip */
+@utility chart-tooltip {
+  @apply fixed z-50 px-2 py-2 rounded-md shadow-lg border;
+  @apply text-2xs leading-tight pointer-events-none;
+  background-color: var(--color-bg-content);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  width: 160px;
+}
+
+@utility tooltip-main-value {
+  @apply font-bold text-sm mb-1;
+  color: var(--color-text-heading);
+}
+
+@utility tooltip-subtitle {
+  @apply text-2xs mb-2;
+  color: var(--color-text-subtle);
+}
+
+@utility tooltip-details {
+  @apply space-y-0.5 pt-1 border-t;
+  border-color: var(--color-border-subtle);
+}
+
+@utility tooltip-detail {
+  @apply flex justify-between gap-2;
+}
+
+@utility tooltip-detail-label {
+  color: var(--color-text-subtle);
+}
+
+@utility tooltip-detail-value {
+  @apply font-medium;
+  color: var(--color-text);
+}

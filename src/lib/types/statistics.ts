@@ -21,12 +21,13 @@ export interface Statistics {
     totalFlaggedUsers: number;
     totalConfirmedUsers: number;
     totalBannedUsers: number;
-    pendingQueuedUsers: number;
-    queuedUsersFlagged: number;
-    queuedUsersNotFlagged: number;
+    totalQueuedUsers: number;
     totalVotesCast: number;
     totalBloxdbUniqueUsers: number;
     totalBloxdbExistingUsers: number;
+    totalFlaggedGroups: number;
+    totalConfirmedGroups: number;
+    totalMixedGroups: number;
     aiTotalCost: number;
     totalDonations: number;
     remainingCosts: number;

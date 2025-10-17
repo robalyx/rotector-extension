@@ -1,0 +1,59 @@
+/* =================================
+   SETTINGS SECTIONS
+   ================================= */
+
+@utility settings-header {
+    @apply w-full px-3 py-2 border-b text-base font-semibold;
+    border-color: var(--color-border);
+    color: var(--color-text-heading);
+    user-select: none;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
+@utility settings-category {
+    @apply flex flex-col gap-2;
+}
+
+@utility setting-item {
+    @apply flex items-center justify-between gap-1.5 flex-nowrap;
+}
+
+@utility setting-label {
+    @apply flex items-center gap-0.5 text-xs flex-1 min-w-0 leading-tight;
+    color: var(--color-text);
+}
+
+@utility setting-highlighted {
+    @apply relative;
+    animation: setting-highlight 4s ease-out;
+}
+
+@keyframes setting-highlight {
+    0% {
+        background-color: color-mix(
+            in srgb,
+            var(--color-primary) 20%,
+            transparent
+        );
+        box-shadow: 0 0 0 2px var(--color-primary);
+        border-radius: 6px;
+    }
+    25% {
+        background-color: color-mix(
+            in srgb,
+            var(--color-primary) 15%,
+            transparent
+        );
+        box-shadow: 0 0 0 1px var(--color-primary);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}

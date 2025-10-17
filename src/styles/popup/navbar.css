@@ -1,0 +1,103 @@
+@layer components {
+    /* Navbar container */
+    .navbar {
+        display: flex;
+        gap: 0.25rem;
+        padding: 0.375rem;
+        background: var(--color-surface);
+        border-radius: 0.625rem;
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .dark .navbar {
+        background: var(--color-surface-dark);
+        border-color: var(--color-border-dark);
+    }
+
+    /* Navbar tabs */
+    .navbar-tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text-subtle);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .dark .navbar-tab {
+        color: var(--color-text-subtle-dark);
+    }
+
+    .navbar-tab:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-text);
+    }
+
+    .dark .navbar-tab:hover {
+        background: var(--color-surface-hover-dark);
+        color: var(--color-text-dark);
+    }
+
+    .navbar-tab.active {
+        background: var(--color-primary);
+        color: white;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .dark .navbar-tab.active {
+        background: var(--color-primary);
+    }
+
+    .navbar-tab.active:hover {
+        background: var(--color-primary-hover);
+    }
+
+    .navbar-tab:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+
+    .dark .navbar-tab:focus-visible {
+        outline-color: var(--color-primary);
+    }
+
+    /* Navbar icons */
+    .navbar-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    /* Navbar labels */
+    .navbar-label {
+        font-size: 0.6875rem;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    /* Page content container */
+    .page-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    /* Page wrappers */
+    .stats-page,
+    .settings-page,
+    .warzone-page {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

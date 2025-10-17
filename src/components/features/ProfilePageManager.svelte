@@ -245,9 +245,9 @@
     }
 
     // Handle queue user request
-    function handleQueueUser(clickedUserId: string) {
-        logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, {userId: clickedUserId});
-        queueModalManager?.showQueue(clickedUserId);
+    function handleQueueUser(clickedUserId: string, isReprocess = false) {
+        logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, {userId: clickedUserId, isReprocess});
+        queueModalManager?.showQueue(clickedUserId, isReprocess, userStatus);
     }
 
     // Handle friend request proceed

@@ -1,7 +1,7 @@
 <script lang="ts">
     import {apiClient} from '@/lib/services/api-client';
     import {logger} from '@/lib/utils/logger';
-    import type {QueueErrorData, QueueSuccessData} from '@/lib/types/api';
+    import type {QueueErrorData, QueueSuccessData, UserStatus} from '@/lib/types/api';
     import QueuePopup from './QueuePopup.svelte';
     import QueueSuccessModal from './QueueSuccessModal.svelte';
     import QueueErrorModal from './QueueErrorModal.svelte';
@@ -17,24 +17,30 @@
     // Queue modal state
     let showQueueModal = $state(false);
     let queueUserId = $state<string>('');
+    let isReprocess = $state(false);
+    let userStatus = $state<UserStatus | null>(null);
     let showSuccessModal = $state(false);
     let showErrorModal = $state(false);
     let successData = $state<QueueSuccessData | null>(null);
     let errorData = $state<QueueErrorData | null>(null);
 
     // Public methods for parent components
-    export function showQueue(userId: string) {
+    export function showQueue(userId: string, reprocess = false, status: UserStatus | null = null) {
         queueUserId = userId;
+        isReprocess = reprocess;
+        userStatus = status;
         showQueueModal = true;
     }
 
     export function hideQueue() {
         showQueueModal = false;
         queueUserId = '';
+        isReprocess = false;
+        userStatus = null;
     }
 
     // Handle queue confirmation from modal
-    async function handleQueueConfirm(inappropriateOutfit = false, inappropriateProfile = false, inappropriateFriends = false, inappropriateGroups = false) {
+    async function handleQueueConfirm(inappropriateOutfit?: boolean, inappropriateProfile?: boolean, inappropriateFriends?: boolean, inappropriateGroups?: boolean) {
         try {
             logger.userAction('queue_user', {
                 userId: queueUserId,
@@ -91,6 +97,8 @@
         logger.userAction('queue_cancel', {userId: queueUserId});
         showQueueModal = false;
         queueUserId = '';
+        isReprocess = false;
+        userStatus = null;
     }
 
     // Handle success modal close
@@ -108,9 +116,11 @@
 
 <!-- Queue confirmation modal -->
 <QueuePopup
+    {isReprocess}
     onCancel={handleQueueCancel}
     onConfirm={handleQueueConfirm}
     userId={queueUserId}
+    {userStatus}
     bind:isOpen={showQueueModal}
 />
 

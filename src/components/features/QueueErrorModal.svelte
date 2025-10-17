@@ -2,6 +2,7 @@
     import {sanitizeEntityId} from '@/lib/utils/sanitizer';
     import Modal from '../ui/Modal.svelte';
     import type {QueueErrorData} from '@/lib/types/api';
+    import {AlertTriangle, Info} from 'lucide-svelte';
 
     interface Props {
         isOpen: boolean;
@@ -61,7 +62,7 @@
 
     <div class="modal-content-section-warning">
       <h3 class="modal-content-heading">
-        <span class="mr-2 text-orange-500">⚠️</span>
+        <AlertTriangle class="mr-2 text-orange-500" size={18} />
         Error Details
       </h3>
       <div>
@@ -80,7 +81,7 @@
 
     <div class="modal-content-section-info">
       <h3 class="modal-content-heading">
-        <span class="mr-2 text-blue-500">ℹ️</span>
+        <Info class="mr-2 text-blue-500" size={18} />
         What to do next
       </h3>
       <ul class="modal-content-list">

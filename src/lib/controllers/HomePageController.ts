@@ -22,7 +22,7 @@ export class HomePageController extends PageController {
             // Check if home checks are enabled
             const currentSettings = get(settings);
             if (!currentSettings[SETTINGS_KEYS.HOME_CHECK_ENABLED]) {
-                logger.debug('Home checks disabled, skipping HomePageController initialization');
+                logger.debug('Home checks disabled, skipping friends carousel initialization');
                 return;
             }
 

@@ -53,6 +53,24 @@
       background-color: var(--color-status-integration);
     }
   }
+
+  &.likely-safe {
+    @apply bg-green-500/15;
+    color: var(--color-status-likely-safe);
+
+    .status-indicator {
+      background-color: var(--color-status-likely-safe);
+    }
+  }
+
+  &.past-offender {
+    @apply bg-blue-500/15;
+    color: var(--color-status-past-offender);
+
+    .status-indicator {
+      background-color: var(--color-status-past-offender);
+    }
+  }
 }
 
 @utility tooltip-badge {
@@ -96,6 +114,58 @@
 @utility outfit-notice {
   @apply flex gap-2.5 p-2 rounded mt-1.5;
   background-color: rgba(156, 39, 176, 0.1);
+}
+
+/* =================================
+   METADATA DISPLAY
+   ================================= */
+
+@utility tooltip-metadata {
+  @apply flex flex-wrap gap-2 mt-3 justify-center;
+  padding: 4px 0;
+}
+
+@utility tooltip-metadata-item {
+  @apply flex items-center gap-1.5 text-2xs font-normal px-2 py-1;
+  color: var(--color-text-tertiary);
+  opacity: 0.8;
+
+  &.processing {
+    color: var(--color-status-checking);
+  }
+}
+
+@utility tooltip-metadata-icon {
+  @apply flex-shrink-0;
+  opacity: 0.7;
+}
+
+@utility tooltip-metadata-label {
+  @apply text-2xs font-normal;
+}
+
+@utility tooltip-metadata-value {
+  @apply text-2xs font-medium;
+}
+
+@utility tooltip-metadata-reprocess {
+  @apply flex items-center gap-1.5 text-2xs font-medium px-2 py-1;
+  color: var(--color-warning);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 152, 0, 0.15);
+    border-radius: 3px;
+  }
+
+  &:active {
+    background: rgba(255, 152, 0, 0.25);
+  }
 }
 
 @utility reportable-text {

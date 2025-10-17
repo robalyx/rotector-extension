@@ -1,0 +1,31 @@
+/* =================================
+   POPUP BASE STYLES
+   ================================= */
+
+/* Apply scrollbar styling to popup body */
+html,
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 4px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-subtle);
+}

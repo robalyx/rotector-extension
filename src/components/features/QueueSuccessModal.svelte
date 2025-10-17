@@ -1,6 +1,7 @@
 <script lang="ts">
     import Modal from '../ui/Modal.svelte';
     import type {QueueSuccessData} from '@/lib/types/api';
+    import {Check} from 'lucide-svelte';
 
     interface Props {
         isOpen: boolean;
@@ -41,7 +42,7 @@
 
     <div class="modal-content-section">
       <h3 class="modal-content-heading">
-        <span class="mr-2 text-blue-500">✓</span>
+        <Check class="mr-2 text-blue-500" size={18} />
         What happens next
       </h3>
       <ul class="modal-content-list">

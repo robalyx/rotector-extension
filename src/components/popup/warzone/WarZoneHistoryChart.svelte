@@ -119,11 +119,18 @@
 			return stats.map((stat, index) => {
 				const total = stat.totalUsers;
 				const baseHeight = (total / maxValue) * CHART_AREA_HEIGHT;
-				const bannedHeight = total === 0 ? 0 : Math.max((stat.bannedUsers / total) * baseHeight, 1);
+				const bannedHeight =
+					total === 0 || stat.bannedUsers === 0
+						? 0
+						: Math.max((stat.bannedUsers / total) * baseHeight, 1);
 				const flaggedHeight =
-					total === 0 ? 0 : Math.max((stat.flaggedUsers / total) * baseHeight, 1);
+					total === 0 || stat.flaggedUsers === 0
+						? 0
+						: Math.max((stat.flaggedUsers / total) * baseHeight, 1);
 				const confirmedHeight =
-					total === 0 ? 0 : Math.max((stat.confirmedUsers / total) * baseHeight, 1);
+					total === 0 || stat.confirmedUsers === 0
+						? 0
+						: Math.max((stat.confirmedUsers / total) * baseHeight, 1);
 
 				return {
 					date: formatDate(stat.date),

@@ -166,10 +166,11 @@
 								: `
            mature-content-popup
          `}
-				role="dialog"
-				aria-modal="true"
 				aria-labelledby={headingId}
+				aria-modal="true"
 				onkeydown={trapFocus}
+				role="dialog"
+				tabindex="-1"
 			>
 				<div
 					class={modalType === 'friend-warning'
@@ -210,11 +211,11 @@
 						{title}
 					</h3>
 					<button
+						bind:this={closeButtonEl}
 						class="modal-close"
+						aria-label="Close dialog"
 						onclick={() => closeModal(false)}
 						type="button"
-						aria-label="Close dialog"
-						bind:this={closeButtonEl}
 					>
 						<X aria-hidden="true" color="var(--color-error)" size={24} />
 					</button>

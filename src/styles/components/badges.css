@@ -17,14 +17,17 @@
 @utility reportable-badge {
 	@apply status-badge-base;
 	background-color: var(--color-status-unsafe);
+	color: white;
 }
 
 @utility queue-badge {
 	@apply status-badge-base;
 	background-color: var(--color-status-queued);
+	color: white;
 }
 
 @utility outfit-badge {
 	@apply status-badge-base;
 	background-color: var(--color-status-outfit);
+	color: white;
 }

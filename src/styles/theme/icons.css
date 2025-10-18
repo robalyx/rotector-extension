@@ -7,46 +7,65 @@
 /* Status icon utilities */
 @utility reportable-icon {
 	@apply w-6 h-6 flex-shrink-0;
+	color: var(--color-status-unsafe);
 }
 
 @utility outfit-icon {
 	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
 	background-color: var(--color-status-outfit);
+	color: white;
 }
 
 @utility profile-icon {
 	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
 	background-color: var(--color-status-profile);
+	color: white;
 }
 
 @utility friends-icon {
 	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
 	background-color: var(--color-status-friends);
+	color: white;
 }
 
 @utility groups-icon {
 	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
 	background-color: var(--color-status-groups);
+	color: white;
 }
 
 @utility reviewer-icon {
 	@apply w-3.5 h-3.5 flex-shrink-0 opacity-70;
+	color: var(--color-text-tertiary);
 }
 
 /* Warning icon utilities */
 @utility mature-content-warning-icon {
 	@apply w-8 h-8 mr-3 flex-shrink-0;
+	color: var(--color-warning);
 }
 
 @utility friend-warning-icon {
 	@apply w-8 h-8 mr-3 flex-shrink-0;
+	color: var(--color-error);
 }
 
 @utility warning-triangle-icon {
 	@apply w-6 h-6 flex-shrink-0;
+	color: var(--color-warning);
 }
 
 /* Voting icon utilities */
 @utility voting-icon {
 	@apply w-3.5 h-3.5;
+}
+
+@utility voting-icon-upvote {
+	@apply voting-icon;
+	color: var(--color-success);
+}
+
+@utility voting-icon-downvote {
+	@apply voting-icon;
+	color: var(--color-error);
 }

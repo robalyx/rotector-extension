@@ -4,6 +4,7 @@
 	import { authStore } from '@/lib/stores/auth';
 	import { logger } from '@/lib/utils/logger';
 	import { apiClient } from '@/lib/services/api-client';
+	import { waitForElement } from '@/lib/utils/element-waiter';
 	import { COMPONENT_CLASSES, USER_ACTIONS, REPORT_PAGE_SELECTORS } from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
@@ -34,7 +35,7 @@
 	async function initialize() {
 		try {
 			// Setup submit button listener to log all reports
-			setupSubmitButtonListener();
+			void setupSubmitButtonListener();
 
 			await mountReportHelper();
 			logger.debug('ReportPageManager initialized successfully');
@@ -44,18 +45,14 @@
 	}
 
 	// Setup submit button click listener
-	function setupSubmitButtonListener(): void {
+	async function setupSubmitButtonListener(): Promise<void> {
 		try {
-			const submitButton = document.querySelector(
+			const { element: submitButton, success } = await waitForElement<HTMLButtonElement>(
 				REPORT_PAGE_SELECTORS.SUBMIT_BUTTON
-			) as HTMLButtonElement;
+			);
 
-			if (!submitButton) {
-				logger.warn('Submit button not found, will retry');
-				// Retry after a delay
-				setTimeout(() => {
-					setupSubmitButtonListener();
-				}, 500);
+			if (!success || !submitButton) {
+				logger.debug('Submit button not found after retries, skipping listener setup');
 				return;
 			}
 
@@ -88,9 +85,7 @@
 
 		try {
 			// Extract category from the dropdown
-			const categoryElement = document.querySelector(
-				`${REPORT_PAGE_SELECTORS.CATEGORY_BUTTON} .foundation-web-menu-item-title`
-			);
+			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
 			const category = categoryElement?.textContent?.trim() || 'Unknown Category';
 
 			// Extract comment from the textarea
@@ -251,6 +246,25 @@
 
 	// Handle fill form button click
 	async function handleFillForm(): Promise<void> {
+		// Build comment text
+		let commentText =
+			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
+
+		const profileReason = userStatus?.reasons?.['0'];
+
+		if (profileReason?.message) {
+			commentText += `Detected Issue:\n${profileReason.message}\n\n`;
+		}
+
+		// Add evidence if advanced info is enabled
+		const currentSettings = get(settings);
+		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
+			commentText += 'Evidence Snippets:\n';
+			profileReason.evidence.forEach((snippet: string, index: number) => {
+				commentText += `${index + 1}. ${snippet}\n`;
+			});
+		}
+
 		try {
 			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
 				userId: userId
@@ -271,35 +285,22 @@
 			// Wait for dropdown to appear and select appropriate category
 			await selectInappropriateLanguageCategory();
 
-			// Build comment text
-			let commentText =
-				"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
-
-			// Get the profile violation reason
-			const profileReason = userStatus?.reasons?.['0'];
-
-			if (profileReason?.message) {
-				commentText += `Detected Issue:\n${profileReason.message}\n\n`;
-			}
-
-			// Add evidence if advanced info is enabled
-			const currentSettings = get(settings);
-			if (
-				currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] &&
-				profileReason?.evidence
-			) {
-				commentText += 'Evidence Snippets:\n';
-				profileReason.evidence.forEach((snippet: string, index: number) => {
-					commentText += `${index + 1}. ${snippet}\n`;
-				});
-			}
-
 			// Set comment text
 			commentTextarea.value = commentText;
 
 			// Trigger input and change events
 			commentTextarea.dispatchEvent(new Event('input', { bubbles: true }));
 			commentTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+
+			// Validate that the form was filled correctly
+			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
+			const categoryText = categoryElement?.textContent?.trim() || '';
+			const isCategorySet = categoryText.includes('Inappropriate Language');
+			const isTextareaSet = commentTextarea.value === commentText;
+
+			if (!isCategorySet || !isTextareaSet) {
+				throw new Error('Form validation failed');
+			}
 
 			// Scroll form into view
 			commentTextarea.scrollIntoView({
@@ -308,19 +309,38 @@
 			});
 
 			// Show success message
-			showSuccessMessage();
+			showMessage('success', 'Form filled successfully! Review and submit when ready.');
 
 			logger.debug('Report form filled successfully');
 		} catch (error) {
-			logger.error('Failed to fill form:', error);
-			throw error;
+			logger.error('Auto-fill failed, using clipboard fallback:', error);
+
+			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL_FAILED, {
+				userId: userId,
+				error: error instanceof Error ? error.message : 'Unknown error'
+			});
+
+			// Copy to clipboard as fallback
+			try {
+				await navigator.clipboard.writeText(commentText);
+				showMessage(
+					'error',
+					'Auto-fill unavailable. Report text copied to clipboard. You can paste it into the comment field manually.'
+				);
+			} catch (clipboardError) {
+				logger.error('Clipboard copy failed:', clipboardError);
+				showMessage(
+					'error',
+					'Auto-fill failed. Please manually fill the report form with the appropriate details.'
+				);
+			}
 		}
 	}
 
-	// Show success message below the form
-	function showSuccessMessage(): void {
+	// Show message below the form
+	function showMessage(type: 'success' | 'error', message: string): void {
 		try {
-			// Remove any existing success message
+			// Remove any existing message
 			if (successMessageElement) {
 				successMessageElement.remove();
 				successMessageElement = null;
@@ -329,28 +349,30 @@
 			// Find the footer section
 			const footer = document.querySelector(REPORT_PAGE_SELECTORS.FOOTER);
 			if (!footer || !footer.parentNode) {
-				logger.warn('Could not find footer to insert success message');
+				logger.warn('Could not find footer to insert message');
 				return;
 			}
 
-			// Create success message element
+			// Create message element
 			successMessageElement = document.createElement('div');
-			successMessageElement.className = COMPONENT_CLASSES.REPORT_HELPER_SUCCESS_MESSAGE;
-			successMessageElement.textContent =
-				'Form filled successfully! Category and comment have been set. Review and submit when ready.';
+			successMessageElement.className = `${COMPONENT_CLASSES.REPORT_HELPER_SUCCESS_MESSAGE}${type === 'error' ? ' error' : ''}`;
+			successMessageElement.textContent = message;
 
 			// Insert after footer
 			footer.parentNode.insertBefore(successMessageElement, footer.nextSibling);
 
-			// Remove after 5 seconds
-			setTimeout(() => {
-				if (successMessageElement) {
-					successMessageElement.remove();
-					successMessageElement = null;
-				}
-			}, 5000);
+			// Remove after timeout (longer for errors)
+			setTimeout(
+				() => {
+					if (successMessageElement) {
+						successMessageElement.remove();
+						successMessageElement = null;
+					}
+				},
+				type === 'error' ? 8000 : 5000
+			);
 		} catch (error) {
-			logger.error('Failed to show success message:', error);
+			logger.error('Failed to show message:', error);
 		}
 	}
 

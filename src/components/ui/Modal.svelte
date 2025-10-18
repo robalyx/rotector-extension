@@ -155,9 +155,9 @@
 						<div class="mr-2 flex items-center">
 							{#if icon === 'warning'}
 								{#if modalType === 'friend-warning'}
-									<AlertTriangle class="friend-warning-icon" color="#f44336" size={32} />
+									<AlertTriangle class="friend-warning-icon" size={32} />
 								{:else}
-									<AlertCircle class="mature-content-warning-icon" color="#ff9800" size={32} />
+									<AlertCircle class="mature-content-warning-icon" size={32} />
 								{/if}
 							{:else}
 								<div class="text-2xl">{icon}</div>

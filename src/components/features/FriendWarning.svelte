@@ -241,7 +241,7 @@
 		<!-- Why this matters section -->
 		<div class="friend-warning-why-matters">
 			<h3 class="friend-warning-why-matters-heading">
-				<AlertTriangle class="friend-warning-why-matters-icon" color="#ff9800" size={20} />
+				<AlertTriangle class="friend-warning-why-matters-icon" size={20} />
 				Why this matters
 			</h3>
 			<ul class="friend-warning-why-matters-list">
@@ -263,7 +263,7 @@
 		<!-- Recommended actions section -->
 		<div class="friend-warning-recommendations">
 			<h3 class="friend-warning-recommendations-heading">
-				<Lightbulb class="friend-warning-recommendations-icon" color="#4caf50" size={20} />
+				<Lightbulb class="friend-warning-recommendations-icon" size={20} />
 				Recommended actions
 			</h3>
 			<ul class="friend-warning-recommendations-list">

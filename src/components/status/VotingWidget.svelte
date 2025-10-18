@@ -98,7 +98,7 @@
 			}}
 			type="button"
 		>
-			<ArrowUp class="voting-icon" color="#00aa00" size={14} strokeWidth={2.5} />
+			<ArrowUp class="voting-icon-upvote" size={14} strokeWidth={2.5} />
 			<span class="voting-label">Agree</span>
 		</button>
 
@@ -113,7 +113,7 @@
 			}}
 			type="button"
 		>
-			<ArrowDown class="voting-icon" color="#ff0000" size={14} strokeWidth={2.5} />
+			<ArrowDown class="voting-icon-downvote" size={14} strokeWidth={2.5} />
 			<span class="voting-label">Disagree</span>
 		</button>
 	</div>

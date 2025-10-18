@@ -40,21 +40,23 @@
 }
 
 @utility friend-warning-cancel {
-	@apply modal-button-base !text-white;
-	background-color: var(--primitive-gray-900);
+	@apply modal-button-base;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
 
 	&:hover {
-		background-color: var(--primitive-gray-800);
+		background-color: var(--color-card-hover);
 		@apply shadow-md -translate-y-px;
 	}
 }
 
 @utility friend-warning-block {
-	@apply modal-button-base !text-white;
-	background-color: var(--primitive-gray-950);
+	@apply modal-button-base;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
 
 	&:hover {
-		background-color: var(--primitive-dark-surface);
+		background-color: var(--color-card-hover);
 		@apply shadow-md -translate-y-px;
 	}
 }
@@ -141,6 +143,7 @@
 
 @utility friend-warning-why-matters-icon {
 	@apply w-5 h-5 flex-shrink-0;
+	color: var(--color-warning);
 }
 
 @utility friend-warning-why-matters-list {
@@ -165,6 +168,7 @@
 
 @utility friend-warning-recommendations-icon {
 	@apply w-5 h-5 flex-shrink-0;
+	color: var(--color-success);
 }
 
 @utility friend-warning-recommendations-list {

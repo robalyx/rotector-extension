@@ -278,6 +278,7 @@ export const REPORT_PAGE_SELECTORS = {
 	FORM_CONTAINER: '.abuse-report-container',
 	FOOTER: '.single-step-footer',
 	CATEGORY_BUTTON: 'button[role="combobox"]',
+	CATEGORY_SELECTED_TEXT: 'button[role="combobox"] .foundation-web-menu-item-title',
 	COMMENT_TEXTAREA: 'textarea.foundation-web-text-area',
 	DROPDOWN_OPTION: '[role="option"]',
 	SUBMIT_BUTTON: '.single-step-footer button[type="button"]'
@@ -354,6 +355,7 @@ export const USER_ACTIONS = {
 	QUEUE_POPUP_CONFIRM: 'queue_popup_confirm',
 	QUEUE_POPUP_CANCEL: 'queue_popup_cancel',
 	REPORT_HELPER_AUTOFILL: 'report_helper_autofill',
+	REPORT_HELPER_AUTOFILL_FAILED: 'report_helper_autofill_failed',
 	REPORT_HELPER_OPEN_PAGE: 'report_helper_open_page',
 	REPORT_HELPER_COPY_EVIDENCE: 'report_helper_copy_evidence'
 } as const;

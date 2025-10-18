@@ -287,13 +287,13 @@
 		<span class="badge-container">
 			{#if !isGroup() && statusConfig().isReportable}
 				<span class="reportable-badge {badgeStackClasses().reportable}">
-					<Flag color="white" size={10} strokeWidth={2.5} />
+					<Flag size={10} strokeWidth={2.5} />
 				</span>
 			{/if}
 
 			{#if statusConfig().isQueued}
 				<span class="queue-badge {badgeStackClasses().queue}">
-					<Hourglass color="white" size={8} strokeWidth={2.5} />
+					<Hourglass size={8} strokeWidth={2.5} />
 				</span>
 			{/if}
 
@@ -304,7 +304,7 @@
 
 			{#if !isGroup() && statusConfig().isOutfitOnly}
 				<span class="outfit-badge {badgeStackClasses().outfit}">
-					<Shirt color="white" size={9} strokeWidth={2.5} />
+					<Shirt size={9} strokeWidth={2.5} />
 				</span>
 			{/if}
 		</span>

@@ -490,7 +490,7 @@
 		{@const reviewer = reviewerInfo()}
 		{#if reviewer}
 			<div class="reviewer-section">
-				<User class="reviewer-icon" color="#777" size={14} />
+				<User class="reviewer-icon" size={14} />
 				<span class="reviewer-text">
 					Reviewed by <span class="reviewer-name">
 						{#if reviewer.displayName && reviewer.username && reviewer.displayName !== reviewer.username}
@@ -626,7 +626,7 @@
 				{#if !isGroup() && badgeStatus().isReportable}
 					<div class="tooltip-divider"></div>
 					<div class="reportable-notice">
-						<AlertCircle class="reportable-icon" color="#ff4444" size={24} />
+						<AlertCircle class="reportable-icon" size={24} />
 						<div class="reportable-text">
 							<strong>Reportable to Roblox</strong>
 							<p>
@@ -650,7 +650,7 @@
 				{#if !isGroup() && badgeStatus().isOutfitOnly}
 					<div class="tooltip-divider"></div>
 					<div class="outfit-notice">
-						<Shirt class="outfit-icon" color="white" size={24} />
+						<Shirt class="outfit-icon" size={24} />
 						<div class="outfit-text">
 							<strong>Flagged for Outfit Only</strong>
 							<p>

@@ -234,7 +234,7 @@
 								type="button"
 							>
 								<div class="queue-option-header">
-									<AlertTriangle color="white" size={24} />
+									<AlertTriangle size={24} />
 									<div class="queue-option-title">User Has Inappropriate Content</div>
 								</div>
 								<div class="queue-option-description">
@@ -250,7 +250,7 @@
 								type="button"
 							>
 								<div class="queue-option-header">
-									<AlertCircle color="white" size={24} />
+									<AlertCircle size={24} />
 									<div class="queue-option-title">General Safety Check</div>
 								</div>
 								<div class="queue-option-description">
@@ -297,7 +297,7 @@
 							tabindex={optionsLocked ? -1 : 0}
 						>
 							<div class="queue-option-header">
-								<Shirt class="outfit-icon" color="white" size={24} />
+								<Shirt class="outfit-icon" size={24} />
 								<div class="queue-option-title">Inappropriate Outfits</div>
 							</div>
 							<div class="queue-option-description">
@@ -323,7 +323,7 @@
 							tabindex={optionsLocked ? -1 : 0}
 						>
 							<div class="queue-option-header">
-								<Clipboard class="profile-icon" color="white" size={24} />
+								<Clipboard class="profile-icon" size={24} />
 								<div class="queue-option-title">Inappropriate Profile</div>
 							</div>
 							<div class="queue-option-description">
@@ -349,7 +349,7 @@
 							tabindex={optionsLocked ? -1 : 0}
 						>
 							<div class="queue-option-header">
-								<User class="friends-icon" color="white" size={24} />
+								<User class="friends-icon" size={24} />
 								<div class="queue-option-title">Inappropriate Friends</div>
 							</div>
 							<div class="queue-option-description">This user has inappropriate friends.</div>
@@ -373,7 +373,7 @@
 							tabindex={optionsLocked ? -1 : 0}
 						>
 							<div class="queue-option-header">
-								<Users class="groups-icon" color="white" size={24} />
+								<Users class="groups-icon" size={24} />
 								<div class="queue-option-title">Inappropriate Groups</div>
 							</div>
 							<div class="queue-option-description">This user is in inappropriate groups.</div>
@@ -384,7 +384,7 @@
 					{#if showValidationError}
 						<div class="mb-4 queue-validation-error">
 							<div class="flex items-center gap-2">
-								<AlertCircle class="mature-content-warning-icon" color="#ff9800" size={32} />
+								<AlertCircle class="mature-content-warning-icon" size={32} />
 								<strong>Selection Required:</strong> Please select at least one flagging reason before
 								proceeding.
 							</div>
@@ -438,7 +438,7 @@
 									<X size={16} />
 								{/if}
 							</div>
-							<Shirt class="outfit-icon" color="white" size={24} />
+							<Shirt class="outfit-icon" size={24} />
 							<div class="queue-summary-content">
 								<div class="queue-summary-title">Inappropriate Outfits</div>
 								<div class="queue-summary-description">
@@ -470,7 +470,7 @@
 									<X size={16} />
 								{/if}
 							</div>
-							<Clipboard class="profile-icon" color="white" size={24} />
+							<Clipboard class="profile-icon" size={24} />
 							<div class="queue-summary-content">
 								<div class="queue-summary-title">Inappropriate Profile</div>
 								<div class="queue-summary-description">
@@ -502,7 +502,7 @@
 									<X size={16} />
 								{/if}
 							</div>
-							<User class="friends-icon" color="white" size={24} />
+							<User class="friends-icon" size={24} />
 							<div class="queue-summary-content">
 								<div class="queue-summary-title">Inappropriate Friends</div>
 								<div class="queue-summary-description">
@@ -534,7 +534,7 @@
 									<X size={16} />
 								{/if}
 							</div>
-							<Users class="groups-icon" color="white" size={24} />
+							<Users class="groups-icon" size={24} />
 							<div class="queue-summary-content">
 								<div class="queue-summary-title">Inappropriate Groups</div>
 								<div class="queue-summary-description">
@@ -583,7 +583,7 @@
 
 		<div class="modal-content-section-warning">
 			<h3 class="modal-content-heading flex items-center">
-				<AlertTriangle class="mr-2 warning-triangle-icon" color="#ff9800" size={24} />
+				<AlertTriangle class="mr-2 warning-triangle-icon" size={24} />
 				Important Warning
 			</h3>
 			<p style:color="var(--color-text)" class="text-sm">

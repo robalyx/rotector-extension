@@ -36,11 +36,12 @@
 }
 
 @utility mature-content-cancel {
-	@apply modal-button-base !text-white;
-	background-color: var(--primitive-gray-900);
+	@apply modal-button-base;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
 
 	&:hover {
-		background-color: var(--primitive-gray-800);
+		background-color: var(--color-card-hover);
 		@apply shadow-md -translate-y-px;
 	}
 }

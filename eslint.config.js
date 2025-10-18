@@ -18,7 +18,8 @@ export default tseslint.config(
 			'**/build/**',
 			'**/.svelte-kit/**',
 			'**/public/**',
-			'**/*.min.js'
+			'**/*.min.js',
+			'*.config.{js,ts,mjs,cjs}'
 		]
 	},
 	// Global settings
@@ -33,7 +34,7 @@ export default tseslint.config(
 	// General configuration for all files
 	{
 		files: ['**/*.{js,ts,mjs,cjs}'],
-		ignores: ['**/*.config.{js,ts,mjs,cjs}', 'eslint.config.js', 'postcss.config.js'],
+		ignores: ['**/*.config.{js,ts,mjs,cjs}'],
 		plugins: {
 			'unused-imports': unusedImports,
 			'better-tailwindcss': betterTailwindcss
@@ -259,7 +260,7 @@ export default tseslint.config(
 		}
 	},
 	/* === WXT Framework Configuration === */ {
-		files: ['**/entrypoints/**/*.{ts,js}', '**/wxt.config.ts'],
+		files: ['**/entrypoints/**/*.{ts,js}'],
 		languageOptions: {
 			globals: {
 				defineBackground: 'readonly', // WXT background script globals
@@ -267,23 +268,6 @@ export default tseslint.config(
 				defineUnlistedScript: 'readonly', // WXT unlisted script globals
 				defineConfig: 'readonly' // WXT config globals
 			}
-		}
-	},
-	/* === Configuration Files === */ {
-		files: ['**/*.config.{js,ts,mjs,cjs}', '**/postcss.config.js', '**/eslint.config.js'],
-		languageOptions: {
-			parser: tseslint.parser,
-			parserOptions: {
-				projectService: {
-					allowDefaultProject: ['eslint.config.js', 'postcss.config.js']
-				}
-			},
-			globals: {
-				...globals.node // Node.js globals for config files
-			}
-		},
-		rules: {
-			'@typescript-eslint/no-var-requires': 'off' // Allow require() in config files
 		}
 	},
 	/* === Files Where Console Logging Is Acceptable === */ {

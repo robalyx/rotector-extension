@@ -37,8 +37,6 @@ export default defineConfig({
 					'**/dist/**',
 					'**/.wxt/**',
 					'**/.output/**',
-					'**/.idea/**',
-					'**/.chunkhound/**',
 					'**/bun.lock',
 					'**/.env',
 					'**/.env.example',

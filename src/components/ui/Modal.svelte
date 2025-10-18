@@ -48,6 +48,7 @@
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
+	let previouslyFocusedElement = $state<HTMLElement | null>(null);
 	const headingId = `modal-title-${Math.random().toString(36).slice(2)}`;
 
 	function closeModal(result?: boolean | 'block') {
@@ -67,6 +68,8 @@
 			if (onClose) {
 				onClose();
 			}
+			// Restore focus to the element that opened the modal
+			previouslyFocusedElement?.focus();
 		}, 300);
 	}
 
@@ -105,6 +108,8 @@
 
 	$effect(() => {
 		if (isOpen) {
+			// Capture the currently focused element
+			previouslyFocusedElement = document.activeElement as HTMLElement | null;
 			document.addEventListener('keydown', handleEscape);
 			// Show popup with animation
 			requestAnimationFrame(() => {
@@ -122,6 +127,13 @@
 
 {#if isOpen}
 	<Portal target="body">
+		<!--
+			Modal overlay (backdrop) is intentionally mouse-only per ARIA best practices.
+			Keyboard users dismiss via Escape key or dialog buttons (focus trapped inside).
+			Making the overlay keyboard-accessible would break the focus trap pattern.
+		-->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			bind:this={overlayElement}
 			class={modalType === 'friend-warning'
@@ -134,16 +146,7 @@
                mature-content-overlay
              `}
 			class:closing={isClosing}
-			aria-label="Click to close modal"
 			onclick={handleOverlayClick}
-			onkeydown={(e) => {
-				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault();
-					handleOverlayClick(e);
-				}
-			}}
-			role="button"
-			tabindex="0"
 		>
 			<div
 				bind:this={popupElement}

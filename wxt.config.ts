@@ -54,7 +54,7 @@ export default defineConfig({
 		name: 'Rotector - Roblox Safety Warnings',
 		description:
 			'Real-time warnings about inappropriate Roblox users before you interact with them.',
-		version: '2.3.1',
+		version: '2.4.0',
 		permissions: ['storage'],
 		host_permissions: ['https://*.roblox.com/*', `https://${apiDomain}/*`],
 		externally_connectable: {

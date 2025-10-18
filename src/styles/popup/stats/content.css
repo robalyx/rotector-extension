@@ -132,3 +132,18 @@
 		background-color: var(--color-border);
 	}
 }
+
+.changelog-change-subpoints {
+	@apply list-none m-0 mt-1.5 pl-4 space-y-1;
+}
+
+.changelog-subpoint-item {
+	@apply text-xs leading-relaxed relative;
+	color: var(--color-text-subtle);
+
+	&::before {
+		@apply absolute left-[-12px] top-[7px] w-1 h-1 rounded-full;
+		content: '';
+		background-color: var(--color-border-subtle);
+	}
+}

@@ -121,6 +121,15 @@
 						{#each groupedChanges[type] as change, index (`${type}-${index}-${change.description}`)}
 							<li class="changelog-change-item">
 								{change.description}
+								{#if change.subpoints && change.subpoints.length > 0}
+									<ul class="changelog-change-subpoints">
+										{#each change.subpoints as subpoint, subIndex (`${type}-${index}-subpoint-${subIndex}`)}
+											<li class="changelog-subpoint-item">
+												{subpoint}
+											</li>
+										{/each}
+									</ul>
+								{/if}
 							</li>
 						{/each}
 					</ul>

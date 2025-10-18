@@ -148,7 +148,6 @@ export default tseslint.config(
 		}
 	},
 	/* === Svelte Configuration === */ ...svelte.configs['flat/recommended'],
-	prettier,
 	...svelte.configs.prettier,
 	{
 		files: ['**/*.svelte'],
@@ -234,9 +233,16 @@ export default tseslint.config(
 			'svelte/no-useless-mustaches': 'warn' // Remove unnecessary {expression}
 		}
 	},
-	/* === Tailwind CSS for Svelte (requires svelte-eslint-parser) === */ {
+	/* === Tailwind CSS for Svelte === */ {
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteEslintParser },
+		languageOptions: {
+			parser: svelteEslintParser,
+			parserOptions: {
+				parser: tseslint.parser,
+				projectService: true,
+				extraFileExtensions: ['.svelte']
+			}
+		},
 		plugins: { 'better-tailwindcss': betterTailwindcss },
 		rules: {
 			/* === Correctness Rules === */ 'better-tailwindcss/no-duplicate-classes': 'error',

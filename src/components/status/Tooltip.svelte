@@ -828,7 +828,7 @@
 		<!-- Sticky header -->
 		<div class="tooltip-sticky-header">
 			<!-- Simple header -->
-			<div class="tooltip-header">
+			<div id="tooltip-header" class="tooltip-header">
 				<div>{headerMessage()}</div>
 			</div>
 

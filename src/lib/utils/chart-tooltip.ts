@@ -3,13 +3,13 @@
  * Calculates optimal tooltip position to prevent viewport overflow
  */
 
-export interface TooltipPosition {
+interface TooltipPosition {
 	x: number;
 	y: number;
 	transform: string;
 }
 
-export interface ChartDimensions {
+interface ChartDimensions {
 	width: number;
 	height: number;
 }

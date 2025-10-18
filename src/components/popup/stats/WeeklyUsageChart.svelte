@@ -228,8 +228,18 @@
 	}
 
 	function formatDateRange(startDate: string, endDate: string): string {
-		const start = new Date(startDate);
-		const end = new Date(endDate);
+		// Parse 'YYYY-MM-DD' as local date to avoid UTC -> local day shifts
+		const toLocalDate = (dateStr: string): Date => {
+			const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+			if (match) {
+				const [, year, month, day] = match;
+				return new Date(Number(year), Number(month) - 1, Number(day));
+			}
+			return new Date(dateStr);
+		};
+
+		const start = toLocalDate(startDate);
+		const end = toLocalDate(endDate);
 		const now = new Date();
 		const currentYear = now.getFullYear();
 

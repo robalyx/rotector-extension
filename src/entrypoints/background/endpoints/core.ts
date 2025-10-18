@@ -135,10 +135,10 @@ export async function queueUser(
 
 	const requestBody = {
 		id: parseInt(sanitizedUserId, 10),
-		...(inappropriateOutfit !== undefined && { inappropriate_outfit: inappropriateOutfit }),
-		...(inappropriateProfile !== undefined && { inappropriate_profile: inappropriateProfile }),
-		...(inappropriateFriends !== undefined && { inappropriate_friends: inappropriateFriends }),
-		...(inappropriateGroups !== undefined && { inappropriate_groups: inappropriateGroups })
+		inappropriate_outfit: inappropriateOutfit,
+		inappropriate_profile: inappropriateProfile,
+		inappropriate_friends: inappropriateFriends,
+		inappropriate_groups: inappropriateGroups
 	};
 
 	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {

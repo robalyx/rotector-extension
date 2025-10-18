@@ -224,7 +224,7 @@
 			case 'users':
 				return 'Total Users';
 			case 'banRate':
-				return `${prefix === 'Global' ? 'Global' : ''} Ban Rate`;
+				return `${prefix} Ban Rate`;
 			default:
 				return '';
 		}

@@ -62,7 +62,7 @@ export const actionHandlers = {
 	},
 	[API_ACTIONS.GET_QUEUE_LIMITS]: async () => getQueueLimits(),
 	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
-		if (!request.userId || !request.voteType)
+		if (!request.userId || request.voteType === undefined || request.voteType === null)
 			throw new Error('User ID and vote type are required for submit vote');
 		return submitVote(request.userId, request.voteType);
 	},

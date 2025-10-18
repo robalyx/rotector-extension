@@ -69,7 +69,7 @@
 		</div>
 		<div class="progress-bar-container">
 			<div
-				style:width="{order.progress}%"
+				style:width="{Math.max(0, Math.min(100, order.progress))}%"
 				style:background-color={getProgressColor(order.progress)}
 				class="progress-bar-fill"
 			></div>

@@ -15,8 +15,16 @@
 		variant?: 'default' | 'warzone';
 	}
 
-	let { visible, x, y, transform, mainValue, subtitle, details, variant = 'default' }: Props =
-		$props();
+	let {
+		visible,
+		x,
+		y,
+		transform,
+		mainValue,
+		subtitle,
+		details,
+		variant = 'default'
+	}: Props = $props();
 
 	const tooltipClass = $derived(variant === 'warzone' ? 'war-zone-chart-tooltip' : 'chart-tooltip');
 </script>

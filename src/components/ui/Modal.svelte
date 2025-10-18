@@ -46,6 +46,9 @@
 
 	let isClosing = $state(false);
 	let overlayElement = $state<HTMLDivElement>();
+	let popupElement = $state<HTMLDivElement>();
+	let closeButtonEl = $state<HTMLButtonElement>();
+	const headingId = `modal-title-${Math.random().toString(36).slice(2)}`;
 
 	function closeModal(result?: boolean | 'block') {
 		isClosing = true;
@@ -79,6 +82,27 @@
 		}
 	}
 
+	// Trap focus within the modal content
+	function trapFocus(e: KeyboardEvent) {
+		if (e.key !== 'Tab' || !popupElement) return;
+		const focusable = Array.from(
+			popupElement.querySelectorAll<HTMLElement>(
+				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+			)
+		).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+		if (focusable.length === 0) return;
+		const first = focusable[0];
+		const last = focusable[focusable.length - 1];
+		const active = document.activeElement as HTMLElement | null;
+		if (e.shiftKey && active === first) {
+			e.preventDefault();
+			last.focus();
+		} else if (!e.shiftKey && active === last) {
+			e.preventDefault();
+			first.focus();
+		}
+	}
+
 	$effect(() => {
 		if (isOpen) {
 			document.addEventListener('keydown', handleEscape);
@@ -87,6 +111,8 @@
 				if (overlayElement) {
 					overlayElement.classList.add('visible');
 				}
+				// Move initial focus inside the dialog
+				closeButtonEl?.focus();
 			});
 			return () => document.removeEventListener('keydown', handleEscape);
 		}
@@ -120,6 +146,7 @@
 			tabindex="0"
 		>
 			<div
+				bind:this={popupElement}
 				class={size === 'small'
 					? modalType === 'friend-warning'
 						? 'friend-warning-popup-small'
@@ -139,6 +166,10 @@
 								: `
            mature-content-popup
          `}
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby={headingId}
+				onkeydown={trapFocus}
 			>
 				<div
 					class={modalType === 'friend-warning'
@@ -165,6 +196,7 @@
 						</div>
 					{/if}
 					<h3
+						id={headingId}
 						class={modalType === 'friend-warning'
 							? 'friend-warning-title'
 							: modalType === 'queue-success'
@@ -177,8 +209,14 @@
 					>
 						{title}
 					</h3>
-					<button class="modal-close" onclick={() => closeModal(false)} type="button">
-						<X color="var(--color-error)" size={24} />
+					<button
+						class="modal-close"
+						onclick={() => closeModal(false)}
+						type="button"
+						aria-label="Close dialog"
+						bind:this={closeButtonEl}
+					>
+						<X aria-hidden="true" color="var(--color-error)" size={24} />
 					</button>
 				</div>
 

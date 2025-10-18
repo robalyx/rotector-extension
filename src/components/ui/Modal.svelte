@@ -142,9 +142,7 @@
 					? 'queue-success-overlay'
 					: modalType === 'queue-error'
 						? 'queue-error-overlay'
-						: `
-               mature-content-overlay
-             `}
+						: 'mature-content-overlay'}
 			class:closing={isClosing}
 			onclick={handleOverlayClick}
 		>
@@ -157,18 +155,14 @@
 							? 'queue-success-popup-small'
 							: modalType === 'queue-error'
 								? 'queue-error-popup-small'
-								: `
-           mature-content-popup-small
-         `
+								: 'mature-content-popup-small'
 					: modalType === 'friend-warning'
 						? 'friend-warning-popup'
 						: modalType === 'queue-success'
 							? 'queue-success-popup'
 							: modalType === 'queue-error'
 								? 'queue-error-popup'
-								: `
-           mature-content-popup
-         `}
+								: 'mature-content-popup'}
 				aria-labelledby={headingId}
 				aria-modal="true"
 				onkeydown={trapFocus}
@@ -182,9 +176,7 @@
 							? 'queue-success-header'
 							: modalType === 'queue-error'
 								? 'queue-error-header'
-								: `
-                      mature-content-header
-                    `}
+								: 'mature-content-header'}
 				>
 					{#if icon}
 						<div class="mr-2 flex items-center">
@@ -207,9 +199,7 @@
 								? 'queue-success-title'
 								: modalType === 'queue-error'
 									? 'queue-error-title'
-									: `
-                       mature-content-title
-                     `}
+									: 'mature-content-title'}
 					>
 						{title}
 					</h3>
@@ -232,18 +222,14 @@
 								? 'queue-success-content-small'
 								: modalType === 'queue-error'
 									? 'queue-error-content-small'
-									: `
-             mature-content-content-small
-           `
+									: 'mature-content-content-small'
 						: modalType === 'friend-warning'
 							? 'friend-warning-content'
 							: modalType === 'queue-success'
 								? 'queue-success-content'
 								: modalType === 'queue-error'
 									? 'queue-error-content'
-									: `
-             mature-content-content
-           `}
+									: 'mature-content-content'}
 				>
 					{@render children()}
 				</div>
@@ -256,26 +242,20 @@
 								? 'queue-success-actions-horizontal'
 								: modalType === 'queue-error'
 									? 'queue-error-actions-horizontal'
-									: `
-             modal-actions-horizontal
-           `
+									: 'modal-actions-horizontal'
 						: modalType === 'friend-warning'
 							? 'friend-warning-actions'
 							: modalType === 'queue-success'
 								? 'queue-success-actions'
 								: modalType === 'queue-error'
 									? 'queue-error-actions'
-									: `
-             mature-content-actions
-           `}
+									: 'mature-content-actions'}
 				>
 					{#if showBlock}
 						<button
 							class={modalType === 'friend-warning'
 								? 'friend-warning-block'
-								: `
-                  mature-content-block mature-content-cancel
-                `}
+								: 'mature-content-block mature-content-cancel'}
 							onclick={() => closeModal('block')}
 							type="button"
 						>
@@ -286,9 +266,7 @@
 						<button
 							class={modalType === 'friend-warning'
 								? 'friend-warning-cancel'
-								: `
-                  mature-content-cancel
-                `}
+								: 'mature-content-cancel'}
 							onclick={() => closeModal(false)}
 							type="button"
 						>
@@ -298,9 +276,7 @@
 					<button
 						class={modalType === 'friend-warning'
 							? 'friend-warning-confirm'
-							: `
-                mature-content-confirm
-              `}
+							: 'mature-content-confirm'}
 						class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
 							confirmVariant === 'danger'}
 						class:mature-content-confirm-danger={modalType === 'mature-content' &&

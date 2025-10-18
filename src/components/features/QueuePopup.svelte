@@ -95,6 +95,16 @@
 	async function handleConfirm() {
 		if (submitting) return;
 
+		// Do not proceed if submit is currently disabled
+		if (!canSubmit()) {
+			logger.warn('Queue submit attempted while disabled', {
+				userId: sanitizedUserId(),
+				isReanalysis,
+				submissionType
+			});
+			return;
+		}
+
 		// Validation for new analysis with inappropriate content
 		if (!isReanalysis && submissionType === 'inappropriate' && !optionsLocked) {
 			showValidationError = true;

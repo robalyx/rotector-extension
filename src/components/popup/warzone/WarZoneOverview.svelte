@@ -5,7 +5,7 @@
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import MajorOrderCard from './MajorOrderCard.svelte';
 	import HexagonalZoneMap from './HexagonalZoneMap.svelte';
-	import GlobalHistoryChart from './GlobalHistoryChart.svelte';
+	import WarZoneHistoryChart from './WarZoneHistoryChart.svelte';
 	import TargetCard from './TargetCard.svelte';
 
 	interface Props {
@@ -141,7 +141,7 @@
 		<!-- Global Historical Trends -->
 		<div class="war-zone-stats-card">
 			<h4 class="war-zone-stats-title">Global Trends (30 Days)</h4>
-			<GlobalHistoryChart />
+			<WarZoneHistoryChart mode="global" />
 		</div>
 
 		<!-- Major Orders Section -->

@@ -3,7 +3,7 @@
 	import type { ZoneDetails } from '../../../lib/types/api';
 	import { apiClient } from '../../../lib/services/api-client';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
-	import ZoneHistoryChart from './ZoneHistoryChart.svelte';
+	import WarZoneHistoryChart from './WarZoneHistoryChart.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 
 	interface Props {
@@ -105,7 +105,7 @@
 		<!-- Zone Historical Trends -->
 		<div class="war-zone-stats-card">
 			<h4 class="war-zone-stats-title">Zone Trends (30 Days)</h4>
-			<ZoneHistoryChart {zoneId} />
+			<WarZoneHistoryChart mode="zone" {zoneId} />
 		</div>
 	</div>
 {/if}

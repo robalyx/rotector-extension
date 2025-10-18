@@ -31,7 +31,8 @@
 	// Calculate usage percentage
 	const usagePercentage = $derived(() => {
 		if (!queueLimits || queueLimits.limit === 0) return 0;
-		return Math.round((queueLimits.current_usage / queueLimits.limit) * 100);
+		const pct = Math.round((queueLimits.current_usage / queueLimits.limit) * 100);
+		return Math.max(0, Math.min(100, pct));
 	});
 
 	// Load queue limits

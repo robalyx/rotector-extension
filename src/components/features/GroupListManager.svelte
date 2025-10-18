@@ -31,7 +31,7 @@
 	let containerWatcher: Observer | null = null;
 	let viewSwitchObserver: MutationObserver | null = null;
 	let groupStatuses = new SvelteMap<string, GroupStatus>();
-	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
+	let mountedComponents = new SvelteMap<string, { destroy?: () => void }>();
 	let destroyed = $state(false);
 
 	// Type definitions for group details
@@ -291,7 +291,7 @@
 		// Check and unmount existing component
 		const existingComponent = mountedComponents.get(groupId);
 		if (existingComponent) {
-			existingComponent.unmount?.();
+			existingComponent.destroy?.();
 			mountedComponents.delete(groupId);
 		}
 
@@ -313,7 +313,12 @@
 				isBTRobloxView
 					? BTROBLOX_GROUPS_SELECTORS.IMAGE_CONTAINER
 					: `${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.IMAGE_CONTAINER}, ${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.THUMBNAIL_CONTAINER}`
-			) as HTMLElement;
+			) as HTMLElement | null;
+
+			if (!imageElement) {
+				logger.warn('Image container not found for group card', { groupId });
+				return;
+			}
 
 			container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
 
@@ -370,7 +375,7 @@
 		viewSwitchObserver = null;
 
 		// Unmount components and clear cache
-		mountedComponents.forEach((component) => component.unmount?.());
+		mountedComponents.forEach((component) => component.destroy?.());
 		mountedComponents.clear();
 		groupStatuses.clear();
 	}

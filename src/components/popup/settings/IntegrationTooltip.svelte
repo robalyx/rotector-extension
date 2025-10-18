@@ -53,6 +53,13 @@
 <span
 	bind:this={triggerElement}
 	class="help-indicator"
+	onblur={hideTooltip}
+	onkeydown={(e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			showTooltip();
+		}
+	}}
 	onmouseenter={showTooltip}
 	onmouseleave={hideTooltip}
 	role="button"

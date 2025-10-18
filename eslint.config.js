@@ -33,6 +33,7 @@ export default tseslint.config(
 	// General configuration for all files
 	{
 		files: ['**/*.{js,ts,mjs,cjs}'],
+		ignores: ['**/*.config.{js,ts,mjs,cjs}', 'eslint.config.js', 'postcss.config.js'],
 		plugins: {
 			'unused-imports': unusedImports,
 			'better-tailwindcss': betterTailwindcss
@@ -42,9 +43,7 @@ export default tseslint.config(
 			sourceType: 'module',
 			parser: tseslint.parser,
 			parserOptions: {
-				projectService: {
-					allowDefaultProject: ['eslint.config.js', 'postcss.config.js']
-				}
+				projectService: true
 			},
 			globals: {
 				...globals.browser,

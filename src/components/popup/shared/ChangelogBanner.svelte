@@ -28,6 +28,13 @@
 		}, 200);
 	}
 
+	// Reset isClosing after animation completes to allow proper unmounting
+	function handleCloseAnimationEnd() {
+		if (isClosing && !$shouldShowChangelogBanner) {
+			isClosing = false;
+		}
+	}
+
 	// Opens the full changelog section
 	async function handleViewDetails() {
 		try {
@@ -56,7 +63,12 @@
 </script>
 
 {#if ($shouldShowChangelogBanner && $latestChangelog) || isClosing}
-	<div class="changelog-banner" class:closing={isClosing}>
+	<div
+		class="changelog-banner"
+		class:closing={isClosing}
+		onanimationend={handleCloseAnimationEnd}
+		ontransitionend={handleCloseAnimationEnd}
+	>
 		<div class="changelog-banner-content">
 			<!-- Banner content and controls -->
 			<div class="changelog-banner-body">

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { WeeklyUsage } from '@/lib/types/statistics';
 	import { formatCurrency, formatNumber } from '@/lib/stores/statistics';
+	import ChartTabs from '../../ui/ChartTabs.svelte';
+	import ChartTooltip from '../../ui/ChartTooltip.svelte';
+	import { calculateBarTooltipPosition } from '@/lib/utils/chart-tooltip';
+	import type { TooltipDetail } from '../../ui/ChartTooltip.svelte';
 
-	// Props
 	let { weeklyUsage }: { weeklyUsage: WeeklyUsage } = $props();
 
-	// Available chart display modes
 	type ChartType = 'cost' | 'requests' | 'tokens';
 
 	interface ChartDataPoint {
@@ -21,7 +23,7 @@
 			completion: { height: number; color: string };
 			reasoning: { height: number; color: string };
 		};
-		details: { label: string; value: string }[];
+		details: TooltipDetail[];
 	}
 
 	let selectedChart = $state<ChartType>('cost');
@@ -40,12 +42,17 @@
 		x: number;
 		y: number;
 		transform: string;
-		content: {
-			label: string;
-			value: string;
-			details?: { label: string; value: string }[];
-		};
+		mainValue: string;
+		subtitle: string;
+		details: TooltipDetail[];
 	} | null>(null);
+
+	// Chart tabs configuration
+	const chartTabs = [
+		{ value: 'cost' as ChartType, label: 'AI Costs' },
+		{ value: 'requests' as ChartType, label: 'AI Requests' },
+		{ value: 'tokens' as ChartType, label: 'AI Tokens' }
+	];
 
 	// Weekly data in chronological order (oldest to newest)
 	const weeksData = $derived([
@@ -173,56 +180,32 @@
 		}
 	});
 
-	// Handle bar hover
 	function handleBarHover(event: MouseEvent, data: ChartDataPoint) {
-		const svgRect = (event.currentTarget as SVGElement).closest('svg')?.getBoundingClientRect();
-		if (!svgRect) return;
+		// Calculate actual height for stacked bars
+		const stackedSum = data.stacked
+			? data.stacked.prompt.height + data.stacked.completion.height + data.stacked.reasoning.height
+			: data.height;
 
-		// Calculate scale factor between viewBox and rendered size
-		const scaleX = svgRect.width / CHART_WIDTH;
-		const scaleY = svgRect.height / CHART_HEIGHT;
+		const position = calculateBarTooltipPosition(
+			event,
+			{ width: CHART_WIDTH, height: CHART_HEIGHT },
+			data.x,
+			data.y,
+			BAR_WIDTH,
+			stackedSum
+		);
 
-		// Calculate bar center's actual screen position
-		const barCenterScreenX = svgRect.left + data.x * scaleX + (BAR_WIDTH / 2) * scaleX;
-		const barTopScreenY = svgRect.top + data.y * scaleY;
-
-		// Tooltip dimensions
-		const TOOLTIP_WIDTH = 160;
-		const TOOLTIP_HALF = TOOLTIP_WIDTH / 2;
-
-		// Use viewport width for bounds checking
-		const viewportWidth = document.documentElement.clientWidth;
-
-		// Determine horizontal alignment based on available space
-		let transform: string;
-
-		if (barCenterScreenX + TOOLTIP_HALF > viewportWidth - 10) {
-			// Close to right edge - align tooltip's right edge to bar center
-			transform = 'translate(-100%, -100%)';
-		} else if (barCenterScreenX - TOOLTIP_HALF < 10) {
-			// Close to left edge - align tooltip's left edge to bar center
-			transform = 'translate(0, -100%)';
-		} else {
-			// Enough space - center tooltip on bar
-			transform = 'translate(-50%, -100%)';
-		}
-
-		const tooltipX = barCenterScreenX;
-
-		const rawY = barTopScreenY - data.height * scaleY - 10;
-		const tooltipY = Math.max(12, Math.min(rawY, document.documentElement.clientHeight - 12));
+		if (!position) return;
 
 		tooltipVisible = true;
 		tooltipData = {
 			week: data.week,
-			x: tooltipX,
-			y: tooltipY,
-			transform,
-			content: {
-				label: getChartLabel(),
-				value: data.displayValue,
-				details: data.details
-			}
+			x: position.x,
+			y: position.y,
+			transform: position.transform,
+			mainValue: data.displayValue,
+			subtitle: `${getChartLabel()} • ${data.week}`,
+			details: data.details
 		};
 	}
 
@@ -241,13 +224,6 @@
 				return 'Total AI Tokens';
 			default:
 				return '';
-		}
-	}
-
-	function handleTabKeydown(event: KeyboardEvent, chartType: ChartType) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			selectedChart = chartType;
 		}
 	}
 
@@ -305,44 +281,11 @@
 
 <div class="weekly-usage-chart">
 	<!-- Chart Type Tabs -->
-	<div class="chart-tabs" role="tablist">
-		<button
-			class="chart-tab"
-			class:active={selectedChart === 'cost'}
-			aria-selected={selectedChart === 'cost'}
-			onclick={() => (selectedChart = 'cost')}
-			onkeydown={(e) => handleTabKeydown(e, 'cost')}
-			role="tab"
-			tabindex="0"
-			type="button"
-		>
-			AI Costs
-		</button>
-		<button
-			class="chart-tab"
-			class:active={selectedChart === 'requests'}
-			aria-selected={selectedChart === 'requests'}
-			onclick={() => (selectedChart = 'requests')}
-			onkeydown={(e) => handleTabKeydown(e, 'requests')}
-			role="tab"
-			tabindex="0"
-			type="button"
-		>
-			AI Requests
-		</button>
-		<button
-			class="chart-tab"
-			class:active={selectedChart === 'tokens'}
-			aria-selected={selectedChart === 'tokens'}
-			onclick={() => (selectedChart = 'tokens')}
-			onkeydown={(e) => handleTabKeydown(e, 'tokens')}
-			role="tab"
-			tabindex="0"
-			type="button"
-		>
-			AI Tokens
-		</button>
-	</div>
+	<ChartTabs
+		onSelect={(value: ChartType) => (selectedChart = value)}
+		selected={selectedChart}
+		tabs={chartTabs}
+	/>
 
 	<!-- Chart Container -->
 	<div class="chart-container" role="tabpanel">
@@ -507,27 +450,13 @@
 
 <!-- Tooltip -->
 {#if tooltipVisible && tooltipData}
-	<div
-		style:left="{tooltipData.x}px"
-		style:top="{tooltipData.y}px"
-		style:transform={tooltipData.transform}
-		class="chart-tooltip"
-	>
-		<div class="tooltip-main-value">
-			{tooltipData.content.value}
-		</div>
-		<div class="tooltip-subtitle">
-			{tooltipData.content.label} • {tooltipData.week}
-		</div>
-		{#if tooltipData.content.details}
-			<div class="tooltip-details">
-				{#each tooltipData.content.details as detail (detail.label)}
-					<div class="tooltip-detail">
-						<span class="tooltip-detail-label">{detail.label}:</span>
-						<span class="tooltip-detail-value">{detail.value}</span>
-					</div>
-				{/each}
-			</div>
-		{/if}
-	</div>
+	<ChartTooltip
+		details={tooltipData.details}
+		mainValue={tooltipData.mainValue}
+		subtitle={tooltipData.subtitle}
+		transform={tooltipData.transform}
+		visible={tooltipVisible}
+		x={tooltipData.x}
+		y={tooltipData.y}
+	/>
 {/if}

@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { ZoneHistoricalStats } from '@/lib/types/api';
+	import type { ZoneHistoricalStats, GlobalHistoricalStats } from '@/lib/types/api';
 	import { apiClient } from '@/lib/services/api-client';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
+	import ChartTabs from '../../ui/ChartTabs.svelte';
+	import ChartTooltip from '../../ui/ChartTooltip.svelte';
+	import { calculateTooltipPosition } from '@/lib/utils/chart-tooltip';
+	import type { TooltipDetail } from '../../ui/ChartTooltip.svelte';
 
 	interface Props {
-		zoneId: number;
+		mode: 'global' | 'zone';
+		zoneId?: number;
 	}
 
-	let { zoneId }: Props = $props();
+	let { mode, zoneId }: Props = $props();
 
-	// Available chart display modes
 	type ChartType = 'liberation' | 'users' | 'banRate';
 
 	interface ChartDataPoint {
@@ -26,11 +30,11 @@
 			flagged: { height: number; color: string };
 			confirmed: { height: number; color: string };
 		};
-		details: { label: string; value: string }[];
+		details: TooltipDetail[];
 	}
 
 	let selectedChart = $state<ChartType>('liberation');
-	let historicalData = $state<ZoneHistoricalStats | null>(null);
+	let historicalData = $state<ZoneHistoricalStats | GlobalHistoricalStats | null>(null);
 	let isLoading = $state(true);
 	let error = $state<string | null>(null);
 
@@ -48,12 +52,17 @@
 		x: number;
 		y: number;
 		transform: string;
-		content: {
-			label: string;
-			value: string;
-			details?: { label: string; value: string }[];
-		};
+		mainValue: string;
+		subtitle: string;
+		details: TooltipDetail[];
 	} | null>(null);
+
+	// Chart tabs configuration
+	const chartTabs = [
+		{ value: 'liberation' as ChartType, label: 'Liberation' },
+		{ value: 'users' as ChartType, label: 'Users' },
+		{ value: 'banRate' as ChartType, label: 'Ban Rate' }
+	];
 
 	onMount(async () => {
 		await loadHistoricalData();
@@ -64,9 +73,19 @@
 		error = null;
 
 		try {
-			historicalData = await apiClient.getWarZoneStatistics(zoneId);
+			if (mode === 'global') {
+				historicalData = await apiClient.getGlobalStatisticsHistory();
+			} else {
+				if (zoneId === undefined) {
+					throw new Error('zoneId is required for zone mode');
+				}
+				historicalData = await apiClient.getWarZoneStatistics(zoneId);
+			}
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Failed to load zone historical data';
+			error =
+				err instanceof Error
+					? err.message
+					: `Failed to load ${mode === 'global' ? 'global' : 'zone'} historical data`;
 		} finally {
 			isLoading = false;
 		}
@@ -92,7 +111,7 @@
 				details: [
 					{ label: 'Date', value: stat.date },
 					{ label: 'Total Users', value: stat.totalUsers.toLocaleString() },
-					{ label: 'Banned', value: stat.bannedUsers.toString() }
+					{ label: 'Banned', value: stat.bannedUsers.toLocaleString() }
 				]
 			}));
 		} else if (selectedChart === 'users') {
@@ -121,14 +140,14 @@
 					},
 					details: [
 						{ label: 'Date', value: stat.date },
-						{ label: 'Banned', value: stat.bannedUsers.toString() },
-						{ label: 'Flagged', value: stat.flaggedUsers.toString() },
-						{ label: 'Confirmed', value: stat.confirmedUsers.toString() }
+						{ label: 'Banned', value: stat.bannedUsers.toLocaleString() },
+						{ label: 'Flagged', value: stat.flaggedUsers.toLocaleString() },
+						{ label: 'Confirmed', value: stat.confirmedUsers.toLocaleString() }
 					]
 				};
 			});
 		} else {
-			// banRate - calculate success rate
+			// banRate - calculate ban rate percentage
 			const maxValue = 100;
 			return stats.map((stat, index) => {
 				const banRate = stat.totalUsers > 0 ? (stat.bannedUsers / stat.totalUsers) * 100 : 0;
@@ -142,7 +161,7 @@
 					color: 'var(--color-error)',
 					details: [
 						{ label: 'Date', value: stat.date },
-						{ label: 'Banned', value: stat.bannedUsers.toString() },
+						{ label: 'Banned', value: stat.bannedUsers.toLocaleString() },
 						{ label: 'Total Users', value: stat.totalUsers.toLocaleString() }
 					]
 				};
@@ -169,56 +188,26 @@
 		return `M ${firstPoint.x},${firstPoint.y} L ${topPoints.join(' L ')} L ${lastPoint.x},${lastPoint.y} Z`;
 	});
 
-	// Handle line hover
 	function handlePointHover(event: MouseEvent, data: ChartDataPoint) {
-		const svgRect = (event.currentTarget as SVGElement).closest('svg')?.getBoundingClientRect();
-		if (!svgRect) return;
+		const position = calculateTooltipPosition(
+			event,
+			{ width: CHART_WIDTH, height: CHART_HEIGHT },
+			data.x,
+			data.y,
+			data.height
+		);
 
-		// Calculate scale factor between viewBox and rendered size
-		const scaleX = svgRect.width / CHART_WIDTH;
-		const scaleY = svgRect.height / CHART_HEIGHT;
-
-		// Calculate point's actual screen position
-		const pointScreenX = svgRect.left + data.x * scaleX;
-		const pointScreenY = svgRect.top + data.y * scaleY;
-
-		// Tooltip dimensions
-		const TOOLTIP_WIDTH = 160;
-		const TOOLTIP_HALF = TOOLTIP_WIDTH / 2;
-
-		// Use viewport width for bounds checking
-		const viewportWidth = document.documentElement.clientWidth;
-
-		// Determine horizontal alignment based on available space
-		let transform: string;
-
-		if (pointScreenX + TOOLTIP_HALF > viewportWidth - 10) {
-			// Close to right edge - align tooltip's right edge to point
-			transform = 'translate(-100%, -100%)';
-		} else if (pointScreenX - TOOLTIP_HALF < 10) {
-			// Close to left edge - align tooltip's left edge to point
-			transform = 'translate(0, -100%)';
-		} else {
-			// Enough space - center tooltip on point
-			transform = 'translate(-50%, -100%)';
-		}
-
-		const tooltipX = pointScreenX;
-
-		const rawY = pointScreenY - data.height * scaleY - 10;
-		const tooltipY = Math.max(12, Math.min(rawY, document.documentElement.clientHeight - 12));
+		if (!position) return;
 
 		tooltipVisible = true;
 		tooltipData = {
 			date: data.date,
-			x: tooltipX,
-			y: tooltipY,
-			transform,
-			content: {
-				label: getChartLabel(),
-				value: data.displayValue,
-				details: data.details
-			}
+			x: position.x,
+			y: position.y,
+			transform: position.transform,
+			mainValue: data.displayValue,
+			subtitle: `${getChartLabel()} • ${data.date}`,
+			details: data.details
 		};
 	}
 
@@ -228,22 +217,16 @@
 	}
 
 	function getChartLabel(): string {
+		const prefix = mode === 'global' ? 'Global' : 'Zone';
 		switch (selectedChart) {
 			case 'liberation':
-				return 'Zone Liberation';
+				return `${prefix} Liberation`;
 			case 'users':
 				return 'Total Users';
 			case 'banRate':
-				return 'Ban Success Rate';
+				return `${prefix === 'Global' ? 'Global' : ''} Ban Rate`;
 			default:
 				return '';
-		}
-	}
-
-	function handleTabKeydown(event: KeyboardEvent, chartType: ChartType) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			selectedChart = chartType;
 		}
 	}
 
@@ -286,44 +269,12 @@
 {:else if historicalData}
 	<div class="war-zone-chart">
 		<!-- Chart Type Tabs -->
-		<div class="war-zone-chart-tabs" role="tablist">
-			<button
-				class="war-zone-chart-tab"
-				class:active={selectedChart === 'liberation'}
-				aria-selected={selectedChart === 'liberation'}
-				onclick={() => (selectedChart = 'liberation')}
-				onkeydown={(e) => handleTabKeydown(e, 'liberation')}
-				role="tab"
-				tabindex="0"
-				type="button"
-			>
-				Liberation
-			</button>
-			<button
-				class="war-zone-chart-tab"
-				class:active={selectedChart === 'users'}
-				aria-selected={selectedChart === 'users'}
-				onclick={() => (selectedChart = 'users')}
-				onkeydown={(e) => handleTabKeydown(e, 'users')}
-				role="tab"
-				tabindex="0"
-				type="button"
-			>
-				Users
-			</button>
-			<button
-				class="war-zone-chart-tab"
-				class:active={selectedChart === 'banRate'}
-				aria-selected={selectedChart === 'banRate'}
-				onclick={() => (selectedChart = 'banRate')}
-				onkeydown={(e) => handleTabKeydown(e, 'banRate')}
-				role="tab"
-				tabindex="0"
-				type="button"
-			>
-				Ban Rate
-			</button>
-		</div>
+		<ChartTabs
+			class="war-zone-chart-tabs"
+			onSelect={(value: ChartType) => (selectedChart = value)}
+			selected={selectedChart}
+			tabs={chartTabs}
+		/>
 
 		<!-- Chart Container -->
 		<div class="war-zone-chart-container" role="tabpanel">
@@ -466,27 +417,14 @@
 
 <!-- Tooltip -->
 {#if tooltipVisible && tooltipData}
-	<div
-		style:left="{tooltipData.x}px"
-		style:top="{tooltipData.y}px"
-		style:transform={tooltipData.transform}
-		class="war-zone-chart-tooltip"
-	>
-		<div class="tooltip-main-value">
-			{tooltipData.content.value}
-		</div>
-		<div class="tooltip-subtitle">
-			{tooltipData.content.label} • {tooltipData.date}
-		</div>
-		{#if tooltipData.content.details}
-			<div class="tooltip-details">
-				{#each tooltipData.content.details as detail (detail.label)}
-					<div class="tooltip-detail">
-						<span class="tooltip-detail-label">{detail.label}:</span>
-						<span class="tooltip-detail-value">{detail.value}</span>
-					</div>
-				{/each}
-			</div>
-		{/if}
-	</div>
+	<ChartTooltip
+		details={tooltipData.details}
+		mainValue={tooltipData.mainValue}
+		subtitle={tooltipData.subtitle}
+		transform={tooltipData.transform}
+		variant="warzone"
+		visible={tooltipVisible}
+		x={tooltipData.x}
+		y={tooltipData.y}
+	/>
 {/if}

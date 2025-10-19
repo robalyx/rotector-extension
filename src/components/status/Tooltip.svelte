@@ -153,6 +153,7 @@
 			case STATUS.FLAGS.QUEUED:
 			case STATUS.FLAGS.INTEGRATION:
 			case STATUS.FLAGS.MIXED:
+			case STATUS.FLAGS.PAST_OFFENDER:
 				return getHeaderMessageFromFlag(status.flagType, confidence, status);
 			default:
 				return 'Unknown Status';

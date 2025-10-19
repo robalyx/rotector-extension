@@ -544,7 +544,7 @@
 				</div>
 			{/if}
 
-			{#if isOutdated()}
+			{#if isOutdated() && !metadata.isProcessing}
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}

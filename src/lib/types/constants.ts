@@ -17,7 +17,9 @@ export const STATUS = {
 		CONDO_ACTIVITY: 4,
 		CHAT_MESSAGES: 5,
 		GAME_FAVORITES: 6,
-		EARNED_BADGES: 7
+		EARNED_BADGES: 7,
+		USER_CREATIONS: 8,
+		OTHER_REASONS: 9
 	},
 	GROUP_REASON_TYPES: {
 		MEMBER: 0,
@@ -33,7 +35,9 @@ export const STATUS = {
 		4: 'Condo Activity',
 		5: 'Chat Messages',
 		6: 'Game Favorites',
-		7: 'Earned Badges'
+		7: 'Earned Badges',
+		8: 'User Creations',
+		9: 'Other Reasons'
 	},
 	GROUP_REASON_TYPE_NAMES: {
 		0: 'Member Analysis',
@@ -154,6 +158,7 @@ export const FRIENDS_CAROUSEL_SELECTORS = {
 
 // DOM selectors for profile page
 export const PROFILE_SELECTORS = {
+	// Legacy header selectors
 	PROFILE_HEADER_CONTAINER: '.profile-header-container',
 	PROFILE_HEADER: '.profile-header-title-container',
 	PROFILE_HEADER_MAIN: '.profile-header-main',
@@ -166,7 +171,13 @@ export const PROFILE_SELECTORS = {
 	FRIEND_BUTTON: '.friend-button',
 	ADD_FRIEND_BUTTON_CONTAINER: '.profile-header-buttons',
 	AVATAR_THUMB: '.profile-avatar-thumb',
-	AVATAR_IMAGE: '.profile-avatar-image'
+	AVATAR_IMAGE: '.profile-avatar-image',
+	// A/B test header version selectors
+	LEGACY_HEADER: '#default-legacy-header',
+	REDESIGNED_HEADER: '#treatment-redesigned-header',
+	REDESIGNED_TITLE: '#profile-header-title-container-name',
+	REDESIGNED_TITLE_WRAPPER: '.items-center.gap-xsmall.flex',
+	REDESIGNED_FRIEND_BUTTON: 'button.foundation-web-button'
 } as const;
 
 // DOM selectors for friends list pages

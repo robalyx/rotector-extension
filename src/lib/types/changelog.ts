@@ -78,6 +78,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Report helper compatibility - Updated to work with latest Roblox report page changes'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile page compatibility - Added support for new A/B tested profile header design while maintaining legacy version support'
 			}
 		]
 	},

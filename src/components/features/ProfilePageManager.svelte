@@ -44,7 +44,7 @@
 
 	// Update status indicator when userStatus changes
 	$effect(() => {
-		if (userStatus && statusContainer) {
+		if (statusContainer) {
 			mountStatusIndicator();
 		}
 	});
@@ -121,6 +121,7 @@
 				// Create container for status indicator
 				container = document.createElement('div');
 				container.className = COMPONENT_CLASSES.PROFILE_STATUS;
+				container.dataset.rotectorOwned = 'true';
 
 				// Append directly to title container
 				titleContainer.appendChild(container);
@@ -367,7 +368,11 @@
 
 			// Clean up status container
 			if (statusContainer) {
-				statusContainer.remove();
+				if (statusContainer.dataset.rotectorOwned === 'true') {
+					statusContainer.remove();
+				} else {
+					statusContainer.innerHTML = '';
+				}
 				statusContainer = null;
 			}
 

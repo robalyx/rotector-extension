@@ -42,7 +42,7 @@
 @utility friend-warning-cancel {
 	@apply modal-button-base;
 	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-primary);
+	color: var(--color-text-primary) !important;
 
 	&:hover {
 		background-color: var(--color-card-hover);
@@ -53,7 +53,7 @@
 @utility friend-warning-block {
 	@apply modal-button-base;
 	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-primary);
+	color: var(--color-text-primary) !important;
 
 	&:hover {
 		background-color: var(--color-card-hover);

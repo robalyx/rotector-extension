@@ -200,6 +200,7 @@
 	@apply text-white border rounded-lg px-4 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
 	background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
 	border-color: #3f7ee3;
+	color: white !important;
 
 	&:hover {
 		@apply -translate-y-0.5;

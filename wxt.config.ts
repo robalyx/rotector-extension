@@ -1,12 +1,9 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
-import { config as loadEnv } from 'dotenv';
 
-loadEnv();
-
-// Determine API domain based on environment variable
-const useDevApi = process.env.USE_DEV_API === 'true';
-const apiDomain = useDevApi ? 'dev-roscoe.robalyx.com' : 'roscoe.robalyx.com';
+// Determine API domain based on build mode
+const isDev = process.env.NODE_ENV === 'development' || process.argv.includes('dev');
+const apiDomain = isDev ? 'dev-roscoe.robalyx.com' : 'roscoe.robalyx.com';
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -15,7 +12,7 @@ export default defineConfig({
 	vite: () => ({
 		plugins: [tailwindcss()],
 		define: {
-			'import.meta.env.USE_DEV_API': JSON.stringify(process.env.USE_DEV_API ?? 'false')
+			'import.meta.env.USE_DEV_API': JSON.stringify(isDev ? 'true' : 'false')
 		},
 		build: {
 			cssMinify: 'lightningcss'

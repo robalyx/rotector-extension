@@ -268,9 +268,9 @@
 	}
 
 	// Handle queue user request
-	function handleQueueUser(clickedUserId: string, isReprocess = false) {
+	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
-		queueModalManager?.showQueue(clickedUserId, isReprocess, userStatus);
+		queueModalManager?.showQueue(clickedUserId, isReprocess, status ?? userStatus);
 	}
 
 	// Handle friend request proceed
@@ -312,16 +312,24 @@
 				moreButton.click();
 
 				// Wait for dropdown to appear and find block option
-				setTimeout(() => {
-					const blockButton = document.querySelector('#block-button') as HTMLElement;
+				void (async () => {
+					try {
+						const result = await waitForElement('#block-button', {
+							maxRetries: 5,
+							baseDelay: 100,
+							maxDelay: 1000
+						});
 
-					if (blockButton) {
-						blockButton.click();
-						logger.debug('Block user action triggered');
-					} else {
-						logger.warn('Could not find block button in dropdown');
+						if (result.success && result.element instanceof HTMLElement) {
+							result.element.click();
+							logger.debug('Block user action triggered');
+						} else {
+							logger.warn('Could not find block button in dropdown after waiting');
+						}
+					} catch (error) {
+						logger.error('Error waiting for block button:', error);
 					}
-				}, 500);
+				})();
 			} else {
 				logger.warn('Could not find more options button for blocking');
 			}

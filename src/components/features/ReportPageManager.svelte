@@ -1,277 +1,405 @@
 <script lang="ts">
-    import {get} from 'svelte/store';
-    import {settings} from '@/lib/stores/settings';
-    import {logger} from '@/lib/utils/logger';
-    import {COMPONENT_CLASSES, USER_ACTIONS, REPORT_PAGE_SELECTORS} from '@/lib/types/constants';
-    import {SETTINGS_KEYS} from '@/lib/types/settings';
-    import type {UserStatus} from '@/lib/types/api';
-    import ReportHelper from './ReportHelper.svelte';
+	import { get } from 'svelte/store';
+	import { settings } from '@/lib/stores/settings';
+	import { authStore } from '@/lib/stores/auth';
+	import { logger } from '@/lib/utils/logger';
+	import { apiClient } from '@/lib/services/api-client';
+	import { waitForElement } from '@/lib/utils/element-waiter';
+	import { COMPONENT_CLASSES, USER_ACTIONS, REPORT_PAGE_SELECTORS } from '@/lib/types/constants';
+	import { SETTINGS_KEYS } from '@/lib/types/settings';
+	import type { UserStatus } from '@/lib/types/api';
+	import ReportHelper from './ReportHelper.svelte';
 
-    interface Props {
-        userId: string;
-        userStatus: UserStatus | null;
-        onMount?: (cleanup: () => void) => void;
-    }
+	interface Props {
+		userId: string;
+		userStatus: UserStatus | null;
+		onMount?: (cleanup: () => void) => void;
+	}
 
-    let {
-        userId,
-        userStatus,
-        onMount
-    }: Props = $props();
+	let { userId, userStatus, onMount }: Props = $props();
 
-    // Component state
-    let reportHelper: { element: HTMLElement; cleanup: () => void } | null = null;
-    let successMessageElement: HTMLElement | null = null;
+	// Component state
+	let reportHelper: { element: HTMLElement; cleanup: () => void } | null = null;
+	let successMessageElement: HTMLElement | null = null;
+	let submitButtonListener: (() => void) | null = null;
 
-    // Initialize components when mounted
-    $effect(() => {
-        void initialize();
-        onMount?.(cleanup);
+	// Initialize components when mounted
+	$effect(() => {
+		void initialize();
+		onMount?.(cleanup);
 
-        return cleanup;
-    });
+		return cleanup;
+	});
 
-    // Initialize report page components
-    async function initialize() {
-        try {
-            await mountReportHelper();
-            logger.debug('ReportPageManager initialized successfully');
-        } catch (error) {
-            logger.error('Failed to initialize ReportPageManager:', error);
-        }
-    }
+	// Initialize report page components
+	async function initialize() {
+		try {
+			// Setup submit button listener to log all reports
+			void setupSubmitButtonListener();
 
-    // Check if user has profile violations (reason type 0)
-    function hasUserProfileViolations(): boolean {
-        if (!userStatus || !userStatus.reasons) {
-            return false;
-        }
-        return "0" in userStatus.reasons;
-    }
+			await mountReportHelper();
+			logger.debug('ReportPageManager initialized successfully');
+		} catch (error) {
+			logger.error('Failed to initialize ReportPageManager:', error);
+		}
+	}
 
-    // Find and validate required form elements
-    function findFormElements(): { categoryButton: HTMLButtonElement; commentTextarea: HTMLTextAreaElement } {
-        const categoryButton = document.querySelector('button[role="combobox"]') as HTMLButtonElement;
-        const commentTextarea = document.querySelector('.free-comment-component textarea') as HTMLTextAreaElement;
+	// Setup submit button click listener
+	async function setupSubmitButtonListener(): Promise<void> {
+		try {
+			const { element: submitButton, success } = await waitForElement<HTMLButtonElement>(
+				REPORT_PAGE_SELECTORS.SUBMIT_BUTTON
+			);
 
-        if (!categoryButton || !commentTextarea) {
-            logger.error('Could not find report form elements');
-            throw new Error('Could not find report form elements');
-        }
+			if (!success || !submitButton) {
+				logger.debug('Submit button not found after retries, skipping listener setup');
+				return;
+			}
 
-        return {categoryButton, commentTextarea};
-    }
+			const handleSubmitClick = () => {
+				void handleReportSubmit();
+			};
 
-    // Wait for dropdown and select the Inappropriate Language category
-    async function selectInappropriateLanguageCategory(): Promise<void> {
-        try {
-            // Wait for dropdown to open
-            let attempts = 0;
-            let isDropdownOpen = false;
+			submitButton.addEventListener('click', handleSubmitClick);
+			submitButtonListener = () => {
+				submitButton.removeEventListener('click', handleSubmitClick);
+			};
 
-            while (attempts < 10 && !isDropdownOpen) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                const categoryButton = document.querySelector('button[role="combobox"]') as HTMLButtonElement;
-                isDropdownOpen = categoryButton?.getAttribute('aria-expanded') === 'true';
-                attempts++;
-            }
+			logger.debug('Submit button listener attached');
+		} catch (error) {
+			logger.error('Failed to setup submit button listener:', error);
+		}
+	}
 
-            if (!isDropdownOpen) {
-                logger.warn('Dropdown did not open after waiting');
-                return;
-            }
+	// Handle report submission
+	async function handleReportSubmit(): Promise<void> {
+		if (!userId) {
+			return;
+		}
 
-            // Find the Inappropriate Language option
-            const inappropriateLanguageOption = Array.from(document.querySelectorAll('[role="option"]'))
-                .find(option => {
-                    const textElement = option.querySelector('span');
-                    return textElement?.textContent?.includes('Inappropriate Language');
-                }) as HTMLElement;
+		// Only log reports if user is authenticated
+		if (!$authStore.isAuthenticated) {
+			logger.debug('User not authenticated, skipping report logging');
+			return;
+		}
 
-            if (inappropriateLanguageOption) {
-                inappropriateLanguageOption.click();
-                logger.debug('Selected Inappropriate Language category');
-            } else {
-                logger.warn('Could not find Inappropriate Language category option');
-            }
-        } catch (error) {
-            logger.error('Failed to select category:', error);
-        }
-    }
+		try {
+			// Extract category from the dropdown
+			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
+			const category = categoryElement?.textContent?.trim() || 'Unknown Category';
 
-    // Mount report helper card on the page
-    async function mountReportHelper(): Promise<void> {
-        try {
-            // Only show report helper if user has profile violations
-            if (!userStatus || !hasUserProfileViolations()) {
-                logger.debug('User has no profile violations, not showing report helper');
-                return;
-            }
+			// Extract comment from the textarea
+			const commentTextarea = document.querySelector(
+				REPORT_PAGE_SELECTORS.COMMENT_TEXTAREA
+			) as HTMLTextAreaElement;
+			const comment = commentTextarea?.value?.trim() || '';
 
-            // Find the report form container
-            const formContainer = document.querySelector(REPORT_PAGE_SELECTORS.FORM_CONTAINER);
+			// Build report reason
+			let reportReason = `Category: ${category}`;
+			if (comment) {
+				reportReason += `\n\nComment: ${comment}`;
+			}
 
-            if (!formContainer) {
-                logger.warn('Could not find report form container');
-                return;
-            }
+			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
+				userId: userId,
+				category: category
+			});
 
-            // Create container for report helper card
-            const container = document.createElement('div');
-            container.className = COMPONENT_CLASSES.REPORT_HELPER;
+			const id = Number.parseInt(userId, 10);
+			if (!Number.isFinite(id)) {
+				throw new Error('Invalid userId');
+			}
+			await apiClient.submitExtensionReport(id, reportReason);
 
-            // Insert before the form
-            formContainer.parentNode?.insertBefore(container, formContainer);
+			logger.debug('Extension report submitted successfully', {
+				category,
+				hasComment: !!comment
+			});
+		} catch (error) {
+			logger.error('Failed to submit extension report:', error);
+		}
+	}
 
-            // Mount ReportHelper as a card
-            if (userId) {
-                const {mount} = await import('svelte');
-                const component = mount(ReportHelper, {
-                    target: container,
-                    props: {
-                        isOpen: true,
-                        isCard: true,
-                        userId: userId,
-                        status: userStatus,
-                        onFillForm: handleFillForm,
-                        onClose: () => {
-                        }
-                    }
-                });
+	// Check if user has profile violations (reason type 0)
+	function hasUserProfileViolations(): boolean {
+		if (!userStatus || !userStatus.reasons) {
+			return false;
+		}
+		return '0' in userStatus.reasons;
+	}
 
-                reportHelper = {
-                    element: container,
-                    cleanup: () => {
-                        if ('unmount' in component && typeof component.unmount === 'function') {
-                            (component as { unmount: () => void }).unmount();
-                        }
-                        container.remove();
-                    }
-                };
-            }
+	// Find and validate required form elements
+	function findFormElements(): {
+		categoryButton: HTMLButtonElement;
+		commentTextarea: HTMLTextAreaElement;
+	} {
+		const categoryButton = document.querySelector(
+			REPORT_PAGE_SELECTORS.CATEGORY_BUTTON
+		) as HTMLButtonElement;
+		const commentTextarea = document.querySelector(
+			REPORT_PAGE_SELECTORS.COMMENT_TEXTAREA
+		) as HTMLTextAreaElement;
 
-            logger.debug('Report helper card mounted');
+		if (!categoryButton || !commentTextarea) {
+			logger.error('Could not find report form elements');
+			throw new Error('Could not find report form elements');
+		}
 
-        } catch (error) {
-            logger.error('Failed to mount report helper:', error);
-        }
-    }
+		return { categoryButton, commentTextarea };
+	}
 
-    // Handle fill form button click
-    async function handleFillForm(): Promise<void> {
-        try {
-            logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
-                userId: userId
-            });
+	// Wait for dropdown and select the Inappropriate Language category
+	async function selectInappropriateLanguageCategory(): Promise<void> {
+		try {
+			// Wait for dropdown to open
+			let attempts = 0;
+			let isDropdownOpen = false;
 
-            // Find form elements
-            const {categoryButton, commentTextarea} = findFormElements();
+			while (attempts < 10 && !isDropdownOpen) {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				const categoryButton = document.querySelector(
+					REPORT_PAGE_SELECTORS.CATEGORY_BUTTON
+				) as HTMLButtonElement;
+				isDropdownOpen = categoryButton?.getAttribute('aria-expanded') === 'true';
+				attempts++;
+			}
 
-            // Focus and use Enter key to open dropdown
-            categoryButton.focus();
-            categoryButton.dispatchEvent(new KeyboardEvent('keydown', {
-                key: 'Enter',
-                bubbles: true
-            }));
+			if (!isDropdownOpen) {
+				logger.warn('Dropdown did not open after waiting');
+				return;
+			}
 
-            // Wait for dropdown to appear and select appropriate category
-            await selectInappropriateLanguageCategory();
+			// Find the Inappropriate Language option
+			const inappropriateLanguageOption = Array.from(
+				document.querySelectorAll(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
+			).find((option) => {
+				const textElement = option.querySelector('span');
+				return textElement?.textContent?.includes('Inappropriate Language');
+			}) as HTMLElement;
 
-            // Build comment text
-            let commentText = 'This user\'s profile contains inappropriate content that violates Roblox\'s Terms of Service.\n\n';
+			if (inappropriateLanguageOption) {
+				inappropriateLanguageOption.click();
+				logger.debug('Selected Inappropriate Language category');
+			} else {
+				logger.warn('Could not find Inappropriate Language category option');
+			}
+		} catch (error) {
+			logger.error('Failed to select category:', error);
+		}
+	}
 
-            // Get the profile violation reason
-            const profileReason = userStatus?.reasons?.["0"];
+	// Mount report helper card on the page
+	async function mountReportHelper(): Promise<void> {
+		try {
+			// Only show report helper if user has profile violations
+			if (!userStatus || !hasUserProfileViolations()) {
+				logger.debug('User has no profile violations, not showing report helper');
+				return;
+			}
 
-            if (profileReason?.message) {
-                commentText += `Detected Issue:\n${profileReason.message}\n\n`;
-            }
+			// Find the report form container
+			const formContainer = document.querySelector(REPORT_PAGE_SELECTORS.FORM_CONTAINER);
 
-            // Add evidence if advanced info is enabled
-            const currentSettings = get(settings);
-            if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
-                commentText += 'Evidence Snippets:\n';
-                profileReason.evidence.forEach((snippet: string, index: number) => {
-                    commentText += `${index + 1}. ${snippet}\n`;
-                });
-            }
+			if (!formContainer) {
+				logger.warn('Could not find report form container');
+				return;
+			}
 
-            // Set comment text
-            commentTextarea.value = commentText;
+			// Create container for report helper card
+			const container = document.createElement('div');
+			container.className = COMPONENT_CLASSES.REPORT_HELPER;
 
-            // Trigger input event on textarea
-            const inputEvent = new Event('input', {bubbles: true});
-            commentTextarea.dispatchEvent(inputEvent);
+			// Insert before the form
+			formContainer.parentNode?.insertBefore(container, formContainer);
 
-            // Scroll form into view
-            commentTextarea.scrollIntoView({behavior: 'smooth', block: 'center'});
+			// Mount ReportHelper as a card
+			if (userId) {
+				const { mount } = await import('svelte');
+				const component = mount(ReportHelper, {
+					target: container,
+					props: {
+						isOpen: true,
+						isCard: true,
+						userId: userId,
+						status: userStatus,
+						onFillForm: handleFillForm,
+						onClose: () => {}
+					}
+				});
 
-            // Show success message
-            showSuccessMessage();
+				reportHelper = {
+					element: container,
+					cleanup: () => {
+						if ('unmount' in component && typeof component.unmount === 'function') {
+							(component as { unmount: () => void }).unmount();
+						}
+						container.remove();
+					}
+				};
+			}
 
-            logger.debug('Report form filled successfully');
+			logger.debug('Report helper card mounted');
+		} catch (error) {
+			logger.error('Failed to mount report helper:', error);
+		}
+	}
 
-        } catch (error) {
-            logger.error('Failed to fill form:', error);
-            throw error;
-        }
-    }
+	// Handle fill form button click
+	async function handleFillForm(): Promise<void> {
+		// Build comment text
+		let commentText =
+			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
 
-    // Show success message below the form
-    function showSuccessMessage(): void {
-        try {
-            // Remove any existing success message
-            if (successMessageElement) {
-                successMessageElement.remove();
-                successMessageElement = null;
-            }
+		const profileReason = userStatus?.reasons?.['0'];
 
-            // Find the footer section
-            const footer = document.querySelector(REPORT_PAGE_SELECTORS.FOOTER);
-            if (!footer || !footer.parentNode) {
-                logger.warn('Could not find footer to insert success message');
-                return;
-            }
+		if (profileReason?.message) {
+			commentText += `Detected Issue:\n${profileReason.message}\n\n`;
+		}
 
-            // Create success message element
-            successMessageElement = document.createElement('div');
-            successMessageElement.className = COMPONENT_CLASSES.REPORT_HELPER_SUCCESS_MESSAGE;
-            successMessageElement.textContent = '✅ Form filled successfully! Category and comment have been set. Review and submit when ready.';
+		// Add evidence if advanced info is enabled
+		const currentSettings = get(settings);
+		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
+			commentText += 'Evidence Snippets:\n';
+			profileReason.evidence.forEach((snippet: string, index: number) => {
+				commentText += `${index + 1}. ${snippet}\n`;
+			});
+		}
 
-            // Insert after footer
-            footer.parentNode.insertBefore(successMessageElement, footer.nextSibling);
+		try {
+			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
+				userId: userId
+			});
 
-            // Remove after 5 seconds
-            setTimeout(() => {
-                if (successMessageElement) {
-                    successMessageElement.remove();
-                    successMessageElement = null;
-                }
-            }, 5000);
+			// Find form elements
+			const { categoryButton, commentTextarea } = findFormElements();
 
-        } catch (error) {
-            logger.error('Failed to show success message:', error);
-        }
-    }
+			// Focus and use Enter key to open dropdown
+			categoryButton.focus();
+			categoryButton.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: 'Enter',
+					bubbles: true
+				})
+			);
 
-    // Cleanup resources
-    function cleanup() {
-        try {
-            // Cleanup report helper
-            if (reportHelper) {
-                reportHelper.cleanup();
-                reportHelper = null;
-            }
+			// Wait for dropdown to appear and select appropriate category
+			await selectInappropriateLanguageCategory();
 
-            // Cleanup success message
-            if (successMessageElement) {
-                successMessageElement.remove();
-                successMessageElement = null;
-            }
+			// Set comment text
+			commentTextarea.value = commentText;
 
-            logger.debug('ReportPageManager cleanup completed');
-        } catch (error) {
-            logger.error('Failed to cleanup ReportPageManager:', error);
-        }
-    }
+			// Trigger input and change events
+			commentTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+			commentTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+
+			// Validate that the form was filled correctly
+			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
+			const categoryText = categoryElement?.textContent?.trim() || '';
+			const isCategorySet = categoryText.includes('Inappropriate Language');
+			const isTextareaSet = commentTextarea.value === commentText;
+
+			if (!isCategorySet || !isTextareaSet) {
+				throw new Error('Form validation failed');
+			}
+
+			// Scroll form into view
+			commentTextarea.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			});
+
+			// Show success message
+			showMessage('success', 'Form filled successfully! Review and submit when ready.');
+
+			logger.debug('Report form filled successfully');
+		} catch (error) {
+			logger.error('Auto-fill failed, using clipboard fallback:', error);
+
+			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL_FAILED, {
+				userId: userId,
+				error: error instanceof Error ? error.message : 'Unknown error'
+			});
+
+			// Copy to clipboard as fallback
+			try {
+				await navigator.clipboard.writeText(commentText);
+				showMessage(
+					'error',
+					'Auto-fill unavailable. Report text copied to clipboard. You can paste it into the comment field manually.'
+				);
+			} catch (clipboardError) {
+				logger.error('Clipboard copy failed:', clipboardError);
+				showMessage(
+					'error',
+					'Auto-fill failed. Please manually fill the report form with the appropriate details.'
+				);
+			}
+		}
+	}
+
+	// Show message below the form
+	function showMessage(type: 'success' | 'error', message: string): void {
+		try {
+			// Remove any existing message
+			if (successMessageElement) {
+				successMessageElement.remove();
+				successMessageElement = null;
+			}
+
+			// Find the footer section
+			const footer = document.querySelector(REPORT_PAGE_SELECTORS.FOOTER);
+			if (!footer || !footer.parentNode) {
+				logger.warn('Could not find footer to insert message');
+				return;
+			}
+
+			// Create message element
+			successMessageElement = document.createElement('div');
+			successMessageElement.className = `${COMPONENT_CLASSES.REPORT_HELPER_SUCCESS_MESSAGE}${type === 'error' ? ' error' : ''}`;
+			successMessageElement.textContent = message;
+
+			// Insert after footer
+			footer.parentNode.insertBefore(successMessageElement, footer.nextSibling);
+
+			// Remove after timeout (longer for errors)
+			setTimeout(
+				() => {
+					if (successMessageElement) {
+						successMessageElement.remove();
+						successMessageElement = null;
+					}
+				},
+				type === 'error' ? 8000 : 5000
+			);
+		} catch (error) {
+			logger.error('Failed to show message:', error);
+		}
+	}
+
+	// Cleanup resources
+	function cleanup() {
+		try {
+			// Cleanup submit button listener
+			if (submitButtonListener) {
+				submitButtonListener();
+				submitButtonListener = null;
+			}
+
+			// Cleanup report helper
+			if (reportHelper) {
+				reportHelper.cleanup();
+				reportHelper = null;
+			}
+
+			// Cleanup success message
+			if (successMessageElement) {
+				successMessageElement.remove();
+				successMessageElement = null;
+			}
+
+			logger.debug('ReportPageManager cleanup completed');
+		} catch (error) {
+			logger.error('Failed to cleanup ReportPageManager:', error);
+		}
+	}
 </script>

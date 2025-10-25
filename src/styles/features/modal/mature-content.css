@@ -3,75 +3,96 @@
    ================================= */
 
 @utility mature-content-overlay {
-  @apply modal-overlay-base;
+	@apply modal-overlay-base;
 }
 
 @utility mature-content-popup {
-  @apply modal-popup-base w-[520px];
+	@apply modal-popup-base w-[520px];
 }
 
 @utility mature-content-popup-small {
-  @apply modal-popup-base-small;
+	@apply modal-popup-base-small;
 }
 
 @utility mature-content-header {
-  @apply modal-header-base;
-  background: linear-gradient(to right, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.05));
+	@apply modal-header-base;
 }
 
 @utility mature-content-title {
-  @apply text-lg font-semibold m-0 text-[#ff9800] flex-grow;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	@apply text-lg font-semibold m-0 flex-grow;
+	color: var(--color-text-heading);
 }
 
 @utility mature-content-content {
-  @apply modal-content-base;
+	@apply modal-content-base;
 }
 
 @utility mature-content-content-small {
-  @apply modal-content-base-small;
+	@apply modal-content-base-small;
 }
 
 @utility mature-content-actions {
-  @apply modal-actions-base;
+	@apply modal-actions-base;
 }
 
 @utility mature-content-cancel {
-  @apply modal-button-base bg-[#333333] !text-white;
+	@apply modal-button-base;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
 
-  &:hover {
-    @apply bg-[#3d3d3d] shadow-md -translate-y-px;
-  }
+	&:hover {
+		background-color: var(--color-card-hover);
+		@apply shadow-md -translate-y-px;
+	}
 }
 
 @utility mature-content-confirm {
-  @apply modal-button-base bg-[#ff9800] !text-white;
+	@apply modal-button-base !text-white;
+	background-color: var(--color-warning);
 
-  &:hover {
-    @apply bg-[#f57c00] shadow-md -translate-y-px;
-  }
+	&:hover:not(:disabled) {
+		background-color: var(--color-warning-hover);
+		@apply shadow-md -translate-y-px;
+	}
 
-  &:disabled {
-    @apply bg-[#ccc] !text-white cursor-not-allowed translate-y-0 shadow-none;
+	&:disabled {
+		opacity: 0.5;
+		@apply cursor-not-allowed translate-y-0 shadow-none;
 
-    &:hover {
-      @apply bg-[#ccc] translate-y-0 shadow-none;
-    }
-  }
+		&:hover {
+			@apply translate-y-0 shadow-none;
+		}
+	}
 
-  &.mature-content-confirm-danger {
-    @apply bg-[#f44336];
+	&.mature-content-confirm-danger {
+		background-color: var(--color-error);
 
-    &:hover {
-      @apply bg-[#d32f2f];
-    }
+		&:hover:not(:disabled) {
+			filter: brightness(0.9);
+		}
 
-    &:disabled {
-      @apply bg-[#ccc];
+		&:disabled {
+			opacity: 0.5;
 
-      &:hover {
-        @apply bg-[#ccc];
-      }
-    }
-  }
-} 
+			&:hover {
+				filter: none;
+			}
+		}
+	}
+
+	&.mature-content-confirm-queue {
+		background-color: var(--color-primary);
+
+		&:hover:not(:disabled) {
+			background-color: var(--color-primary-hover);
+		}
+
+		&:disabled {
+			opacity: 0.5;
+
+			&:hover {
+				filter: none;
+			}
+		}
+	}
+}

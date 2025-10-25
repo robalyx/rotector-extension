@@ -1,68 +1,113 @@
 <script lang="ts">
-    import StatisticsSection from '../../components/popup/StatisticsSection.svelte';
-    import SettingsSection from '../../components/popup/SettingsSection.svelte';
-    import ChangelogBanner from '../../components/popup/ChangelogBanner.svelte';
-    import AdvancedViolationBanner from '../../components/popup/AdvancedViolationBanner.svelte';
-    import ChangelogSection from '../../components/popup/ChangelogSection.svelte';
-    import FinancialSection from '../../components/popup/FinancialSection.svelte';
-    import FooterSection from '../../components/popup/FooterSection.svelte';
-    import {initializeSettings} from '@/lib/stores/settings';
-    import {themeManager} from '@/lib/utils/theme';
-    import type {SettingsSectionInstance} from '@/lib/types/components';
+	import Navbar from '../../components/popup/Navbar.svelte';
+	import StatsPage from '../../components/popup/StatsPage.svelte';
+	import SettingsPage from '../../components/popup/SettingsPage.svelte';
+	import WarzonePage from '../../components/popup/WarzonePage.svelte';
+	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
+	import { initializeSettings } from '@/lib/stores/settings';
+	import { themeManager } from '@/lib/utils/theme';
+	import type { SettingsPageInstance } from '@/lib/types/components';
+	import { logger } from '@/lib/utils/logger';
 
-    let settingsSection = $state<SettingsSectionInstance>();
+	type Page = 'stats' | 'settings' | 'warzone';
 
-    $effect(() => {
-        initializeSettings().catch(error => {
-            console.error('Failed to initialize settings:', error);
-        });
-        themeManager.initializePopupThemeSync().catch(error => {
-            console.error('Failed to initialize popup theme sync:', error);
-        });
-    });
+	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
-    const theme = themeManager.effectiveTheme;
-    const logoSrc = $derived($theme === 'dark' ? '/assets/rotector-logo-dark.png' : '/assets/rotector-logo-light.png');
+	let currentPage = $state<Page | null>(null);
+	let settingsPage = $state<SettingsPageInstance>();
+
+	function handlePageChange(page: Page) {
+		currentPage = page;
+	}
+
+	function handleDeveloperUnlock() {
+		settingsPage?.unlockDeveloperMode().catch((error) => {
+			logger.error('Failed to unlock developer mode:', error);
+		});
+	}
+
+	$effect(() => {
+		initializeSettings().catch((error) => {
+			logger.error('Failed to initialize settings:', error);
+		});
+		themeManager.initializePopupThemeSync().catch((error) => {
+			logger.error('Failed to initialize popup theme sync:', error);
+		});
+	});
+
+	// Load last visited page from storage on mount
+	$effect(() => {
+		browser.storage.local
+			.get(LAST_PAGE_STORAGE_KEY)
+			.then((result) => {
+				const savedPage = result[LAST_PAGE_STORAGE_KEY] as Page | undefined;
+				if (
+					savedPage &&
+					(savedPage === 'stats' || savedPage === 'settings' || savedPage === 'warzone')
+				) {
+					currentPage = savedPage;
+				} else {
+					currentPage = 'stats';
+				}
+			})
+			.catch((error) => {
+				logger.error('Failed to load last visited page:', error);
+				currentPage = 'stats';
+			});
+	});
+
+	// Save current page to storage whenever it changes
+	$effect(() => {
+		if (currentPage) {
+			browser.storage.local.set({ [LAST_PAGE_STORAGE_KEY]: currentPage }).catch((error) => {
+				logger.error('Failed to save last visited page:', error);
+			});
+		}
+	});
+
+	const theme = themeManager.effectiveTheme;
+	const logoSrc = $derived(
+		$theme === 'dark' ? '/assets/rotector-logo-dark.png' : '/assets/rotector-logo-light.png'
+	);
 </script>
 
-<div class="
-  app flex min-h-[400px] scrollbar-styled w-[350px] flex-col gap-3 p-3
-">
-  <!-- Header Section -->
-  <div class="pb-2 text-center">
-    <div class="mb-2 flex justify-center">
-      <img
-          class="h-20 w-auto max-w-[260px] object-contain"
-          alt="Rotector"
-          src={logoSrc}
-      />
-    </div>
-    <p class="
+<div
+	class="
+  app flex min-h-[400px] w-[350px] flex-col gap-3 p-3
+"
+>
+	<!-- Header Section -->
+	<div class="pb-2 text-center">
+		<div class="mb-2 flex justify-center">
+			<img class="h-20 w-auto max-w-[260px] object-contain" alt="Rotector" src={logoSrc} />
+		</div>
+		<p
+			class="
       text-text-subtle m-0 text-xs
       dark:text-text-subtle-dark
-    ">
-      Real-time safety indicators that warn you about inappropriate Roblox users before you interact with them.
-    </p>
-  </div>
+    "
+		>
+			Real-time safety indicators that warn you about inappropriate Roblox users before you interact
+			with them.
+		</p>
+	</div>
 
-  <!-- Changelog Banner -->
-  <ChangelogBanner/>
+	<!-- Navigation -->
+	<Navbar {currentPage} onDeveloperUnlock={handleDeveloperUnlock} onPageChange={handlePageChange} />
 
-  <!-- Advanced Violation Banner -->
-  <AdvancedViolationBanner {settingsSection}/>
+	<!-- Page Content -->
+	<div class="page-content">
+		{#if currentPage !== null}
+			{#if currentPage === 'stats'}
+				<StatsPage />
+			{:else if currentPage === 'settings'}
+				<SettingsPage bind:this={settingsPage} />
+			{:else if currentPage === 'warzone'}
+				<WarzonePage />
+			{/if}
+		{/if}
+	</div>
 
-  <!-- Statistics Section -->
-  <StatisticsSection/>
-
-  <!-- Settings Section -->
-  <SettingsSection bind:this={settingsSection}/>
-
-  <!-- Changelog Section -->
-  <ChangelogSection/>
-
-  <!-- Financial Section -->
-  <FinancialSection/>
-
-  <!-- Footer Section -->
-  <FooterSection/>
+	<!-- Footer Section -->
+	<FooterSection />
 </div>

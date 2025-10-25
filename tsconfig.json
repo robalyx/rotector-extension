@@ -1,32 +1,32 @@
 {
-  "extends": "./.wxt/tsconfig.json",
-  "compilerOptions": {
-    /* === Module System === */
-    "module": "esnext",                    // Use latest ES module syntax
-    "moduleResolution": "bundler",         // Use bundler-specific resolution (Vite/Webpack)
-    "target": "es2017",                    // Target ES2017 for good browser compatibility
-    "verbatimModuleSyntax": true,          // Enforce explicit import/export types
-    "isolatedModules": true,               // Each file can be transpiled independently
-    "resolveJsonModule": true,             // Allow importing JSON files
-    
-    /* === Build Options === */
-    "sourceMap": true,                     // Generate source maps for debugging
-    "esModuleInterop": true,               // Enable interop between CommonJS and ES modules
-    "skipLibCheck": true,                  // Skip type checking of declaration files for faster builds
-    "useDefineForClassFields": true,       // Use standard class field behavior
-    "forceConsistentCasingInFileNames": true, // Enforce consistent file name casing
-    
-    /* === Core Strict Mode === */
-    "strict": true,                        // Enable all strict type checking options
-    
-    /* === Additional Safety === */
-    "noImplicitReturns": true,            // Require all code paths to return a value
-    "noImplicitOverride": true,           // Require 'override' modifier for inherited methods
-    "allowUnusedLabels": false,           // Disallow unused labels (potential bugs)
-    "allowUnreachableCode": false,        // Disallow unreachable code after return/throw
-    
-    /* === Code Quality === */
-    "noUnusedLocals": true,               // Report unused local variables
-    "noUnusedParameters": true            // Report unused function parameters
-  }
+	"extends": "./.wxt/tsconfig.json",
+	"compilerOptions": {
+		/* === Module System === */
+		"module": "esnext", // Use latest ES module syntax
+		"moduleResolution": "bundler", // Use bundler-specific resolution (Vite/Webpack)
+		"target": "es2017", // Target ES2017 for good browser compatibility
+		"verbatimModuleSyntax": true, // Enforce explicit import/export types
+		"isolatedModules": true, // Each file can be transpiled independently
+		"resolveJsonModule": true, // Allow importing JSON files
+
+		/* === Build Options === */
+		"sourceMap": true, // Generate source maps for debugging
+		"esModuleInterop": true, // Enable interop between CommonJS and ES modules
+		"skipLibCheck": true, // Skip type checking of declaration files for faster builds
+		"useDefineForClassFields": true, // Use standard class field behavior
+		"forceConsistentCasingInFileNames": true, // Enforce consistent file name casing
+
+		/* === Core Strict Mode === */
+		"strict": true, // Enable all strict type checking options
+
+		/* === Additional Safety === */
+		"noImplicitReturns": true, // Require all code paths to return a value
+		"noImplicitOverride": true, // Require 'override' modifier for inherited methods
+		"allowUnusedLabels": false, // Disallow unused labels (potential bugs)
+		"allowUnreachableCode": false, // Disallow unreachable code after return/throw
+
+		/* === Code Quality === */
+		"noUnusedLocals": true, // Report unused local variables
+		"noUnusedParameters": true // Report unused function parameters
+	}
 }

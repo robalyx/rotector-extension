@@ -1,5 +1,5 @@
 .output
 .wxt
-.idea
 node_modules
 web-ext.config.ts
+.env

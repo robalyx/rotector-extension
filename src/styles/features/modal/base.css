@@ -3,171 +3,172 @@
    ================================= */
 
 @utility modal-overlay-base {
-  @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
+	@apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
 
-  &.visible {
-    @apply opacity-100 visible;
-  }
+	&.visible {
+		@apply opacity-100 visible;
+	}
 
-  &.closing {
-    @apply opacity-0;
-  }
+	&.closing {
+		@apply opacity-0;
+	}
 }
 
 @utility modal-popup-base {
-  @apply max-w-[95%] rounded-xl shadow-2xl border border-white/5 flex flex-col;
-  background-color: var(--color-bg-content);
-  transform: scale(0.95) translateY(20px);
-  transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
-  max-height: 800px;
+	@apply max-w-[95%] rounded-xl shadow-2xl border border-white/5 flex flex-col;
+	background-color: var(--color-bg-content);
+	transform: scale(0.95) translateY(20px);
+	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
+	max-height: 800px;
 }
 
 @utility modal-popup-base-small {
-  @apply modal-popup-base;
-  max-height: 640px;
-  width: 300px;
+	@apply modal-popup-base;
+	max-height: 640px;
+	width: 300px;
 }
 
 .modal-overlay-base.visible .modal-popup-base {
-  transform: scale(1) translateY(0);
+	transform: scale(1) translateY(0);
 }
 
 .modal-overlay-base.visible .modal-popup-base-small {
-  transform: scale(1) translateY(0);
+	transform: scale(1) translateY(0);
 }
 
 @utility modal-header-base {
-  @apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl;
+	@apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl;
+	background-color: var(--color-bg-tertiary);
 }
 
 @utility modal-close-base {
-  @apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200 ml-auto;
-  color: var(--color-text);
+	@apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200 ml-auto;
+	color: var(--color-text);
 
-  &:hover {
-    @apply bg-white/10;
-  }
+	&:hover {
+		@apply bg-white/10;
+	}
 }
 
 @utility modal-close {
-  @apply modal-close-base !text-white;
+	@apply modal-close-base !text-white;
 }
 
 @utility modal-content-base {
-  @apply p-5 overflow-y-auto;
-  min-height: 200px;
-  max-height: 600px;
-  overflow-anchor: auto;
+	@apply p-5 overflow-y-auto;
+	min-height: 200px;
+	max-height: 600px;
+	overflow-anchor: auto;
 }
 
 @utility modal-content-base-small {
-  @apply modal-content-base;
-  min-height: 240px;
-  max-height: 400px;
-  padding: 16px;
+	@apply modal-content-base;
+	min-height: 240px;
+	max-height: 400px;
+	padding: 16px;
 }
 
 @utility modal-actions-base {
-  @apply flex flex-col gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
-  background-color: var(--color-bg-content);
+	@apply flex flex-col gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
+	background-color: var(--color-bg-content);
 
-  &:has(> button:only-child) {
-    @apply items-center;
-  }
+	&:has(> button:only-child) {
+		@apply items-center;
+	}
 }
 
 @utility modal-actions-horizontal {
-  @apply flex flex-row justify-center gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
-  background-color: var(--color-bg-content);
+	@apply flex flex-row justify-center gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
+	background-color: var(--color-bg-content);
 }
 
 /* =================================
    MODAL BUTTONS
    ================================= */
 @utility modal-button-base {
-  @apply px-[18px] py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm flex items-center justify-center w-full max-w-[220px] box-border min-w-0;
+	@apply px-[18px] py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm flex items-center justify-center w-full max-w-[220px] box-border min-w-0;
 
-  &:active {
-    @apply translate-y-0 shadow-sm;
-  }
+	&:active {
+		@apply translate-y-0 shadow-sm;
+	}
 }
 
 /* =================================
    MODAL CONTENT SECTIONS
    ================================= */
 @utility modal-content-section {
-  @apply mb-4 bg-black/15 rounded-[10px] p-3.5 px-4 relative overflow-hidden;
+	@apply mb-4 bg-black/15 rounded-[10px] p-3.5 px-4 relative overflow-hidden;
 }
 
 @utility modal-content-section-info {
-  @apply modal-content-section;
+	@apply modal-content-section;
 }
 
 @utility modal-content-section-warning {
-  @apply modal-content-section;
+	@apply modal-content-section;
 
-  & p {
-    @apply text-sm;
-  }
+	& p {
+		@apply text-sm;
+	}
 }
 
 @utility modal-content-section-recommendation {
-  @apply modal-content-section;
+	@apply modal-content-section;
 }
 
 /* =================================
    MODAL CONTENT TYPOGRAPHY
    ================================= */
 @utility modal-content-heading {
-  @apply text-[15px] m-0 mb-2 font-semibold;
-  color: var(--color-text-heading);
+	@apply text-[15px] m-0 mb-2 font-semibold;
+	color: var(--color-text-heading);
 }
 
 @utility modal-content-list {
-  @apply mt-2 mb-0 pl-6 list-none;
+	@apply mt-2 mb-0 pl-6 list-none;
 }
 
 @utility modal-content-list-item {
-  @apply mb-1.5 text-sm leading-relaxed flex items-start gap-3;
-  color: var(--color-text);
+	@apply mb-1.5 text-sm leading-relaxed flex items-start gap-3;
+	color: var(--color-text);
 }
 
 @utility modal-content-list-item-info {
-  @apply modal-content-list-item;
+	@apply modal-content-list-item;
 
-  &::before {
-    content: '•';
-    @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4287f5] text-transparent mt-[0.6em];
-  }
+	&::before {
+		content: '•';
+		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4287f5] text-transparent mt-[0.6em];
+	}
 }
 
 @utility modal-content-list-item-warning {
-  @apply modal-content-list-item;
+	@apply modal-content-list-item;
 
-  &::before {
-    content: '•';
-    @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#ff9800] text-transparent mt-[0.6em];
-  }
+	&::before {
+		content: '•';
+		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#ff9800] text-transparent mt-[0.6em];
+	}
 }
 
 @utility modal-content-list-item-recommendation {
-  @apply modal-content-list-item;
+	@apply modal-content-list-item;
 
-  &::before {
-    content: '•';
-    @apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4caf50] text-transparent mt-[0.6em];
-  }
+	&::before {
+		content: '•';
+		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4caf50] text-transparent mt-[0.6em];
+	}
 }
 
 /* =================================
    MODAL TEXT STYLING
    ================================= */
 .modal-content-base p {
-  @apply m-0 mb-4 text-sm leading-relaxed;
-  color: var(--color-text);
+	@apply m-0 mb-4 text-sm leading-relaxed;
+	color: var(--color-text);
 }
 
 .modal-content-base strong {
-  @apply font-semibold;
-  color: var(--color-text-heading);
-} 
+	@apply font-semibold;
+	color: var(--color-text-heading);
+}

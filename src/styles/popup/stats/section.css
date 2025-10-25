@@ -1,0 +1,42 @@
+/* =================================
+   SECTION HEADER
+   ================================= */
+
+.changelog-section-header {
+	@apply w-full px-2 py-1.5 cursor-pointer transition-all duration-200 border rounded-sm text-xs font-medium flex items-center justify-between;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border);
+	color: var(--color-text);
+
+	&:hover {
+		@apply bg-[var(--color-link-hover-bg)] border-[var(--color-link-hover-border)];
+	}
+
+	&:active {
+		@apply scale-[0.98];
+	}
+}
+
+/* =================================
+   SECTION CONTENT
+   ================================= */
+.changelog-section-content {
+	@apply flex flex-col;
+}
+
+.changelog-section-item {
+	@apply py-1.5;
+
+	&.first {
+		@apply pt-0;
+	}
+}
+
+.changelog-section-divider {
+	@apply my-2 border-t;
+	border-color: var(--color-border-subtle);
+}
+
+.changelog-section-empty {
+	@apply py-4;
+}

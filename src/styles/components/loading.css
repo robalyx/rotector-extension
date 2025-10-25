@@ -3,24 +3,24 @@
    ================================= */
 
 @utility loading-spinner {
-  @apply inline-block border-2 border-current border-t-transparent rounded-full animate-spin-smooth;
+	@apply inline-block border-2 border-current border-t-transparent rounded-full animate-spin-smooth;
 
-  &.small {
-    @apply w-4 h-4;
-  }
+	&.small {
+		@apply w-4 h-4;
+	}
 
-  &.medium {
-    @apply w-6 h-6;
-  }
+	&.medium {
+		@apply w-6 h-6;
+	}
 
-  &.large {
-    @apply w-8 h-8;
-  }
+	&.large {
+		@apply w-8 h-8;
+	}
 }
 
 /* =================================
    LOADING OVERLAY UTILITIES
    ================================= */
 @utility loading-overlay {
-  @apply absolute inset-0 flex items-center justify-center bg-white/80 rounded-[inherit] transition-opacity duration-200;
+	@apply absolute inset-0 flex items-center justify-center bg-white/80 rounded-[inherit] transition-opacity duration-200;
 }

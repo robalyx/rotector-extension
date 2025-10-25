@@ -1,65 +1,33 @@
 /* =================================
-   QUEUE STATUS BADGES
-   ================================= */
-
-@utility queue-pending {
-  @apply bg-gradient-to-br from-blue-500 to-blue-700 text-white border-blue-700;
-}
-
-@utility queue-flagged {
-  @apply bg-gradient-to-br from-red-500 to-red-700 text-white border-red-700;
-}
-
-@utility queue-safe {
-  @apply bg-gradient-to-br from-green-500 to-green-600 text-white border-green-600;
-}
-
-.queue-pending .stat-label,
-.queue-flagged .stat-label,
-.queue-safe .stat-label {
-  color: white;
-}
-
-.queue-pending .stat-value,
-.queue-flagged .stat-value,
-.queue-safe .stat-value {
-  color: white;
-}
-
-/* =================================
    GENERAL BADGE UTILITIES
    ================================= */
 @utility status-badge {
-  @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
+	@apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
 }
 
 /* =================================
-   STATUS BADGE UTILITIES  
+   STATUS BADGE UTILITIES
    ================================= */
 @utility status-badge-base {
-  @apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center border-[1.5px] z-[2] shadow-badge;
-  bottom: -4px;
-  right: -4px;
-  box-sizing: content-box;
-  border-color: var(--color-bg-content);
+	@apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center z-[2] shadow-badge;
+	bottom: -4px;
+	right: -4px;
 }
 
 @utility reportable-badge {
-  @apply status-badge-base bg-icon-reportable-flag;
-  background-color: var(--color-status-unsafe);
-  background-size: 10px 10px;
+	@apply status-badge-base;
+	background-color: var(--color-status-unsafe);
+	color: white;
 }
 
 @utility queue-badge {
-  @apply status-badge-base border bg-icon-queue-hourglass;
-  background-color: var(--color-status-queued);
-  border-color: var(--color-bg-content);
-  background-size: 8px 8px;
+	@apply status-badge-base;
+	background-color: var(--color-status-queued);
+	color: white;
 }
 
 @utility outfit-badge {
-  @apply status-badge-base border bg-icon-outfit-shirt;
-  background-color: var(--color-status-outfit);
-  border-color: var(--color-bg-content);
-  background-size: 9px 9px;
+	@apply status-badge-base;
+	background-color: var(--color-status-outfit);
+	color: white;
 }

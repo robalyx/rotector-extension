@@ -1,67 +1,87 @@
 @layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 /* =================================
    THEME IMPORTS
    ================================= */
-@import "./theme/colors.css";
-@import "./theme/typography.css";
-@import "./theme/shadows.css";
-@import "./theme/icons.css";
+@import './theme/colors.css';
+@import './theme/typography.css';
+@import './theme/shadows.css';
+@import './theme/icons.css';
 
 /* =================================
    BASE IMPORTS
    ================================= */
-@import "./base/animations.css";
-@import "./base/utilities.css";
+@import './base/animations.css';
+@import './base/utilities.css';
 
 /* =================================
    COMPONENT IMPORTS
    ================================= */
-@import "./components/buttons.css";
-@import "./components/forms.css";
-@import "./components/cards.css";
-@import "./components/badges.css";
-@import "./components/loading.css";
-@import "./components/status-indicator.css";
-@import "./components/number-input.css";
+@import './components/buttons.css';
+@import './components/forms.css';
+@import './components/cards.css';
+@import './components/badges.css';
+@import './components/loading.css';
+@import './components/status-indicator.css';
+@import './components/number-input.css';
 
 /* =================================
-   FEATURE IMPORTS
+   POPUP IMPORTS
    ================================= */
-@import "./features/statistics/containers.css";
-@import "./features/statistics/items.css";
-@import "./features/statistics/queue-flow.css";
-@import "./features/financial/financial.css";
-@import "./features/financial/charts.css";
-@import "./features/settings/sections.css";
-@import "./features/settings/inputs.css";
-@import "./features/settings/warnings.css";
-@import "./features/settings/integration-tooltip.css";
-@import "./features/changelog/banner.css";
-@import "./features/changelog/section.css";
-@import "./features/changelog/content.css";
-@import "./features/advanced-violation/banner.css";
-@import "./features/footer/footer.css";
+/* Popup Base */
+@import './popup/base.css';
+
+/* Navbar */
+@import './popup/navbar.css';
+
+/* Stats Page */
+@import './popup/stats/containers.css';
+@import './popup/stats/items.css';
+@import './popup/stats/financial.css';
+@import './popup/stats/queue-limits.css';
+@import './popup/stats/charts.css';
+@import './popup/stats/banner.css';
+@import './popup/stats/section.css';
+@import './popup/stats/content.css';
+
+/* Settings Page */
+@import './popup/settings/sections.css';
+@import './popup/settings/inputs.css';
+@import './popup/settings/warnings.css';
+@import './popup/settings/integration-tooltip.css';
+
+/* Warzone Page */
+@import './popup/warzone/base.css';
+@import './popup/warzone/auth.css';
+@import './popup/warzone/profile.css';
+@import './popup/warzone/section.css';
+@import './popup/warzone/hunter.css';
+@import './popup/warzone/overview.css';
+@import './popup/warzone/targets.css';
+@import './popup/warzone/leaderboard.css';
+@import './popup/warzone/hexagonal-map.css';
+@import './popup/warzone/charts.css';
+
+/* Shared Components */
+@import './popup/shared/banner.css';
+@import './popup/shared/footer.css';
 
 /* =================================
-   MODAL SYSTEM IMPORTS
+   FEATURE IMPORTS (Content Scripts)
    ================================= */
-@import "./features/modal/base.css";
-@import "./features/modal/mature-content.css";
-@import "./features/modal/friend-warning.css";
-@import "./features/modal/queue-popup.css";
-@import "./features/modal/queue-modal.css";
+/* Modal System */
+@import './features/modal/base.css';
+@import './features/modal/mature-content.css';
+@import './features/modal/friend-warning.css';
+@import './features/modal/queue-popup.css';
+@import './features/modal/queue-modal.css';
 
-/* =================================
-   TOOLTIP SYSTEM IMPORTS
-   ================================= */
-@import "./features/tooltip/base.css";
-@import "./features/tooltip/content.css";
-@import "./features/tooltip/voting.css";
+/* Tooltip System */
+@import './features/tooltip/base.css';
+@import './features/tooltip/content.css';
+@import './features/tooltip/voting.css';
 
-/* =================================
-   REPORT HELPER IMPORTS
-   ================================= */
-@import "./features/report-helper/report-helper.css";
+/* Report Helper */
+@import './features/report-helper/report-helper.css';

@@ -1,0 +1,193 @@
+/* =================================
+   WAR ZONE OVERVIEW STYLES
+   ================================= */
+
+@utility war-zone-overview {
+	@apply flex flex-col gap-3;
+}
+
+/* Global Statistics Card */
+@utility overview-stats-grid {
+	@apply grid-cols-2 md:grid-cols-4;
+}
+
+/* Major Orders Section */
+@utility major-orders-section {
+	@apply flex flex-col gap-2;
+}
+
+@utility section-title {
+	@apply text-sm font-bold m-0 text-center;
+	color: var(--color-text-heading);
+}
+
+@utility major-orders-list {
+	@apply flex flex-col gap-2;
+}
+
+/* Major Order Card */
+@utility major-order-card {
+	@apply p-3 rounded-xl border transition-all duration-200;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border);
+	box-shadow: var(--shadow-soft);
+
+	&:hover {
+		border-color: var(--color-border-hover);
+		box-shadow: var(--shadow-hover);
+		transform: translateY(-1px);
+	}
+
+	&.expiring {
+		border-color: var(--color-warning);
+		background-color: color-mix(in srgb, var(--color-warning) 5%, var(--color-bg-content));
+	}
+}
+
+@utility order-header {
+	@apply flex justify-between items-start gap-2 mb-2;
+}
+
+@utility order-title-section {
+	@apply flex flex-col gap-1;
+}
+
+@utility order-title {
+	@apply text-sm font-bold m-0;
+	color: var(--color-text-heading);
+}
+
+@utility order-type-badge {
+	@apply px-1.5 py-0.5 rounded text-3xs font-semibold uppercase tracking-wide;
+	background-color: var(--color-primary-alpha);
+	color: var(--color-primary);
+}
+
+@utility order-expiry {
+	@apply flex flex-col items-end gap-0.5;
+}
+
+@utility order-expiry-expiry-label {
+	@apply text-3xs font-medium uppercase tracking-wide;
+	color: var(--color-text-subtle);
+}
+
+@utility order-expiry-expiry-date {
+	@apply text-3xs font-semibold;
+	color: var(--color-text);
+}
+
+@utility order-description {
+	@apply text-xs mb-2 m-0;
+	color: var(--color-text);
+}
+
+@utility order-progress-section {
+	@apply flex flex-col gap-1 mb-2;
+}
+
+@utility progress-header {
+	@apply flex justify-between items-center;
+}
+
+@utility progress-header-progress-label {
+	@apply text-3xs font-medium uppercase tracking-wide;
+	color: var(--color-text-subtle);
+}
+
+@utility progress-header-progress-value {
+	@apply text-3xs font-semibold;
+	color: var(--color-text);
+}
+
+@utility progress-bar-container {
+	@apply w-full h-2 rounded-full;
+	background-color: var(--color-bg-secondary);
+}
+
+@utility progress-bar-fill {
+	@apply h-full rounded-full transition-all duration-200;
+}
+
+@utility progress-percentage {
+	@apply text-3xs font-semibold text-right;
+	color: var(--color-text-subtle);
+}
+
+@utility order-reward {
+	@apply flex items-center gap-1.5 p-2 rounded-lg;
+	background-color: var(--color-bg-secondary);
+}
+
+@utility order-reward-reward-icon {
+	@apply text-base;
+}
+
+@utility order-reward-reward-text {
+	@apply text-xs font-medium;
+	color: var(--color-text);
+}
+
+/* Find Reportable User Section */
+@utility find-user-section {
+	@apply flex flex-col gap-2 items-center;
+}
+
+@utility find-user-button {
+	@apply px-4 py-2 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 flex items-center gap-2;
+	background-color: var(--color-bg-content);
+	color: var(--color-text-heading);
+	border: 2px solid var(--color-error);
+
+	&:hover:not(:disabled) {
+		background-color: color-mix(in srgb, var(--color-error) 10%, var(--color-bg-content));
+		border-color: var(--color-error);
+		transform: translateY(-1px);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+@utility find-user-error {
+	@apply text-xs text-center m-0;
+	color: var(--color-error);
+}
+
+/* Zones Section */
+@utility zones-section {
+	@apply flex flex-col gap-2;
+}
+
+/* Error/Loading States */
+@utility war-zone-error-container {
+	@apply flex flex-col items-center gap-4 p-8 rounded-xl border;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border);
+}
+
+@utility war-zone-error-message {
+	@apply text-sm text-center m-0;
+	color: var(--color-error);
+}
+
+@utility retry-button {
+	@apply px-4 py-2 rounded-lg border-none font-medium text-sm cursor-pointer transition-all duration-200;
+	background-color: var(--color-warning);
+	color: white;
+
+	&:hover {
+		background-color: var(--color-warning-hover);
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}

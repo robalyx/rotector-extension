@@ -53,16 +53,19 @@ Want to learn more about the Rotector project? Visit our website at **[rotector.
 ## 📦 Installation
 
 ### 🏪 From Browser Stores
+
 - **Chrome**: [Chrome Web Store](https://chromewebstore.google.com/detail/rotector/ilegibonffbmecfchpcmcmknocboagan)
 - **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/rotector/)
 
 ### 🔧 From Source
 
 #### Prerequisites
+
 - [Bun](https://bun.sh/) (v1.2+)
 - Node.js 18+
 
 #### Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/robalyx/rotector-extension.git
@@ -87,12 +90,14 @@ bun run zip:firefox  # Firefox
 #### 🔄 Loading the Extension
 
 ##### Chrome
+
 1. Navigate to `chrome://extensions/`
 2. Enable "Developer mode"
 3. Click "Load unpacked"
 4. Select the `.output/chrome-mv3` directory
 
 ##### Firefox
+
 1. Navigate to `about:debugging`
 2. Click "This Firefox"
 3. Click "Load Temporary Add-on"
@@ -123,6 +128,7 @@ bun run zip:firefox  # Firefox
 ### 🔧 Tech Stack
 
 #### Core Technologies
+
 - **Framework**: [WXT](https://wxt.dev/) - Modern web extension framework
 - **Frontend**: [Svelte 5](https://svelte.dev/) with runes syntax
 - **Language**: [TypeScript](https://www.typescriptlang.org/) (100% type coverage with strict mode)
@@ -131,12 +137,14 @@ bun run zip:firefox  # Firefox
 - **Package Manager**: [Bun](https://bun.sh/) (v1.2+)
 
 #### Development Tools
+
 - **Code Quality**: [ESLint](https://eslint.org/) with TypeScript and Svelte plugins
 - **Dead Code**: [Knip](https://knip.dev/) for analysis
 - **Type Checking**: [svelte-check](https://www.npmjs.com/package/svelte-check) with TypeScript integration
 - **Hot Reload**: Built-in with [WXT](https://wxt.dev/) development tools
 
 ### ✅ Quality Checks
+
 ```bash
 # Run all quality checks
 bun run quality
@@ -149,6 +157,7 @@ bun run knip         # Dead code detection
 ```
 
 ### 📁 Project Structure
+
 ```
 src/
 ├── assets/          # Static assets
@@ -181,6 +190,7 @@ src/
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Run quality checks before committing

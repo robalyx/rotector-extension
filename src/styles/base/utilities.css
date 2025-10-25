@@ -4,73 +4,73 @@
 
 /* Scrollbar utility */
 @utility scrollbar-styled {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border) transparent;
 
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
 
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 3px;
-  }
+	&::-webkit-scrollbar-thumb {
+		background: var(--color-border);
+		border-radius: 2px;
+	}
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text-subtle);
-  }
+	&::-webkit-scrollbar-thumb:hover {
+		background: var(--color-text-subtle);
+	}
 }
 
 /* =================================
    SOCIAL LINK UTILITIES
    ================================= */
 @utility social-link {
-  @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
-  color: var(--color-link);
+	@apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
+	color: var(--color-link);
 
-  &:hover {
-    color: var(--color-link-hover);
-  }
+	&:hover {
+		color: var(--color-link-hover);
+	}
 }
 
 /* Social icon utility */
 @utility social-icon {
-  @apply w-3.5 h-3.5 fill-current;
+	@apply w-3.5 h-3.5 fill-current;
 }
 
 /* =================================
    HELP LINK UTILITIES
    ================================= */
 @utility help-link {
-  @apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
-  color: var(--color-link);
+	@apply flex items-center gap-1 text-xs no-underline transition-colors duration-200;
+	color: var(--color-link);
 
-  &:hover {
-    color: var(--color-link-hover);
-  }
+	&:hover {
+		color: var(--color-link-hover);
+	}
 }
 
 /* Help icon utility */
 @utility help-icon {
-  @apply w-3.5 h-3.5 fill-current;
+	@apply w-3.5 h-3.5 fill-current;
 }
 
 /* =================================
    LEGAL TEXT UTILITIES
    ================================= */
 @utility legal-link {
-  @apply underline;
-  color: var(--color-link);
+	@apply underline;
+	color: var(--color-link);
 
-  &:hover {
-    color: var(--color-link-hover);
-  }
+	&:hover {
+		color: var(--color-link-hover);
+	}
 }
 
 @utility legal-divider {
-  color: var(--color-text-subtle);
-} 
+	color: var(--color-text-subtle);
+}

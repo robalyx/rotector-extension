@@ -1,0 +1,122 @@
+/* =================================
+   WAR ZONE AUTH STYLES
+   ================================= */
+
+@utility war-zone-auth-container {
+	@apply p-8 text-center;
+	background: var(--color-bg-content);
+	min-height: 400px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@utility war-zone-auth-content {
+	@apply max-w-2xl mx-auto;
+}
+
+@utility war-zone-auth-header {
+	@apply mb-8;
+}
+
+@utility war-zone-auth-title {
+	@apply text-2xl font-bold mb-3;
+	color: var(--color-text-heading);
+	background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+@utility war-zone-auth-subtitle {
+	@apply text-base leading-relaxed;
+	color: var(--color-text-secondary);
+}
+
+@utility war-zone-auth-actions {
+	@apply flex flex-col items-center gap-4;
+}
+
+@utility war-zone-register-button {
+	@apply px-8 py-4 rounded-lg font-semibold text-base transition-all duration-200 border-none cursor-pointer;
+	@apply flex items-center gap-3 min-h-[52px];
+	background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+	color: white;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+		background: linear-gradient(135deg, var(--color-primary-hover), var(--color-accent-hover));
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	&:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+}
+
+@utility war-zone-auth-note {
+	@apply text-xs font-medium;
+	color: var(--color-text-subtle);
+}
+
+@utility war-zone-auth-error {
+	@apply war-zone-error;
+	margin-top: 1.5rem;
+}
+
+/* Loading spinner in button */
+.war-zone-register-button .loading-spinner {
+	@apply w-4 h-4;
+}
+
+/* Security indicators */
+@utility war-zone-security-badge {
+	@apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium;
+	background: rgba(34, 197, 94, 0.1);
+	color: #22c55e;
+	border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* Privacy emphasis */
+@utility war-zone-privacy-note {
+	@apply text-xs italic p-4 rounded-lg mt-4;
+	background: var(--color-bg-secondary);
+	color: var(--color-text-secondary);
+	border-left: 3px solid var(--color-primary);
+}
+
+/* Features list */
+@utility hunter-features {
+	@apply list-disc pl-5 mb-6 space-y-1 text-sm;
+	color: var(--color-text);
+}
+
+/* Beta Notice */
+@utility beta-notice {
+	@apply p-3 rounded-lg mb-6 text-xs;
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-border);
+	color: var(--color-text-secondary);
+
+	strong {
+		color: var(--color-text);
+	}
+
+	a {
+		color: var(--color-primary);
+		text-decoration: none;
+		font-weight: 500;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

@@ -1,307 +1,305 @@
-import {logger} from '../utils/logger';
-import {COMPONENT_CLASSES, type ComponentClassType} from '../types/constants';
-import type {PageType, UserStatus} from '../types/api';
-import type {Observer} from '../utils/observer';
-import {type Component, mount} from 'svelte';
+import { logger } from '../utils/logger';
+import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
+import type { PageType, UserStatus } from '../types/api';
+import type { Observer } from '../utils/observer';
+import { type Component, mount } from 'svelte';
 import UserListManager from '../../components/features/UserListManager.svelte';
 
 /**
  * Base class for all page controllers
  */
 export abstract class PageController {
-    protected isInitialized = false;
-    protected observers: Observer[] = [];
-    protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
+	protected isInitialized = false;
+	protected observers: Observer[] = [];
+	protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
 
-    constructor(
-        protected pageType: PageType,
-        protected url: string
-    ) {
-        logger.debug(`Creating ${this.constructor.name}`, {pageType, url});
-    }
+	constructor(
+		protected pageType: PageType,
+		protected url: string
+	) {
+		logger.debug(`Creating ${this.constructor.name}`, { pageType, url });
+	}
 
-    // Initialize the page controller
-    async initialize(): Promise<void> {
-        if (this.isInitialized) {
-            logger.warn(`${this.constructor.name} already initialized`);
-            return;
-        }
+	// Initialize the page controller
+	async initialize(): Promise<void> {
+		if (this.isInitialized) {
+			logger.warn(`${this.constructor.name} already initialized`);
+			return;
+		}
 
-        try {
-            logger.debug(`Initializing ${this.constructor.name}`);
+		try {
+			logger.debug(`Initializing ${this.constructor.name}`);
 
-            // Wait for DOM to be ready
-            await this.waitForDOM();
+			// Wait for DOM to be ready
+			await this.waitForDOM();
 
-            // Initialize page functionality
-            await this.initializePage();
+			// Initialize page functionality
+			await this.initializePage();
 
-            this.isInitialized = true;
-            logger.debug(`${this.constructor.name} initialized successfully`);
+			this.isInitialized = true;
+			logger.debug(`${this.constructor.name} initialized successfully`);
+		} catch (error) {
+			logger.error(`Failed to initialize ${this.constructor.name}:`, error);
+			throw error;
+		}
+	}
 
-        } catch (error) {
-            logger.error(`Failed to initialize ${this.constructor.name}:`, error);
-            throw error;
-        }
-    }
+	// Get the page type
+	getPageType(): PageType {
+		return this.pageType;
+	}
 
-    // Get the page type
-    getPageType(): PageType {
-        return this.pageType;
-    }
+	// Get the current URL
+	getUrl(): string {
+		return this.url;
+	}
 
-    // Get the current URL
-    getUrl(): string {
-        return this.url;
-    }
+	// Check if the controller is initialized
+	isReady(): boolean {
+		return this.isInitialized;
+	}
 
-    // Check if the controller is initialized
-    isReady(): boolean {
-        return this.isInitialized;
-    }
+	// Update the URL (called on navigation within same page type)
+	updateUrl(newUrl: string): void {
+		logger.debug(`Updating URL for ${this.constructor.name}`, {
+			oldUrl: this.url,
+			newUrl
+		});
+		this.url = newUrl;
+	}
 
-    // Update the URL (called on navigation within same page type)
-    updateUrl(newUrl: string): void {
-        logger.debug(`Updating URL for ${this.constructor.name}`, {
-            oldUrl: this.url,
-            newUrl
-        });
-        this.url = newUrl;
-    }
+	// Cleanup all resources
+	async cleanup(): Promise<void> {
+		try {
+			logger.debug(`Cleaning up ${this.constructor.name}`);
 
-    // Cleanup all resources
-    async cleanup(): Promise<void> {
-        try {
-            logger.debug(`Cleaning up ${this.constructor.name}`);
+			// Cleanup mounted components
+			this.cleanupComponents();
 
-            // Cleanup mounted components
-            this.cleanupComponents();
+			// Stop and cleanup observers
+			this.cleanupObservers();
 
-            // Stop and cleanup observers
-            this.cleanupObservers();
+			// Call page cleanup
+			await this.cleanupPage();
 
-            // Call page cleanup
-            await this.cleanupPage();
+			this.isInitialized = false;
+			logger.debug(`${this.constructor.name} cleanup completed`);
+		} catch (error) {
+			logger.error(`Failed to cleanup ${this.constructor.name}:`, error);
+		}
+	}
 
-            this.isInitialized = false;
-            logger.debug(`${this.constructor.name} cleanup completed`);
+	// Abstract method for page initialization
+	protected abstract initializePage(): Promise<void>;
 
-        } catch (error) {
-            logger.error(`Failed to cleanup ${this.constructor.name}:`, error);
-        }
-    }
+	// Wait for DOM to be ready
+	protected async waitForDOM(): Promise<void> {
+		return new Promise((resolve) => {
+			if (document.readyState === 'loading') {
+				document.addEventListener(
+					'DOMContentLoaded',
+					() => {
+						resolve();
+					},
+					{ once: true }
+				);
+			} else {
+				resolve();
+			}
+		});
+	}
 
-    // Abstract method for page initialization
-    protected abstract initializePage(): Promise<void>;
+	// Mount a Svelte component to a DOM element
+	protected mountComponent(
+		ComponentClass: Component<any, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
+		target: HTMLElement,
+		props: Record<string, any> = {} // eslint-disable-line @typescript-eslint/no-explicit-any
+	): { element: HTMLElement; cleanup: () => void } {
+		try {
+			logger.debug(`Mounting component to`, { target: target.tagName, props });
 
-    // Wait for DOM to be ready
-    protected async waitForDOM(): Promise<void> {
-        return new Promise((resolve) => {
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => {
-                    resolve();
-                }, {once: true});
-            } else {
-                resolve();
-            }
-        });
-    }
+			// Store component cleanup function if provided
+			let componentCleanup: (() => void) | null = null;
 
-    // Mount a Svelte component to a DOM element
-    protected mountComponent(
-        ComponentClass: Component<any, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
-        target: HTMLElement,
-        props: Record<string, any> = {} // eslint-disable-line @typescript-eslint/no-explicit-any
-    ): { element: HTMLElement; cleanup: () => void } {
-        try {
-            logger.debug(`Mounting component to`, {target: target.tagName, props});
+			// Add onMount prop to capture cleanup function
+			const enhancedProps = {
+				...props,
+				onMount: (cleanup: () => void) => {
+					componentCleanup = cleanup;
+				}
+			};
 
-            // Store component cleanup function if provided
-            let componentCleanup: (() => void) | null = null;
+			// Create component instance
+			const component = mount(ComponentClass, {
+				target,
+				props: enhancedProps
+			}) as { unmount?: () => void };
 
-            // Add onMount prop to capture cleanup function
-            const enhancedProps = {
-                ...props,
-                onMount: (cleanup: () => void) => {
-                    componentCleanup = cleanup;
-                }
-            };
+			// Create cleanup function
+			const cleanup = () => {
+				try {
+					// Call component's cleanup if available
+					if (componentCleanup) {
+						componentCleanup();
+					}
 
-            // Create component instance
-            const component = mount(ComponentClass, {
-                target,
-                props: enhancedProps
-            }) as { unmount?: () => void };
+					// Unmount the Svelte component
+					if (component?.unmount) {
+						component.unmount();
+					}
+					logger.debug('Component unmounted successfully');
+				} catch (error) {
+					logger.error('Failed to unmount component:', error);
+				}
+			};
 
-            // Create cleanup function
-            const cleanup = () => {
-                try {
-                    // Call component's cleanup if available
-                    if (componentCleanup) {
-                        componentCleanup();
-                    }
+			// Track mounted component
+			const mountedComponent = { element: target, cleanup };
+			this.mountedComponents.push(mountedComponent);
 
-                    // Unmount the Svelte component
-                    if (component?.unmount) {
-                        component.unmount();
-                    }
-                    logger.debug('Component unmounted successfully');
-                } catch (error) {
-                    logger.error('Failed to unmount component:', error);
-                }
-            };
+			return mountedComponent;
+		} catch (error) {
+			logger.error('Failed to mount component:', error);
+			throw error;
+		}
+	}
 
-            // Track mounted component
-            const mountedComponent = {element: target, cleanup};
-            this.mountedComponents.push(mountedComponent);
+	// Create a container element for components
+	protected createComponentContainer(
+		className: ComponentClassType = COMPONENT_CLASSES.COMPONENT_BASE
+	): HTMLElement {
+		const container = document.createElement('div');
+		container.className = className;
+		return container;
+	}
 
-            return mountedComponent;
-        } catch (error) {
-            logger.error('Failed to mount component:', error);
-            throw error;
-        }
-    }
+	// Find elements using a selector with error handling
+	protected findElements(selector: string): HTMLElement[] {
+		try {
+			return Array.from(document.querySelectorAll(selector));
+		} catch (error) {
+			logger.error(`Failed to find elements with selector: ${selector}`, error);
+			return [];
+		}
+	}
 
-    // Create a container element for components
-    protected createComponentContainer(className: ComponentClassType = COMPONENT_CLASSES.COMPONENT_BASE): HTMLElement {
-        const container = document.createElement('div');
-        container.className = className;
-        return container;
-    }
+	// Find a single element using a selector with error handling
+	protected findElement(selector: string): HTMLElement | null {
+		try {
+			return document.querySelector(selector);
+		} catch (error) {
+			logger.error(`Failed to find element with selector: ${selector}`, error);
+			return null;
+		}
+	}
 
-    // Find elements using a selector with error handling
-    protected findElements(selector: string): HTMLElement[] {
-        try {
-            return Array.from(document.querySelectorAll(selector));
-        } catch (error) {
-            logger.error(`Failed to find elements with selector: ${selector}`, error);
-            return [];
-        }
-    }
+	// Add an observer and track it for cleanup
+	protected addObserver(observer: Observer): void {
+		this.observers.push(observer);
+	}
 
-    // Find a single element using a selector with error handling
-    protected findElement(selector: string): HTMLElement | null {
-        try {
-            return document.querySelector(selector);
-        } catch (error) {
-            logger.error(`Failed to find element with selector: ${selector}`, error);
-            return null;
-        }
-    }
+	// Abstract method for page cleanup
+	protected async cleanupPage(): Promise<void> {}
 
-    // Add an observer and track it for cleanup
-    protected addObserver(observer: Observer): void {
-        this.observers.push(observer);
-    }
+	// Handle errors that occur during page operation
+	protected handleError(error: unknown, context: string): void {
+		logger.error(`Error in ${this.constructor.name} (${context}):`, error);
+	}
 
-    // Abstract method for page cleanup
-    protected async cleanupPage(): Promise<void> {
-    }
+	// Mount UserListManager with standard configuration
+	protected mountUserListManager(
+		containerSelector: string,
+		componentClass: ComponentClassType,
+		pageType: PageType,
+		onUserProcessed?: (userId: string, status: UserStatus) => void,
+		onError?: (error: string) => void
+	): { element: HTMLElement; cleanup: () => void } | null {
+		try {
+			const targetContainer = this.findElement(containerSelector);
 
-    // Handle errors that occur during page operation
-    protected handleError(error: unknown, context: string): void {
-        logger.error(`Error in ${this.constructor.name} (${context}):`, error);
-    }
+			if (!targetContainer) {
+				throw new Error(`Container not found: ${containerSelector}`);
+			}
 
-    // Mount UserListManager with standard configuration
-    protected mountUserListManager(
-        containerSelector: string,
-        componentClass: ComponentClassType,
-        pageType: PageType,
-        onUserProcessed?: (userId: string, status: UserStatus) => void,
-        onError?: (error: string) => void
-    ): { element: HTMLElement; cleanup: () => void } | null {
-        try {
-            const targetContainer = this.findElement(containerSelector);
+			// Create a wrapper for our component
+			const componentContainer = this.createComponentContainer(componentClass);
+			targetContainer.appendChild(componentContainer);
 
-            if (!targetContainer) {
-                throw new Error(`Container not found: ${containerSelector}`);
-            }
+			// Mount UserListManager
+			const component = this.mountComponent(UserListManager, componentContainer, {
+				pageType,
+				onUserProcessed: onUserProcessed ?? this.handleUserProcessed.bind(this),
+				onError: onError ?? this.handleUserListError.bind(this)
+			});
 
-            // Create a wrapper for our component
-            const componentContainer = this.createComponentContainer(componentClass);
-            targetContainer.appendChild(componentContainer);
+			logger.debug('UserListManager mounted successfully', {
+				container: containerSelector,
+				pageType
+			});
 
-            // Mount UserListManager
-            const component = this.mountComponent(
-                UserListManager,
-                componentContainer,
-                {
-                    pageType,
-                    onUserProcessed: onUserProcessed ?? this.handleUserProcessed.bind(this),
-                    onError: onError ?? this.handleUserListError.bind(this)
-                }
-            );
+			return component;
+		} catch (error) {
+			this.handleError(error, 'mountUserListManager');
+			throw error;
+		}
+	}
 
-            logger.debug('UserListManager mounted successfully', {
-                container: containerSelector,
-                pageType
-            });
+	// Default user processed handler
+	protected handleUserProcessed(userId: string, status: UserStatus): void {
+		logger.debug('User processed', { userId, status: status.flagType });
+	}
 
-            return component;
+	// Default user list error handler
+	protected handleUserListError(error: string): void {
+		logger.error('UserListManager error:', error);
+	}
 
-        } catch (error) {
-            this.handleError(error, 'mountUserListManager');
-            throw error;
-        }
-    }
+	// Generic method to update modal visibility by remounting component
+	protected updateModalVisibility(
+		modalRef: { element: HTMLElement; cleanup: () => void } | null,
+		componentClass: Component<Record<string, unknown>, Record<string, unknown>>,
+		visible: boolean,
+		props: Record<string, unknown>
+	): { element: HTMLElement; cleanup: () => void } | null {
+		if (!modalRef) return null;
 
-    // Default user processed handler
-    protected handleUserProcessed(userId: string, status: UserStatus): void {
-        logger.debug('User processed', {userId, status: status.flagType});
-    }
+		try {
+			// Clean up existing component
+			modalRef.cleanup();
 
-    // Default user list error handler
-    protected handleUserListError(error: string): void {
-        logger.error('UserListManager error:', error);
-    }
+			// Remount with new visibility state
+			return this.mountComponent(componentClass, modalRef.element, {
+				isOpen: visible,
+				...props
+			});
+		} catch (error) {
+			this.handleError(error, 'updateModalVisibility');
+			return null;
+		}
+	}
 
-    // Generic method to update modal visibility by remounting component
-    protected updateModalVisibility(
-        modalRef: { element: HTMLElement; cleanup: () => void } | null,
-        componentClass: Component<Record<string, unknown>, Record<string, unknown>>,
-        visible: boolean,
-        props: Record<string, unknown>
-    ): { element: HTMLElement; cleanup: () => void } | null {
-        if (!modalRef) return null;
+	// Cleanup all mounted components
+	private cleanupComponents(): void {
+		for (const component of this.mountedComponents) {
+			try {
+				component.cleanup();
+			} catch (error) {
+				logger.error('Failed to cleanup component:', error);
+			}
+		}
+		this.mountedComponents = [];
+	}
 
-        try {
-            // Clean up existing component
-            modalRef.cleanup();
-
-            // Remount with new visibility state
-            return this.mountComponent(componentClass, modalRef.element, {
-                isOpen: visible,
-                ...props
-            });
-        } catch (error) {
-            this.handleError(error, 'updateModalVisibility');
-            return null;
-        }
-    }
-
-    // Cleanup all mounted components
-    private cleanupComponents(): void {
-        for (const component of this.mountedComponents) {
-            try {
-                component.cleanup();
-            } catch (error) {
-                logger.error('Failed to cleanup component:', error);
-            }
-        }
-        this.mountedComponents = [];
-    }
-
-    // Cleanup all observers
-    private cleanupObservers(): void {
-        for (const observer of this.observers) {
-            try {
-                observer.stop();
-                observer.cleanup();
-            } catch (error) {
-                logger.error('Failed to cleanup observer:', error);
-            }
-        }
-        this.observers = [];
-    }
-} 
+	// Cleanup all observers
+	private cleanupObservers(): void {
+		for (const observer of this.observers) {
+			try {
+				observer.stop();
+				observer.cleanup();
+			} catch (error) {
+				logger.error('Failed to cleanup observer:', error);
+			}
+		}
+		this.observers = [];
+	}
+}

@@ -1,40 +1,32 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": [
-    "src/entrypoints/background.ts",
-    "src/entrypoints/content.ts",
-    "src/entrypoints/popup/main.ts"
-  ],
-  "project": [
-    "src/**/*.{ts,svelte}",
-    "!src/**/*.d.ts"
-  ],
-  "ignore": [
-    ".wxt/**",
-    ".output/**",    
-    "dist/**",
-    "build/**",
-    "public/**"
-  ],
-  "ignoreDependencies": [
-    "@tailwindcss/vite",
-    "@wxt-dev/module-svelte",
-    "lightningcss",
-    "tslib"
-  ],
-  "rules": {
-    "files": "error",
-    "dependencies": "error",
-    "devDependencies": "error",
-    "unlisted": "error",
-    "binaries": "error",
-    "unresolved": "error",
-    "exports": "error",
-    "types": "error",
-    "nsExports": "error",
-    "nsTypes": "error",
-    "duplicates": "error",
-    "enumMembers": "error",
-    "classMembers": "error"
-  }
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"src/entrypoints/background/index.ts",
+		"src/entrypoints/content.ts",
+		"src/entrypoints/popup/main.ts"
+	],
+	"project": ["src/**/*.{ts,svelte}", "!src/**/*.d.ts"],
+	"ignore": [".wxt/**", ".output/**", "dist/**", "build/**", "public/**"],
+	"ignoreDependencies": [
+		"@tailwindcss/vite",
+		"@wxt-dev/module-svelte",
+		"dotenv",
+		"lightningcss",
+		"tslib"
+	],
+	"rules": {
+		"files": "error",
+		"dependencies": "error",
+		"devDependencies": "error",
+		"unlisted": "error",
+		"binaries": "error",
+		"unresolved": "error",
+		"exports": "error",
+		"types": "error",
+		"nsExports": "error",
+		"nsTypes": "error",
+		"duplicates": "error",
+		"enumMembers": "error",
+		"classMembers": "error"
+	}
 }

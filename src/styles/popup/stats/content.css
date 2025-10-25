@@ -1,0 +1,149 @@
+/* =================================
+   CONTENT CONTAINERS
+   ================================= */
+
+.changelog-content-compact {
+	@apply space-y-2;
+}
+
+.changelog-content-full {
+	@apply space-y-4;
+}
+
+/* =================================
+   HEADER STYLES
+   ================================= */
+.changelog-header {
+	@apply mb-3;
+}
+
+.changelog-version-info {
+	@apply space-y-2;
+}
+
+.changelog-title {
+	@apply m-0 text-sm font-semibold leading-tight;
+	color: var(--color-text-heading);
+}
+
+.changelog-meta {
+	@apply flex items-center gap-2 text-2xs mt-2;
+	color: var(--color-text-subtle);
+}
+
+.changelog-version {
+	@apply font-medium px-1.5 py-0.5 rounded;
+	background-color: var(--color-secondary);
+	color: var(--color-text);
+}
+
+.changelog-date {
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   SUMMARY STYLES
+   ================================= */
+.changelog-summary {
+	@apply mb-3;
+}
+
+.changelog-summary-text {
+	@apply m-0 text-xs leading-relaxed;
+	color: var(--color-text);
+}
+
+/* =================================
+   CHANGES SECTION
+   ================================= */
+.changelog-changes {
+	@apply space-y-3;
+}
+
+.changelog-type-group {
+	@apply space-y-2;
+}
+
+.changelog-type-header {
+	@apply flex items-center gap-2 text-xs font-medium;
+	color: var(--color-text-heading);
+}
+
+.changelog-type-icon {
+	@apply flex-shrink-0;
+	width: 16px;
+	height: 16px;
+}
+
+.changelog-type-label {
+	@apply font-semibold;
+}
+
+.changelog-type-count {
+	@apply text-2xs;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   TYPE-SPECIFIC COLORS
+   ================================= */
+.changelog-entry-added {
+	color: var(--color-success);
+}
+
+.changelog-entry-changed {
+	color: var(--color-primary);
+}
+
+.changelog-entry-fixed {
+	color: var(--color-warning);
+}
+
+.changelog-entry-security {
+	color: var(--color-error);
+}
+
+.changelog-entry-deprecated {
+	color: var(--color-status-pending);
+}
+
+.changelog-entry-removed {
+	color: var(--color-error);
+}
+
+.changelog-entry-default {
+	color: var(--color-text);
+}
+
+/* =================================
+   CHANGE LIST STYLES
+   ================================= */
+.changelog-type-list {
+	@apply list-none m-0 pl-6 space-y-1;
+}
+
+.changelog-change-item {
+	@apply text-xs leading-relaxed relative;
+	color: var(--color-text);
+
+	&::before {
+		@apply absolute left-[-16px] top-[6px] w-1.5 h-1.5 rounded-full;
+		content: '';
+		background-color: var(--color-border);
+	}
+}
+
+.changelog-change-subpoints {
+	@apply list-none m-0 mt-1.5 pl-4 space-y-1;
+}
+
+.changelog-subpoint-item {
+	@apply text-xs leading-relaxed relative;
+	color: var(--color-text-subtle);
+
+	&::before {
+		@apply absolute left-[-12px] top-[7px] w-1 h-1 rounded-full;
+		content: '';
+		background-color: var(--color-border-subtle);
+	}
+}

@@ -10,12 +10,12 @@ export const MAX_CUSTOM_APIS = 5;
 // Rotector system API configuration
 export const ROTECTOR_API_ID = 'system-rotector';
 
-function createRotectorApiConfig(enabled: boolean): CustomApiConfig {
+function createRotectorApiConfig(): CustomApiConfig {
 	return {
 		id: ROTECTOR_API_ID,
 		name: 'Rotector',
 		url: API_CONFIG.BASE_URL,
-		enabled,
+		enabled: true,
 		timeout: API_CONFIG.TIMEOUT,
 		order: -1, // Always first
 		createdAt: 0,
@@ -37,16 +37,18 @@ function generateCustomApiId(): string {
 export async function loadCustomApis(): Promise<void> {
 	try {
 		// Load user-created custom APIs
-		const result = await browser.storage.local.get([
-			SETTINGS_KEYS.CUSTOM_APIS,
-			SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED
-		]);
+		const result = await browser.storage.local.get([SETTINGS_KEYS.CUSTOM_APIS]);
 		const userApis = (result[SETTINGS_KEYS.CUSTOM_APIS] as CustomApiConfig[] | undefined) ?? [];
-		const rotectorEnabled =
-			(result[SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED] as boolean | undefined) ?? true;
+
+		// Initialize defaults if custom APIs don't exist
+		if (result[SETTINGS_KEYS.CUSTOM_APIS] === undefined) {
+			await browser.storage.local.set({
+				[SETTINGS_KEYS.CUSTOM_APIS]: []
+			});
+		}
 
 		// Create Rotector system API and prepend it to the list
-		const rotectorApi = createRotectorApiConfig(rotectorEnabled);
+		const rotectorApi = createRotectorApiConfig();
 		const allApis = [rotectorApi, ...userApis];
 
 		customApis.set(allApis);
@@ -112,15 +114,7 @@ export async function updateCustomApi(
 	}
 
 	// Prevent updating system APIs
-	if (current[index].isSystem && id === ROTECTOR_API_ID) {
-		if (updates.enabled !== undefined) {
-			await browser.storage.sync.set({
-				[SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED]: updates.enabled
-			});
-		}
-		await loadCustomApis(); // Reload to sync state
-		return;
-	} else if (current[index].isSystem) {
+	if (current[index].isSystem) {
 		throw new Error('Cannot modify system APIs');
 	}
 

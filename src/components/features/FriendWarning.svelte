@@ -55,7 +55,8 @@
 
 	const warningConfig = $derived(() => {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
-		const confidence = rotector?.data ? Math.round(rotector.data.confidence * 100) : 0;
+		const rawConfidence = rotector?.data?.confidence ?? 0;
+		const confidence = Math.round(rawConfidence * 100);
 
 		return {
 			title: 'Potentially Inappropriate User',

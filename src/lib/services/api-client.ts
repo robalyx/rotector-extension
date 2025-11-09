@@ -48,16 +48,19 @@ async function sendMessage<T>(
 				requestId?: string;
 				code?: string;
 				type?: string;
+				status?: number;
 			};
 			const responseWithError = response as ApiResponse & {
 				requestId?: string;
 				code?: string;
 				type?: string;
+				status?: number;
 			};
 
 			if (responseWithError.requestId) error.requestId = responseWithError.requestId;
 			if (responseWithError.code) error.code = responseWithError.code;
 			if (responseWithError.type) error.type = responseWithError.type;
+			if (responseWithError.status !== undefined) error.status = responseWithError.status;
 
 			throw error;
 		} catch (error) {

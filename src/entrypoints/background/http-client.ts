@@ -126,25 +126,24 @@ export async function makeHttpRequest(
 	const method = (fetchOptions.method ?? 'GET').toUpperCase();
 	const isSafeMethod = ['GET', 'HEAD', 'OPTIONS'].includes(method);
 
-	// Setup abort controller for timeout
-	const controller = new AbortController();
-	const timeoutId = setTimeout(() => { controller.abort(); }, timeout);
-
-	const requestOptions: RequestInit = {
-		...fetchOptions,
-		headers,
-		signal: controller.signal
-	};
-
 	let lastError: Error | null = null;
 
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => {
+			controller.abort();
+		}, timeout);
+		const requestOptions: RequestInit = {
+			...fetchOptions,
+			headers,
+			signal: controller.signal
+		};
+
 		try {
 			logger.debug(`HTTP Request attempt ${attempt}: ${method} ${url}`);
 
 			const response = await fetch(url, requestOptions);
 			const duration = Date.now() - startTime;
-			clearTimeout(timeoutId);
 
 			if (!response.ok) {
 				let errorData: {
@@ -204,7 +203,6 @@ export async function makeHttpRequest(
 			return data;
 		} catch (error) {
 			lastError = error as Error;
-			clearTimeout(timeoutId);
 			const duration = Date.now() - startTime;
 
 			if (lastError.name === 'AbortError') {
@@ -239,6 +237,8 @@ export async function makeHttpRequest(
 			}
 
 			break;
+		} finally {
+			clearTimeout(timeoutId);
 		}
 	}
 

@@ -350,9 +350,10 @@
 	}
 
 	// Handle carousel user processed event
-	function handleCarouselUserProcessed(processedUserId: string) {
+	function handleCarouselUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Profile carousel user processed', {
-			userId: processedUserId
+			userId: processedUserId,
+			hasStatus: !!status
 		});
 	}
 

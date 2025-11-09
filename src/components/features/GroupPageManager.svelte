@@ -9,6 +9,7 @@
 		GROUPS_SELECTORS
 	} from '@/lib/types/constants';
 	import type { GroupStatus, PageType } from '@/lib/types/api';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
@@ -108,9 +109,10 @@
 	}
 
 	// Handle user processing completion from UserListManager
-	function handleUserProcessed(processedUserId: string) {
+	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Groups page user processed', {
-			userId: processedUserId
+			userId: processedUserId,
+			hasStatus: !!status
 		});
 	}
 

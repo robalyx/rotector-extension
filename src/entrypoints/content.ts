@@ -7,6 +7,7 @@ import {
 	unregisterPortalContainer
 } from '@/lib/utils/theme';
 import { initializeSettings } from '@/lib/stores/settings';
+import { loadCustomApis } from '@/lib/stores/custom-apis';
 
 export default defineContentScript({
 	matches: [
@@ -39,6 +40,10 @@ export default defineContentScript({
 			logger.debug('Initializing settings...');
 			await initializeSettings();
 			logger.debug('Settings loaded successfully');
+
+			logger.debug('Loading custom APIs configuration...');
+			await loadCustomApis();
+			logger.debug('Custom APIs loaded successfully');
 
 			// Create portal container for tooltips
 			const portalContainer = document.createElement('div');

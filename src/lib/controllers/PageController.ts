@@ -1,6 +1,7 @@
 import { logger } from '../utils/logger';
 import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
-import type { PageType, UserStatus } from '../types/api';
+import type { PageType } from '../types/api';
+import type { CombinedStatus } from '../types/custom-api';
 import type { Observer } from '../utils/observer';
 import { type Component, mount } from 'svelte';
 import UserListManager from '../../components/features/UserListManager.svelte';
@@ -211,7 +212,7 @@ export abstract class PageController {
 		containerSelector: string,
 		componentClass: ComponentClassType,
 		pageType: PageType,
-		onUserProcessed?: (userId: string, status: UserStatus) => void,
+		onUserProcessed?: (userId: string, status: CombinedStatus) => void,
 		onError?: (error: string) => void
 	): { element: HTMLElement; cleanup: () => void } | null {
 		try {
@@ -245,8 +246,8 @@ export abstract class PageController {
 	}
 
 	// Default user processed handler
-	protected handleUserProcessed(userId: string, status: UserStatus): void {
-		logger.debug('User processed', { userId, status: status.flagType });
+	protected handleUserProcessed(userId: string, _status: CombinedStatus): void {
+		logger.debug('User processed', { userId });
 	}
 
 	// Default user list error handler

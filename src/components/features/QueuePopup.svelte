@@ -393,8 +393,7 @@
 
 					<div class="text-center">
 						<button
-							style:margin-bottom="16px"
-							class="queue-lock-button"
+							class="queue-lock-button mb-4"
 							disabled={!canLockOptions}
 							onclick={handleLockOptions}
 							type="button"
@@ -547,12 +546,7 @@
 					</div>
 
 					<div class="flex flex-col items-center">
-						<button
-							style:margin-bottom="16px"
-							class="mature-content-confirm"
-							onclick={handleUnlock}
-							type="button"
-						>
+						<button class="mature-content-confirm mb-4" onclick={handleUnlock} type="button">
 							Unlock Selection
 						</button>
 						<p style:color="var(--color-text-subtle)" class="text-sm">

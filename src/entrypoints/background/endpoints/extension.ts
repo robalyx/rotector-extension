@@ -8,13 +8,14 @@ import type {
 	ReportableUserResponse
 } from '@/lib/types/api';
 import { API_CONFIG } from '@/lib/types/constants';
-import { makeApiRequest, makeAuthenticatedApiRequest } from '../api-client';
+import { makeHttpRequest } from '../http-client';
 import { extractResponseData } from '../utils';
 
 // Get the current user's profile
 export async function getExtensionProfile(): Promise<ExtensionUserProfile> {
-	const response = await makeAuthenticatedApiRequest(API_CONFIG.ENDPOINTS.EXTENSION_PROFILE, {
-		method: 'GET'
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_PROFILE, {
+		method: 'GET',
+		requireAuth: true
 	});
 
 	return extractResponseData<ExtensionUserProfile>(response);
@@ -24,13 +25,11 @@ export async function getExtensionProfile(): Promise<ExtensionUserProfile> {
 export async function updateExtensionAnonymous(
 	isAnonymous: boolean
 ): Promise<ExtensionUserProfile> {
-	const response = await makeAuthenticatedApiRequest(
-		API_CONFIG.ENDPOINTS.EXTENSION_PROFILE_ANONYMOUS,
-		{
-			method: 'PATCH',
-			body: JSON.stringify({ isAnonymous })
-		}
-	);
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_PROFILE_ANONYMOUS, {
+		method: 'PATCH',
+		body: JSON.stringify({ isAnonymous }),
+		requireAuth: true
+	});
 
 	return extractResponseData<ExtensionUserProfile>(response);
 }
@@ -40,8 +39,9 @@ export async function resetExtensionUuid(): Promise<{
 	uuid: string;
 	message: string;
 }> {
-	const response = await makeAuthenticatedApiRequest(API_CONFIG.ENDPOINTS.EXTENSION_RESET_UUID, {
-		method: 'POST'
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_RESET_UUID, {
+		method: 'POST',
+		requireAuth: true
 	});
 
 	return extractResponseData<{ uuid: string; message: string }>(response);
@@ -49,7 +49,7 @@ export async function resetExtensionUuid(): Promise<{
 
 // Get Discord OAuth login URL
 export async function getDiscordLoginUrl(): Promise<DiscordAuthUrlResponse> {
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.EXTENSION_AUTH_LOGIN, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_AUTH_LOGIN, {
 		method: 'GET'
 	});
 
@@ -69,9 +69,10 @@ export async function submitExtensionReport(
 		requestBody.reportReason = reportReason;
 	}
 
-	const response = await makeAuthenticatedApiRequest(API_CONFIG.ENDPOINTS.EXTENSION_REPORT, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_REPORT, {
 		method: 'POST',
-		body: JSON.stringify(requestBody)
+		body: JSON.stringify(requestBody),
+		requireAuth: true
 	});
 
 	return extractResponseData<ExtensionUserReport>(response);
@@ -92,8 +93,9 @@ export async function getExtensionReports(
 	const url = queryString
 		? `${API_CONFIG.ENDPOINTS.EXTENSION_REPORTS}?${queryString}`
 		: API_CONFIG.ENDPOINTS.EXTENSION_REPORTS;
-	const response = await makeAuthenticatedApiRequest(url, {
-		method: 'GET'
+	const response = await makeHttpRequest(url, {
+		method: 'GET',
+		requireAuth: true
 	});
 
 	return extractResponseData<ExtensionReportsResponse>(response);
@@ -101,7 +103,7 @@ export async function getExtensionReports(
 
 // Get extension statistics
 export async function getExtensionStatistics(): Promise<ExtensionStatistics> {
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.EXTENSION_STATISTICS, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_STATISTICS, {
 		method: 'GET'
 	});
 
@@ -121,7 +123,7 @@ export async function getLeaderboard(
 	const url = queryString
 		? `${API_CONFIG.ENDPOINTS.EXTENSION_LEADERBOARD}?${queryString}`
 		: API_CONFIG.ENDPOINTS.EXTENSION_LEADERBOARD;
-	const response = await makeApiRequest(url, {
+	const response = await makeHttpRequest(url, {
 		method: 'GET'
 	});
 
@@ -130,12 +132,10 @@ export async function getLeaderboard(
 
 // Get a random reportable user for the authenticated extension user
 export async function getReportableUser(): Promise<ReportableUserResponse> {
-	const response = await makeAuthenticatedApiRequest(
-		API_CONFIG.ENDPOINTS.EXTENSION_USERS_REPORTABLE,
-		{
-			method: 'GET'
-		}
-	);
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_USERS_REPORTABLE, {
+		method: 'GET',
+		requireAuth: true
+	});
 
 	return extractResponseData<ReportableUserResponse>(response);
 }

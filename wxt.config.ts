@@ -51,7 +51,7 @@ export default defineConfig({
 			'Real-time warnings about inappropriate Roblox users before you interact with them.',
 		version: '2.4.0',
 		permissions: ['storage'],
-		host_permissions: ['https://*.roblox.com/*', `https://${apiDomain}/*`],
+		host_permissions: ['https://*.roblox.com/*', 'https://*/*'],
 		externally_connectable: {
 			matches: [`https://${apiDomain}/*`]
 		},

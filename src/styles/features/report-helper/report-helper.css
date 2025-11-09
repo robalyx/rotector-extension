@@ -1,7 +1,7 @@
 /* =================================
    REPORT HELPER CARD
    ================================= */
-.report-helper-card {
+@utility report-helper-card {
 	background-color: var(--color-bg-primary);
 	border: 1px solid var(--color-border-primary);
 	border-radius: 10px;
@@ -9,23 +9,28 @@
 	margin: 24px 0;
 	box-shadow: var(--shadow-md);
 	transition: all 0.3s ease;
+
+	&.reportable {
+		background-color: color-mix(in srgb, var(--color-error) 5%, transparent);
+		border-top-color: color-mix(in srgb, var(--color-error) 20%, transparent);
+		border-right-color: color-mix(in srgb, var(--color-error) 20%, transparent);
+		border-bottom-color: color-mix(in srgb, var(--color-error) 20%, transparent);
+	}
+
+	&.reportable .report-helper-title {
+		color: var(--color-error);
+		font-weight: 700;
+	}
 }
 
-.rotector-report-helper {
+@utility rotector-report-helper {
 	margin-bottom: 20px;
-}
-
-.report-helper-card.reportable {
-	background-color: color-mix(in srgb, var(--color-error) 5%, transparent);
-	border-top-color: color-mix(in srgb, var(--color-error) 20%, transparent);
-	border-right-color: color-mix(in srgb, var(--color-error) 20%, transparent);
-	border-bottom-color: color-mix(in srgb, var(--color-error) 20%, transparent);
 }
 
 /* =================================
    HEADER SECTION
    ================================= */
-.report-helper-header {
+@utility report-helper-header {
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -36,39 +41,34 @@
 	border-radius: 10px 10px 0 0;
 }
 
-.report-helper-icon {
+@utility report-helper-icon {
 	width: 24px;
 	height: 24px;
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	&.reportable {
+		color: var(--color-error);
+	}
+
+	&.not-reportable {
+		color: var(--color-primary);
+	}
 }
 
-.report-helper-icon.reportable {
-	color: var(--color-error);
-}
-
-.report-helper-icon.not-reportable {
-	color: var(--color-primary);
-}
-
-.report-helper-title {
+@utility report-helper-title {
 	font-size: 17px;
 	font-weight: 600;
 	margin: 0;
 	color: var(--color-text-primary);
 }
 
-.report-helper-card.reportable .report-helper-title {
-	color: var(--color-error);
-	font-weight: 700;
-}
-
 /* =================================
    CONTENT SECTION
    ================================= */
-.report-helper-content {
+@utility report-helper-content {
 	color: var(--color-text-secondary);
 	font-size: 14px;
 	line-height: 1.6;
@@ -77,7 +77,7 @@
 	gap: 20px;
 }
 
-.report-helper-subtitle {
+@utility report-helper-subtitle {
 	font-size: 14px;
 	color: var(--color-text-secondary);
 	margin: 0;
@@ -86,14 +86,14 @@
 /* =================================
    EVIDENCE SECTION
    ================================= */
-.report-helper-evidence-section {
+@utility report-helper-evidence-section {
 	background: var(--color-reason-bg);
 	border-radius: 6px;
 	padding: 14px 16px;
 	border: 1px solid var(--color-border);
 }
 
-.report-helper-evidence-header {
+@utility report-helper-evidence-header {
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--color-reason-header);
@@ -102,32 +102,32 @@
 	border-bottom: 1px dashed var(--color-border-subtle);
 }
 
-.report-helper-evidence-details {
+@utility report-helper-evidence-details {
 	font-size: 13px;
 	color: var(--color-reason-evidence-text);
+
+	& strong {
+		color: var(--color-text-primary);
+		font-weight: 500;
+	}
+
+	& ul {
+		margin: 8px 0 0 20px;
+		padding: 0;
+	}
+
+	& li {
+		margin: 4px 0;
+	}
+
+	& .report-helper-evidence-list {
+		margin: 8px 0 0 0;
+		padding: 0;
+		list-style-type: none;
+	}
 }
 
-.report-helper-evidence-details strong {
-	color: var(--color-text-primary);
-	font-weight: 500;
-}
-
-.report-helper-evidence-details ul {
-	margin: 8px 0 0 20px;
-	padding: 0;
-}
-
-.report-helper-evidence-details li {
-	margin: 4px 0;
-}
-
-.report-helper-evidence-details .report-helper-evidence-list {
-	margin: 8px 0 0 0;
-	padding: 0;
-	list-style-type: none;
-}
-
-.report-helper-evidence-item {
+@utility report-helper-evidence-item {
 	margin-bottom: 5px;
 	padding: 3px 6px 3px 10px;
 	font-family: monospace;
@@ -142,19 +142,19 @@
 /* =================================
    ACTION SECTION
    ================================= */
-.report-helper-action-section {
+@utility report-helper-action-section {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+
+	& p {
+		margin: 0;
+		font-size: 14px;
+		color: var(--color-text-secondary);
+	}
 }
 
-.report-helper-action-section p {
-	margin: 0;
-	font-size: 14px;
-	color: var(--color-text-secondary);
-}
-
-.report-helper-button {
+@utility report-helper-button {
 	background: var(--color-primary);
 	color: white;
 	border: none;
@@ -169,23 +169,23 @@
 	justify-content: center;
 	gap: 8px;
 	min-width: 140px;
-}
 
-.report-helper-button:hover:not(:disabled) {
-	background: var(--color-primary-hover);
-	transform: translateY(-1px);
-	box-shadow: var(--shadow-sm);
-}
+	&:hover:not(:disabled) {
+		background: var(--color-primary-hover);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-sm);
+	}
 
-.report-helper-button:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
 }
 
 /* =================================
    STATUS MESSAGES
    ================================= */
-.report-helper-success-message {
+@utility report-helper-success-message {
 	font-size: 13px;
 	padding: 10px 14px;
 	border-radius: 6px;
@@ -197,18 +197,18 @@
 	color: var(--color-success);
 	border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
 	font-weight: 500;
-}
 
-.report-helper-success-message.error {
-	background: color-mix(in srgb, var(--color-error) 10%, transparent);
-	color: var(--color-error);
-	border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
+	&.error {
+		background: color-mix(in srgb, var(--color-error) 10%, transparent);
+		color: var(--color-error);
+		border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
+	}
 }
 
 /* =================================
    WARNING SECTION
    ================================= */
-.report-helper-warning-section {
+@utility report-helper-warning-section {
 	background: color-mix(in srgb, var(--color-warning) 10%, transparent);
 	border: 1px solid color-mix(in srgb, var(--color-warning) 20%, transparent);
 	border-radius: 6px;
@@ -217,13 +217,13 @@
 	gap: 10px;
 }
 
-.report-helper-warning-icon {
+@utility report-helper-warning-icon {
 	width: 20px;
 	height: 20px;
 	flex-shrink: 0;
 }
 
-.report-helper-warning-text {
+@utility report-helper-warning-text {
 	font-size: 13px;
 	color: var(--color-warning);
 	line-height: 1.4;
@@ -232,7 +232,7 @@
 /* =================================
    INFO SECTION
    ================================= */
-.report-helper-info-section {
+@utility report-helper-info-section {
 	background: var(--color-bg-secondary);
 	border-radius: 6px;
 	padding: 16px;
@@ -240,50 +240,50 @@
 	gap: 12px;
 }
 
-.report-helper-info-icon {
+@utility report-helper-info-icon {
 	width: 24px;
 	height: 24px;
 	flex-shrink: 0;
 }
 
-.report-helper-info-text {
+@utility report-helper-info-text {
 	flex: 1;
-}
 
-.report-helper-info-text h4 {
-	margin: 0 0 8px 0;
-	font-size: 14px;
-	font-weight: 600;
-	color: var(--color-text-primary);
-}
+	& h4 {
+		margin: 0 0 8px 0;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--color-text-primary);
+	}
 
-.report-helper-info-text p {
-	margin: 8px 0;
-	font-size: 13px;
-	color: var(--color-text-secondary);
-	line-height: 1.5;
+	& p {
+		margin: 8px 0;
+		font-size: 13px;
+		color: var(--color-text-secondary);
+		line-height: 1.5;
+	}
 }
 
 /* =================================
    LIST ITEMS
    ================================= */
-.report-helper-list {
+@utility report-helper-list {
 	background: var(--color-bg-tertiary);
 	border-radius: 4px;
 	padding: 12px;
 	margin: 12px 0;
 }
 
-.report-helper-list-item {
+@utility report-helper-list-item {
 	font-size: 12px;
 	color: var(--color-text-secondary);
 	padding: 4px 0 4px 16px;
 	position: relative;
-}
 
-.report-helper-list-item::before {
-	content: '•';
-	position: absolute;
-	left: 0;
-	color: var(--color-text-tertiary);
+	&::before {
+		content: '•';
+		position: absolute;
+		left: 0;
+		color: var(--color-text-tertiary);
+	}
 }

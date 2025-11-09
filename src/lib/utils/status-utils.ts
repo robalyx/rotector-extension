@@ -1,9 +1,31 @@
 import { STATUS } from '../types/constants';
-import type { UserStatus } from '../types/api';
+import type { UserStatus, GroupStatus } from '../types/api';
+import type { CombinedStatus } from '../types/custom-api';
+import { ROTECTOR_API_ID } from '../services/unified-query-service';
 
 interface StatusBadges {
 	isReportable: boolean;
 	isOutfitOnly: boolean;
+}
+
+// Wrap GroupStatus in CombinedStatus structure for StatusIndicator
+export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus | null {
+	if (!groupStatus) return null;
+
+	return {
+		customApis: new Map([
+			[
+				ROTECTOR_API_ID,
+				{
+					apiId: ROTECTOR_API_ID,
+					apiName: 'Rotector',
+					data: groupStatus,
+					loading: false,
+					timestamp: Date.now()
+				}
+			]
+		])
+	};
 }
 
 // Calculate status badges based on user status

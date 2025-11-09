@@ -228,11 +228,11 @@ class EntityStatusService<T extends EntityStatus> {
 export const userStatusService = new EntityStatusService<UserStatus>(
 	'user',
 	async (id: string) => apiClient.checkUser(id),
-	async (ids: string[]) => apiClient.checkMultipleUsers(ids, { batchSize: 50, batchDelay: 100 })
+	async (ids: string[]) => apiClient.checkMultipleUsers(ids)
 );
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(
 	'group',
 	async (id: string) => apiClient.checkGroup(id),
-	async (ids: string[]) => apiClient.checkMultipleGroups(ids, { batchSize: 50, batchDelay: 100 })
+	async (ids: string[]) => apiClient.checkMultipleGroups(ids)
 );

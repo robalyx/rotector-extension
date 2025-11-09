@@ -15,6 +15,7 @@
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
 	import type { GroupStatus } from '@/lib/types/api';
+	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 
 	interface Props {
@@ -344,8 +345,7 @@
 			props: {
 				entityId: groupId,
 				entityType: ENTITY_TYPES.GROUP,
-				status,
-				loading: false,
+				entityStatus: wrapGroupStatus(status),
 				showText: !isGridView && !isBTRobloxView,
 				onClick: handleStatusClick
 			}

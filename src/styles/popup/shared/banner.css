@@ -2,7 +2,7 @@
    BANNER CONTAINER
    ================================= */
 
-.advanced-violation-banner {
+@utility advanced-violation-banner {
 	@apply relative mb-3 rounded-lg border transition-all duration-300 ease-in-out slideDown;
 	background: linear-gradient(
 		135deg,
@@ -19,18 +19,18 @@
 /* =================================
    BANNER LAYOUT
    ================================= */
-.advanced-violation-banner-content {
+@utility advanced-violation-banner-content {
 	@apply relative p-3;
 	background: var(--color-bg-content);
 	border-radius: inherit;
 	margin: 2px;
 }
 
-.advanced-violation-banner-body {
+@utility advanced-violation-banner-body {
 	@apply flex items-center gap-3;
 }
 
-.advanced-violation-banner-message {
+@utility advanced-violation-banner-message {
 	@apply text-sm font-medium m-0 flex-1 order-1;
 	color: var(--color-text);
 }
@@ -38,7 +38,7 @@
 /* =================================
    BANNER BUTTONS
    ================================= */
-.advanced-violation-banner-enable {
+@utility advanced-violation-banner-enable {
 	@apply px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer border-none flex-shrink-0 order-2;
 	background-color: var(--color-warning);
 	color: white;
@@ -57,7 +57,7 @@
 	}
 }
 
-.advanced-violation-banner-dismiss {
+@utility advanced-violation-banner-dismiss {
 	@apply flex-shrink-0 p-1.5 rounded-md transition-all duration-200 cursor-pointer border-none bg-transparent order-3;
 	color: var(--color-text-subtle);
 
@@ -78,6 +78,6 @@
 	}
 }
 
-.advanced-violation-dismiss-icon {
+@utility advanced-violation-dismiss-icon {
 	@apply w-4 h-4 fill-current;
 }

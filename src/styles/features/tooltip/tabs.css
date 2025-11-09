@@ -1,0 +1,82 @@
+/* =================================
+   TOOLTIP TABS
+   ================================= */
+
+@utility tooltip-tabs {
+	@apply flex gap-1.5 m-1.5 rounded-md;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+	margin-bottom: 0.5rem;
+}
+
+@utility tooltip-tab {
+	@apply flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-2xs font-medium rounded;
+	@apply border-none cursor-pointer transition-all duration-150;
+	background-color: transparent;
+	color: var(--color-text-subtle);
+
+	&:hover:not(.active):not(:disabled) {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+
+	&:focus-visible {
+		@apply outline-none;
+		box-shadow: 0 0 0 2px var(--color-primary);
+	}
+
+	&.active {
+		background-color: var(--color-bg-secondary);
+		color: var(--color-text);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	}
+
+	&.error {
+		color: var(--color-status-unsafe);
+	}
+
+	&.error:hover:not(:disabled) {
+		background-color: rgba(255, 68, 68, 0.1);
+	}
+
+	&.error.active {
+		background-color: rgba(255, 68, 68, 0.15);
+	}
+
+	&.loading {
+		color: var(--color-status-pending);
+		opacity: 0.85;
+	}
+
+	&:disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
+
+	&:disabled:hover {
+		background-color: transparent;
+		color: var(--color-text-subtle);
+	}
+}
+
+@utility tooltip-tab-name {
+	@apply overflow-hidden text-ellipsis whitespace-nowrap;
+	max-width: 8rem;
+}
+
+@utility tooltip-tab-error-indicator {
+	@apply flex-shrink-0;
+	color: var(--color-status-unsafe);
+}
+
+@utility tooltip-tab.has-image {
+	@apply px-2 py-1.5;
+}
+
+@utility tooltip-tab-image {
+	@apply h-8 max-w-full object-contain rounded;
+	background-color: var(--color-surface-primary);
+}
+
+@utility tooltip-tab-name-fallback {
+	@apply hidden;
+}

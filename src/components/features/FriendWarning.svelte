@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { PROFILE_SELECTORS, STATUS } from '@/lib/types/constants';
-	import type { UserStatus } from '@/lib/types/api';
+	import { PROFILE_SELECTORS } from '@/lib/types/constants';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { AlertTriangle, Lightbulb } from 'lucide-svelte';
@@ -10,7 +11,7 @@
 		isOpen: boolean;
 		userId: string | number;
 		username?: string | null;
-		status?: UserStatus | null;
+		userStatus?: CombinedStatus | null;
 		onProceed?: () => void;
 		onCancel?: () => void;
 		onBlock?: () => void;
@@ -26,7 +27,7 @@
 		isOpen = $bindable(),
 		userId,
 		username = null,
-		status = null,
+		userStatus = null,
 		onProceed,
 		onCancel,
 		onBlock
@@ -45,71 +46,35 @@
 		return username || `User ${sanitizedUserId()}`;
 	});
 
-	const riskLevel = $derived(() => {
-		if (!status) return 'unknown';
-
-		switch (status.flagType) {
-			case STATUS.FLAGS.UNSAFE:
-				return 'high';
-			case STATUS.FLAGS.PENDING:
-				return 'medium';
-			case STATUS.FLAGS.SAFE:
-				return 'low';
-			default:
-				return 'unknown';
-		}
+	const isRisky = $derived(() => {
+		if (!userStatus) return false;
+		return Array.from(userStatus.customApis.values()).some(
+			(result) => result.data && result.data.flagType > 0
+		);
 	});
 
-	const riskConfig = $derived(() => {
-		const confidence = status ? Math.round(status.confidence * 100) : 0;
-		const risk = riskLevel();
+	const warningConfig = $derived(() => {
+		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
+		const confidence = rotector?.data ? Math.round(rotector.data.confidence * 100) : 0;
 
-		switch (risk) {
-			case 'high':
-				return {
-					title: 'High Risk User',
-					message: 'This user has been flagged as unsafe by our detection system.',
-					colorClass: 'border-red-500 bg-red-50 dark:bg-red-900/20',
-					iconColor: 'text-red-600 dark:text-red-400',
-					textColor: 'text-red-800 dark:text-red-200',
-					confidence
-				};
-			case 'medium':
-				return {
-					title: 'Potentially Risky User',
-					message: 'This user is pending review and may have concerning content.',
-					colorClass: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20',
-					iconColor: 'text-yellow-600 dark:text-yellow-400',
-					textColor: 'text-yellow-800 dark:text-yellow-200',
-					confidence
-				};
-			case 'low':
-				return {
-					title: 'Low Risk User',
-					message: 'This user appears to be safe based on our analysis.',
-					colorClass: 'border-green-500 bg-green-50 dark:bg-green-900/20',
-					iconColor: 'text-green-600 dark:text-green-400',
-					textColor: 'text-green-800 dark:text-green-200',
-					confidence
-				};
-			default:
-				return {
-					title: 'Unknown User',
-					message: 'Unable to determine the safety status of this user.',
-					colorClass: 'border-gray-500 bg-gray-50 dark:bg-gray-800',
-					iconColor: 'text-gray-600 dark:text-gray-400',
-					textColor: 'text-gray-800 dark:text-gray-200',
-					confidence: 0
-				};
-		}
+		return {
+			title: 'Potentially Inappropriate User',
+			message:
+				'This user has been flagged by our detection system. Please review their profile before accepting this friend request.',
+			colorClass: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20',
+			iconColor: 'text-yellow-600 dark:text-yellow-400',
+			textColor: 'text-yellow-800 dark:text-yellow-200',
+			confidence
+		};
 	});
 
 	// Handle proceed with friend request
 	function handleProceed() {
+		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_proceed', {
 			userId: sanitizedUserId(),
-			riskLevel: riskLevel(),
-			statusFlag: status?.flagType
+			isRisky: isRisky(),
+			statusFlag: rotector?.data?.flagType
 		});
 
 		if (onProceed) {
@@ -121,10 +86,11 @@
 
 	// Handle cancel friend request
 	function handleCancel() {
+		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_cancel', {
 			userId: sanitizedUserId(),
-			riskLevel: riskLevel(),
-			statusFlag: status?.flagType
+			isRisky: isRisky(),
+			statusFlag: rotector?.data?.flagType
 		});
 
 		if (onCancel) {
@@ -136,10 +102,11 @@
 
 	// Handle block user
 	function handleBlock() {
+		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_block', {
 			userId: sanitizedUserId(),
-			riskLevel: riskLevel(),
-			statusFlag: status?.flagType
+			isRisky: isRisky(),
+			statusFlag: rotector?.data?.flagType
 		});
 
 		if (onBlock) {
@@ -195,7 +162,7 @@
 	blockText="Block User"
 	cancelText="Cancel Request"
 	confirmText="Proceed Anyway"
-	confirmVariant={riskLevel() === 'high' ? 'danger' : 'primary'}
+	confirmVariant="danger"
 	icon="warning"
 	modalType="friend-warning"
 	onBlock={handleBlock}
@@ -226,14 +193,14 @@
 		<!-- Risk assessment -->
 		<div class="friend-warning-risk-assessment">
 			<div class="friend-warning-risk-title">
-				{riskConfig().title}
+				{warningConfig().title}
 			</div>
 			<div class="friend-warning-risk-message">
-				{riskConfig().message}
+				{warningConfig().message}
 			</div>
-			{#if riskConfig().confidence > 0}
+			{#if warningConfig().confidence > 0}
 				<div class="friend-warning-risk-confidence">
-					Confidence: {riskConfig().confidence}%
+					Confidence: {warningConfig().confidence}%
 				</div>
 			{/if}
 		</div>
@@ -279,14 +246,12 @@
 			</ul>
 		</div>
 
-		<!-- Warning message for high-risk users -->
-		{#if riskLevel() === 'high'}
-			<div class="friend-warning-high-risk-warning">
-				<div class="friend-warning-high-risk-text">
-					Proceeding with this friend request may expose you to inappropriate content or harmful
-					interactions.
-				</div>
+		<!-- Warning message -->
+		<div class="friend-warning-high-risk-warning">
+			<div class="friend-warning-high-risk-text">
+				Proceeding with this friend request may expose you to inappropriate content or harmful
+				interactions.
 			</div>
-		{/if}
+		</div>
 	</div>
 </Modal>

@@ -47,20 +47,7 @@ export const STATUS = {
 	}
 } as const;
 
-// Integration source constants
-export const INTEGRATION_SOURCES = {
-	BLOXDB: 'bloxdb'
-} as const;
-
-export const INTEGRATION_SOURCE_NAMES = {
-	[INTEGRATION_SOURCES.BLOXDB]: 'BloxDB Analysis'
-} as const;
-
 export type StatusFlag = (typeof STATUS.FLAGS)[keyof typeof STATUS.FLAGS];
-export type UserReasonType =
-	(typeof STATUS.USER_REASON_TYPES)[keyof typeof STATUS.USER_REASON_TYPES];
-export type GroupReasonType =
-	(typeof STATUS.GROUP_REASON_TYPES)[keyof typeof STATUS.GROUP_REASON_TYPES];
 
 // Entity types for status indicators
 export const ENTITY_TYPES = {

@@ -3,6 +3,12 @@
 	import AdvancedViolationBanner from './shared/AdvancedViolationBanner.svelte';
 	import type { SettingsSectionInstance } from '@/lib/types/components';
 
+	interface Props {
+		onNavigateToCustomApis?: () => void;
+	}
+
+	let { onNavigateToCustomApis }: Props = $props();
+
 	let settingsSection = $state<SettingsSectionInstance>();
 
 	// Expose unlock method for parent component
@@ -16,5 +22,5 @@
 	<AdvancedViolationBanner {settingsSection} />
 
 	<!-- Settings Section -->
-	<SettingsSection bind:this={settingsSection} />
+	<SettingsSection bind:this={settingsSection} {onNavigateToCustomApis} />
 </div>

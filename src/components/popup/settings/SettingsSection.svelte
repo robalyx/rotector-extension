@@ -1,23 +1,27 @@
 <script lang="ts">
 	import Toggle from '../../ui/Toggle.svelte';
 	import HelpIndicator from '../../ui/HelpIndicator.svelte';
-	import IntegrationTooltip from './IntegrationTooltip.svelte';
 	import Modal from '../../ui/Modal.svelte';
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
-	import { statistics } from '@/lib/stores/statistics';
+	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
 		DEVELOPER_SETTING_CATEGORY,
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
 	} from '@/lib/types/settings';
-	import { PartyPopper } from 'lucide-svelte';
+	import { PartyPopper, ChevronRight } from 'lucide-svelte';
 	import { logger } from '@/lib/utils/logger';
+
+	interface Props {
+		onNavigateToCustomApis?: () => void;
+	}
+
+	let { onNavigateToCustomApis }: Props = $props();
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
-	let apiBaseUrlError = $state('');
 	let highlightedSetting = $state<string | null>(null);
 
 	// Developer mode unlock state
@@ -54,38 +58,14 @@
 		await updateSetting(SETTINGS_KEYS.API_KEY, target.value.trim());
 	}
 
-	// Handle API base URL changes with validation
-	async function handleApiBaseUrlChange(event: Event) {
-		const target = event.currentTarget as HTMLInputElement;
-		let url = target.value.trim();
-
-		// Clear error if empty (will use default)
-		if (!url) {
-			apiBaseUrlError = '';
-			await updateSetting(SETTINGS_KEYS.API_BASE_URL, url);
-			return;
-		}
-
-		// URL validation
-		if (!url.startsWith('https://')) {
-			apiBaseUrlError = 'URL must start with https://';
-			return;
-		}
-
+	// Handle custom API toggle changes
+	async function handleApiToggle(apiId: string, enabled: boolean) {
 		try {
-			new URL(url);
-			apiBaseUrlError = '';
-		} catch {
-			apiBaseUrlError = 'Invalid URL format';
-			return;
+			await updateCustomApi(apiId, { enabled });
+			logger.userAction('custom_api_toggled', { apiId, enabled });
+		} catch (error) {
+			logger.error('Failed to toggle custom API:', error);
 		}
-
-		// Remove trailing slash
-		if (url.endsWith('/')) {
-			url = url.slice(0, -1);
-		}
-
-		await updateSetting(SETTINGS_KEYS.API_BASE_URL, url);
 	}
 
 	// Confirm and enable mature content setting
@@ -115,8 +95,8 @@
 	}
 
 	$effect(() => {
-		initializeSettings().catch((error) => {
-			logger.error('Failed to initialize settings:', error);
+		Promise.all([initializeSettings(), loadCustomApis()]).catch((error) => {
+			logger.error('Failed to initialize settings or custom APIs:', error);
 		});
 	});
 </script>
@@ -199,73 +179,11 @@
 							<div class="setting-label">
 								{setting.label}
 								{#if setting.helpText}
-									<div class="flex items-center gap-1">
-										{#if setting.key === SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED}
-											<IntegrationTooltip integrationType="bloxdb" statistics={$statistics} />
-										{:else}
-											<HelpIndicator text={setting.helpText} />
-										{/if}
-										{#if setting.key === SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED}
-											<a
-												style:background-color="#5865F2"
-												style:color="white"
-												class="
-                            inline-flex size-4 items-center justify-center
-                            rounded-sm transition-all duration-200
-                            hover:scale-110
-                          "
-												aria-label="Join Rotector Discord for support"
-												href="https://discord.gg/2Cn7kXqqhY"
-												rel="noopener noreferrer"
-												target="_blank"
-												title="Join Rotector Discord for support"
-											>
-												<svg
-													class="size-2.5"
-													viewBox="0 0 24 24"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
-														fill="currentColor"
-													/>
-												</svg>
-											</a>
-										{:else if setting.key === SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED}
-											<a
-												style:background-color="#5865F2"
-												style:color="white"
-												class="
-                            inline-flex size-4 items-center justify-center
-                            rounded-sm transition-all duration-200
-                            hover:scale-110
-                          "
-												aria-label="Join BloxDB Discord for support"
-												href="https://discord.gg/43TkrSbncS"
-												rel="noopener noreferrer"
-												target="_blank"
-												title="Join BloxDB Discord for support"
-											>
-												<svg
-													class="size-2.5"
-													viewBox="0 0 24 24"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.30zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
-														fill="currentColor"
-													/>
-												</svg>
-											</a>
-										{/if}
-									</div>
-								{:else}
-									<span></span>
+									<HelpIndicator text={setting.helpText} />
 								{/if}
 							</div>
 							<Toggle
 								checked={Boolean($settings[setting.key] ?? false)}
-								disabled={setting.key === SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED}
 								onchange={(value: boolean) => handleSettingChange(setting.key, value)}
 								preventChange={setting.key === SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED &&
 									!($settings[setting.key] ?? false)}
@@ -273,6 +191,38 @@
 						</div>
 					{/if}
 				{/each}
+
+				<!-- API Integrations Quick Toggles -->
+				{#if category.title === 'Integrations'}
+					{#each $customApis as api (api.id)}
+						<div class="setting-item" data-setting-key="api-integration-{api.id}">
+							<div class="setting-label">
+								{api.name}
+								{#if api.isSystem}
+									<span class="api-system-label">(System)</span>
+								{/if}
+							</div>
+							<Toggle
+								checked={api.enabled}
+								disabled={api.isSystem}
+								onchange={(value: boolean) => handleApiToggle(api.id, value)}
+							/>
+						</div>
+					{/each}
+				{/if}
+
+				<!-- API Integrations Management Button -->
+				{#if category.title === 'Integrations' && onNavigateToCustomApis}
+					<button class="manage-custom-apis-button" onclick={onNavigateToCustomApis} type="button">
+						<span class="manage-custom-apis-text">
+							Manage API Integrations
+							<span class="custom-api-count"
+								>({$customApis.length} API{$customApis.length !== 1 ? 's' : ''})</span
+							>
+						</span>
+						<ChevronRight size={16} />
+					</button>
+				{/if}
 			</div>
 		</fieldset>
 	{/each}
@@ -306,34 +256,6 @@
 							onChange={(value: number) => handleSettingChange(setting.key, value)}
 							value={Number($settings[setting.key] ?? 1)}
 						/>
-					{:else if setting.key === SETTINGS_KEYS.API_BASE_URL}
-						<div class="api-base-url-container mt-2.5">
-							<div class="setting-label mb-1.5 w-full">
-								{setting.label}
-								{#if setting.helpText}
-									<HelpIndicator text={setting.helpText} />
-								{/if}
-							</div>
-							<input
-								class="api-key-input"
-								class:border-red-500={apiBaseUrlError}
-								class:dark:border-red-400={apiBaseUrlError}
-								oninput={handleApiBaseUrlChange}
-								placeholder="https://roscoe.robalyx.com"
-								type="url"
-								value={String($settings[setting.key] ?? '')}
-							/>
-							{#if apiBaseUrlError}
-								<p
-									class="
-                  mt-1 text-xs text-red-600
-                  dark:text-red-400
-                "
-								>
-									{apiBaseUrlError}
-								</p>
-							{/if}
-						</div>
 					{:else}
 						<div
 							class="setting-item"

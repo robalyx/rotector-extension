@@ -71,6 +71,15 @@
 			background-color: var(--color-status-past-offender);
 		}
 	}
+
+	&.mixed {
+		@apply bg-orange-500/15;
+		color: var(--color-status-mixed);
+
+		.status-indicator {
+			background-color: var(--color-status-mixed);
+		}
+	}
 }
 
 @utility tooltip-badge {
@@ -95,6 +104,16 @@
 @utility tooltip-badge-integration {
 	@apply tooltip-badge text-white;
 	background-color: var(--color-status-integration);
+}
+
+@utility custom-api-badges {
+	@apply flex flex-wrap gap-1.5 mt-1.5 mb-2 justify-center;
+}
+
+@utility custom-api-badge {
+	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
+	background-color: var(--color-status-integration);
+	color: white;
 }
 
 /* =================================

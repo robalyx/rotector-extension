@@ -2,6 +2,7 @@ import type { ApiResponse } from '@/lib/types/api';
 import { SETTINGS_DEFAULTS, SETTINGS_KEYS } from '@/lib/types/settings';
 import { logger } from '@/lib/utils/logger';
 import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/sanitizer';
+import { loadCustomApis } from '@/lib/stores/custom-apis';
 
 // Validates and sanitizes an entity ID (user or group)
 export function validateEntityId(entityId: string | number): string {
@@ -38,12 +39,6 @@ export async function getExcludeAdvancedInfoSetting(): Promise<boolean> {
 	return !settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED];
 }
 
-// Gets the BloxDB integration setting from storage
-export async function getBloxdbIntegrationSetting(): Promise<boolean> {
-	const settings = await browser.storage.sync.get([SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]);
-	return settings[SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED] !== false; // Default to true if not set
-}
-
 // Creates a standardized error response with optional error properties
 export function createErrorResponse(
 	error: Error
@@ -78,6 +73,10 @@ export async function initializeSettings(): Promise<void> {
 		} else {
 			logger.debug('Background: All settings already initialized');
 		}
+
+		// Load custom APIs configuration
+		await loadCustomApis();
+		logger.debug('Background: Custom APIs loaded');
 	} catch (error) {
 		logger.error('Background: Failed to initialize settings:', error);
 	}

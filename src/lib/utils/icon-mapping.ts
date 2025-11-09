@@ -11,4 +11,5 @@ export type StatusIconName =
 	| 'integration'
 	| 'likely-safe'
 	| 'checking'
-	| 'past-offender';
+	| 'past-offender'
+	| 'mixed';

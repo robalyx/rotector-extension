@@ -2,11 +2,11 @@
    API KEY INPUTS
    ================================= */
 
-.api-key-container {
+@utility api-key-container {
 	@apply flex flex-col gap-2;
 }
 
-.api-key-input {
+@utility api-key-input {
 	@apply w-full px-3 py-2 text-sm rounded-md border transition-all duration-200;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
@@ -21,7 +21,7 @@
 	}
 }
 
-.api-key-toggle {
+@utility api-key-toggle {
 	@apply ml-2 px-3 py-1.5 text-xs font-medium rounded border transition-all duration-200 cursor-pointer;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-secondary);
@@ -45,7 +45,7 @@
 /* =================================
    THEME SELECTOR
    ================================= */
-.theme-selector {
+@utility theme-selector {
 	@apply px-3 py-2 text-sm rounded-md border transition-all duration-200 cursor-pointer;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
@@ -64,7 +64,7 @@
 /* =================================
    DEVELOPER SETTINGS BUTTON
    ================================= */
-.developer-reset-button {
+@utility developer-reset-button {
 	@apply text-xs font-medium cursor-pointer transition-all duration-200 px-2 py-1 rounded border-none bg-transparent;
 	color: var(--color-text-subtle);
 	text-decoration: underline;

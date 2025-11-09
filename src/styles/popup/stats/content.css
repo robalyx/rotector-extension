@@ -2,53 +2,53 @@
    CONTENT CONTAINERS
    ================================= */
 
-.changelog-content-compact {
+@utility changelog-content-compact {
 	@apply space-y-2;
 }
 
-.changelog-content-full {
+@utility changelog-content-full {
 	@apply space-y-4;
 }
 
 /* =================================
    HEADER STYLES
    ================================= */
-.changelog-header {
+@utility changelog-header {
 	@apply mb-3;
 }
 
-.changelog-version-info {
+@utility changelog-version-info {
 	@apply space-y-2;
 }
 
-.changelog-title {
+@utility changelog-title {
 	@apply m-0 text-sm font-semibold leading-tight;
 	color: var(--color-text-heading);
 }
 
-.changelog-meta {
+@utility changelog-meta {
 	@apply flex items-center gap-2 text-2xs mt-2;
 	color: var(--color-text-subtle);
 }
 
-.changelog-version {
+@utility changelog-version {
 	@apply font-medium px-1.5 py-0.5 rounded;
 	background-color: var(--color-secondary);
 	color: var(--color-text);
 }
 
-.changelog-date {
+@utility changelog-date {
 	color: var(--color-text-subtle);
 }
 
 /* =================================
    SUMMARY STYLES
    ================================= */
-.changelog-summary {
+@utility changelog-summary {
 	@apply mb-3;
 }
 
-.changelog-summary-text {
+@utility changelog-summary-text {
 	@apply m-0 text-xs leading-relaxed;
 	color: var(--color-text);
 }
@@ -56,30 +56,30 @@
 /* =================================
    CHANGES SECTION
    ================================= */
-.changelog-changes {
+@utility changelog-changes {
 	@apply space-y-3;
 }
 
-.changelog-type-group {
+@utility changelog-type-group {
 	@apply space-y-2;
 }
 
-.changelog-type-header {
+@utility changelog-type-header {
 	@apply flex items-center gap-2 text-xs font-medium;
 	color: var(--color-text-heading);
 }
 
-.changelog-type-icon {
+@utility changelog-type-icon {
 	@apply flex-shrink-0;
 	width: 16px;
 	height: 16px;
 }
 
-.changelog-type-label {
+@utility changelog-type-label {
 	@apply font-semibold;
 }
 
-.changelog-type-count {
+@utility changelog-type-count {
 	@apply text-2xs;
 	color: var(--color-text-subtle);
 }
@@ -87,42 +87,42 @@
 /* =================================
    TYPE-SPECIFIC COLORS
    ================================= */
-.changelog-entry-added {
+@utility changelog-entry-added {
 	color: var(--color-success);
 }
 
-.changelog-entry-changed {
+@utility changelog-entry-changed {
 	color: var(--color-primary);
 }
 
-.changelog-entry-fixed {
+@utility changelog-entry-fixed {
 	color: var(--color-warning);
 }
 
-.changelog-entry-security {
+@utility changelog-entry-security {
 	color: var(--color-error);
 }
 
-.changelog-entry-deprecated {
+@utility changelog-entry-deprecated {
 	color: var(--color-status-pending);
 }
 
-.changelog-entry-removed {
+@utility changelog-entry-removed {
 	color: var(--color-error);
 }
 
-.changelog-entry-default {
+@utility changelog-entry-default {
 	color: var(--color-text);
 }
 
 /* =================================
    CHANGE LIST STYLES
    ================================= */
-.changelog-type-list {
+@utility changelog-type-list {
 	@apply list-none m-0 pl-6 space-y-1;
 }
 
-.changelog-change-item {
+@utility changelog-change-item {
 	@apply text-xs leading-relaxed relative;
 	color: var(--color-text);
 
@@ -133,11 +133,11 @@
 	}
 }
 
-.changelog-change-subpoints {
+@utility changelog-change-subpoints {
 	@apply list-none m-0 mt-1.5 pl-4 space-y-1;
 }
 
-.changelog-subpoint-item {
+@utility changelog-subpoint-item {
 	@apply text-xs leading-relaxed relative;
 	color: var(--color-text-subtle);
 

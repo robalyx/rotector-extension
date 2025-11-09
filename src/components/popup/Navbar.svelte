@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { BarChart3, Settings, Swords } from 'lucide-svelte';
 
-	type Page = 'stats' | 'settings' | 'warzone';
+	type NavPage = 'stats' | 'settings' | 'warzone';
 
 	interface NavbarProps {
-		currentPage: Page | null;
-		onPageChange: (page: Page) => void;
+		currentPage: string | null;
+		onPageChange: (page: NavPage) => void;
 		onDeveloperUnlock: () => void | Promise<void>;
 	}
 

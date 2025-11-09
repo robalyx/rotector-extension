@@ -2,6 +2,12 @@
    TOGGLE SWITCH UTILITIES
    ================================= */
 
+@utility toggle-container {
+	@apply relative inline-block shrink-0;
+	width: 40px;
+	height: 22px;
+}
+
 @utility toggle-switch {
 	@apply absolute inset-0 w-full h-full rounded-full cursor-pointer transition-colors duration-200;
 	background-color: var(--color-switch-bg-inactive);

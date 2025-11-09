@@ -19,7 +19,7 @@
 		icon?: string;
 		actionsLayout?: 'horizontal' | 'vertical';
 		size?: 'normal' | 'small';
-		modalType?: 'mature-content' | 'friend-warning' | 'queue-success' | 'queue-error';
+		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error';
 		children: import('svelte').Snippet;
 	}
 
@@ -40,7 +40,7 @@
 		icon,
 		actionsLayout = 'vertical',
 		size = 'normal',
-		modalType = 'mature-content',
+		modalType = 'modal',
 		children
 	}: ModalProps = $props();
 
@@ -142,7 +142,7 @@
 					? 'queue-success-overlay'
 					: modalType === 'queue-error'
 						? 'queue-error-overlay'
-						: 'mature-content-overlay'}
+						: 'modal-overlay'}
 			class:closing={isClosing}
 			onclick={handleOverlayClick}
 		>
@@ -155,14 +155,14 @@
 							? 'queue-success-popup-small'
 							: modalType === 'queue-error'
 								? 'queue-error-popup-small'
-								: 'mature-content-popup-small'
+								: 'modal-popup-small'
 					: modalType === 'friend-warning'
 						? 'friend-warning-popup'
 						: modalType === 'queue-success'
 							? 'queue-success-popup'
 							: modalType === 'queue-error'
 								? 'queue-error-popup'
-								: 'mature-content-popup'}
+								: 'modal-popup'}
 				aria-labelledby={headingId}
 				aria-modal="true"
 				onkeydown={trapFocus}
@@ -176,7 +176,7 @@
 							? 'queue-success-header'
 							: modalType === 'queue-error'
 								? 'queue-error-header'
-								: 'mature-content-header'}
+								: 'modal-header'}
 				>
 					{#if icon}
 						<div class="mr-2 flex items-center">
@@ -184,7 +184,7 @@
 								{#if modalType === 'friend-warning'}
 									<AlertTriangle class="friend-warning-icon" size={32} />
 								{:else}
-									<AlertCircle class="mature-content-warning-icon" size={32} />
+									<AlertCircle class="modal-warning-icon" size={32} />
 								{/if}
 							{:else}
 								<div class="text-2xl">{icon}</div>
@@ -199,7 +199,7 @@
 								? 'queue-success-title'
 								: modalType === 'queue-error'
 									? 'queue-error-title'
-									: 'mature-content-title'}
+									: 'modal-title'}
 					>
 						{title}
 					</h3>
@@ -222,14 +222,14 @@
 								? 'queue-success-content-small'
 								: modalType === 'queue-error'
 									? 'queue-error-content-small'
-									: 'mature-content-content-small'
+									: 'modal-content-small'
 						: modalType === 'friend-warning'
 							? 'friend-warning-content'
 							: modalType === 'queue-success'
 								? 'queue-success-content'
 								: modalType === 'queue-error'
 									? 'queue-error-content'
-									: 'mature-content-content'}
+									: 'modal-content'}
 				>
 					{@render children()}
 				</div>
@@ -249,13 +249,11 @@
 								? 'queue-success-actions'
 								: modalType === 'queue-error'
 									? 'queue-error-actions'
-									: 'mature-content-actions'}
+									: 'modal-actions'}
 				>
 					{#if showBlock}
 						<button
-							class={modalType === 'friend-warning'
-								? 'friend-warning-block'
-								: 'mature-content-block mature-content-cancel'}
+							class={modalType === 'friend-warning' ? 'friend-warning-block' : 'modal-cancel'}
 							onclick={() => closeModal('block')}
 							type="button"
 						>
@@ -264,9 +262,7 @@
 					{/if}
 					{#if showCancel}
 						<button
-							class={modalType === 'friend-warning'
-								? 'friend-warning-cancel'
-								: 'mature-content-cancel'}
+							class={modalType === 'friend-warning' ? 'friend-warning-cancel' : 'modal-cancel'}
 							onclick={() => closeModal(false)}
 							type="button"
 						>
@@ -274,15 +270,12 @@
 						</button>
 					{/if}
 					<button
-						class={modalType === 'friend-warning'
-							? 'friend-warning-confirm'
-							: 'mature-content-confirm'}
+						class={modalType === 'friend-warning' ? 'friend-warning-confirm' : 'modal-confirm'}
 						class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
 							confirmVariant === 'danger'}
-						class:mature-content-confirm-danger={modalType === 'mature-content' &&
+						class:modal-confirm-danger={modalType !== 'friend-warning' &&
 							confirmVariant === 'danger'}
-						class:mature-content-confirm-queue={modalType === 'mature-content' &&
-							confirmVariant === 'queue'}
+						class:modal-confirm-queue={modalType !== 'friend-warning' && confirmVariant === 'queue'}
 						disabled={confirmDisabled}
 						onclick={() => closeModal(true)}
 						type="button"

@@ -3,13 +3,15 @@
 	import StatsPage from '../../components/popup/StatsPage.svelte';
 	import SettingsPage from '../../components/popup/SettingsPage.svelte';
 	import WarzonePage from '../../components/popup/WarzonePage.svelte';
+	import CustomApiManagement from '../../components/popup/CustomApiManagement.svelte';
+	import CustomApiDocumentation from '../../components/popup/CustomApiDocumentation.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import { initializeSettings } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
 	import type { SettingsPageInstance } from '@/lib/types/components';
 	import { logger } from '@/lib/utils/logger';
 
-	type Page = 'stats' | 'settings' | 'warzone';
+	type Page = 'stats' | 'settings' | 'warzone' | 'custom-apis' | 'custom-api-docs';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
@@ -43,7 +45,11 @@
 				const savedPage = result[LAST_PAGE_STORAGE_KEY] as Page | undefined;
 				if (
 					savedPage &&
-					(savedPage === 'stats' || savedPage === 'settings' || savedPage === 'warzone')
+					(savedPage === 'stats' ||
+						savedPage === 'settings' ||
+						savedPage === 'warzone' ||
+						savedPage === 'custom-apis' ||
+						savedPage === 'custom-api-docs')
 				) {
 					currentPage = savedPage;
 				} else {
@@ -101,9 +107,19 @@
 			{#if currentPage === 'stats'}
 				<StatsPage />
 			{:else if currentPage === 'settings'}
-				<SettingsPage bind:this={settingsPage} />
+				<SettingsPage
+					bind:this={settingsPage}
+					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
+				/>
 			{:else if currentPage === 'warzone'}
 				<WarzonePage />
+			{:else if currentPage === 'custom-apis'}
+				<CustomApiManagement
+					onBack={() => handlePageChange('settings')}
+					onNavigateToDocumentation={() => handlePageChange('custom-api-docs')}
+				/>
+			{:else if currentPage === 'custom-api-docs'}
+				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
 			{/if}
 		{/if}
 	</div>

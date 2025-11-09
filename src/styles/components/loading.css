@@ -3,7 +3,9 @@
    ================================= */
 
 @utility loading-spinner {
-	@apply inline-block border-2 border-current border-t-transparent rounded-full animate-spin-smooth;
+	@apply inline-block border-2 rounded-full animate-spin-smooth;
+	border-color: var(--color-text-primary);
+	border-top-color: transparent;
 
 	&.small {
 		@apply w-4 h-4;
@@ -22,5 +24,10 @@
    LOADING OVERLAY UTILITIES
    ================================= */
 @utility loading-overlay {
-	@apply absolute inset-0 flex items-center justify-center bg-white/80 rounded-[inherit] transition-opacity duration-200;
+	@apply absolute inset-0 flex items-center justify-center rounded-[inherit] transition-opacity duration-200;
+	background-color: rgba(255, 255, 255, 0.8);
+
+	@media (prefers-color-scheme: dark) {
+		background-color: rgba(0, 0, 0, 0.8);
+	}
 }

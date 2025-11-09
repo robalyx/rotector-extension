@@ -8,7 +8,9 @@
 		GROUP_HEADER_SELECTORS,
 		GROUPS_SELECTORS
 	} from '@/lib/types/constants';
-	import type { GroupStatus, PageType, UserStatus } from '@/lib/types/api';
+	import type { GroupStatus, PageType } from '@/lib/types/api';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
 
@@ -88,8 +90,7 @@
 			props: {
 				entityId: groupId!,
 				entityType: ENTITY_TYPES.GROUP,
-				status: groupStatus,
-				loading: !groupStatus,
+				entityStatus: wrapGroupStatus(groupStatus),
 				showText: true
 			}
 		});
@@ -108,10 +109,10 @@
 	}
 
 	// Handle user processing completion from UserListManager
-	function handleUserProcessed(processedUserId: string, status: UserStatus) {
+	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Groups page user processed', {
 			userId: processedUserId,
-			status: status?.flagType
+			hasStatus: !!status
 		});
 	}
 

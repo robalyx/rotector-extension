@@ -50,7 +50,9 @@
 @import './popup/settings/sections.css';
 @import './popup/settings/inputs.css';
 @import './popup/settings/warnings.css';
-@import './popup/settings/integration-tooltip.css';
+
+/* Custom API Management */
+@import './popup/custom-api-management.css';
 
 /* Warzone Page */
 @import './popup/warzone/base.css';
@@ -73,15 +75,14 @@
    ================================= */
 /* Modal System */
 @import './features/modal/base.css';
-@import './features/modal/mature-content.css';
 @import './features/modal/friend-warning.css';
-@import './features/modal/queue-popup.css';
 @import './features/modal/queue-modal.css';
 
 /* Tooltip System */
 @import './features/tooltip/base.css';
 @import './features/tooltip/content.css';
 @import './features/tooltip/voting.css';
+@import './features/tooltip/tabs.css';
 
 /* Report Helper */
 @import './features/report-helper/report-helper.css';

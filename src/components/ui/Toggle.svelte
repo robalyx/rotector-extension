@@ -30,13 +30,7 @@
 	}
 </script>
 
-<label
-	style:height="22px"
-	style:width="40px"
-	class="
-  relative inline-block shrink-0
-"
->
+<label class="toggle-container">
 	<input
 		name="toggle"
 		class="

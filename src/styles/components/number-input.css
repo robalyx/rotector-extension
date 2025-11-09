@@ -1,13 +1,13 @@
 /* =================================
    NUMBER INPUT CONTAINER
    ================================= */
-.number-input-container {
+@utility number-input-container {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
 }
 
-.number-input-label {
+@utility number-input-label {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
@@ -15,7 +15,7 @@
 	color: var(--color-text-secondary);
 }
 
-.number-input-wrapper {
+@utility number-input-wrapper {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
@@ -25,7 +25,7 @@
    NUMBER INPUT FIELD
    ================================= */
 
-.number-input {
+@utility number-input {
 	width: 80px;
 	padding: 0.5rem;
 	border: 1px solid var(--color-border);
@@ -34,24 +34,24 @@
 	color: var(--color-text);
 	font-size: 0.875rem;
 	transition: border-color 0.2s;
+
+	&:hover {
+		border-color: var(--color-border-hover);
+	}
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 2px var(--color-primary-alpha);
+	}
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		height: auto;
+	}
 }
 
-.number-input:hover {
-	border-color: var(--color-border-hover);
-}
-
-.number-input:focus {
-	outline: none;
-	border-color: var(--color-primary);
-	box-shadow: 0 0 0 2px var(--color-primary-alpha);
-}
-
-.number-input::-webkit-inner-spin-button,
-.number-input::-webkit-outer-spin-button {
-	height: auto;
-}
-
-.number-input-range {
+@utility number-input-range {
 	font-size: 0.75rem;
 	color: var(--color-text-tertiary);
 }

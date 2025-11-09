@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { INTEGRATION_SOURCE_NAMES, STATUS } from '@/lib/types/constants';
+	import { STATUS } from '@/lib/types/constants';
 	import type { ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/sanitizer';
@@ -33,10 +33,15 @@
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import EngineVersionIndicator from './EngineVersionIndicator.svelte';
+	import { get } from 'svelte/store';
+
+	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
+	import { settings, updateSetting } from '@/lib/stores/settings';
 
 	interface Props {
 		userId: string | number;
-		status?: UserStatus | null;
+		userStatus?: CombinedStatus | null;
 		error?: string | null;
 		anchorElement: HTMLElement;
 		mode?: 'preview' | 'expanded';
@@ -51,7 +56,7 @@
 
 	let {
 		userId,
-		status = null,
+		userStatus = null,
 		error = null,
 		anchorElement,
 		mode = 'preview',
@@ -72,35 +77,119 @@
 	let voteError = $state<string | null>(null);
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
+	let activeTab = $state<string>(ROTECTOR_API_ID);
+
+	// Get active status based on selected tab
+	const activeStatus = $derived.by(() => {
+		if (!userStatus) return null;
+
+		const apiResult = userStatus.customApis.get(activeTab);
+		return apiResult?.data ?? null;
+	});
+
+	// Get active error based on selected tab
+	const activeError = $derived.by(() => {
+		if (!userStatus) return error;
+
+		const apiResult = userStatus.customApis.get(activeTab);
+		return apiResult?.error ?? error ?? null;
+	});
+
+	// Get active loading state based on selected tab
+	const activeLoading = $derived.by(() => {
+		if (!userStatus) return false;
+
+		const apiResult = userStatus.customApis.get(activeTab);
+		return apiResult?.loading ?? false;
+	});
+
+	// Get ordered tabs
+	const tabs = $derived.by(() => {
+		if (!userStatus) return [];
+
+		return Array.from(userStatus.customApis.entries(), ([apiId, result]) => ({
+			id: apiId,
+			name: result.apiName,
+			loading: result.loading,
+			error: !!result.error && !result.data,
+			landscapeImageDataUrl: result.landscapeImageDataUrl
+		}));
+	});
+
+	// Set default active tab
+	$effect(() => {
+		if (!userStatus) return;
+
+		// First priority: Check if user has a preferred custom API tab and if it exists in current results
+		const preferredTab = get(settings).lastSelectedCustomApiTab;
+		if (
+			preferredTab &&
+			preferredTab !== ROTECTOR_API_ID &&
+			userStatus.customApis.has(preferredTab)
+		) {
+			activeTab = preferredTab;
+			return;
+		}
+
+		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist, open first custom API tab
+		const rotector = userStatus.customApis.get(ROTECTOR_API_ID);
+		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.customApis.size > 1) {
+			const firstCustom = Array.from(userStatus.customApis.keys()).find(
+				(id) => id !== ROTECTOR_API_ID
+			);
+			if (firstCustom) {
+				activeTab = firstCustom;
+				return;
+			}
+		}
+
+		// Third priority: Open Rotector tab
+		activeTab = ROTECTOR_API_ID;
+	});
 
 	// Computed values
-	const sanitizedUserId = $derived(() => {
+	const sanitizedUserId = $derived.by(() => {
 		const id = sanitizeEntityId(userId);
 		return id ? id.toString() : '';
 	});
 
-	const isGroup = $derived(() => entityType === 'group');
+	const isGroup = $derived(entityType === 'group');
+
+	// Type guard for UserStatus properties
+	const activeUserStatus = $derived.by(() => {
+		const status = activeStatus;
+		return !isGroup && status ? (status as UserStatus) : null;
+	});
 
 	const shouldShowVoting = $derived(
-		() =>
-			!isGroup() &&
-			status &&
-			(status.flagType === STATUS.FLAGS.UNSAFE ||
-				status.flagType === STATUS.FLAGS.PENDING ||
-				status.flagType === STATUS.FLAGS.INTEGRATION ||
-				(status.flagType === STATUS.FLAGS.QUEUED && status.processed === true))
+		!isGroup &&
+			activeTab === ROTECTOR_API_ID && // Only show voting on Rotector tab
+			activeUserStatus &&
+			(activeUserStatus.flagType === STATUS.FLAGS.UNSAFE ||
+				activeUserStatus.flagType === STATUS.FLAGS.PENDING ||
+				activeUserStatus.flagType === STATUS.FLAGS.INTEGRATION ||
+				activeUserStatus.flagType === STATUS.FLAGS.MIXED ||
+				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
 
 	const isSafeUserWithQueueOnly = $derived(
-		() =>
-			!isGroup() &&
-			status &&
-			(status.flagType === STATUS.FLAGS.SAFE ||
-				status.flagType === STATUS.FLAGS.PAST_OFFENDER ||
-				(status.flagType === STATUS.FLAGS.QUEUED && status.processed === true))
+		!isGroup &&
+			activeTab === ROTECTOR_API_ID && // Only show queue on Rotector tab
+			activeUserStatus &&
+			(activeUserStatus.flagType === STATUS.FLAGS.SAFE ||
+				activeUserStatus.flagType === STATUS.FLAGS.PAST_OFFENDER ||
+				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
 
-	const isExpanded = $derived(() => mode === 'expanded');
+	const isExpanded = $derived(mode === 'expanded');
+
+	// Get custom API badges for active tab
+	const customApiBadges = $derived.by(() => {
+		if (activeTab === ROTECTOR_API_ID || isGroup || !userStatus) return [];
+
+		const data = userStatus.customApis.get(activeTab)?.data;
+		return data && 'badges' in data ? (data.badges ?? []) : [];
+	});
 
 	// Get header message from flag and confidence
 	function getHeaderMessageFromFlag(
@@ -108,16 +197,11 @@
 		confidence = 0,
 		currentStatus?: UserStatus | null
 	): string {
-		// Handle mixed status for groups
-		if (isGroup() && flag === STATUS.FLAGS.MIXED) {
-			return 'This group contains a mix of appropriate and inappropriate members.';
-		}
-
-		const entityType = isGroup() ? 'group' : 'user';
+		const entityType = isGroup ? 'group' : 'user';
 
 		switch (flag) {
 			case STATUS.FLAGS.UNSAFE:
-				return `This ${entityType} has been verified as inappropriate by Rotector's human moderators.`;
+				return `This ${entityType} has been verified as inappropriate by human moderators.`;
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
 				return `This ${entityType} has been flagged by AI with ${confidencePercent}% confidence.`;
@@ -131,6 +215,12 @@
 				}
 			case STATUS.FLAGS.INTEGRATION:
 				return `This ${entityType} has been flagged by a third-party content analysis system.`;
+			case STATUS.FLAGS.MIXED:
+				if (isGroup) {
+					return 'This group contains a mix of appropriate and inappropriate members.';
+				} else {
+					return "This user has been associated with inappropriate content, but there isn't sufficient evidence for Roblox to take action. Exercise caution when interacting with them.";
+				}
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return `This ${entityType} had inappropriate content previously but their account currently appears clean and can be requeued for verification.`;
 			case STATUS.FLAGS.SAFE:
@@ -140,13 +230,14 @@
 		}
 	}
 
-	const headerMessage = $derived(() => {
-		if (error) return 'Error Details';
-		if (!status) return 'Loading...';
+	const headerMessage = $derived.by(() => {
+		if (activeError) return 'Error Details';
+		if (!activeStatus) return 'Loading...';
 
-		const confidence = status.confidence || 0;
+		const currentStatus = activeStatus;
+		const confidence = currentStatus.confidence || 0;
 
-		switch (status.flagType) {
+		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
 			case STATUS.FLAGS.UNSAFE:
 			case STATUS.FLAGS.PENDING:
@@ -154,16 +245,17 @@
 			case STATUS.FLAGS.INTEGRATION:
 			case STATUS.FLAGS.MIXED:
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return getHeaderMessageFromFlag(status.flagType, confidence, status);
+				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, currentStatus);
 			default:
 				return 'Unknown Status';
 		}
 	});
 
-	const statusBadgeClass = $derived(() => {
-		if (!status) return 'error';
+	const statusBadgeClass = $derived.by(() => {
+		const currentStatus = activeStatus;
+		if (!currentStatus) return 'error';
 
-		switch (status.flagType) {
+		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
 				return 'safe';
 			case STATUS.FLAGS.UNSAFE:
@@ -171,11 +263,13 @@
 			case STATUS.FLAGS.PENDING:
 				return 'pending';
 			case STATUS.FLAGS.QUEUED:
-				return status.processed === true ? 'likely-safe' : 'pending';
+				return !isGroup && (currentStatus as UserStatus).processed === true
+					? 'likely-safe'
+					: 'pending';
 			case STATUS.FLAGS.INTEGRATION:
 				return 'integration';
 			case STATUS.FLAGS.MIXED:
-				return 'unsafe';
+				return isGroup ? 'unsafe' : 'mixed';
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return 'past-offender';
 			default:
@@ -183,10 +277,11 @@
 		}
 	});
 
-	const statusBadgeText = $derived(() => {
-		if (!status) return 'Unknown';
+	const statusBadgeText = $derived.by(() => {
+		const currentStatus = activeStatus;
+		if (!currentStatus) return 'Unknown';
 
-		switch (status.flagType) {
+		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
 				return 'Not Flagged';
 			case STATUS.FLAGS.UNSAFE:
@@ -194,7 +289,9 @@
 			case STATUS.FLAGS.PENDING:
 				return 'Under Review';
 			case STATUS.FLAGS.QUEUED:
-				return status.processed === true ? 'Likely Safe' : 'Checking...';
+				return !isGroup && (currentStatus as UserStatus).processed === true
+					? 'Likely Safe'
+					: 'Checking...';
 			case STATUS.FLAGS.INTEGRATION:
 				return 'Integration';
 			case STATUS.FLAGS.MIXED:
@@ -206,39 +303,39 @@
 		}
 	});
 
-	const reasonEntries = $derived((): FormattedReasonEntry[] => {
-		if (!status?.reasons || status.flagType === STATUS.FLAGS.SAFE) return [];
-		return formatViolationReasons(status.reasons, status.integrationSources, entityType);
+	const reasonEntries = $derived.by((): FormattedReasonEntry[] => {
+		const currentStatus = activeStatus;
+		if (!currentStatus?.reasons || currentStatus.flagType === STATUS.FLAGS.SAFE) return [];
+		return formatViolationReasons(currentStatus.reasons, entityType);
 	});
 
-	const reviewerInfo = $derived((): ReviewerInfo | null => {
-		if (!status?.reviewer) return null;
-		return status.reviewer;
+	const reviewerInfo = $derived.by((): ReviewerInfo | null => {
+		if (isGroup) return null;
+		const currentStatus = activeUserStatus;
+		if (!currentStatus?.reviewer) return null;
+		return currentStatus.reviewer;
 	});
 
-	const badgeStatus = $derived(() => calculateStatusBadges(status));
+	const badgeStatus = $derived.by(() => calculateStatusBadges(activeUserStatus));
 
-	const integrationCount = $derived(() => {
-		return status?.integrationSources ? Object.keys(status.integrationSources).length : 0;
-	});
-
-	const shouldShowIntegrationBadge = $derived(() => {
-		return integrationCount() > 0 && status?.flagType !== STATUS.FLAGS.INTEGRATION;
-	});
-
-	const isOutdated = $derived(() => {
-		if (!status?.lastUpdated) return false;
-		const daysSince = getDaysSinceTimestamp(status.lastUpdated);
+	const isOutdated = $derived.by(() => {
+		if (isGroup) return false;
+		const currentStatus = activeUserStatus;
+		if (!currentStatus?.lastUpdated) return false;
+		const daysSince = getDaysSinceTimestamp(currentStatus.lastUpdated);
 		return daysSince >= 7;
 	});
 
 	// Metadata information for processed users
-	const metadataInfo = $derived(() => {
-		if (!status) return null;
+	const metadataInfo = $derived.by(() => {
+		if (isGroup || activeTab !== ROTECTOR_API_ID) return null;
 
-		const queuedAt = status.queuedAt;
-		const processedAt = status.processedAt;
-		const lastUpdated = status.lastUpdated;
+		const currentStatus = activeUserStatus;
+		if (!currentStatus) return null;
+
+		const queuedAt = currentStatus.queuedAt;
+		const processedAt = currentStatus.processedAt;
+		const lastUpdated = currentStatus.lastUpdated;
 
 		if (!queuedAt && !lastUpdated) return null;
 
@@ -259,20 +356,11 @@
 		};
 	});
 
-	// Check if a reason comes from an integration source
-	function isIntegrationReason(reason: FormattedReasonEntry): boolean {
-		if (!status?.integrationSources) return false;
-
-		return Object.values(INTEGRATION_SOURCE_NAMES).some((integrationName) =>
-			reason.typeName.includes(integrationName)
-		);
-	}
-
 	// Extract user info from the page DOM
 	function getPageUserInfo(): UserInfo | null {
 		if (!anchorElement) return null;
 
-		const userId = sanitizedUserId();
+		const userId = sanitizedUserId;
 		if (!userId) return null;
 
 		const { pageType, container } = detectPageContext(anchorElement);
@@ -283,7 +371,7 @@
 	function getPageGroupInfo(): GroupInfo | null {
 		if (!anchorElement) return null;
 
-		const groupId = sanitizedUserId();
+		const groupId = sanitizedUserId;
 		if (!groupId) return null;
 
 		const { pageType, container } = detectPageContext(anchorElement);
@@ -292,7 +380,7 @@
 
 	// Positioning for preview tooltips
 	function positionTooltip() {
-		if (!tooltipRef || !anchorElement || isExpanded()) return;
+		if (!tooltipRef || !anchorElement || isExpanded) return;
 
 		const position = calculateTooltipPosition(tooltipRef, anchorElement);
 		applyTooltipPosition(tooltipRef, position);
@@ -305,15 +393,15 @@
 
 	// Load vote data if needed
 	async function loadVoteData() {
-		if (!shouldShowVoting() || loadingVotes || isSafeUserWithQueueOnly()) return;
+		if (!shouldShowVoting || loadingVotes || isSafeUserWithQueueOnly) return;
 
 		loadingVotes = true;
 		voteError = null;
 
 		try {
-			const votes = await voteDataService.getVoteData(sanitizedUserId());
+			const votes = await voteDataService.getVoteData(sanitizedUserId);
 			voteData = votes;
-			logger.debug('Loaded vote data for user', { userId: sanitizedUserId(), votes });
+			logger.debug('Loaded vote data for user', { userId: sanitizedUserId, votes });
 		} catch (err) {
 			voteError = 'Failed to load voting data';
 			logger.error('Failed to load vote data:', err);
@@ -330,13 +418,13 @@
 			loadingVotes = true;
 			voteError = null;
 
-			const result = await apiClient.submitVote(sanitizedUserId(), voteType as 1 | -1);
+			const result = await apiClient.submitVote(sanitizedUserId, voteType as 1 | -1);
 			voteData = result.newVoteData;
 
-			voteDataService.updateCachedVoteData(sanitizedUserId(), result.newVoteData);
+			voteDataService.updateCachedVoteData(sanitizedUserId, result.newVoteData);
 
 			logger.userAction('vote_submitted', {
-				userId: sanitizedUserId(),
+				userId: sanitizedUserId,
 				voteType,
 				success: true
 			});
@@ -359,13 +447,13 @@
 	function handleReprocessRequest(event: MouseEvent) {
 		event.stopPropagation();
 		if (onQueue) {
-			onQueue(true, status);
+			onQueue(true, activeStatus);
 		}
 	}
 
 	// Handle expand tooltip click
 	function handleExpand() {
-		if (!isExpanded() && onExpand) {
+		if (!isExpanded && onExpand) {
 			onExpand();
 		}
 	}
@@ -421,7 +509,7 @@
 	let hasLoadedVoteData = $state(false);
 
 	$effect(() => {
-		if (shouldShowVoting() && !hasLoadedVoteData && !loadingVotes) {
+		if (shouldShowVoting && !hasLoadedVoteData && !loadingVotes) {
 			hasLoadedVoteData = true;
 			loadVoteData().catch((error) => {
 				logger.error('Failed to load vote data:', error);
@@ -433,13 +521,13 @@
 	$effect(() => {
 		element = tooltipRef;
 
-		if (isGroup()) {
+		if (isGroup) {
 			groupInfo = getPageGroupInfo();
 		} else {
 			userInfo = getPageUserInfo();
 		}
 
-		if (isExpanded()) {
+		if (isExpanded) {
 			// Expanded tooltip setup
 			if (anchorElement && tooltipRef) {
 				const { originX, originY } = getTransformOrigin();
@@ -487,8 +575,8 @@
 </script>
 
 {#snippet reviewerSection()}
-	{#if reviewerInfo()}
-		{@const reviewer = reviewerInfo()}
+	{#if reviewerInfo}
+		{@const reviewer = reviewerInfo}
 		{#if reviewer}
 			<div class="reviewer-section">
 				<User class="reviewer-icon" size={14} />
@@ -507,7 +595,7 @@
 {/snippet}
 
 {#snippet metadataSection()}
-	{@const metadata = metadataInfo()}
+	{@const metadata = metadataInfo}
 	{#if metadata}
 		<div class="tooltip-metadata">
 			{#if metadata.queuedTime}
@@ -544,7 +632,7 @@
 				</div>
 			{/if}
 
-			{#if isOutdated() && !metadata.isProcessing}
+			{#if isOutdated && !metadata.isProcessing}
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}
@@ -559,22 +647,94 @@
 	{/if}
 {/snippet}
 
+{#snippet tabNavigation()}
+	{#if tabs.length > 1}
+		<div class="tooltip-tabs">
+			{#each tabs as tab (tab.id)}
+				{@const hasImage = !!tab.landscapeImageDataUrl}
+				<button
+					class="tooltip-tab"
+					class:active={activeTab === tab.id}
+					class:error={!hasImage && tab.error}
+					class:has-image={hasImage}
+					class:loading={!hasImage && tab.loading}
+					onclick={(e) => {
+						e.stopPropagation();
+						activeTab = tab.id;
+						// Save preference if user clicks a custom API tab
+						if (tab.id !== ROTECTOR_API_ID) {
+							updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
+								logger.error('Failed to save tab preference:', error);
+							});
+						}
+					}}
+					title={tab.name}
+					type="button"
+				>
+					{#if hasImage}
+						<img
+							class="tooltip-tab-image"
+							alt={tab.name}
+							onerror={(e) => {
+								const target = e.currentTarget as HTMLImageElement;
+								target.style.display = 'none';
+								const textSpan = target.nextElementSibling as HTMLSpanElement;
+								if (textSpan) {
+									textSpan.style.display = 'inline';
+								}
+							}}
+							src={tab.landscapeImageDataUrl}
+						/>
+						<span class="tooltip-tab-name tooltip-tab-name-fallback">{tab.name}</span>
+					{:else}
+						<span class="tooltip-tab-name">{tab.name}</span>
+						{#if tab.loading}
+							<LoadingSpinner size="small" />
+						{:else if tab.error}
+							<AlertCircle class="tooltip-tab-error-indicator" size={12} />
+						{/if}
+					{/if}
+				</button>
+			{/each}
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet customBadgesSection()}
+	{#if customApiBadges.length > 0}
+		<div class="custom-api-badges">
+			{#each customApiBadges as badge (badge.text)}
+				<span
+					style:background-color={badge.color}
+					style:color={badge.textColor}
+					class="custom-api-badge"
+				>
+					{badge.text}
+				</span>
+			{/each}
+		</div>
+	{/if}
+{/snippet}
+
 {#snippet tooltipContent()}
-	{#if error}
+	{#if activeError}
 		<!-- Error state -->
 		<div class="error-details">
-			{extractErrorMessage(error)}
+			{extractErrorMessage(activeError)}
 		</div>
-	{:else if !status}
+	{:else if activeLoading}
 		<!-- Loading state -->
 		<div class="flex items-center gap-2 justify-center py-2">
 			<LoadingSpinner size="small" />
 			<span class="text-xs">Loading user information...</span>
 		</div>
+	{:else if !activeStatus}
+		<!-- No data state -->
+		<div class="error-details">No data available for this API</div>
 	{:else}
 		<!-- Status information -->
 		<div>
-			{#if isSafeUserWithQueueOnly()}
+			{#if isSafeUserWithQueueOnly}
 				<!-- Safe users: Only show queue button -->
 				<div class="flex gap-2">
 					<button
@@ -592,29 +752,28 @@
 				<!-- Queue timing information -->
 				{@render metadataSection()}
 			{:else}
-				<!-- Non-safe users: Show full content -->
+				<!-- Non-safe users -->
+
+				<!-- Custom API Badges -->
+				{@render customBadgesSection()}
+
 				<!-- Status badges -->
-				{#if (!isGroup() && (badgeStatus().isReportable || badgeStatus().isOutfitOnly)) || status.isQueued || shouldShowIntegrationBadge()}
+				{#if activeTab === ROTECTOR_API_ID && ((!isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || activeStatus?.isQueued)}
 					<div class="flex gap-1.5 mb-2 justify-center flex-wrap">
-						{#if !isGroup() && badgeStatus().isReportable}
+						{#if !isGroup && badgeStatus.isReportable}
 							<span class="tooltip-badge tooltip-badge-reportable"> Reportable </span>
 						{/if}
-						{#if status.isQueued}
+						{#if activeStatus?.isQueued}
 							<span class="tooltip-badge tooltip-badge-queued"> Queued </span>
 						{/if}
-						{#if shouldShowIntegrationBadge()}
-							<span class="tooltip-badge tooltip-badge-integration">
-								{integrationCount() === 1 ? 'Integration' : `Integration (${integrationCount()})`}
-							</span>
-						{/if}
-						{#if !isGroup() && badgeStatus().isOutfitOnly}
+						{#if !isGroup && badgeStatus.isOutfitOnly}
 							<span class="tooltip-badge tooltip-badge-outfit"> Outfit Only </span>
 						{/if}
 					</div>
 				{/if}
 
 				<!-- Voting widget for unsafe/pending users -->
-				{#if shouldShowVoting()}
+				{#if shouldShowVoting}
 					<VotingWidget
 						error={voteError}
 						loading={loadingVotes}
@@ -623,8 +782,8 @@
 					/>
 				{/if}
 
-				<!-- Reportable notice (only for users) -->
-				{#if !isGroup() && badgeStatus().isReportable}
+				<!-- Reportable notice -->
+				{#if activeTab === ROTECTOR_API_ID && !isGroup && badgeStatus.isReportable}
 					<div class="tooltip-divider"></div>
 					<div class="reportable-notice">
 						<AlertCircle class="reportable-icon" size={24} />
@@ -636,7 +795,7 @@
 							</p>
 							<a
 								class="report-button"
-								href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId()}&submitterId=0&abuseVector=userprofile&nl=true"
+								href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId}&submitterId=0&abuseVector=userprofile&nl=true"
 								onclick={(e) => e.stopPropagation()}
 								rel="noopener noreferrer"
 								target="_blank"
@@ -647,8 +806,8 @@
 					</div>
 				{/if}
 
-				<!-- Outfit notice (only for users) -->
-				{#if !isGroup() && badgeStatus().isOutfitOnly}
+				<!-- Outfit notice -->
+				{#if activeTab === ROTECTOR_API_ID && !isGroup && badgeStatus.isOutfitOnly}
 					<div class="tooltip-divider"></div>
 					<div class="outfit-notice">
 						<Shirt class="outfit-icon" size={24} />
@@ -663,15 +822,15 @@
 				{/if}
 
 				<!-- Reasons -->
-				{#if reasonEntries().length > 0}
-					<!-- Only show divider if there's content above (voting, badges, or notices) -->
-					{#if shouldShowVoting() || (!isGroup() && (badgeStatus().isReportable || badgeStatus().isOutfitOnly))}
+				{#if reasonEntries.length > 0}
+					<!-- Show divider if there's content above -->
+					{#if shouldShowVoting || (activeTab === ROTECTOR_API_ID && !isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || customApiBadges.length > 0}
 						<div class="tooltip-divider"></div>
 					{/if}
 					<div class="reasons-container">
-						{#each reasonEntries() as reason (reason.typeName)}
+						{#each reasonEntries as reason (reason.typeName)}
 							<div class="reason-item">
-								<div class="reason-header" class:integration={isIntegrationReason(reason)}>
+								<div class="reason-header">
 									{reason.typeName} ({reason.confidence}%)
 								</div>
 								{#if reason.message}
@@ -713,7 +872,7 @@
 	{/if}
 {/snippet}
 
-{#if isExpanded()}
+{#if isExpanded}
 	<!-- Expanded tooltip structure -->
 	<div
 		bind:this={overlayRef}
@@ -729,27 +888,20 @@
 		role="button"
 		tabindex="0"
 	>
-		<div bind:this={tooltipRef} class="expanded-tooltip">
-			<!-- Close button -->
-			<button
-				class="expanded-tooltip-close"
-				aria-label="Close"
-				onclick={closeWithAnimation}
-				type="button"
-			>
-				×
-			</button>
+		<div bind:this={tooltipRef} class="expanded-tooltip" class:has-tabs={tabs.length > 1}>
+			<!-- Tab Navigation -->
+			{@render tabNavigation()}
 
 			<!-- Tooltip content -->
 			<div class="expanded-tooltip-content">
 				<div class="tooltip-sticky-header">
 					<!-- Engine Version -->
-					{#if status?.engineVersion}
-						<EngineVersionIndicator position="inline" {status} />
+					{#if activeUserStatus?.engineVersion}
+						<EngineVersionIndicator position="inline" status={activeUserStatus} />
 					{/if}
 
 					<!-- Profile Header -->
-					{#if isGroup() && groupInfo}
+					{#if isGroup && groupInfo}
 						<!-- Group Header -->
 						<div class="tooltip-profile-header">
 							<div class="tooltip-avatar">
@@ -757,14 +909,14 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{groupInfo.groupName}</div>
-								<div class="tooltip-user-id">Group ID: {sanitizedUserId()}</div>
-								<div class="tooltip-status-badge {statusBadgeClass()}">
+								<div class="tooltip-user-id">Group ID: {sanitizedUserId}</div>
+								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
-									{statusBadgeText()}
+									{statusBadgeText}
 								</div>
 							</div>
 						</div>
-					{:else if !isGroup() && userInfo}
+					{:else if !isGroup && userInfo}
 						<!-- User Header -->
 						<div class="tooltip-profile-header">
 							<div class="tooltip-avatar">
@@ -772,10 +924,10 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{userInfo.username}</div>
-								<div class="tooltip-user-id">ID: {sanitizedUserId()}</div>
-								<div class="tooltip-status-badge {statusBadgeClass()}">
+								<div class="tooltip-user-id">ID: {sanitizedUserId}</div>
+								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
-									{statusBadgeText()}
+									{statusBadgeText}
 								</div>
 							</div>
 						</div>
@@ -784,15 +936,15 @@
 						<div class="tooltip-header">
 							<div>{error ? 'Error Details' : 'Loading...'}</div>
 							<div class="tooltip-user-id">
-								{isGroup() ? 'Group' : 'User'} ID: {sanitizedUserId()}
+								{isGroup ? 'Group' : 'User'} ID: {sanitizedUserId}
 							</div>
 						</div>
 					{/if}
 
 					<!-- Header message -->
-					{#if (userInfo || groupInfo) && status}
+					{#if (userInfo || groupInfo) && activeStatus}
 						<div class="tooltip-header">
-							<div>{headerMessage()}</div>
+							<div>{headerMessage}</div>
 						</div>
 					{/if}
 
@@ -826,11 +978,14 @@
 		role="button"
 		tabindex="0"
 	>
+		<!-- Tab Navigation -->
+		{@render tabNavigation()}
+
 		<!-- Sticky header -->
 		<div class="tooltip-sticky-header">
 			<!-- Simple header -->
 			<div id="tooltip-header" class="tooltip-header">
-				<div>{headerMessage()}</div>
+				<div>{headerMessage}</div>
 			</div>
 
 			<!-- Reviewer Section -->

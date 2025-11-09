@@ -13,17 +13,18 @@
 		SEARCH_SELECTORS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
-	import { userStatusService } from '@/lib/services/entity-status-service';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
-	import type { PageType, UserStatus } from '@/lib/types/api';
+	import type { PageType } from '@/lib/types/api';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { queryMultipleUsers, queryUser } from '@/lib/services/unified-query-service';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import QueueModalManager from './QueueModalManager.svelte';
 
 	interface Props {
 		pageType: PageType;
-		onUserProcessed?: (userId: string, status: UserStatus) => void;
+		onUserProcessed?: (userId: string, status: CombinedStatus) => void;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
@@ -34,7 +35,7 @@
 	let observer: Observer | null = null;
 	let containerWatcher: Observer | null = null;
 	let processedUsers = new SvelteSet<string>();
-	let userStatuses = new SvelteMap<string, UserStatus>();
+	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let loadingUsers = new SvelteSet<string>();
 	let mountedComponents = new SvelteMap<string, { destroy?: () => void }>();
 	let destroyed = $state(false);
@@ -308,17 +309,13 @@
 
 				// Remount status indicators with actual data
 				newUsers.forEach((user) => {
-					if (userStatuses.has(user.userId)) {
-						mountStatusIndicator(user, false);
-					}
+					mountStatusIndicator(user, false);
 				});
 			}
 
 			// Re-mount status indicators for returning users
 			returningUsers.forEach((user) => {
-				if (userStatuses.has(user.userId)) {
-					mountStatusIndicator(user, false);
-				}
+				mountStatusIndicator(user, false);
 			});
 		} catch (error) {
 			logger.error('Failed to process new users:', error);
@@ -376,23 +373,18 @@
 			// Mark as loading
 			userIds.forEach((id) => loadingUsers.add(id));
 
-			// Use cached batch request
-			const statusMap = await userStatusService.getStatuses(userIds);
+			// Query all APIs
+			const customApiResults = await queryMultipleUsers(userIds);
 
-			// Store statuses
-			statusMap.forEach((status, userId) => {
-				if (status) {
-					userStatuses.set(userId, status);
-				}
+			// Store combined statuses
+			customApiResults.forEach((combinedStatus, userId) => {
+				userStatuses.set(userId, combinedStatus);
 				loadingUsers.delete(userId);
 
-				// Notify parent
-				if (status) {
-					onUserProcessed?.(userId, status);
-				}
+				onUserProcessed?.(userId, combinedStatus);
 			});
 
-			logger.debug(`Loaded ${statusMap.size} user statuses for ${pageType}`);
+			logger.debug(`Loaded ${customApiResults.size} user statuses for ${pageType}`);
 		} catch (error) {
 			logger.error('Failed to load user statuses:', error);
 
@@ -477,8 +469,7 @@
 				props: {
 					entityId: user.userId,
 					entityType: ENTITY_TYPES.USER,
-					status: isLoading ? null : status,
-					loading: isLoading,
+					entityStatus: isLoading ? null : status,
 					showText: false,
 					skipAutoFetch: true,
 					onClick: handleStatusClick,
@@ -490,7 +481,6 @@
 
 			logger.debug(`Status indicator mounted for user ${user.userId} on ${pageType}`, {
 				isLoading,
-				statusType: status?.flagType,
 				targetElement: targetSelector ? 'fullbody' : 'tile'
 			});
 		} catch (error) {
@@ -551,10 +541,8 @@
 	async function handleStatusRefresh(userId: string) {
 		try {
 			// Refresh user status
-			const newStatus = await userStatusService.getStatus(userId);
-			if (newStatus) {
-				userStatuses.set(userId, newStatus);
-			}
+			const newStatus = await queryUser(userId);
+			userStatuses.set(userId, newStatus);
 
 			// Re-mount status indicator with updated status
 			const userElement = document
@@ -584,18 +572,18 @@
 			if (!container) return;
 
 			const visibleUsers = container.querySelectorAll(selector);
-			const userIds: string[] = [];
+			const users: UserDetails[] = [];
 
 			visibleUsers.forEach((element) => {
 				const user = extractUserDetails(element);
 				if (user && !processedUsers.has(user.userId)) {
-					userIds.push(user.userId);
+					users.push(user);
 				}
 			});
 
-			if (userIds.length > 0) {
-				logger.debug('Warming cache for visible users', { count: userIds.length });
-				await userStatusService.warmCache(userIds);
+			if (users.length > 0) {
+				logger.debug('Warming cache for visible users', { count: users.length });
+				await loadUserStatuses(users);
 			}
 		} catch (error) {
 			logger.error('Failed to warm cache:', error);

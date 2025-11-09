@@ -7,17 +7,16 @@ export const SETTINGS_KEYS = {
 	REPORT_HELPER_ENABLED: 'reportHelperEnabled',
 	DEBUG_MODE_ENABLED: 'debugModeEnabled',
 	ADVANCED_VIOLATION_INFO_ENABLED: 'advancedViolationInfoEnabled',
-	ROTECTOR_INTEGRATION_ENABLED: 'rotectorIntegrationEnabled',
-	BLOXDB_INTEGRATION_ENABLED: 'bloxdbIntegrationEnabled',
 	API_KEY: 'apiKey',
 	SETTINGS_EXPANDED: 'settingsExpanded',
 	CACHE_DURATION_MINUTES: 'cacheDurationMinutes',
 	DEVELOPER_MODE_UNLOCKED: 'developerModeUnlocked',
-	API_BASE_URL: 'apiBaseUrl',
 	THEME: 'theme',
 	CHANGELOG_DISMISSED_VERSION: 'changelogDismissedVersion',
 	CHANGELOG_SECTION_EXPANDED: 'changelogSectionExpanded',
-	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed'
+	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed',
+	CUSTOM_APIS: 'customApis',
+	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -33,13 +32,10 @@ export interface Settings {
 	[SETTINGS_KEYS.REPORT_HELPER_ENABLED]: boolean;
 	[SETTINGS_KEYS.DEBUG_MODE_ENABLED]: boolean;
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: boolean;
-	[SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED]: boolean;
-	[SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]: boolean;
 	[SETTINGS_KEYS.API_KEY]: string;
 	[SETTINGS_KEYS.SETTINGS_EXPANDED]: boolean;
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: number;
 	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: boolean;
-	[SETTINGS_KEYS.API_BASE_URL]: string;
 	[SETTINGS_KEYS.THEME]: Theme;
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: string;
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: boolean;
@@ -55,13 +51,10 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.REPORT_HELPER_ENABLED]: true,
 	[SETTINGS_KEYS.DEBUG_MODE_ENABLED]: false,
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
-	[SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED]: true,
-	[SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED]: true,
 	[SETTINGS_KEYS.API_KEY]: '',
 	[SETTINGS_KEYS.SETTINGS_EXPANDED]: false,
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: 5,
 	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: false,
-	[SETTINGS_KEYS.API_BASE_URL]: 'https://roscoe.robalyx.com',
 	[SETTINGS_KEYS.THEME]: 'auto',
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: '',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
@@ -97,20 +90,7 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 	},
 	{
 		title: 'Integrations',
-		settings: [
-			{
-				key: SETTINGS_KEYS.ROTECTOR_INTEGRATION_ENABLED,
-				label: 'Rotector Integration',
-				helpText:
-					'Core safety analysis powered by Rotector. This integration is required and cannot be disabled.'
-			},
-			{
-				key: SETTINGS_KEYS.BLOXDB_INTEGRATION_ENABLED,
-				label: 'BloxDB Integration',
-				helpText:
-					'Include BloxDB analysis data in user safety checks. Disabling this excludes BloxDB-sourced information from results.'
-			}
-		]
+		settings: []
 	},
 	{
 		title: 'Page Settings',
@@ -157,11 +137,6 @@ export const DEVELOPER_SETTING_CATEGORY: SettingCategory = {
 			label: 'Cache Duration (minutes)',
 			helpText:
 				'How long to cache user status data (1-10 minutes). Higher values reduce API calls but may show outdated information.'
-		},
-		{
-			key: SETTINGS_KEYS.API_BASE_URL,
-			label: 'API Base URL',
-			helpText: 'Base URL for Rotector API endpoints. Default: https://roscoe.robalyx.com'
 		}
 	]
 };

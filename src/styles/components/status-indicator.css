@@ -11,16 +11,16 @@
 @utility status-positioned-absolute {
 	@apply absolute flex justify-center items-center pointer-events-auto top-1 right-1 z-[1000] rounded-full p-0 w-5 h-5;
 	background: rgba(0, 0, 0, 0.6);
-}
 
-.status-positioned-absolute [class*='status-icon-'] {
-	@apply mr-0;
+	& [class*='status-icon-'] {
+		@apply mr-0;
+	}
 }
 
 /* =================================
    STATUS ICON STYLES
    ================================= */
-.status-icon-wrapper {
+@utility status-icon-wrapper {
 	@apply block relative flex-shrink-0 w-5 h-5 mr-1;
 }
 
@@ -80,40 +80,51 @@
 	color: var(--color-status-past-offender);
 }
 
+@utility text-status-mixed {
+	color: var(--color-status-mixed);
+}
+
 /* =================================
    STATUS TEXT CLASSES
    ================================= */
-.status-text-safe {
+@utility status-text-safe {
 	@apply status-text-base text-status-safe;
 }
 
-.status-text-unsafe {
+@utility status-text-unsafe {
 	@apply status-text-base text-status-unsafe;
 }
 
-.status-text-pending,
-.status-text-queued {
+@utility status-text-pending {
 	@apply status-text-base text-status-pending;
 }
 
-.status-text-error {
+@utility status-text-queued {
+	@apply status-text-base text-status-pending;
+}
+
+@utility status-text-error {
 	@apply status-text-base text-status-error;
 }
 
-.status-text-integration {
+@utility status-text-integration {
 	@apply status-text-base text-status-integration;
 }
 
-.status-text-likely-safe {
+@utility status-text-likely-safe {
 	@apply status-text-base text-status-likely-safe;
 }
 
-.status-text-checking {
+@utility status-text-checking {
 	@apply status-text-base text-status-checking;
 }
 
-.status-text-past-offender {
+@utility status-text-past-offender {
 	@apply status-text-base text-status-past-offender;
+}
+
+@utility status-text-mixed {
+	@apply status-text-base text-status-mixed;
 }
 
 /* =================================
@@ -126,8 +137,14 @@
 	left: 0;
 }
 
+/* Badge stacking classes use regular CSS instead of @utility
+   because @utility doesn't support nested parent selectors */
 .badge-stack-1 {
 	z-index: 4;
+	transform: translate(0, 0) scale(1);
+}
+
+.status-container.badge-expanded .badge-stack-1 {
 	transform: translate(0, 0) scale(1);
 }
 
@@ -136,26 +153,22 @@
 	transform: translate(2px, 0) scale(0.97);
 }
 
+.status-container.badge-expanded .badge-stack-2 {
+	transform: translate(12px, 0) scale(0.97);
+}
+
 .badge-stack-3 {
 	z-index: 2;
 	transform: translate(3px, 0) scale(0.94);
 }
 
+.status-container.badge-expanded .badge-stack-3 {
+	transform: translate(20px, 0) scale(0.94);
+}
+
 .badge-stack-4 {
 	z-index: 1;
 	transform: translate(4px, 0) scale(0.91);
-}
-
-.status-container.badge-expanded .badge-stack-1 {
-	transform: translate(0, 0) scale(1);
-}
-
-.status-container.badge-expanded .badge-stack-2 {
-	transform: translate(12px, 0) scale(0.97);
-}
-
-.status-container.badge-expanded .badge-stack-3 {
-	transform: translate(20px, 0) scale(0.94);
 }
 
 .status-container.badge-expanded .badge-stack-4 {
@@ -185,30 +198,30 @@
 /* =================================
    BADGE CLASSES
    ================================= */
-.badge-container {
+@utility badge-container {
 	@apply absolute -bottom-1 -right-1 w-[15px] h-[15px] pointer-events-none;
 }
 
-.reportable-badge {
+@utility reportable-badge {
 	@apply badge-base badge-bg-reportable;
 }
 
-.queue-badge {
+@utility queue-badge {
 	@apply badge-base badge-bg-queue;
 }
 
-.integration-badge {
+@utility integration-badge {
 	@apply badge-base badge-bg-integration;
 }
 
-.outfit-badge {
+@utility outfit-badge {
 	@apply badge-base badge-bg-outfit;
 }
 
 /* =================================
    PROFILE STATUS CONTAINER
    ================================= */
-.rotector-profile-status {
+@utility rotector-profile-status {
 	display: inline-flex;
 	align-items: center;
 	vertical-align: middle;

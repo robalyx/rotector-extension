@@ -1,12 +1,12 @@
 import { get } from 'svelte/store';
 import { PageController } from './PageController';
 import { SETTINGS_KEYS } from '../types/settings';
-import { userStatusService } from '../services/entity-status-service';
+import { queryUser, ROTECTOR_API_ID } from '../services/unified-query-service';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
 import { settings } from '../stores/settings';
 import ProfilePageManager from '../../components/features/ProfilePageManager.svelte';
-import type { UserStatus } from '../types/api';
+import type { CombinedStatus } from '../types/custom-api';
 import { logger } from '../utils/logger';
 
 /**
@@ -14,7 +14,7 @@ import { logger } from '../utils/logger';
  */
 export class ProfilePageController extends PageController {
 	private userId: string | null = null;
-	private userStatus: UserStatus | null = null;
+	private userStatus: CombinedStatus | null = null;
 	private profilePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
 	protected override async initializePage(): Promise<void> {
@@ -101,16 +101,19 @@ export class ProfilePageController extends PageController {
 		}
 	}
 
-	// Load user status from API with caching
+	// Load user status from APIs
 	private async loadUserStatus(): Promise<void> {
 		if (!this.userId) return;
 
 		try {
 			logger.debug('Loading user status', { userId: this.userId });
-			this.userStatus = await userStatusService.getStatus(this.userId);
+			this.userStatus = await queryUser(this.userId);
+
+			const rotector = this.userStatus.customApis.get(ROTECTOR_API_ID);
 			logger.debug('User status loaded', {
 				userId: this.userId,
-				flagType: this.userStatus?.flagType
+				rotectorFlagType: rotector?.data?.flagType,
+				customApiCount: this.userStatus.customApis.size
 			});
 		} catch (error) {
 			logger.error('Failed to load user status:', error);

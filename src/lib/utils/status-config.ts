@@ -19,7 +19,8 @@ export function getStatusConfig(
 	status: UserStatus | GroupStatus | null,
 	cachedStatus: UserStatus | GroupStatus | null,
 	loading: boolean,
-	error: string | null
+	error: string | null,
+	entityType: 'user' | 'group' = 'user'
 ): StatusConfig {
 	if (error) {
 		return {
@@ -118,14 +119,25 @@ export function getStatusConfig(
 				textClass: 'status-text-integration'
 			};
 		case STATUS.FLAGS.MIXED:
-			return {
-				...baseConfig,
-				iconName: 'unsafe',
-				iconColor: '#ff4444',
-				textContent: 'Mixed',
-				textClass: 'status-text-unsafe',
-				isOutfitOnly: false // Groups don't have outfit-only status
-			};
+			// Users show orange question mark, groups show red X
+			if (entityType === 'user') {
+				return {
+					...baseConfig,
+					iconName: 'mixed',
+					iconColor: '#f97316',
+					textContent: 'Mixed',
+					textClass: 'status-text-mixed'
+				};
+			} else {
+				return {
+					...baseConfig,
+					iconName: 'unsafe',
+					iconColor: '#ff4444',
+					textContent: 'Mixed',
+					textClass: 'status-text-unsafe',
+					isOutfitOnly: false
+				};
+			}
 		case STATUS.FLAGS.PAST_OFFENDER:
 			return {
 				...baseConfig,

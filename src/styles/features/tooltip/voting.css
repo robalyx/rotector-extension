@@ -122,12 +122,16 @@
 	@apply relative flex justify-center items-center mx-auto w-full text-center overflow-visible;
 }
 
-.expanded-tooltip .tooltip-sticky-header {
+@utility tooltip-sticky-header {
 	@apply relative;
-}
 
-.expanded-tooltip .tooltip-sticky-header > .engine-version-container-inline {
-	@apply absolute top-2 right-4 z-10;
+	.expanded-tooltip & {
+		@apply relative;
+	}
+
+	.expanded-tooltip & > .engine-version-container-inline {
+		@apply absolute top-2 right-4 z-10;
+	}
 }
 
 @utility engine-version-tag {

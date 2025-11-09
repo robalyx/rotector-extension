@@ -29,6 +29,11 @@
 	color: var(--color-text);
 }
 
+@utility api-system-label {
+	@apply text-2xs ml-1;
+	color: var(--color-text-tertiary);
+}
+
 @utility setting-highlighted {
 	@apply relative;
 	animation: setting-highlight 4s ease-out;

@@ -40,7 +40,7 @@
 }
 
 /* Warning icon utilities */
-@utility mature-content-warning-icon {
+@utility modal-warning-icon {
 	@apply w-8 h-8 mr-3 flex-shrink-0;
 	color: var(--color-warning);
 }

@@ -16,6 +16,25 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.5.0',
+		version: '2.5.0',
+		date: '2025-11-17',
+		title: 'Custom API Integration System',
+		summary:
+			'This update introduces a custom API integration system that allows you to connect your own content analysis APIs alongside Rotector for multi-source safety analysis.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'Custom API integration system - Connect your own content analysis APIs alongside Rotector',
+				subpoints: [
+					'Full management interface for adding, editing, and configuring custom APIs',
+					'Tabbed tooltips showing results from all enabled APIs with smart default tab selection'
+				]
+			}
+		]
+	},
+	{
 		id: 'v2.4.0',
 		version: '2.4.0',
 		date: '2025-10-20',
@@ -23,20 +42,6 @@ export const CHANGELOGS: Changelog[] = [
 		summary:
 			'This update improves the queue system with better visibility into processing status, adds group statistics tracking, and refines status labels for clearer information.',
 		changes: [
-			{
-				type: 'added',
-				description:
-					'War Zone (Closed Testing) - Community reporting feature currently in testing phase',
-				subpoints: [
-					'Hexagonal map showing 7 zones with progress tracking',
-					'Major orders with community goals and rewards',
-					'Leaderboard showing top contributors and their success rates',
-					'Hunter profile showing your points and settings',
-					'Find reportable users button to quickly discover flagged users',
-					'Charts showing 30-day trends for zones and ban rates',
-					'Zone details showing active users and progress history'
-				]
-			},
 			{
 				type: 'added',
 				description: 'Reprocess users - Submit already-checked users for another review if outdated'
@@ -60,6 +65,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Queued status indicator - Shows when users are currently being checked by the system'
+			},
+			{
+				type: 'added',
+				description:
+					'War Zone (Closed Testing) - Community reporting feature currently in testing phase'
 			},
 			{
 				type: 'changed',

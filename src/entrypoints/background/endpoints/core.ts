@@ -7,17 +7,10 @@ import type {
 	VoteResult
 } from '@/lib/types/api';
 import type { Statistics } from '@/lib/types/statistics';
-import {
-	API_CONFIG,
-	INTEGRATION_SOURCES,
-	STATUS,
-	VOTE_TYPES,
-	type VoteType
-} from '@/lib/types/constants';
-import { makeApiRequest } from '../api-client';
+import { API_CONFIG, STATUS, VOTE_TYPES, type VoteType } from '@/lib/types/constants';
+import { makeHttpRequest } from '../http-client';
 import {
 	extractResponseData,
-	getBloxdbIntegrationSetting,
 	getExcludeAdvancedInfoSetting,
 	processBatchEntityIds,
 	validateEntityId
@@ -27,20 +20,14 @@ import {
 export async function checkUserStatus(userId: string | number): Promise<UserStatus> {
 	const sanitizedUserId = validateEntityId(userId);
 	const excludeInfo = await getExcludeAdvancedInfoSetting();
-	const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
 	const params = new URLSearchParams();
 	params.set('excludeInfo', excludeInfo.toString());
 
-	if (!bloxdbEnabled) {
-		params.set('excludeIntegrations', INTEGRATION_SOURCES.BLOXDB);
-	}
-
 	const url = `${API_CONFIG.ENDPOINTS.USER_CHECK}/${sanitizedUserId}?${params.toString()}`;
-	const response = await makeApiRequest(url, { method: 'GET' });
+	const response = await makeHttpRequest(url, { method: 'GET' });
 
 	const data = extractResponseData<UserStatus>(response);
-	data.id = data.id.toString();
 
 	if (data.flagType === STATUS.FLAGS.SAFE) {
 		data.reasons = {};
@@ -54,10 +41,9 @@ export async function checkGroupStatus(groupId: string | number): Promise<GroupS
 	const sanitizedGroupId = validateEntityId(groupId);
 
 	const url = `${API_CONFIG.ENDPOINTS.GROUP_CHECK}/${sanitizedGroupId}`;
-	const response = await makeApiRequest(url, { method: 'GET' });
+	const response = await makeHttpRequest(url, { method: 'GET' });
 
 	const data = extractResponseData<GroupStatus>(response);
-	data.id = data.id.toString();
 
 	if (data.flagType === STATUS.FLAGS.SAFE) {
 		data.reasons = {};
@@ -70,18 +56,13 @@ export async function checkGroupStatus(groupId: string | number): Promise<GroupS
 export async function checkMultipleUsers(userIds: Array<string | number>): Promise<UserStatus[]> {
 	const sanitizedUserIds = processBatchEntityIds(userIds);
 	const excludeInfo = await getExcludeAdvancedInfoSetting();
-	const bloxdbEnabled = await getBloxdbIntegrationSetting();
 
 	const requestBody: Record<string, unknown> = {
 		ids: sanitizedUserIds.map((id) => parseInt(id, 10)),
 		...(excludeInfo && { excludeInfo: true })
 	};
 
-	if (!bloxdbEnabled) {
-		requestBody.excludeIntegrations = [INTEGRATION_SOURCES.BLOXDB];
-	}
-
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.MULTIPLE_USER_CHECK, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.MULTIPLE_USER_CHECK, {
 		method: 'POST',
 		body: JSON.stringify(requestBody)
 	});
@@ -89,7 +70,6 @@ export async function checkMultipleUsers(userIds: Array<string | number>): Promi
 	const responseData = extractResponseData<Record<string, UserStatus>>(response);
 	const data = Object.values(responseData);
 	data.forEach((status) => {
-		status.id = status.id.toString();
 		if (status.flagType === STATUS.FLAGS.SAFE) {
 			status.reasons = {};
 		}
@@ -107,7 +87,7 @@ export async function checkMultipleGroups(
 		ids: sanitizedGroupIds.map((id) => parseInt(id, 10))
 	};
 
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.GROUP_CHECK, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.GROUP_CHECK, {
 		method: 'POST',
 		body: JSON.stringify(requestBody)
 	});
@@ -115,7 +95,6 @@ export async function checkMultipleGroups(
 	const responseData = extractResponseData<Record<string, GroupStatus>>(response);
 	const data = Object.values(responseData);
 	data.forEach((status) => {
-		status.id = status.id.toString();
 		if (status.flagType === STATUS.FLAGS.SAFE) {
 			status.reasons = {};
 		}
@@ -141,7 +120,7 @@ export async function queueUser(
 		inappropriate_groups: inappropriateGroups
 	};
 
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {
 		method: 'POST',
 		body: JSON.stringify(requestBody)
 	});
@@ -157,7 +136,7 @@ export async function submitVote(userId: string | number, voteType: number): Pro
 		throw new Error('Invalid vote type. Must be 1 (upvote) or -1 (downvote)');
 	}
 
-	const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.SUBMIT_VOTE}/${sanitizedUserId}`, {
+	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.SUBMIT_VOTE}/${sanitizedUserId}`, {
 		method: 'POST',
 		body: JSON.stringify({ voteType })
 	});
@@ -166,7 +145,7 @@ export async function submitVote(userId: string | number, voteType: number): Pro
 
 	return {
 		success: true,
-		userId: sanitizedUserId.toString(),
+		userId: parseInt(sanitizedUserId, 10),
 		voteType: voteType as VoteType,
 		newVoteData: voteData
 	};
@@ -176,7 +155,7 @@ export async function submitVote(userId: string | number, voteType: number): Pro
 export async function getVotes(userId: string | number): Promise<VoteData> {
 	const sanitizedUserId = validateEntityId(userId);
 
-	const response = await makeApiRequest(
+	const response = await makeHttpRequest(
 		`${API_CONFIG.ENDPOINTS.GET_VOTES}/${sanitizedUserId}?includeVote=true`,
 		{
 			method: 'GET'
@@ -190,7 +169,7 @@ export async function getVotes(userId: string | number): Promise<VoteData> {
 export async function getMultipleVotes(userIds: Array<string | number>): Promise<VoteData[]> {
 	const sanitizedUserIds = processBatchEntityIds(userIds);
 
-	const response = await makeApiRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
+	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
 		method: 'POST',
 		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => parseInt(id, 10)) })
 	});
@@ -200,7 +179,7 @@ export async function getMultipleVotes(userIds: Array<string | number>): Promise
 
 // Get extension usage statistics
 export async function getStatistics(): Promise<Statistics> {
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.GET_STATISTICS, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.GET_STATISTICS, {
 		method: 'GET'
 	});
 
@@ -209,7 +188,7 @@ export async function getStatistics(): Promise<Statistics> {
 
 // Get queue limits for current IP
 export async function getQueueLimits(): Promise<QueueLimitsData> {
-	const response = await makeApiRequest(API_CONFIG.ENDPOINTS.QUEUE_LIMITS, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_LIMITS, {
 		method: 'GET'
 	});
 

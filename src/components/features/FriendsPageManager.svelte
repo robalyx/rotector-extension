@@ -2,7 +2,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import { FRIENDS_SELECTORS, PAGE_TYPES } from '@/lib/types/constants';
-	import type { UserStatus } from '@/lib/types/api';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 
 	interface Props {
@@ -45,10 +45,10 @@
 	}
 
 	// Handle user processed events
-	function handleUserProcessed(processedUserId: string, status: UserStatus) {
+	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Friends page user processed', {
 			userId: processedUserId,
-			status: status?.flagType
+			hasStatus: !!status
 		});
 	}
 

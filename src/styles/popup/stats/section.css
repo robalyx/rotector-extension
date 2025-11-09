@@ -2,7 +2,7 @@
    SECTION HEADER
    ================================= */
 
-.changelog-section-header {
+@utility changelog-section-header {
 	@apply w-full px-2 py-1.5 cursor-pointer transition-all duration-200 border rounded-sm text-xs font-medium flex items-center justify-between;
 	background-color: var(--color-bg-content);
 	border-color: var(--color-border);
@@ -20,11 +20,11 @@
 /* =================================
    SECTION CONTENT
    ================================= */
-.changelog-section-content {
+@utility changelog-section-content {
 	@apply flex flex-col;
 }
 
-.changelog-section-item {
+@utility changelog-section-item {
 	@apply py-1.5;
 
 	&.first {
@@ -32,11 +32,11 @@
 	}
 }
 
-.changelog-section-divider {
+@utility changelog-section-divider {
 	@apply my-2 border-t;
 	border-color: var(--color-border-subtle);
 }
 
-.changelog-section-empty {
+@utility changelog-section-empty {
 	@apply py-4;
 }

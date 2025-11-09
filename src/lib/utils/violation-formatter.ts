@@ -1,4 +1,4 @@
-import { ENTITY_TYPES, INTEGRATION_SOURCE_NAMES, STATUS } from '../types/constants';
+import { ENTITY_TYPES, STATUS } from '../types/constants';
 import type { ReasonData } from '../types/api';
 
 export interface FormattedReasonEntry {
@@ -60,7 +60,6 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 // Formats the reasons from the API response into a structured format for display
 export function formatViolationReasons(
 	reasons: Record<string, ReasonData>,
-	integrationSources?: Record<string, string>,
 	entityType?: string
 ): FormattedReasonEntry[] {
 	if (!reasons || Object.keys(reasons).length === 0) {
@@ -69,36 +68,26 @@ export function formatViolationReasons(
 
 	return Object.entries(reasons).map(([reasonType, reason]) => {
 		let typeName: string;
+		let isOutfitReason = false;
 
-		// Handle integration source reasons
-		if (integrationSources && reasonType in integrationSources) {
-			const integrationName =
-				INTEGRATION_SOURCE_NAMES[reasonType as keyof typeof INTEGRATION_SOURCE_NAMES];
-			const version = integrationSources[reasonType];
+		// Check if the reason key is numeric (Rotector format) or string-based (custom API format)
+		const numericKey = parseInt(reasonType, 10);
+		const isNumericKey = !isNaN(numericKey) && numericKey.toString() === reasonType;
 
-			if (integrationName && version) {
-				const formattedVersion = version.startsWith('v') ? version : `v${version}`;
-				typeName = `${integrationName} (${formattedVersion})`;
-			} else if (integrationName) {
-				typeName = integrationName;
-			} else {
-				typeName = `${reasonType.charAt(0).toUpperCase() + reasonType.slice(1)} Analysis`;
-			}
-		} else {
+		if (isNumericKey) {
 			if (entityType === ENTITY_TYPES.GROUP) {
-				const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.GROUP_REASON_TYPE_NAMES;
+				const reasonTypeKey = numericKey as keyof typeof STATUS.GROUP_REASON_TYPE_NAMES;
 				typeName = STATUS.GROUP_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
 			} else {
-				const reasonTypeKey = reasonType as unknown as keyof typeof STATUS.USER_REASON_TYPE_NAMES;
+				const reasonTypeKey = numericKey as keyof typeof STATUS.USER_REASON_TYPE_NAMES;
 				typeName = STATUS.USER_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
+				isOutfitReason = numericKey === STATUS.USER_REASON_TYPES.AVATAR_OUTFIT;
 			}
+		} else {
+			typeName = reasonType;
 		}
 
 		const confidence = Math.round(reason.confidence * 100);
-
-		const isIntegrationReason = integrationSources && reasonType in integrationSources;
-		const isOutfitReason =
-			!isIntegrationReason && parseInt(reasonType) === STATUS.USER_REASON_TYPES.AVATAR_OUTFIT;
 
 		const formattedEntry: FormattedReasonEntry = {
 			typeName,

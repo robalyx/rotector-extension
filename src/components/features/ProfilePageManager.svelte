@@ -15,6 +15,7 @@
 	} from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -24,12 +25,20 @@
 
 	interface Props {
 		userId: string;
-		userStatus: UserStatus | null;
+		userStatus: CombinedStatus | null;
 		onStatusRefresh: () => Promise<void>;
 		onMount?: (cleanup: () => void) => void;
 	}
 
 	let { userId, userStatus, onStatusRefresh, onMount }: Props = $props();
+
+	// Check if user is flagged by any API
+	const isFlagged = $derived(() => {
+		if (!userStatus) return false;
+		return Array.from(userStatus.customApis.values()).some(
+			(result) => result.data && result.data.flagType > 0
+		);
+	});
 
 	// Component state
 	let friendWarningOpen = $state(false);
@@ -159,8 +168,7 @@
 				props: {
 					entityId: userId,
 					entityType: ENTITY_TYPES.USER,
-					status: userStatus,
-					loading: !userStatus,
+					entityStatus: userStatus,
 					onClick: handleStatusClick,
 					onQueue: handleQueueUser
 				}
@@ -178,7 +186,7 @@
 	// Set up friend warning if applicable
 	async function setupFriendWarning() {
 		try {
-			if (!userStatus || userStatus.flagType === 0) return;
+			if (!isFlagged()) return;
 
 			// Get the active friend button based on header version
 			const friendButton = await getActiveFriendButton();
@@ -270,7 +278,7 @@
 	// Handle queue user request
 	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
-		queueModalManager?.showQueue(clickedUserId, isReprocess, status ?? userStatus);
+		queueModalManager?.showQueue(clickedUserId, isReprocess, status);
 	}
 
 	// Handle friend request proceed
@@ -342,10 +350,10 @@
 	}
 
 	// Handle carousel user processed event
-	function handleCarouselUserProcessed(processedUserId: string, status: UserStatus) {
+	function handleCarouselUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Profile carousel user processed', {
 			userId: processedUserId,
-			status: status.flagType
+			hasStatus: !!status
 		});
 	}
 
@@ -469,14 +477,14 @@
 </script>
 
 <!-- Friend Warning Modal -->
-{#if userStatus && userStatus.flagType > 0}
+{#if isFlagged()}
 	<FriendWarning
 		isOpen={friendWarningOpen}
 		onBlock={handleFriendBlock}
 		onCancel={handleFriendCancel}
 		onProceed={handleFriendProceed}
-		status={userStatus}
 		{userId}
+		{userStatus}
 	/>
 {/if}
 

@@ -2,7 +2,7 @@
 	"name": "rotector-extension-v2",
 	"description": "Real-time warnings about inappropriate Roblox users before you interact with them.",
 	"private": true,
-	"version": "2.4.0",
+	"version": "2.5.0",
 	"type": "module",
 	"scripts": {
 		"dev": "wxt",
@@ -52,6 +52,7 @@
 	},
 	"dependencies": {
 		"lucide-svelte": "^0.546.0",
+		"svelte-highlight": "^7.9.0",
 		"svelte-portal": "^2.2.1"
 	}
 }

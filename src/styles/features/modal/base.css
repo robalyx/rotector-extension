@@ -20,20 +20,20 @@
 	transform: scale(0.95) translateY(20px);
 	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
 	max-height: 800px;
+
+	.modal-overlay-base.visible & {
+		transform: scale(1) translateY(0);
+	}
 }
 
 @utility modal-popup-base-small {
 	@apply modal-popup-base;
 	max-height: 640px;
 	width: 300px;
-}
 
-.modal-overlay-base.visible .modal-popup-base {
-	transform: scale(1) translateY(0);
-}
-
-.modal-overlay-base.visible .modal-popup-base-small {
-	transform: scale(1) translateY(0);
+	.modal-overlay-base.visible & {
+		transform: scale(1) translateY(0);
+	}
 }
 
 @utility modal-header-base {
@@ -55,10 +55,20 @@
 }
 
 @utility modal-content-base {
-	@apply p-5 overflow-y-auto;
+	@apply p-5 overflow-y-auto flex-1;
 	min-height: 200px;
-	max-height: 600px;
+	max-height: calc(90vh - 200px);
 	overflow-anchor: auto;
+
+	& p {
+		@apply m-0 mb-4 text-sm leading-relaxed;
+		color: var(--color-text);
+	}
+
+	& strong {
+		@apply font-semibold;
+		color: var(--color-text-heading);
+	}
 }
 
 @utility modal-content-base-small {
@@ -161,14 +171,100 @@
 }
 
 /* =================================
-   MODAL TEXT STYLING
+   GENERIC MODAL CLASSES
    ================================= */
-.modal-content-base p {
-	@apply m-0 mb-4 text-sm leading-relaxed;
-	color: var(--color-text);
+
+@utility modal-overlay {
+	@apply modal-overlay-base;
 }
 
-.modal-content-base strong {
-	@apply font-semibold;
+@utility modal-popup {
+	@apply modal-popup-base w-[520px];
+}
+
+@utility modal-popup-small {
+	@apply modal-popup-base-small;
+}
+
+@utility modal-header {
+	@apply modal-header-base;
+}
+
+@utility modal-title {
+	@apply text-lg font-semibold m-0 flex-grow;
 	color: var(--color-text-heading);
+}
+
+@utility modal-content {
+	@apply modal-content-base;
+}
+
+@utility modal-content-small {
+	@apply modal-content-base-small;
+}
+
+@utility modal-actions {
+	@apply modal-actions-horizontal;
+}
+
+@utility modal-cancel {
+	@apply modal-button-base;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+
+	&:hover {
+		background-color: var(--color-card-hover);
+		@apply shadow-md -translate-y-px;
+	}
+}
+
+@utility modal-confirm {
+	@apply modal-button-base !text-white;
+	background-color: var(--color-warning);
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-warning-hover);
+		@apply shadow-md -translate-y-px;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		@apply cursor-not-allowed translate-y-0 shadow-none;
+
+		&:hover {
+			@apply translate-y-0 shadow-none;
+		}
+	}
+
+	&.modal-confirm-danger {
+		background-color: var(--color-error);
+
+		&:hover:not(:disabled) {
+			filter: brightness(0.9);
+		}
+
+		&:disabled {
+			opacity: 0.5;
+
+			&:hover {
+				filter: none;
+			}
+		}
+	}
+
+	&.modal-confirm-queue {
+		background-color: var(--color-primary);
+
+		&:hover:not(:disabled) {
+			background-color: var(--color-primary-hover);
+		}
+
+		&:disabled {
+			opacity: 0.5;
+
+			&:hover {
+				filter: none;
+			}
+		}
+	}
 }

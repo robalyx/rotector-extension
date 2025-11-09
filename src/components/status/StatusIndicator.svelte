@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { GroupStatus, UserStatus } from '@/lib/types/api';
-	import { ENTITY_TYPES, STATUS } from '@/lib/types/constants';
+	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { ENTITY_TYPES } from '@/lib/types/constants';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { getStatusConfig } from '@/lib/utils/status-config';
 	import { groupStatusService, userStatusService } from '@/lib/services/entity-status-service';
+	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { Flag, Hourglass, Shirt } from 'lucide-svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
@@ -16,8 +18,7 @@
 	interface Props {
 		entityId: string;
 		entityType: 'user' | 'group';
-		status?: EntityStatus | null;
-		loading?: boolean;
+		entityStatus?: CombinedStatus | null;
 		error?: string | null;
 		showText?: boolean;
 		skipAutoFetch?: boolean;
@@ -28,8 +29,7 @@
 	let {
 		entityId,
 		entityType,
-		status = null,
-		loading = false,
+		entityStatus = null,
 		error = null,
 		showText = true,
 		skipAutoFetch = false,
@@ -57,30 +57,28 @@
 		return sanitizeEntityId(entityId) || '';
 	});
 
-	const statusConfig = $derived(() => getStatusConfig(status, cachedStatus, loading, error));
-
-	const integrationCount = $derived(() => {
-		if (entityType !== ENTITY_TYPES.USER) return 0;
-
-		const activeStatus = status || cachedStatus;
-		const userStatus = activeStatus as UserStatus;
-		return userStatus?.integrationSources ? Object.keys(userStatus.integrationSources).length : 0;
-	});
-
-	const shouldShowIntegrationBadge = $derived(() => {
-		const activeStatus = status || cachedStatus;
-		return integrationCount() > 0 && activeStatus?.flagType !== STATUS.FLAGS.INTEGRATION;
+	const statusConfig = $derived(() => {
+		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotectorStatus = rotector?.data ?? cachedStatus;
+		const rotectorLoading = rotector?.loading ?? false;
+		return getStatusConfig(rotectorStatus, cachedStatus, rotectorLoading, error, entityType);
 	});
 
 	const isGroup = $derived(() => entityType === 'group');
+
+	// Count custom API flags
+	const customApiFlagCount = $derived(() => {
+		if (!entityStatus) return 0;
+		return countCustomApiFlags(entityStatus);
+	});
 
 	// Compute visible badges in priority order
 	const visibleBadges = $derived(() => {
 		const badges: string[] = [];
 		if (!isGroup() && statusConfig().isReportable) badges.push('reportable');
 		if (statusConfig().isQueued) badges.push('queue');
-		if (shouldShowIntegrationBadge()) badges.push('integration');
 		if (!isGroup() && statusConfig().isOutfitOnly) badges.push('outfit');
+		if (customApiFlagCount() > 0) badges.push('integration');
 		return badges;
 	});
 
@@ -98,7 +96,11 @@
 		event.preventDefault();
 		event.stopPropagation();
 
-		if (loading || !status) return;
+		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotectorLoading = rotector?.loading ?? false;
+		const hasData = rotector?.data || cachedStatus;
+
+		if (rotectorLoading || !hasData) return;
 
 		logger.userAction('status_indicator_clicked', { entityId: sanitizedEntityId(), entityType });
 
@@ -132,7 +134,11 @@
 			showBadgeExpansion = true;
 		}
 
-		if (loading || (!status && !error && !cachedStatus) || showExpandedTooltip) return;
+		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotectorLoading = rotector?.loading ?? false;
+		const hasData = rotector?.data || cachedStatus;
+
+		if (rotectorLoading || (!hasData && !error) || showExpandedTooltip) return;
 
 		clearHoverTimeout();
 
@@ -170,7 +176,8 @@
 	// Handle queue action
 	function handleQueue(isReprocess = false) {
 		if (onQueue) {
-			const tooltipStatus = status || cachedStatus;
+			const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+			const tooltipStatus = rotector?.data ?? cachedStatus;
 			onQueue(sanitizedEntityId(), isReprocess, tooltipStatus);
 		}
 	}
@@ -194,8 +201,12 @@
 		const id = sanitizedEntityId();
 		if (!id) return;
 
+		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotectorLoading = rotector?.loading ?? false;
+		const hasRotectorData = rotector?.data;
+
 		// If no status provided and not loading, check cache or fetch
-		if (!status && !loading && !error && !skipAutoFetch) {
+		if (!hasRotectorData && !rotectorLoading && !error && !skipAutoFetch) {
 			const service = statusService();
 			const cached = service.getCachedStatus(id);
 			if (cached) {
@@ -264,7 +275,7 @@
 	class="status-container"
 	class:badge-expanded={showBadgeExpansion}
 	aria-label={`Status: ${statusConfig().textContent}. Click for details.`}
-	data-status-flag={status?.flagType}
+	data-status-flag={entityStatus?.customApis.get(ROTECTOR_API_ID)?.data?.flagType}
 	data-user-id={sanitizedEntityId()}
 	onclick={handleClick}
 	onkeydown={handleKeydown}
@@ -297,14 +308,15 @@
 				</span>
 			{/if}
 
-			{#if shouldShowIntegrationBadge()}
-				<span class="integration-badge {badgeStackClasses().integration}">{integrationCount()}</span
-				>
-			{/if}
-
 			{#if !isGroup() && statusConfig().isOutfitOnly}
 				<span class="outfit-badge {badgeStackClasses().outfit}">
 					<Shirt size={9} strokeWidth={2.5} />
+				</span>
+			{/if}
+
+			{#if customApiFlagCount() > 0}
+				<span class="integration-badge {badgeStackClasses().integration}">
+					{customApiFlagCount()}
 				</span>
 			{/if}
 		</span>
@@ -321,7 +333,6 @@
 <!-- Preview Tooltip -->
 {#if showPreviewTooltip && container}
 	<Portal target="#rotector-tooltip-portal">
-		{@const tooltipStatus = status || cachedStatus}
 		<Tooltip
 			anchorElement={container}
 			{entityType}
@@ -335,8 +346,8 @@
 			onMouseEnter={handleTooltipMouseEnter}
 			onMouseLeave={handleTooltipMouseLeave}
 			onQueue={handleQueue}
-			status={tooltipStatus}
 			userId={entityId}
+			userStatus={entityStatus}
 		/>
 	</Portal>
 {/if}
@@ -344,7 +355,6 @@
 <!-- Expanded Tooltip -->
 {#if showExpandedTooltip && container}
 	<Portal target="#rotector-tooltip-portal">
-		{@const tooltipStatus = status || cachedStatus}
 		<Tooltip
 			anchorElement={container}
 			{entityType}
@@ -352,8 +362,8 @@
 			mode="expanded"
 			onClose={closeExpandedTooltip}
 			onQueue={handleExpandedQueue}
-			status={tooltipStatus}
 			userId={entityId}
+			userStatus={entityStatus}
 		/>
 	</Portal>
 {/if}

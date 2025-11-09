@@ -94,16 +94,12 @@
 
 @utility tooltip-profile-header {
 	@apply flex items-center p-5 rounded-t-lg relative overflow-visible mb-0 border-b-0;
-	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 90%);
-
-	&::before {
-		@apply absolute inset-0 opacity-50 z-0;
-		content: '';
-		background-image:
-			radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.05) 1%, transparent 1%),
-			radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 1%, transparent 1%);
-		background-size: 20px 20px;
-	}
+	background: linear-gradient(
+		to bottom,
+		var(--color-bg-content) 0%,
+		var(--color-bg-content) 40%,
+		transparent 100%
+	);
 }
 
 @utility tooltip-avatar {

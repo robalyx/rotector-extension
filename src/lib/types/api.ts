@@ -1,4 +1,5 @@
-import type { GroupReasonType, StatusFlag, UserReasonType, VoteType } from './constants';
+import type { StatusFlag, VoteType } from './constants';
+import type { CustomApiConfig } from './custom-api';
 
 // Reviewer information interface
 export interface ReviewerInfo {
@@ -6,9 +7,16 @@ export interface ReviewerInfo {
 	displayName?: string;
 }
 
+// Custom API badge interface
+interface Badge {
+	text: string;
+	color?: string;
+	textColor?: string;
+}
+
 // User status interface
 export interface UserStatus {
-	id: string;
+	id: number;
 	flagType: StatusFlag;
 	confidence: number;
 	reasons: Record<string, ReasonData>;
@@ -16,7 +24,6 @@ export interface UserStatus {
 	isReportable?: boolean;
 	isOutfitOnly?: boolean;
 	engineVersion?: string;
-	integrationSources?: Record<string, string>;
 	versionCompatibility?: 'current' | 'compatible' | 'outdated' | 'deprecated';
 	timestamp?: number;
 	reviewer?: ReviewerInfo;
@@ -24,11 +31,12 @@ export interface UserStatus {
 	processedAt?: number;
 	processed?: boolean;
 	lastUpdated?: number;
+	badges?: Badge[];
 }
 
 // Group status interface
 export interface GroupStatus {
-	id: string;
+	id: number;
 	flagType: StatusFlag;
 	confidence: number;
 	reasons: Record<string, ReasonData>;
@@ -38,16 +46,14 @@ export interface GroupStatus {
 
 // Reason data structure
 export interface ReasonData {
-	type: UserReasonType | GroupReasonType;
 	confidence: number;
 	message?: string;
-	evidence?: string[] | null;
-	timestamp?: number;
+	evidence?: string[];
 }
 
 // Vote data structure
 export interface VoteData {
-	userId: string;
+	userId: number;
 	upvotes: number;
 	downvotes: number;
 	currentVote?: VoteType | null;
@@ -58,7 +64,7 @@ export interface VoteData {
 // Vote submission result
 export interface VoteResult {
 	success: boolean;
-	userId: string;
+	userId: number;
 	voteType: VoteType;
 	newVoteData: VoteData;
 }
@@ -93,17 +99,9 @@ export interface ApiResponse<T = unknown> {
 }
 
 // Batch processing options
-export interface BatchOptions {
+interface BatchOptions {
 	batchSize?: number;
 	batchDelay?: number;
-	maxRetries?: number;
-	retryDelay?: number;
-}
-
-// API client configuration
-export interface ApiClientConfig {
-	baseUrl: string;
-	timeout?: number;
 	maxRetries?: number;
 	retryDelay?: number;
 }
@@ -113,6 +111,7 @@ export interface RequestOptions {
 	maxRetries?: number;
 	retryDelay?: number;
 	timeout?: number;
+	apiConfig?: CustomApiConfig;
 }
 
 // Page types for content script controllers
@@ -138,6 +137,7 @@ export interface ContentMessage {
 	inappropriateFriends?: boolean;
 	inappropriateGroups?: boolean;
 	options?: BatchOptions;
+	apiConfig?: CustomApiConfig;
 
 	uuid?: string;
 	isAnonymous?: boolean;

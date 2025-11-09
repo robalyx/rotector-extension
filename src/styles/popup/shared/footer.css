@@ -2,7 +2,7 @@
    FOOTER COMPONENT STYLES
    ================================= */
 
-.footer-container {
+@utility footer-container {
 	@apply flex flex-col gap-2 items-center mt-auto pt-3 text-xs;
 }
 
@@ -10,11 +10,11 @@
    SOCIAL & COMMUNITY LINKS
    ================================= */
 
-.footer-social-section {
+@utility footer-social-section {
 	@apply flex justify-center gap-4;
 }
 
-.footer-social-link {
+@utility footer-social-link {
 	@apply inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-all duration-200 no-underline;
 
 	color: var(--color-text-subtle);
@@ -33,7 +33,7 @@
 	}
 }
 
-.footer-social-link-discord {
+@utility footer-social-link-discord {
 	&:hover {
 		background-color: #4752c4 !important;
 		border-color: #4752c4 !important;
@@ -42,7 +42,7 @@
 	}
 }
 
-.footer-social-link-github {
+@utility footer-social-link-github {
 	&:hover {
 		background-color: #1b1f23 !important;
 		border-color: #1b1f23 !important;
@@ -51,7 +51,7 @@
 	}
 }
 
-.footer-social-icon {
+@utility footer-social-icon {
 	@apply w-3.5 h-3.5 flex-shrink-0;
 	fill: currentColor;
 }
@@ -60,11 +60,11 @@
    HELP & SUPPORT LINKS
    ================================= */
 
-.footer-help-section {
+@utility footer-help-section {
 	@apply mt-1;
 }
 
-.footer-help-link {
+@utility footer-help-link {
 	@apply inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-all duration-200 no-underline;
 
 	color: var(--color-text-subtle);
@@ -75,7 +75,7 @@
 	}
 }
 
-.footer-help-icon {
+@utility footer-help-icon {
 	@apply w-3 h-3 flex-shrink-0;
 	fill: currentColor;
 }
@@ -84,11 +84,11 @@
    LEGAL LINKS
    ================================= */
 
-.footer-legal-section {
+@utility footer-legal-section {
 	@apply flex items-center gap-2 mt-1;
 }
 
-.footer-legal-link {
+@utility footer-legal-link {
 	@apply transition-colors duration-200 no-underline;
 
 	color: var(--color-text-subtle);
@@ -98,7 +98,7 @@
 	}
 }
 
-.footer-legal-divider {
+@utility footer-legal-divider {
 	color: var(--color-border);
 }
 
@@ -106,7 +106,7 @@
    CREATOR CREDIT
    ================================= */
 
-.footer-credit {
+@utility footer-credit {
 	@apply m-0 mt-1 text-2xs;
 	color: var(--color-text-subtle);
 }

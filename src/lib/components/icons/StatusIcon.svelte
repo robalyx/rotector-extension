@@ -1,5 +1,13 @@
 <script lang="ts">
-	import { CircleCheck, AlertCircle, Clock, Loader2, Workflow, History } from 'lucide-svelte';
+	import {
+		CircleCheck,
+		AlertCircle,
+		Clock,
+		Loader2,
+		Workflow,
+		History,
+		CircleHelp
+	} from 'lucide-svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
 
 	interface Props {
@@ -25,4 +33,6 @@
 	<Workflow class={className} {color} {size} {strokeWidth} />
 {:else if name === 'past-offender'}
 	<History class={className} {color} {size} {strokeWidth} />
+{:else if name === 'mixed'}
+	<CircleHelp class={className} {color} {size} {strokeWidth} />
 {/if}

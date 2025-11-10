@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '@/lib/stores/i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueSuccessData } from '@/lib/types/api';
 	import { Check } from 'lucide-svelte';
@@ -22,33 +23,33 @@
 
 <Modal
 	actionsLayout="horizontal"
-	confirmText="Close"
+	confirmText={t('queue_success_modal_close_button')}
 	confirmVariant="primary"
 	modalType="queue-success"
 	onConfirm={handleClose}
 	showCancel={false}
-	title="Success"
+	title={t('queue_success_modal_title')}
 	bind:isOpen
 >
 	<div>
 		<p style:color="var(--color-text)" class="mb-4!">
-			User ID {successData.queued} has been successfully queued for review.
+			{t('queue_success_modal_success_message', [String(successData.queued)])}
 		</p>
 
 		<div class="modal-content-section">
 			<h3 class="modal-content-heading">
 				<Check class="mr-2 text-blue-500" size={18} />
-				What happens next
+				{t('queue_success_modal_next_steps_heading')}
 			</h3>
 			<ul class="modal-content-list">
 				<li class="modal-content-list-item-info">
-					Our AI will analyze this account for patterns of concern
+					{t('queue_success_modal_step1')}
 				</li>
 				<li class="modal-content-list-item-info">
-					If flagged, the user's status will be confirmed within a few minutes
+					{t('queue_success_modal_step2')}
 				</li>
 				<li class="modal-content-list-item-info">
-					Full system sync and confirmation will take 24-48 hours
+					{t('queue_success_modal_step3')}
 				</li>
 			</ul>
 		</div>

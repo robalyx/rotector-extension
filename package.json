@@ -19,6 +19,7 @@
 		"lint:fix": "eslint . --fix && prettier --write .",
 		"knip": "knip",
 		"knip:production": "knip --production",
+		"validate:i18n": "node scripts/validate-i18n.js",
 		"quality": "bun run check && bun run knip && bun run lint:fix",
 		"postinstall": "wxt prepare",
 		"format": "prettier --write ."

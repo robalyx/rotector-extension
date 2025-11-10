@@ -5,6 +5,7 @@
 	import ChartTooltip from '../../ui/ChartTooltip.svelte';
 	import { calculateBarTooltipPosition } from '@/lib/utils/chart-tooltip';
 	import type { TooltipDetail } from '../../ui/ChartTooltip.svelte';
+	import { t } from '@/lib/stores/i18n';
 
 	let { weeklyUsage }: { weeklyUsage: WeeklyUsage } = $props();
 
@@ -48,18 +49,18 @@
 	} | null>(null);
 
 	// Chart tabs configuration
-	const chartTabs = [
-		{ value: 'cost' as ChartType, label: 'AI Costs' },
-		{ value: 'requests' as ChartType, label: 'AI Requests' },
-		{ value: 'tokens' as ChartType, label: 'AI Tokens' }
-	];
+	const chartTabs = $derived([
+		{ value: 'cost' as ChartType, label: t('stats_chart_tab_costs') },
+		{ value: 'requests' as ChartType, label: t('stats_chart_tab_requests') },
+		{ value: 'tokens' as ChartType, label: t('stats_chart_tab_tokens') }
+	]);
 
 	// Weekly data in chronological order (oldest to newest)
 	const weeksData = $derived([
-		{ key: 'week4', ...weeklyUsage.week4, label: '3 Weeks\nAgo' },
-		{ key: 'week3', ...weeklyUsage.week3, label: '2 Weeks\nAgo' },
-		{ key: 'week2', ...weeklyUsage.week2, label: 'Last Week' },
-		{ key: 'week1', ...weeklyUsage.week1, label: 'This Week' }
+		{ key: 'week4', ...weeklyUsage.week4, label: t('stats_chart_week_4') },
+		{ key: 'week3', ...weeklyUsage.week3, label: t('stats_chart_week_3') },
+		{ key: 'week2', ...weeklyUsage.week2, label: t('stats_chart_week_2') },
+		{ key: 'week1', ...weeklyUsage.week1, label: t('stats_chart_week_1') }
 	]);
 
 	// Transform data for chart visualization
@@ -79,11 +80,11 @@
 				color: 'var(--color-primary)',
 				details: [
 					{
-						label: 'Total Requests',
+						label: t('stats_chart_detail_requests'),
 						value: formatNumber(week.totalRequests)
 					},
 					{
-						label: 'Period',
+						label: t('stats_chart_detail_period'),
 						value: formatDateRange(week.startDate, week.endDate)
 					}
 				]
@@ -103,11 +104,11 @@
 				color: 'var(--color-success)',
 				details: [
 					{
-						label: 'Total Cost',
+						label: t('stats_chart_detail_cost'),
 						value: formatCurrency(week.totalCost)
 					},
 					{
-						label: 'Period',
+						label: t('stats_chart_detail_period'),
 						value: formatDateRange(week.startDate, week.endDate)
 					}
 				]
@@ -155,23 +156,23 @@
 					},
 					details: [
 						{
-							label: 'Prompt Tokens',
+							label: t('stats_chart_detail_prompt'),
 							value: formatNumber(week.totalPromptTokens)
 						},
 						{
-							label: 'Completion Tokens',
+							label: t('stats_chart_detail_completion'),
 							value: formatNumber(week.totalCompletionTokens)
 						},
 						{
-							label: 'Reasoning Tokens',
+							label: t('stats_chart_detail_reasoning'),
 							value: formatNumber(week.totalReasoningTokens)
 						},
 						{
-							label: 'Total Cost',
+							label: t('stats_chart_detail_cost'),
 							value: formatCurrency(week.totalCost)
 						},
 						{
-							label: 'Period',
+							label: t('stats_chart_detail_period'),
 							value: formatDateRange(week.startDate, week.endDate)
 						}
 					]
@@ -217,11 +218,11 @@
 	function getChartLabel(): string {
 		switch (selectedChart) {
 			case 'cost':
-				return 'Weekly AI Costs';
+				return t('stats_chart_label_costs');
 			case 'requests':
-				return 'Weekly AI Requests';
+				return t('stats_chart_label_requests');
 			case 'tokens':
-				return 'Total AI Tokens';
+				return t('stats_chart_label_tokens');
 			default:
 				return '';
 		}
@@ -244,18 +245,18 @@
 		const currentYear = now.getFullYear();
 
 		const monthNames = [
-			'Jan',
-			'Feb',
-			'Mar',
-			'Apr',
-			'May',
-			'Jun',
-			'Jul',
-			'Aug',
-			'Sep',
-			'Oct',
-			'Nov',
-			'Dec'
+			t('stats_chart_month_jan'),
+			t('stats_chart_month_feb'),
+			t('stats_chart_month_mar'),
+			t('stats_chart_month_apr'),
+			t('stats_chart_month_may'),
+			t('stats_chart_month_jun'),
+			t('stats_chart_month_jul'),
+			t('stats_chart_month_aug'),
+			t('stats_chart_month_sep'),
+			t('stats_chart_month_oct'),
+			t('stats_chart_month_nov'),
+			t('stats_chart_month_dec')
 		];
 
 		const formatDate = (date: Date, includeYear: boolean = false) => {
@@ -337,9 +338,10 @@
 						<!-- Stacked bars for tokens -->
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label="Prompt tokens for {data.week}: {formatNumber(
-								weeksData[index].totalPromptTokens
-							)}"
+							aria-label={t('stats_chart_aria_prompt', [
+								data.week,
+								formatNumber(weeksData[index].totalPromptTokens)
+							])}
 							fill={data.stacked.prompt.color}
 							height={data.stacked.prompt.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -351,9 +353,10 @@
 						/>
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label="Completion tokens for {data.week}: {formatNumber(
-								weeksData[index].totalCompletionTokens
-							)}"
+							aria-label={t('stats_chart_aria_completion', [
+								data.week,
+								formatNumber(weeksData[index].totalCompletionTokens)
+							])}
 							fill={data.stacked.completion.color}
 							height={data.stacked.completion.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -365,9 +368,10 @@
 						/>
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label="Reasoning tokens for {data.week}: {formatNumber(
-								weeksData[index].totalReasoningTokens
-							)}"
+							aria-label={t('stats_chart_aria_reasoning', [
+								data.week,
+								formatNumber(weeksData[index].totalReasoningTokens)
+							])}
 							fill={data.stacked.reasoning.color}
 							height={data.stacked.reasoning.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -384,7 +388,11 @@
 						<!-- Regular bars -->
 						<rect
 							class="chart-bar"
-							aria-label="{getChartLabel()} for {data.week}: {data.displayValue}"
+							aria-label={t('stats_chart_aria_general', [
+								getChartLabel(),
+								data.week,
+								data.displayValue
+							])}
 							fill={data.color}
 							height={data.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -443,15 +451,15 @@
 			<div class="chart-legend">
 				<div class="legend-item">
 					<div style:background-color="var(--color-primary)" class="legend-color"></div>
-					<span>Prompt</span>
+					<span>{t('stats_chart_legend_prompt')}</span>
 				</div>
 				<div class="legend-item">
 					<div style:background-color="var(--color-success)" class="legend-color"></div>
-					<span>Completion</span>
+					<span>{t('stats_chart_legend_completion')}</span>
 				</div>
 				<div class="legend-item">
 					<div style:background-color="var(--color-warning)" class="legend-color"></div>
-					<span>Reasoning</span>
+					<span>{t('stats_chart_legend_reasoning')}</span>
 				</div>
 			</div>
 		{/if}

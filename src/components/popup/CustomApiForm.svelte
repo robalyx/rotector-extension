@@ -2,6 +2,7 @@
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { logger } from '@/lib/utils/logger';
+	import { t } from '@/lib/stores/i18n';
 	import Modal from '../ui/Modal.svelte';
 
 	interface Props {
@@ -28,19 +29,21 @@
 	let saving = $state(false);
 
 	const isEditing = $derived(() => editingApi !== null);
-	const modalTitle = $derived(() => (isEditing() ? 'Edit Custom API' : 'Add Custom API'));
+	const modalTitle = $derived(() =>
+		isEditing() ? t('custom_api_form_title_edit') : t('custom_api_form_title_add')
+	);
 
 	// Validate name
 	function validateName(): boolean {
 		nameError = '';
 
 		if (!name.trim()) {
-			nameError = 'Name is required';
+			nameError = t('custom_api_form_error_name_required');
 			return false;
 		}
 
 		if (name.length > 12) {
-			nameError = 'Name must be 12 characters or less';
+			nameError = t('custom_api_form_error_name_length');
 			return false;
 		}
 
@@ -52,19 +55,19 @@
 		urlError = '';
 
 		if (!url.trim()) {
-			urlError = 'URL is required';
+			urlError = t('custom_api_form_error_url_required');
 			return false;
 		}
 
 		if (!url.startsWith('https://')) {
-			urlError = 'URL must start with https://';
+			urlError = t('custom_api_form_error_url_https');
 			return false;
 		}
 
 		try {
 			new URL(url);
 		} catch {
-			urlError = 'Invalid URL format';
+			urlError = t('custom_api_form_error_url_invalid');
 			return false;
 		}
 
@@ -76,12 +79,12 @@
 		timeoutError = '';
 
 		if (!timeout || timeout < 1000) {
-			timeoutError = 'Timeout must be at least 1000ms (1 second)';
+			timeoutError = t('custom_api_form_error_timeout_min');
 			return false;
 		}
 
 		if (timeout > 60000) {
-			timeoutError = 'Timeout must be 60000ms (60 seconds) or less';
+			timeoutError = t('custom_api_form_error_timeout_max');
 			return false;
 		}
 
@@ -105,7 +108,7 @@
 		const hasValidExtension = validExtensions.some((ext) => fileName.endsWith(ext));
 
 		if (!hasValidExtension) {
-			imageError = 'Invalid file type. Please use PNG, JPG, SVG, or WebP';
+			imageError = t('custom_api_form_error_image_type');
 			landscapeImageDataUrl = '';
 			input.value = '';
 			return;
@@ -114,7 +117,7 @@
 		// Validate MIME type
 		const validMimeTypes = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'];
 		if (!validMimeTypes.includes(file.type)) {
-			imageError = 'Invalid image type. MIME type does not match file extension';
+			imageError = t('custom_api_form_error_image_mime');
 			landscapeImageDataUrl = '';
 			input.value = '';
 			return;
@@ -123,7 +126,7 @@
 		// Warn about large file sizes
 		const fileSizeKB = file.size / 1024;
 		if (fileSizeKB > 100) {
-			imageError = `Warning: Large file size (${Math.round(fileSizeKB)}KB). Consider using a smaller image to reduce storage usage.`;
+			imageError = t('custom_api_form_error_image_size', [Math.round(fileSizeKB).toString()]);
 		}
 
 		// Convert to base64 data URL
@@ -133,12 +136,12 @@
 				landscapeImageDataUrl = e.target?.result as string;
 			};
 			reader.onerror = () => {
-				imageError = 'Failed to read image file';
+				imageError = t('custom_api_form_error_image_read');
 				landscapeImageDataUrl = '';
 			};
 			reader.readAsDataURL(file);
 		} catch {
-			imageError = 'Failed to process image file';
+			imageError = t('custom_api_form_error_image_process');
 			landscapeImageDataUrl = '';
 		}
 	}
@@ -204,7 +207,8 @@
 		} catch (error) {
 			logger.error('Failed to save custom API:', error);
 			alert(
-				'Failed to save custom API: ' + (error instanceof Error ? error.message : 'Unknown error')
+				t('custom_api_form_error_save_prefix') +
+					(error instanceof Error ? error.message : 'Unknown error')
 			);
 		} finally {
 			saving = false;
@@ -218,7 +222,7 @@
 </script>
 
 <Modal
-	confirmText={saving ? 'Saving...' : 'Save'}
+	confirmText={saving ? t('custom_api_form_button_saving') : t('custom_api_form_button_save')}
 	isOpen={true}
 	modalType="modal"
 	onCancel={handleCancel}
@@ -231,7 +235,8 @@
 		<!-- Name Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-name">
-				Name <span class="required">*</span>
+				{t('custom_api_form_label_name')}
+				<span class="required">{t('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-name"
@@ -239,12 +244,12 @@
 				class:error={nameError}
 				maxlength="12"
 				oninput={() => validateName()}
-				placeholder="My Custom API"
+				placeholder={t('custom_api_form_placeholder_name')}
 				type="text"
 				bind:value={name}
 			/>
 			<div class="form-hint">
-				Maximum 12 characters ({name.length}/12)
+				{t('custom_api_form_hint_name_length', [name.length.toString()])}
 			</div>
 			{#if nameError}
 				<div class="form-error">{nameError}</div>
@@ -254,20 +259,20 @@
 		<!-- URL Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-url">
-				API URL <span class="required">*</span>
+				{t('custom_api_form_label_url')}
+				<span class="required">{t('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-url"
 				class="form-input"
 				class:error={urlError}
 				oninput={() => validateUrl()}
-				placeholder="https://api.example.com/v1/lookup"
+				placeholder={t('custom_api_form_placeholder_url')}
 				type="url"
 				bind:value={url}
 			/>
 			<div class="form-hint">
-				Must be HTTPS. This is like the base URL for batch lookups. Single lookups will append /{'{'}userId{'}'}
-				to this URL.
+				{t('custom_api_form_hint_url')}
 			</div>
 			{#if urlError}
 				<div class="form-error">{urlError}</div>
@@ -277,7 +282,8 @@
 		<!-- Timeout Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-timeout">
-				Timeout (ms) <span class="required">*</span>
+				{t('custom_api_form_label_timeout')}
+				<span class="required">{t('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-timeout"
@@ -286,12 +292,12 @@
 				max="60000"
 				min="1000"
 				oninput={() => validateTimeout()}
-				placeholder="5000"
+				placeholder={t('custom_api_form_placeholder_timeout')}
 				step="1000"
 				type="number"
 				bind:value={timeout}
 			/>
-			<div class="form-hint">Request timeout in milliseconds (1000-60000). Default: 5000ms.</div>
+			<div class="form-hint">{t('custom_api_form_hint_timeout')}</div>
 			{#if timeoutError}
 				<div class="form-error">{timeoutError}</div>
 			{/if}
@@ -299,7 +305,7 @@
 
 		<!-- Landscape Image Field -->
 		<div class="form-field">
-			<label class="form-label" for="api-image"> Landscape Image (Optional) </label>
+			<label class="form-label" for="api-image"> {t('custom_api_form_label_image')} </label>
 			<input
 				id="api-image"
 				class="form-input"
@@ -309,8 +315,7 @@
 				type="file"
 			/>
 			<div class="form-hint">
-				Upload a landscape image for the tooltip tab (PNG, JPG, SVG, WebP). Recommended: 480x160px
-				(3:1 ratio).
+				{t('custom_api_form_hint_image')}
 			</div>
 			{#if imageError}
 				<div class="form-error">{imageError}</div>
@@ -329,7 +334,7 @@
 						onclick={removeImage}
 						type="button"
 					>
-						Remove Image
+						{t('custom_api_form_button_remove_image')}
 					</button>
 				</div>
 			{/if}
@@ -339,7 +344,7 @@
 		<div class="form-field">
 			<label class="form-checkbox">
 				<input type="checkbox" bind:checked={enabled} />
-				<span>Enable this custom API</span>
+				<span>{t('custom_api_form_checkbox_enable')}</span>
 			</label>
 		</div>
 	</div>

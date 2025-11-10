@@ -8,11 +8,12 @@
 	} from '@/lib/stores/changelog';
 	import { logger } from '@/lib/utils/logger';
 	import { formatTimeAgo } from '@/lib/utils/time';
+	import { t } from '@/lib/stores/i18n';
 
 	let isClosing = $state(false);
 
 	const releaseTimeText = $derived(
-		$latestChangelog ? `A new update was released ${formatTimeAgo($latestChangelog.date)}!` : ''
+		$latestChangelog ? t('banner_changelog_message', [formatTimeAgo($latestChangelog.date)]) : ''
 	);
 
 	// Dismisses the banner with animation
@@ -76,17 +77,17 @@
 				<button
 					class="changelog-banner-view-details"
 					onclick={handleViewDetails}
-					title="View full changelog details"
+					title={t('banner_changelog_title_view_details')}
 					type="button"
 				>
-					View Details
+					{t('banner_changelog_button_view_details')}
 				</button>
 				<!-- Close button -->
 				<button
 					class="changelog-banner-dismiss"
-					aria-label="Dismiss changelog banner"
+					aria-label={t('banner_changelog_aria_dismiss')}
 					onclick={handleDismiss}
-					title="Dismiss changelog"
+					title={t('banner_changelog_title_dismiss')}
 					type="button"
 				>
 					<svg

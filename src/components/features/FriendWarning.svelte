@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '@/lib/stores/i18n';
 	import { PROFILE_SELECTORS } from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
@@ -160,9 +161,9 @@
 
 <Modal
 	actionsLayout="horizontal"
-	blockText="Block User"
-	cancelText="Cancel Request"
-	confirmText="Proceed Anyway"
+	blockText={t('friend_warning_block_button')}
+	cancelText={t('friend_warning_cancel_button')}
+	confirmText={t('friend_warning_proceed_button')}
 	confirmVariant="danger"
 	icon="warning"
 	modalType="friend-warning"
@@ -170,7 +171,7 @@
 	onCancel={handleCancel}
 	onConfirm={handleProceed}
 	showBlock={true}
-	title="Warning: Unsafe User"
+	title={t('friend_warning_title')}
 	bind:isOpen
 >
 	<div>
@@ -178,7 +179,7 @@
 		<div class="friend-warning-user-info">
 			<div class="friend-warning-user-info-avatar">
 				{#if userInfo?.avatarUrl}
-					<img alt="{userInfo.username}'s avatar" src={userInfo.avatarUrl} />
+					<img alt={t('friend_warning_avatar_alt', [userInfo.username])} src={userInfo.avatarUrl} />
 				{/if}
 			</div>
 			<div class="friend-warning-user-info-details">
@@ -186,7 +187,7 @@
 					{userInfo?.username || displayName()}
 				</div>
 				<div class="friend-warning-user-info-id">
-					User ID: {sanitizedUserId()}
+					{t('friend_warning_user_id_label', [sanitizedUserId()])}
 				</div>
 			</div>
 		</div>
@@ -194,14 +195,14 @@
 		<!-- Risk assessment -->
 		<div class="friend-warning-risk-assessment">
 			<div class="friend-warning-risk-title">
-				{warningConfig().title}
+				{t('friend_warning_risk_title')}
 			</div>
 			<div class="friend-warning-risk-message">
-				{warningConfig().message}
+				{t('friend_warning_risk_message')}
 			</div>
 			{#if warningConfig().confidence > 0}
 				<div class="friend-warning-risk-confidence">
-					Confidence: {warningConfig().confidence}%
+					{t('friend_warning_confidence_label', [String(warningConfig().confidence)])}
 				</div>
 			{/if}
 		</div>
@@ -210,20 +211,20 @@
 		<div class="friend-warning-why-matters">
 			<h3 class="friend-warning-why-matters-heading">
 				<AlertTriangle class="friend-warning-why-matters-icon" size={20} />
-				Why this matters
+				{t('friend_warning_why_matters_heading')}
 			</h3>
 			<ul class="friend-warning-why-matters-list">
 				<li class="friend-warning-why-matters-item">
-					This user may engage in inappropriate conversations or behaviors
+					{t('friend_warning_why_matters_item1')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					Your account may be associated with inappropriate users in our system
+					{t('friend_warning_why_matters_item2')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					You could be exposing yourself to unwanted or harmful content
+					{t('friend_warning_why_matters_item3')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					This user has clear evidence of violating Roblox's Terms of Service
+					{t('friend_warning_why_matters_item4')}
 				</li>
 			</ul>
 		</div>
@@ -232,17 +233,17 @@
 		<div class="friend-warning-recommendations">
 			<h3 class="friend-warning-recommendations-heading">
 				<Lightbulb class="friend-warning-recommendations-icon" size={20} />
-				Recommended actions
+				{t('friend_warning_recommendations_heading')}
 			</h3>
 			<ul class="friend-warning-recommendations-list">
 				<li class="friend-warning-recommendations-item">
-					Review their profile information more carefully
+					{t('friend_warning_recommendations_item1')}
 				</li>
 				<li class="friend-warning-recommendations-item">
-					Report them to Roblox if you see inappropriate content
+					{t('friend_warning_recommendations_item2')}
 				</li>
 				<li class="friend-warning-recommendations-item">
-					Connect only with users you know and trust
+					{t('friend_warning_recommendations_item3')}
 				</li>
 			</ul>
 		</div>
@@ -250,8 +251,7 @@
 		<!-- Warning message -->
 		<div class="friend-warning-high-risk-warning">
 			<div class="friend-warning-high-risk-text">
-				Proceeding with this friend request may expose you to inappropriate content or harmful
-				interactions.
+				{t('friend_warning_high_risk_message')}
 			</div>
 		</div>
 	</div>

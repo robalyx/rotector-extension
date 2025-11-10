@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Changelog, ChangelogEntry } from '@/lib/types/changelog';
 	import { Plus, RefreshCw, AlertTriangle, Trash2, Bug, Lock, FileText } from 'lucide-svelte';
+	import { t } from '@/lib/stores/i18n';
 
 	interface ChangelogContentProps {
 		changelog: Changelog;
@@ -33,19 +34,19 @@
 	function getChangeTypeLabel(type: ChangelogEntry['type']): string {
 		switch (type) {
 			case 'added':
-				return 'Added';
+				return t('stats_changelog_type_added');
 			case 'changed':
-				return 'Changed';
+				return t('stats_changelog_type_changed');
 			case 'deprecated':
-				return 'Deprecated';
+				return t('stats_changelog_type_deprecated');
 			case 'removed':
-				return 'Removed';
+				return t('stats_changelog_type_removed');
 			case 'fixed':
-				return 'Fixed';
+				return t('stats_changelog_type_fixed');
 			case 'security':
-				return 'Security';
+				return t('stats_changelog_type_security');
 			default:
-				return 'Update';
+				return t('stats_changelog_type_update');
 		}
 	}
 

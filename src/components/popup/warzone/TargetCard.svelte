@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Target } from '../../../lib/types/api';
+	import { t } from '../../../lib/stores/i18n';
 	import { formatActiveDuration } from '../../../lib/utils/time';
 
 	interface Props {
@@ -20,7 +21,7 @@
 	}
 
 	function getStatusLabel(status: number): string {
-		return status === 2 ? 'Confirmed' : 'Flagged';
+		return status === 2 ? t('warzone_target_status_confirmed') : t('warzone_target_status_flagged');
 	}
 </script>
 
@@ -46,17 +47,17 @@
 
 	<div class="target-meta">
 		<div class="meta-item">
-			<span class="meta-label">Confidence</span>
+			<span class="meta-label">{t('warzone_target_meta_confidence')}</span>
 			<span style:color={getConfidenceColor(target.confidence)} class="meta-value"
 				>{(target.confidence * 100).toFixed(0)}%</span
 			>
 		</div>
 		<div class="meta-item">
-			<span class="meta-label">Attempts</span>
+			<span class="meta-label">{t('warzone_target_meta_attempts')}</span>
 			<span class="meta-value">{target.banAttempts}</span>
 		</div>
 		<div class="meta-item">
-			<span class="meta-label">Active</span>
+			<span class="meta-label">{t('warzone_target_meta_active')}</span>
 			<span class="meta-value">{formatActiveDuration(target.assignedAt)}</span>
 		</div>
 	</div>

@@ -18,6 +18,7 @@ export default tseslint.config(
 			'**/build/**',
 			'**/.svelte-kit/**',
 			'**/public/**',
+			'**/scripts/**',
 			'**/*.min.js',
 			'*.config.{js,ts,mjs,cjs}'
 		]

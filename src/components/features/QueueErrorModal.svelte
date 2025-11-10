@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
+	import { t } from '@/lib/stores/i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueErrorData } from '@/lib/types/api';
 	import { AlertTriangle, Info } from 'lucide-svelte';
@@ -20,7 +21,7 @@
 	});
 
 	const errorMessage = $derived(() => {
-		return errorData.error || 'Unknown error occurred';
+		return errorData.error || t('queue_error_modal_unknown_error');
 	});
 
 	const requestId = $derived(() => {
@@ -42,23 +43,23 @@
 
 <Modal
 	actionsLayout="horizontal"
-	confirmText="Close"
+	confirmText={t('queue_error_modal_close_button')}
 	confirmVariant="danger"
 	modalType="queue-error"
 	onConfirm={handleClose}
 	showCancel={false}
-	title="Error"
+	title={t('queue_error_modal_title')}
 	bind:isOpen
 >
 	<div>
 		<p style:color="var(--color-text)" class="mb-4!">
-			Failed to queue user ID {sanitizedUserId()} for review.
+			{t('queue_error_modal_failed_message', [sanitizedUserId()])}
 		</p>
 
 		<div class="modal-content-section-warning">
 			<h3 class="modal-content-heading">
 				<AlertTriangle class="mr-2 text-orange-500" size={18} />
-				Error Details
+				{t('queue_error_modal_details_heading')}
 			</h3>
 			<div>
 				<p style:color="var(--color-text)">
@@ -66,11 +67,11 @@
 				</p>
 				<br />
 				<p style:color="var(--color-text-subtle)" class="text-sm">
-					<strong>Error Code:</strong>
+					<strong>{t('queue_error_modal_error_code_label')}</strong>
 					{errorCode()}
 				</p>
 				<p style:color="var(--color-text-subtle)" class="text-sm">
-					<strong>Request ID:</strong>
+					<strong>{t('queue_error_modal_request_id_label')}</strong>
 					{requestId()}
 				</p>
 			</div>
@@ -79,17 +80,17 @@
 		<div class="modal-content-section-info">
 			<h3 class="modal-content-heading">
 				<Info class="mr-2 text-blue-500" size={18} />
-				What to do next
+				{t('queue_error_modal_next_steps_heading')}
 			</h3>
 			<ul class="modal-content-list">
 				<li class="modal-content-list-item-info">
-					Check if the user has already been flagged by our system
+					{t('queue_error_modal_step1')}
 				</li>
 				<li class="modal-content-list-item-info">
-					If the error persists, try again in a few minutes
+					{t('queue_error_modal_step2')}
 				</li>
 				<li class="modal-content-list-item-info">
-					If you need support, include the Request ID above
+					{t('queue_error_modal_step3')}
 				</li>
 			</ul>
 		</div>

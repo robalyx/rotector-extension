@@ -3,6 +3,7 @@
 	import type { LeaderboardResponse } from '../../../lib/types/api';
 	import { apiClient } from '../../../lib/services/api-client';
 	import { authStore } from '../../../lib/stores/auth';
+	import { t } from '../../../lib/stores/i18n';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import { Award, Medal } from 'lucide-svelte';
 
@@ -22,7 +23,7 @@
 		try {
 			leaderboard = await apiClient.getLeaderboard(50, includeAnonymous);
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Failed to load leaderboard';
+			error = err instanceof Error ? err.message : t('warzone_leaderboard_error_load');
 		} finally {
 			isLoading = false;
 		}
@@ -48,12 +49,14 @@
 {#if isLoading}
 	<div class="war-zone-loading">
 		<LoadingSpinner />
-		<p class="war-zone-loading-text">Loading leaderboard...</p>
+		<p class="war-zone-loading-text">{t('warzone_leaderboard_loading')}</p>
 	</div>
 {:else if error}
 	<div class="war-zone-error-container">
 		<p class="error-message">{error}</p>
-		<button class="retry-button" onclick={loadLeaderboard} type="button"> Retry </button>
+		<button class="retry-button" onclick={loadLeaderboard} type="button">
+			{t('warzone_common_button_retry')}
+		</button>
 	</div>
 {:else if leaderboard}
 	<div class="leaderboard-view">
@@ -61,18 +64,18 @@
 		<div class="leaderboard-controls">
 			<label class="anonymous-filter-toggle">
 				<input checked={includeAnonymous} onchange={toggleAnonymousFilter} type="checkbox" />
-				Include Anonymous Hunters
+				{t('warzone_leaderboard_filter_anonymous')}
 			</label>
 		</div>
 
 		<!-- Total Users Count -->
 		<div class="leaderboard-stats">
 			<span class="total-users">
-				Total Hunters: {leaderboard.totalUsers.toLocaleString()}
+				{t('warzone_leaderboard_total_hunters', [leaderboard.totalUsers.toLocaleString()])}
 			</span>
 			{#if leaderboard.userRank !== null}
 				<span class="user-rank">
-					Your Rank: #{leaderboard.userRank}
+					{t('warzone_leaderboard_your_rank', [leaderboard.userRank.toString()])}
 				</span>
 			{/if}
 		</div>
@@ -80,7 +83,7 @@
 		<!-- Top 3 Podium -->
 		{#if leaderboard.leaderboard.length >= 3}
 			<div class="podium-section">
-				<h4 class="section-title">Top Hunters</h4>
+				<h4 class="section-title">{t('warzone_leaderboard_section_top')}</h4>
 				<div class="podium">
 					<!-- 2nd Place -->
 					<div class="podium-position podium-second">
@@ -109,7 +112,7 @@
 
 		<!-- Full Leaderboard List -->
 		<div class="leaderboard-list-section">
-			<h4 class="section-title">Rankings</h4>
+			<h4 class="section-title">{t('warzone_leaderboard_section_rankings')}</h4>
 			<div class="leaderboard-list">
 				{#each leaderboard.leaderboard as entry (entry.uuid)}
 					<div
@@ -132,15 +135,15 @@
 							<div class="entry-name">
 								{entry.displayName}
 								{#if isCurrentUser(entry.uuid)}
-									<span class="you-badge">You</span>
+									<span class="you-badge">{t('warzone_leaderboard_badge_you')}</span>
 								{/if}
 							</div>
 							<div class="entry-stats">
 								<span class="entry-stat">
-									{entry.totalReports} reports
+									{t('warzone_leaderboard_stat_reports', [entry.totalReports.toString()])}
 								</span>
 								<span class="entry-stat">
-									{entry.successRate.toFixed(1)}% success
+									{t('warzone_leaderboard_stat_success', [entry.successRate.toFixed(1)])}
 								</span>
 							</div>
 						</div>

@@ -34,6 +34,7 @@
 	import VotingWidget from './VotingWidget.svelte';
 	import EngineVersionIndicator from './EngineVersionIndicator.svelte';
 	import { get } from 'svelte/store';
+	import { t } from '@/lib/stores/i18n';
 
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
@@ -120,25 +121,34 @@
 	$effect(() => {
 		if (!userStatus) return;
 
-		// First priority: Check if user has a preferred custom API tab and if it exists in current results
+		// First priority: Check if user has a preferred tab and if it exists in current results
 		const preferredTab = get(settings).lastSelectedCustomApiTab;
-		if (
-			preferredTab &&
-			preferredTab !== ROTECTOR_API_ID &&
-			userStatus.customApis.has(preferredTab)
-		) {
+		if (preferredTab && userStatus.customApis.has(preferredTab)) {
 			activeTab = preferredTab;
 			return;
 		}
 
-		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist, open first custom API tab
+		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist
 		const rotector = userStatus.customApis.get(ROTECTOR_API_ID);
+		const allApisSafe = Array.from(userStatus.customApis.values()).every(
+			(result) => !result.data || result.data.flagType === STATUS.FLAGS.SAFE
+		);
+
 		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.customApis.size > 1) {
-			const firstCustom = Array.from(userStatus.customApis.keys()).find(
-				(id) => id !== ROTECTOR_API_ID
+			// If ALL APIs are safe, show Rotector tab
+			if (allApisSafe) {
+				activeTab = ROTECTOR_API_ID;
+				return;
+			}
+
+			// Or else open first custom API that detected something
+			const firstCustomWithDetection = Array.from(userStatus.customApis.entries()).find(
+				([id, result]) =>
+					id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
 			);
-			if (firstCustom) {
-				activeTab = firstCustom;
+
+			if (firstCustomWithDetection) {
+				activeTab = firstCustomWithDetection[0];
 				return;
 			}
 		}
@@ -197,42 +207,42 @@
 		confidence = 0,
 		currentStatus?: UserStatus | null
 	): string {
-		const entityType = isGroup ? 'group' : 'user';
+		const entityType = t(isGroup ? 'tooltip_entity_group' : 'tooltip_entity_user');
 
 		switch (flag) {
 			case STATUS.FLAGS.UNSAFE:
-				return `This ${entityType} has been verified as inappropriate by human moderators.`;
+				return t('tooltip_header_unsafe', [entityType]);
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
-				return `This ${entityType} has been flagged by AI with ${confidencePercent}% confidence.`;
+				return t('tooltip_header_pending', [entityType, confidencePercent.toString()]);
 			}
 			case STATUS.FLAGS.QUEUED:
 				// Check if processed to determine message
 				if (currentStatus?.processed === true) {
-					return `This ${entityType} has been reviewed by our AI system and appears to be safe. If this is a false positive, you can requeue for further review.`;
+					return t('tooltip_header_queued_safe', [entityType]);
 				} else {
-					return `This ${entityType} is currently being checked by our system. This may take a few minutes.`;
+					return t('tooltip_header_queued_processing', [entityType]);
 				}
 			case STATUS.FLAGS.INTEGRATION:
-				return `This ${entityType} has been flagged by a third-party content analysis system.`;
+				return t('tooltip_header_integration', [entityType]);
 			case STATUS.FLAGS.MIXED:
 				if (isGroup) {
-					return 'This group contains a mix of appropriate and inappropriate members.';
+					return t('tooltip_header_mixed_group');
 				} else {
-					return "This user has been associated with inappropriate content, but there isn't sufficient evidence for Roblox to take action. Exercise caution when interacting with them.";
+					return t('tooltip_header_mixed_user');
 				}
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return `This ${entityType} had inappropriate content previously but their account currently appears clean and can be requeued for verification.`;
+				return t('tooltip_header_past_offender', [entityType]);
 			case STATUS.FLAGS.SAFE:
-				return `This ${entityType} has not been reviewed yet.`;
+				return t('tooltip_header_safe', [entityType]);
 			default:
-				return 'Status information unavailable.';
+				return t('tooltip_header_unavailable');
 		}
 	}
 
 	const headerMessage = $derived.by(() => {
-		if (activeError) return 'Error Details';
-		if (!activeStatus) return 'Loading...';
+		if (activeError) return t('tooltip_error_details');
+		if (!activeStatus) return t('tooltip_loading');
 
 		const currentStatus = activeStatus;
 		const confidence = currentStatus.confidence || 0;
@@ -247,7 +257,7 @@
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, currentStatus);
 			default:
-				return 'Unknown Status';
+				return t('tooltip_header_unknown');
 		}
 	});
 
@@ -279,27 +289,27 @@
 
 	const statusBadgeText = $derived.by(() => {
 		const currentStatus = activeStatus;
-		if (!currentStatus) return 'Unknown';
+		if (!currentStatus) return t('tooltip_status_unknown');
 
 		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
-				return 'Not Flagged';
+				return t('tooltip_status_not_flagged');
 			case STATUS.FLAGS.UNSAFE:
-				return 'Unsafe';
+				return t('tooltip_status_unsafe');
 			case STATUS.FLAGS.PENDING:
-				return 'Under Review';
+				return t('tooltip_status_under_review');
 			case STATUS.FLAGS.QUEUED:
 				return !isGroup && (currentStatus as UserStatus).processed === true
-					? 'Likely Safe'
-					: 'Checking...';
+					? t('tooltip_status_likely_safe')
+					: t('tooltip_status_checking');
 			case STATUS.FLAGS.INTEGRATION:
-				return 'Integration';
+				return t('tooltip_status_integration');
 			case STATUS.FLAGS.MIXED:
-				return 'Mixed';
+				return t('tooltip_status_mixed');
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return 'Past Offender';
+				return t('tooltip_status_past_offender');
 			default:
-				return 'Unknown';
+				return t('tooltip_status_unknown');
 		}
 	});
 
@@ -581,7 +591,8 @@
 			<div class="reviewer-section">
 				<User class="reviewer-icon" size={14} />
 				<span class="reviewer-text">
-					Reviewed by <span class="reviewer-name">
+					{t('tooltip_reviewer_reviewed_by')}
+					<span class="reviewer-name">
 						{#if reviewer.displayName && reviewer.username && reviewer.displayName !== reviewer.username}
 							{reviewer.displayName} (@{reviewer.username})
 						{:else}
@@ -601,7 +612,7 @@
 			{#if metadata.queuedTime}
 				<div class="tooltip-metadata-item" title={metadata.queuedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">Queued</span>
+					<span class="tooltip-metadata-label">{t('tooltip_metadata_queued')}</span>
 					<span class="tooltip-metadata-value">{metadata.queuedTime}</span>
 				</div>
 			{/if}
@@ -610,7 +621,7 @@
 				<div
 					class="tooltip-metadata-item"
 					class:processing={metadata.isProcessing}
-					title={metadata.processedExact || 'Processing...'}
+					title={metadata.processedExact || t('tooltip_metadata_processing_status')}
 				>
 					{#if metadata.isProcessing}
 						<Loader2 class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
@@ -618,7 +629,9 @@
 						<Check class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					{/if}
 					<span class="tooltip-metadata-label">
-						{#if metadata.isProcessing}Processing{:else}Took{/if}
+						{#if metadata.isProcessing}{t('tooltip_metadata_processing')}{:else}{t(
+								'tooltip_metadata_took'
+							)}{/if}
 					</span>
 					<span class="tooltip-metadata-value">{metadata.duration}</span>
 				</div>
@@ -627,7 +640,7 @@
 			{#if metadata.lastUpdatedTime}
 				<div class="tooltip-metadata-item" title={metadata.lastUpdatedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">Last Updated</span>
+					<span class="tooltip-metadata-label">{t('tooltip_metadata_last_updated')}</span>
 					<span class="tooltip-metadata-value">{metadata.lastUpdatedTime}</span>
 				</div>
 			{/if}
@@ -636,11 +649,11 @@
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}
-					title="This user's data is outdated. Click to requeue for analysis."
+					title={t('tooltip_metadata_reprocess_title')}
 					type="button"
 				>
 					<RefreshCw class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">Reprocess?</span>
+					<span class="tooltip-metadata-label">{t('tooltip_metadata_reprocess_button')}</span>
 				</button>
 			{/if}
 		</div>
@@ -661,12 +674,10 @@
 					onclick={(e) => {
 						e.stopPropagation();
 						activeTab = tab.id;
-						// Save preference if user clicks a custom API tab
-						if (tab.id !== ROTECTOR_API_ID) {
-							updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
-								logger.error('Failed to save tab preference:', error);
-							});
-						}
+						// Save tab preference for future tooltip opens
+						updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
+							logger.error('Failed to save tab preference:', error);
+						});
 					}}
 					title={tab.name}
 					type="button"
@@ -726,11 +737,11 @@
 		<!-- Loading state -->
 		<div class="flex items-center gap-2 justify-center py-2">
 			<LoadingSpinner size="small" />
-			<span class="text-xs">Loading user information...</span>
+			<span class="text-xs">{t('tooltip_loading_user_info')}</span>
 		</div>
 	{:else if !activeStatus}
 		<!-- No data state -->
-		<div class="error-details">No data available for this API</div>
+		<div class="error-details">{t('tooltip_no_data_available')}</div>
 	{:else}
 		<!-- Status information -->
 		<div>
@@ -745,7 +756,7 @@
 						}}
 						type="button"
 					>
-						Queue for Review
+						{t('tooltip_queue_button')}
 					</button>
 				</div>
 
@@ -761,13 +772,15 @@
 				{#if activeTab === ROTECTOR_API_ID && ((!isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || activeStatus?.isQueued)}
 					<div class="flex gap-1.5 mb-2 justify-center flex-wrap">
 						{#if !isGroup && badgeStatus.isReportable}
-							<span class="tooltip-badge tooltip-badge-reportable"> Reportable </span>
+							<span class="tooltip-badge tooltip-badge-reportable">
+								{t('tooltip_badge_reportable')}
+							</span>
 						{/if}
 						{#if activeStatus?.isQueued}
-							<span class="tooltip-badge tooltip-badge-queued"> Queued </span>
+							<span class="tooltip-badge tooltip-badge-queued"> {t('tooltip_badge_queued')} </span>
 						{/if}
 						{#if !isGroup && badgeStatus.isOutfitOnly}
-							<span class="tooltip-badge tooltip-badge-outfit"> Outfit Only </span>
+							<span class="tooltip-badge tooltip-badge-outfit"> {t('tooltip_badge_outfit')} </span>
 						{/if}
 					</div>
 				{/if}
@@ -788,10 +801,9 @@
 					<div class="reportable-notice">
 						<AlertCircle class="reportable-icon" size={24} />
 						<div class="reportable-text">
-							<strong>Reportable to Roblox</strong>
+							<strong>{t('tooltip_reportable_title')}</strong>
 							<p>
-								This user has clear evidence of inappropriate content that is visible to Roblox
-								moderators.
+								{t('tooltip_reportable_message')}
 							</p>
 							<a
 								class="report-button"
@@ -800,7 +812,7 @@
 								rel="noopener noreferrer"
 								target="_blank"
 							>
-								Report to Roblox
+								{t('tooltip_reportable_report_button')}
 							</a>
 						</div>
 					</div>
@@ -812,10 +824,9 @@
 					<div class="outfit-notice">
 						<Shirt class="outfit-icon" size={24} />
 						<div class="outfit-text">
-							<strong>Flagged for Outfit Only</strong>
+							<strong>{t('tooltip_outfit_title')}</strong>
 							<p>
-								This user was flagged solely based on their avatar outfit. Outfit detection can have
-								false positives, so please use your own judgment when evaluating this user.
+								{t('tooltip_outfit_message')}
 							</p>
 						</div>
 					</div>
@@ -877,7 +888,7 @@
 	<div
 		bind:this={overlayRef}
 		class="expanded-tooltip-overlay"
-		aria-label="Click to close tooltip"
+		aria-label={t('tooltip_aria_close')}
 		onclick={handleOverlayClick}
 		onkeydown={(e) => {
 			if (e.key === 'Enter' || e.key === ' ') {
@@ -909,7 +920,7 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{groupInfo.groupName}</div>
-								<div class="tooltip-user-id">Group ID: {sanitizedUserId}</div>
+								<div class="tooltip-user-id">{t('tooltip_profile_group_id')} {sanitizedUserId}</div>
 								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
 									{statusBadgeText}
@@ -924,7 +935,7 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{userInfo.username}</div>
-								<div class="tooltip-user-id">ID: {sanitizedUserId}</div>
+								<div class="tooltip-user-id">{t('tooltip_profile_id')} {sanitizedUserId}</div>
 								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
 									{statusBadgeText}
@@ -934,9 +945,11 @@
 					{:else}
 						<!-- Fallback header -->
 						<div class="tooltip-header">
-							<div>{error ? 'Error Details' : 'Loading...'}</div>
+							<div>{error ? t('tooltip_error_details') : t('tooltip_loading')}</div>
 							<div class="tooltip-user-id">
-								{isGroup ? 'Group' : 'User'} ID: {sanitizedUserId}
+								{isGroup ? t('tooltip_entity_group') : t('tooltip_profile_user')}
+								{t('tooltip_profile_id')}
+								{sanitizedUserId}
 							</div>
 						</div>
 					{/if}
@@ -964,7 +977,7 @@
 	<div
 		bind:this={tooltipRef}
 		class="rtcr-tooltip-container"
-		aria-label="Click to expand tooltip"
+		aria-label={t('tooltip_aria_expand')}
 		aria-labelledby="tooltip-header"
 		onclick={handleExpand}
 		onkeydown={(e) => {

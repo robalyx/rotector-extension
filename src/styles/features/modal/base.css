@@ -59,6 +59,7 @@
 	min-height: 200px;
 	max-height: calc(90vh - 200px);
 	overflow-anchor: auto;
+	background-color: var(--color-bg-content) !important;
 
 	& p {
 		@apply m-0 mb-4 text-sm leading-relaxed;

@@ -40,6 +40,8 @@ export interface Settings {
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: string;
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: boolean;
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: boolean;
+	[SETTINGS_KEYS.CUSTOM_APIS]?: string;
+	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -62,62 +64,62 @@ export const SETTINGS_DEFAULTS: Settings = {
 };
 
 interface SettingCategory {
-	title: string;
+	titleKey: string;
 	settings: Array<{
 		key: SettingsKey;
-		label: string;
-		helpText?: string;
+		labelKey: string;
+		helpTextKey?: string;
 		requiresConfirmation?: boolean;
 	}>;
 }
 
 export const SETTING_CATEGORIES: SettingCategory[] = [
 	{
-		title: 'Content Display',
+		titleKey: 'settings_category_content_display',
 		settings: [
 			{
 				key: SETTINGS_KEYS.THEME,
-				label: 'Theme',
-				helpText: "Auto follows Roblox's theme setting. Light and Dark override this preference."
+				labelKey: 'settings_label_theme',
+				helpTextKey: 'settings_help_theme'
 			},
 			{
 				key: SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED,
-				label: 'Show Advanced Violation Details',
-				helpText: 'Display detailed violation messages and evidence. May contain mature content.',
+				labelKey: 'settings_label_advanced_violations',
+				helpTextKey: 'settings_help_advanced_violations',
 				requiresConfirmation: true
 			}
 		]
 	},
 	{
-		title: 'Integrations',
+		titleKey: 'settings_category_integrations',
 		settings: []
 	},
 	{
-		title: 'Page Settings',
+		titleKey: 'settings_category_page_settings',
 		settings: [
 			{
 				key: SETTINGS_KEYS.HOME_CHECK_ENABLED,
-				label: 'Home Page'
+				labelKey: 'settings_label_home_page'
 			},
 			{
 				key: SETTINGS_KEYS.PROFILE_CHECK_ENABLED,
-				label: 'Profile Pages'
+				labelKey: 'settings_label_profile_pages'
 			},
 			{
 				key: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
-				label: 'Friends Pages'
+				labelKey: 'settings_label_friends_pages'
 			},
 			{
 				key: SETTINGS_KEYS.GROUPS_CHECK_ENABLED,
-				label: 'Groups Pages'
+				labelKey: 'settings_label_groups_pages'
 			},
 			{
 				key: SETTINGS_KEYS.SEARCH_CHECK_ENABLED,
-				label: 'Search Pages'
+				labelKey: 'settings_label_search_pages'
 			},
 			{
 				key: SETTINGS_KEYS.REPORT_HELPER_ENABLED,
-				label: 'Report Helper'
+				labelKey: 'settings_label_report_helper'
 			}
 		]
 	}
@@ -125,18 +127,17 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 
 // Hidden developer settings category
 export const DEVELOPER_SETTING_CATEGORY: SettingCategory = {
-	title: 'Developer',
+	titleKey: 'settings_category_developer',
 	settings: [
 		{
 			key: SETTINGS_KEYS.DEBUG_MODE_ENABLED,
-			label: 'Enable Debug Logging',
-			helpText: 'Show detailed logs in the browser console (F12 -> Console) for troubleshooting.'
+			labelKey: 'settings_label_debug_logging',
+			helpTextKey: 'settings_help_debug_logging'
 		},
 		{
 			key: SETTINGS_KEYS.CACHE_DURATION_MINUTES,
-			label: 'Cache Duration (minutes)',
-			helpText:
-				'How long to cache user status data (1-10 minutes). Higher values reduce API calls but may show outdated information.'
+			labelKey: 'settings_label_cache_duration',
+			helpTextKey: 'settings_help_cache_duration'
 		}
 	]
 };

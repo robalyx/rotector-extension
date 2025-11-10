@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '../../../lib/stores/i18n';
 	import WarZoneProfile from './WarZoneProfile.svelte';
 	import WarZoneOverview from './WarZoneOverview.svelte';
 	import ZoneTargetsView from './ZoneTargetsView.svelte';
@@ -36,7 +37,7 @@
 				onclick={() => switchView('overview')}
 				type="button"
 			>
-				War Zone
+				{t('warzone_nav_tab_war_zone')}
 			</button>
 			<button
 				class="war-zone-nav-tab"
@@ -44,7 +45,7 @@
 				onclick={() => switchView('profile')}
 				type="button"
 			>
-				Profile
+				{t('warzone_nav_tab_profile')}
 			</button>
 			<button
 				class="war-zone-nav-tab"
@@ -52,7 +53,7 @@
 				onclick={() => switchView('leaderboard')}
 				type="button"
 			>
-				Leaderboard
+				{t('warzone_nav_tab_leaderboard')}
 			</button>
 		</div>
 	</div>

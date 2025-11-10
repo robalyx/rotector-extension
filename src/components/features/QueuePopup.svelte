@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '@/lib/stores/i18n';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { STATUS } from '@/lib/types/constants';
@@ -197,22 +198,22 @@
 
 <Modal
 	actionsLayout="horizontal"
-	cancelText="Cancel"
+	cancelText={t('queue_popup_cancel_button')}
 	confirmDisabled={!canSubmit()}
-	confirmText={submitting ? 'Submitting...' : 'Submit for Review'}
+	confirmText={submitting ? t('queue_popup_submitting_button') : t('queue_popup_submit_button')}
 	confirmVariant="queue"
 	icon="warning"
 	onCancel={handleCancel}
 	onConfirm={handleConfirm}
-	title={isReanalysis ? 'Reprocess User for Review' : 'Queue User for Review'}
+	title={isReanalysis ? t('queue_popup_title_reprocess') : t('queue_popup_title_queue')}
 	bind:isOpen
 >
 	<div>
 		<p style:color="var(--color-text)" class="mb-6!">
 			{#if isReanalysis}
-				You are about to submit user (ID: {sanitizedUserId()}) for reanalysis by our system.
+				{t('queue_popup_description_reanalysis', [sanitizedUserId()])}
 			{:else}
-				You are about to submit user (ID: {sanitizedUserId()}) for analysis by our system.
+				{t('queue_popup_description_analysis', [sanitizedUserId()])}
 			{/if}
 		</p>
 
@@ -223,7 +224,7 @@
 					<!-- Binary choice for new analysis -->
 					<div class="mb-6">
 						<h3 style:color="var(--color-text)" class="mb-4 text-lg font-semibold text-center">
-							What type of submission is this?
+							{t('queue_popup_submission_type_heading')}
 						</h3>
 
 						<div class="flex flex-col gap-2">
@@ -235,11 +236,12 @@
 							>
 								<div class="queue-option-header">
 									<AlertTriangle size={24} />
-									<div class="queue-option-title">User Has Inappropriate Content</div>
+									<div class="queue-option-title">
+										{t('queue_popup_option_inappropriate_title')}
+									</div>
 								</div>
 								<div class="queue-option-description">
-									This user has clear inappropriate content in their profile, avatar, friends, or
-									groups.
+									{t('queue_popup_option_inappropriate_description')}
 								</div>
 							</button>
 
@@ -251,10 +253,10 @@
 							>
 								<div class="queue-option-header">
 									<AlertCircle size={24} />
-									<div class="queue-option-title">General Safety Check</div>
+									<div class="queue-option-title">{t('queue_popup_option_general_title')}</div>
 								</div>
 								<div class="queue-option-description">
-									I'm unsure but want this user analyzed for general safety assessment.
+									{t('queue_popup_option_general_description')}
 								</div>
 							</button>
 						</div>
@@ -263,8 +265,7 @@
 					<!-- General check selected: No specific flags needed -->
 					<div>
 						<p style:color="var(--color-text-subtle)" class="text-sm text-center">
-							This user will be analyzed for general safety concerns. No specific flagging reasons
-							required.
+							{t('queue_popup_general_check_message')}
 						</p>
 					</div>
 				{:else if submissionType === 'inappropriate' && !optionsLocked}
@@ -276,7 +277,7 @@
             mb-3 text-lg font-semibold
           "
 						>
-							Select flagging reason(s):
+							{t('queue_popup_flagging_reasons_heading')}
 						</h3>
 
 						<!-- Inappropriate Outfit Card -->
@@ -298,10 +299,10 @@
 						>
 							<div class="queue-option-header">
 								<Shirt class="outfit-icon" size={24} />
-								<div class="queue-option-title">Inappropriate Outfits</div>
+								<div class="queue-option-title">{t('queue_popup_outfit_title')}</div>
 							</div>
 							<div class="queue-option-description">
-								This user has inappropriate outfits or avatars.
+								{t('queue_popup_outfit_description')}
 							</div>
 						</div>
 
@@ -324,10 +325,10 @@
 						>
 							<div class="queue-option-header">
 								<Clipboard class="profile-icon" size={24} />
-								<div class="queue-option-title">Inappropriate Profile</div>
+								<div class="queue-option-title">{t('queue_popup_profile_title')}</div>
 							</div>
 							<div class="queue-option-description">
-								This user has inappropriate content in their username, display name, or description.
+								{t('queue_popup_profile_description')}
 							</div>
 						</div>
 
@@ -350,9 +351,9 @@
 						>
 							<div class="queue-option-header">
 								<User class="friends-icon" size={24} />
-								<div class="queue-option-title">Inappropriate Friends</div>
+								<div class="queue-option-title">{t('queue_popup_friends_title')}</div>
 							</div>
-							<div class="queue-option-description">This user has inappropriate friends.</div>
+							<div class="queue-option-description">{t('queue_popup_friends_description')}</div>
 						</div>
 
 						<!-- Inappropriate Groups Card -->
@@ -374,9 +375,9 @@
 						>
 							<div class="queue-option-header">
 								<Users class="groups-icon" size={24} />
-								<div class="queue-option-title">Inappropriate Groups</div>
+								<div class="queue-option-title">{t('queue_popup_groups_title')}</div>
 							</div>
-							<div class="queue-option-description">This user is in inappropriate groups.</div>
+							<div class="queue-option-description">{t('queue_popup_groups_description')}</div>
 						</div>
 					</div>
 
@@ -385,8 +386,8 @@
 						<div class="mb-4 queue-validation-error">
 							<div class="flex items-center gap-2">
 								<AlertCircle class="mature-content-warning-icon" size={32} />
-								<strong>Selection Required:</strong> Please select at least one flagging reason before
-								proceeding.
+								<strong>{t('queue_popup_validation_error_prefix')}</strong>
+								{t('queue_popup_validation_error_message')}
 							</div>
 						</div>
 					{/if}
@@ -398,10 +399,10 @@
 							onclick={handleLockOptions}
 							type="button"
 						>
-							Lock In My Selection
+							{t('queue_popup_lock_button')}
 						</button>
 						<p style:color="var(--color-text-subtle)" class="text-sm">
-							You must lock in your selection before submitting.
+							{t('queue_popup_lock_instruction')}
 						</p>
 					</div>
 				{:else}
@@ -413,7 +414,7 @@
             mb-4 text-lg font-semibold
           "
 						>
-							Selected Options:
+							{t('queue_popup_summary_heading')}
 						</h3>
 
 						<!-- Outfit Option Summary -->
@@ -439,11 +440,11 @@
 							</div>
 							<Shirt class="outfit-icon" size={24} />
 							<div class="queue-summary-content">
-								<div class="queue-summary-title">Inappropriate Outfits</div>
+								<div class="queue-summary-title">{t('queue_popup_outfit_title')}</div>
 								<div class="queue-summary-description">
 									{inappropriateOutfit
-										? 'Will be prioritized for inappropriate outfits'
-										: 'Not selected'}
+										? t('queue_popup_summary_outfit_selected')
+										: t('queue_popup_summary_outfit_unselected')}
 								</div>
 							</div>
 						</div>
@@ -471,11 +472,11 @@
 							</div>
 							<Clipboard class="profile-icon" size={24} />
 							<div class="queue-summary-content">
-								<div class="queue-summary-title">Inappropriate Profile</div>
+								<div class="queue-summary-title">{t('queue_popup_profile_title')}</div>
 								<div class="queue-summary-description">
 									{inappropriateProfile
-										? 'Will be prioritized for inappropriate profile content'
-										: 'Not selected'}
+										? t('queue_popup_summary_profile_selected')
+										: t('queue_popup_summary_profile_unselected')}
 								</div>
 							</div>
 						</div>
@@ -503,11 +504,11 @@
 							</div>
 							<User class="friends-icon" size={24} />
 							<div class="queue-summary-content">
-								<div class="queue-summary-title">Inappropriate Friends</div>
+								<div class="queue-summary-title">{t('queue_popup_friends_title')}</div>
 								<div class="queue-summary-description">
 									{inappropriateFriends
-										? 'Will be prioritized for inappropriate friends'
-										: 'Not selected'}
+										? t('queue_popup_summary_friends_selected')
+										: t('queue_popup_summary_friends_unselected')}
 								</div>
 							</div>
 						</div>
@@ -535,11 +536,11 @@
 							</div>
 							<Users class="groups-icon" size={24} />
 							<div class="queue-summary-content">
-								<div class="queue-summary-title">Inappropriate Groups</div>
+								<div class="queue-summary-title">{t('queue_popup_groups_title')}</div>
 								<div class="queue-summary-description">
 									{inappropriateGroups
-										? 'Will be prioritized for inappropriate groups'
-										: 'Not selected'}
+										? t('queue_popup_summary_groups_selected')
+										: t('queue_popup_summary_groups_unselected')}
 								</div>
 							</div>
 						</div>
@@ -547,10 +548,10 @@
 
 					<div class="flex flex-col items-center">
 						<button class="mature-content-confirm mb-4" onclick={handleUnlock} type="button">
-							Unlock Selection
+							{t('queue_popup_unlock_button')}
 						</button>
 						<p style:color="var(--color-text-subtle)" class="text-sm">
-							Click to unlock and modify your selection.
+							{t('queue_popup_unlock_instruction')}
 						</p>
 					</div>
 				{/if}
@@ -560,17 +561,17 @@
 		<div class="modal-content-section-info">
 			<h3 class="modal-content-heading">
 				<Check class="mr-2 text-blue-500" size={18} />
-				Review Process
+				{t('queue_popup_review_process_heading')}
 			</h3>
 			<ul class="modal-content-list">
 				<li class="modal-content-list-item-info">
-					Analyzed by AI algorithms to detect potential safety concerns
+					{t('queue_popup_review_process_step1')}
 				</li>
 				<li class="modal-content-list-item-info">
-					If flagged by AI, reviewed by human moderators for final confirmation
+					{t('queue_popup_review_process_step2')}
 				</li>
 				<li class="modal-content-list-item-info">
-					Results added to database with appropriate safety rating
+					{t('queue_popup_review_process_step3')}
 				</li>
 			</ul>
 		</div>
@@ -578,11 +579,11 @@
 		<div class="modal-content-section-warning">
 			<h3 class="modal-content-heading flex items-center">
 				<AlertTriangle class="mr-2 warning-triangle-icon" size={24} />
-				Important Warning
+				{t('queue_popup_warning_heading')}
 			</h3>
 			<p style:color="var(--color-text)" class="text-sm">
-				<strong>Misuse of this feature</strong> (like spamming submissions) may result in restrictions
-				on your account. Automated abuse detection is active.
+				<strong>{t('queue_popup_warning_message_prefix')}</strong>
+				{t('queue_popup_warning_message_suffix')}
 			</p>
 		</div>
 	</div>

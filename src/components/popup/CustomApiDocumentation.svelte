@@ -3,6 +3,7 @@
 	import Highlight from 'svelte-highlight';
 	import json from 'svelte-highlight/languages/json';
 	import 'svelte-highlight/styles/github-dark.css';
+	import { t } from '@/lib/stores/i18n';
 
 	interface Props {
 		onBack: () => void;
@@ -16,29 +17,28 @@
 	<div class="custom-api-header">
 		<button class="back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
-			<span>Back</span>
+			<span>{t('custom_api_docs_button_back')}</span>
 		</button>
-		<h2 class="custom-api-title">API Documentation</h2>
+		<h2 class="custom-api-title">{t('custom_api_docs_title')}</h2>
 	</div>
 
 	<p class="docs-intro">
-		Implement two endpoints that return user status data. All responses must use the wrapper format
-		with <code>success</code>, <code>data</code>, and <code>error</code> fields.
+		{t('custom_api_docs_intro')}
 	</p>
 
 	<!-- Single Lookup Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">Single User Lookup</h4>
+		<h4 class="docs-section-title">{t('custom_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
-			<span class="http-method http-method-get">GET</span>
+			<span class="http-method http-method-get">{t('custom_api_mgmt_http_method_get')}</span>
 			<code class="endpoint-url">{'{{your-api-url}}/{{userId}}'}</code>
 		</div>
 
-		<h5 class="docs-subtitle">Example Request</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_example_request')}</h5>
 		<pre class="code-block"><code>GET https://api.example.com/v1/lookup/roblox/user/123456789</code
 			></pre>
 
-		<h5 class="docs-subtitle">Success Response</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_success_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -78,7 +78,7 @@
 			language={json}
 		/>
 
-		<h5 class="docs-subtitle">Error Response</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_error_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -91,71 +91,70 @@
 			language={json}
 		/>
 
-		<h5 class="docs-subtitle">Required Fields (in data object)</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_required_fields')}</h5>
 		<ul class="docs-list">
-			<li><code>id</code> (number) - User ID as integer</li>
-			<li><code>flagType</code> (number) - 0-6 flag type (see below)</li>
+			<li>{t('custom_api_docs_field_id')}</li>
+			<li>{t('custom_api_docs_field_flag_type')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">Optional Fields (in data object)</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_optional_fields')}</h5>
 		<ul class="docs-list">
-			<li><code>confidence</code> (number) - 0.0-1.0 confidence level</li>
+			<li>{t('custom_api_docs_field_confidence')}</li>
 			<li>
-				<code>reasons</code> (object) - String-based reason names as keys, each with:
+				{t('custom_api_docs_field_reasons')}
 				<ul class="docs-list ml-6 mt-2">
-					<li><code>message</code> (string) - Reason description</li>
-					<li><code>confidence</code> (number) - 0.0-1.0 confidence</li>
-					<li><code>evidence</code> (array or null) - Evidence strings or null</li>
+					<li>{t('custom_api_docs_field_message')}</li>
+					<li>{t('custom_api_docs_field_confidence_reason')}</li>
+					<li>{t('custom_api_docs_field_evidence')}</li>
 				</ul>
 			</li>
 			<li>
-				<code>reviewer</code> (object) - <code>username</code> and <code>displayName</code>
+				{t('custom_api_docs_field_reviewer')}
 			</li>
-			<li><code>engineVersion</code> (string) - Analysis engine version</li>
-			<li><code>lastUpdated</code> (number) - Unix timestamp</li>
+			<li>{t('custom_api_docs_field_engine_version')}</li>
+			<li>{t('custom_api_docs_field_last_updated')}</li>
 			<li>
-				<code>badges</code> (array) - Up to 3 custom badge objects for visual status indicators
+				{t('custom_api_docs_field_badges')}
 				<ul class="docs-list ml-6 mt-2">
-					<li><code>text</code> (string, required) - Badge label text</li>
+					<li>{t('custom_api_docs_field_badge_text')}</li>
 					<li>
-						<code>color</code> (string, optional) - Background color (hex, rgb, or named color)
+						{t('custom_api_docs_field_badge_color')}
 					</li>
-					<li><code>textColor</code> (string, optional) - Text color for contrast</li>
+					<li>{t('custom_api_docs_field_badge_text_color')}</li>
 				</ul>
 			</li>
 		</ul>
 
-		<h5 class="docs-subtitle">Flag Types</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_flag_types')}</h5>
 		<ul class="docs-list">
-			<li><code>0</code> - Safe</li>
-			<li><code>1</code> - Pending</li>
-			<li><code>2</code> - Unsafe (recommended)</li>
-			<li><code>3</code> - Queued</li>
-			<li><code>4</code> - Unused</li>
-			<li><code>5</code> - Mixed</li>
-			<li><code>6</code> - Past Offender</li>
+			<li><code>0</code> - {t('custom_api_docs_flag_type_0')}</li>
+			<li><code>1</code> - {t('custom_api_docs_flag_type_1')}</li>
+			<li><code>2</code> - {t('custom_api_docs_flag_type_2')}</li>
+			<li><code>3</code> - {t('custom_api_docs_flag_type_3')}</li>
+			<li><code>4</code> - {t('custom_api_docs_flag_type_4')}</li>
+			<li><code>5</code> - {t('custom_api_docs_flag_type_5')}</li>
+			<li><code>6</code> - {t('custom_api_docs_flag_type_6')}</li>
 		</ul>
 		<p class="docs-note">
-			Flag type 2 (Unsafe) is the primary type you need for indicating inappropriate users. Use
-			other flag types only if you have a specific reason for categorizing users differently.
+			{t('custom_api_docs_flag_type_2_note')}
 		</p>
 	</div>
 
 	<!-- Batch Lookup Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">Batch User Lookup</h4>
+		<h4 class="docs-section-title">{t('custom_api_docs_section_batch_lookup')}</h4>
 		<div class="docs-endpoint">
-			<span class="http-method">POST</span>
+			<span class="http-method">{t('custom_api_mgmt_http_method_post')}</span>
 			<code class="endpoint-url">{'{{your-api-url}}'}</code>
 		</div>
 
-		<h5 class="docs-subtitle">Example Request</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_example_request')}</h5>
 		<pre class="code-block"><code>POST https://api.example.com/v1/lookup/roblox/user</code></pre>
 
-		<h5 class="docs-subtitle">Request Body</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_request_body')}</h5>
 		<Highlight code={JSON.stringify({ ids: [123456789, 987654321] }, null, 2)} language={json} />
 
-		<h5 class="docs-subtitle">Success Response</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_success_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -179,7 +178,7 @@
 			language={json}
 		/>
 
-		<h5 class="docs-subtitle">Error Response</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_error_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -193,48 +192,35 @@
 		/>
 
 		<p class="docs-note">
-			The <code>data</code> field contains an object where keys are user IDs (as strings) and values
-			are user status objects.
+			{t('custom_api_docs_note_batch_data')}
 		</p>
 	</div>
 
 	<!-- Notes Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">Important Notes</h4>
+		<h4 class="docs-section-title">{t('custom_api_docs_section_notes')}</h4>
 
-		<h5 class="docs-subtitle">HTTPS Required</h5>
-		<p class="docs-note">All API endpoints must use HTTPS for security.</p>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_https')}</h5>
+		<p class="docs-note">{t('custom_api_docs_note_https')}</p>
 
-		<h5 class="docs-subtitle">Wrapper Format</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_wrapper')}</h5>
 		<p class="docs-note">
-			All responses must use <code>{'{success, data, error}'}</code> format. When
-			<code>success: true</code>, include <code>data</code> field. When
-			<code>success: false</code>, include <code>error</code> message.
+			{t('custom_api_docs_note_wrapper')}
 		</p>
 
-		<h5 class="docs-subtitle">Reason Keys</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_reason_keys')}</h5>
 		<p class="docs-note">
-			Use descriptive string names for reason keys (e.g., "High Risk Pattern", "Suspicious
-			Activity"), not numeric indices. These display directly in tooltips.
+			{t('custom_api_docs_note_reason_keys')}
 		</p>
 
-		<h5 class="docs-subtitle">Badges</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_badges')}</h5>
 		<p class="docs-note">
-			Badges are small visual indicators that appear in user tooltips alongside the flag status.
-			They display at the top of the tooltip to quickly communicate additional context about a user.
-			Use badges to highlight important status information like verification status, priority
-			levels, or special categories. Common examples: "Verified Unsafe", "High Priority", "Community
-			Reported", "Auto-Detected".
+			{t('custom_api_docs_note_badges')}
 		</p>
 
-		<h5 class="docs-subtitle">Badge Colors</h5>
+		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_badge_colors')}</h5>
 		<p class="docs-note">
-			Badge colors support multiple formats: hex codes (<code>#ef4444</code>), RGB (<code
-				>rgb(239, 68, 68)</code
-			>), RGBA (<code>rgba(239, 68, 68, 0.9)</code>), or named colors (<code>red</code>). When
-			<code>color</code>
-			is not specified, badges use a default teal color. When <code>textColor</code> is not specified,
-			badges use white text.
+			{t('custom_api_docs_note_badge_colors')}
 		</p>
 	</div>
 </div>

@@ -10,6 +10,7 @@
 	import { themeManager } from '@/lib/utils/theme';
 	import type { SettingsPageInstance } from '@/lib/types/components';
 	import { logger } from '@/lib/utils/logger';
+	import { t } from '@/lib/stores/i18n';
 
 	type Page = 'stats' | 'settings' | 'warzone' | 'custom-apis' | 'custom-api-docs';
 
@@ -93,8 +94,7 @@
       dark:text-text-subtle-dark
     "
 		>
-			Real-time safety indicators that warn you about inappropriate Roblox users before you interact
-			with them.
+			{t('popup_header_description')}
 		</p>
 	</div>
 

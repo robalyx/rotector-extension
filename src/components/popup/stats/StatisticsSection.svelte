@@ -10,6 +10,7 @@
 		statisticsState
 	} from '@/lib/stores/statistics';
 	import { logger } from '@/lib/utils/logger';
+	import { t } from '@/lib/stores/i18n';
 
 	let isRefreshing = $state(false);
 
@@ -49,13 +50,13 @@
       dark:text-text-heading-dark
     "
 		>
-			System Statistics
+			{t('stats_statistics_title')}
 		</h2>
 		<button
 			class="refresh-stats-button"
 			disabled={isRefreshing}
 			onclick={handleRefresh}
-			title="Refresh Statistics"
+			title={t('stats_statistics_refresh')}
 			type="button"
 		>
 			<span class="inline-block size-4 transition-transform duration-300">
@@ -80,11 +81,11 @@
     "
 		>
 			<LoadingSpinner size="medium" />
-			<span>Loading statistics...</span>
+			<span>{t('stats_statistics_loading')}</span>
 		</div>
 	{:else if $statisticsState === 'error'}
 		<div class="py-8 text-center">
-			<div class="text-error mb-3 text-sm font-medium">Failed to load statistics</div>
+			<div class="text-error mb-3 text-sm font-medium">{t('stats_statistics_error')}</div>
 			<button
 				style:background-color="var(--color-primary)"
 				class="
@@ -96,26 +97,26 @@
 				onclick={handleRefresh}
 				type="button"
 			>
-				Retry
+				{t('stats_statistics_retry')}
 			</button>
 		</div>
 	{:else if $statistics}
 		<div class="stat-grid">
 			<!-- Users -->
 			<div class="stat-category">
-				<h3 class="stat-category-title">Users</h3>
+				<h3 class="stat-category-title">{t('stats_statistics_users_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalFlaggedUsers)}
 						</div>
-						<div class="stat-label">Flagged</div>
+						<div class="stat-label">{t('stats_statistics_flagged')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalConfirmedUsers)}
 						</div>
-						<div class="stat-label">Confirmed</div>
+						<div class="stat-label">{t('stats_statistics_confirmed')}</div>
 					</div>
 				</div>
 				<div class="mt-3 text-center">
@@ -133,26 +134,26 @@
                 "
 						/>
 						<span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
-						other users banned by Roblox
+						{t('stats_statistics_users_desc')}
 					</div>
 				</div>
 			</div>
 
 			<!-- Groups -->
 			<div class="stat-category">
-				<h3 class="stat-category-title">Groups</h3>
+				<h3 class="stat-category-title">{t('stats_statistics_groups_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalFlaggedGroups)}
 						</div>
-						<div class="stat-label">Flagged</div>
+						<div class="stat-label">{t('stats_statistics_flagged')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalConfirmedGroups)}
 						</div>
-						<div class="stat-label">Confirmed</div>
+						<div class="stat-label">{t('stats_statistics_confirmed')}</div>
 					</div>
 				</div>
 				<div class="mt-3 text-center">
@@ -170,33 +171,33 @@
                 "
 						/>
 						<span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
-						groups with mixed content
+						{t('stats_statistics_groups_desc')}
 					</div>
 				</div>
 			</div>
 
 			<!-- Community -->
 			<div class="col-span-full stat-category">
-				<h3 class="stat-category-title">Community</h3>
+				<h3 class="stat-category-title">{t('stats_statistics_community_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalVotesCast)}
 						</div>
-						<div class="stat-label">Total Votes Cast</div>
+						<div class="stat-label">{t('stats_statistics_votes')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalQueuedUsers)}
 						</div>
-						<div class="stat-label">Queued Users</div>
+						<div class="stat-label">{t('stats_statistics_queued')}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="statistics-last-updated">
-			Last updated: <span class="last-updated-time">{$lastUpdatedFormatted}</span>
+			{t('stats_statistics_updated')} <span class="last-updated-time">{$lastUpdatedFormatted}</span>
 		</div>
 	{/if}
 </div>

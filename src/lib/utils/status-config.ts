@@ -1,5 +1,6 @@
 import { STATUS } from '../types/constants';
 import { calculateStatusBadges } from './status-utils';
+import { t } from '../stores/i18n';
 import type { GroupStatus, UserStatus } from '../types/api';
 import type { StatusIconName } from './icon-mapping';
 
@@ -26,7 +27,7 @@ export function getStatusConfig(
 		return {
 			iconName: 'error',
 			iconColor: '#999',
-			textContent: 'Error',
+			textContent: t('tooltip_status_unknown'),
 			textClass: 'status-text-error',
 			confidence: null,
 			isReportable: false,
@@ -41,7 +42,7 @@ export function getStatusConfig(
 		return {
 			iconName: 'loading',
 			iconColor: '#666',
-			textContent: 'Checking...',
+			textContent: t('tooltip_status_checking'),
 			textClass: '',
 			confidence: null,
 			isReportable: false,
@@ -67,7 +68,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'safe',
 				iconColor: '#888888',
-				textContent: 'Not Flagged',
+				textContent: t('tooltip_status_not_flagged'),
 				textClass: 'status-text-safe'
 			};
 		case STATUS.FLAGS.UNSAFE:
@@ -75,7 +76,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'unsafe',
 				iconColor: '#ff4444',
-				textContent: 'Unsafe',
+				textContent: t('tooltip_status_unsafe'),
 				textClass: 'status-text-unsafe'
 			};
 		case STATUS.FLAGS.PENDING:
@@ -83,7 +84,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'pending',
 				iconColor: '#ff9800',
-				textContent: `Under Review (${confidence}%)`,
+				textContent: `${t('tooltip_status_under_review')} (${confidence}%)`,
 				textClass: 'status-text-pending'
 			};
 		case STATUS.FLAGS.QUEUED: {
@@ -94,7 +95,7 @@ export function getStatusConfig(
 					...baseConfig,
 					iconName: 'likely-safe',
 					iconColor: '#44cc44',
-					textContent: 'Likely Safe',
+					textContent: t('tooltip_status_likely_safe'),
 					textClass: 'status-text-likely-safe',
 					isQueued: false
 				};
@@ -104,7 +105,7 @@ export function getStatusConfig(
 					...baseConfig,
 					iconName: 'checking',
 					iconColor: '#999',
-					textContent: 'Checking...',
+					textContent: t('tooltip_status_checking'),
 					textClass: 'status-text-checking',
 					isQueued: true
 				};
@@ -115,7 +116,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'integration',
 				iconColor: '#14b8a6',
-				textContent: `Integration (${confidence}%)`,
+				textContent: `${t('tooltip_status_integration')} (${confidence}%)`,
 				textClass: 'status-text-integration'
 			};
 		case STATUS.FLAGS.MIXED:
@@ -125,7 +126,7 @@ export function getStatusConfig(
 					...baseConfig,
 					iconName: 'mixed',
 					iconColor: '#f97316',
-					textContent: 'Mixed',
+					textContent: t('tooltip_status_mixed'),
 					textClass: 'status-text-mixed'
 				};
 			} else {
@@ -133,7 +134,7 @@ export function getStatusConfig(
 					...baseConfig,
 					iconName: 'unsafe',
 					iconColor: '#ff4444',
-					textContent: 'Mixed',
+					textContent: t('tooltip_status_mixed'),
 					textClass: 'status-text-unsafe',
 					isOutfitOnly: false
 				};
@@ -143,7 +144,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'past-offender',
 				iconColor: '#4a9eff',
-				textContent: 'Past Offender',
+				textContent: t('tooltip_status_past_offender'),
 				textClass: 'status-text-past-offender'
 			};
 		default:
@@ -151,7 +152,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'error',
 				iconColor: '#999',
-				textContent: 'Unknown',
+				textContent: t('tooltip_status_unknown'),
 				textClass: 'status-text-error',
 				isReportable: false,
 				isQueued: false,

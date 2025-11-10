@@ -8,6 +8,7 @@
 		logout
 	} from '../../../lib/stores/auth';
 	import type { ExtensionUserProfile } from '../../../lib/types/api';
+	import { t } from '../../../lib/stores/i18n';
 	import { logger } from '../../../lib/utils/logger';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 
@@ -52,10 +53,7 @@
 	}
 
 	async function handleLogout() {
-		const confirmed = confirm(
-			'Are you sure you want to logout?\n\n' +
-				'You can login again anytime using your Discord account.'
-		);
+		const confirmed = confirm(t('warzone_hunter_confirm_logout'));
 
 		if (!confirmed) return;
 
@@ -75,33 +73,34 @@
 </script>
 
 <div class="hunter-section">
-	<h3 class="hunter-title">War Zone Hunter</h3>
+	<h3 class="hunter-title">{t('warzone_hunter_title')}</h3>
 
 	{#if $authStore.isLoading}
 		<div class="hunter-loading">
 			<LoadingSpinner />
-			<p class="loading-text">Connecting...</p>
+			<p class="loading-text">{t('warzone_hunter_loading_connecting')}</p>
 		</div>
 	{:else if !$authStore.isAuthenticated}
 		<div class="hunter-signup">
 			<p class="hunter-description">
-				Join the community to report high-risk confirmed users. Work together with hunters worldwide
-				to increase takedown success and make Roblox safer for everyone.
+				{t('warzone_hunter_signup_description')}
 			</p>
 
 			<ul class="hunter-features">
-				<li>Report high-risk confirmed users</li>
-				<li>Help clean up the platform and remove bad actors</li>
-				<li>Work with the community for higher takedown success</li>
-				<li>Earn points and climb the leaderboard</li>
+				<li>{t('warzone_hunter_feature_report')}</li>
+				<li>{t('warzone_hunter_feature_cleanup')}</li>
+				<li>{t('warzone_hunter_feature_community')}</li>
+				<li>{t('warzone_hunter_feature_leaderboard')}</li>
 			</ul>
 
 			<!-- Beta Notice -->
 			<div class="beta-notice">
-				<strong>Closed Beta:</strong> Only available to selected users. Join our
+				<strong>{t('warzone_hunter_beta_label')}</strong>
+				{t('warzone_hunter_beta_text_before_link')}
 				<a href="https://discord.gg/2Cn7kXqqhY" rel="noopener noreferrer" target="_blank"
-					>Discord server</a
-				> for updates.
+					>{t('warzone_hunter_beta_discord_link')}</a
+				>
+				{t('warzone_hunter_beta_text_after_link')}
 			</div>
 
 			<div class="hunter-actions">
@@ -113,9 +112,9 @@
 				>
 					{#if isLoggingIn}
 						<LoadingSpinner size="small" />
-						Connecting...
+						{t('warzone_hunter_loading_connecting')}
 					{:else}
-						Login with Discord
+						{t('warzone_hunter_button_login')}
 					{/if}
 				</button>
 			</div>
@@ -131,11 +130,15 @@
 			<div class="hunter-stats">
 				<div class="stat-item">
 					<span class="stat-value">{formatPoints($authStore.profile.totalPoints)}</span>
-					<span class="stat-label">Points</span>
+					<span class="stat-label">{t('warzone_hunter_stat_points')}</span>
 				</div>
 				<div class="stat-item">
-					<span class="stat-value">{$authStore.profile.isAnonymous ? 'Anonymous' : 'Public'}</span>
-					<span class="stat-label">Status</span>
+					<span class="stat-value"
+						>{$authStore.profile.isAnonymous
+							? t('warzone_hunter_status_anonymous')
+							: t('warzone_hunter_status_public')}</span
+					>
+					<span class="stat-label">{t('warzone_hunter_stat_status')}</span>
 				</div>
 			</div>
 
@@ -143,7 +146,7 @@
 				{#if $authStore.profile.discordAvatar && $authStore.profile.discordUserId}
 					<img
 						class="discord-avatar"
-						alt="Discord Avatar"
+						alt={t('warzone_hunter_discord_avatar_alt')}
 						src={`https://cdn.discordapp.com/avatars/${$authStore.profile.discordUserId}/${$authStore.profile.discordAvatar}.png?size=32`}
 					/>
 				{/if}
@@ -151,11 +154,12 @@
 			</div>
 
 			<p class="hunter-welcome">
-				Welcome, Hunter! You can now participate in War Zone activities and help protect the Roblox
-				community. Visit the Roblox homepage to start your hunting missions.
+				{t('warzone_hunter_welcome_message')}
 			</p>
 
-			<button class="hunter-logout-button" onclick={handleLogout} type="button"> Logout </button>
+			<button class="hunter-logout-button" onclick={handleLogout} type="button">
+				{t('warzone_hunter_button_logout')}
+			</button>
 		</div>
 	{/if}
 </div>

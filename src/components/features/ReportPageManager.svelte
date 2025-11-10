@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
+	import { t } from '@/lib/stores/i18n';
 	import { settings } from '@/lib/stores/settings';
 	import { authStore } from '@/lib/stores/auth';
 	import { logger } from '@/lib/utils/logger';
@@ -86,7 +87,8 @@
 		try {
 			// Extract category from the dropdown
 			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
-			const category = categoryElement?.textContent?.trim() || 'Unknown Category';
+			const category =
+				categoryElement?.textContent?.trim() || t('report_page_manager_unknown_category');
 
 			// Extract comment from the textarea
 			const commentTextarea = document.querySelector(
@@ -95,9 +97,9 @@
 			const comment = commentTextarea?.value?.trim() || '';
 
 			// Build report reason
-			let reportReason = `Category: ${category}`;
+			let reportReason = t('report_page_manager_category_prefix', [category]);
 			if (comment) {
-				reportReason += `\n\nComment: ${comment}`;
+				reportReason += t('report_page_manager_comment_prefix', [comment]);
 			}
 
 			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
@@ -212,18 +214,14 @@
 			// Insert before the form
 			formContainer.parentNode?.insertBefore(container, formContainer);
 
-			// Mount ReportHelper as a card
+			// Mount ReportHelper card
 			if (userId) {
 				const { mount } = await import('svelte');
 				const component = mount(ReportHelper, {
 					target: container,
 					props: {
-						isOpen: true,
-						isCard: true,
-						userId: userId,
 						status: userStatus,
-						onFillForm: handleFillForm,
-						onClose: () => {}
+						onFillForm: handleFillForm
 					}
 				});
 
@@ -247,19 +245,18 @@
 	// Handle fill form button click
 	async function handleFillForm(): Promise<void> {
 		// Build comment text
-		let commentText =
-			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
+		let commentText = t('report_page_manager_report_intro');
 
 		const profileReason = userStatus?.reasons?.['0'];
 
 		if (profileReason?.message) {
-			commentText += `Detected Issue:\n${profileReason.message}\n\n`;
+			commentText += t('report_page_manager_detected_issue_label') + profileReason.message + '\n\n';
 		}
 
 		// Add evidence if advanced info is enabled
 		const currentSettings = get(settings);
 		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
-			commentText += 'Evidence Snippets:\n';
+			commentText += t('report_page_manager_evidence_label');
 			profileReason.evidence.forEach((snippet: string, index: number) => {
 				commentText += `${index + 1}. ${snippet}\n`;
 			});
@@ -309,7 +306,7 @@
 			});
 
 			// Show success message
-			showMessage('success', 'Form filled successfully! Review and submit when ready.');
+			showMessage('success', t('report_page_manager_success_message'));
 
 			logger.debug('Report form filled successfully');
 		} catch (error) {
@@ -323,16 +320,10 @@
 			// Copy to clipboard as fallback
 			try {
 				await navigator.clipboard.writeText(commentText);
-				showMessage(
-					'error',
-					'Auto-fill unavailable. Report text copied to clipboard. You can paste it into the comment field manually.'
-				);
+				showMessage('error', t('report_page_manager_autofill_failed_clipboard'));
 			} catch (clipboardError) {
 				logger.error('Clipboard copy failed:', clipboardError);
-				showMessage(
-					'error',
-					'Auto-fill failed. Please manually fill the report form with the appropriate details.'
-				);
+				showMessage('error', t('report_page_manager_autofill_failed'));
 			}
 		}
 	}

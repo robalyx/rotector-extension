@@ -7,6 +7,7 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { SettingsSectionInstance } from '@/lib/types/components';
 	import { logger } from '@/lib/utils/logger';
+	import { t } from '@/lib/stores/i18n';
 
 	interface Props {
 		settingsSection?: SettingsSectionInstance;
@@ -66,9 +67,9 @@
 				<!-- Close button -->
 				<button
 					class="advanced-violation-banner-dismiss"
-					aria-label="Dismiss recommendation banner"
+					aria-label={t('banner_advanced_violation_aria_dismiss')}
 					onclick={handleDismiss}
-					title="Dismiss recommendation"
+					title={t('banner_advanced_violation_title_dismiss')}
 					type="button"
 				>
 					<svg
@@ -82,15 +83,15 @@
 					</svg>
 				</button>
 				<p class="advanced-violation-banner-message">
-					Enable advanced violation details for better insights
+					{t('banner_advanced_violation_message')}
 				</p>
 				<button
 					class="advanced-violation-banner-enable"
 					onclick={handleGoToSetting}
-					title="Go to advanced violation details setting"
+					title={t('banner_advanced_violation_title_go_to_setting')}
 					type="button"
 				>
-					Go to Setting
+					{t('banner_advanced_violation_button_go_to_setting')}
 				</button>
 			</div>
 		</div>

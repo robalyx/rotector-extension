@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { WarMapState } from '../../../lib/types/api';
 	import { apiClient } from '../../../lib/services/api-client';
+	import { t } from '../../../lib/stores/i18n';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import MajorOrderCard from './MajorOrderCard.svelte';
 	import HexagonalZoneMap from './HexagonalZoneMap.svelte';
@@ -31,7 +32,7 @@
 		try {
 			warMap = await apiClient.getWarMap();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Failed to load war map';
+			error = err instanceof Error ? err.message : t('warzone_overview_error_load');
 		} finally {
 			isLoading = false;
 		}
@@ -51,11 +52,11 @@
 			const error = err as Error & { status?: number };
 
 			if (error.status === 404) {
-				findUserError = 'No reportable users available. Check back later!';
+				findUserError = t('warzone_overview_error_no_users');
 			} else if (error.status === 403) {
-				findUserError = 'Authentication expired. Please logout and login again.';
+				findUserError = t('warzone_overview_error_auth_expired');
 			} else {
-				findUserError = error.message || 'Failed to find reportable user. Please try again.';
+				findUserError = error.message || t('warzone_overview_error_find_user');
 			}
 		} finally {
 			isFindingUser = false;
@@ -66,18 +67,20 @@
 {#if isLoading}
 	<div class="war-zone-loading">
 		<LoadingSpinner />
-		<p class="war-zone-loading-text">Loading war map...</p>
+		<p class="war-zone-loading-text">{t('warzone_overview_loading')}</p>
 	</div>
 {:else if error}
 	<div class="war-zone-error-container">
 		<p class="error-message">{error}</p>
-		<button class="retry-button" onclick={loadWarMap} type="button"> Retry </button>
+		<button class="retry-button" onclick={loadWarMap} type="button">
+			{t('warzone_common_button_retry')}
+		</button>
 	</div>
 {:else if warMap}
 	<div class="war-zone-overview">
 		<!-- Zones Section -->
 		<div class="zones-section">
-			<h4 class="section-title">War Zones</h4>
+			<h4 class="section-title">{t('warzone_overview_section_zones')}</h4>
 			<HexagonalZoneMap {onZoneSelect} zones={warMap.zones} />
 		</div>
 
@@ -91,9 +94,9 @@
 			>
 				{#if isFindingUser}
 					<LoadingSpinner size="small" />
-					Finding user...
+					{t('warzone_overview_finding_user_loading')}
 				{:else}
-					Find User to Report
+					{t('warzone_overview_button_find_user')}
 				{/if}
 			</button>
 			{#if findUserError}
@@ -104,7 +107,7 @@
 		<!-- Active Targets Section -->
 		{#if warMap.activeTargets && warMap.activeTargets.length > 0}
 			<div class="targets-section">
-				<h4 class="section-title">Active Targets</h4>
+				<h4 class="section-title">{t('warzone_overview_section_targets')}</h4>
 				<div class="targets-grid">
 					{#each warMap.activeTargets as target (target.id)}
 						<TargetCard {target} />
@@ -115,39 +118,39 @@
 
 		<!-- Global Statistics Card -->
 		<div class="war-zone-stats-card">
-			<h4 class="war-zone-stats-title">Global War Statistics</h4>
+			<h4 class="war-zone-stats-title">{t('warzone_overview_section_global_stats')}</h4>
 			<div class="war-zone-stats-grid overview-stats-grid">
 				<div class="war-zone-stat-item">
 					<span class="war-zone-stat-value">{warMap.globalStats.totalZones}</span>
-					<span class="war-zone-stat-label">Total Zones</span>
+					<span class="war-zone-stat-label">{t('warzone_overview_stat_total_zones')}</span>
 				</div>
 				<div class="war-zone-stat-item">
 					<span class="war-zone-stat-value">{warMap.globalStats.averageLiberation.toFixed(1)}%</span
 					>
-					<span class="war-zone-stat-label">Avg Liberation</span>
+					<span class="war-zone-stat-label">{t('warzone_overview_stat_avg_liberation')}</span>
 				</div>
 				<div class="war-zone-stat-item">
 					<span class="war-zone-stat-value">{warMap.globalStats.totalBanned.toLocaleString()}</span>
-					<span class="war-zone-stat-label">Total Banned</span>
+					<span class="war-zone-stat-label">{t('warzone_overview_stat_total_banned')}</span>
 				</div>
 				<div class="war-zone-stat-item">
 					<span class="war-zone-stat-value">{warMap.globalStats.totalTargets.toLocaleString()}</span
 					>
-					<span class="war-zone-stat-label">Active Targets</span>
+					<span class="war-zone-stat-label">{t('warzone_overview_stat_active_targets')}</span>
 				</div>
 			</div>
 		</div>
 
 		<!-- Global Historical Trends -->
 		<div class="war-zone-stats-card">
-			<h4 class="war-zone-stats-title">Global Trends (30 Days)</h4>
+			<h4 class="war-zone-stats-title">{t('warzone_overview_section_global_trends')}</h4>
 			<WarZoneHistoryChart mode="global" />
 		</div>
 
 		<!-- Major Orders Section -->
 		{#if warMap.majorOrders && warMap.majorOrders.length > 0}
 			<div class="major-orders-section">
-				<h4 class="section-title">Active Major Orders</h4>
+				<h4 class="section-title">{t('warzone_overview_section_major_orders')}</h4>
 				<div class="major-orders-list">
 					{#each warMap.majorOrders.filter((o) => o.isActive) as order (order.id)}
 						<MajorOrderCard {order} />

@@ -1,0 +1,1646 @@
+{
+	"popup_header_description": {
+		"message": "即時安全指標，在您與 Roblox 使用者互動之前警告您不當內容。"
+	},
+	"banner_advanced_violation_aria_dismiss": {
+		"message": "關閉建議橫幅"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "關閉建議"
+	},
+	"banner_advanced_violation_message": {
+		"message": "啟用進階違規詳情以獲得更好的洞察"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "前往進階違規詳情設定"
+	},
+	"banner_advanced_violation_button_go_to_setting": {
+		"message": "前往設定"
+	},
+	"banner_changelog_message": {
+		"message": "已發布新的更新 $1！"
+	},
+	"banner_changelog_aria_dismiss": {
+		"message": "關閉更新日誌橫幅"
+	},
+	"banner_changelog_title_view_details": {
+		"message": "查看完整更新日誌詳情"
+	},
+	"banner_changelog_title_dismiss": {
+		"message": "關閉更新日誌"
+	},
+	"banner_changelog_button_view_details": {
+		"message": "查看詳情"
+	},
+	"navbar_tab_stats": {
+		"message": "統計"
+	},
+	"navbar_tab_warzone": {
+		"message": "War Zone"
+	},
+	"navbar_tab_settings": {
+		"message": "設定"
+	},
+	"navbar_settings_tooltip": {
+		"message": "設定（Alt+點擊開啟開發者模式）"
+	},
+	"footer_discord": {
+		"message": "Discord"
+	},
+	"footer_github": {
+		"message": "GitHub"
+	},
+	"footer_source_code": {
+		"message": "原始碼"
+	},
+	"footer_help": {
+		"message": "說明與關於"
+	},
+	"footer_privacy": {
+		"message": "隱私權政策"
+	},
+	"footer_terms": {
+		"message": "服務條款"
+	},
+	"footer_made_by": {
+		"message": "由 jaxron 製作"
+	},
+	"settings_developer_unlocked": {
+		"message": "開發者模式已解鎖！進階設定現已可用。"
+	},
+	"settings_theme_light": {
+		"message": "淺色"
+	},
+	"settings_theme_dark": {
+		"message": "深色"
+	},
+	"settings_theme_auto": {
+		"message": "自動"
+	},
+	"settings_api_system_label": {
+		"message": "（系統）"
+	},
+	"settings_manage_apis_button": {
+		"message": "管理 API 整合"
+	},
+	"settings_api_count_singular": {
+		"message": "（$1 個 API）"
+	},
+	"settings_api_count_plural": {
+		"message": "（$1 個 API）"
+	},
+	"settings_api_key_label": {
+		"message": "API 金鑰（選用）"
+	},
+	"settings_api_key_placeholder": {
+		"message": "輸入您的 API 金鑰"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "顯示/隱藏 API 金鑰"
+	},
+	"settings_api_key_hide": {
+		"message": "隱藏"
+	},
+	"settings_api_key_show": {
+		"message": "顯示"
+	},
+	"settings_developer_hide_button": {
+		"message": "隱藏開發者設定"
+	},
+	"settings_category_content_display": {
+		"message": "內容顯示"
+	},
+	"settings_category_integrations": {
+		"message": "整合"
+	},
+	"settings_category_page_settings": {
+		"message": "頁面設定"
+	},
+	"settings_category_developer": {
+		"message": "開發者"
+	},
+	"settings_label_theme": {
+		"message": "主題"
+	},
+	"settings_label_advanced_violations": {
+		"message": "顯示進階違規詳情"
+	},
+	"settings_label_home_page": {
+		"message": "首頁"
+	},
+	"settings_label_profile_pages": {
+		"message": "個人檔案頁面"
+	},
+	"settings_label_friends_pages": {
+		"message": "好友頁面"
+	},
+	"settings_label_groups_pages": {
+		"message": "群組頁面"
+	},
+	"settings_label_search_pages": {
+		"message": "搜尋頁面"
+	},
+	"settings_label_report_helper": {
+		"message": "檢舉助手"
+	},
+	"settings_label_debug_logging": {
+		"message": "啟用偵錯記錄"
+	},
+	"settings_label_cache_duration": {
+		"message": "快取持續時間（分鐘）"
+	},
+	"settings_help_theme": {
+		"message": "自動模式會跟隨 Roblox 的主題設定。淺色和深色會覆蓋此偏好。"
+	},
+	"settings_help_advanced_violations": {
+		"message": "顯示詳細的違規訊息和證據。可能包含成人內容。"
+	},
+	"settings_help_debug_logging": {
+		"message": "在瀏覽器控制台（F12 -> 主控台）中顯示詳細記錄以進行故障排除。"
+	},
+	"settings_help_cache_duration": {
+		"message": "快取使用者狀態資料的時間長度（1-10 分鐘）。較高的值會減少 API 呼叫，但可能顯示過時的資訊。"
+	},
+	"settings_modal_title": {
+		"message": "進階詳情警告"
+	},
+	"settings_modal_confirm_button": {
+		"message": "啟用進階詳情"
+	},
+	"settings_modal_warning_intro": {
+		"message": "進階違規詳情可能包含敏感內容"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "這些內容來自違反平台政策的使用者個人檔案和活動。"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "啟用後您將看到："
+	},
+	"settings_modal_enabled_item1": {
+		"message": "詳細的違規訊息，說明使用者被標記的原因"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "包含違反政策內容的證據片段"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "使用者個人檔案和活動中的具體違規範例"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "重要注意事項"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "內容可能包含違反平台社群標準的資料"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "此資訊僅供審核和安全目的使用"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "如果您不想查看詳細的違規證據，請保持此設定為停用"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "您可以隨時在設定中停用此功能"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "建議："
+	},
+	"settings_modal_recommendation_text": {
+		"message": "僅在您需要詳細違規資訊以進行審核時啟用此功能，並瞭解您可能會看到違反社群準則的內容。"
+	},
+	"stats_changelog_type_added": {
+		"message": "新增"
+	},
+	"stats_changelog_type_changed": {
+		"message": "變更"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "已棄用"
+	},
+	"stats_changelog_type_removed": {
+		"message": "移除"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "修正"
+	},
+	"stats_changelog_type_security": {
+		"message": "安全性"
+	},
+	"stats_changelog_type_update": {
+		"message": "更新"
+	},
+	"stats_changelog_title": {
+		"message": "更新日誌"
+	},
+	"stats_changelog_empty": {
+		"message": "沒有可用的更新日誌項目。"
+	},
+	"stats_financial_title": {
+		"message": "募資目標"
+	},
+	"stats_financial_raised": {
+		"message": "已募得"
+	},
+	"stats_financial_surplus": {
+		"message": "盈餘"
+	},
+	"stats_financial_remaining": {
+		"message": "剩餘"
+	},
+	"stats_financial_kofi_title": {
+		"message": "在 Ko-fi 上支持"
+	},
+	"stats_financial_button_funded": {
+		"message": "感謝您！"
+	},
+	"stats_financial_button_support": {
+		"message": "支持開發"
+	},
+	"stats_financial_charts_hide": {
+		"message": "隱藏使用統計圖表"
+	},
+	"stats_financial_charts_show": {
+		"message": "顯示使用統計圖表"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "每週使用統計圖表"
+	},
+	"stats_financial_aria_funded": {
+		"message": "完全募資，盈餘 $1"
+	},
+	"stats_financial_aria_progress": {
+		"message": "已募得 $1，目標 $3 還剩 $2"
+	},
+	"stats_queue_title": {
+		"message": "佇列限制"
+	},
+	"stats_queue_loading": {
+		"message": "正在載入佇列限制..."
+	},
+	"stats_queue_error": {
+		"message": "無法載入佇列限制"
+	},
+	"stats_queue_retry": {
+		"message": "重試"
+	},
+	"stats_queue_usage": {
+		"message": "使用量"
+	},
+	"stats_queue_remaining": {
+		"message": "剩餘"
+	},
+	"stats_queue_enhanced": {
+		"message": "已啟用增強限制"
+	},
+	"stats_queue_default": {
+		"message": "預設限制"
+	},
+	"stats_queue_resets_in": {
+		"message": "重置於"
+	},
+	"stats_queue_resetting": {
+		"message": "重置中..."
+	},
+	"stats_queue_time_hours": {
+		"message": "$1 小時 $2 分鐘"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1 分鐘"
+	},
+	"stats_queue_aria_progress": {
+		"message": "已使用 $1 / $2，剩餘 $3"
+	},
+	"stats_statistics_title": {
+		"message": "系統統計"
+	},
+	"stats_statistics_refresh": {
+		"message": "重新整理統計"
+	},
+	"stats_statistics_loading": {
+		"message": "正在載入統計資料..."
+	},
+	"stats_statistics_error": {
+		"message": "無法載入統計資料"
+	},
+	"stats_statistics_retry": {
+		"message": "重試"
+	},
+	"stats_statistics_users_title": {
+		"message": "使用者"
+	},
+	"stats_statistics_groups_title": {
+		"message": "群組"
+	},
+	"stats_statistics_community_title": {
+		"message": "社群"
+	},
+	"stats_statistics_flagged": {
+		"message": "已標記"
+	},
+	"stats_statistics_confirmed": {
+		"message": "已確認"
+	},
+	"stats_statistics_votes": {
+		"message": "總投票數"
+	},
+	"stats_statistics_queued": {
+		"message": "佇列中的使用者"
+	},
+	"stats_statistics_users_desc": {
+		"message": "其他被 Roblox 封禁的使用者"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "含有混合內容的群組"
+	},
+	"stats_statistics_updated": {
+		"message": "最後更新："
+	},
+	"stats_chart_tab_costs": {
+		"message": "AI 費用"
+	},
+	"stats_chart_tab_requests": {
+		"message": "AI 請求"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "AI 標記"
+	},
+	"stats_chart_week_4": {
+		"message": "三週前"
+	},
+	"stats_chart_week_3": {
+		"message": "兩週前"
+	},
+	"stats_chart_week_2": {
+		"message": "上週"
+	},
+	"stats_chart_week_1": {
+		"message": "本週"
+	},
+	"stats_chart_label_costs": {
+		"message": "每週 AI 費用"
+	},
+	"stats_chart_label_requests": {
+		"message": "每週 AI 請求"
+	},
+	"stats_chart_label_tokens": {
+		"message": "總 AI 標記"
+	},
+	"stats_chart_detail_requests": {
+		"message": "總請求數"
+	},
+	"stats_chart_detail_cost": {
+		"message": "總費用"
+	},
+	"stats_chart_detail_period": {
+		"message": "期間"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "提示標記"
+	},
+	"stats_chart_detail_completion": {
+		"message": "完成標記"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "推理標記"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "提示"
+	},
+	"stats_chart_legend_completion": {
+		"message": "完成"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "推理"
+	},
+	"stats_chart_month_jan": {
+		"message": "1月"
+	},
+	"stats_chart_month_feb": {
+		"message": "2月"
+	},
+	"stats_chart_month_mar": {
+		"message": "3月"
+	},
+	"stats_chart_month_apr": {
+		"message": "4月"
+	},
+	"stats_chart_month_may": {
+		"message": "5月"
+	},
+	"stats_chart_month_jun": {
+		"message": "6月"
+	},
+	"stats_chart_month_jul": {
+		"message": "7月"
+	},
+	"stats_chart_month_aug": {
+		"message": "8月"
+	},
+	"stats_chart_month_sep": {
+		"message": "9月"
+	},
+	"stats_chart_month_oct": {
+		"message": "10月"
+	},
+	"stats_chart_month_nov": {
+		"message": "11月"
+	},
+	"stats_chart_month_dec": {
+		"message": "12月"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "$1 的提示標記：$2"
+	},
+	"stats_chart_aria_completion": {
+		"message": "$1 的完成標記：$2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "$1 的推理標記：$2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$2 的 $1：$3"
+	},
+	"warzone_common_button_retry": {
+		"message": "重試"
+	},
+	"warzone_hunter_title": {
+		"message": "War Zone 獵人"
+	},
+	"warzone_hunter_stat_points": {
+		"message": "點數"
+	},
+	"warzone_hunter_stat_status": {
+		"message": "狀態"
+	},
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Discord 頭像"
+	},
+	"warzone_hunter_loading_connecting": {
+		"message": "連接中..."
+	},
+	"warzone_hunter_status_anonymous": {
+		"message": "匿名"
+	},
+	"warzone_hunter_status_public": {
+		"message": "公開"
+	},
+	"warzone_hunter_signup_description": {
+		"message": "加入社群以檢舉高風險確認使用者。與全球獵人合作，提高封禁成功率，讓 Roblox 對每個人都更安全。"
+	},
+	"warzone_hunter_feature_report": {
+		"message": "檢舉高風險確認使用者"
+	},
+	"warzone_hunter_feature_cleanup": {
+		"message": "協助清理平台並移除不良份子"
+	},
+	"warzone_hunter_feature_community": {
+		"message": "與社群合作以獲得更高的封禁成功率"
+	},
+	"warzone_hunter_feature_leaderboard": {
+		"message": "賺取點數並攀升排行榜"
+	},
+	"warzone_hunter_beta_label": {
+		"message": "封閉測試："
+	},
+	"warzone_hunter_beta_text_before_link": {
+		"message": "僅對選定的使用者開放。加入我們的"
+	},
+	"warzone_hunter_beta_discord_link": {
+		"message": "Discord 伺服器"
+	},
+	"warzone_hunter_beta_text_after_link": {
+		"message": "以獲取更新。"
+	},
+	"warzone_hunter_button_login": {
+		"message": "使用 Discord 登入"
+	},
+	"warzone_hunter_button_logout": {
+		"message": "登出"
+	},
+	"warzone_hunter_welcome_message": {
+		"message": "歡迎，獵人！您現在可以參與 War Zone 活動並協助保護 Roblox 社群。造訪 Roblox 首頁以開始您的獵人任務。"
+	},
+	"warzone_hunter_confirm_logout": {
+		"message": "您確定要登出嗎？\n\n您可以隨時使用您的 Discord 帳號再次登入。"
+	},
+	"warzone_leaderboard_loading": {
+		"message": "正在載入排行榜..."
+	},
+	"warzone_leaderboard_error_load": {
+		"message": "無法載入排行榜"
+	},
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "包含匿名獵人"
+	},
+	"warzone_leaderboard_total_hunters": {
+		"message": "總獵人數：$1"
+	},
+	"warzone_leaderboard_your_rank": {
+		"message": "您的排名：#$1"
+	},
+	"warzone_leaderboard_section_top": {
+		"message": "頂尖獵人"
+	},
+	"warzone_leaderboard_section_rankings": {
+		"message": "排名"
+	},
+	"warzone_leaderboard_badge_you": {
+		"message": "您"
+	},
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 次檢舉"
+	},
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% 成功率"
+	},
+	"warzone_order_type_ban_count": {
+		"message": "封禁數量"
+	},
+	"warzone_order_type_zone_liberation": {
+		"message": "區域解放"
+	},
+	"warzone_order_type_verification": {
+		"message": "驗證"
+	},
+	"warzone_order_label_completed": {
+		"message": "已完成"
+	},
+	"warzone_order_label_expires": {
+		"message": "到期"
+	},
+	"warzone_order_label_progress": {
+		"message": "進度"
+	},
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
+	},
+	"warzone_target_status_confirmed": {
+		"message": "已確認"
+	},
+	"warzone_target_status_flagged": {
+		"message": "已標記"
+	},
+	"warzone_target_meta_confidence": {
+		"message": "信心度"
+	},
+	"warzone_target_meta_attempts": {
+		"message": "嘗試次數"
+	},
+	"warzone_target_meta_active": {
+		"message": "活躍"
+	},
+	"warzone_mode_global": {
+		"message": "全球"
+	},
+	"warzone_mode_zone": {
+		"message": "區域"
+	},
+	"warzone_chart_error_load": {
+		"message": "無法載入 $1 歷史資料"
+	},
+	"warzone_chart_tab_liberation": {
+		"message": "解放"
+	},
+	"warzone_chart_tab_users": {
+		"message": "使用者"
+	},
+	"warzone_chart_tab_ban_rate": {
+		"message": "封禁率"
+	},
+	"warzone_chart_label_global_liberation": {
+		"message": "全球解放"
+	},
+	"warzone_chart_label_zone_liberation": {
+		"message": "區域解放"
+	},
+	"warzone_chart_label_total_users": {
+		"message": "總使用者數"
+	},
+	"warzone_chart_label_global_ban_rate": {
+		"message": "全球封禁率"
+	},
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "區域封禁率"
+	},
+	"warzone_chart_legend_banned": {
+		"message": "已封禁"
+	},
+	"warzone_chart_legend_flagged": {
+		"message": "已標記"
+	},
+	"warzone_chart_legend_confirmed": {
+		"message": "已確認"
+	},
+	"warzone_chart_tooltip_date": {
+		"message": "日期"
+	},
+	"warzone_chart_tooltip_total_users": {
+		"message": "總使用者數"
+	},
+	"warzone_chart_tooltip_banned": {
+		"message": "已封禁"
+	},
+	"warzone_overview_loading": {
+		"message": "正在載入戰區地圖..."
+	},
+	"warzone_overview_error_load": {
+		"message": "無法載入戰區地圖"
+	},
+	"warzone_overview_section_zones": {
+		"message": "戰區"
+	},
+	"warzone_overview_section_targets": {
+		"message": "活躍目標"
+	},
+	"warzone_overview_section_global_stats": {
+		"message": "全球戰爭統計"
+	},
+	"warzone_overview_section_global_trends": {
+		"message": "全球趨勢（30 天）"
+	},
+	"warzone_overview_section_major_orders": {
+		"message": "活躍主要指令"
+	},
+	"warzone_overview_button_find_user": {
+		"message": "尋找要檢舉的使用者"
+	},
+	"warzone_overview_finding_user_loading": {
+		"message": "正在尋找使用者..."
+	},
+	"warzone_overview_error_no_users": {
+		"message": "沒有可檢舉的使用者。請稍後再回來查看！"
+	},
+	"warzone_overview_error_auth_expired": {
+		"message": "驗證已過期。請登出並重新登入。"
+	},
+	"warzone_overview_error_find_user": {
+		"message": "無法找到可檢舉的使用者。請再試一次。"
+	},
+	"warzone_overview_stat_total_zones": {
+		"message": "總區域數"
+	},
+	"warzone_overview_stat_avg_liberation": {
+		"message": "平均解放"
+	},
+	"warzone_overview_stat_total_banned": {
+		"message": "總封禁數"
+	},
+	"warzone_overview_stat_active_targets": {
+		"message": "活躍目標"
+	},
+	"warzone_profile_title": {
+		"message": "個人檔案"
+	},
+	"warzone_profile_stat_points": {
+		"message": "點數"
+	},
+	"warzone_profile_label_discord": {
+		"message": "Discord"
+	},
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Discord 頭像"
+	},
+	"warzone_profile_label_visibility": {
+		"message": "可見性"
+	},
+	"warzone_profile_label_joined": {
+		"message": "加入時間"
+	},
+	"warzone_profile_label_last_active": {
+		"message": "最後活躍"
+	},
+	"warzone_profile_visibility_anonymous": {
+		"message": "匿名"
+	},
+	"warzone_profile_visibility_public": {
+		"message": "公開"
+	},
+	"warzone_profile_button_reset_uuid": {
+		"message": "從所有裝置登出"
+	},
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "正在登出..."
+	},
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ 已從所有裝置登出"
+	},
+	"warzone_profile_button_logout": {
+		"message": "登出"
+	},
+	"warzone_profile_confirm_logout": {
+		"message": "您確定要登出嗎？\n\n您可以隨時使用您的 Discord 帳號再次登入。"
+	},
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "從所有裝置登出？\n\n這將使所有其他裝置上的活躍工作階段失效。您將在此裝置上保持登入狀態，但所有其他裝置將被登出。\n\n如果您懷疑您的帳號已被入侵，這會很有用。"
+	},
+	"warzone_profile_error_reset_uuid": {
+		"message": "無法從所有裝置登出。請再試一次。"
+	},
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
+	},
+	"warzone_nav_tab_profile": {
+		"message": "個人檔案"
+	},
+	"warzone_nav_tab_leaderboard": {
+		"message": "排行榜"
+	},
+	"warzone_zone_loading": {
+		"message": "正在載入區域詳情..."
+	},
+	"warzone_zone_error_load": {
+		"message": "無法載入區域詳情"
+	},
+	"warzone_zone_button_back": {
+		"message": "返回總覽"
+	},
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% 已解放"
+	},
+	"warzone_zone_stat_total_users": {
+		"message": "總使用者數"
+	},
+	"warzone_zone_stat_banned": {
+		"message": "已封禁"
+	},
+	"warzone_zone_stat_flagged": {
+		"message": "已標記"
+	},
+	"warzone_zone_stat_confirmed": {
+		"message": "已確認"
+	},
+	"warzone_zone_section_trends": {
+		"message": "區域趨勢（30 天）"
+	},
+	"queue_popup_cancel_button": {
+		"message": "取消"
+	},
+	"queue_popup_submit_button": {
+		"message": "提交審核"
+	},
+	"queue_popup_submitting_button": {
+		"message": "提交中..."
+	},
+	"queue_popup_title_reprocess": {
+		"message": "重新處理使用者以供審核"
+	},
+	"queue_popup_title_queue": {
+		"message": "將使用者加入佇列以供審核"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "您即將提交使用者（ID：$1）供我們的系統重新分析。"
+	},
+	"queue_popup_description_analysis": {
+		"message": "您即將提交使用者（ID：$1）供我們的系統分析。"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "這是什麼類型的提交？"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "使用者有不當內容"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "此使用者的個人檔案、虛擬人偶、好友或群組中有明顯的不當內容。"
+	},
+	"queue_popup_option_general_title": {
+		"message": "一般安全檢查"
+	},
+	"queue_popup_option_general_description": {
+		"message": "我不確定，但希望此使用者進行一般安全評估。"
+	},
+	"queue_popup_general_check_message": {
+		"message": "此使用者將被分析以檢查一般安全問題。不需要特定的標記原因。"
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "選擇標記原因："
+	},
+	"queue_popup_outfit_title": {
+		"message": "不當服裝"
+	},
+	"queue_popup_outfit_description": {
+		"message": "此使用者有不當的服裝或虛擬人偶。"
+	},
+	"queue_popup_profile_title": {
+		"message": "不當個人檔案"
+	},
+	"queue_popup_profile_description": {
+		"message": "此使用者的使用者名稱、顯示名稱或描述中有不當內容。"
+	},
+	"queue_popup_friends_title": {
+		"message": "不當好友"
+	},
+	"queue_popup_friends_description": {
+		"message": "此使用者有不當的好友。"
+	},
+	"queue_popup_groups_title": {
+		"message": "不當群組"
+	},
+	"queue_popup_groups_description": {
+		"message": "此使用者加入了不當的群組。"
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "需要選擇："
+	},
+	"queue_popup_validation_error_message": {
+		"message": "請在繼續之前至少選擇一個標記原因。"
+	},
+	"queue_popup_lock_button": {
+		"message": "鎖定我的選擇"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "您必須鎖定您的選擇才能提交。"
+	},
+	"queue_popup_summary_heading": {
+		"message": "已選擇的選項："
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "將優先檢查不當服裝"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "未選擇"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "將優先檢查不當個人檔案內容"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "未選擇"
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "將優先檢查不當好友"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "未選擇"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "將優先檢查不當群組"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "未選擇"
+	},
+	"queue_popup_unlock_button": {
+		"message": "解鎖選擇"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "點擊以解鎖並修改您的選擇。"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "審核流程"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "由 AI 演算法分析以偵測潛在的安全問題"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "如果 AI 標記，將由人工審核員進行最終確認"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "結果將加入資料庫並給予適當的安全評級"
+	},
+	"queue_popup_warning_heading": {
+		"message": "重要警告"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "濫用此功能"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "（例如濫發提交）可能會導致您的帳號受到限制。自動濫用偵測已啟用。"
+	},
+	"friend_warning_block_button": {
+		"message": "封鎖使用者"
+	},
+	"friend_warning_cancel_button": {
+		"message": "取消請求"
+	},
+	"friend_warning_proceed_button": {
+		"message": "仍要繼續"
+	},
+	"friend_warning_title": {
+		"message": "警告：不安全的使用者"
+	},
+	"friend_warning_avatar_alt": {
+		"message": "$1 的虛擬人偶"
+	},
+	"friend_warning_user_id_label": {
+		"message": "使用者 ID：$1"
+	},
+	"friend_warning_risk_title": {
+		"message": "潛在不當使用者"
+	},
+	"friend_warning_risk_message": {
+		"message": "此使用者已被我們的偵測系統標記。在接受此好友請求前，請先查看他們的個人檔案。"
+	},
+	"friend_warning_confidence_label": {
+		"message": "信心度：$1%"
+	},
+	"friend_warning_why_matters_heading": {
+		"message": "為什麼這很重要"
+	},
+	"friend_warning_why_matters_item1": {
+		"message": "此使用者可能進行不當的對話或行為"
+	},
+	"friend_warning_why_matters_item2": {
+		"message": "您的帳號可能會在我們的系統中與不當使用者關聯"
+	},
+	"friend_warning_why_matters_item3": {
+		"message": "您可能會暴露於不想要或有害的內容"
+	},
+	"friend_warning_why_matters_item4": {
+		"message": "此使用者有明確違反 Roblox 服務條款的證據"
+	},
+	"friend_warning_recommendations_heading": {
+		"message": "建議採取的行動"
+	},
+	"friend_warning_recommendations_item1": {
+		"message": "更仔細地查看他們的個人檔案資訊"
+	},
+	"friend_warning_recommendations_item2": {
+		"message": "如果您看到不當內容，請向 Roblox 檢舉"
+	},
+	"friend_warning_recommendations_item3": {
+		"message": "僅與您認識且信任的使用者連結"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "繼續接受此好友請求可能會讓您暴露於不當內容或有害的互動。"
+	},
+	"report_helper_card_title_reportable": {
+		"message": "找到可檢舉的內容"
+	},
+	"report_helper_card_title_not_reportable": {
+		"message": "未偵測到可檢舉的內容"
+	},
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector 識別出違反 Roblox 服務條款的個人檔案內容。"
+	},
+	"report_helper_evidence_header": {
+		"message": "偵測到的問題"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "原因："
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "證據片段："
+	},
+	"report_helper_action_message": {
+		"message": "點擊下方，Rotector 將自動填寫檢舉表單，包含適當的類別和詳情。"
+	},
+	"report_helper_fill_button": {
+		"message": "填寫檢舉表單"
+	},
+	"report_helper_filling_button": {
+		"message": "填寫中..."
+	},
+	"report_helper_warning_label": {
+		"message": "重要："
+	},
+	"report_helper_warning_message": {
+		"message": "檢舉是以您的 Roblox 帳號提交的。請在提交前檢閱所有資訊，並僅檢舉真實的違規行為。"
+	},
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector 尚未在此使用者的個人檔案描述中偵測到任何明確可檢舉的內容。"
+	},
+	"report_helper_info_message_part1": {
+		"message": "如果您認為此使用者違反了 Roblox 的服務條款，"
+	},
+	"report_helper_info_message_part2": {
+		"message": "您仍然可以提交檢舉。"
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector 允許檢舉個人檔案描述中的不當內容。我們不偵測大多數檢舉類別，包括："
+	},
+	"report_helper_category_item1": {
+		"message": "要求或提供私人資訊"
+	},
+	"report_helper_category_item2": {
+		"message": "霸凌、騷擾、歧視"
+	},
+	"report_helper_category_item3": {
+		"message": "利用漏洞、作弊、詐騙"
+	},
+	"report_helper_category_item4": {
+		"message": "帳號竊取（網路釣魚、駭客、交易）"
+	},
+	"report_helper_category_item5": {
+		"message": "現實生活威脅或自殺威脅"
+	},
+	"report_helper_info_message_part4": {
+		"message": "如果您要檢舉任何這些違規行為，請繼續您的檢舉並提供具體詳情以協助 Roblox 審核員。"
+	},
+	"queue_error_modal_close_button": {
+		"message": "關閉"
+	},
+	"queue_error_modal_title": {
+		"message": "錯誤"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "發生未知錯誤"
+	},
+	"queue_error_modal_failed_message": {
+		"message": "無法將使用者 ID $1 加入審核佇列。"
+	},
+	"queue_error_modal_details_heading": {
+		"message": "錯誤詳情"
+	},
+	"queue_error_modal_error_code_label": {
+		"message": "錯誤代碼："
+	},
+	"queue_error_modal_request_id_label": {
+		"message": "請求 ID："
+	},
+	"queue_error_modal_next_steps_heading": {
+		"message": "接下來該做什麼"
+	},
+	"queue_error_modal_step1": {
+		"message": "檢查使用者是否已被我們的系統標記"
+	},
+	"queue_error_modal_step2": {
+		"message": "如果錯誤持續，請幾分鐘後再試一次"
+	},
+	"queue_error_modal_step3": {
+		"message": "如果您需要支援，請提供上面的請求 ID"
+	},
+	"queue_success_modal_close_button": {
+		"message": "關閉"
+	},
+	"queue_success_modal_title": {
+		"message": "成功"
+	},
+	"queue_success_modal_success_message": {
+		"message": "使用者 ID $1 已成功加入審核佇列。"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "接下來會發生什麼"
+	},
+	"queue_success_modal_step1": {
+		"message": "我們的 AI 將分析此帳號以尋找可疑的模式"
+	},
+	"queue_success_modal_step2": {
+		"message": "如果被標記，使用者的狀態將在幾分鐘內確認"
+	},
+	"queue_success_modal_step3": {
+		"message": "完整的系統同步和確認將需要 24-48 小時"
+	},
+	"report_page_manager_report_intro": {
+		"message": "此使用者的個人檔案包含違反 Roblox 服務條款的不當內容。\n\n"
+	},
+	"report_page_manager_detected_issue_label": {
+		"message": "偵測到的問題：\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "證據片段：\n"
+	},
+	"report_page_manager_unknown_category": {
+		"message": "未知類別"
+	},
+	"report_page_manager_category_prefix": {
+		"message": "類別：$1"
+	},
+	"report_page_manager_comment_prefix": {
+		"message": "\n\n備註：$1"
+	},
+	"report_page_manager_success_message": {
+		"message": "表單填寫成功！準備好後請檢閱並提交。"
+	},
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "自動填寫不可用。檢舉文字已複製到剪貼簿。您可以手動貼到備註欄位。"
+	},
+	"report_page_manager_autofill_failed": {
+		"message": "自動填寫失敗。請手動在檢舉表單中填寫適當的詳情。"
+	},
+	"tooltip_loading_user_info": {
+		"message": "正在載入使用者資訊..."
+	},
+	"tooltip_no_data_available": {
+		"message": "此 API 沒有可用資料"
+	},
+	"tooltip_error_details": {
+		"message": "錯誤詳情"
+	},
+	"tooltip_loading": {
+		"message": "載入中..."
+	},
+	"tooltip_queue_button": {
+		"message": "加入佇列以供審核"
+	},
+	"tooltip_badge_reportable": {
+		"message": "可檢舉"
+	},
+	"tooltip_badge_queued": {
+		"message": "已加入佇列"
+	},
+	"tooltip_badge_outfit": {
+		"message": "僅服裝"
+	},
+	"tooltip_reportable_title": {
+		"message": "可向 Roblox 檢舉"
+	},
+	"tooltip_reportable_message": {
+		"message": "此使用者有明確的不當內容證據，且 Roblox 審核員可以看到。"
+	},
+	"tooltip_reportable_report_button": {
+		"message": "向 Roblox 檢舉"
+	},
+	"tooltip_outfit_title": {
+		"message": "僅因服裝被標記"
+	},
+	"tooltip_outfit_message": {
+		"message": "此使用者僅因虛擬人偶服裝被標記。服裝偵測可能有誤報，因此請在評估此使用者時使用您自己的判斷。"
+	},
+	"tooltip_metadata_queued": {
+		"message": "已加入佇列"
+	},
+	"tooltip_metadata_processing": {
+		"message": "處理中"
+	},
+	"tooltip_metadata_took": {
+		"message": "耗時"
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "最後更新"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "重新處理？"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "此使用者的資料已過時。點擊以重新加入佇列進行分析。"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "處理中..."
+	},
+	"tooltip_header_unsafe": {
+		"message": "此 $1 已由人工審核員驗證為不當。"
+	},
+	"tooltip_header_pending": {
+		"message": "此 $1 已被 AI 以 $2% 的信心度標記。"
+	},
+	"tooltip_header_queued_processing": {
+		"message": "此 $1 目前正在由我們的系統檢查中。這可能需要幾分鐘。"
+	},
+	"tooltip_header_queued_safe": {
+		"message": "此 $1 已由我們的 AI 系統審核，似乎是安全的。如果這是誤報，您可以重新加入佇列以進行進一步審核。"
+	},
+	"tooltip_header_integration": {
+		"message": "此 $1 已被第三方內容分析系統標記。"
+	},
+	"tooltip_header_mixed_group": {
+		"message": "此群組包含適當和不當成員的混合。"
+	},
+	"tooltip_header_mixed_user": {
+		"message": "此使用者已與不當內容關聯，但沒有足夠的證據讓 Roblox 採取行動。與他們互動時請謹慎。"
+	},
+	"tooltip_header_past_offender": {
+		"message": "此 $1 先前有不當內容，但他們的帳號目前看起來乾淨，可以重新加入佇列進行驗證。"
+	},
+	"tooltip_header_safe": {
+		"message": "此 $1 尚未被審核。"
+	},
+	"tooltip_header_unknown": {
+		"message": "未知狀態"
+	},
+	"tooltip_header_unavailable": {
+		"message": "狀態資訊無法取得。"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "未標記"
+	},
+	"tooltip_status_unsafe": {
+		"message": "不安全"
+	},
+	"tooltip_status_under_review": {
+		"message": "審核中"
+	},
+	"tooltip_status_likely_safe": {
+		"message": "可能安全"
+	},
+	"tooltip_status_checking": {
+		"message": "檢查中..."
+	},
+	"tooltip_status_integration": {
+		"message": "整合"
+	},
+	"tooltip_status_mixed": {
+		"message": "混合"
+	},
+	"tooltip_status_past_offender": {
+		"message": "曾違規"
+	},
+	"tooltip_status_unknown": {
+		"message": "未知"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "審核者"
+	},
+	"tooltip_profile_group_id": {
+		"message": "群組 ID："
+	},
+	"tooltip_profile_user": {
+		"message": "使用者"
+	},
+	"tooltip_profile_id": {
+		"message": "ID："
+	},
+	"tooltip_aria_close": {
+		"message": "點擊以關閉工具提示"
+	},
+	"tooltip_aria_expand": {
+		"message": "點擊以展開工具提示"
+	},
+	"tooltip_entity_user": {
+		"message": "使用者"
+	},
+	"tooltip_entity_group": {
+		"message": "群組"
+	},
+	"voting_header_title": {
+		"message": "社群回饋"
+	},
+	"voting_loading": {
+		"message": "載入中..."
+	},
+	"voting_count_singular": {
+		"message": "$1 票"
+	},
+	"voting_count_plural": {
+		"message": "$1 票"
+	},
+	"voting_button_agree": {
+		"message": "同意"
+	},
+	"voting_button_disagree": {
+		"message": "不同意"
+	},
+	"voting_aria_agree": {
+		"message": "同意此狀態"
+	},
+	"voting_aria_disagree": {
+		"message": "不同意此狀態"
+	},
+	"voting_description": {
+		"message": "確認此使用者的狀態是否準確以協助其他人。"
+	},
+	"engine_status_unknown": {
+		"message": "未知"
+	},
+	"engine_status_latest": {
+		"message": "最新"
+	},
+	"engine_status_compatible": {
+		"message": "相容"
+	},
+	"engine_status_outdated": {
+		"message": "過時"
+	},
+	"engine_status_deprecated": {
+		"message": "已棄用"
+	},
+	"engine_desc_unknown": {
+		"message": "此分析使用的 AI 引擎相容性狀態未知。"
+	},
+	"engine_desc_unknown_impact": {
+		"message": "無法確定版本相容性。"
+	},
+	"engine_desc_latest": {
+		"message": "此分析使用最新的 AI 引擎，具有最新的偵測功能。"
+	},
+	"engine_desc_latest_impact": {
+		"message": "最高準確度和最全面的分析。"
+	},
+	"engine_desc_compatible": {
+		"message": "此分析使用仍受支援但非最新版本的 AI 引擎。"
+	},
+	"engine_desc_compatible_impact": {
+		"message": "仍然高度準確，偵測功能有輕微差異。"
+	},
+	"engine_desc_outdated": {
+		"message": "此分析使用的 AI 引擎明顯落後於最新版本。"
+	},
+	"engine_desc_outdated_impact": {
+		"message": "與較新的引擎版本相比，準確度可能降低。"
+	},
+	"engine_desc_deprecated": {
+		"message": "此分析使用的 AI 引擎已不再受支援。"
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "準確度可能大幅降低，結果應謹慎對待。"
+	},
+	"engine_aria_info": {
+		"message": "引擎版本資訊"
+	},
+	"engine_header_version": {
+		"message": "引擎 v$1"
+	},
+	"engine_version_unknown": {
+		"message": "未知"
+	},
+	"custom_api_form_title_edit": {
+		"message": "編輯自訂 API"
+	},
+	"custom_api_form_title_add": {
+		"message": "新增自訂 API"
+	},
+	"custom_api_form_label_name": {
+		"message": "名稱"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "我的自訂 API"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "最多 12 個字元（$1/12）"
+	},
+	"custom_api_form_label_url": {
+		"message": "API URL"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_hint_url": {
+		"message": "必須是 HTTPS。這類似於您 API 端點的基礎 URL。我們將呼叫 {url}/user/{userId} 進行單次查詢，呼叫 {url}/users 進行批次查詢。"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "逾時（毫秒）"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "請求逾時（毫秒）（1000-60000）。預設：5000 毫秒。"
+	},
+	"custom_api_form_label_image": {
+		"message": "橫向圖片（選用）"
+	},
+	"custom_api_form_hint_image": {
+		"message": "上傳工具提示分頁的橫向圖片（PNG、JPG、SVG、WebP）。建議：480x160px（3:1 比例）。"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "移除圖片"
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "啟用此自訂 API"
+	},
+	"custom_api_form_button_save": {
+		"message": "儲存"
+	},
+	"custom_api_form_button_saving": {
+		"message": "儲存中..."
+	},
+	"custom_api_form_error_name_required": {
+		"message": "名稱為必填"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "名稱必須為 12 個字元或更少"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL 為必填"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL 必須以 https:// 開頭"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "無效的 URL 格式"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "逾時必須至少為 1000 毫秒（1 秒）"
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "逾時必須為 60000 毫秒（60 秒）或更少"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "無效的檔案類型。請使用 PNG、JPG、SVG 或 WebP"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "無效的圖片類型。MIME 類型與副檔名不符"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "警告：檔案大小過大（$1KB）。請考慮使用較小的圖片以減少儲存空間使用。"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "無法讀取圖片檔案"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "無法處理圖片檔案"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "無法儲存自訂 API："
+	},
+	"custom_api_form_error_unknown": {
+		"message": "未知錯誤"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "返回"
+	},
+	"custom_api_mgmt_title": {
+		"message": "API 整合"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "在一個地方管理所有 API 整合。Rotector 提供核心安全分析，您可以新增最多 5 個自訂 API 以進行額外的內容分析。"
+	},
+	"custom_api_mgmt_button_docs": {
+		"message": "查看文件"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "正在載入自訂 API..."
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "系統 API"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "單次："
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "批次："
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "逾時："
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "建立時間："
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "最後測試："
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "毫秒"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "上移"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "下移"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "測試連線"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "編輯"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "刪除"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "新增自訂 API"
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "已達到最多 $1 個自訂 API 的限制。刪除現有 API 以新增新的。"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "刪除自訂 API「$1」？"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "無法刪除自訂 API"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ 連線成功！\n\nAPI「$1」可連線並正在回應。"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ 連線失敗\n\nAPI「$1」未回應或返回錯誤。\n\n請檢查：\n• URL 正確且可存取\n• API 伺服器正在運作\n• 如需要已設定 CORS"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ 連線測試錯誤\n\n無法測試 API「$1」。\n\n錯誤：$2"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "無法更新 API 狀態"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_docs_button_back": {
+		"message": "返回"
+	},
+	"custom_api_docs_title": {
+		"message": "API 文件"
+	},
+	"custom_api_docs_intro": {
+		"message": "實作兩個返回使用者狀態資料的端點。所有回應必須使用包含 success、data 和 error 欄位的包裝格式。"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "單一使用者查詢"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "批次使用者查詢"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "重要注意事項"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "範例請求"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "成功回應"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "錯誤回應"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "必填欄位（在 data 物件中）"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "選用欄位（在 data 物件中）"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "標記類型"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "請求主體"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "需要 HTTPS"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "包裝格式"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "原因鍵值"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "徽章"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "徽章顏色"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "安全"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "待處理"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "不安全（建議）"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "已加入佇列"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "未使用"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "混合"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "曾違規"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "標記類型 2（不安全）是表示不當使用者所需的主要類型。僅在您有特定理由以不同方式分類使用者時才使用其他標記類型。"
+	},
+	"custom_api_docs_field_id": {
+		"message": "id（數字）- 使用者 ID 為整數"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "flagType（數字）- 0-6 標記類型（見下文）"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "confidence（數字）- 0.0-1.0 信心度"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "reasons（物件）- 字串為基礎的原因名稱作為鍵值，每個包含："
+	},
+	"custom_api_docs_field_message": {
+		"message": "message（字串）- 原因描述"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "evidence（陣列或 null）- 證據字串或 null"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "reviewer（物件）- username 和 displayName"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "engineVersion（字串）- 分析引擎版本"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "lastUpdated（數字）- Unix 時間戳記"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "badges（陣列）- 最多 3 個自訂徽章物件，每個包含："
+	},
+	"custom_api_docs_field_badge_text": {
+		"message": "text（字串，必填）- 徽章標籤文字"
+	},
+	"custom_api_docs_field_badge_color": {
+		"message": "color（字串，選用）- 背景顏色（十六進位、rgb 或命名顏色）"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "textColor（字串，選用）- 對比的文字顏色"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "confidence（數字）- 0.0-1.0 信心度"
+	},
+	"custom_api_docs_note_https": {
+		"message": "所有 API 端點必須使用 HTTPS 以確保安全性。"
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "所有回應必須使用 {success, data, error} 格式。當 success: true 時，包含 data 欄位。當 success: false 時，包含 error 訊息。"
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "使用描述性的字串名稱作為原因鍵值（例如「高風險模式」、「可疑活動」），而不是數字索引。這些會直接顯示在工具提示中。"
+	},
+	"custom_api_docs_note_badges": {
+		"message": "徽章是出現在使用者工具提示中標記狀態旁邊的小型視覺指標。它們顯示在工具提示頂部，以快速傳達有關使用者的額外背景資訊。使用徽章來突顯重要的狀態資訊，如驗證狀態、優先級或特殊類別。常見範例：「已驗證不安全」、「高優先級」、「社群檢舉」、「自動偵測」。"
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "徽章顏色支援多種格式：十六進位碼（#ef4444）、RGB（rgb(239, 68, 68)）、RGBA（rgba(239, 68, 68, 0.9)）或命名顏色（red）。當未指定顏色時，徽章使用預設的青色。當未指定 textColor 時，徽章使用白色文字。"
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "data 欄位包含一個物件，其中鍵值為使用者 ID（作為字串），值為使用者狀態物件。"
+	}
+}

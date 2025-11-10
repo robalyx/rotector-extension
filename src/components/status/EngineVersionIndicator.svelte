@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { UserStatus } from '@/lib/types/api';
+	import { t } from '@/lib/stores/i18n';
 
 	interface Props {
 		status: UserStatus;
@@ -12,9 +13,9 @@
 		if (!status.engineVersion) {
 			return {
 				status: 'unknown',
-				statusText: 'Unknown',
-				description: 'This analysis used an AI engine with unknown compatibility status.',
-				impact: 'Version compatibility could not be determined.'
+				statusText: t('engine_status_unknown'),
+				description: t('engine_desc_unknown'),
+				impact: t('engine_desc_unknown_impact')
 			};
 		}
 
@@ -23,41 +24,38 @@
 		if (compatibility === 'current') {
 			return {
 				status: 'latest',
-				statusText: 'Latest',
-				description:
-					'This analysis used the most current AI engine with the latest detection capabilities.',
-				impact: 'Highest accuracy and most comprehensive analysis.'
+				statusText: t('engine_status_latest'),
+				description: t('engine_desc_latest'),
+				impact: t('engine_desc_latest_impact')
 			};
 		} else if (compatibility === 'compatible') {
 			return {
 				status: 'behind-minor',
-				statusText: 'Compatible',
-				description:
-					'This analysis used an AI engine that is still supported but not the latest version.',
-				impact: 'Still highly accurate with minor differences in detection capabilities.'
+				statusText: t('engine_status_compatible'),
+				description: t('engine_desc_compatible'),
+				impact: t('engine_desc_compatible_impact')
 			};
 		} else if (compatibility === 'outdated') {
 			return {
 				status: 'behind-major',
-				statusText: 'Outdated',
-				description:
-					'This analysis used an AI engine that is significantly behind the latest version.',
-				impact: 'May have reduced accuracy compared to newer engine versions.'
+				statusText: t('engine_status_outdated'),
+				description: t('engine_desc_outdated'),
+				impact: t('engine_desc_outdated_impact')
 			};
 		} else if (compatibility === 'deprecated') {
 			return {
 				status: 'deprecated',
-				statusText: 'Deprecated',
-				description: 'This analysis used an AI engine that is no longer supported.',
-				impact: 'Accuracy may be significantly reduced and results should be treated with caution.'
+				statusText: t('engine_status_deprecated'),
+				description: t('engine_desc_deprecated'),
+				impact: t('engine_desc_deprecated_impact')
 			};
 		} else {
 			// Fallback for unknown compatibility status
 			return {
 				status: 'unknown',
-				statusText: 'Unknown',
-				description: 'This analysis used an AI engine with unknown compatibility status.',
-				impact: 'Version compatibility could not be determined.'
+				statusText: t('engine_status_unknown'),
+				description: t('engine_desc_unknown'),
+				impact: t('engine_desc_unknown_impact')
 			};
 		}
 	});
@@ -75,7 +73,7 @@
 
 <div
 	class="engine-version-container-{position}"
-	aria-label="Engine version information"
+	aria-label={t('engine_aria_info')}
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 	role="tooltip"
@@ -90,7 +88,7 @@
 				class="engine-version-tooltip-header"
 				class:centered={position === 'below-header' || position === 'footer'}
 			>
-				Engine v{status.engineVersion}
+				{t('engine_header_version', [status.engineVersion ?? t('engine_version_unknown')])}
 				<div class="engine-version-status {versionStatus().status}">
 					{versionStatus().statusText}
 				</div>

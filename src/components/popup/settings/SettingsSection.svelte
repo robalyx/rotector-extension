@@ -13,6 +13,7 @@
 	} from '@/lib/types/settings';
 	import { PartyPopper, ChevronRight } from 'lucide-svelte';
 	import { logger } from '@/lib/utils/logger';
+	import { t } from '@/lib/stores/i18n';
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
@@ -111,7 +112,7 @@
       "
 	>
 		<PartyPopper size={16} />
-		Developer mode unlocked! Advanced settings are now available.
+		{t('settings_developer_unlocked')}
 	</div>
 {/if}
 
@@ -123,7 +124,7 @@
       dark:bg-bg-content-dark
     "
 >
-	{#each SETTING_CATEGORIES as category (category.title)}
+	{#each SETTING_CATEGORIES as category (category.titleKey)}
 		<fieldset
 			style:border-color="var(--color-border-subtle)"
 			class="
@@ -135,14 +136,14 @@
 				class="
             text-text-subtle ml-0.5 px-1 text-2xs font-medium
             dark:text-text-subtle-dark
-          ">{category.title}</legend
+          ">{t(category.titleKey)}</legend
 			>
 			<div class="settings-category">
 				{#each category.settings as setting (setting.key)}
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
 						<NumberInput
-							helpText={setting.helpText}
-							label={setting.label}
+							helpText={setting.helpTextKey ? t(setting.helpTextKey) : undefined}
+							label={t(setting.labelKey)}
 							max={10}
 							min={1}
 							onChange={(value: number) => handleSettingChange(setting.key, value)}
@@ -155,9 +156,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{setting.label}
-								{#if setting.helpText}
-									<HelpIndicator text={setting.helpText} />
+								{t(setting.labelKey)}
+								{#if setting.helpTextKey}
+									<HelpIndicator text={t(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<select
@@ -165,9 +166,9 @@
 								onchange={(e) => handleSettingChange(setting.key, e.currentTarget.value)}
 								bind:value={$settings[setting.key]}
 							>
-								<option value="light">Light</option>
-								<option value="dark">Dark</option>
-								<option value="auto">Auto</option>
+								<option value="light">{t('settings_theme_light')}</option>
+								<option value="dark">{t('settings_theme_dark')}</option>
+								<option value="auto">{t('settings_theme_auto')}</option>
 							</select>
 						</div>
 					{:else}
@@ -177,9 +178,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{setting.label}
-								{#if setting.helpText}
-									<HelpIndicator text={setting.helpText} />
+								{t(setting.labelKey)}
+								{#if setting.helpTextKey}
+									<HelpIndicator text={t(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<Toggle
@@ -193,13 +194,13 @@
 				{/each}
 
 				<!-- API Integrations Quick Toggles -->
-				{#if category.title === 'Integrations'}
+				{#if category.titleKey === 'settings_category_integrations'}
 					{#each $customApis as api (api.id)}
 						<div class="setting-item" data-setting-key="api-integration-{api.id}">
 							<div class="setting-label">
 								{api.name}
 								{#if api.isSystem}
-									<span class="api-system-label">(System)</span>
+									<span class="api-system-label">{t('settings_api_system_label')}</span>
 								{/if}
 							</div>
 							<Toggle
@@ -212,13 +213,18 @@
 				{/if}
 
 				<!-- API Integrations Management Button -->
-				{#if category.title === 'Integrations' && onNavigateToCustomApis}
+				{#if category.titleKey === 'settings_category_integrations' && onNavigateToCustomApis}
 					<button class="manage-custom-apis-button" onclick={onNavigateToCustomApis} type="button">
 						<span class="manage-custom-apis-text">
-							Manage API Integrations
-							<span class="custom-api-count"
-								>({$customApis.length} API{$customApis.length !== 1 ? 's' : ''})</span
-							>
+							{t('settings_manage_apis_button')}
+							<span class="custom-api-count">
+								{t(
+									$customApis.length === 1
+										? 'settings_api_count_singular'
+										: 'settings_api_count_plural',
+									[$customApis.length.toString()]
+								)}
+							</span>
 						</span>
 						<ChevronRight size={16} />
 					</button>
@@ -243,14 +249,14 @@
         dark:text-text-subtle-dark
       "
 			>
-				{DEVELOPER_SETTING_CATEGORY.title}
+				{t(DEVELOPER_SETTING_CATEGORY.titleKey)}
 			</legend>
 			<div class="settings-category">
 				{#each DEVELOPER_SETTING_CATEGORY.settings as setting (setting.key)}
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
 						<NumberInput
-							helpText={setting.helpText}
-							label={setting.label}
+							helpText={setting.helpTextKey ? t(setting.helpTextKey) : undefined}
+							label={t(setting.labelKey)}
 							max={10}
 							min={1}
 							onChange={(value: number) => handleSettingChange(setting.key, value)}
@@ -263,9 +269,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{setting.label}
-								{#if setting.helpText}
-									<HelpIndicator text={setting.helpText} />
+								{t(setting.labelKey)}
+								{#if setting.helpTextKey}
+									<HelpIndicator text={t(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<Toggle
@@ -278,22 +284,24 @@
 
 				<!-- API Key input field -->
 				<div class="api-key-container mt-2.5">
-					<div class="setting-label mb-1.5 w-full">API Key (Optional)</div>
+					<div class="setting-label mb-1.5 w-full">{t('settings_api_key_label')}</div>
 					<div class="flex items-center gap-1">
 						<input
 							class="api-key-input"
 							oninput={handleApiKeyChange}
-							placeholder="Enter your API key"
+							placeholder={t('settings_api_key_placeholder')}
 							type={apiKeyVisible ? 'text' : 'password'}
 							value={$settings[SETTINGS_KEYS.API_KEY]}
 						/>
 						<button
 							class="api-key-toggle"
 							onclick={toggleApiKeyVisibility}
-							title="Show/Hide API Key"
+							title={t('settings_api_key_toggle_title')}
 							type="button"
 						>
-							<span class="text-xs select-none">{apiKeyVisible ? 'HIDE' : 'SHOW'}</span>
+							<span class="text-xs select-none">
+								{apiKeyVisible ? t('settings_api_key_hide') : t('settings_api_key_show')}
+							</span>
 						</button>
 					</div>
 				</div>
@@ -306,7 +314,7 @@
         "
 				>
 					<button class="developer-reset-button" onclick={resetDeveloperMode} type="button">
-						Hide Developer Settings
+						{t('settings_developer_hide_button')}
 					</button>
 				</div>
 			</div>
@@ -316,56 +324,56 @@
 
 <!-- Mature Content Warning Modal -->
 <Modal
-	confirmText="Enable Advanced Details"
+	confirmText={t('settings_modal_confirm_button')}
 	onClose={closeMatureWarning}
 	onConfirm={confirmMatureContent}
 	showCancel={false}
 	size="small"
-	title="Advanced Details Warning"
+	title={t('settings_modal_title')}
 	bind:isOpen={showMatureWarning}
 >
 	<p class="mb-4 text-sm leading-relaxed">
-		<strong>Advanced violation details may contain sensitive content</strong>
-		that is referenced from user profiles and activities that violated platform policies.
+		<strong>{t('settings_modal_warning_intro')}</strong>
+		{t('settings_modal_warning_continuation')}
 	</p>
 
 	<div class="modal-content-section-info">
-		<h4 class="modal-content-heading">What you'll see when enabled:</h4>
+		<h4 class="modal-content-heading">{t('settings_modal_enabled_heading')}</h4>
 		<ul class="modal-content-list">
 			<li class="modal-content-list-item-info">
-				Detailed violation messages explaining why a user was flagged
+				{t('settings_modal_enabled_item1')}
 			</li>
 			<li class="modal-content-list-item-info">
-				Evidence snippets containing the policy-violating content found
+				{t('settings_modal_enabled_item2')}
 			</li>
 			<li class="modal-content-list-item-info">
-				Specific examples of violations from user profiles and activities
+				{t('settings_modal_enabled_item3')}
 			</li>
 		</ul>
 	</div>
 
 	<div class="modal-content-section-warning">
-		<h4 class="modal-content-heading">Important Considerations</h4>
+		<h4 class="modal-content-heading">{t('settings_modal_considerations_heading')}</h4>
 		<ul class="modal-content-list">
 			<li class="modal-content-list-item-warning">
-				Content may include material that violates platform community standards
+				{t('settings_modal_considerations_item1')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				This information is intended for moderation and safety purposes only
+				{t('settings_modal_considerations_item2')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				If you prefer not to view detailed violation evidence, keep this setting disabled
+				{t('settings_modal_considerations_item3')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				You can disable this feature at any time in the settings
+				{t('settings_modal_considerations_item4')}
 			</li>
 		</ul>
 	</div>
 
 	<div class="modal-content-section-recommendation">
 		<p class="m-0 text-sm leading-relaxed">
-			<strong>Recommendation:</strong> Only enable this if you need detailed violation information for
-			moderation purposes and understand that you may see content that violates community guidelines.
+			<strong>{t('settings_modal_recommendation_label')}</strong>
+			{t('settings_modal_recommendation_text')}
 		</p>
 	</div>
 </Modal>

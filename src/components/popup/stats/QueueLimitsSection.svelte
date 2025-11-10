@@ -4,6 +4,7 @@
 	import type { QueueLimitsData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { Key } from 'lucide-svelte';
+	import { t } from '@/lib/stores/i18n';
 
 	// Queue limits state
 	let queueLimits = $state<QueueLimitsData | null>(null);
@@ -17,15 +18,15 @@
 		const now = Math.floor(Date.now() / 1000);
 		const secondsLeft = queueLimits.reset_time - now;
 
-		if (secondsLeft < 0) return 'Resetting...';
+		if (secondsLeft < 0) return t('stats_queue_resetting');
 
 		const hoursLeft = Math.floor(secondsLeft / 3600);
 		const minutesLeft = Math.floor((secondsLeft % 3600) / 60);
 
 		if (hoursLeft > 0) {
-			return `${hoursLeft}h ${minutesLeft}m`;
+			return t('stats_queue_time_hours', [hoursLeft.toString(), minutesLeft.toString()]);
 		}
-		return `${minutesLeft}m`;
+		return t('stats_queue_time_minutes', [minutesLeft.toString()]);
 	});
 
 	// Calculate usage percentage
@@ -44,7 +45,7 @@
 			const limits = await apiClient.getQueueLimits();
 			queueLimits = limits;
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Failed to load queue limits';
+			error = t('stats_queue_error');
 			logger.error('Failed to load queue limits:', err);
 		} finally {
 			isLoading = false;
@@ -65,7 +66,7 @@
 </script>
 
 <div class="queue-limits-section">
-	<h3 class="queue-limits-section-title">Queue Limits</h3>
+	<h3 class="queue-limits-section-title">{t('stats_queue_title')}</h3>
 
 	{#if isLoading}
 		<div
@@ -75,11 +76,11 @@
         "
 		>
 			<LoadingSpinner size="medium" />
-			<span>Loading queue limits...</span>
+			<span>{t('stats_queue_loading')}</span>
 		</div>
 	{:else if error}
 		<div class="py-4 text-center">
-			<div class="text-error mb-3 text-sm font-medium">Failed to load queue limits</div>
+			<div class="text-error mb-3 text-sm font-medium">{t('stats_queue_error')}</div>
 			<button
 				style:background-color="var(--color-primary)"
 				class="
@@ -91,7 +92,7 @@
 				onclick={handleRetry}
 				type="button"
 			>
-				Retry
+				{t('stats_queue_retry')}
 			</button>
 		</div>
 	{:else if queueLimits}
@@ -100,13 +101,13 @@
 			<div class="queue-usage-display">
 				<div class="queue-usage-labels">
 					<div class="queue-usage-label-left">
-						<span class="queue-usage-label">Usage</span>
+						<span class="queue-usage-label">{t('stats_queue_usage')}</span>
 						<span class="queue-usage-amount">
 							{queueLimits.current_usage} / {queueLimits.limit}
 						</span>
 					</div>
 					<div class="queue-usage-label-right">
-						<span class="queue-usage-label">Remaining</span>
+						<span class="queue-usage-label">{t('stats_queue_remaining')}</span>
 						<span class="queue-remaining-amount">{queueLimits.remaining}</span>
 					</div>
 				</div>
@@ -114,7 +115,11 @@
 				<!-- Progress Bar -->
 				<div
 					class="queue-progress-bar"
-					aria-label="{queueLimits.current_usage} of {queueLimits.limit} used, {queueLimits.remaining} remaining"
+					aria-label={t('stats_queue_aria_progress', [
+						queueLimits.current_usage.toString(),
+						queueLimits.limit.toString(),
+						queueLimits.remaining.toString()
+					])}
 					aria-valuemax="100"
 					aria-valuemin="0"
 					aria-valuenow={usagePercentage()}
@@ -136,17 +141,17 @@
 				{#if queueLimits.has_api_key}
 					<div class="queue-api-key-badge">
 						<Key class="size-3" />
-						<span>Enhanced Limits Active</span>
+						<span>{t('stats_queue_enhanced')}</span>
 					</div>
 				{:else}
 					<div class="queue-api-key-badge queue-default-limits">
-						<span>Default Limits</span>
+						<span>{t('stats_queue_default')}</span>
 					</div>
 				{/if}
 
 				<!-- Reset Timer -->
 				<div class="queue-reset-timer">
-					<span class="queue-reset-label">Resets in</span>
+					<span class="queue-reset-label">{t('stats_queue_resets_in')}</span>
 					<span class="queue-reset-time">{timeUntilReset()}</span>
 				</div>
 			</div>

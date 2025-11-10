@@ -1,0 +1,1646 @@
+{
+	"popup_header_description": {
+		"message": "Индикаторы безопасности в реальном времени, предупреждающие вас о неподходящих пользователях Roblox до взаимодействия с ними."
+	},
+	"banner_advanced_violation_aria_dismiss": {
+		"message": "Закрыть баннер рекомендации"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Закрыть рекомендацию"
+	},
+	"banner_advanced_violation_message": {
+		"message": "Включите расширенные сведения о нарушениях для получения дополнительной информации"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Перейти к настройке расширенных сведений о нарушениях"
+	},
+	"banner_advanced_violation_button_go_to_setting": {
+		"message": "Перейти к настройкам"
+	},
+	"banner_changelog_message": {
+		"message": "Вышло новое обновление $1!"
+	},
+	"banner_changelog_aria_dismiss": {
+		"message": "Закрыть баннер изменений"
+	},
+	"banner_changelog_title_view_details": {
+		"message": "Просмотреть полный список изменений"
+	},
+	"banner_changelog_title_dismiss": {
+		"message": "Закрыть список изменений"
+	},
+	"banner_changelog_button_view_details": {
+		"message": "Подробнее"
+	},
+	"navbar_tab_stats": {
+		"message": "Статистика"
+	},
+	"navbar_tab_warzone": {
+		"message": "Военная зона"
+	},
+	"navbar_tab_settings": {
+		"message": "Настройки"
+	},
+	"navbar_settings_tooltip": {
+		"message": "Настройки (Alt+Клик для режима разработчика)"
+	},
+	"footer_discord": {
+		"message": "Discord"
+	},
+	"footer_github": {
+		"message": "GitHub"
+	},
+	"footer_source_code": {
+		"message": "Исходный код"
+	},
+	"footer_help": {
+		"message": "Справка и информация"
+	},
+	"footer_privacy": {
+		"message": "Политика конфиденциальности"
+	},
+	"footer_terms": {
+		"message": "Условия использования"
+	},
+	"footer_made_by": {
+		"message": "Создано jaxron"
+	},
+	"settings_developer_unlocked": {
+		"message": "Режим разработчика активирован! Доступны дополнительные настройки."
+	},
+	"settings_theme_light": {
+		"message": "Светлая"
+	},
+	"settings_theme_dark": {
+		"message": "Тёмная"
+	},
+	"settings_theme_auto": {
+		"message": "Авто"
+	},
+	"settings_api_system_label": {
+		"message": "(Системный)"
+	},
+	"settings_manage_apis_button": {
+		"message": "Управление интеграциями API"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_label": {
+		"message": "API-ключ (необязательно)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Введите ваш API-ключ"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Показать/Скрыть API-ключ"
+	},
+	"settings_api_key_hide": {
+		"message": "СКРЫТЬ"
+	},
+	"settings_api_key_show": {
+		"message": "ПОКАЗАТЬ"
+	},
+	"settings_developer_hide_button": {
+		"message": "Скрыть настройки разработчика"
+	},
+	"settings_category_content_display": {
+		"message": "Отображение контента"
+	},
+	"settings_category_integrations": {
+		"message": "Интеграции"
+	},
+	"settings_category_page_settings": {
+		"message": "Настройки страниц"
+	},
+	"settings_category_developer": {
+		"message": "Разработчик"
+	},
+	"settings_label_theme": {
+		"message": "Тема"
+	},
+	"settings_label_advanced_violations": {
+		"message": "Показывать расширенные сведения о нарушениях"
+	},
+	"settings_label_home_page": {
+		"message": "Главная страница"
+	},
+	"settings_label_profile_pages": {
+		"message": "Страницы профилей"
+	},
+	"settings_label_friends_pages": {
+		"message": "Страницы друзей"
+	},
+	"settings_label_groups_pages": {
+		"message": "Страницы групп"
+	},
+	"settings_label_search_pages": {
+		"message": "Страницы поиска"
+	},
+	"settings_label_report_helper": {
+		"message": "Помощник жалоб"
+	},
+	"settings_label_debug_logging": {
+		"message": "Включить отладочное журналирование"
+	},
+	"settings_label_cache_duration": {
+		"message": "Длительность кеша (минуты)"
+	},
+	"settings_help_theme": {
+		"message": "Авто следует настройке темы Roblox. Светлая и Тёмная переопределяют этот параметр."
+	},
+	"settings_help_advanced_violations": {
+		"message": "Отображать подробные сообщения о нарушениях и доказательства. Может содержать контент для взрослых."
+	},
+	"settings_help_debug_logging": {
+		"message": "Показывать подробные логи в консоли браузера (F12 -> Консоль) для диагностики."
+	},
+	"settings_help_cache_duration": {
+		"message": "Как долго кешировать данные о статусе пользователя (1-10 минут). Большие значения уменьшают API-запросы, но могут показывать устаревшую информацию."
+	},
+	"settings_modal_title": {
+		"message": "Предупреждение о расширенных сведениях"
+	},
+	"settings_modal_confirm_button": {
+		"message": "Включить расширенные сведения"
+	},
+	"settings_modal_warning_intro": {
+		"message": "Расширенные сведения о нарушениях могут содержать деликатный контент"
+	},
+	"settings_modal_warning_continuation": {
+		"message": ", на который ссылаются профили пользователей и действия, нарушившие правила платформы."
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Что вы увидите при включении:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Подробные сообщения о нарушениях, объясняющие, почему пользователь был отмечен"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Фрагменты доказательств, содержащие найденный контент, нарушающий правила"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Конкретные примеры нарушений из профилей и действий пользователей"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Важные соображения"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "Контент может включать материалы, нарушающие стандарты сообщества платформы"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Эта информация предназначена только для модерации и безопасности"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Если вы предпочитаете не просматривать подробные доказательства нарушений, оставьте эту настройку выключенной"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Вы можете отключить эту функцию в любое время в настройках"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Рекомендация:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "Включайте это только если вам нужна подробная информация о нарушениях для модерации и вы понимаете, что можете увидеть контент, нарушающий правила сообщества."
+	},
+	"stats_changelog_type_added": {
+		"message": "Добавлено"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Изменено"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Устарело"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Удалено"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Исправлено"
+	},
+	"stats_changelog_type_security": {
+		"message": "Безопасность"
+	},
+	"stats_changelog_type_update": {
+		"message": "Обновление"
+	},
+	"stats_changelog_title": {
+		"message": "Список изменений"
+	},
+	"stats_changelog_empty": {
+		"message": "Нет записей об изменениях."
+	},
+	"stats_financial_title": {
+		"message": "Цель финансирования"
+	},
+	"stats_financial_raised": {
+		"message": "Собрано"
+	},
+	"stats_financial_surplus": {
+		"message": "Излишек"
+	},
+	"stats_financial_remaining": {
+		"message": "Осталось"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Поддержать на Ko-fi"
+	},
+	"stats_financial_button_funded": {
+		"message": "Спасибо!"
+	},
+	"stats_financial_button_support": {
+		"message": "Поддержать разработку"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Скрыть графики использования"
+	},
+	"stats_financial_charts_show": {
+		"message": "Показать графики использования"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Недельные графики использования"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Полностью профинансировано с излишком $1"
+	},
+	"stats_financial_aria_progress": {
+		"message": "Собрано $1, осталось $2 из цели $3"
+	},
+	"stats_queue_title": {
+		"message": "Лимиты очереди"
+	},
+	"stats_queue_loading": {
+		"message": "Загрузка лимитов очереди..."
+	},
+	"stats_queue_error": {
+		"message": "Не удалось загрузить лимиты очереди"
+	},
+	"stats_queue_retry": {
+		"message": "Повторить"
+	},
+	"stats_queue_usage": {
+		"message": "Использование"
+	},
+	"stats_queue_remaining": {
+		"message": "Осталось"
+	},
+	"stats_queue_enhanced": {
+		"message": "Расширенные лимиты активны"
+	},
+	"stats_queue_default": {
+		"message": "Стандартные лимиты"
+	},
+	"stats_queue_resets_in": {
+		"message": "Сброс через"
+	},
+	"stats_queue_resetting": {
+		"message": "Сброс..."
+	},
+	"stats_queue_time_hours": {
+		"message": "$1ч $2м"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1м"
+	},
+	"stats_queue_aria_progress": {
+		"message": "Использовано $1 из $2, осталось $3"
+	},
+	"stats_statistics_title": {
+		"message": "Системная статистика"
+	},
+	"stats_statistics_refresh": {
+		"message": "Обновить статистику"
+	},
+	"stats_statistics_loading": {
+		"message": "Загрузка статистики..."
+	},
+	"stats_statistics_error": {
+		"message": "Не удалось загрузить статистику"
+	},
+	"stats_statistics_retry": {
+		"message": "Повторить"
+	},
+	"stats_statistics_users_title": {
+		"message": "Пользователи"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Группы"
+	},
+	"stats_statistics_community_title": {
+		"message": "Сообщество"
+	},
+	"stats_statistics_flagged": {
+		"message": "Отмечено"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Подтверждено"
+	},
+	"stats_statistics_votes": {
+		"message": "Всего голосов"
+	},
+	"stats_statistics_queued": {
+		"message": "Пользователи в очереди"
+	},
+	"stats_statistics_users_desc": {
+		"message": "других пользователей забанено Roblox"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "групп со смешанным контентом"
+	},
+	"stats_statistics_updated": {
+		"message": "Последнее обновление:"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Стоимость AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "Запросы AI"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "Токены AI"
+	},
+	"stats_chart_week_4": {
+		"message": "3 недели\nназад"
+	},
+	"stats_chart_week_3": {
+		"message": "2 недели\nназад"
+	},
+	"stats_chart_week_2": {
+		"message": "На прошлой\nнеделе"
+	},
+	"stats_chart_week_1": {
+		"message": "На этой\nнеделе"
+	},
+	"stats_chart_label_costs": {
+		"message": "Недельная стоимость AI"
+	},
+	"stats_chart_label_requests": {
+		"message": "Недельные запросы AI"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Всего токенов AI"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Всего запросов"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Общая стоимость"
+	},
+	"stats_chart_detail_period": {
+		"message": "Период"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Токены промпта"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Токены завершения"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Токены рассуждения"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Промпт"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Завершение"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Рассуждение"
+	},
+	"stats_chart_month_jan": {
+		"message": "Янв"
+	},
+	"stats_chart_month_feb": {
+		"message": "Фев"
+	},
+	"stats_chart_month_mar": {
+		"message": "Мар"
+	},
+	"stats_chart_month_apr": {
+		"message": "Апр"
+	},
+	"stats_chart_month_may": {
+		"message": "Май"
+	},
+	"stats_chart_month_jun": {
+		"message": "Июн"
+	},
+	"stats_chart_month_jul": {
+		"message": "Июл"
+	},
+	"stats_chart_month_aug": {
+		"message": "Авг"
+	},
+	"stats_chart_month_sep": {
+		"message": "Сен"
+	},
+	"stats_chart_month_oct": {
+		"message": "Окт"
+	},
+	"stats_chart_month_nov": {
+		"message": "Ноя"
+	},
+	"stats_chart_month_dec": {
+		"message": "Дек"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Токены промпта для $1: $2"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Токены завершения для $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Токены рассуждения для $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 для $2: $3"
+	},
+	"warzone_common_button_retry": {
+		"message": "Повторить"
+	},
+	"warzone_hunter_title": {
+		"message": "Охотник военной зоны"
+	},
+	"warzone_hunter_stat_points": {
+		"message": "Очки"
+	},
+	"warzone_hunter_stat_status": {
+		"message": "Статус"
+	},
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Аватар Discord"
+	},
+	"warzone_hunter_loading_connecting": {
+		"message": "Подключение..."
+	},
+	"warzone_hunter_status_anonymous": {
+		"message": "Анонимный"
+	},
+	"warzone_hunter_status_public": {
+		"message": "Публичный"
+	},
+	"warzone_hunter_signup_description": {
+		"message": "Присоединяйтесь к сообществу для сообщения о подтверждённых пользователях высокого риска. Работайте вместе с охотниками со всего мира для повышения успешности блокировок и безопасности Roblox для всех."
+	},
+	"warzone_hunter_feature_report": {
+		"message": "Сообщайте о подтверждённых пользователях высокого риска"
+	},
+	"warzone_hunter_feature_cleanup": {
+		"message": "Помогите очистить платформу и удалить злоумышленников"
+	},
+	"warzone_hunter_feature_community": {
+		"message": "Работайте с сообществом для большей успешности блокировок"
+	},
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Зарабатывайте очки и поднимайтесь в таблице лидеров"
+	},
+	"warzone_hunter_beta_label": {
+		"message": "Закрытая бета:"
+	},
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Доступно только выбранным пользователям. Присоединяйтесь к нашему"
+	},
+	"warzone_hunter_beta_discord_link": {
+		"message": "серверу Discord"
+	},
+	"warzone_hunter_beta_text_after_link": {
+		"message": "для новостей."
+	},
+	"warzone_hunter_button_login": {
+		"message": "Войти через Discord"
+	},
+	"warzone_hunter_button_logout": {
+		"message": "Выйти"
+	},
+	"warzone_hunter_welcome_message": {
+		"message": "Добро пожаловать, Охотник! Теперь вы можете участвовать в активностях военной зоны и помогать защищать сообщество Roblox. Посетите главную страницу Roblox, чтобы начать охотничьи миссии."
+	},
+	"warzone_hunter_confirm_logout": {
+		"message": "Вы уверены, что хотите выйти?\n\nВы можете войти снова в любое время, используя вашу учётную запись Discord."
+	},
+	"warzone_leaderboard_loading": {
+		"message": "Загрузка таблицы лидеров..."
+	},
+	"warzone_leaderboard_error_load": {
+		"message": "Не удалось загрузить таблицу лидеров"
+	},
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Включить анонимных охотников"
+	},
+	"warzone_leaderboard_total_hunters": {
+		"message": "Всего охотников: $1"
+	},
+	"warzone_leaderboard_your_rank": {
+		"message": "Ваш ранг: #$1"
+	},
+	"warzone_leaderboard_section_top": {
+		"message": "Лучшие охотники"
+	},
+	"warzone_leaderboard_section_rankings": {
+		"message": "Рейтинги"
+	},
+	"warzone_leaderboard_badge_you": {
+		"message": "Вы"
+	},
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 жалоб"
+	},
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% успех"
+	},
+	"warzone_order_type_ban_count": {
+		"message": "Количество банов"
+	},
+	"warzone_order_type_zone_liberation": {
+		"message": "Освобождение зоны"
+	},
+	"warzone_order_type_verification": {
+		"message": "Проверка"
+	},
+	"warzone_order_label_completed": {
+		"message": "Завершено"
+	},
+	"warzone_order_label_expires": {
+		"message": "Истекает"
+	},
+	"warzone_order_label_progress": {
+		"message": "Прогресс"
+	},
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
+	},
+	"warzone_target_status_confirmed": {
+		"message": "Подтверждено"
+	},
+	"warzone_target_status_flagged": {
+		"message": "Отмечено"
+	},
+	"warzone_target_meta_confidence": {
+		"message": "Уверенность"
+	},
+	"warzone_target_meta_attempts": {
+		"message": "Попытки"
+	},
+	"warzone_target_meta_active": {
+		"message": "Активно"
+	},
+	"warzone_mode_global": {
+		"message": "глобальный"
+	},
+	"warzone_mode_zone": {
+		"message": "зона"
+	},
+	"warzone_chart_error_load": {
+		"message": "Не удалось загрузить $1 исторические данные"
+	},
+	"warzone_chart_tab_liberation": {
+		"message": "Освобождение"
+	},
+	"warzone_chart_tab_users": {
+		"message": "Пользователи"
+	},
+	"warzone_chart_tab_ban_rate": {
+		"message": "Процент банов"
+	},
+	"warzone_chart_label_global_liberation": {
+		"message": "Глобальное освобождение"
+	},
+	"warzone_chart_label_zone_liberation": {
+		"message": "Освобождение зоны"
+	},
+	"warzone_chart_label_total_users": {
+		"message": "Всего пользователей"
+	},
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Глобальный процент банов"
+	},
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Процент банов зоны"
+	},
+	"warzone_chart_legend_banned": {
+		"message": "Забанено"
+	},
+	"warzone_chart_legend_flagged": {
+		"message": "Отмечено"
+	},
+	"warzone_chart_legend_confirmed": {
+		"message": "Подтверждено"
+	},
+	"warzone_chart_tooltip_date": {
+		"message": "Дата"
+	},
+	"warzone_chart_tooltip_total_users": {
+		"message": "Всего пользователей"
+	},
+	"warzone_chart_tooltip_banned": {
+		"message": "Забанено"
+	},
+	"warzone_overview_loading": {
+		"message": "Загрузка военной карты..."
+	},
+	"warzone_overview_error_load": {
+		"message": "Не удалось загрузить военную карту"
+	},
+	"warzone_overview_section_zones": {
+		"message": "Военные зоны"
+	},
+	"warzone_overview_section_targets": {
+		"message": "Активные цели"
+	},
+	"warzone_overview_section_global_stats": {
+		"message": "Глобальная военная статистика"
+	},
+	"warzone_overview_section_global_trends": {
+		"message": "Глобальные тенденции (30 дней)"
+	},
+	"warzone_overview_section_major_orders": {
+		"message": "Активные основные приказы"
+	},
+	"warzone_overview_button_find_user": {
+		"message": "Найти пользователя для жалобы"
+	},
+	"warzone_overview_finding_user_loading": {
+		"message": "Поиск пользователя..."
+	},
+	"warzone_overview_error_no_users": {
+		"message": "Нет пользователей для жалобы. Проверьте позже!"
+	},
+	"warzone_overview_error_auth_expired": {
+		"message": "Истёк срок аутентификации. Пожалуйста, выйдите и войдите снова."
+	},
+	"warzone_overview_error_find_user": {
+		"message": "Не удалось найти пользователя для жалобы. Попробуйте снова."
+	},
+	"warzone_overview_stat_total_zones": {
+		"message": "Всего зон"
+	},
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Среднее освобождение"
+	},
+	"warzone_overview_stat_total_banned": {
+		"message": "Всего забанено"
+	},
+	"warzone_overview_stat_active_targets": {
+		"message": "Активные цели"
+	},
+	"warzone_profile_title": {
+		"message": "Профиль"
+	},
+	"warzone_profile_stat_points": {
+		"message": "Очки"
+	},
+	"warzone_profile_label_discord": {
+		"message": "Discord"
+	},
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Аватар Discord"
+	},
+	"warzone_profile_label_visibility": {
+		"message": "Видимость"
+	},
+	"warzone_profile_label_joined": {
+		"message": "Присоединился"
+	},
+	"warzone_profile_label_last_active": {
+		"message": "Последняя активность"
+	},
+	"warzone_profile_visibility_anonymous": {
+		"message": "Анонимный"
+	},
+	"warzone_profile_visibility_public": {
+		"message": "Публичный"
+	},
+	"warzone_profile_button_reset_uuid": {
+		"message": "Выйти со всех устройств"
+	},
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Выход..."
+	},
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Выход со всех устройств выполнен"
+	},
+	"warzone_profile_button_logout": {
+		"message": "Выйти"
+	},
+	"warzone_profile_confirm_logout": {
+		"message": "Вы уверены, что хотите выйти?\n\nВы можете войти снова в любое время, используя вашу учётную запись Discord."
+	},
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Выйти со всех устройств?\n\nЭто аннулирует все активные сеансы на других устройствах. Вы останетесь в системе на этом устройстве, но все другие устройства будут выведены из системы.\n\nЭто полезно, если вы подозреваете, что ваша учётная запись была скомпрометирована."
+	},
+	"warzone_profile_error_reset_uuid": {
+		"message": "Не удалось выйти со всех устройств. Попробуйте снова."
+	},
+	"warzone_nav_tab_war_zone": {
+		"message": "Военная зона"
+	},
+	"warzone_nav_tab_profile": {
+		"message": "Профиль"
+	},
+	"warzone_nav_tab_leaderboard": {
+		"message": "Таблица лидеров"
+	},
+	"warzone_zone_loading": {
+		"message": "Загрузка деталей зоны..."
+	},
+	"warzone_zone_error_load": {
+		"message": "Не удалось загрузить детали зоны"
+	},
+	"warzone_zone_button_back": {
+		"message": "Назад к обзору"
+	},
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% Освобождено"
+	},
+	"warzone_zone_stat_total_users": {
+		"message": "Всего пользователей"
+	},
+	"warzone_zone_stat_banned": {
+		"message": "Забанено"
+	},
+	"warzone_zone_stat_flagged": {
+		"message": "Отмечено"
+	},
+	"warzone_zone_stat_confirmed": {
+		"message": "Подтверждено"
+	},
+	"warzone_zone_section_trends": {
+		"message": "Тенденции зоны (30 дней)"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Отмена"
+	},
+	"queue_popup_submit_button": {
+		"message": "Отправить на проверку"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Отправка..."
+	},
+	"queue_popup_title_reprocess": {
+		"message": "Повторная проверка пользователя"
+	},
+	"queue_popup_title_queue": {
+		"message": "Поставить пользователя в очередь на проверку"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Вы собираетесь отправить пользователя (ID: $1) на повторный анализ нашей системой."
+	},
+	"queue_popup_description_analysis": {
+		"message": "Вы собираетесь отправить пользователя (ID: $1) на анализ нашей системой."
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Какой это тип отправки?"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "У пользователя неподходящий контент"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "У этого пользователя явно неподходящий контент в профиле, аватаре, друзьях или группах."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Общая проверка безопасности"
+	},
+	"queue_popup_option_general_description": {
+		"message": "Я не уверен, но хочу, чтобы этот пользователь был проанализирован на общую оценку безопасности."
+	},
+	"queue_popup_general_check_message": {
+		"message": "Этот пользователь будет проанализирован на общие проблемы безопасности. Конкретные причины отметки не требуются."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Выберите причину(ы) отметки:"
+	},
+	"queue_popup_outfit_title": {
+		"message": "Неподходящие наряды"
+	},
+	"queue_popup_outfit_description": {
+		"message": "У этого пользователя неподходящие наряды или аватары."
+	},
+	"queue_popup_profile_title": {
+		"message": "Неподходящий профиль"
+	},
+	"queue_popup_profile_description": {
+		"message": "У этого пользователя неподходящий контент в имени пользователя, отображаемом имени или описании."
+	},
+	"queue_popup_friends_title": {
+		"message": "Неподходящие друзья"
+	},
+	"queue_popup_friends_description": {
+		"message": "У этого пользователя неподходящие друзья."
+	},
+	"queue_popup_groups_title": {
+		"message": "Неподходящие группы"
+	},
+	"queue_popup_groups_description": {
+		"message": "Этот пользователь состоит в неподходящих группах."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Требуется выбор:"
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Пожалуйста, выберите хотя бы одну причину отметки перед продолжением."
+	},
+	"queue_popup_lock_button": {
+		"message": "Зафиксировать мой выбор"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Вы должны зафиксировать свой выбор перед отправкой."
+	},
+	"queue_popup_summary_heading": {
+		"message": "Выбранные опции:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Будет приоритезирован для неподходящих нарядов"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Не выбрано"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Будет приоритезирован для неподходящего контента профиля"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Не выбрано"
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Будет приоритезирован для неподходящих друзей"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Не выбрано"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Будет приоритезирован для неподходящих групп"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Не выбрано"
+	},
+	"queue_popup_unlock_button": {
+		"message": "Разблокировать выбор"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "Нажмите, чтобы разблокировать и изменить свой выбор."
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Процесс проверки"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Анализируется AI-алгоритмами для обнаружения потенциальных проблем безопасности"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Если отмечено AI, проверяется модераторами-людьми для окончательного подтверждения"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Результаты добавляются в базу данных с соответствующей оценкой безопасности"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Важное предупреждение"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "Злоупотребление этой функцией"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(например, спам отправками) может привести к ограничениям вашей учётной записи. Активно автоматическое обнаружение злоупотреблений."
+	},
+	"friend_warning_block_button": {
+		"message": "Заблокировать пользователя"
+	},
+	"friend_warning_cancel_button": {
+		"message": "Отменить запрос"
+	},
+	"friend_warning_proceed_button": {
+		"message": "Продолжить в любом случае"
+	},
+	"friend_warning_title": {
+		"message": "Предупреждение: Небезопасный пользователь"
+	},
+	"friend_warning_avatar_alt": {
+		"message": "Аватар $1"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ID пользователя: $1"
+	},
+	"friend_warning_risk_title": {
+		"message": "Потенциально неподходящий пользователь"
+	},
+	"friend_warning_risk_message": {
+		"message": "Этот пользователь был отмечен нашей системой обнаружения. Пожалуйста, просмотрите его профиль перед принятием этого запроса в друзья."
+	},
+	"friend_warning_confidence_label": {
+		"message": "Уверенность: $1%"
+	},
+	"friend_warning_why_matters_heading": {
+		"message": "Почему это важно"
+	},
+	"friend_warning_why_matters_item1": {
+		"message": "Этот пользователь может участвовать в неподходящих разговорах или поведении"
+	},
+	"friend_warning_why_matters_item2": {
+		"message": "Ваша учётная запись может быть связана с неподходящими пользователями в нашей системе"
+	},
+	"friend_warning_why_matters_item3": {
+		"message": "Вы можете подвергнуться нежелательному или вредному контенту"
+	},
+	"friend_warning_why_matters_item4": {
+		"message": "У этого пользователя есть явные доказательства нарушения Условий использования Roblox"
+	},
+	"friend_warning_recommendations_heading": {
+		"message": "Рекомендуемые действия"
+	},
+	"friend_warning_recommendations_item1": {
+		"message": "Внимательнее просмотрите информацию его профиля"
+	},
+	"friend_warning_recommendations_item2": {
+		"message": "Пожалуйтесь на них в Roblox, если видите неподходящий контент"
+	},
+	"friend_warning_recommendations_item3": {
+		"message": "Общайтесь только с пользователями, которых вы знаете и которым доверяете"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Продолжение с этим запросом в друзья может подвергнуть вас неподходящему контенту или вредным взаимодействиям."
+	},
+	"report_helper_card_title_reportable": {
+		"message": "Найден контент для жалобы"
+	},
+	"report_helper_card_title_not_reportable": {
+		"message": "Контент для жалобы не обнаружен"
+	},
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector обнаружил контент профиля, нарушающий Условия использования Roblox."
+	},
+	"report_helper_evidence_header": {
+		"message": "Обнаруженная проблема"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Причина:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Фрагменты доказательств:"
+	},
+	"report_helper_action_message": {
+		"message": "Нажмите ниже, и Rotector автоматически заполнит форму жалобы соответствующей категорией и деталями."
+	},
+	"report_helper_fill_button": {
+		"message": "Заполнить форму жалобы"
+	},
+	"report_helper_filling_button": {
+		"message": "Заполнение..."
+	},
+	"report_helper_warning_label": {
+		"message": "Важно:"
+	},
+	"report_helper_warning_message": {
+		"message": "Жалобы подаются от вашей учётной записи Roblox. Просмотрите всю информацию перед отправкой и жалуйтесь только на настоящие нарушения."
+	},
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector пока не обнаружил явно подходящий для жалобы контент в описании профиля этого пользователя."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Вы всё ещё можете отправить жалобу"
+	},
+	"report_helper_info_message_part2": {
+		"message": ", если считаете, что этот пользователь нарушает Условия использования Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector позволяет жаловаться на неподходящий контент в описаниях профилей. Мы не обнаруживаем большинство категорий жалоб, включая:"
+	},
+	"report_helper_category_item1": {
+		"message": "Запрос или предоставление личной информации"
+	},
+	"report_helper_category_item2": {
+		"message": "Издевательства, домогательства, дискриминация"
+	},
+	"report_helper_category_item3": {
+		"message": "Эксплойты, читы, мошенничество"
+	},
+	"report_helper_category_item4": {
+		"message": "Кража аккаунта (фишинг, взлом, торговля)"
+	},
+	"report_helper_category_item5": {
+		"message": "Угрозы в реальной жизни или угрозы самоубийства"
+	},
+	"report_helper_info_message_part4": {
+		"message": "Если вы жалуетесь на любое из этих нарушений, пожалуйста, продолжите свою жалобу и предоставьте конкретные детали, чтобы помочь модераторам Roblox."
+	},
+	"queue_error_modal_close_button": {
+		"message": "Закрыть"
+	},
+	"queue_error_modal_title": {
+		"message": "Ошибка"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "Произошла неизвестная ошибка"
+	},
+	"queue_error_modal_failed_message": {
+		"message": "Не удалось поставить пользователя ID $1 в очередь на проверку."
+	},
+	"queue_error_modal_details_heading": {
+		"message": "Детали ошибки"
+	},
+	"queue_error_modal_error_code_label": {
+		"message": "Код ошибки:"
+	},
+	"queue_error_modal_request_id_label": {
+		"message": "ID запроса:"
+	},
+	"queue_error_modal_next_steps_heading": {
+		"message": "Что делать дальше"
+	},
+	"queue_error_modal_step1": {
+		"message": "Проверьте, не был ли пользователь уже отмечен нашей системой"
+	},
+	"queue_error_modal_step2": {
+		"message": "Если ошибка сохраняется, попробуйте снова через несколько минут"
+	},
+	"queue_error_modal_step3": {
+		"message": "Если вам нужна поддержка, укажите ID запроса выше"
+	},
+	"queue_success_modal_close_button": {
+		"message": "Закрыть"
+	},
+	"queue_success_modal_title": {
+		"message": "Успех"
+	},
+	"queue_success_modal_success_message": {
+		"message": "Пользователь ID $1 успешно поставлен в очередь на проверку."
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Что происходит дальше"
+	},
+	"queue_success_modal_step1": {
+		"message": "Наш AI проанализирует эту учётную запись на паттерны беспокойства"
+	},
+	"queue_success_modal_step2": {
+		"message": "Если отмечен, статус пользователя будет подтверждён в течение нескольких минут"
+	},
+	"queue_success_modal_step3": {
+		"message": "Полная синхронизация системы и подтверждение займёт 24-48 часов"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Профиль этого пользователя содержит неподходящий контент, нарушающий Условия использования Roblox.\n\n"
+	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Обнаруженная проблема:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Фрагменты доказательств:\n"
+	},
+	"report_page_manager_unknown_category": {
+		"message": "Неизвестная категория"
+	},
+	"report_page_manager_category_prefix": {
+		"message": "Категория: $1"
+	},
+	"report_page_manager_comment_prefix": {
+		"message": "\n\nКомментарий: $1"
+	},
+	"report_page_manager_success_message": {
+		"message": "Форма успешно заполнена! Проверьте и отправьте, когда будете готовы."
+	},
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Автозаполнение недоступно. Текст жалобы скопирован в буфер обмена. Вы можете вставить его в поле комментария вручную."
+	},
+	"report_page_manager_autofill_failed": {
+		"message": "Автозаполнение не удалось. Пожалуйста, заполните форму жалобы вручную соответствующими деталями."
+	},
+	"tooltip_loading_user_info": {
+		"message": "Загрузка информации о пользователе..."
+	},
+	"tooltip_no_data_available": {
+		"message": "Нет данных для этого API"
+	},
+	"tooltip_error_details": {
+		"message": "Детали ошибки"
+	},
+	"tooltip_loading": {
+		"message": "Загрузка..."
+	},
+	"tooltip_queue_button": {
+		"message": "Поставить в очередь на проверку"
+	},
+	"tooltip_badge_reportable": {
+		"message": "Подходит для жалобы"
+	},
+	"tooltip_badge_queued": {
+		"message": "В очереди"
+	},
+	"tooltip_badge_outfit": {
+		"message": "Только наряд"
+	},
+	"tooltip_reportable_title": {
+		"message": "Можно пожаловаться в Roblox"
+	},
+	"tooltip_reportable_message": {
+		"message": "У этого пользователя есть явные доказательства неподходящего контента, видимого модераторам Roblox."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Пожаловаться в Roblox"
+	},
+	"tooltip_outfit_title": {
+		"message": "Отмечено только за наряд"
+	},
+	"tooltip_outfit_message": {
+		"message": "Этот пользователь был отмечен исключительно на основе наряда аватара. Обнаружение нарядов может давать ложные срабатывания, поэтому используйте своё собственное суждение при оценке этого пользователя."
+	},
+	"tooltip_metadata_queued": {
+		"message": "В очереди"
+	},
+	"tooltip_metadata_processing": {
+		"message": "Обработка"
+	},
+	"tooltip_metadata_took": {
+		"message": "Заняло"
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Последнее обновление"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "Повторить обработку?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "Данные этого пользователя устарели. Нажмите, чтобы поставить в очередь на анализ."
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Обработка..."
+	},
+	"tooltip_header_unsafe": {
+		"message": "Этот $1 был проверен как неподходящий модераторами-людьми."
+	},
+	"tooltip_header_pending": {
+		"message": "Этот $1 был отмечен AI с $2% уверенностью."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "Этот $1 в данный момент проверяется нашей системой. Это может занять несколько минут."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "Этот $1 был проверен нашей AI-системой и кажется безопасным. Если это ложное срабатывание, вы можете поставить в очередь на дальнейшую проверку."
+	},
+	"tooltip_header_integration": {
+		"message": "Этот $1 был отмечен сторонней системой анализа контента."
+	},
+	"tooltip_header_mixed_group": {
+		"message": "Эта группа содержит смесь подходящих и неподходящих участников."
+	},
+	"tooltip_header_mixed_user": {
+		"message": "Этот пользователь был связан с неподходящим контентом, но недостаточно доказательств для действий Roblox. Будьте осторожны при взаимодействии с ним."
+	},
+	"tooltip_header_past_offender": {
+		"message": "У этого $1 ранее был неподходящий контент, но его учётная запись в настоящее время выглядит чистой и может быть поставлена в очередь на проверку."
+	},
+	"tooltip_header_safe": {
+		"message": "Этот $1 ещё не был проверен."
+	},
+	"tooltip_header_unknown": {
+		"message": "Неизвестный статус"
+	},
+	"tooltip_header_unavailable": {
+		"message": "Информация о статусе недоступна."
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Не отмечено"
+	},
+	"tooltip_status_unsafe": {
+		"message": "Небезопасный"
+	},
+	"tooltip_status_under_review": {
+		"message": "На проверке"
+	},
+	"tooltip_status_likely_safe": {
+		"message": "Вероятно безопасный"
+	},
+	"tooltip_status_checking": {
+		"message": "Проверка..."
+	},
+	"tooltip_status_integration": {
+		"message": "Интеграция"
+	},
+	"tooltip_status_mixed": {
+		"message": "Смешанный"
+	},
+	"tooltip_status_past_offender": {
+		"message": "Бывший нарушитель"
+	},
+	"tooltip_status_unknown": {
+		"message": "Неизвестный"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Проверено"
+	},
+	"tooltip_profile_group_id": {
+		"message": "ID группы:"
+	},
+	"tooltip_profile_user": {
+		"message": "Пользователь"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_aria_close": {
+		"message": "Нажмите, чтобы закрыть подсказку"
+	},
+	"tooltip_aria_expand": {
+		"message": "Нажмите, чтобы развернуть подсказку"
+	},
+	"tooltip_entity_user": {
+		"message": "пользователь"
+	},
+	"tooltip_entity_group": {
+		"message": "группа"
+	},
+	"voting_header_title": {
+		"message": "Отзывы сообщества"
+	},
+	"voting_loading": {
+		"message": "Загрузка..."
+	},
+	"voting_count_singular": {
+		"message": "$1 голос"
+	},
+	"voting_count_plural": {
+		"message": "$1 голосов"
+	},
+	"voting_button_agree": {
+		"message": "Согласен"
+	},
+	"voting_button_disagree": {
+		"message": "Не согласен"
+	},
+	"voting_aria_agree": {
+		"message": "Согласиться с этим статусом"
+	},
+	"voting_aria_disagree": {
+		"message": "Не согласиться с этим статусом"
+	},
+	"voting_description": {
+		"message": "Помогите другим, подтвердив, правильный ли статус этого пользователя."
+	},
+	"engine_status_unknown": {
+		"message": "Неизвестный"
+	},
+	"engine_status_latest": {
+		"message": "Последний"
+	},
+	"engine_status_compatible": {
+		"message": "Совместимый"
+	},
+	"engine_status_outdated": {
+		"message": "Устаревший"
+	},
+	"engine_status_deprecated": {
+		"message": "Устаревший"
+	},
+	"engine_desc_unknown": {
+		"message": "Этот анализ использовал AI-движок с неизвестным статусом совместимости."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "Совместимость версии не может быть определена."
+	},
+	"engine_desc_latest": {
+		"message": "Этот анализ использовал самый актуальный AI-движок с новейшими возможностями обнаружения."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Наивысшая точность и наиболее полный анализ."
+	},
+	"engine_desc_compatible": {
+		"message": "Этот анализ использовал AI-движок, который всё ещё поддерживается, но не является последней версией."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Всё ещё очень точный с незначительными различиями в возможностях обнаружения."
+	},
+	"engine_desc_outdated": {
+		"message": "Этот анализ использовал AI-движок, который значительно отстаёт от последней версии."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Может иметь сниженную точность по сравнению с новыми версиями движка."
+	},
+	"engine_desc_deprecated": {
+		"message": "Этот анализ использовал AI-движок, который больше не поддерживается."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "Точность может быть значительно снижена, и к результатам следует относиться с осторожностью."
+	},
+	"engine_aria_info": {
+		"message": "Информация о версии движка"
+	},
+	"engine_header_version": {
+		"message": "Движок v$1"
+	},
+	"engine_version_unknown": {
+		"message": "Неизвестный"
+	},
+	"custom_api_form_title_edit": {
+		"message": "Редактировать пользовательский API"
+	},
+	"custom_api_form_title_add": {
+		"message": "Добавить пользовательский API"
+	},
+	"custom_api_form_label_name": {
+		"message": "Название"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "Мой пользовательский API"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Максимум 12 символов ($1/12)"
+	},
+	"custom_api_form_label_url": {
+		"message": "URL API"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_hint_url": {
+		"message": "Должен быть HTTPS. Это как базовый URL для ваших API-эндпоинтов. Мы будем вызывать {url}/user/{userId} для одиночных запросов и {url}/users для пакетных запросов."
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Таймаут (мс)"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Таймаут запроса в миллисекундах (1000-60000). По умолчанию: 5000 мс."
+	},
+	"custom_api_form_label_image": {
+		"message": "Горизонтальное изображение (необязательно)"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Загрузите горизонтальное изображение для вкладки подсказки (PNG, JPG, SVG, WebP). Рекомендуется: 480x160px (соотношение 3:1)."
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Удалить изображение"
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "Включить этот пользовательский API"
+	},
+	"custom_api_form_button_save": {
+		"message": "Сохранить"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Сохранение..."
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Требуется название"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Название должно быть не более 12 символов"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "Требуется URL"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL должен начинаться с https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Неверный формат URL"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Таймаут должен быть не менее 1000 мс (1 секунда)"
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Таймаут должен быть не более 60000 мс (60 секунд)"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Неверный тип файла. Пожалуйста, используйте PNG, JPG, SVG или WebP"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Неверный тип изображения. MIME-тип не соответствует расширению файла"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Предупреждение: Большой размер файла ($1КБ). Рассмотрите использование изображения меньшего размера для уменьшения использования хранилища."
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Не удалось прочитать файл изображения"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Не удалось обработать файл изображения"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Не удалось сохранить пользовательский API: "
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Неизвестная ошибка"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Назад"
+	},
+	"custom_api_mgmt_title": {
+		"message": "Интеграции API"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Управляйте всеми интеграциями API в одном месте. Rotector обеспечивает базовый анализ безопасности, и вы можете добавить до 5 пользовательских API для дополнительного анализа контента."
+	},
+	"custom_api_mgmt_button_docs": {
+		"message": "Просмотреть документацию"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Загрузка пользовательских API..."
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "Системный API"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Одиночный:"
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Пакетный:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Таймаут:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Создан:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Последний тест:"
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "мс"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Переместить вверх"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Переместить вниз"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "Проверить соединение"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "Редактировать"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Удалить"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Добавить пользовательский API"
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Достигнуто максимальное количество пользовательских API ($1). Удалите существующий API, чтобы добавить новый."
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Удалить пользовательский API \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Не удалось удалить пользовательский API"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ Соединение успешно!\n\nAPI \"$1\" доступен и отвечает."
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ Сбой соединения\n\nAPI \"$1\" не отвечает или вернул ошибку.\n\nПожалуйста, проверьте:\n• URL правильный и доступный\n• API-сервер запущен\n• CORS настроен при необходимости"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Ошибка проверки соединения\n\nНе удалось проверить API \"$1\".\n\nОшибка: $2"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Не удалось обновить статус API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_docs_button_back": {
+		"message": "Назад"
+	},
+	"custom_api_docs_title": {
+		"message": "Документация API"
+	},
+	"custom_api_docs_intro": {
+		"message": "Реализуйте два эндпоинта, которые возвращают данные о статусе пользователя. Все ответы должны использовать формат обёртки с полями success, data и error."
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Поиск одного пользователя"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Пакетный поиск пользователей"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Важные замечания"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Пример запроса"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Успешный ответ"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Ответ с ошибкой"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Обязательные поля (в объекте data)"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Необязательные поля (в объекте data)"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Типы флагов"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Тело запроса"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "Требуется HTTPS"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Формат обёртки"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Ключи причин"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Значки"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Цвета значков"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "Безопасный"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "На рассмотрении"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Небезопасный (рекомендуется)"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "В очереди"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Не используется"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Смешанный"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Бывший нарушитель"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Тип флага 2 (Небезопасный) является основным типом, который вам нужен для указания неподходящих пользователей. Используйте другие типы флагов только если у вас есть конкретная причина для различной категоризации пользователей."
+	},
+	"custom_api_docs_field_id": {
+		"message": "id (число) - ID пользователя как целое число"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "flagType (число) - тип флага 0-6 (см. ниже)"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "confidence (число) - уровень уверенности 0.0-1.0"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "reasons (объект) - Строковые названия причин как ключи, каждый содержит:"
+	},
+	"custom_api_docs_field_message": {
+		"message": "message (строка) - Описание причины"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "evidence (массив или null) - Строки доказательств или null"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "reviewer (объект) - username и displayName"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "engineVersion (строка) - Версия движка анализа"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "lastUpdated (число) - Unix-метка времени"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "badges (массив) - До 3 объектов пользовательских значков, каждый содержит:"
+	},
+	"custom_api_docs_field_badge_text": {
+		"message": "text (строка, обязательно) - Текст метки значка"
+	},
+	"custom_api_docs_field_badge_color": {
+		"message": "color (строка, необязательно) - Цвет фона (hex, rgb или именованный цвет)"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "textColor (строка, необязательно) - Цвет текста для контраста"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "confidence (число) - уверенность 0.0-1.0"
+	},
+	"custom_api_docs_note_https": {
+		"message": "Все API-эндпоинты должны использовать HTTPS для безопасности."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Все ответы должны использовать формат {success, data, error}. Когда success: true, включайте поле data. Когда success: false, включайте сообщение error."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Используйте описательные строковые названия для ключей причин (например, \"Паттерн высокого риска\", \"Подозрительная активность\"), а не числовые индексы. Они отображаются напрямую в подсказках."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "Значки — это небольшие визуальные индикаторы, которые появляются в подсказках пользователя рядом со статусом флага. Они отображаются вверху подсказки для быстрой передачи дополнительного контекста о пользователе. Используйте значки для выделения важной информации о статусе, такой как статус проверки, уровни приоритета или специальные категории. Распространённые примеры: \"Проверенный небезопасный\", \"Высокий приоритет\", \"Сообщено сообществом\", \"Автообнаружено\"."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "Цвета значков поддерживают несколько форматов: hex-коды (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) или именованные цвета (red). Когда цвет не указан, значки используют бирюзовый цвет по умолчанию. Когда textColor не указан, значки используют белый текст."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Поле data содержит объект, где ключи — это ID пользователей (как строки), а значения — объекты статуса пользователя."
+	}
+}

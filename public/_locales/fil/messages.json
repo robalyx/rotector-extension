@@ -300,7 +300,7 @@
 		"message": "Nagre-reset..."
 	},
 	"stats_queue_time_hours": {
-		"message": "$1o $2m"
+		"message": "$1 oras $2 minuto"
 	},
 	"stats_queue_time_minutes": {
 		"message": "$1m"
@@ -1563,7 +1563,7 @@
 		"message": "Ligtas"
 	},
 	"custom_api_docs_flag_type_1": {
-		"message": "Pending"
+		"message": "Naghihintay"
 	},
 	"custom_api_docs_flag_type_2": {
 		"message": "Hindi Ligtas (recommended)"

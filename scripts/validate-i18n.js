@@ -17,9 +17,39 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const LOCALES = ['en', 'es'];
 const LOCALE_DIR = path.join(__dirname, '..', 'public', '_locales');
 const SRC_DIR = path.join(__dirname, '..', 'src');
+
+/**
+ * Dynamically discover all available locales from the _locales directory
+ */
+function discoverLocales() {
+	if (!fs.existsSync(LOCALE_DIR)) {
+		console.error(`${colors.red}Error: Locale directory not found: ${LOCALE_DIR}${colors.reset}`);
+		return ['en'];
+	}
+
+	const locales = fs
+		.readdirSync(LOCALE_DIR, { withFileTypes: true })
+		.filter((dirent) => dirent.isDirectory())
+		.map((dirent) => dirent.name)
+		.filter((name) => {
+			// Verify that each directory contains a messages.json file
+			const messagesPath = path.join(LOCALE_DIR, name, 'messages.json');
+			return fs.existsSync(messagesPath);
+		})
+		.sort(); // Sort alphabetically for consistent output
+
+	// Ensure 'en' is first (base locale)
+	if (locales.includes('en')) {
+		locales.splice(locales.indexOf('en'), 1);
+		locales.unshift('en');
+	}
+
+	return locales;
+}
+
+const LOCALES = discoverLocales();
 
 // ANSI color codes for terminal output
 const colors = {

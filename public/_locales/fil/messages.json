@@ -1,0 +1,1646 @@
+{
+	"popup_header_description": {
+		"message": "Real-time na mga tagapagpahiwatig ng kaligtasan na magbabala sa iyo tungkol sa hindi angkop na mga user ng Roblox bago ka makipag-ugnayan sa kanila."
+	},
+	"banner_advanced_violation_aria_dismiss": {
+		"message": "Isara ang banner ng rekomendasyon"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Isara ang rekomendasyon"
+	},
+	"banner_advanced_violation_message": {
+		"message": "I-enable ang detalyadong impormasyon ng paglabag para sa mas mahusay na pag-unawa"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Pumunta sa setting ng detalyadong paglabag"
+	},
+	"banner_advanced_violation_button_go_to_setting": {
+		"message": "Pumunta sa Setting"
+	},
+	"banner_changelog_message": {
+		"message": "May bagong update na inilabas $1!"
+	},
+	"banner_changelog_aria_dismiss": {
+		"message": "Isara ang banner ng changelog"
+	},
+	"banner_changelog_title_view_details": {
+		"message": "Tingnan ang buong detalye ng changelog"
+	},
+	"banner_changelog_title_dismiss": {
+		"message": "Isara ang changelog"
+	},
+	"banner_changelog_button_view_details": {
+		"message": "Tingnan ang Detalye"
+	},
+	"navbar_tab_stats": {
+		"message": "Estadistika"
+	},
+	"navbar_tab_warzone": {
+		"message": "War Zone"
+	},
+	"navbar_tab_settings": {
+		"message": "Mga Setting"
+	},
+	"navbar_settings_tooltip": {
+		"message": "Mga Setting (Alt+Click para sa developer mode)"
+	},
+	"footer_discord": {
+		"message": "Discord"
+	},
+	"footer_github": {
+		"message": "GitHub"
+	},
+	"footer_source_code": {
+		"message": "Source Code"
+	},
+	"footer_help": {
+		"message": "Tulong at Tungkol"
+	},
+	"footer_privacy": {
+		"message": "Patakaran sa Privacy"
+	},
+	"footer_terms": {
+		"message": "Mga Tuntunin ng Serbisyo"
+	},
+	"footer_made_by": {
+		"message": "Ginawa ni jaxron"
+	},
+	"settings_developer_unlocked": {
+		"message": "Developer mode ay naka-unlock na! Mga advanced na setting ay available na."
+	},
+	"settings_theme_light": {
+		"message": "Maliwanag"
+	},
+	"settings_theme_dark": {
+		"message": "Madilim"
+	},
+	"settings_theme_auto": {
+		"message": "Awtomatiko"
+	},
+	"settings_api_system_label": {
+		"message": "(Sistema)"
+	},
+	"settings_manage_apis_button": {
+		"message": "Pamahalaan ang API Integration"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 mga API)"
+	},
+	"settings_api_key_label": {
+		"message": "API Key (Opsyonal)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Ilagay ang iyong API key"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Ipakita/Itago ang API Key"
+	},
+	"settings_api_key_hide": {
+		"message": "ITAGO"
+	},
+	"settings_api_key_show": {
+		"message": "IPAKITA"
+	},
+	"settings_developer_hide_button": {
+		"message": "Itago ang Developer Settings"
+	},
+	"settings_category_content_display": {
+		"message": "Pagpapakita ng Nilalaman"
+	},
+	"settings_category_integrations": {
+		"message": "Mga Integration"
+	},
+	"settings_category_page_settings": {
+		"message": "Mga Setting ng Pahina"
+	},
+	"settings_category_developer": {
+		"message": "Developer"
+	},
+	"settings_label_theme": {
+		"message": "Tema"
+	},
+	"settings_label_advanced_violations": {
+		"message": "Ipakita ang Detalyadong Impormasyon ng Paglabag"
+	},
+	"settings_label_home_page": {
+		"message": "Home Page"
+	},
+	"settings_label_profile_pages": {
+		"message": "Mga Profile Page"
+	},
+	"settings_label_friends_pages": {
+		"message": "Mga Friends Page"
+	},
+	"settings_label_groups_pages": {
+		"message": "Mga Groups Page"
+	},
+	"settings_label_search_pages": {
+		"message": "Mga Search Page"
+	},
+	"settings_label_report_helper": {
+		"message": "Report Helper"
+	},
+	"settings_label_debug_logging": {
+		"message": "I-enable ang Debug Logging"
+	},
+	"settings_label_cache_duration": {
+		"message": "Tagal ng Cache (minuto)"
+	},
+	"settings_help_theme": {
+		"message": "Awtomatikong sumusunod sa tema ng Roblox. Ang Maliwanag at Madilim ay nag-o-override sa kagustuhan na ito."
+	},
+	"settings_help_advanced_violations": {
+		"message": "Ipakita ang detalyadong mensahe ng paglabag at ebidensya. Maaaring maglaman ng mature na nilalaman."
+	},
+	"settings_help_debug_logging": {
+		"message": "Ipakita ang detalyadong mga log sa browser console (F12 -> Console) para sa troubleshooting."
+	},
+	"settings_help_cache_duration": {
+		"message": "Gaano katagal i-cache ang datos ng status ng user (1-10 minuto). Mas mataas na halaga ay nagpapababa ng API calls ngunit maaaring magpakita ng luma na impormasyon."
+	},
+	"settings_modal_title": {
+		"message": "Babala sa Advanced na Detalye"
+	},
+	"settings_modal_confirm_button": {
+		"message": "I-enable ang Advanced na Detalye"
+	},
+	"settings_modal_warning_intro": {
+		"message": "Ang detalyadong impormasyon ng paglabag ay maaaring maglaman ng sensitibong nilalaman"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "na kinuha mula sa mga profile ng user at aktibidad na lumabag sa mga patakaran ng platform."
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Ano ang makikita mo kapag naka-enable:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Detalyadong mensahe ng paglabag na nagpapaliwanag kung bakit na-flag ang user"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Mga snippet ng ebidensya na naglalaman ng nilalaman na lumabag sa patakaran"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Mga tukoy na halimbawa ng paglabag mula sa mga profile at aktibidad ng user"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Mahalagang Dapat Isaalang-alang"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "Ang nilalaman ay maaaring maglaman ng materyal na lumalabag sa mga pamantayan ng komunidad ng platform"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Ang impormasyong ito ay para lamang sa moderation at layunin ng kaligtasan"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Kung ayaw mong makita ang detalyadong ebidensya ng paglabag, panatilihing naka-disable ang setting na ito"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Maaari mong i-disable ang feature na ito anumang oras sa mga setting"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Rekomendasyon:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "I-enable lang ito kung kailangan mo ng detalyadong impormasyon ng paglabag para sa layunin ng moderation at nauunawaan mo na maaari kang makakita ng nilalaman na lumalabag sa mga alituntunin ng komunidad."
+	},
+	"stats_changelog_type_added": {
+		"message": "Idinagdag"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Binago"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Deprecated"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Inalis"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Naayos"
+	},
+	"stats_changelog_type_security": {
+		"message": "Seguridad"
+	},
+	"stats_changelog_type_update": {
+		"message": "Update"
+	},
+	"stats_changelog_title": {
+		"message": "Changelog"
+	},
+	"stats_changelog_empty": {
+		"message": "Walang available na changelog entries."
+	},
+	"stats_financial_title": {
+		"message": "Layunin sa Pondo"
+	},
+	"stats_financial_raised": {
+		"message": "Nakolekta"
+	},
+	"stats_financial_surplus": {
+		"message": "Sobra"
+	},
+	"stats_financial_remaining": {
+		"message": "Natitira"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Suportahan sa Ko-fi"
+	},
+	"stats_financial_button_funded": {
+		"message": "Salamat!"
+	},
+	"stats_financial_button_support": {
+		"message": "Suportahan ang Development"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Itago ang mga usage chart"
+	},
+	"stats_financial_charts_show": {
+		"message": "Ipakita ang mga usage chart"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Lingguhang Usage Charts"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Ganap na napondo na may $1 sobra"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 nakolekta, $2 natitira sa $3 na layunin"
+	},
+	"stats_queue_title": {
+		"message": "Mga Limitasyon ng Queue"
+	},
+	"stats_queue_loading": {
+		"message": "Naglo-load ng mga limitasyon ng queue..."
+	},
+	"stats_queue_error": {
+		"message": "Nabigo ang pag-load ng mga limitasyon ng queue"
+	},
+	"stats_queue_retry": {
+		"message": "Subukan Muli"
+	},
+	"stats_queue_usage": {
+		"message": "Paggamit"
+	},
+	"stats_queue_remaining": {
+		"message": "Natitira"
+	},
+	"stats_queue_enhanced": {
+		"message": "Enhanced na Limitasyon Aktibo"
+	},
+	"stats_queue_default": {
+		"message": "Default na Limitasyon"
+	},
+	"stats_queue_resets_in": {
+		"message": "Mag-re-reset sa"
+	},
+	"stats_queue_resetting": {
+		"message": "Nagre-reset..."
+	},
+	"stats_queue_time_hours": {
+		"message": "$1o $2m"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1m"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$1 sa $2 nagamit, $3 natitira"
+	},
+	"stats_statistics_title": {
+		"message": "Estadistika ng Sistema"
+	},
+	"stats_statistics_refresh": {
+		"message": "I-refresh ang Estadistika"
+	},
+	"stats_statistics_loading": {
+		"message": "Naglo-load ng estadistika..."
+	},
+	"stats_statistics_error": {
+		"message": "Nabigo ang pag-load ng estadistika"
+	},
+	"stats_statistics_retry": {
+		"message": "Subukan Muli"
+	},
+	"stats_statistics_users_title": {
+		"message": "Mga User"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Mga Grupo"
+	},
+	"stats_statistics_community_title": {
+		"message": "Komunidad"
+	},
+	"stats_statistics_flagged": {
+		"message": "Na-flag"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Nakumpirma"
+	},
+	"stats_statistics_votes": {
+		"message": "Kabuuang Boto"
+	},
+	"stats_statistics_queued": {
+		"message": "Naka-queue na User"
+	},
+	"stats_statistics_users_desc": {
+		"message": "ibang user na na-ban ng Roblox"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "grupo na may halo-halong nilalaman"
+	},
+	"stats_statistics_updated": {
+		"message": "Huling na-update:"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Gastos sa AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "AI Requests"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "AI Tokens"
+	},
+	"stats_chart_week_4": {
+		"message": "3 Linggo\nAng Nakalipas"
+	},
+	"stats_chart_week_3": {
+		"message": "2 Linggo\nAng Nakalipas"
+	},
+	"stats_chart_week_2": {
+		"message": "Nakaraang Linggo"
+	},
+	"stats_chart_week_1": {
+		"message": "Linggong Ito"
+	},
+	"stats_chart_label_costs": {
+		"message": "Lingguhang Gastos sa AI"
+	},
+	"stats_chart_label_requests": {
+		"message": "Lingguhang AI Requests"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Kabuuang AI Tokens"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Kabuuang Requests"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Kabuuang Gastos"
+	},
+	"stats_chart_detail_period": {
+		"message": "Panahon"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Prompt Tokens"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Completion Tokens"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Reasoning Tokens"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Prompt"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Completion"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Reasoning"
+	},
+	"stats_chart_month_jan": {
+		"message": "Ene"
+	},
+	"stats_chart_month_feb": {
+		"message": "Peb"
+	},
+	"stats_chart_month_mar": {
+		"message": "Mar"
+	},
+	"stats_chart_month_apr": {
+		"message": "Abr"
+	},
+	"stats_chart_month_may": {
+		"message": "May"
+	},
+	"stats_chart_month_jun": {
+		"message": "Hun"
+	},
+	"stats_chart_month_jul": {
+		"message": "Hul"
+	},
+	"stats_chart_month_aug": {
+		"message": "Ago"
+	},
+	"stats_chart_month_sep": {
+		"message": "Set"
+	},
+	"stats_chart_month_oct": {
+		"message": "Okt"
+	},
+	"stats_chart_month_nov": {
+		"message": "Nob"
+	},
+	"stats_chart_month_dec": {
+		"message": "Dis"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Prompt tokens para sa $1: $2"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Completion tokens para sa $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Reasoning tokens para sa $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 para sa $2: $3"
+	},
+	"warzone_common_button_retry": {
+		"message": "Subukan Muli"
+	},
+	"warzone_hunter_title": {
+		"message": "War Zone Hunter"
+	},
+	"warzone_hunter_stat_points": {
+		"message": "Puntos"
+	},
+	"warzone_hunter_stat_status": {
+		"message": "Katayuan"
+	},
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Discord Avatar"
+	},
+	"warzone_hunter_loading_connecting": {
+		"message": "Kumokonekta..."
+	},
+	"warzone_hunter_status_anonymous": {
+		"message": "Hindi Kilala"
+	},
+	"warzone_hunter_status_public": {
+		"message": "Pampubliko"
+	},
+	"warzone_hunter_signup_description": {
+		"message": "Sumali sa komunidad para mag-report ng high-risk na nakumpirmang mga user. Magtulungan kasama ang mga hunter sa buong mundo para sa mas mataas na tagumpay sa pag-alis at gawing mas ligtas ang Roblox para sa lahat."
+	},
+	"warzone_hunter_feature_report": {
+		"message": "Mag-report ng high-risk na nakumpirmang mga user"
+	},
+	"warzone_hunter_feature_cleanup": {
+		"message": "Tumulong sa paglilinis ng platform at pag-alis ng mga masamang elemento"
+	},
+	"warzone_hunter_feature_community": {
+		"message": "Magtrabaho kasama ang komunidad para sa mas mataas na tagumpay sa pag-alis"
+	},
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Kumita ng puntos at umakyat sa leaderboard"
+	},
+	"warzone_hunter_beta_label": {
+		"message": "Closed Beta:"
+	},
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Available lang sa mga piling user. Sumali sa aming"
+	},
+	"warzone_hunter_beta_discord_link": {
+		"message": "Discord server"
+	},
+	"warzone_hunter_beta_text_after_link": {
+		"message": "para sa mga update."
+	},
+	"warzone_hunter_button_login": {
+		"message": "Mag-login gamit ang Discord"
+	},
+	"warzone_hunter_button_logout": {
+		"message": "Mag-logout"
+	},
+	"warzone_hunter_welcome_message": {
+		"message": "Maligayang pagdating, Hunter! Maaari ka nang lumahok sa mga aktibidad ng War Zone at tumulong sa pagprotekta ng komunidad ng Roblox. Bisitahin ang homepage ng Roblox para magsimula ng iyong hunting missions."
+	},
+	"warzone_hunter_confirm_logout": {
+		"message": "Sigurado ka bang gusto mong mag-logout?\n\nMaaari kang mag-login muli anumang oras gamit ang iyong Discord account."
+	},
+	"warzone_leaderboard_loading": {
+		"message": "Naglo-load ng leaderboard..."
+	},
+	"warzone_leaderboard_error_load": {
+		"message": "Nabigo ang pag-load ng leaderboard"
+	},
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Isama ang Hindi Kilalang Hunter"
+	},
+	"warzone_leaderboard_total_hunters": {
+		"message": "Kabuuang Hunter: $1"
+	},
+	"warzone_leaderboard_your_rank": {
+		"message": "Iyong Ranggo: #$1"
+	},
+	"warzone_leaderboard_section_top": {
+		"message": "Nangungunang Hunter"
+	},
+	"warzone_leaderboard_section_rankings": {
+		"message": "Mga Ranggo"
+	},
+	"warzone_leaderboard_badge_you": {
+		"message": "Ikaw"
+	},
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 report"
+	},
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% tagumpay"
+	},
+	"warzone_order_type_ban_count": {
+		"message": "Bilang ng Ban"
+	},
+	"warzone_order_type_zone_liberation": {
+		"message": "Pagpapalaya ng Zone"
+	},
+	"warzone_order_type_verification": {
+		"message": "Beripikasyon"
+	},
+	"warzone_order_label_completed": {
+		"message": "Nakumpleto"
+	},
+	"warzone_order_label_expires": {
+		"message": "Mag-e-expire"
+	},
+	"warzone_order_label_progress": {
+		"message": "Progreso"
+	},
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
+	},
+	"warzone_target_status_confirmed": {
+		"message": "Nakumpirma"
+	},
+	"warzone_target_status_flagged": {
+		"message": "Na-flag"
+	},
+	"warzone_target_meta_confidence": {
+		"message": "Tiwala"
+	},
+	"warzone_target_meta_attempts": {
+		"message": "Pagtatangka"
+	},
+	"warzone_target_meta_active": {
+		"message": "Aktibo"
+	},
+	"warzone_mode_global": {
+		"message": "global"
+	},
+	"warzone_mode_zone": {
+		"message": "zone"
+	},
+	"warzone_chart_error_load": {
+		"message": "Nabigo ang pag-load ng $1 historical data"
+	},
+	"warzone_chart_tab_liberation": {
+		"message": "Pagpapalaya"
+	},
+	"warzone_chart_tab_users": {
+		"message": "Mga User"
+	},
+	"warzone_chart_tab_ban_rate": {
+		"message": "Rate ng Ban"
+	},
+	"warzone_chart_label_global_liberation": {
+		"message": "Global na Pagpapalaya"
+	},
+	"warzone_chart_label_zone_liberation": {
+		"message": "Pagpapalaya ng Zone"
+	},
+	"warzone_chart_label_total_users": {
+		"message": "Kabuuang User"
+	},
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Global na Rate ng Ban"
+	},
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Rate ng Ban sa Zone"
+	},
+	"warzone_chart_legend_banned": {
+		"message": "Na-ban"
+	},
+	"warzone_chart_legend_flagged": {
+		"message": "Na-flag"
+	},
+	"warzone_chart_legend_confirmed": {
+		"message": "Nakumpirma"
+	},
+	"warzone_chart_tooltip_date": {
+		"message": "Petsa"
+	},
+	"warzone_chart_tooltip_total_users": {
+		"message": "Kabuuang User"
+	},
+	"warzone_chart_tooltip_banned": {
+		"message": "Na-ban"
+	},
+	"warzone_overview_loading": {
+		"message": "Naglo-load ng war map..."
+	},
+	"warzone_overview_error_load": {
+		"message": "Nabigo ang pag-load ng war map"
+	},
+	"warzone_overview_section_zones": {
+		"message": "Mga War Zone"
+	},
+	"warzone_overview_section_targets": {
+		"message": "Mga Aktibong Target"
+	},
+	"warzone_overview_section_global_stats": {
+		"message": "Global na Estadistika ng War"
+	},
+	"warzone_overview_section_global_trends": {
+		"message": "Global na Mga Uso (30 Araw)"
+	},
+	"warzone_overview_section_major_orders": {
+		"message": "Mga Aktibong Major Order"
+	},
+	"warzone_overview_button_find_user": {
+		"message": "Maghanap ng User para I-report"
+	},
+	"warzone_overview_finding_user_loading": {
+		"message": "Naghahanap ng user..."
+	},
+	"warzone_overview_error_no_users": {
+		"message": "Walang available na mga user na pwedeng i-report. Bumalik mamaya!"
+	},
+	"warzone_overview_error_auth_expired": {
+		"message": "Nag-expire ang authentication. Paki-logout at mag-login muli."
+	},
+	"warzone_overview_error_find_user": {
+		"message": "Nabigo ang paghahanap ng user na pwedeng i-report. Subukan muli."
+	},
+	"warzone_overview_stat_total_zones": {
+		"message": "Kabuuang Zone"
+	},
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Average na Pagpapalaya"
+	},
+	"warzone_overview_stat_total_banned": {
+		"message": "Kabuuang Na-ban"
+	},
+	"warzone_overview_stat_active_targets": {
+		"message": "Mga Aktibong Target"
+	},
+	"warzone_profile_title": {
+		"message": "Profile"
+	},
+	"warzone_profile_stat_points": {
+		"message": "Puntos"
+	},
+	"warzone_profile_label_discord": {
+		"message": "Discord"
+	},
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Discord Avatar"
+	},
+	"warzone_profile_label_visibility": {
+		"message": "Visibility"
+	},
+	"warzone_profile_label_joined": {
+		"message": "Sumali"
+	},
+	"warzone_profile_label_last_active": {
+		"message": "Huling Aktibo"
+	},
+	"warzone_profile_visibility_anonymous": {
+		"message": "Hindi Kilala"
+	},
+	"warzone_profile_visibility_public": {
+		"message": "Pampubliko"
+	},
+	"warzone_profile_button_reset_uuid": {
+		"message": "Mag-log Out sa Lahat ng Device"
+	},
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Naglo-logout..."
+	},
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Naka-logout na sa lahat ng device"
+	},
+	"warzone_profile_button_logout": {
+		"message": "Mag-logout"
+	},
+	"warzone_profile_confirm_logout": {
+		"message": "Sigurado ka bang gusto mong mag-logout?\n\nMaaari kang mag-login muli anumang oras gamit ang iyong Discord account."
+	},
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Mag-logout sa lahat ng device?\n\nIto ay mag-i-invalidate ng lahat ng aktibong session sa ibang mga device. Mananatili kang naka-login sa device na ito, ngunit ang lahat ng ibang device ay mala-logout.\n\nIto ay kapaki-pakinabang kung pinaghihinalaang nakompromiso ang iyong account."
+	},
+	"warzone_profile_error_reset_uuid": {
+		"message": "Nabigo ang pag-logout sa lahat ng device. Subukan muli."
+	},
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
+	},
+	"warzone_nav_tab_profile": {
+		"message": "Profile"
+	},
+	"warzone_nav_tab_leaderboard": {
+		"message": "Leaderboard"
+	},
+	"warzone_zone_loading": {
+		"message": "Naglo-load ng mga detalye ng zone..."
+	},
+	"warzone_zone_error_load": {
+		"message": "Nabigo ang pag-load ng mga detalye ng zone"
+	},
+	"warzone_zone_button_back": {
+		"message": "Bumalik sa Overview"
+	},
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% Napalaya"
+	},
+	"warzone_zone_stat_total_users": {
+		"message": "Kabuuang User"
+	},
+	"warzone_zone_stat_banned": {
+		"message": "Na-ban"
+	},
+	"warzone_zone_stat_flagged": {
+		"message": "Na-flag"
+	},
+	"warzone_zone_stat_confirmed": {
+		"message": "Nakumpirma"
+	},
+	"warzone_zone_section_trends": {
+		"message": "Mga Uso sa Zone (30 Araw)"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Kanselahin"
+	},
+	"queue_popup_submit_button": {
+		"message": "Isumite para sa Review"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Isinusumite..."
+	},
+	"queue_popup_title_reprocess": {
+		"message": "I-reprocess ang User para sa Review"
+	},
+	"queue_popup_title_queue": {
+		"message": "I-queue ang User para sa Review"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Isusumite mo ang user (ID: $1) para sa muling pagsusuri ng aming sistema."
+	},
+	"queue_popup_description_analysis": {
+		"message": "Isusumite mo ang user (ID: $1) para sa pagsusuri ng aming sistema."
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Anong uri ng submission ito?"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "May Hindi Angkop na Nilalaman ang User"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "Ang user na ito ay may malinaw na hindi angkop na nilalaman sa kanilang profile, avatar, kaibigan, o grupo."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Pangkalahatang Pagsusuri sa Kaligtasan"
+	},
+	"queue_popup_option_general_description": {
+		"message": "Hindi ako sigurado pero gusto kong suriin ang user na ito para sa pangkalahatang pagtatasa ng kaligtasan."
+	},
+	"queue_popup_general_check_message": {
+		"message": "Ang user na ito ay susuriin para sa pangkalahatang alalahanin sa kaligtasan. Walang kailangang tukoy na dahilan ng pag-flag."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Pumili ng (mga) dahilan ng pag-flag:"
+	},
+	"queue_popup_outfit_title": {
+		"message": "Hindi Angkop na Outfit"
+	},
+	"queue_popup_outfit_description": {
+		"message": "Ang user na ito ay may hindi angkop na outfit o avatar."
+	},
+	"queue_popup_profile_title": {
+		"message": "Hindi Angkop na Profile"
+	},
+	"queue_popup_profile_description": {
+		"message": "Ang user na ito ay may hindi angkop na nilalaman sa kanilang username, display name, o description."
+	},
+	"queue_popup_friends_title": {
+		"message": "Hindi Angkop na mga Kaibigan"
+	},
+	"queue_popup_friends_description": {
+		"message": "Ang user na ito ay may hindi angkop na mga kaibigan."
+	},
+	"queue_popup_groups_title": {
+		"message": "Hindi Angkop na mga Grupo"
+	},
+	"queue_popup_groups_description": {
+		"message": "Ang user na ito ay nasa hindi angkop na mga grupo."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Kailangan ang Pagpili:"
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Mangyaring pumili ng kahit isang dahilan ng pag-flag bago magpatuloy."
+	},
+	"queue_popup_lock_button": {
+		"message": "I-lock ang Aking Pinili"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Kailangan mong i-lock ang iyong pinili bago magpatuloy."
+	},
+	"queue_popup_summary_heading": {
+		"message": "Mga Napiling Opsyon:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Uunahin para sa hindi angkop na outfit"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Hindi napili"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Uunahin para sa hindi angkop na nilalaman ng profile"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Hindi napili"
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Uunahin para sa hindi angkop na mga kaibigan"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Hindi napili"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Uunahin para sa hindi angkop na mga grupo"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Hindi napili"
+	},
+	"queue_popup_unlock_button": {
+		"message": "I-unlock ang Pagpili"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "I-click para i-unlock at baguhin ang iyong pinili."
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Proseso ng Review"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Sinusuri ng AI algorithms para makahanap ng potensyal na alalahanin sa kaligtasan"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Kung na-flag ng AI, sinusuri ng human moderators para sa huling kumpirmasyon"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Ang mga resulta ay idinadagdag sa database na may angkop na rating sa kaligtasan"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Mahalagang Babala"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "Ang maling paggamit ng feature na ito"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(tulad ng pag-spam ng mga submission) ay maaaring magresulta sa mga paghihigpit sa iyong account. May aktibong automated abuse detection."
+	},
+	"friend_warning_block_button": {
+		"message": "I-block ang User"
+	},
+	"friend_warning_cancel_button": {
+		"message": "Kanselahin ang Request"
+	},
+	"friend_warning_proceed_button": {
+		"message": "Magpatuloy Pa Rin"
+	},
+	"friend_warning_title": {
+		"message": "Babala: Hindi Ligtas na User"
+	},
+	"friend_warning_avatar_alt": {
+		"message": "Avatar ni $1"
+	},
+	"friend_warning_user_id_label": {
+		"message": "User ID: $1"
+	},
+	"friend_warning_risk_title": {
+		"message": "Posibleng Hindi Angkop na User"
+	},
+	"friend_warning_risk_message": {
+		"message": "Ang user na ito ay na-flag ng aming detection system. Mangyaring suriin ang kanilang profile bago tanggapin ang friend request na ito."
+	},
+	"friend_warning_confidence_label": {
+		"message": "Tiwala: $1%"
+	},
+	"friend_warning_why_matters_heading": {
+		"message": "Bakit ito mahalaga"
+	},
+	"friend_warning_why_matters_item1": {
+		"message": "Ang user na ito ay maaaring makipag-usap o mag-asal nang hindi angkop"
+	},
+	"friend_warning_why_matters_item2": {
+		"message": "Ang iyong account ay maaaring maiugnay sa hindi angkop na mga user sa aming sistema"
+	},
+	"friend_warning_why_matters_item3": {
+		"message": "Maaari kang ma-expose sa hindi gustong o nakakasama na nilalaman"
+	},
+	"friend_warning_why_matters_item4": {
+		"message": "Ang user na ito ay may malinaw na ebidensya ng paglabag sa Terms of Service ng Roblox"
+	},
+	"friend_warning_recommendations_heading": {
+		"message": "Mga inirerekomendang aksyon"
+	},
+	"friend_warning_recommendations_item1": {
+		"message": "Suriin nang mas maingat ang kanilang impormasyon sa profile"
+	},
+	"friend_warning_recommendations_item2": {
+		"message": "I-report sila sa Roblox kung nakita mo ang hindi angkop na nilalaman"
+	},
+	"friend_warning_recommendations_item3": {
+		"message": "Makipag-ugnayan lang sa mga user na kilala at pinagkakatiwalaan mo"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Ang pagpatuloy sa friend request na ito ay maaaring mag-expose sa iyo sa hindi angkop na nilalaman o nakakasama na pakikipag-ugnayan."
+	},
+	"report_helper_card_title_reportable": {
+		"message": "Nakakita ng Pwedeng I-report na Nilalaman"
+	},
+	"report_helper_card_title_not_reportable": {
+		"message": "Walang Nakitang Pwedeng I-report na Nilalaman"
+	},
+	"report_helper_subtitle_reportable": {
+		"message": "Nakahanap ang Rotector ng nilalaman sa profile na lumalabag sa Terms of Service ng Roblox."
+	},
+	"report_helper_evidence_header": {
+		"message": "Nakitang Isyu"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Dahilan:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Mga Snippet ng Ebidensya:"
+	},
+	"report_helper_action_message": {
+		"message": "I-click sa ibaba at awtomatikong pupunuin ng Rotector ang form ng report na may angkop na kategorya at detalye."
+	},
+	"report_helper_fill_button": {
+		"message": "Punuin ang Form ng Report"
+	},
+	"report_helper_filling_button": {
+		"message": "Pinupunan..."
+	},
+	"report_helper_warning_label": {
+		"message": "Mahalaga:"
+	},
+	"report_helper_warning_message": {
+		"message": "Ang mga report ay ifa-file sa ilalim ng iyong Roblox account. Suriin ang lahat ng impormasyon bago magpatuloy at mag-report lang ng tunay na paglabag."
+	},
+	"report_helper_subtitle_not_reportable": {
+		"message": "Hindi pa nakakita ang Rotector ng malinaw na pwedeng i-report na nilalaman sa description ng profile ng user na ito."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Maaari ka pa ring magsumite ng report"
+	},
+	"report_helper_info_message_part2": {
+		"message": "kung naniniwala ka na ang user na ito ay lumalabag sa Terms of Service ng Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Pinapayagan ng Rotector ang pag-report ng hindi angkop na nilalaman sa mga description ng profile. Hindi namin nadi-detect ang karamihan sa mga kategorya ng report, kabilang ang:"
+	},
+	"report_helper_category_item1": {
+		"message": "Paghingi o pagbibigay ng pribadong impormasyon"
+	},
+	"report_helper_category_item2": {
+		"message": "Pambubully, pang-aapi, diskriminasyon"
+	},
+	"report_helper_category_item3": {
+		"message": "Pag-exploit, pandaraya, panloloko"
+	},
+	"report_helper_category_item4": {
+		"message": "Pagnanakaw ng account (phishing, hacking, trading)"
+	},
+	"report_helper_category_item5": {
+		"message": "Mga banta sa tunay na buhay o mga banta ng pagpapakamatay"
+	},
+	"report_helper_info_message_part4": {
+		"message": "Kung nag-re-report ka ng alinman sa mga paglabag na ito, mangyaring magpatuloy sa iyong report at magbigay ng tukoy na detalye para matulungan ang mga moderator ng Roblox."
+	},
+	"queue_error_modal_close_button": {
+		"message": "Isara"
+	},
+	"queue_error_modal_title": {
+		"message": "Error"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "May nangyaring hindi kilalang error"
+	},
+	"queue_error_modal_failed_message": {
+		"message": "Nabigo ang pag-queue ng user ID $1 para sa review."
+	},
+	"queue_error_modal_details_heading": {
+		"message": "Mga Detalye ng Error"
+	},
+	"queue_error_modal_error_code_label": {
+		"message": "Error Code:"
+	},
+	"queue_error_modal_request_id_label": {
+		"message": "Request ID:"
+	},
+	"queue_error_modal_next_steps_heading": {
+		"message": "Ano ang gagawin"
+	},
+	"queue_error_modal_step1": {
+		"message": "Tingnan kung na-flag na ba ng aming sistema ang user"
+	},
+	"queue_error_modal_step2": {
+		"message": "Kung patuloy ang error, subukan muli sa ilang minuto"
+	},
+	"queue_error_modal_step3": {
+		"message": "Kung kailangan mo ng suporta, isama ang Request ID sa itaas"
+	},
+	"queue_success_modal_close_button": {
+		"message": "Isara"
+	},
+	"queue_success_modal_title": {
+		"message": "Tagumpay"
+	},
+	"queue_success_modal_success_message": {
+		"message": "Matagumpay na naka-queue ang user ID $1 para sa review."
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Ano ang susunod"
+	},
+	"queue_success_modal_step1": {
+		"message": "Susuriin ng aming AI ang account na ito para sa mga pattern ng alalahanin"
+	},
+	"queue_success_modal_step2": {
+		"message": "Kung na-flag, makukumpirma ang status ng user sa loob ng ilang minuto"
+	},
+	"queue_success_modal_step3": {
+		"message": "Ang buong system sync at kumpirmasyon ay tatagal ng 24-48 oras"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Ang profile ng user na ito ay naglalaman ng hindi angkop na nilalaman na lumalabag sa Terms of Service ng Roblox.\n\n"
+	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Nakitang Isyu:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Mga Snippet ng Ebidensya:\n"
+	},
+	"report_page_manager_unknown_category": {
+		"message": "Hindi Kilalang Kategorya"
+	},
+	"report_page_manager_category_prefix": {
+		"message": "Kategorya: $1"
+	},
+	"report_page_manager_comment_prefix": {
+		"message": "\n\nKomento: $1"
+	},
+	"report_page_manager_success_message": {
+		"message": "Matagumpay na napunan ang form! Suriin at isumite kapag handa na."
+	},
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Hindi available ang auto-fill. Ang teksto ng report ay nakopya sa clipboard. Maaari mo itong i-paste sa comment field nang manu-mano."
+	},
+	"report_page_manager_autofill_failed": {
+		"message": "Nabigo ang auto-fill. Mangyaring punuin nang manu-mano ang form ng report na may angkop na detalye."
+	},
+	"tooltip_loading_user_info": {
+		"message": "Naglo-load ng impormasyon ng user..."
+	},
+	"tooltip_no_data_available": {
+		"message": "Walang available na datos para sa API na ito"
+	},
+	"tooltip_error_details": {
+		"message": "Mga Detalye ng Error"
+	},
+	"tooltip_loading": {
+		"message": "Naglo-load..."
+	},
+	"tooltip_queue_button": {
+		"message": "I-queue para sa Review"
+	},
+	"tooltip_badge_reportable": {
+		"message": "Pwedeng I-report"
+	},
+	"tooltip_badge_queued": {
+		"message": "Naka-queue"
+	},
+	"tooltip_badge_outfit": {
+		"message": "Outfit Lang"
+	},
+	"tooltip_reportable_title": {
+		"message": "Pwedeng I-report sa Roblox"
+	},
+	"tooltip_reportable_message": {
+		"message": "Ang user na ito ay may malinaw na ebidensya ng hindi angkop na nilalaman na nakikita ng mga moderator ng Roblox."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "I-report sa Roblox"
+	},
+	"tooltip_outfit_title": {
+		"message": "Na-flag para sa Outfit Lang"
+	},
+	"tooltip_outfit_message": {
+		"message": "Ang user na ito ay na-flag batay lang sa kanilang avatar outfit. Ang outfit detection ay maaaring magkaroon ng false positive, kaya mangyaring gumamit ng sariling paghatol kapag sinusuri ang user na ito."
+	},
+	"tooltip_metadata_queued": {
+		"message": "Naka-queue"
+	},
+	"tooltip_metadata_processing": {
+		"message": "Pinoproseso"
+	},
+	"tooltip_metadata_took": {
+		"message": "Tumagal"
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Huling Na-update"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "I-reprocess?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "Ang datos ng user na ito ay luma na. I-click para muling i-queue para sa pagsusuri."
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Pinoproseso..."
+	},
+	"tooltip_header_unsafe": {
+		"message": "Ang $1 na ito ay na-verify na bilang hindi angkop ng human moderators."
+	},
+	"tooltip_header_pending": {
+		"message": "Ang $1 na ito ay na-flag ng AI na may $2% tiwala."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "Ang $1 na ito ay kasalukuyang sinusuri ng aming sistema. Maaaring tumagal ito ng ilang minuto."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "Ang $1 na ito ay sinuri ng aming AI system at mukhang ligtas. Kung ito ay false positive, maaari mong i-requeue para sa karagdagang review."
+	},
+	"tooltip_header_integration": {
+		"message": "Ang $1 na ito ay na-flag ng third-party content analysis system."
+	},
+	"tooltip_header_mixed_group": {
+		"message": "Ang grupo na ito ay naglalaman ng halo-halong angkop at hindi angkop na mga miyembro."
+	},
+	"tooltip_header_mixed_user": {
+		"message": "Ang user na ito ay naiugnay sa hindi angkop na nilalaman, ngunit walang sapat na ebidensya para kumilos ang Roblox. Mag-ingat kapag nakikipag-ugnayan sa kanila."
+	},
+	"tooltip_header_past_offender": {
+		"message": "Ang $1 na ito ay may hindi angkop na nilalaman dati ngunit ang kanilang account ay mukhang malinis na ngayon at pwedeng i-requeue para sa verification."
+	},
+	"tooltip_header_safe": {
+		"message": "Ang $1 na ito ay hindi pa nasusuri."
+	},
+	"tooltip_header_unknown": {
+		"message": "Hindi Kilalang Status"
+	},
+	"tooltip_header_unavailable": {
+		"message": "Hindi available ang impormasyon ng status."
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Hindi Na-flag"
+	},
+	"tooltip_status_unsafe": {
+		"message": "Hindi Ligtas"
+	},
+	"tooltip_status_under_review": {
+		"message": "Nasa Ilalim ng Review"
+	},
+	"tooltip_status_likely_safe": {
+		"message": "Malamang na Ligtas"
+	},
+	"tooltip_status_checking": {
+		"message": "Sinusuri..."
+	},
+	"tooltip_status_integration": {
+		"message": "Integration"
+	},
+	"tooltip_status_mixed": {
+		"message": "Halo-halo"
+	},
+	"tooltip_status_past_offender": {
+		"message": "Dating Lumalabag"
+	},
+	"tooltip_status_unknown": {
+		"message": "Hindi Kilala"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Sinuri ni"
+	},
+	"tooltip_profile_group_id": {
+		"message": "Group ID:"
+	},
+	"tooltip_profile_user": {
+		"message": "User"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_aria_close": {
+		"message": "I-click para isara ang tooltip"
+	},
+	"tooltip_aria_expand": {
+		"message": "I-click para i-expand ang tooltip"
+	},
+	"tooltip_entity_user": {
+		"message": "user"
+	},
+	"tooltip_entity_group": {
+		"message": "grupo"
+	},
+	"voting_header_title": {
+		"message": "Feedback ng Komunidad"
+	},
+	"voting_loading": {
+		"message": "Naglo-load..."
+	},
+	"voting_count_singular": {
+		"message": "$1 boto"
+	},
+	"voting_count_plural": {
+		"message": "$1 boto"
+	},
+	"voting_button_agree": {
+		"message": "Sumasang-ayon"
+	},
+	"voting_button_disagree": {
+		"message": "Hindi Sumasang-ayon"
+	},
+	"voting_aria_agree": {
+		"message": "Sumang-ayon sa status na ito"
+	},
+	"voting_aria_disagree": {
+		"message": "Hindi sumang-ayon sa status na ito"
+	},
+	"voting_description": {
+		"message": "Tulungan ang iba sa pamamagitan ng pagkumpirma kung tama ang status ng user na ito."
+	},
+	"engine_status_unknown": {
+		"message": "Hindi Kilala"
+	},
+	"engine_status_latest": {
+		"message": "Pinakabago"
+	},
+	"engine_status_compatible": {
+		"message": "Compatible"
+	},
+	"engine_status_outdated": {
+		"message": "Luma"
+	},
+	"engine_status_deprecated": {
+		"message": "Deprecated"
+	},
+	"engine_desc_unknown": {
+		"message": "Ang pagsusuring ito ay gumamit ng AI engine na may hindi kilalang compatibility status."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "Hindi matukoy ang compatibility ng version."
+	},
+	"engine_desc_latest": {
+		"message": "Ang pagsusuring ito ay gumamit ng pinaka-kasalukuyang AI engine na may pinakabagong kakayahan sa detection."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Pinakamataas na accuracy at pinaka-komprehensibong pagsusuri."
+	},
+	"engine_desc_compatible": {
+		"message": "Ang pagsusuring ito ay gumamit ng AI engine na sinusuportahan pa pero hindi ang pinakabagong version."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Mataas pa rin ang accuracy na may maliit na pagkakaiba sa kakayahan ng detection."
+	},
+	"engine_desc_outdated": {
+		"message": "Ang pagsusuring ito ay gumamit ng AI engine na malaki ang huli sa pinakabagong version."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Maaaring may nabawasang accuracy kumpara sa mas bagong version ng engine."
+	},
+	"engine_desc_deprecated": {
+		"message": "Ang pagsusuring ito ay gumamit ng AI engine na hindi na sinusuportahan."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "Ang accuracy ay maaaring malaki ang pagbaba at ang mga resulta ay dapat tratuhin nang may pag-iingat."
+	},
+	"engine_aria_info": {
+		"message": "Impormasyon ng version ng engine"
+	},
+	"engine_header_version": {
+		"message": "Engine v$1"
+	},
+	"engine_version_unknown": {
+		"message": "Hindi Kilala"
+	},
+	"custom_api_form_title_edit": {
+		"message": "I-edit ang Custom API"
+	},
+	"custom_api_form_title_add": {
+		"message": "Magdagdag ng Custom API"
+	},
+	"custom_api_form_label_name": {
+		"message": "Pangalan"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "Aking Custom API"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Maximum 12 characters ($1/12)"
+	},
+	"custom_api_form_label_url": {
+		"message": "API URL"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_hint_url": {
+		"message": "Dapat HTTPS. Ito ay parang base URL para sa iyong API endpoints. Tatawagin namin ang {url}/user/{userId} para sa single lookups at {url}/users para sa batch lookups."
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Timeout (ms)"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Request timeout sa milliseconds (1000-60000). Default: 5000ms."
+	},
+	"custom_api_form_label_image": {
+		"message": "Landscape Image (Opsyonal)"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Mag-upload ng landscape image para sa tooltip tab (PNG, JPG, SVG, WebP). Recommended: 480x160px (3:1 ratio)."
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Alisin ang Image"
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "I-enable ang custom API na ito"
+	},
+	"custom_api_form_button_save": {
+		"message": "I-save"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Nini-save..."
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Kailangan ang pangalan"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Ang pangalan ay dapat 12 characters o mas mababa"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "Kailangan ang URL"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "Ang URL ay dapat magsimula sa https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Hindi wastong format ng URL"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Ang timeout ay dapat hindi bababa sa 1000ms (1 segundo)"
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Ang timeout ay dapat 60000ms (60 segundo) o mas mababa"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Hindi wastong uri ng file. Mangyaring gumamit ng PNG, JPG, SVG, o WebP"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Hindi wastong uri ng image. Ang MIME type ay hindi tumutugma sa file extension"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Babala: Malaking laki ng file ($1KB). Isaalang-alang ang paggamit ng mas maliit na image para bawasan ang paggamit ng storage."
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Nabigo ang pagbasa ng image file"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Nabigo ang pagproseso ng image file"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Nabigo ang pag-save ng custom API: "
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Hindi kilalang error"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Bumalik"
+	},
+	"custom_api_mgmt_title": {
+		"message": "API Integration"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Pamahalaan ang lahat ng API integration sa isang lugar. Ang Rotector ay nagbibigay ng core safety analysis, at maaari kang magdagdag ng hanggang 5 custom API para sa karagdagang content analysis."
+	},
+	"custom_api_mgmt_button_docs": {
+		"message": "Tingnan ang Dokumentasyon"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Naglo-load ng custom API..."
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "System API"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Single:"
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Batch:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Timeout:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Nilikha:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Huling Na-test:"
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "ms"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Ilipat pataas"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Ilipat pababa"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "I-test ang Connection"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "I-edit"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Tanggalin"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Magdagdag ng Custom API"
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Naabot na ang maximum na $1 custom API. Magtanggal ng existing API para magdagdag ng bago."
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Tanggalin ang custom API na \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Nabigo ang pagtanggal ng custom API"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ Matagumpay ang connection!\n\nAng API na \"$1\" ay naa-access at sumasagot."
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ Nabigo ang connection\n\nAng API na \"$1\" ay hindi sumasagot o may error.\n\nMangyaring tingnan:\n• Tama at naa-access ang URL\n• Tumatakbo ang API server\n• Naka-configure ang CORS kung kailangan"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Error sa connection test\n\nNabigo ang pag-test ng API na \"$1\".\n\nError: $2"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Nabigo ang pag-update ng status ng API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_docs_button_back": {
+		"message": "Bumalik"
+	},
+	"custom_api_docs_title": {
+		"message": "Dokumentasyon ng API"
+	},
+	"custom_api_docs_intro": {
+		"message": "Mag-implement ng dalawang endpoint na nagbabalik ng datos ng status ng user. Lahat ng response ay dapat gumamit ng wrapper format na may success, data, at error fields."
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Single User Lookup"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Batch User Lookup"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Mahalagang Mga Paalala"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Halimbawang Request"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Matagumpay na Response"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Error Response"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Kinakailangang Fields (sa data object)"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Opsyonal na Fields (sa data object)"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Mga Uri ng Flag"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Request Body"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "Kailangan ang HTTPS"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Wrapper Format"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Mga Reason Key"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Mga Badge"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Mga Kulay ng Badge"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "Ligtas"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "Pending"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Hindi Ligtas (recommended)"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "Naka-queue"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Hindi Ginagamit"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Halo-halo"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Dating Lumalabag"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Ang flag type 2 (Hindi Ligtas) ay ang pangunahing uri na kailangan mo para ipahiwatig ang hindi angkop na mga user. Gumamit ng ibang flag type lang kung may tukoy na dahilan ka para mag-categorize ng mga user nang iba."
+	},
+	"custom_api_docs_field_id": {
+		"message": "id (number) - User ID bilang integer"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "flagType (number) - 0-6 flag type (tingnan sa ibaba)"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "confidence (number) - 0.0-1.0 confidence level"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "reasons (object) - Mga pangalan ng dahilan na string bilang key, bawat isa ay naglalaman ng:"
+	},
+	"custom_api_docs_field_message": {
+		"message": "message (string) - Paglalarawan ng dahilan"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "evidence (array o null) - Mga string ng ebidensya o null"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "reviewer (object) - username at displayName"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "engineVersion (string) - Version ng analysis engine"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "lastUpdated (number) - Unix timestamp"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "badges (array) - Hanggang 3 custom badge objects, bawat isa ay naglalaman ng:"
+	},
+	"custom_api_docs_field_badge_text": {
+		"message": "text (string, kailangan) - Teksto ng label ng badge"
+	},
+	"custom_api_docs_field_badge_color": {
+		"message": "color (string, opsyonal) - Kulay ng background (hex, rgb, o named color)"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "textColor (string, opsyonal) - Kulay ng teksto para sa contrast"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "confidence (number) - 0.0-1.0 confidence"
+	},
+	"custom_api_docs_note_https": {
+		"message": "Lahat ng API endpoint ay dapat gumamit ng HTTPS para sa seguridad."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Lahat ng response ay dapat gumamit ng {success, data, error} format. Kapag success: true, isama ang data field. Kapag success: false, isama ang error message."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Gumamit ng descriptive na mga pangalan ng string para sa reason keys (e.g., \"Mataas na Panganib\", \"Kahina-hinalang Aktibidad\"), hindi numeric indices. Ito ay direktang lumalabas sa mga tooltip."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "Ang mga badge ay maliliit na visual na tagapagpahiwatig na lumalabas sa mga tooltip ng user kasama ang status ng flag. Lumalabas ang mga ito sa itaas ng tooltip para mabilis na magpahiwatig ng karagdagang konteksto tungkol sa user. Gamitin ang mga badge para i-highlight ang mahalagang impormasyon ng status tulad ng verification status, priority level, o mga espesyal na kategorya. Mga karaniwang halimbawa: \"Verified na Hindi Ligtas\", \"Mataas na Priyoridad\", \"Nireport ng Komunidad\", \"Auto-Detected\"."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "Ang mga kulay ng badge ay sumusuporta ng maraming format: hex codes (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)), o mga named colors (red). Kapag hindi tinukoy ang color, gumagamit ang mga badge ng default teal color. Kapag hindi tinukoy ang textColor, gumagamit ang mga badge ng puting teksto."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Ang data field ay naglalaman ng object kung saan ang mga key ay user ID (bilang string) at ang mga value ay mga user status object."
+	}
+}

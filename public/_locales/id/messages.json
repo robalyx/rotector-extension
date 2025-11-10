@@ -1,0 +1,1646 @@
+{
+	"popup_header_description": {
+		"message": "Indikator keamanan waktu-nyata yang memperingatkan Anda tentang pengguna Roblox yang tidak pantas sebelum Anda berinteraksi dengan mereka."
+	},
+	"banner_advanced_violation_aria_dismiss": {
+		"message": "Tutup banner rekomendasi"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Tutup rekomendasi"
+	},
+	"banner_advanced_violation_message": {
+		"message": "Aktifkan detail pelanggaran lanjutan untuk wawasan yang lebih baik"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Buka pengaturan detail pelanggaran lanjutan"
+	},
+	"banner_advanced_violation_button_go_to_setting": {
+		"message": "Buka Pengaturan"
+	},
+	"banner_changelog_message": {
+		"message": "Pembaruan baru telah dirilis $1!"
+	},
+	"banner_changelog_aria_dismiss": {
+		"message": "Tutup banner changelog"
+	},
+	"banner_changelog_title_view_details": {
+		"message": "Lihat detail changelog lengkap"
+	},
+	"banner_changelog_title_dismiss": {
+		"message": "Tutup changelog"
+	},
+	"banner_changelog_button_view_details": {
+		"message": "Lihat Detail"
+	},
+	"navbar_tab_stats": {
+		"message": "Statistik"
+	},
+	"navbar_tab_warzone": {
+		"message": "War Zone"
+	},
+	"navbar_tab_settings": {
+		"message": "Pengaturan"
+	},
+	"navbar_settings_tooltip": {
+		"message": "Pengaturan (Alt+Klik untuk mode developer)"
+	},
+	"footer_discord": {
+		"message": "Discord"
+	},
+	"footer_github": {
+		"message": "GitHub"
+	},
+	"footer_source_code": {
+		"message": "Kode Sumber"
+	},
+	"footer_help": {
+		"message": "Bantuan & Tentang"
+	},
+	"footer_privacy": {
+		"message": "Kebijakan Privasi"
+	},
+	"footer_terms": {
+		"message": "Ketentuan Layanan"
+	},
+	"footer_made_by": {
+		"message": "Dibuat oleh jaxron"
+	},
+	"settings_developer_unlocked": {
+		"message": "Mode developer dibuka! Pengaturan lanjutan sekarang tersedia."
+	},
+	"settings_theme_light": {
+		"message": "Terang"
+	},
+	"settings_theme_dark": {
+		"message": "Gelap"
+	},
+	"settings_theme_auto": {
+		"message": "Otomatis"
+	},
+	"settings_api_system_label": {
+		"message": "(Sistem)"
+	},
+	"settings_manage_apis_button": {
+		"message": "Kelola Integrasi API"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_label": {
+		"message": "Kunci API (Opsional)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Masukkan kunci API Anda"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Tampilkan/Sembunyikan Kunci API"
+	},
+	"settings_api_key_hide": {
+		"message": "SEMBUNYIKAN"
+	},
+	"settings_api_key_show": {
+		"message": "TAMPILKAN"
+	},
+	"settings_developer_hide_button": {
+		"message": "Sembunyikan Pengaturan Developer"
+	},
+	"settings_category_content_display": {
+		"message": "Tampilan Konten"
+	},
+	"settings_category_integrations": {
+		"message": "Integrasi"
+	},
+	"settings_category_page_settings": {
+		"message": "Pengaturan Halaman"
+	},
+	"settings_category_developer": {
+		"message": "Developer"
+	},
+	"settings_label_theme": {
+		"message": "Tema"
+	},
+	"settings_label_advanced_violations": {
+		"message": "Tampilkan Detail Pelanggaran Lanjutan"
+	},
+	"settings_label_home_page": {
+		"message": "Halaman Beranda"
+	},
+	"settings_label_profile_pages": {
+		"message": "Halaman Profil"
+	},
+	"settings_label_friends_pages": {
+		"message": "Halaman Teman"
+	},
+	"settings_label_groups_pages": {
+		"message": "Halaman Grup"
+	},
+	"settings_label_search_pages": {
+		"message": "Halaman Pencarian"
+	},
+	"settings_label_report_helper": {
+		"message": "Pembantu Laporan"
+	},
+	"settings_label_debug_logging": {
+		"message": "Aktifkan Pencatatan Debug"
+	},
+	"settings_label_cache_duration": {
+		"message": "Durasi Cache (menit)"
+	},
+	"settings_help_theme": {
+		"message": "Otomatis mengikuti pengaturan tema Roblox. Terang dan Gelap mengganti preferensi ini."
+	},
+	"settings_help_advanced_violations": {
+		"message": "Tampilkan pesan pelanggaran terperinci dan bukti. Mungkin berisi konten dewasa."
+	},
+	"settings_help_debug_logging": {
+		"message": "Tampilkan log terperinci di konsol browser (F12 -> Console) untuk pemecahan masalah."
+	},
+	"settings_help_cache_duration": {
+		"message": "Berapa lama data status pengguna di-cache (1-10 menit). Nilai lebih tinggi mengurangi panggilan API tetapi mungkin menampilkan informasi yang sudah usang."
+	},
+	"settings_modal_title": {
+		"message": "Peringatan Detail Lanjutan"
+	},
+	"settings_modal_confirm_button": {
+		"message": "Aktifkan Detail Lanjutan"
+	},
+	"settings_modal_warning_intro": {
+		"message": "Detail pelanggaran lanjutan mungkin berisi konten sensitif"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "yang direferensikan dari profil pengguna dan aktivitas yang melanggar kebijakan platform."
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Apa yang akan Anda lihat saat diaktifkan:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Pesan pelanggaran terperinci yang menjelaskan mengapa pengguna ditandai"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Cuplikan bukti yang berisi konten yang melanggar kebijakan yang ditemukan"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Contoh spesifik pelanggaran dari profil pengguna dan aktivitas"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Pertimbangan Penting"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "Konten mungkin termasuk materi yang melanggar standar komunitas platform"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Informasi ini ditujukan hanya untuk tujuan moderasi dan keamanan"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Jika Anda lebih suka tidak melihat bukti pelanggaran terperinci, biarkan pengaturan ini dinonaktifkan"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Anda dapat menonaktifkan fitur ini kapan saja di pengaturan"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Rekomendasi:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "Hanya aktifkan ini jika Anda memerlukan informasi pelanggaran terperinci untuk tujuan moderasi dan memahami bahwa Anda mungkin melihat konten yang melanggar pedoman komunitas."
+	},
+	"stats_changelog_type_added": {
+		"message": "Ditambahkan"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Diubah"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Usang"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Dihapus"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Diperbaiki"
+	},
+	"stats_changelog_type_security": {
+		"message": "Keamanan"
+	},
+	"stats_changelog_type_update": {
+		"message": "Pembaruan"
+	},
+	"stats_changelog_title": {
+		"message": "Changelog"
+	},
+	"stats_changelog_empty": {
+		"message": "Tidak ada entri changelog yang tersedia."
+	},
+	"stats_financial_title": {
+		"message": "Target Pendanaan"
+	},
+	"stats_financial_raised": {
+		"message": "Terkumpul"
+	},
+	"stats_financial_surplus": {
+		"message": "Surplus"
+	},
+	"stats_financial_remaining": {
+		"message": "Tersisa"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Dukung di Ko-fi"
+	},
+	"stats_financial_button_funded": {
+		"message": "Terima kasih!"
+	},
+	"stats_financial_button_support": {
+		"message": "Dukung Pengembangan"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Sembunyikan grafik penggunaan"
+	},
+	"stats_financial_charts_show": {
+		"message": "Tampilkan grafik penggunaan"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Grafik Penggunaan Mingguan"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Terdanai penuh dengan surplus $1"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 terkumpul, $2 tersisa dari target $3"
+	},
+	"stats_queue_title": {
+		"message": "Batas Antrean"
+	},
+	"stats_queue_loading": {
+		"message": "Memuat batas antrean..."
+	},
+	"stats_queue_error": {
+		"message": "Gagal memuat batas antrean"
+	},
+	"stats_queue_retry": {
+		"message": "Coba Lagi"
+	},
+	"stats_queue_usage": {
+		"message": "Penggunaan"
+	},
+	"stats_queue_remaining": {
+		"message": "Tersisa"
+	},
+	"stats_queue_enhanced": {
+		"message": "Batas Ditingkatkan Aktif"
+	},
+	"stats_queue_default": {
+		"message": "Batas Default"
+	},
+	"stats_queue_resets_in": {
+		"message": "Direset dalam"
+	},
+	"stats_queue_resetting": {
+		"message": "Mereset..."
+	},
+	"stats_queue_time_hours": {
+		"message": "$1j $2m"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1m"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$1 dari $2 digunakan, $3 tersisa"
+	},
+	"stats_statistics_title": {
+		"message": "Statistik Sistem"
+	},
+	"stats_statistics_refresh": {
+		"message": "Segarkan Statistik"
+	},
+	"stats_statistics_loading": {
+		"message": "Memuat statistik..."
+	},
+	"stats_statistics_error": {
+		"message": "Gagal memuat statistik"
+	},
+	"stats_statistics_retry": {
+		"message": "Coba Lagi"
+	},
+	"stats_statistics_users_title": {
+		"message": "Pengguna"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Grup"
+	},
+	"stats_statistics_community_title": {
+		"message": "Komunitas"
+	},
+	"stats_statistics_flagged": {
+		"message": "Ditandai"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Dikonfirmasi"
+	},
+	"stats_statistics_votes": {
+		"message": "Total Suara Diberikan"
+	},
+	"stats_statistics_queued": {
+		"message": "Pengguna dalam Antrean"
+	},
+	"stats_statistics_users_desc": {
+		"message": "pengguna lain yang diblokir oleh Roblox"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "grup dengan konten campuran"
+	},
+	"stats_statistics_updated": {
+		"message": "Terakhir diperbarui:"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Biaya AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "Permintaan AI"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "Token AI"
+	},
+	"stats_chart_week_4": {
+		"message": "3 Minggu\nLalu"
+	},
+	"stats_chart_week_3": {
+		"message": "2 Minggu\nLalu"
+	},
+	"stats_chart_week_2": {
+		"message": "Minggu Lalu"
+	},
+	"stats_chart_week_1": {
+		"message": "Minggu Ini"
+	},
+	"stats_chart_label_costs": {
+		"message": "Biaya AI Mingguan"
+	},
+	"stats_chart_label_requests": {
+		"message": "Permintaan AI Mingguan"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Total Token AI"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Total Permintaan"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Total Biaya"
+	},
+	"stats_chart_detail_period": {
+		"message": "Periode"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Token Prompt"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Token Completion"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Token Reasoning"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Prompt"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Completion"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Reasoning"
+	},
+	"stats_chart_month_jan": {
+		"message": "Jan"
+	},
+	"stats_chart_month_feb": {
+		"message": "Feb"
+	},
+	"stats_chart_month_mar": {
+		"message": "Mar"
+	},
+	"stats_chart_month_apr": {
+		"message": "Apr"
+	},
+	"stats_chart_month_may": {
+		"message": "Mei"
+	},
+	"stats_chart_month_jun": {
+		"message": "Jun"
+	},
+	"stats_chart_month_jul": {
+		"message": "Jul"
+	},
+	"stats_chart_month_aug": {
+		"message": "Agu"
+	},
+	"stats_chart_month_sep": {
+		"message": "Sep"
+	},
+	"stats_chart_month_oct": {
+		"message": "Okt"
+	},
+	"stats_chart_month_nov": {
+		"message": "Nov"
+	},
+	"stats_chart_month_dec": {
+		"message": "Des"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Token prompt untuk $1: $2"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Token completion untuk $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Token reasoning untuk $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 untuk $2: $3"
+	},
+	"warzone_common_button_retry": {
+		"message": "Coba Lagi"
+	},
+	"warzone_hunter_title": {
+		"message": "Pemburu War Zone"
+	},
+	"warzone_hunter_stat_points": {
+		"message": "Poin"
+	},
+	"warzone_hunter_stat_status": {
+		"message": "Status"
+	},
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Avatar Discord"
+	},
+	"warzone_hunter_loading_connecting": {
+		"message": "Menghubungkan..."
+	},
+	"warzone_hunter_status_anonymous": {
+		"message": "Anonim"
+	},
+	"warzone_hunter_status_public": {
+		"message": "Publik"
+	},
+	"warzone_hunter_signup_description": {
+		"message": "Bergabunglah dengan komunitas untuk melaporkan pengguna terkonfirmasi berisiko tinggi. Bekerja sama dengan pemburu di seluruh dunia untuk meningkatkan keberhasilan penghapusan dan membuat Roblox lebih aman untuk semua orang."
+	},
+	"warzone_hunter_feature_report": {
+		"message": "Laporkan pengguna terkonfirmasi berisiko tinggi"
+	},
+	"warzone_hunter_feature_cleanup": {
+		"message": "Bantu membersihkan platform dan menghapus pelaku buruk"
+	},
+	"warzone_hunter_feature_community": {
+		"message": "Bekerja dengan komunitas untuk keberhasilan penghapusan yang lebih tinggi"
+	},
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Dapatkan poin dan naik ke papan peringkat"
+	},
+	"warzone_hunter_beta_label": {
+		"message": "Beta Tertutup:"
+	},
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Hanya tersedia untuk pengguna terpilih. Bergabunglah dengan"
+	},
+	"warzone_hunter_beta_discord_link": {
+		"message": "server Discord"
+	},
+	"warzone_hunter_beta_text_after_link": {
+		"message": "kami untuk pembaruan."
+	},
+	"warzone_hunter_button_login": {
+		"message": "Masuk dengan Discord"
+	},
+	"warzone_hunter_button_logout": {
+		"message": "Keluar"
+	},
+	"warzone_hunter_welcome_message": {
+		"message": "Selamat datang, Pemburu! Anda sekarang dapat berpartisipasi dalam aktivitas War Zone dan membantu melindungi komunitas Roblox. Kunjungi beranda Roblox untuk memulai misi perburuan Anda."
+	},
+	"warzone_hunter_confirm_logout": {
+		"message": "Apakah Anda yakin ingin keluar?\n\nAnda dapat masuk lagi kapan saja menggunakan akun Discord Anda."
+	},
+	"warzone_leaderboard_loading": {
+		"message": "Memuat papan peringkat..."
+	},
+	"warzone_leaderboard_error_load": {
+		"message": "Gagal memuat papan peringkat"
+	},
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Termasuk Pemburu Anonim"
+	},
+	"warzone_leaderboard_total_hunters": {
+		"message": "Total Pemburu: $1"
+	},
+	"warzone_leaderboard_your_rank": {
+		"message": "Peringkat Anda: #$1"
+	},
+	"warzone_leaderboard_section_top": {
+		"message": "Pemburu Teratas"
+	},
+	"warzone_leaderboard_section_rankings": {
+		"message": "Peringkat"
+	},
+	"warzone_leaderboard_badge_you": {
+		"message": "Anda"
+	},
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 laporan"
+	},
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% sukses"
+	},
+	"warzone_order_type_ban_count": {
+		"message": "Jumlah Pemblokiran"
+	},
+	"warzone_order_type_zone_liberation": {
+		"message": "Pembebasan Zona"
+	},
+	"warzone_order_type_verification": {
+		"message": "Verifikasi"
+	},
+	"warzone_order_label_completed": {
+		"message": "Selesai"
+	},
+	"warzone_order_label_expires": {
+		"message": "Kedaluwarsa"
+	},
+	"warzone_order_label_progress": {
+		"message": "Kemajuan"
+	},
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
+	},
+	"warzone_target_status_confirmed": {
+		"message": "Dikonfirmasi"
+	},
+	"warzone_target_status_flagged": {
+		"message": "Ditandai"
+	},
+	"warzone_target_meta_confidence": {
+		"message": "Kepercayaan"
+	},
+	"warzone_target_meta_attempts": {
+		"message": "Upaya"
+	},
+	"warzone_target_meta_active": {
+		"message": "Aktif"
+	},
+	"warzone_mode_global": {
+		"message": "global"
+	},
+	"warzone_mode_zone": {
+		"message": "zona"
+	},
+	"warzone_chart_error_load": {
+		"message": "Gagal memuat data historis $1"
+	},
+	"warzone_chart_tab_liberation": {
+		"message": "Pembebasan"
+	},
+	"warzone_chart_tab_users": {
+		"message": "Pengguna"
+	},
+	"warzone_chart_tab_ban_rate": {
+		"message": "Tingkat Pemblokiran"
+	},
+	"warzone_chart_label_global_liberation": {
+		"message": "Pembebasan Global"
+	},
+	"warzone_chart_label_zone_liberation": {
+		"message": "Pembebasan Zona"
+	},
+	"warzone_chart_label_total_users": {
+		"message": "Total Pengguna"
+	},
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Tingkat Pemblokiran Global"
+	},
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Tingkat Pemblokiran Zona"
+	},
+	"warzone_chart_legend_banned": {
+		"message": "Diblokir"
+	},
+	"warzone_chart_legend_flagged": {
+		"message": "Ditandai"
+	},
+	"warzone_chart_legend_confirmed": {
+		"message": "Dikonfirmasi"
+	},
+	"warzone_chart_tooltip_date": {
+		"message": "Tanggal"
+	},
+	"warzone_chart_tooltip_total_users": {
+		"message": "Total Pengguna"
+	},
+	"warzone_chart_tooltip_banned": {
+		"message": "Diblokir"
+	},
+	"warzone_overview_loading": {
+		"message": "Memuat peta perang..."
+	},
+	"warzone_overview_error_load": {
+		"message": "Gagal memuat peta perang"
+	},
+	"warzone_overview_section_zones": {
+		"message": "Zona Perang"
+	},
+	"warzone_overview_section_targets": {
+		"message": "Target Aktif"
+	},
+	"warzone_overview_section_global_stats": {
+		"message": "Statistik Perang Global"
+	},
+	"warzone_overview_section_global_trends": {
+		"message": "Tren Global (30 Hari)"
+	},
+	"warzone_overview_section_major_orders": {
+		"message": "Perintah Utama Aktif"
+	},
+	"warzone_overview_button_find_user": {
+		"message": "Temukan Pengguna untuk Dilaporkan"
+	},
+	"warzone_overview_finding_user_loading": {
+		"message": "Mencari pengguna..."
+	},
+	"warzone_overview_error_no_users": {
+		"message": "Tidak ada pengguna yang dapat dilaporkan tersedia. Periksa kembali nanti!"
+	},
+	"warzone_overview_error_auth_expired": {
+		"message": "Autentikasi kedaluwarsa. Silakan keluar dan masuk lagi."
+	},
+	"warzone_overview_error_find_user": {
+		"message": "Gagal menemukan pengguna yang dapat dilaporkan. Silakan coba lagi."
+	},
+	"warzone_overview_stat_total_zones": {
+		"message": "Total Zona"
+	},
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Rata-rata Pembebasan"
+	},
+	"warzone_overview_stat_total_banned": {
+		"message": "Total Diblokir"
+	},
+	"warzone_overview_stat_active_targets": {
+		"message": "Target Aktif"
+	},
+	"warzone_profile_title": {
+		"message": "Profil"
+	},
+	"warzone_profile_stat_points": {
+		"message": "Poin"
+	},
+	"warzone_profile_label_discord": {
+		"message": "Discord"
+	},
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Avatar Discord"
+	},
+	"warzone_profile_label_visibility": {
+		"message": "Visibilitas"
+	},
+	"warzone_profile_label_joined": {
+		"message": "Bergabung"
+	},
+	"warzone_profile_label_last_active": {
+		"message": "Terakhir Aktif"
+	},
+	"warzone_profile_visibility_anonymous": {
+		"message": "Anonim"
+	},
+	"warzone_profile_visibility_public": {
+		"message": "Publik"
+	},
+	"warzone_profile_button_reset_uuid": {
+		"message": "Keluar dari Semua Perangkat"
+	},
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Mengeluarkan..."
+	},
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Keluar dari semua perangkat"
+	},
+	"warzone_profile_button_logout": {
+		"message": "Keluar"
+	},
+	"warzone_profile_confirm_logout": {
+		"message": "Apakah Anda yakin ingin keluar?\n\nAnda dapat masuk lagi kapan saja menggunakan akun Discord Anda."
+	},
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Keluar dari semua perangkat?\n\nIni akan membatalkan semua sesi aktif di perangkat lain. Anda akan tetap masuk di perangkat ini, tetapi semua perangkat lain akan dikeluarkan.\n\nIni berguna jika Anda curiga akun Anda telah dikompromikan."
+	},
+	"warzone_profile_error_reset_uuid": {
+		"message": "Gagal keluar dari semua perangkat. Silakan coba lagi."
+	},
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
+	},
+	"warzone_nav_tab_profile": {
+		"message": "Profil"
+	},
+	"warzone_nav_tab_leaderboard": {
+		"message": "Papan Peringkat"
+	},
+	"warzone_zone_loading": {
+		"message": "Memuat detail zona..."
+	},
+	"warzone_zone_error_load": {
+		"message": "Gagal memuat detail zona"
+	},
+	"warzone_zone_button_back": {
+		"message": "Kembali ke Ikhtisar"
+	},
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% Dibebaskan"
+	},
+	"warzone_zone_stat_total_users": {
+		"message": "Total Pengguna"
+	},
+	"warzone_zone_stat_banned": {
+		"message": "Diblokir"
+	},
+	"warzone_zone_stat_flagged": {
+		"message": "Ditandai"
+	},
+	"warzone_zone_stat_confirmed": {
+		"message": "Dikonfirmasi"
+	},
+	"warzone_zone_section_trends": {
+		"message": "Tren Zona (30 Hari)"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Batal"
+	},
+	"queue_popup_submit_button": {
+		"message": "Kirim untuk Ditinjau"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Mengirim..."
+	},
+	"queue_popup_title_reprocess": {
+		"message": "Proses Ulang Pengguna untuk Ditinjau"
+	},
+	"queue_popup_title_queue": {
+		"message": "Antrikan Pengguna untuk Ditinjau"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Anda akan mengirim pengguna (ID: $1) untuk dianalisis ulang oleh sistem kami."
+	},
+	"queue_popup_description_analysis": {
+		"message": "Anda akan mengirim pengguna (ID: $1) untuk dianalisis oleh sistem kami."
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Jenis pengiriman apa ini?"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "Pengguna Memiliki Konten Tidak Pantas"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "Pengguna ini memiliki konten tidak pantas yang jelas di profil, avatar, teman, atau grup mereka."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Pemeriksaan Keamanan Umum"
+	},
+	"queue_popup_option_general_description": {
+		"message": "Saya tidak yakin tetapi ingin pengguna ini dianalisis untuk penilaian keamanan umum."
+	},
+	"queue_popup_general_check_message": {
+		"message": "Pengguna ini akan dianalisis untuk masalah keamanan umum. Tidak diperlukan alasan penandaan spesifik."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Pilih alasan penandaan:"
+	},
+	"queue_popup_outfit_title": {
+		"message": "Pakaian Tidak Pantas"
+	},
+	"queue_popup_outfit_description": {
+		"message": "Pengguna ini memiliki pakaian atau avatar yang tidak pantas."
+	},
+	"queue_popup_profile_title": {
+		"message": "Profil Tidak Pantas"
+	},
+	"queue_popup_profile_description": {
+		"message": "Pengguna ini memiliki konten tidak pantas di nama pengguna, nama tampilan, atau deskripsi mereka."
+	},
+	"queue_popup_friends_title": {
+		"message": "Teman Tidak Pantas"
+	},
+	"queue_popup_friends_description": {
+		"message": "Pengguna ini memiliki teman yang tidak pantas."
+	},
+	"queue_popup_groups_title": {
+		"message": "Grup Tidak Pantas"
+	},
+	"queue_popup_groups_description": {
+		"message": "Pengguna ini berada di grup yang tidak pantas."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Pilihan Diperlukan:"
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Silakan pilih setidaknya satu alasan penandaan sebelum melanjutkan."
+	},
+	"queue_popup_lock_button": {
+		"message": "Kunci Pilihan Saya"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Anda harus mengunci pilihan Anda sebelum mengirim."
+	},
+	"queue_popup_summary_heading": {
+		"message": "Opsi yang Dipilih:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Akan diprioritaskan untuk pakaian tidak pantas"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Tidak dipilih"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Akan diprioritaskan untuk konten profil tidak pantas"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Tidak dipilih"
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Akan diprioritaskan untuk teman tidak pantas"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Tidak dipilih"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Akan diprioritaskan untuk grup tidak pantas"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Tidak dipilih"
+	},
+	"queue_popup_unlock_button": {
+		"message": "Buka Kunci Pilihan"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "Klik untuk membuka kunci dan memodifikasi pilihan Anda."
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Proses Peninjauan"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Dianalisis oleh algoritma AI untuk mendeteksi potensi masalah keamanan"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Jika ditandai oleh AI, ditinjau oleh moderator manusia untuk konfirmasi akhir"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Hasil ditambahkan ke database dengan peringkat keamanan yang sesuai"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Peringatan Penting"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "Penyalahgunaan fitur ini"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(seperti spam pengiriman) dapat mengakibatkan pembatasan pada akun Anda. Deteksi penyalahgunaan otomatis aktif."
+	},
+	"friend_warning_block_button": {
+		"message": "Blokir Pengguna"
+	},
+	"friend_warning_cancel_button": {
+		"message": "Batalkan Permintaan"
+	},
+	"friend_warning_proceed_button": {
+		"message": "Lanjutkan"
+	},
+	"friend_warning_title": {
+		"message": "Peringatan: Pengguna Tidak Aman"
+	},
+	"friend_warning_avatar_alt": {
+		"message": "Avatar $1"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ID Pengguna: $1"
+	},
+	"friend_warning_risk_title": {
+		"message": "Pengguna Berpotensi Tidak Pantas"
+	},
+	"friend_warning_risk_message": {
+		"message": "Pengguna ini telah ditandai oleh sistem deteksi kami. Silakan tinjau profil mereka sebelum menerima permintaan pertemanan ini."
+	},
+	"friend_warning_confidence_label": {
+		"message": "Kepercayaan: $1%"
+	},
+	"friend_warning_why_matters_heading": {
+		"message": "Mengapa ini penting"
+	},
+	"friend_warning_why_matters_item1": {
+		"message": "Pengguna ini mungkin terlibat dalam percakapan atau perilaku yang tidak pantas"
+	},
+	"friend_warning_why_matters_item2": {
+		"message": "Akun Anda mungkin dikaitkan dengan pengguna yang tidak pantas dalam sistem kami"
+	},
+	"friend_warning_why_matters_item3": {
+		"message": "Anda dapat terpapar konten yang tidak diinginkan atau berbahaya"
+	},
+	"friend_warning_why_matters_item4": {
+		"message": "Pengguna ini memiliki bukti jelas melanggar Ketentuan Layanan Roblox"
+	},
+	"friend_warning_recommendations_heading": {
+		"message": "Tindakan yang disarankan"
+	},
+	"friend_warning_recommendations_item1": {
+		"message": "Tinjau informasi profil mereka dengan lebih hati-hati"
+	},
+	"friend_warning_recommendations_item2": {
+		"message": "Laporkan mereka ke Roblox jika Anda melihat konten yang tidak pantas"
+	},
+	"friend_warning_recommendations_item3": {
+		"message": "Hanya terhubung dengan pengguna yang Anda kenal dan percayai"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Melanjutkan permintaan pertemanan ini dapat membuat Anda terpapar konten tidak pantas atau interaksi berbahaya."
+	},
+	"report_helper_card_title_reportable": {
+		"message": "Konten yang Dapat Dilaporkan Ditemukan"
+	},
+	"report_helper_card_title_not_reportable": {
+		"message": "Tidak Ada Konten yang Dapat Dilaporkan Terdeteksi"
+	},
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector mengidentifikasi konten profil yang melanggar Ketentuan Layanan Roblox."
+	},
+	"report_helper_evidence_header": {
+		"message": "Masalah Terdeteksi"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Alasan:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Cuplikan Bukti:"
+	},
+	"report_helper_action_message": {
+		"message": "Klik di bawah ini dan Rotector akan secara otomatis mengisi formulir laporan dengan kategori dan detail yang sesuai."
+	},
+	"report_helper_fill_button": {
+		"message": "Isi Formulir Laporan"
+	},
+	"report_helper_filling_button": {
+		"message": "Mengisi..."
+	},
+	"report_helper_warning_label": {
+		"message": "Penting:"
+	},
+	"report_helper_warning_message": {
+		"message": "Laporan diajukan dengan akun Roblox Anda. Tinjau semua informasi sebelum mengirim dan hanya laporkan pelanggaran yang asli."
+	},
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector belum mendeteksi konten yang jelas dapat dilaporkan dalam deskripsi profil pengguna ini."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Anda masih dapat mengirimkan laporan"
+	},
+	"report_helper_info_message_part2": {
+		"message": "jika Anda yakin pengguna ini melanggar Ketentuan Layanan Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector memungkinkan pelaporan konten tidak pantas dalam deskripsi profil. Kami tidak mendeteksi sebagian besar kategori laporan, termasuk:"
+	},
+	"report_helper_category_item1": {
+		"message": "Meminta atau memberikan informasi pribadi"
+	},
+	"report_helper_category_item2": {
+		"message": "Perundungan, pelecehan, diskriminasi"
+	},
+	"report_helper_category_item3": {
+		"message": "Eksploitasi, kecurangan, penipuan"
+	},
+	"report_helper_category_item4": {
+		"message": "Pencurian akun (phishing, peretasan, perdagangan)"
+	},
+	"report_helper_category_item5": {
+		"message": "Ancaman kehidupan nyata atau ancaman bunuh diri"
+	},
+	"report_helper_info_message_part4": {
+		"message": "Jika Anda melaporkan salah satu pelanggaran ini, silakan lanjutkan dengan laporan Anda dan berikan detail spesifik untuk membantu moderator Roblox."
+	},
+	"queue_error_modal_close_button": {
+		"message": "Tutup"
+	},
+	"queue_error_modal_title": {
+		"message": "Kesalahan"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "Kesalahan tidak diketahui terjadi"
+	},
+	"queue_error_modal_failed_message": {
+		"message": "Gagal mengantrikan ID pengguna $1 untuk ditinjau."
+	},
+	"queue_error_modal_details_heading": {
+		"message": "Detail Kesalahan"
+	},
+	"queue_error_modal_error_code_label": {
+		"message": "Kode Kesalahan:"
+	},
+	"queue_error_modal_request_id_label": {
+		"message": "ID Permintaan:"
+	},
+	"queue_error_modal_next_steps_heading": {
+		"message": "Apa yang harus dilakukan selanjutnya"
+	},
+	"queue_error_modal_step1": {
+		"message": "Periksa apakah pengguna sudah ditandai oleh sistem kami"
+	},
+	"queue_error_modal_step2": {
+		"message": "Jika kesalahan berlanjut, coba lagi dalam beberapa menit"
+	},
+	"queue_error_modal_step3": {
+		"message": "Jika Anda memerlukan dukungan, sertakan ID Permintaan di atas"
+	},
+	"queue_success_modal_close_button": {
+		"message": "Tutup"
+	},
+	"queue_success_modal_title": {
+		"message": "Berhasil"
+	},
+	"queue_success_modal_success_message": {
+		"message": "ID pengguna $1 telah berhasil diantrikan untuk ditinjau."
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Apa yang terjadi selanjutnya"
+	},
+	"queue_success_modal_step1": {
+		"message": "AI kami akan menganalisis akun ini untuk pola yang menjadi perhatian"
+	},
+	"queue_success_modal_step2": {
+		"message": "Jika ditandai, status pengguna akan dikonfirmasi dalam beberapa menit"
+	},
+	"queue_success_modal_step3": {
+		"message": "Sinkronisasi sistem penuh dan konfirmasi akan memakan waktu 24-48 jam"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Profil pengguna ini berisi konten tidak pantas yang melanggar Ketentuan Layanan Roblox.\n\n"
+	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Masalah Terdeteksi:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Cuplikan Bukti:\n"
+	},
+	"report_page_manager_unknown_category": {
+		"message": "Kategori Tidak Dikenal"
+	},
+	"report_page_manager_category_prefix": {
+		"message": "Kategori: $1"
+	},
+	"report_page_manager_comment_prefix": {
+		"message": "\n\nKomentar: $1"
+	},
+	"report_page_manager_success_message": {
+		"message": "Formulir berhasil diisi! Tinjau dan kirim saat siap."
+	},
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Pengisian otomatis tidak tersedia. Teks laporan disalin ke clipboard. Anda dapat menempelkannya ke kolom komentar secara manual."
+	},
+	"report_page_manager_autofill_failed": {
+		"message": "Pengisian otomatis gagal. Silakan isi formulir laporan secara manual dengan detail yang sesuai."
+	},
+	"tooltip_loading_user_info": {
+		"message": "Memuat informasi pengguna..."
+	},
+	"tooltip_no_data_available": {
+		"message": "Tidak ada data tersedia untuk API ini"
+	},
+	"tooltip_error_details": {
+		"message": "Detail Kesalahan"
+	},
+	"tooltip_loading": {
+		"message": "Memuat..."
+	},
+	"tooltip_queue_button": {
+		"message": "Antrikan untuk Ditinjau"
+	},
+	"tooltip_badge_reportable": {
+		"message": "Dapat Dilaporkan"
+	},
+	"tooltip_badge_queued": {
+		"message": "Diantrikan"
+	},
+	"tooltip_badge_outfit": {
+		"message": "Pakaian Saja"
+	},
+	"tooltip_reportable_title": {
+		"message": "Dapat Dilaporkan ke Roblox"
+	},
+	"tooltip_reportable_message": {
+		"message": "Pengguna ini memiliki bukti jelas konten tidak pantas yang terlihat oleh moderator Roblox."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Laporkan ke Roblox"
+	},
+	"tooltip_outfit_title": {
+		"message": "Ditandai untuk Pakaian Saja"
+	},
+	"tooltip_outfit_message": {
+		"message": "Pengguna ini ditandai semata-mata berdasarkan pakaian avatar mereka. Deteksi pakaian dapat memiliki positif palsu, jadi gunakan penilaian Anda sendiri saat mengevaluasi pengguna ini."
+	},
+	"tooltip_metadata_queued": {
+		"message": "Diantrikan"
+	},
+	"tooltip_metadata_processing": {
+		"message": "Memproses"
+	},
+	"tooltip_metadata_took": {
+		"message": "Memakan Waktu"
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Terakhir Diperbarui"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "Proses Ulang?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "Data pengguna ini sudah usang. Klik untuk mengantrikan ulang untuk analisis."
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Memproses..."
+	},
+	"tooltip_header_unsafe": {
+		"message": "$1 ini telah diverifikasi sebagai tidak pantas oleh moderator manusia."
+	},
+	"tooltip_header_pending": {
+		"message": "$1 ini telah ditandai oleh AI dengan kepercayaan $2%."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "$1 ini sedang diperiksa oleh sistem kami. Ini mungkin memakan waktu beberapa menit."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "$1 ini telah ditinjau oleh sistem AI kami dan tampaknya aman. Jika ini positif palsu, Anda dapat mengantrikan ulang untuk peninjauan lebih lanjut."
+	},
+	"tooltip_header_integration": {
+		"message": "$1 ini telah ditandai oleh sistem analisis konten pihak ketiga."
+	},
+	"tooltip_header_mixed_group": {
+		"message": "Grup ini berisi campuran anggota yang pantas dan tidak pantas."
+	},
+	"tooltip_header_mixed_user": {
+		"message": "Pengguna ini telah dikaitkan dengan konten tidak pantas, tetapi tidak ada bukti yang cukup bagi Roblox untuk mengambil tindakan. Berhati-hatilah saat berinteraksi dengan mereka."
+	},
+	"tooltip_header_past_offender": {
+		"message": "$1 ini memiliki konten tidak pantas sebelumnya tetapi akun mereka saat ini tampak bersih dan dapat diantrikan ulang untuk verifikasi."
+	},
+	"tooltip_header_safe": {
+		"message": "$1 ini belum ditinjau."
+	},
+	"tooltip_header_unknown": {
+		"message": "Status Tidak Dikenal"
+	},
+	"tooltip_header_unavailable": {
+		"message": "Informasi status tidak tersedia."
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Tidak Ditandai"
+	},
+	"tooltip_status_unsafe": {
+		"message": "Tidak Aman"
+	},
+	"tooltip_status_under_review": {
+		"message": "Sedang Ditinjau"
+	},
+	"tooltip_status_likely_safe": {
+		"message": "Kemungkinan Aman"
+	},
+	"tooltip_status_checking": {
+		"message": "Memeriksa..."
+	},
+	"tooltip_status_integration": {
+		"message": "Integrasi"
+	},
+	"tooltip_status_mixed": {
+		"message": "Campuran"
+	},
+	"tooltip_status_past_offender": {
+		"message": "Pelanggar Sebelumnya"
+	},
+	"tooltip_status_unknown": {
+		"message": "Tidak Dikenal"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Ditinjau oleh"
+	},
+	"tooltip_profile_group_id": {
+		"message": "ID Grup:"
+	},
+	"tooltip_profile_user": {
+		"message": "Pengguna"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_aria_close": {
+		"message": "Klik untuk menutup tooltip"
+	},
+	"tooltip_aria_expand": {
+		"message": "Klik untuk memperluas tooltip"
+	},
+	"tooltip_entity_user": {
+		"message": "pengguna"
+	},
+	"tooltip_entity_group": {
+		"message": "grup"
+	},
+	"voting_header_title": {
+		"message": "Umpan Balik Komunitas"
+	},
+	"voting_loading": {
+		"message": "Memuat..."
+	},
+	"voting_count_singular": {
+		"message": "$1 suara"
+	},
+	"voting_count_plural": {
+		"message": "$1 suara"
+	},
+	"voting_button_agree": {
+		"message": "Setuju"
+	},
+	"voting_button_disagree": {
+		"message": "Tidak Setuju"
+	},
+	"voting_aria_agree": {
+		"message": "Setuju dengan status ini"
+	},
+	"voting_aria_disagree": {
+		"message": "Tidak setuju dengan status ini"
+	},
+	"voting_description": {
+		"message": "Bantu orang lain dengan mengonfirmasi apakah status pengguna ini akurat."
+	},
+	"engine_status_unknown": {
+		"message": "Tidak Dikenal"
+	},
+	"engine_status_latest": {
+		"message": "Terbaru"
+	},
+	"engine_status_compatible": {
+		"message": "Kompatibel"
+	},
+	"engine_status_outdated": {
+		"message": "Usang"
+	},
+	"engine_status_deprecated": {
+		"message": "Tidak Digunakan Lagi"
+	},
+	"engine_desc_unknown": {
+		"message": "Analisis ini menggunakan mesin AI dengan status kompatibilitas yang tidak diketahui."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "Kompatibilitas versi tidak dapat ditentukan."
+	},
+	"engine_desc_latest": {
+		"message": "Analisis ini menggunakan mesin AI terkini dengan kemampuan deteksi terbaru."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Akurasi tertinggi dan analisis paling komprehensif."
+	},
+	"engine_desc_compatible": {
+		"message": "Analisis ini menggunakan mesin AI yang masih didukung tetapi bukan versi terbaru."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Masih sangat akurat dengan perbedaan kecil dalam kemampuan deteksi."
+	},
+	"engine_desc_outdated": {
+		"message": "Analisis ini menggunakan mesin AI yang tertinggal jauh dari versi terbaru."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Mungkin memiliki akurasi yang berkurang dibandingkan dengan versi mesin yang lebih baru."
+	},
+	"engine_desc_deprecated": {
+		"message": "Analisis ini menggunakan mesin AI yang tidak lagi didukung."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "Akurasi mungkin sangat berkurang dan hasil harus diperlakukan dengan hati-hati."
+	},
+	"engine_aria_info": {
+		"message": "Informasi versi mesin"
+	},
+	"engine_header_version": {
+		"message": "Mesin v$1"
+	},
+	"engine_version_unknown": {
+		"message": "Tidak Dikenal"
+	},
+	"custom_api_form_title_edit": {
+		"message": "Edit API Kustom"
+	},
+	"custom_api_form_title_add": {
+		"message": "Tambahkan API Kustom"
+	},
+	"custom_api_form_label_name": {
+		"message": "Nama"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "API Kustom Saya"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Maksimal 12 karakter ($1/12)"
+	},
+	"custom_api_form_label_url": {
+		"message": "URL API"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.contoh.com/v1/lookup"
+	},
+	"custom_api_form_hint_url": {
+		"message": "Harus HTTPS. Ini seperti URL dasar untuk endpoint API Anda. Kami akan memanggil {url}/user/{userId} untuk pencarian tunggal dan {url}/users untuk pencarian batch."
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Timeout (ms)"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Timeout permintaan dalam milidetik (1000-60000). Default: 5000ms."
+	},
+	"custom_api_form_label_image": {
+		"message": "Gambar Lanskap (Opsional)"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Unggah gambar lanskap untuk tab tooltip (PNG, JPG, SVG, WebP). Disarankan: 480x160px (rasio 3:1)."
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Hapus Gambar"
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "Aktifkan API kustom ini"
+	},
+	"custom_api_form_button_save": {
+		"message": "Simpan"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Menyimpan..."
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Nama diperlukan"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Nama harus 12 karakter atau kurang"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL diperlukan"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL harus dimulai dengan https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Format URL tidak valid"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Timeout harus minimal 1000ms (1 detik)"
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Timeout harus 60000ms (60 detik) atau kurang"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Jenis file tidak valid. Silakan gunakan PNG, JPG, SVG, atau WebP"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Jenis gambar tidak valid. Jenis MIME tidak cocok dengan ekstensi file"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Peringatan: Ukuran file besar ($1KB). Pertimbangkan menggunakan gambar yang lebih kecil untuk mengurangi penggunaan penyimpanan."
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Gagal membaca file gambar"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Gagal memproses file gambar"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Gagal menyimpan API kustom: "
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Kesalahan tidak diketahui"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Kembali"
+	},
+	"custom_api_mgmt_title": {
+		"message": "Integrasi API"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Kelola semua integrasi API di satu tempat. Rotector menyediakan analisis keamanan inti, dan Anda dapat menambahkan hingga 5 API kustom untuk analisis konten tambahan."
+	},
+	"custom_api_mgmt_button_docs": {
+		"message": "Lihat Dokumentasi"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Memuat API kustom..."
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "API Sistem"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Tunggal:"
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Batch:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Timeout:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Dibuat:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Terakhir Diuji:"
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "ms"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Pindahkan ke atas"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Pindahkan ke bawah"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "Uji Koneksi"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "Edit"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Hapus"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Tambahkan API Kustom"
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Maksimal $1 API kustom tercapai. Hapus API yang ada untuk menambahkan yang baru."
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Hapus API kustom \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Gagal menghapus API kustom"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ Koneksi berhasil!\n\nAPI \"$1\" dapat dijangkau dan merespons."
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ Koneksi gagal\n\nAPI \"$1\" tidak merespons atau mengembalikan kesalahan.\n\nSilakan periksa:\n• URL benar dan dapat diakses\n• Server API berjalan\n• CORS dikonfigurasi jika diperlukan"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Kesalahan uji koneksi\n\nGagal menguji API \"$1\".\n\nKesalahan: $2"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Gagal memperbarui status API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_docs_button_back": {
+		"message": "Kembali"
+	},
+	"custom_api_docs_title": {
+		"message": "Dokumentasi API"
+	},
+	"custom_api_docs_intro": {
+		"message": "Implementasikan dua endpoint yang mengembalikan data status pengguna. Semua respons harus menggunakan format wrapper dengan field success, data, dan error."
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Pencarian Pengguna Tunggal"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Pencarian Pengguna Batch"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Catatan Penting"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Contoh Permintaan"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Respons Sukses"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Respons Kesalahan"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Field Wajib (dalam objek data)"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Field Opsional (dalam objek data)"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Jenis Tanda"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Body Permintaan"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "HTTPS Diperlukan"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Format Wrapper"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Kunci Alasan"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Lencana"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Warna Lencana"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "Aman"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "Tertunda"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Tidak Aman (disarankan)"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "Diantrikan"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Tidak Digunakan"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Campuran"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Pelanggar Sebelumnya"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Jenis tanda 2 (Tidak Aman) adalah jenis utama yang Anda perlukan untuk menunjukkan pengguna yang tidak pantas. Gunakan jenis tanda lain hanya jika Anda memiliki alasan khusus untuk mengkategorikan pengguna secara berbeda."
+	},
+	"custom_api_docs_field_id": {
+		"message": "id (number) - ID Pengguna sebagai integer"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "flagType (number) - Jenis tanda 0-6 (lihat di bawah)"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "confidence (number) - Tingkat kepercayaan 0.0-1.0"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "reasons (object) - Nama alasan berbasis string sebagai kunci, masing-masing berisi:"
+	},
+	"custom_api_docs_field_message": {
+		"message": "message (string) - Deskripsi alasan"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "evidence (array atau null) - String bukti atau null"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "reviewer (object) - username dan displayName"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "engineVersion (string) - Versi mesin analisis"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "lastUpdated (number) - Timestamp Unix"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "badges (array) - Hingga 3 objek lencana kustom, masing-masing berisi:"
+	},
+	"custom_api_docs_field_badge_text": {
+		"message": "text (string, wajib) - Teks label lencana"
+	},
+	"custom_api_docs_field_badge_color": {
+		"message": "color (string, opsional) - Warna latar belakang (hex, rgb, atau warna bernama)"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "textColor (string, opsional) - Warna teks untuk kontras"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "confidence (number) - Kepercayaan 0.0-1.0"
+	},
+	"custom_api_docs_note_https": {
+		"message": "Semua endpoint API harus menggunakan HTTPS untuk keamanan."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Semua respons harus menggunakan format {success, data, error}. Ketika success: true, sertakan field data. Ketika success: false, sertakan pesan error."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Gunakan nama string deskriptif untuk kunci alasan (misalnya, \"Pola Risiko Tinggi\", \"Aktivitas Mencurigakan\"), bukan indeks numerik. Ini ditampilkan langsung di tooltip."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "Lencana adalah indikator visual kecil yang muncul di tooltip pengguna bersama dengan status tanda. Mereka ditampilkan di bagian atas tooltip untuk dengan cepat mengkomunikasikan konteks tambahan tentang pengguna. Gunakan lencana untuk menyoroti informasi status penting seperti status verifikasi, tingkat prioritas, atau kategori khusus. Contoh umum: \"Terverifikasi Tidak Aman\", \"Prioritas Tinggi\", \"Dilaporkan Komunitas\", \"Terdeteksi Otomatis\"."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "Warna lencana mendukung beberapa format: kode hex (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)), atau warna bernama (red). Ketika warna tidak ditentukan, lencana menggunakan warna teal default. Ketika textColor tidak ditentukan, lencana menggunakan teks putih."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Field data berisi objek di mana kunci adalah ID pengguna (sebagai string) dan nilai adalah objek status pengguna."
+	}
+}

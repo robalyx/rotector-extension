@@ -88,7 +88,7 @@
 				class="engine-version-tooltip-header"
 				class:centered={position === 'below-header' || position === 'footer'}
 			>
-				{t('engine_header_version', [status.engineVersion ?? 'Unknown'])}
+				{t('engine_header_version', [status.engineVersion ?? t('engine_version_unknown')])}
 				<div class="engine-version-status {versionStatus().status}">
 					{versionStatus().statusText}
 				</div>

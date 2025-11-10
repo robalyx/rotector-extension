@@ -45,7 +45,7 @@
 			const limits = await apiClient.getQueueLimits();
 			queueLimits = limits;
 		} catch (err) {
-			error = err instanceof Error ? err.message : t('stats_queue_error');
+			error = t('stats_queue_error');
 			logger.error('Failed to load queue limits:', err);
 		} finally {
 			isLoading = false;

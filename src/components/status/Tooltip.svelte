@@ -121,25 +121,34 @@
 	$effect(() => {
 		if (!userStatus) return;
 
-		// First priority: Check if user has a preferred custom API tab and if it exists in current results
+		// First priority: Check if user has a preferred tab and if it exists in current results
 		const preferredTab = get(settings).lastSelectedCustomApiTab;
-		if (
-			preferredTab &&
-			preferredTab !== ROTECTOR_API_ID &&
-			userStatus.customApis.has(preferredTab)
-		) {
+		if (preferredTab && userStatus.customApis.has(preferredTab)) {
 			activeTab = preferredTab;
 			return;
 		}
 
-		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist, open first custom API tab
+		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist
 		const rotector = userStatus.customApis.get(ROTECTOR_API_ID);
+		const allApisSafe = Array.from(userStatus.customApis.values()).every(
+			(result) => !result.data || result.data.flagType === STATUS.FLAGS.SAFE
+		);
+
 		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.customApis.size > 1) {
-			const firstCustom = Array.from(userStatus.customApis.keys()).find(
-				(id) => id !== ROTECTOR_API_ID
+			// If ALL APIs are safe, show Rotector tab
+			if (allApisSafe) {
+				activeTab = ROTECTOR_API_ID;
+				return;
+			}
+
+			// Or else open first custom API that detected something
+			const firstCustomWithDetection = Array.from(userStatus.customApis.entries()).find(
+				([id, result]) =>
+					id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
 			);
-			if (firstCustom) {
-				activeTab = firstCustom;
+
+			if (firstCustomWithDetection) {
+				activeTab = firstCustomWithDetection[0];
 				return;
 			}
 		}
@@ -665,12 +674,10 @@
 					onclick={(e) => {
 						e.stopPropagation();
 						activeTab = tab.id;
-						// Save preference if user clicks a custom API tab
-						if (tab.id !== ROTECTOR_API_ID) {
-							updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
-								logger.error('Failed to save tab preference:', error);
-							});
-						}
+						// Save tab preference for future tooltip opens
+						updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
+							logger.error('Failed to save tab preference:', error);
+						});
 					}}
 					title={tab.name}
 					type="button"

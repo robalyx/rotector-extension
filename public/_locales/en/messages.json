@@ -587,6 +587,12 @@
 	"warzone_target_meta_active": {
 		"message": "Active"
 	},
+	"warzone_mode_global": {
+		"message": "global"
+	},
+	"warzone_mode_zone": {
+		"message": "zone"
+	},
 	"warzone_chart_error_load": {
 		"message": "Failed to load $1 historical data"
 	},
@@ -1088,9 +1094,6 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\nComment: $1"
 	},
-	"report_page_manager_inappropriate_language": {
-		"message": "Inappropriate Language"
-	},
 	"report_page_manager_success_message": {
 		"message": "Form filled successfully! Review and submit when ready."
 	},
@@ -1322,6 +1325,9 @@
 	"engine_header_version": {
 		"message": "Engine v$1"
 	},
+	"engine_version_unknown": {
+		"message": "Unknown"
+	},
 	"custom_api_form_title_edit": {
 		"message": "Edit Custom API"
 	},
@@ -1414,6 +1420,9 @@
 	},
 	"custom_api_form_error_save_prefix": {
 		"message": "Failed to save custom API: "
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Unknown error"
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Back"

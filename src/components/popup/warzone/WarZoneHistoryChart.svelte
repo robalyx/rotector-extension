@@ -83,10 +83,8 @@
 				historicalData = await apiClient.getWarZoneStatistics(zoneId);
 			}
 		} catch (err) {
-			error =
-				err instanceof Error
-					? err.message
-					: t('warzone_chart_error_load', [mode === 'global' ? 'global' : 'zone']);
+			const translatedMode = mode === 'global' ? t('warzone_mode_global') : t('warzone_mode_zone');
+			error = err instanceof Error ? err.message : t('warzone_chart_error_load', [translatedMode]);
 		} finally {
 			isLoading = false;
 		}

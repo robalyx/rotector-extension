@@ -176,7 +176,7 @@
 				document.querySelectorAll(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
 			).find((option) => {
 				const textElement = option.querySelector('span');
-				return textElement?.textContent?.includes(t('report_page_manager_inappropriate_language'));
+				return textElement?.textContent?.includes('Inappropriate Language');
 			}) as HTMLElement;
 
 			if (inappropriateLanguageOption) {
@@ -292,7 +292,7 @@
 			// Validate that the form was filled correctly
 			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
 			const categoryText = categoryElement?.textContent?.trim() || '';
-			const isCategorySet = categoryText.includes(t('report_page_manager_inappropriate_language'));
+			const isCategorySet = categoryText.includes('Inappropriate Language');
 			const isTextareaSet = commentTextarea.value === commentText;
 
 			if (!isCategorySet || !isTextareaSet) {

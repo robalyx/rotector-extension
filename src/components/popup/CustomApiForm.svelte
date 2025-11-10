@@ -208,7 +208,7 @@
 			logger.error('Failed to save custom API:', error);
 			alert(
 				t('custom_api_form_error_save_prefix') +
-					(error instanceof Error ? error.message : 'Unknown error')
+					(error instanceof Error ? error.message : t('custom_api_form_error_unknown'))
 			);
 		} finally {
 			saving = false;

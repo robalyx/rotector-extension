@@ -1,0 +1,174 @@
+/* =================================
+   DOCUMENTATION PAGE
+   ================================= */
+
+@utility custom-api-documentation-page {
+	@apply flex flex-col w-full;
+	gap: 0.75rem;
+}
+
+@utility docs-intro {
+	font-size: 0.8125rem;
+	color: var(--color-text-subtle);
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* =================================
+   DOCUMENTATION SECTIONS
+   ================================= */
+
+@utility docs-section {
+	@apply flex flex-col;
+	gap: 0.5rem;
+	padding-top: 0.5rem;
+	border-top: 1px solid var(--color-border-subtle);
+
+	&:first-of-type {
+		padding-top: 0;
+		border-top: none;
+	}
+}
+
+@utility docs-section-title {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--color-text-heading);
+	margin: 0;
+}
+
+/* =================================
+   DOCUMENTATION CONTENT
+   ================================= */
+
+@utility docs-subtitle {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--color-text-heading);
+	margin: 0.375rem 0 0.25rem 0;
+}
+
+@utility docs-endpoint {
+	@apply flex items-center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	font-family:
+		ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+@utility http-method {
+	@apply inline-flex items-center;
+	padding: 0.125rem 0.375rem;
+	font-size: 0.625rem;
+	font-weight: 700;
+	color: white;
+	background-color: #2196f3;
+	border-radius: 0.25rem;
+	letter-spacing: 0.025em;
+
+	&.http-method-get {
+		background-color: #4caf50;
+	}
+}
+
+@utility endpoint-url {
+	font-size: 0.6875rem;
+	color: var(--color-text);
+	word-break: break-all;
+}
+
+@utility code-block {
+	padding: 0.5rem 0.625rem;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	overflow-x: auto;
+	margin: 0.25rem 0;
+
+	& code {
+		font-size: 0.6875rem;
+		font-family:
+			ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+		color: var(--color-text);
+		line-height: 1.5;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+}
+
+@utility docs-list {
+	margin: 0.25rem 0;
+	padding-left: 1rem;
+	font-size: 0.75rem;
+	color: var(--color-text);
+	line-height: 1.5;
+
+	& li {
+		margin-bottom: 0.25rem;
+
+		& code {
+			padding: 0.125rem 0.25rem;
+			font-size: 0.6875rem;
+			font-family:
+				ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+			color: var(--color-primary);
+			background-color: var(--color-bg-tertiary);
+			border-radius: 0.25rem;
+		}
+	}
+}
+
+@utility docs-important {
+	padding: 0.625rem 0.75rem;
+	font-size: 0.75rem;
+	color: var(--color-warning);
+	background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 30%, transparent);
+	border-radius: 0.25rem;
+	line-height: 1.5;
+}
+
+@utility docs-note {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text);
+	line-height: 1.5;
+	margin: 0.375rem 0;
+}
+
+@utility code-tabs {
+	@apply flex;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+	border-bottom: 1px solid var(--color-border);
+	padding-bottom: 0.25rem;
+}
+
+@utility code-tab {
+	padding: 0.5rem 1rem;
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid transparent;
+	cursor: pointer;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--color-text-subtle);
+	transition: all 0.2s;
+
+	&:hover {
+		color: var(--color-text);
+		background: var(--color-surface-hover);
+	}
+
+	&.active {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+	}
+}
+
+@utility code-content {
+	margin-top: 0.5rem;
+}

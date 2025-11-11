@@ -1,48 +1,468 @@
 {
-	"popup_header_description": {
-		"message": "Chỉ báo an toàn theo thời gian thực cảnh báo bạn về người dùng Roblox không phù hợp trước khi bạn tương tác với họ."
-	},
 	"banner_advanced_violation_aria_dismiss": {
 		"message": "Đóng biểu ngữ khuyến nghị"
-	},
-	"banner_advanced_violation_title_dismiss": {
-		"message": "Đóng khuyến nghị"
-	},
-	"banner_advanced_violation_message": {
-		"message": "Bật chi tiết vi phạm nâng cao để có thông tin chi tiết hơn"
-	},
-	"banner_advanced_violation_title_go_to_setting": {
-		"message": "Đi đến cài đặt chi tiết vi phạm nâng cao"
 	},
 	"banner_advanced_violation_button_go_to_setting": {
 		"message": "Đi đến Cài đặt"
 	},
-	"banner_changelog_message": {
-		"message": "Phiên bản cập nhật mới đã được phát hành $1!"
+	"banner_advanced_violation_message": {
+		"message": "Bật chi tiết vi phạm nâng cao để có thông tin chi tiết hơn"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Đóng khuyến nghị"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Đi đến cài đặt chi tiết vi phạm nâng cao"
 	},
 	"banner_changelog_aria_dismiss": {
 		"message": "Đóng biểu ngữ nhật ký thay đổi"
 	},
-	"banner_changelog_title_view_details": {
-		"message": "Xem chi tiết đầy đủ nhật ký thay đổi"
+	"banner_changelog_button_view_details": {
+		"message": "Xem Chi tiết"
+	},
+	"banner_changelog_message": {
+		"message": "Phiên bản cập nhật mới đã được phát hành $1!"
 	},
 	"banner_changelog_title_dismiss": {
 		"message": "Đóng nhật ký thay đổi"
 	},
-	"banner_changelog_button_view_details": {
-		"message": "Xem Chi tiết"
+	"banner_changelog_title_view_details": {
+		"message": "Xem chi tiết đầy đủ nhật ký thay đổi"
 	},
-	"navbar_tab_stats": {
-		"message": "Thống kê"
+	"custom_api_docs_button_back": {
+		"message": "Quay lại"
 	},
-	"navbar_tab_warzone": {
-		"message": "War Zone"
+	"custom_api_docs_error_note": {
+		"message": "Lưu ý: Phản hồi lỗi chỉ xảy ra khi có lỗi máy chủ nội bộ hoặc sự cố backend. Người dùng không tìm thấy hoặc chưa được phân tích sẽ trả về success: true với flagType: 0 (An toàn)."
 	},
-	"navbar_tab_settings": {
-		"message": "Cài đặt"
+	"custom_api_docs_field_badge_color": {
+		"message": "(string, tùy chọn) - Màu nền (hex, rgb hoặc màu đặt tên)"
 	},
-	"navbar_settings_tooltip": {
-		"message": "Cài đặt (Alt+Click để bật chế độ nhà phát triển)"
+	"custom_api_docs_field_badge_text": {
+		"message": "(string, bắt buộc) - Văn bản nhãn huy hiệu"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "(string, tùy chọn) - Màu văn bản cho độ tương phản"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "(array) - Tối đa 3 đối tượng huy hiệu tùy chỉnh, mỗi đối tượng chứa:"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "(number) - Mức độ tin cậy 0.0-1.0"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "(number) - Độ tin cậy 0.0-1.0"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "(string) - Phiên bản công cụ phân tích"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "(array hoặc null) - Chuỗi bằng chứng hoặc null"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "(number) - Loại cờ 0-6 (xem bên dưới)"
+	},
+	"custom_api_docs_field_id": {
+		"message": "(number) - ID Người dùng dưới dạng số nguyên"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "(number) - Dấu thời gian Unix trong giây"
+	},
+	"custom_api_docs_field_message": {
+		"message": "(string) - Mô tả lý do"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "(object) - Tên lý do dựa trên chuỗi làm khóa, mỗi lý do chứa:"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "(object) - Tùy chọn. Để ghi nhận người xem xét con người đã xác minh cờ. Bao gồm username và displayName. Bỏ qua nếu tự động/không có xem xét con người."
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "An toàn"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "Đang chờ"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Không an toàn (khuyến nghị)"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Loại cờ 2 (Không an toàn) là loại chính bạn cần để chỉ báo người dùng không phù hợp. Chỉ sử dụng các loại cờ khác nếu bạn có lý do cụ thể để phân loại người dùng khác đi."
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "Đã xếp hàng"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Không sử dụng"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Hỗn hợp"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Kẻ Vi phạm Trước đây"
+	},
+	"custom_api_docs_intro": {
+		"message": "Triển khai hai endpoint trả về dữ liệu trạng thái người dùng. Tất cả các phản hồi phải sử dụng định dạng bọc với các trường success, data và error."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "Màu huy hiệu hỗ trợ nhiều định dạng: mã hex (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) hoặc màu đặt tên (red). Khi color không được chỉ định, huy hiệu sử dụng màu xanh lam mặc định. Khi textColor không được chỉ định, huy hiệu sử dụng văn bản màu trắng."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "Huy hiệu là các chỉ báo trực quan nhỏ xuất hiện trong chú giải công cụ người dùng bên cạnh trạng thái cờ. Chúng hiển thị ở đầu chú giải công cụ để nhanh chóng truyền đạt ngữ cảnh bổ sung về người dùng. Sử dụng huy hiệu để làm nổi bật thông tin trạng thái quan trọng như trạng thái xác minh, mức độ ưu tiên hoặc danh mục đặc biệt. Ví dụ phổ biến: \"Đã Xác minh Không an toàn\", \"Ưu tiên Cao\", \"Cộng đồng Báo cáo\", \"Tự động Phát hiện\"."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Trường data chứa một đối tượng trong đó các khóa là ID người dùng (dưới dạng chuỗi) và các giá trị là các đối tượng trạng thái người dùng."
+	},
+	"custom_api_docs_note_batch_limit": {
+		"message": "Chúng tôi khuyến nghị triển khai giới hạn 100 ID người dùng cho mỗi yêu cầu hàng loạt để cân bằng hiệu suất và thời gian phản hồi."
+	},
+	"custom_api_docs_note_batch_partial": {
+		"message": "Chỉ trả về người dùng tồn tại trong hệ thống của bạn. Người dùng không xác định nên được bỏ qua khỏi phản hồi."
+	},
+	"custom_api_docs_note_cors": {
+		"message": "API của bạn phải bao gồm header Access-Control-Allow-Origin: * trong phản hồi để cho phép tiện ích trình duyệt truy cập API của bạn."
+	},
+	"custom_api_docs_note_flag_type_0": {
+		"message": "Trả về flagType 0 cho người dùng không có trong hệ thống của bạn (chưa được kiểm tra/không xác định)."
+	},
+	"custom_api_docs_note_http_status": {
+		"message": "Trả về HTTP status 200 cho tất cả các yêu cầu thành công. Bất kỳ mã trạng thái nào khác (4xx, 5xx) cho biết thất bại và tiện ích sẽ coi đó là lỗi."
+	},
+	"custom_api_docs_note_https": {
+		"message": "Tất cả các endpoint API phải sử dụng HTTPS để bảo mật."
+	},
+	"custom_api_docs_note_no_auth": {
+		"message": "Không yêu cầu xác thực. Đây là API hoàn toàn công khai."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Sử dụng tên chuỗi mô tả cho các khóa lý do (ví dụ: \"Mẫu Rủi ro Cao\", \"Hoạt động Đáng ngờ\"), không phải chỉ số số. Những tên này hiển thị trực tiếp trong chú giải công cụ."
+	},
+	"custom_api_docs_note_url_batch": {
+		"message": "Tiện ích sử dụng URL đã cấu hình của bạn trực tiếp (không có sửa đổi) cho tra cứu hàng loạt."
+	},
+	"custom_api_docs_note_url_single": {
+		"message": "Tiện ích tự động thêm /{userId} vào URL đã cấu hình của bạn cho tra cứu người dùng đơn."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Tất cả các phản hồi phải sử dụng định dạng {success, data, error}. Khi success: true, bao gồm trường data. Khi success: false, bao gồm thông báo error."
+	},
+	"custom_api_docs_section_authentication": {
+		"message": "Xác thực"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Tra cứu Người dùng Hàng loạt"
+	},
+	"custom_api_docs_section_cors": {
+		"message": "Yêu cầu CORS"
+	},
+	"custom_api_docs_section_http_status": {
+		"message": "Mã trạng thái HTTP"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Lưu ý Quan trọng"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Tra cứu Người dùng Đơn"
+	},
+	"custom_api_docs_section_url_config": {
+		"message": "Cấu hình URL API"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Màu Huy hiệu"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Huy hiệu"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Phản hồi Lỗi"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Yêu cầu Ví dụ"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Loại Cờ"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "Yêu cầu HTTPS"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Trường Tùy chọn (trong đối tượng data)"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Khóa Lý do"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Thân Yêu cầu"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Trường Bắt buộc (trong đối tượng data)"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Phản hồi Thành công"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Định dạng Bọc"
+	},
+	"custom_api_docs_title": {
+		"message": "Hướng dẫn Tích hợp API Tùy chỉnh"
+	},
+	"custom_api_docs_url_example_1": {
+		"message": "https://api.example.com/users"
+	},
+	"custom_api_docs_url_example_2": {
+		"message": "https://api.example.com/v1/check"
+	},
+	"custom_api_docs_url_example_3": {
+		"message": "https://api.example.com/roblox/analyze"
+	},
+	"custom_api_docs_url_example_wrong_1": {
+		"message": "https://api.example.com/users/{userId} (tiện ích sẽ tự động thêm /{userId})"
+	},
+	"custom_api_docs_url_example_wrong_2": {
+		"message": "https://api.example.com/users/:id (tiện ích sẽ tự động thêm /{userId})"
+	},
+	"custom_api_docs_url_examples_correct_title": {
+		"message": "Định dạng URL Đúng"
+	},
+	"custom_api_docs_url_examples_incorrect_title": {
+		"message": "Định dạng URL Sai"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Xóa Hình ảnh"
+	},
+	"custom_api_form_button_save": {
+		"message": "Lưu"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Đang lưu..."
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "Bật API tùy chỉnh này"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Loại hình ảnh không hợp lệ. Loại MIME không khớp với phần mở rộng tệp"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Không xử lý được tệp hình ảnh"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Không đọc được tệp hình ảnh"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Cảnh báo: Kích thước tệp lớn ($1KB). Hãy xem xét sử dụng hình ảnh nhỏ hơn để giảm mức sử dụng lưu trữ."
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Loại tệp không hợp lệ. Vui lòng sử dụng PNG, JPG, SVG hoặc WebP"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Tên phải có 12 ký tự hoặc ít hơn"
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Tên là bắt buộc"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Không lưu được API tùy chỉnh: "
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Thời gian chờ phải là 60000ms (60 giây) hoặc ít hơn"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Thời gian chờ phải ít nhất 1000ms (1 giây)"
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Lỗi không xác định"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL phải bắt đầu bằng https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Định dạng URL không hợp lệ"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL là bắt buộc"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Tải lên hình ảnh ngang cho tab chú giải công cụ (PNG, JPG, SVG, WebP). Khuyến nghị: 480x160px (tỷ lệ 3:1)."
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Tối đa 12 ký tự ($1/12)"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Thời gian chờ yêu cầu tính bằng mili giây (1000-60000). Mặc định: 5000ms."
+	},
+	"custom_api_form_hint_url": {
+		"message": "Phải là HTTPS. Đây giống như URL cơ sở cho các endpoint API của bạn. Chúng tôi sẽ gọi {url}/user/{userId} cho tra cứu đơn và {url}/users cho tra cứu hàng loạt."
+	},
+	"custom_api_form_label_image": {
+		"message": "Hình ảnh Ngang (Tùy chọn)"
+	},
+	"custom_api_form_label_name": {
+		"message": "Tên"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Thời gian chờ (ms)"
+	},
+	"custom_api_form_label_url": {
+		"message": "URL API"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "API Tùy chỉnh Của tôi"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_title_add": {
+		"message": "Thêm API Tùy chỉnh"
+	},
+	"custom_api_form_title_edit": {
+		"message": "Chỉnh sửa API Tùy chỉnh"
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "API Hệ thống"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Thêm API Tùy chỉnh"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Quay lại"
+	},
+	"custom_api_mgmt_button_view_integration_guide": {
+		"message": "Xem Hướng dẫn Tích hợp"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Xóa API tùy chỉnh \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Không xóa được API tùy chỉnh"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Không cập nhật được trạng thái API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_mgmt_integration_section_description": {
+		"message": "Xây dựng API của riêng bạn để tích hợp với Rotector Extension. Triển khai các endpoint trả về dữ liệu an toàn người dùng và kết quả của bạn sẽ được hiển thị trong chú giải công cụ bên cạnh phân tích của Rotector."
+	},
+	"custom_api_mgmt_integration_section_title": {
+		"message": "Quan tâm đến tích hợp với tiện ích?"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Quản lý tất cả các tích hợp API ở một nơi. Rotector cung cấp phân tích an toàn cốt lõi và bạn có thể thêm tối đa 5 API tùy chỉnh để phân tích nội dung bổ sung."
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Hàng loạt:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Đã tạo:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Đã kiểm tra lần cuối:"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Đơn:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Thời gian chờ:"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Đang tải API tùy chỉnh..."
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Đã đạt tối đa $1 API tùy chỉnh. Xóa API hiện có để thêm API mới."
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "ms"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Lỗi kiểm tra kết nối\n\nKhông kiểm tra được API \"$1\".\n\nLỗi: $2"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ Kết nối thất bại\n\nAPI \"$1\" không phản hồi hoặc trả về lỗi.\n\nVui lòng kiểm tra:\n• URL chính xác và có thể truy cập\n• Máy chủ API đang chạy\n• CORS được cấu hình nếu cần"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ Kết nối thành công!\n\nAPI \"$1\" có thể truy cập và đang phản hồi."
+	},
+	"custom_api_mgmt_title": {
+		"message": "Tích hợp API"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Xóa"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "Chỉnh sửa"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Di chuyển xuống"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Di chuyển lên"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "Kiểm tra Kết nối"
+	},
+	"engine_aria_info": {
+		"message": "Thông tin phiên bản công cụ"
+	},
+	"engine_desc_compatible": {
+		"message": "Phân tích này đã sử dụng công cụ AI vẫn được hỗ trợ nhưng không phải phiên bản mới nhất."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Vẫn có độ chính xác cao với sự khác biệt nhỏ trong khả năng phát hiện."
+	},
+	"engine_desc_deprecated": {
+		"message": "Phân tích này đã sử dụng công cụ AI không còn được hỗ trợ."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "Độ chính xác có thể giảm đáng kể và kết quả nên được xem xét cẩn thận."
+	},
+	"engine_desc_latest": {
+		"message": "Phân tích này đã sử dụng công cụ AI hiện đại nhất với khả năng phát hiện mới nhất."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Độ chính xác cao nhất và phân tích toàn diện nhất."
+	},
+	"engine_desc_outdated": {
+		"message": "Phân tích này đã sử dụng công cụ AI đáng kể sau phiên bản mới nhất."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Có thể giảm độ chính xác so với các phiên bản công cụ mới hơn."
+	},
+	"engine_desc_unknown": {
+		"message": "Phân tích này đã sử dụng công cụ AI với trạng thái tương thích không rõ."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "Không thể xác định khả năng tương thích phiên bản."
+	},
+	"engine_header_version": {
+		"message": "Công cụ v$1"
+	},
+	"engine_status_compatible": {
+		"message": "Tương thích"
+	},
+	"engine_status_deprecated": {
+		"message": "Đã ngừng hỗ trợ"
+	},
+	"engine_status_latest": {
+		"message": "Mới nhất"
+	},
+	"engine_status_outdated": {
+		"message": "Lỗi thời"
+	},
+	"engine_status_unknown": {
+		"message": "Không rõ"
+	},
+	"engine_version_unknown": {
+		"message": "Không rõ"
 	},
 	"footer_discord": {
 		"message": "Discord"
@@ -50,857 +470,23 @@
 	"footer_github": {
 		"message": "GitHub"
 	},
-	"footer_source_code": {
-		"message": "Mã nguồn"
-	},
 	"footer_help": {
 		"message": "Trợ giúp & Giới thiệu"
-	},
-	"footer_privacy": {
-		"message": "Chính sách Bảo mật"
-	},
-	"footer_terms": {
-		"message": "Điều khoản Dịch vụ"
 	},
 	"footer_made_by": {
 		"message": "Được tạo bởi jaxron"
 	},
-	"settings_developer_unlocked": {
-		"message": "Đã mở khóa chế độ nhà phát triển! Cài đặt nâng cao hiện đã có sẵn."
+	"footer_privacy": {
+		"message": "Chính sách Bảo mật"
 	},
-	"settings_theme_light": {
-		"message": "Sáng"
+	"footer_source_code": {
+		"message": "Mã nguồn"
 	},
-	"settings_theme_dark": {
-		"message": "Tối"
+	"footer_terms": {
+		"message": "Điều khoản Dịch vụ"
 	},
-	"settings_theme_auto": {
-		"message": "Tự động"
-	},
-	"settings_api_system_label": {
-		"message": "(Hệ thống)"
-	},
-	"settings_manage_apis_button": {
-		"message": "Quản lý Tích hợp API"
-	},
-	"settings_api_count_singular": {
-		"message": "($1 API)"
-	},
-	"settings_api_count_plural": {
-		"message": "($1 APIs)"
-	},
-	"settings_api_key_label": {
-		"message": "Khóa API (Tùy chọn)"
-	},
-	"settings_api_key_placeholder": {
-		"message": "Nhập khóa API của bạn"
-	},
-	"settings_api_key_toggle_title": {
-		"message": "Hiện/Ẩn khóa API"
-	},
-	"settings_api_key_hide": {
-		"message": "ẨN"
-	},
-	"settings_api_key_show": {
-		"message": "HIỆN"
-	},
-	"settings_developer_hide_button": {
-		"message": "Ẩn Cài đặt Nhà phát triển"
-	},
-	"settings_category_content_display": {
-		"message": "Hiển thị Nội dung"
-	},
-	"settings_category_integrations": {
-		"message": "Tích hợp"
-	},
-	"settings_category_page_settings": {
-		"message": "Cài đặt Trang"
-	},
-	"settings_category_developer": {
-		"message": "Nhà phát triển"
-	},
-	"settings_label_theme": {
-		"message": "Giao diện"
-	},
-	"settings_label_advanced_violations": {
-		"message": "Hiển thị Chi tiết Vi phạm Nâng cao"
-	},
-	"settings_label_home_page": {
-		"message": "Trang Chủ"
-	},
-	"settings_label_profile_pages": {
-		"message": "Trang Hồ sơ"
-	},
-	"settings_label_friends_pages": {
-		"message": "Trang Bạn bè"
-	},
-	"settings_label_groups_pages": {
-		"message": "Trang Nhóm"
-	},
-	"settings_label_search_pages": {
-		"message": "Trang Tìm kiếm"
-	},
-	"settings_label_report_helper": {
-		"message": "Trợ lý Báo cáo"
-	},
-	"settings_label_debug_logging": {
-		"message": "Bật Ghi nhật ký Gỡ lỗi"
-	},
-	"settings_label_cache_duration": {
-		"message": "Thời lượng Bộ nhớ đệm (phút)"
-	},
-	"settings_help_theme": {
-		"message": "Tự động theo giao diện của Roblox. Sáng và Tối sẽ ghi đè tùy chọn này."
-	},
-	"settings_help_advanced_violations": {
-		"message": "Hiển thị thông báo vi phạm chi tiết và bằng chứng. Có thể chứa nội dung người lớn."
-	},
-	"settings_help_debug_logging": {
-		"message": "Hiển thị nhật ký chi tiết trong console trình duyệt (F12 -> Console) để khắc phục sự cố."
-	},
-	"settings_help_cache_duration": {
-		"message": "Thời gian lưu trữ dữ liệu trạng thái người dùng (1-10 phút). Giá trị cao hơn giảm số lần gọi API nhưng có thể hiển thị thông tin lỗi thời."
-	},
-	"settings_modal_title": {
-		"message": "Cảnh báo Chi tiết Nâng cao"
-	},
-	"settings_modal_confirm_button": {
-		"message": "Bật Chi tiết Nâng cao"
-	},
-	"settings_modal_warning_intro": {
-		"message": "Chi tiết vi phạm nâng cao có thể chứa nội dung nhạy cảm"
-	},
-	"settings_modal_warning_continuation": {
-		"message": "được tham chiếu từ hồ sơ người dùng và hoạt động vi phạm chính sách nền tảng."
-	},
-	"settings_modal_enabled_heading": {
-		"message": "Những gì bạn sẽ thấy khi được bật:"
-	},
-	"settings_modal_enabled_item1": {
-		"message": "Thông báo vi phạm chi tiết giải thích lý do người dùng bị gắn cờ"
-	},
-	"settings_modal_enabled_item2": {
-		"message": "Đoạn trích bằng chứng chứa nội dung vi phạm chính sách được tìm thấy"
-	},
-	"settings_modal_enabled_item3": {
-		"message": "Ví dụ cụ thể về vi phạm từ hồ sơ người dùng và hoạt động"
-	},
-	"settings_modal_considerations_heading": {
-		"message": "Các Cân nhắc Quan trọng"
-	},
-	"settings_modal_considerations_item1": {
-		"message": "Nội dung có thể bao gồm tài liệu vi phạm tiêu chuẩn cộng đồng nền tảng"
-	},
-	"settings_modal_considerations_item2": {
-		"message": "Thông tin này chỉ dành cho mục đích kiểm duyệt và an toàn"
-	},
-	"settings_modal_considerations_item3": {
-		"message": "Nếu bạn không muốn xem bằng chứng vi phạm chi tiết, hãy tắt cài đặt này"
-	},
-	"settings_modal_considerations_item4": {
-		"message": "Bạn có thể tắt tính năng này bất cứ lúc nào trong cài đặt"
-	},
-	"settings_modal_recommendation_label": {
-		"message": "Khuyến nghị:"
-	},
-	"settings_modal_recommendation_text": {
-		"message": "Chỉ bật tính năng này nếu bạn cần thông tin vi phạm chi tiết cho mục đích kiểm duyệt và hiểu rằng bạn có thể thấy nội dung vi phạm hướng dẫn cộng đồng."
-	},
-	"stats_changelog_type_added": {
-		"message": "Đã thêm"
-	},
-	"stats_changelog_type_changed": {
-		"message": "Đã thay đổi"
-	},
-	"stats_changelog_type_deprecated": {
-		"message": "Đã lỗi thời"
-	},
-	"stats_changelog_type_removed": {
-		"message": "Đã xóa"
-	},
-	"stats_changelog_type_fixed": {
-		"message": "Đã sửa"
-	},
-	"stats_changelog_type_security": {
-		"message": "Bảo mật"
-	},
-	"stats_changelog_type_update": {
-		"message": "Cập nhật"
-	},
-	"stats_changelog_title": {
-		"message": "Nhật ký Thay đổi"
-	},
-	"stats_changelog_empty": {
-		"message": "Không có mục nhật ký thay đổi nào."
-	},
-	"stats_financial_title": {
-		"message": "Mục tiêu Tài trợ"
-	},
-	"stats_financial_raised": {
-		"message": "Đã huy động"
-	},
-	"stats_financial_surplus": {
-		"message": "Thặng dư"
-	},
-	"stats_financial_remaining": {
-		"message": "Còn lại"
-	},
-	"stats_financial_kofi_title": {
-		"message": "Hỗ trợ trên Ko-fi"
-	},
-	"stats_financial_button_funded": {
-		"message": "Cảm ơn bạn!"
-	},
-	"stats_financial_button_support": {
-		"message": "Hỗ trợ Phát triển"
-	},
-	"stats_financial_charts_hide": {
-		"message": "Ẩn biểu đồ sử dụng"
-	},
-	"stats_financial_charts_show": {
-		"message": "Hiện biểu đồ sử dụng"
-	},
-	"stats_financial_charts_toggle": {
-		"message": "Biểu đồ Sử dụng Hàng tuần"
-	},
-	"stats_financial_aria_funded": {
-		"message": "Đã tài trợ đầy đủ với $1 thặng dư"
-	},
-	"stats_financial_aria_progress": {
-		"message": "$1 đã huy động, còn $2 của mục tiêu $3"
-	},
-	"stats_queue_title": {
-		"message": "Giới hạn Hàng đợi"
-	},
-	"stats_queue_loading": {
-		"message": "Đang tải giới hạn hàng đợi..."
-	},
-	"stats_queue_error": {
-		"message": "Không tải được giới hạn hàng đợi"
-	},
-	"stats_queue_retry": {
-		"message": "Thử lại"
-	},
-	"stats_queue_usage": {
-		"message": "Đã dùng"
-	},
-	"stats_queue_remaining": {
-		"message": "Còn lại"
-	},
-	"stats_queue_enhanced": {
-		"message": "Giới hạn Nâng cao Đang hoạt động"
-	},
-	"stats_queue_default": {
-		"message": "Giới hạn Mặc định"
-	},
-	"stats_queue_resets_in": {
-		"message": "Đặt lại sau"
-	},
-	"stats_queue_resetting": {
-		"message": "Đang đặt lại..."
-	},
-	"stats_queue_time_hours": {
-		"message": "$1g $2p"
-	},
-	"stats_queue_time_minutes": {
-		"message": "$1p"
-	},
-	"stats_queue_aria_progress": {
-		"message": "$1 trong số $2 đã dùng, còn $3"
-	},
-	"stats_statistics_title": {
-		"message": "Thống kê Hệ thống"
-	},
-	"stats_statistics_refresh": {
-		"message": "Làm mới Thống kê"
-	},
-	"stats_statistics_loading": {
-		"message": "Đang tải thống kê..."
-	},
-	"stats_statistics_error": {
-		"message": "Không tải được thống kê"
-	},
-	"stats_statistics_retry": {
-		"message": "Thử lại"
-	},
-	"stats_statistics_users_title": {
-		"message": "Người dùng"
-	},
-	"stats_statistics_groups_title": {
-		"message": "Nhóm"
-	},
-	"stats_statistics_community_title": {
-		"message": "Cộng đồng"
-	},
-	"stats_statistics_flagged": {
-		"message": "Đã gắn cờ"
-	},
-	"stats_statistics_confirmed": {
-		"message": "Đã xác nhận"
-	},
-	"stats_statistics_votes": {
-		"message": "Tổng số Phiếu bầu"
-	},
-	"stats_statistics_queued": {
-		"message": "Người dùng Trong hàng đợi"
-	},
-	"stats_statistics_users_desc": {
-		"message": "người dùng khác bị cấm bởi Roblox"
-	},
-	"stats_statistics_groups_desc": {
-		"message": "nhóm có nội dung hỗn hợp"
-	},
-	"stats_statistics_updated": {
-		"message": "Cập nhật lần cuối:"
-	},
-	"stats_chart_tab_costs": {
-		"message": "Chi phí AI"
-	},
-	"stats_chart_tab_requests": {
-		"message": "Yêu cầu AI"
-	},
-	"stats_chart_tab_tokens": {
-		"message": "Token AI"
-	},
-	"stats_chart_week_4": {
-		"message": "3 Tuần\nTrước"
-	},
-	"stats_chart_week_3": {
-		"message": "2 Tuần\nTrước"
-	},
-	"stats_chart_week_2": {
-		"message": "Tuần Trước"
-	},
-	"stats_chart_week_1": {
-		"message": "Tuần Này"
-	},
-	"stats_chart_label_costs": {
-		"message": "Chi phí AI Hàng tuần"
-	},
-	"stats_chart_label_requests": {
-		"message": "Yêu cầu AI Hàng tuần"
-	},
-	"stats_chart_label_tokens": {
-		"message": "Tổng Token AI"
-	},
-	"stats_chart_detail_requests": {
-		"message": "Tổng Yêu cầu"
-	},
-	"stats_chart_detail_cost": {
-		"message": "Tổng Chi phí"
-	},
-	"stats_chart_detail_period": {
-		"message": "Thời kỳ"
-	},
-	"stats_chart_detail_prompt": {
-		"message": "Token Prompt"
-	},
-	"stats_chart_detail_completion": {
-		"message": "Token Hoàn thành"
-	},
-	"stats_chart_detail_reasoning": {
-		"message": "Token Lý luận"
-	},
-	"stats_chart_legend_prompt": {
-		"message": "Prompt"
-	},
-	"stats_chart_legend_completion": {
-		"message": "Hoàn thành"
-	},
-	"stats_chart_legend_reasoning": {
-		"message": "Lý luận"
-	},
-	"stats_chart_month_jan": {
-		"message": "T1"
-	},
-	"stats_chart_month_feb": {
-		"message": "T2"
-	},
-	"stats_chart_month_mar": {
-		"message": "T3"
-	},
-	"stats_chart_month_apr": {
-		"message": "T4"
-	},
-	"stats_chart_month_may": {
-		"message": "T5"
-	},
-	"stats_chart_month_jun": {
-		"message": "T6"
-	},
-	"stats_chart_month_jul": {
-		"message": "T7"
-	},
-	"stats_chart_month_aug": {
-		"message": "T8"
-	},
-	"stats_chart_month_sep": {
-		"message": "T9"
-	},
-	"stats_chart_month_oct": {
-		"message": "T10"
-	},
-	"stats_chart_month_nov": {
-		"message": "T11"
-	},
-	"stats_chart_month_dec": {
-		"message": "T12"
-	},
-	"stats_chart_aria_prompt": {
-		"message": "Token prompt cho $1: $2"
-	},
-	"stats_chart_aria_completion": {
-		"message": "Token hoàn thành cho $1: $2"
-	},
-	"stats_chart_aria_reasoning": {
-		"message": "Token lý luận cho $1: $2"
-	},
-	"stats_chart_aria_general": {
-		"message": "$1 cho $2: $3"
-	},
-	"warzone_common_button_retry": {
-		"message": "Thử lại"
-	},
-	"warzone_hunter_title": {
-		"message": "Thợ săn War Zone"
-	},
-	"warzone_hunter_stat_points": {
-		"message": "Điểm"
-	},
-	"warzone_hunter_stat_status": {
-		"message": "Trạng thái"
-	},
-	"warzone_hunter_discord_avatar_alt": {
-		"message": "Ảnh đại diện Discord"
-	},
-	"warzone_hunter_loading_connecting": {
-		"message": "Đang kết nối..."
-	},
-	"warzone_hunter_status_anonymous": {
-		"message": "Ẩn danh"
-	},
-	"warzone_hunter_status_public": {
-		"message": "Công khai"
-	},
-	"warzone_hunter_signup_description": {
-		"message": "Tham gia cộng đồng để báo cáo người dùng đã xác nhận có rủi ro cao. Làm việc cùng với thợ săn trên toàn thế giới để tăng tỷ lệ thành công xóa bỏ và làm cho Roblox an toàn hơn cho tất cả mọi người."
-	},
-	"warzone_hunter_feature_report": {
-		"message": "Báo cáo người dùng đã xác nhận có rủi ro cao"
-	},
-	"warzone_hunter_feature_cleanup": {
-		"message": "Giúp dọn dẹp nền tảng và loại bỏ kẻ xấu"
-	},
-	"warzone_hunter_feature_community": {
-		"message": "Làm việc với cộng đồng để có tỷ lệ xóa bỏ cao hơn"
-	},
-	"warzone_hunter_feature_leaderboard": {
-		"message": "Kiếm điểm và leo lên bảng xếp hạng"
-	},
-	"warzone_hunter_beta_label": {
-		"message": "Closed Beta:"
-	},
-	"warzone_hunter_beta_text_before_link": {
-		"message": "Chỉ dành cho người dùng được chọn. Tham gia"
-	},
-	"warzone_hunter_beta_discord_link": {
-		"message": "máy chủ Discord"
-	},
-	"warzone_hunter_beta_text_after_link": {
-		"message": "của chúng tôi để cập nhật."
-	},
-	"warzone_hunter_button_login": {
-		"message": "Đăng nhập bằng Discord"
-	},
-	"warzone_hunter_button_logout": {
-		"message": "Đăng xuất"
-	},
-	"warzone_hunter_welcome_message": {
-		"message": "Chào mừng, Thợ săn! Bây giờ bạn có thể tham gia các hoạt động War Zone và giúp bảo vệ cộng đồng Roblox. Truy cập trang chủ Roblox để bắt đầu nhiệm vụ săn bắn của bạn."
-	},
-	"warzone_hunter_confirm_logout": {
-		"message": "Bạn có chắc chắn muốn đăng xuất không?\n\nBạn có thể đăng nhập lại bất cứ lúc nào bằng tài khoản Discord của bạn."
-	},
-	"warzone_leaderboard_loading": {
-		"message": "Đang tải bảng xếp hạng..."
-	},
-	"warzone_leaderboard_error_load": {
-		"message": "Không tải được bảng xếp hạng"
-	},
-	"warzone_leaderboard_filter_anonymous": {
-		"message": "Bao gồm Thợ săn Ẩn danh"
-	},
-	"warzone_leaderboard_total_hunters": {
-		"message": "Tổng Thợ săn: $1"
-	},
-	"warzone_leaderboard_your_rank": {
-		"message": "Xếp hạng của bạn: #$1"
-	},
-	"warzone_leaderboard_section_top": {
-		"message": "Thợ săn Hàng đầu"
-	},
-	"warzone_leaderboard_section_rankings": {
-		"message": "Xếp hạng"
-	},
-	"warzone_leaderboard_badge_you": {
-		"message": "Bạn"
-	},
-	"warzone_leaderboard_stat_reports": {
-		"message": "$1 báo cáo"
-	},
-	"warzone_leaderboard_stat_success": {
-		"message": "$1% thành công"
-	},
-	"warzone_order_type_ban_count": {
-		"message": "Số lượng Cấm"
-	},
-	"warzone_order_type_zone_liberation": {
-		"message": "Giải phóng Khu vực"
-	},
-	"warzone_order_type_verification": {
-		"message": "Xác minh"
-	},
-	"warzone_order_label_completed": {
-		"message": "Đã hoàn thành"
-	},
-	"warzone_order_label_expires": {
-		"message": "Hết hạn"
-	},
-	"warzone_order_label_progress": {
-		"message": "Tiến độ"
-	},
-	"warzone_order_progress_value": {
-		"message": "$1 / $2"
-	},
-	"warzone_target_status_confirmed": {
-		"message": "Đã xác nhận"
-	},
-	"warzone_target_status_flagged": {
-		"message": "Đã gắn cờ"
-	},
-	"warzone_target_meta_confidence": {
-		"message": "Độ tin cậy"
-	},
-	"warzone_target_meta_attempts": {
-		"message": "Lần thử"
-	},
-	"warzone_target_meta_active": {
-		"message": "Hoạt động"
-	},
-	"warzone_mode_global": {
-		"message": "toàn cầu"
-	},
-	"warzone_mode_zone": {
-		"message": "khu vực"
-	},
-	"warzone_chart_error_load": {
-		"message": "Không tải được dữ liệu lịch sử $1"
-	},
-	"warzone_chart_tab_liberation": {
-		"message": "Giải phóng"
-	},
-	"warzone_chart_tab_users": {
-		"message": "Người dùng"
-	},
-	"warzone_chart_tab_ban_rate": {
-		"message": "Tỷ lệ Cấm"
-	},
-	"warzone_chart_label_global_liberation": {
-		"message": "Giải phóng Toàn cầu"
-	},
-	"warzone_chart_label_zone_liberation": {
-		"message": "Giải phóng Khu vực"
-	},
-	"warzone_chart_label_total_users": {
-		"message": "Tổng Người dùng"
-	},
-	"warzone_chart_label_global_ban_rate": {
-		"message": "Tỷ lệ Cấm Toàn cầu"
-	},
-	"warzone_chart_label_zone_ban_rate": {
-		"message": "Tỷ lệ Cấm Khu vực"
-	},
-	"warzone_chart_legend_banned": {
-		"message": "Đã cấm"
-	},
-	"warzone_chart_legend_flagged": {
-		"message": "Đã gắn cờ"
-	},
-	"warzone_chart_legend_confirmed": {
-		"message": "Đã xác nhận"
-	},
-	"warzone_chart_tooltip_date": {
-		"message": "Ngày"
-	},
-	"warzone_chart_tooltip_total_users": {
-		"message": "Tổng Người dùng"
-	},
-	"warzone_chart_tooltip_banned": {
-		"message": "Đã cấm"
-	},
-	"warzone_overview_loading": {
-		"message": "Đang tải bản đồ chiến tranh..."
-	},
-	"warzone_overview_error_load": {
-		"message": "Không tải được bản đồ chiến tranh"
-	},
-	"warzone_overview_section_zones": {
-		"message": "Khu vực War Zone"
-	},
-	"warzone_overview_section_targets": {
-		"message": "Mục tiêu Đang hoạt động"
-	},
-	"warzone_overview_section_global_stats": {
-		"message": "Thống kê Chiến tranh Toàn cầu"
-	},
-	"warzone_overview_section_global_trends": {
-		"message": "Xu hướng Toàn cầu (30 Ngày)"
-	},
-	"warzone_overview_section_major_orders": {
-		"message": "Lệnh Chính Đang hoạt động"
-	},
-	"warzone_overview_button_find_user": {
-		"message": "Tìm Người dùng để Báo cáo"
-	},
-	"warzone_overview_finding_user_loading": {
-		"message": "Đang tìm người dùng..."
-	},
-	"warzone_overview_error_no_users": {
-		"message": "Không có người dùng có thể báo cáo. Hãy quay lại sau!"
-	},
-	"warzone_overview_error_auth_expired": {
-		"message": "Xác thực đã hết hạn. Vui lòng đăng xuất và đăng nhập lại."
-	},
-	"warzone_overview_error_find_user": {
-		"message": "Không tìm được người dùng có thể báo cáo. Vui lòng thử lại."
-	},
-	"warzone_overview_stat_total_zones": {
-		"message": "Tổng Khu vực"
-	},
-	"warzone_overview_stat_avg_liberation": {
-		"message": "Giải phóng Trung bình"
-	},
-	"warzone_overview_stat_total_banned": {
-		"message": "Tổng số Đã cấm"
-	},
-	"warzone_overview_stat_active_targets": {
-		"message": "Mục tiêu Đang hoạt động"
-	},
-	"warzone_profile_title": {
-		"message": "Hồ sơ"
-	},
-	"warzone_profile_stat_points": {
-		"message": "Điểm"
-	},
-	"warzone_profile_label_discord": {
-		"message": "Discord"
-	},
-	"warzone_profile_discord_avatar_alt": {
-		"message": "Ảnh đại diện Discord"
-	},
-	"warzone_profile_label_visibility": {
-		"message": "Hiển thị"
-	},
-	"warzone_profile_label_joined": {
-		"message": "Đã tham gia"
-	},
-	"warzone_profile_label_last_active": {
-		"message": "Hoạt động lần cuối"
-	},
-	"warzone_profile_visibility_anonymous": {
-		"message": "Ẩn danh"
-	},
-	"warzone_profile_visibility_public": {
-		"message": "Công khai"
-	},
-	"warzone_profile_button_reset_uuid": {
-		"message": "Đăng xuất Khỏi Tất cả Thiết bị"
-	},
-	"warzone_profile_button_reset_uuid_loading": {
-		"message": "Đang đăng xuất..."
-	},
-	"warzone_profile_button_reset_uuid_success": {
-		"message": "✓ Đã đăng xuất khỏi tất cả thiết bị"
-	},
-	"warzone_profile_button_logout": {
-		"message": "Đăng xuất"
-	},
-	"warzone_profile_confirm_logout": {
-		"message": "Bạn có chắc chắn muốn đăng xuất không?\n\nBạn có thể đăng nhập lại bất cứ lúc nào bằng tài khoản Discord của bạn."
-	},
-	"warzone_profile_confirm_reset_uuid": {
-		"message": "Đăng xuất khỏi tất cả thiết bị?\n\nĐiều này sẽ vô hiệu hóa tất cả các phiên hoạt động trên các thiết bị khác. Bạn sẽ vẫn đăng nhập trên thiết bị này, nhưng tất cả các thiết bị khác sẽ bị đăng xuất.\n\nĐiều này hữu ích nếu bạn nghi ngờ tài khoản của bạn đã bị xâm phạm."
-	},
-	"warzone_profile_error_reset_uuid": {
-		"message": "Không đăng xuất được khỏi tất cả thiết bị. Vui lòng thử lại."
-	},
-	"warzone_nav_tab_war_zone": {
-		"message": "War Zone"
-	},
-	"warzone_nav_tab_profile": {
-		"message": "Hồ sơ"
-	},
-	"warzone_nav_tab_leaderboard": {
-		"message": "Bảng xếp hạng"
-	},
-	"warzone_zone_loading": {
-		"message": "Đang tải chi tiết khu vực..."
-	},
-	"warzone_zone_error_load": {
-		"message": "Không tải được chi tiết khu vực"
-	},
-	"warzone_zone_button_back": {
-		"message": "Quay lại Tổng quan"
-	},
-	"warzone_zone_status_liberated_suffix": {
-		"message": "% Đã giải phóng"
-	},
-	"warzone_zone_stat_total_users": {
-		"message": "Tổng Người dùng"
-	},
-	"warzone_zone_stat_banned": {
-		"message": "Đã cấm"
-	},
-	"warzone_zone_stat_flagged": {
-		"message": "Đã gắn cờ"
-	},
-	"warzone_zone_stat_confirmed": {
-		"message": "Đã xác nhận"
-	},
-	"warzone_zone_section_trends": {
-		"message": "Xu hướng Khu vực (30 Ngày)"
-	},
-	"queue_popup_cancel_button": {
-		"message": "Hủy"
-	},
-	"queue_popup_submit_button": {
-		"message": "Gửi để Xem xét"
-	},
-	"queue_popup_submitting_button": {
-		"message": "Đang gửi..."
-	},
-	"queue_popup_title_reprocess": {
-		"message": "Xử lý lại Người dùng để Xem xét"
-	},
-	"queue_popup_title_queue": {
-		"message": "Xếp hàng Người dùng để Xem xét"
-	},
-	"queue_popup_description_reanalysis": {
-		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích lại bởi hệ thống của chúng tôi."
-	},
-	"queue_popup_description_analysis": {
-		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích bởi hệ thống của chúng tôi."
-	},
-	"queue_popup_submission_type_heading": {
-		"message": "Đây là loại gửi nào?"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Người dùng Có Nội dung Không phù hợp"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Người dùng này có nội dung không phù hợp rõ ràng trong hồ sơ, hình đại diện, bạn bè hoặc nhóm của họ."
-	},
-	"queue_popup_option_general_title": {
-		"message": "Kiểm tra An toàn Chung"
-	},
-	"queue_popup_option_general_description": {
-		"message": "Tôi không chắc chắn nhưng muốn người dùng này được phân tích để đánh giá an toàn chung."
-	},
-	"queue_popup_general_check_message": {
-		"message": "Người dùng này sẽ được phân tích cho các mối lo ngại an toàn chung. Không yêu cầu lý do gắn cờ cụ thể."
-	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Chọn lý do gắn cờ:"
-	},
-	"queue_popup_outfit_title": {
-		"message": "Trang phục Không phù hợp"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Người dùng này có trang phục hoặc hình đại diện không phù hợp."
-	},
-	"queue_popup_profile_title": {
-		"message": "Hồ sơ Không phù hợp"
-	},
-	"queue_popup_profile_description": {
-		"message": "Người dùng này có nội dung không phù hợp trong tên người dùng, tên hiển thị hoặc mô tả của họ."
-	},
-	"queue_popup_friends_title": {
-		"message": "Bạn bè Không phù hợp"
-	},
-	"queue_popup_friends_description": {
-		"message": "Người dùng này có bạn bè không phù hợp."
-	},
-	"queue_popup_groups_title": {
-		"message": "Nhóm Không phù hợp"
-	},
-	"queue_popup_groups_description": {
-		"message": "Người dùng này ở trong các nhóm không phù hợp."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Yêu cầu Lựa chọn:"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Vui lòng chọn ít nhất một lý do gắn cờ trước khi tiếp tục."
-	},
-	"queue_popup_lock_button": {
-		"message": "Khóa Lựa chọn Của tôi"
-	},
-	"queue_popup_lock_instruction": {
-		"message": "Bạn phải khóa lựa chọn của mình trước khi gửi."
-	},
-	"queue_popup_summary_heading": {
-		"message": "Các Tùy chọn Đã chọn:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Sẽ được ưu tiên cho trang phục không phù hợp"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Sẽ được ưu tiên cho nội dung hồ sơ không phù hợp"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Sẽ được ưu tiên cho bạn bè không phù hợp"
-	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Sẽ được ưu tiên cho nhóm không phù hợp"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Mở khóa Lựa chọn"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Nhấp để mở khóa và sửa đổi lựa chọn của bạn."
-	},
-	"queue_popup_review_process_heading": {
-		"message": "Quy trình Xem xét"
-	},
-	"queue_popup_review_process_step1": {
-		"message": "Được phân tích bởi thuật toán AI để phát hiện các mối lo ngại an toàn tiềm năng"
-	},
-	"queue_popup_review_process_step2": {
-		"message": "Nếu được gắn cờ bởi AI, được xem xét bởi người kiểm duyệt để xác nhận cuối cùng"
-	},
-	"queue_popup_review_process_step3": {
-		"message": "Kết quả được thêm vào cơ sở dữ liệu với xếp hạng an toàn phù hợp"
-	},
-	"queue_popup_warning_heading": {
-		"message": "Cảnh báo Quan trọng"
-	},
-	"queue_popup_warning_message_prefix": {
-		"message": "Sử dụng sai tính năng này"
-	},
-	"queue_popup_warning_message_suffix": {
-		"message": "(như gửi spam) có thể dẫn đến hạn chế trên tài khoản của bạn. Phát hiện lạm dụng tự động đang hoạt động."
+	"friend_warning_avatar_alt": {
+		"message": "Ảnh đại diện của $1"
 	},
 	"friend_warning_block_button": {
 		"message": "Chặn Người dùng"
@@ -908,26 +494,38 @@
 	"friend_warning_cancel_button": {
 		"message": "Hủy Yêu cầu"
 	},
+	"friend_warning_confidence_label": {
+		"message": "Độ tin cậy: $1%"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Tiếp tục với yêu cầu kết bạn này có thể khiến bạn tiếp xúc với nội dung không phù hợp hoặc tương tác có hại."
+	},
 	"friend_warning_proceed_button": {
 		"message": "Tiếp tục Dù sao"
 	},
-	"friend_warning_title": {
-		"message": "Cảnh báo: Người dùng Không an toàn"
+	"friend_warning_recommendations_heading": {
+		"message": "Hành động được khuyến nghị"
 	},
-	"friend_warning_avatar_alt": {
-		"message": "Ảnh đại diện của $1"
+	"friend_warning_recommendations_item1": {
+		"message": "Xem xét thông tin hồ sơ của họ cẩn thận hơn"
 	},
-	"friend_warning_user_id_label": {
-		"message": "ID Người dùng: $1"
+	"friend_warning_recommendations_item2": {
+		"message": "Báo cáo họ cho Roblox nếu bạn thấy nội dung không phù hợp"
 	},
-	"friend_warning_risk_title": {
-		"message": "Người dùng Có khả năng Không phù hợp"
+	"friend_warning_recommendations_item3": {
+		"message": "Chỉ kết nối với những người dùng bạn biết và tin tưởng"
 	},
 	"friend_warning_risk_message": {
 		"message": "Người dùng này đã được gắn cờ bởi hệ thống phát hiện của chúng tôi. Vui lòng xem xét hồ sơ của họ trước khi chấp nhận yêu cầu kết bạn này."
 	},
-	"friend_warning_confidence_label": {
-		"message": "Độ tin cậy: $1%"
+	"friend_warning_risk_title": {
+		"message": "Người dùng Có khả năng Không phù hợp"
+	},
+	"friend_warning_title": {
+		"message": "Cảnh báo: Người dùng Không an toàn"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ID Người dùng: $1"
 	},
 	"friend_warning_why_matters_heading": {
 		"message": "Tại sao điều này quan trọng"
@@ -944,65 +542,212 @@
 	"friend_warning_why_matters_item4": {
 		"message": "Người dùng này có bằng chứng rõ ràng về việc vi phạm Điều khoản Dịch vụ của Roblox"
 	},
-	"friend_warning_recommendations_heading": {
-		"message": "Hành động được khuyến nghị"
+	"navbar_tab_settings": {
+		"message": "Cài đặt"
 	},
-	"friend_warning_recommendations_item1": {
-		"message": "Xem xét thông tin hồ sơ của họ cẩn thận hơn"
+	"navbar_tab_stats": {
+		"message": "Thống kê"
 	},
-	"friend_warning_recommendations_item2": {
-		"message": "Báo cáo họ cho Roblox nếu bạn thấy nội dung không phù hợp"
+	"navbar_tab_warzone": {
+		"message": "War Zone"
 	},
-	"friend_warning_recommendations_item3": {
-		"message": "Chỉ kết nối với những người dùng bạn biết và tin tưởng"
+	"popup_header_description": {
+		"message": "Chỉ báo an toàn theo thời gian thực cảnh báo bạn về người dùng Roblox không phù hợp trước khi bạn tương tác với họ."
 	},
-	"friend_warning_high_risk_message": {
-		"message": "Tiếp tục với yêu cầu kết bạn này có thể khiến bạn tiếp xúc với nội dung không phù hợp hoặc tương tác có hại."
+	"queue_error_modal_close_button": {
+		"message": "Đóng"
 	},
-	"report_helper_card_title_reportable": {
-		"message": "Tìm thấy Nội dung Có thể Báo cáo"
+	"queue_error_modal_details_heading": {
+		"message": "Chi tiết Lỗi"
 	},
-	"report_helper_card_title_not_reportable": {
-		"message": "Không Phát hiện Nội dung Có thể Báo cáo"
+	"queue_error_modal_error_code_label": {
+		"message": "Mã Lỗi:"
 	},
-	"report_helper_subtitle_reportable": {
-		"message": "Rotector đã xác định nội dung hồ sơ vi phạm Điều khoản Dịch vụ của Roblox."
+	"queue_error_modal_failed_message": {
+		"message": "Không xếp hàng được người dùng ID $1 để xem xét."
 	},
-	"report_helper_evidence_header": {
-		"message": "Vấn đề Đã phát hiện"
+	"queue_error_modal_next_steps_heading": {
+		"message": "Phải làm gì tiếp theo"
 	},
-	"report_helper_evidence_reason_label": {
-		"message": "Lý do:"
+	"queue_error_modal_request_id_label": {
+		"message": "ID Yêu cầu:"
 	},
-	"report_helper_evidence_snippets_label": {
-		"message": "Đoạn trích Bằng chứng:"
+	"queue_error_modal_step1": {
+		"message": "Kiểm tra xem người dùng đã được gắn cờ bởi hệ thống của chúng tôi chưa"
+	},
+	"queue_error_modal_step2": {
+		"message": "Nếu lỗi vẫn tiếp diễn, hãy thử lại trong vài phút"
+	},
+	"queue_error_modal_step3": {
+		"message": "Nếu bạn cần hỗ trợ, hãy bao gồm ID Yêu cầu ở trên"
+	},
+	"queue_error_modal_title": {
+		"message": "Lỗi"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "Đã xảy ra lỗi không xác định"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Hủy"
+	},
+	"queue_popup_description_analysis": {
+		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích bởi hệ thống của chúng tôi."
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích lại bởi hệ thống của chúng tôi."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Chọn lý do gắn cờ:"
+	},
+	"queue_popup_friends_description": {
+		"message": "Người dùng này có bạn bè không phù hợp."
+	},
+	"queue_popup_friends_title": {
+		"message": "Bạn bè Không phù hợp"
+	},
+	"queue_popup_general_check_message": {
+		"message": "Người dùng này sẽ được phân tích cho các mối lo ngại an toàn chung. Không yêu cầu lý do gắn cờ cụ thể."
+	},
+	"queue_popup_groups_description": {
+		"message": "Người dùng này ở trong các nhóm không phù hợp."
+	},
+	"queue_popup_groups_title": {
+		"message": "Nhóm Không phù hợp"
+	},
+	"queue_popup_lock_button": {
+		"message": "Khóa Lựa chọn Của tôi"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Bạn phải khóa lựa chọn của mình trước khi gửi."
+	},
+	"queue_popup_option_general_description": {
+		"message": "Tôi không chắc chắn nhưng muốn người dùng này được phân tích để đánh giá an toàn chung."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Kiểm tra An toàn Chung"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "Người dùng này có nội dung không phù hợp rõ ràng trong hồ sơ, hình đại diện, bạn bè hoặc nhóm của họ."
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "Người dùng Có Nội dung Không phù hợp"
+	},
+	"queue_popup_outfit_description": {
+		"message": "Người dùng này có trang phục hoặc hình đại diện không phù hợp."
+	},
+	"queue_popup_outfit_title": {
+		"message": "Trang phục Không phù hợp"
+	},
+	"queue_popup_profile_description": {
+		"message": "Người dùng này có nội dung không phù hợp trong tên người dùng, tên hiển thị hoặc mô tả của họ."
+	},
+	"queue_popup_profile_title": {
+		"message": "Hồ sơ Không phù hợp"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Quy trình Xem xét"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Được phân tích bởi thuật toán AI để phát hiện các mối lo ngại an toàn tiềm năng"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Nếu được gắn cờ bởi AI, được xem xét bởi người kiểm duyệt để xác nhận cuối cùng"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Kết quả được thêm vào cơ sở dữ liệu với xếp hạng an toàn phù hợp"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Đây là loại gửi nào?"
+	},
+	"queue_popup_submit_button": {
+		"message": "Gửi để Xem xét"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Đang gửi..."
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Sẽ được ưu tiên cho bạn bè không phù hợp"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Chưa chọn"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Sẽ được ưu tiên cho nhóm không phù hợp"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Chưa chọn"
+	},
+	"queue_popup_summary_heading": {
+		"message": "Các Tùy chọn Đã chọn:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Sẽ được ưu tiên cho trang phục không phù hợp"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Chưa chọn"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Sẽ được ưu tiên cho nội dung hồ sơ không phù hợp"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Chưa chọn"
+	},
+	"queue_popup_title_queue": {
+		"message": "Xếp hàng Người dùng để Xem xét"
+	},
+	"queue_popup_title_reprocess": {
+		"message": "Xử lý lại Người dùng để Xem xét"
+	},
+	"queue_popup_unlock_button": {
+		"message": "Mở khóa Lựa chọn"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "Nhấp để mở khóa và sửa đổi lựa chọn của bạn."
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Vui lòng chọn ít nhất một lý do gắn cờ trước khi tiếp tục."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Yêu cầu Lựa chọn:"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Cảnh báo Quan trọng"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "Sử dụng sai tính năng này"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(như gửi spam) có thể dẫn đến hạn chế trên tài khoản của bạn. Phát hiện lạm dụng tự động đang hoạt động."
+	},
+	"queue_success_modal_close_button": {
+		"message": "Đóng"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Điều gì xảy ra tiếp theo"
+	},
+	"queue_success_modal_step1": {
+		"message": "AI của chúng tôi sẽ phân tích tài khoản này để tìm các mẫu lo ngại"
+	},
+	"queue_success_modal_step2": {
+		"message": "Nếu được gắn cờ, trạng thái của người dùng sẽ được xác nhận trong vài phút"
+	},
+	"queue_success_modal_step3": {
+		"message": "Đồng bộ hóa hệ thống đầy đủ và xác nhận sẽ mất 24-48 giờ"
+	},
+	"queue_success_modal_success_message": {
+		"message": "Người dùng ID $1 đã được xếp hàng thành công để xem xét."
+	},
+	"queue_success_modal_title": {
+		"message": "Thành công"
 	},
 	"report_helper_action_message": {
 		"message": "Nhấp bên dưới và Rotector sẽ tự động điền vào biểu mẫu báo cáo với danh mục và chi tiết phù hợp."
 	},
-	"report_helper_fill_button": {
-		"message": "Điền Biểu mẫu Báo cáo"
+	"report_helper_card_title_not_reportable": {
+		"message": "Không Phát hiện Nội dung Có thể Báo cáo"
 	},
-	"report_helper_filling_button": {
-		"message": "Đang điền..."
-	},
-	"report_helper_warning_label": {
-		"message": "Quan trọng:"
-	},
-	"report_helper_warning_message": {
-		"message": "Báo cáo được nộp dưới tài khoản Roblox của bạn. Xem xét tất cả thông tin trước khi gửi và chỉ báo cáo vi phạm thực sự."
-	},
-	"report_helper_subtitle_not_reportable": {
-		"message": "Rotector chưa phát hiện bất kỳ nội dung có thể báo cáo rõ ràng nào trong mô tả hồ sơ của người dùng này."
-	},
-	"report_helper_info_message_part1": {
-		"message": "Bạn vẫn có thể gửi báo cáo"
-	},
-	"report_helper_info_message_part2": {
-		"message": "nếu bạn tin rằng người dùng này đang vi phạm Điều khoản Dịch vụ của Roblox."
-	},
-	"report_helper_info_message_part3": {
-		"message": "Rotector cho phép báo cáo nội dung không phù hợp trong mô tả hồ sơ. Chúng tôi không phát hiện hầu hết các danh mục báo cáo, bao gồm:"
+	"report_helper_card_title_reportable": {
+		"message": "Tìm thấy Nội dung Có thể Báo cáo"
 	},
 	"report_helper_category_item1": {
 		"message": "Yêu cầu hoặc cung cấp thông tin cá nhân"
@@ -1019,74 +764,50 @@
 	"report_helper_category_item5": {
 		"message": "Đe dọa ngoài đời thực hoặc đe dọa tự tử"
 	},
+	"report_helper_evidence_header": {
+		"message": "Vấn đề Đã phát hiện"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Lý do:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Đoạn trích Bằng chứng:"
+	},
+	"report_helper_fill_button": {
+		"message": "Điền Biểu mẫu Báo cáo"
+	},
+	"report_helper_filling_button": {
+		"message": "Đang điền..."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Bạn vẫn có thể gửi báo cáo"
+	},
+	"report_helper_info_message_part2": {
+		"message": "nếu bạn tin rằng người dùng này đang vi phạm Điều khoản Dịch vụ của Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector cho phép báo cáo nội dung không phù hợp trong mô tả hồ sơ. Chúng tôi không phát hiện hầu hết các danh mục báo cáo, bao gồm:"
+	},
 	"report_helper_info_message_part4": {
 		"message": "Nếu bạn đang báo cáo bất kỳ vi phạm nào trong số này, vui lòng tiếp tục với báo cáo của bạn và cung cấp chi tiết cụ thể để giúp người kiểm duyệt Roblox."
 	},
-	"queue_error_modal_close_button": {
-		"message": "Đóng"
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector chưa phát hiện bất kỳ nội dung có thể báo cáo rõ ràng nào trong mô tả hồ sơ của người dùng này."
 	},
-	"queue_error_modal_title": {
-		"message": "Lỗi"
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector đã xác định nội dung hồ sơ vi phạm Điều khoản Dịch vụ của Roblox."
 	},
-	"queue_error_modal_unknown_error": {
-		"message": "Đã xảy ra lỗi không xác định"
+	"report_helper_warning_label": {
+		"message": "Quan trọng:"
 	},
-	"queue_error_modal_failed_message": {
-		"message": "Không xếp hàng được người dùng ID $1 để xem xét."
+	"report_helper_warning_message": {
+		"message": "Báo cáo được nộp dưới tài khoản Roblox của bạn. Xem xét tất cả thông tin trước khi gửi và chỉ báo cáo vi phạm thực sự."
 	},
-	"queue_error_modal_details_heading": {
-		"message": "Chi tiết Lỗi"
+	"report_page_manager_autofill_failed": {
+		"message": "Tự động điền thất bại. Vui lòng điền thủ công biểu mẫu báo cáo với các chi tiết phù hợp."
 	},
-	"queue_error_modal_error_code_label": {
-		"message": "Mã Lỗi:"
-	},
-	"queue_error_modal_request_id_label": {
-		"message": "ID Yêu cầu:"
-	},
-	"queue_error_modal_next_steps_heading": {
-		"message": "Phải làm gì tiếp theo"
-	},
-	"queue_error_modal_step1": {
-		"message": "Kiểm tra xem người dùng đã được gắn cờ bởi hệ thống của chúng tôi chưa"
-	},
-	"queue_error_modal_step2": {
-		"message": "Nếu lỗi vẫn tiếp diễn, hãy thử lại trong vài phút"
-	},
-	"queue_error_modal_step3": {
-		"message": "Nếu bạn cần hỗ trợ, hãy bao gồm ID Yêu cầu ở trên"
-	},
-	"queue_success_modal_close_button": {
-		"message": "Đóng"
-	},
-	"queue_success_modal_title": {
-		"message": "Thành công"
-	},
-	"queue_success_modal_success_message": {
-		"message": "Người dùng ID $1 đã được xếp hàng thành công để xem xét."
-	},
-	"queue_success_modal_next_steps_heading": {
-		"message": "Điều gì xảy ra tiếp theo"
-	},
-	"queue_success_modal_step1": {
-		"message": "AI của chúng tôi sẽ phân tích tài khoản này để tìm các mẫu lo ngại"
-	},
-	"queue_success_modal_step2": {
-		"message": "Nếu được gắn cờ, trạng thái của người dùng sẽ được xác nhận trong vài phút"
-	},
-	"queue_success_modal_step3": {
-		"message": "Đồng bộ hóa hệ thống đầy đủ và xác nhận sẽ mất 24-48 giờ"
-	},
-	"report_page_manager_report_intro": {
-		"message": "Hồ sơ của người dùng này chứa nội dung không phù hợp vi phạm Điều khoản Dịch vụ của Roblox.\n\n"
-	},
-	"report_page_manager_detected_issue_label": {
-		"message": "Vấn đề Đã phát hiện:\n"
-	},
-	"report_page_manager_evidence_label": {
-		"message": "Đoạn trích Bằng chứng:\n"
-	},
-	"report_page_manager_unknown_category": {
-		"message": "Danh mục Không rõ"
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Tự động điền không khả dụng. Văn bản báo cáo đã được sao chép vào clipboard. Bạn có thể dán nó vào trường bình luận thủ công."
 	},
 	"report_page_manager_category_prefix": {
 		"message": "Danh mục: $1"
@@ -1094,86 +815,683 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\nBình luận: $1"
 	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Vấn đề Đã phát hiện:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Đoạn trích Bằng chứng:\n"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Hồ sơ của người dùng này chứa nội dung không phù hợp vi phạm Điều khoản Dịch vụ của Roblox.\n\n"
+	},
 	"report_page_manager_success_message": {
 		"message": "Điền biểu mẫu thành công! Xem xét và gửi khi sẵn sàng."
 	},
-	"report_page_manager_autofill_failed_clipboard": {
-		"message": "Tự động điền không khả dụng. Văn bản báo cáo đã được sao chép vào clipboard. Bạn có thể dán nó vào trường bình luận thủ công."
+	"report_page_manager_unknown_category": {
+		"message": "Danh mục Không rõ"
 	},
-	"report_page_manager_autofill_failed": {
-		"message": "Tự động điền thất bại. Vui lòng điền thủ công biểu mẫu báo cáo với các chi tiết phù hợp."
+	"rotector_api_docs_batch_intro": {
+		"message": "Kiểm tra nhiều người dùng trong một yêu cầu duy nhất. Tối đa 100 người dùng mỗi batch."
 	},
-	"tooltip_loading_user_info": {
-		"message": "Đang tải thông tin người dùng..."
+	"rotector_api_docs_batch_note": {
+		"message": "Người dùng không tìm thấy trong cơ sở dữ liệu sẽ không xuất hiện trong phản hồi. Trường data chứa một đối tượng trong đó các khóa là ID người dùng (dưới dạng chuỗi) và các giá trị là các đối tượng trạng thái người dùng."
 	},
-	"tooltip_no_data_available": {
-		"message": "Không có dữ liệu cho API này"
+	"rotector_api_docs_batch_rec_1": {
+		"message": "Sử dụng endpoint hàng loạt khi kiểm tra nhiều người dùng (hiệu quả hơn nhiều yêu cầu đơn)"
 	},
-	"tooltip_error_details": {
-		"message": "Chi tiết Lỗi"
+	"rotector_api_docs_batch_rec_2": {
+		"message": "Giữ kích thước batch dưới 100 người dùng mỗi yêu cầu"
 	},
-	"tooltip_loading": {
-		"message": "Đang tải..."
+	"rotector_api_docs_batch_rec_3": {
+		"message": "Thêm độ trễ giữa các yêu cầu hàng loạt liên tiếp (khuyến nghị: tối thiểu 250ms)"
 	},
-	"tooltip_queue_button": {
-		"message": "Xếp hàng để Xem xét"
+	"rotector_api_docs_button_back": {
+		"message": "Quay lại"
 	},
-	"tooltip_badge_reportable": {
-		"message": "Có thể Báo cáo"
+	"rotector_api_docs_error_handling_1": {
+		"message": "Luôn kiểm tra trường success trong phản hồi"
 	},
-	"tooltip_badge_queued": {
-		"message": "Đã xếp hàng"
+	"rotector_api_docs_error_handling_2": {
+		"message": "Xử lý lỗi mạng một cách khéo léo với logic thử lại phù hợp"
+	},
+	"rotector_api_docs_error_handling_3": {
+		"message": "Ghi lại chi tiết lỗi để gỡ lỗi (thông báo lỗi, trạng thái HTTP, ID yêu cầu nếu có)"
+	},
+	"rotector_api_docs_field_confidence": {
+		"message": "Điểm tin cậy (0.0-1.0) - Mức độ chắc chắn của mô hình AI"
+	},
+	"rotector_api_docs_field_confidence_reason": {
+		"message": "Điểm tin cậy cho lý do cụ thể này"
+	},
+	"rotector_api_docs_field_display_name": {
+		"message": "Tên hiển thị của người xem xét"
+	},
+	"rotector_api_docs_field_engine_version": {
+		"message": "Phiên bản của công cụ phân tích đã sử dụng"
+	},
+	"rotector_api_docs_field_evidence": {
+		"message": "Mảng các chuỗi bằng chứng hoặc null nếu không có bằng chứng trực tiếp"
+	},
+	"rotector_api_docs_field_flag_type": {
+		"message": "Loại cờ (0-6) - Cấp độ phân loại an toàn"
+	},
+	"rotector_api_docs_field_id": {
+		"message": "ID Người dùng (số nguyên) - Định danh người dùng Roblox"
+	},
+	"rotector_api_docs_field_last_updated": {
+		"message": "Dấu thời gian Unix của cập nhật phân tích gần nhất"
+	},
+	"rotector_api_docs_field_message": {
+		"message": "Giải thích chi tiết về mẫu vi phạm"
+	},
+	"rotector_api_docs_field_reasons": {
+		"message": "Đối tượng chứa phân tích vi phạm chi tiết (bỏ qua khi flagType=0)"
+	},
+	"rotector_api_docs_field_reviewer": {
+		"message": "Thông tin về người xem xét đã xác minh cờ"
+	},
+	"rotector_api_docs_field_username": {
+		"message": "Tên người dùng của người xem xét"
+	},
+	"rotector_api_docs_field_version_compatibility": {
+		"message": "Trạng thái tương thích: 'current', 'compatible' hoặc 'outdated'"
+	},
+	"rotector_api_docs_flag_type_0": {
+		"message": "An toàn - Không phát hiện mẫu đáng lo ngại"
+	},
+	"rotector_api_docs_flag_type_1": {
+		"message": "Đang chờ - Người dùng đang được xếp hàng để phân tích"
+	},
+	"rotector_api_docs_flag_type_2": {
+		"message": "Không an toàn - Vi phạm hướng dẫn an toàn nền tảng"
+	},
+	"rotector_api_docs_flag_type_3": {
+		"message": "Đã xếp hàng - Đã gửi để xem xét"
+	},
+	"rotector_api_docs_flag_type_4": {
+		"message": "Tích hợp - Liên quan đến các tính năng tích hợp API"
+	},
+	"rotector_api_docs_flag_type_5": {
+		"message": "Hỗn hợp - Chứa cả tín hiệu an toàn và không an toàn"
+	},
+	"rotector_api_docs_flag_type_6": {
+		"message": "Kẻ Vi phạm Trước đây - Đã được gắn cờ trước đó nhưng trạng thái đã thay đổi"
+	},
+	"rotector_api_docs_intro": {
+		"message": "Tích hợp hệ thống phát hiện an toàn do AI cung cấp của Rotector vào các ứng dụng của riêng bạn. API này cung cấp quyền truy cập vào dữ liệu phân tích người dùng, loại cờ, điểm tin cậy và lý do vi phạm chi tiết."
+	},
+	"rotector_api_docs_note_batch_all_users": {
+		"message": "Tất cả người dùng được yêu cầu đều được trả về trong phản hồi. Người dùng chưa được phân tích hoặc không có trong hệ thống sẽ có flagType 0 (An toàn)."
+	},
+	"rotector_api_docs_note_batch_limit": {
+		"message": "Tối đa 100 ID người dùng cho mỗi yêu cầu hàng loạt. Yêu cầu vượt quá giới hạn này sẽ trả về lỗi."
+	},
+	"rotector_api_docs_note_caching": {
+		"message": "Xem xét việc triển khai bộ nhớ đệm phía máy khách cho dữ liệu trạng thái người dùng. Dấu thời gian lastUpdated cho biết khi nào phân tích được thực hiện lần cuối và có thể được sử dụng để xác định độ mới của bộ nhớ đệm."
+	},
+	"rotector_api_docs_note_cors": {
+		"message": "API bao gồm header CORS cho phép yêu cầu từ tất cả các nguồn gốc."
+	},
+	"rotector_api_docs_note_field_confidence": {
+		"message": "Có mặt khi người dùng bị gắn cờ (flagType > 0)"
+	},
+	"rotector_api_docs_note_field_reasons": {
+		"message": "Có mặt cho người dùng đã gắn cờ, hỗn hợp hoặc đã xác nhận (flagType 1, 2, 5, 6)"
+	},
+	"rotector_api_docs_note_field_reviewer": {
+		"message": "Chỉ có mặt cho người dùng đã xác nhận (flagType 2) được xác minh bởi người kiểm duyệt con người"
+	},
+	"rotector_api_docs_note_field_version_compatibility": {
+		"message": "Cho biết phiên bản công cụ AI được sử dụng là mới nhất hay lỗi thời"
+	},
+	"rotector_api_docs_note_http_status": {
+		"message": "Trả về HTTP status 200 cho tất cả các yêu cầu thành công (bao gồm người dùng không bị gắn cờ với flagType 0). Phản hồi lỗi với các mã trạng thái khác (4xx, 5xx) chỉ xảy ra đối với lỗi máy chủ nội bộ hoặc sự cố backend."
+	},
+	"rotector_api_docs_note_https": {
+		"message": "Tất cả yêu cầu API phải sử dụng HTTPS. Yêu cầu HTTP sẽ bị từ chối."
+	},
+	"rotector_api_docs_note_no_auth": {
+		"message": "Không yêu cầu xác thực. Đây là API hoàn toàn công khai."
+	},
+	"rotector_api_docs_note_response_time": {
+		"message": "Trường hợp tốt nhất: ~50ms. Trung bình: ~200ms. Xem xét triển khai các giá trị thời gian chờ thích hợp dựa trên các tiêu chuẩn này."
+	},
+	"rotector_api_docs_note_safe_users": {
+		"message": "Đối với người dùng có flagType 0 (An toàn), trường reasons được tự động xóa để giảm kích thước phản hồi. Không cung cấp phân tích vi phạm chi tiết cho người dùng an toàn."
+	},
+	"rotector_api_docs_note_support": {
+		"message": "Để được hỗ trợ API, câu hỏi hoặc báo cáo vấn đề, tham gia máy chủ Discord Rotector:"
+	},
+	"rotector_api_docs_note_timestamp_format": {
+		"message": "Trường lastUpdated chứa dấu thời gian Unix tính bằng giây (không phải mili giây)."
+	},
+	"rotector_api_docs_note_version_compatibility_compatible": {
+		"message": "compatible - Phân tích đã sử dụng phiên bản công cụ được hỗ trợ nhưng không phải mới nhất"
+	},
+	"rotector_api_docs_note_version_compatibility_current": {
+		"message": "current - Phân tích đã sử dụng phiên bản công cụ AI mới nhất"
+	},
+	"rotector_api_docs_note_version_compatibility_deprecated": {
+		"message": "deprecated - Phân tích đã sử dụng phiên bản công cụ không còn được hỗ trợ"
+	},
+	"rotector_api_docs_note_version_compatibility_outdated": {
+		"message": "outdated - Phân tích đã sử dụng phiên bản công cụ cũ hơn đáng kể"
+	},
+	"rotector_api_docs_note_wrapper_format": {
+		"message": "Tất cả phản hồi API tuân theo định dạng bọc nhất quán với success (boolean) và hoặc là data (thành công) hoặc error (thất bại)."
+	},
+	"rotector_api_docs_rate_limit_1": {
+		"message": "API sử dụng giới hạn tỷ lệ Cloudflare để đảm bảo sử dụng công bằng"
+	},
+	"rotector_api_docs_rate_limit_2": {
+		"message": "Lỗi giới hạn tỷ lệ trả về trạng thái HTTP 429. Triển khai backoff lũy thừa cho logic thử lại"
+	},
+	"rotector_api_docs_section_authentication": {
+		"message": "Xác thực"
+	},
+	"rotector_api_docs_section_batch_lookup": {
+		"message": "Tra cứu Người dùng Hàng loạt"
+	},
+	"rotector_api_docs_section_best_practices": {
+		"message": "Giới hạn Tỷ lệ & Thực hành Tốt nhất"
+	},
+	"rotector_api_docs_section_cors": {
+		"message": "Hỗ trợ CORS"
+	},
+	"rotector_api_docs_section_http_status": {
+		"message": "Mã trạng thái HTTP"
+	},
+	"rotector_api_docs_section_notes": {
+		"message": "Lưu ý Bổ sung"
+	},
+	"rotector_api_docs_section_response_schema": {
+		"message": "Lược đồ Phản hồi"
+	},
+	"rotector_api_docs_section_single_lookup": {
+		"message": "Tra cứu Người dùng Đơn"
+	},
+	"rotector_api_docs_subtitle_batch_recommendations": {
+		"message": "Khuyến nghị Yêu cầu Hàng loạt"
+	},
+	"rotector_api_docs_subtitle_caching": {
+		"message": "Bộ nhớ đệm Phản hồi"
+	},
+	"rotector_api_docs_subtitle_code_examples": {
+		"message": "Ví dụ Mã"
+	},
+	"rotector_api_docs_subtitle_error_handling": {
+		"message": "Xử lý Lỗi"
+	},
+	"rotector_api_docs_subtitle_error_response": {
+		"message": "Phản hồi Lỗi"
+	},
+	"rotector_api_docs_subtitle_example_request": {
+		"message": "Yêu cầu Ví dụ"
+	},
+	"rotector_api_docs_subtitle_field_presence": {
+		"message": "Quy tắc Hiện diện Trường"
+	},
+	"rotector_api_docs_subtitle_flag_types": {
+		"message": "Loại Cờ"
+	},
+	"rotector_api_docs_subtitle_https": {
+		"message": "Yêu cầu HTTPS"
+	},
+	"rotector_api_docs_subtitle_optional_fields": {
+		"message": "Trường Tùy chọn"
+	},
+	"rotector_api_docs_subtitle_rate_limiting": {
+		"message": "Giới hạn Tỷ lệ"
+	},
+	"rotector_api_docs_subtitle_request_body": {
+		"message": "Thân Yêu cầu"
+	},
+	"rotector_api_docs_subtitle_required_fields": {
+		"message": "Trường Bắt buộc"
+	},
+	"rotector_api_docs_subtitle_response_time": {
+		"message": "Thời gian Phản hồi"
+	},
+	"rotector_api_docs_subtitle_safe_users": {
+		"message": "Tối ưu hóa Người dùng An toàn"
+	},
+	"rotector_api_docs_subtitle_success_response": {
+		"message": "Phản hồi Thành công"
+	},
+	"rotector_api_docs_subtitle_support": {
+		"message": "Hỗ trợ & Câu hỏi"
+	},
+	"rotector_api_docs_subtitle_timestamp_format": {
+		"message": "Định dạng Dấu thời gian"
+	},
+	"rotector_api_docs_subtitle_version_compatibility_values": {
+		"message": "Giá trị Tương thích Phiên bản"
+	},
+	"rotector_api_docs_subtitle_wrapper_format": {
+		"message": "Định dạng Bọc Phản hồi"
+	},
+	"rotector_api_docs_title": {
+		"message": "Tài liệu Rotector API"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 APIs)"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_hide": {
+		"message": "ẨN"
+	},
+	"settings_api_key_label": {
+		"message": "Khóa API (Tùy chọn)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Nhập khóa API của bạn"
+	},
+	"settings_api_key_show": {
+		"message": "HIỆN"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Hiện/Ẩn khóa API"
+	},
+	"settings_api_system_label": {
+		"message": "(Hệ thống)"
+	},
+	"settings_category_content_display": {
+		"message": "Hiển thị Nội dung"
+	},
+	"settings_category_developer": {
+		"message": "Nhà phát triển"
+	},
+	"settings_category_integrations": {
+		"message": "Tích hợp"
+	},
+	"settings_category_page_settings": {
+		"message": "Cài đặt Trang"
+	},
+	"settings_help_advanced_violations": {
+		"message": "Hiển thị thông báo vi phạm chi tiết và bằng chứng. Có thể chứa nội dung người lớn."
+	},
+	"settings_help_cache_duration": {
+		"message": "Thời gian lưu trữ dữ liệu trạng thái người dùng (1-10 phút). Giá trị cao hơn giảm số lần gọi API nhưng có thể hiển thị thông tin lỗi thời."
+	},
+	"settings_help_debug_logging": {
+		"message": "Hiển thị nhật ký chi tiết trong console trình duyệt (F12 -> Console) để khắc phục sự cố."
+	},
+	"settings_help_developer_mode": {
+		"message": "Mở khóa cài đặt nhà phát triển nâng cao và quản lý tích hợp API."
+	},
+	"settings_help_theme": {
+		"message": "Tự động theo giao diện của Roblox. Sáng và Tối sẽ ghi đè tùy chọn này."
+	},
+	"settings_label_advanced_violations": {
+		"message": "Hiển thị Chi tiết Vi phạm Nâng cao"
+	},
+	"settings_label_cache_duration": {
+		"message": "Thời lượng Bộ nhớ đệm (phút)"
+	},
+	"settings_label_debug_logging": {
+		"message": "Bật Ghi nhật ký Gỡ lỗi"
+	},
+	"settings_label_developer_mode": {
+		"message": "Bật Chế độ Nhà phát triển"
+	},
+	"settings_label_friends_pages": {
+		"message": "Trang Bạn bè"
+	},
+	"settings_label_groups_pages": {
+		"message": "Trang Nhóm"
+	},
+	"settings_label_home_page": {
+		"message": "Trang Chủ"
+	},
+	"settings_label_profile_pages": {
+		"message": "Trang Hồ sơ"
+	},
+	"settings_label_report_helper": {
+		"message": "Trợ lý Báo cáo"
+	},
+	"settings_label_search_pages": {
+		"message": "Trang Tìm kiếm"
+	},
+	"settings_label_theme": {
+		"message": "Giao diện"
+	},
+	"settings_manage_apis_button": {
+		"message": "Quản lý Tích hợp API"
+	},
+	"settings_modal_confirm_button": {
+		"message": "Bật Chi tiết Nâng cao"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Các Cân nhắc Quan trọng"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "Nội dung có thể bao gồm tài liệu vi phạm tiêu chuẩn cộng đồng nền tảng"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Thông tin này chỉ dành cho mục đích kiểm duyệt và an toàn"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Nếu bạn không muốn xem bằng chứng vi phạm chi tiết, hãy tắt cài đặt này"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Bạn có thể tắt tính năng này bất cứ lúc nào trong cài đặt"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Những gì bạn sẽ thấy khi được bật:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Thông báo vi phạm chi tiết giải thích lý do người dùng bị gắn cờ"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Đoạn trích bằng chứng chứa nội dung vi phạm chính sách được tìm thấy"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Ví dụ cụ thể về vi phạm từ hồ sơ người dùng và hoạt động"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Khuyến nghị:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "Chỉ bật tính năng này nếu bạn cần thông tin vi phạm chi tiết cho mục đích kiểm duyệt và hiểu rằng bạn có thể thấy nội dung vi phạm hướng dẫn cộng đồng."
+	},
+	"settings_modal_title": {
+		"message": "Cảnh báo Chi tiết Nâng cao"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "được tham chiếu từ hồ sơ người dùng và hoạt động vi phạm chính sách nền tảng."
+	},
+	"settings_modal_warning_intro": {
+		"message": "Chi tiết vi phạm nâng cao có thể chứa nội dung nhạy cảm"
+	},
+	"settings_rotector_api_docs_button": {
+		"message": "Tài liệu Rotector API"
+	},
+	"settings_theme_auto": {
+		"message": "Tự động"
+	},
+	"settings_theme_dark": {
+		"message": "Tối"
+	},
+	"settings_theme_light": {
+		"message": "Sáng"
+	},
+	"stats_changelog_empty": {
+		"message": "Không có mục nhật ký thay đổi nào."
+	},
+	"stats_changelog_title": {
+		"message": "Nhật ký Thay đổi"
+	},
+	"stats_changelog_type_added": {
+		"message": "Đã thêm"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Đã thay đổi"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Đã lỗi thời"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Đã sửa"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Đã xóa"
+	},
+	"stats_changelog_type_security": {
+		"message": "Bảo mật"
+	},
+	"stats_changelog_type_update": {
+		"message": "Cập nhật"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Token hoàn thành cho $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 cho $2: $3"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Token prompt cho $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Token lý luận cho $1: $2"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Token Hoàn thành"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Tổng Chi phí"
+	},
+	"stats_chart_detail_period": {
+		"message": "Thời kỳ"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Token Prompt"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Token Lý luận"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Tổng Yêu cầu"
+	},
+	"stats_chart_label_costs": {
+		"message": "Chi phí AI Hàng tuần"
+	},
+	"stats_chart_label_requests": {
+		"message": "Yêu cầu AI Hàng tuần"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Tổng Token AI"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Hoàn thành"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Prompt"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Lý luận"
+	},
+	"stats_chart_month_apr": {
+		"message": "T4"
+	},
+	"stats_chart_month_aug": {
+		"message": "T8"
+	},
+	"stats_chart_month_dec": {
+		"message": "T12"
+	},
+	"stats_chart_month_feb": {
+		"message": "T2"
+	},
+	"stats_chart_month_jan": {
+		"message": "T1"
+	},
+	"stats_chart_month_jul": {
+		"message": "T7"
+	},
+	"stats_chart_month_jun": {
+		"message": "T6"
+	},
+	"stats_chart_month_mar": {
+		"message": "T3"
+	},
+	"stats_chart_month_may": {
+		"message": "T5"
+	},
+	"stats_chart_month_nov": {
+		"message": "T11"
+	},
+	"stats_chart_month_oct": {
+		"message": "T10"
+	},
+	"stats_chart_month_sep": {
+		"message": "T9"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Chi phí AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "Yêu cầu AI"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "Token AI"
+	},
+	"stats_chart_week_1": {
+		"message": "Tuần Này"
+	},
+	"stats_chart_week_2": {
+		"message": "Tuần Trước"
+	},
+	"stats_chart_week_3": {
+		"message": "2 Tuần\nTrước"
+	},
+	"stats_chart_week_4": {
+		"message": "3 Tuần\nTrước"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Đã tài trợ đầy đủ với $1 thặng dư"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 đã huy động, còn $2 của mục tiêu $3"
+	},
+	"stats_financial_button_funded": {
+		"message": "Cảm ơn bạn!"
+	},
+	"stats_financial_button_support": {
+		"message": "Hỗ trợ Phát triển"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Ẩn biểu đồ sử dụng"
+	},
+	"stats_financial_charts_show": {
+		"message": "Hiện biểu đồ sử dụng"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Biểu đồ Sử dụng Hàng tuần"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Hỗ trợ trên Ko-fi"
+	},
+	"stats_financial_raised": {
+		"message": "Đã huy động"
+	},
+	"stats_financial_remaining": {
+		"message": "Còn lại"
+	},
+	"stats_financial_surplus": {
+		"message": "Thặng dư"
+	},
+	"stats_financial_title": {
+		"message": "Mục tiêu Tài trợ"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$1 trong số $2 đã dùng, còn $3"
+	},
+	"stats_queue_default": {
+		"message": "Giới hạn Mặc định"
+	},
+	"stats_queue_enhanced": {
+		"message": "Giới hạn Nâng cao Đang hoạt động"
+	},
+	"stats_queue_error": {
+		"message": "Không tải được giới hạn hàng đợi"
+	},
+	"stats_queue_loading": {
+		"message": "Đang tải giới hạn hàng đợi..."
+	},
+	"stats_queue_remaining": {
+		"message": "Còn lại"
+	},
+	"stats_queue_resets_in": {
+		"message": "Đặt lại sau"
+	},
+	"stats_queue_resetting": {
+		"message": "Đang đặt lại..."
+	},
+	"stats_queue_retry": {
+		"message": "Thử lại"
+	},
+	"stats_queue_time_hours": {
+		"message": "$1g $2p"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1p"
+	},
+	"stats_queue_title": {
+		"message": "Giới hạn Hàng đợi"
+	},
+	"stats_queue_usage": {
+		"message": "Đã dùng"
+	},
+	"stats_statistics_community_title": {
+		"message": "Cộng đồng"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Đã xác nhận"
+	},
+	"stats_statistics_error": {
+		"message": "Không tải được thống kê"
+	},
+	"stats_statistics_flagged": {
+		"message": "Đã gắn cờ"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "nhóm có nội dung hỗn hợp"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Nhóm"
+	},
+	"stats_statistics_loading": {
+		"message": "Đang tải thống kê..."
+	},
+	"stats_statistics_queued": {
+		"message": "Người dùng Trong hàng đợi"
+	},
+	"stats_statistics_refresh": {
+		"message": "Làm mới Thống kê"
+	},
+	"stats_statistics_retry": {
+		"message": "Thử lại"
+	},
+	"stats_statistics_title": {
+		"message": "Thống kê Hệ thống"
+	},
+	"stats_statistics_updated": {
+		"message": "Cập nhật lần cuối:"
+	},
+	"stats_statistics_users_desc": {
+		"message": "người dùng khác bị cấm bởi Roblox"
+	},
+	"stats_statistics_users_title": {
+		"message": "Người dùng"
+	},
+	"stats_statistics_votes": {
+		"message": "Tổng số Phiếu bầu"
+	},
+	"tooltip_aria_close": {
+		"message": "Nhấp để đóng chú giải công cụ"
+	},
+	"tooltip_aria_expand": {
+		"message": "Nhấp để mở rộng chú giải công cụ"
 	},
 	"tooltip_badge_outfit": {
 		"message": "Chỉ Trang phục"
 	},
-	"tooltip_reportable_title": {
-		"message": "Có thể Báo cáo cho Roblox"
-	},
-	"tooltip_reportable_message": {
-		"message": "Người dùng này có bằng chứng rõ ràng về nội dung không phù hợp mà người kiểm duyệt Roblox có thể thấy."
-	},
-	"tooltip_reportable_report_button": {
-		"message": "Báo cáo cho Roblox"
-	},
-	"tooltip_outfit_title": {
-		"message": "Đã gắn cờ Chỉ vì Trang phục"
-	},
-	"tooltip_outfit_message": {
-		"message": "Người dùng này đã được gắn cờ chỉ dựa trên trang phục hình đại diện của họ. Phát hiện trang phục có thể có kết quả dương tính giả, vì vậy vui lòng sử dụng phán đoán của riêng bạn khi đánh giá người dùng này."
-	},
-	"tooltip_metadata_queued": {
+	"tooltip_badge_queued": {
 		"message": "Đã xếp hàng"
 	},
-	"tooltip_metadata_processing": {
-		"message": "Đang xử lý"
+	"tooltip_badge_reportable": {
+		"message": "Có thể Báo cáo"
 	},
-	"tooltip_metadata_took": {
-		"message": "Mất"
+	"tooltip_entity_group": {
+		"message": "nhóm"
 	},
-	"tooltip_metadata_last_updated": {
-		"message": "Cập nhật lần cuối"
+	"tooltip_entity_user": {
+		"message": "người dùng"
 	},
-	"tooltip_metadata_reprocess_button": {
-		"message": "Xử lý lại?"
-	},
-	"tooltip_metadata_reprocess_title": {
-		"message": "Dữ liệu của người dùng này đã lỗi thời. Nhấp để xếp hàng lại để phân tích."
-	},
-	"tooltip_metadata_processing_status": {
-		"message": "Đang xử lý..."
-	},
-	"tooltip_header_unsafe": {
-		"message": "$1 này đã được xác minh là không phù hợp bởi người kiểm duyệt."
-	},
-	"tooltip_header_pending": {
-		"message": "$1 này đã được gắn cờ bởi AI với độ tin cậy $2%."
-	},
-	"tooltip_header_queued_processing": {
-		"message": "$1 này hiện đang được kiểm tra bởi hệ thống của chúng tôi. Điều này có thể mất vài phút."
-	},
-	"tooltip_header_queued_safe": {
-		"message": "$1 này đã được xem xét bởi hệ thống AI của chúng tôi và có vẻ an toàn. Nếu đây là kết quả dương tính giả, bạn có thể xếp hàng lại để xem xét thêm."
+	"tooltip_error_details": {
+		"message": "Chi tiết Lỗi"
 	},
 	"tooltip_header_integration": {
 		"message": "$1 này đã được gắn cờ bởi hệ thống phân tích nội dung của bên thứ ba."
@@ -1187,26 +1505,86 @@
 	"tooltip_header_past_offender": {
 		"message": "$1 này đã có nội dung không phù hợp trước đây nhưng tài khoản của họ hiện có vẻ sạch và có thể được xếp hàng lại để xác minh."
 	},
+	"tooltip_header_pending": {
+		"message": "$1 này đã được gắn cờ bởi AI với độ tin cậy $2%."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "$1 này hiện đang được kiểm tra bởi hệ thống của chúng tôi. Điều này có thể mất vài phút."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "$1 này đã được xem xét bởi hệ thống AI của chúng tôi và có vẻ an toàn. Nếu đây là kết quả dương tính giả, bạn có thể xếp hàng lại để xem xét thêm."
+	},
 	"tooltip_header_safe": {
 		"message": "$1 này chưa được xem xét."
-	},
-	"tooltip_header_unknown": {
-		"message": "Trạng thái Không rõ"
 	},
 	"tooltip_header_unavailable": {
 		"message": "Thông tin trạng thái không khả dụng."
 	},
-	"tooltip_status_not_flagged": {
-		"message": "Chưa Gắn cờ"
+	"tooltip_header_unknown": {
+		"message": "Trạng thái Không rõ"
 	},
-	"tooltip_status_unsafe": {
-		"message": "Không an toàn"
+	"tooltip_header_unsafe": {
+		"message": "$1 này đã được xác minh là không phù hợp bởi người kiểm duyệt."
 	},
-	"tooltip_status_under_review": {
-		"message": "Đang Xem xét"
+	"tooltip_loading": {
+		"message": "Đang tải..."
 	},
-	"tooltip_status_likely_safe": {
-		"message": "Có khả năng An toàn"
+	"tooltip_loading_user_info": {
+		"message": "Đang tải thông tin người dùng..."
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Cập nhật lần cuối"
+	},
+	"tooltip_metadata_processing": {
+		"message": "Đang xử lý"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Đang xử lý..."
+	},
+	"tooltip_metadata_queued": {
+		"message": "Đã xếp hàng"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "Xử lý lại?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "Dữ liệu của người dùng này đã lỗi thời. Nhấp để xếp hàng lại để phân tích."
+	},
+	"tooltip_metadata_took": {
+		"message": "Mất"
+	},
+	"tooltip_no_data_available": {
+		"message": "Không có dữ liệu cho API này"
+	},
+	"tooltip_outfit_message": {
+		"message": "Người dùng này đã được gắn cờ chỉ dựa trên trang phục hình đại diện của họ. Phát hiện trang phục có thể có kết quả dương tính giả, vì vậy vui lòng sử dụng phán đoán của riêng bạn khi đánh giá người dùng này."
+	},
+	"tooltip_outfit_title": {
+		"message": "Đã gắn cờ Chỉ vì Trang phục"
+	},
+	"tooltip_profile_group_id": {
+		"message": "ID Nhóm:"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_profile_user": {
+		"message": "Người dùng"
+	},
+	"tooltip_queue_button": {
+		"message": "Xếp hàng để Xem xét"
+	},
+	"tooltip_reportable_message": {
+		"message": "Người dùng này có bằng chứng rõ ràng về nội dung không phù hợp mà người kiểm duyệt Roblox có thể thấy."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Báo cáo cho Roblox"
+	},
+	"tooltip_reportable_title": {
+		"message": "Có thể Báo cáo cho Roblox"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Được xem xét bởi"
 	},
 	"tooltip_status_checking": {
 		"message": "Đang kiểm tra..."
@@ -1214,56 +1592,26 @@
 	"tooltip_status_integration": {
 		"message": "Tích hợp"
 	},
+	"tooltip_status_likely_safe": {
+		"message": "Có khả năng An toàn"
+	},
 	"tooltip_status_mixed": {
 		"message": "Hỗn hợp"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Chưa Gắn cờ"
 	},
 	"tooltip_status_past_offender": {
 		"message": "Kẻ Vi phạm Trước đây"
 	},
+	"tooltip_status_under_review": {
+		"message": "Đang Xem xét"
+	},
 	"tooltip_status_unknown": {
 		"message": "Không rõ"
 	},
-	"tooltip_reviewer_reviewed_by": {
-		"message": "Được xem xét bởi"
-	},
-	"tooltip_profile_group_id": {
-		"message": "ID Nhóm:"
-	},
-	"tooltip_profile_user": {
-		"message": "Người dùng"
-	},
-	"tooltip_profile_id": {
-		"message": "ID:"
-	},
-	"tooltip_aria_close": {
-		"message": "Nhấp để đóng chú giải công cụ"
-	},
-	"tooltip_aria_expand": {
-		"message": "Nhấp để mở rộng chú giải công cụ"
-	},
-	"tooltip_entity_user": {
-		"message": "người dùng"
-	},
-	"tooltip_entity_group": {
-		"message": "nhóm"
-	},
-	"voting_header_title": {
-		"message": "Phản hồi Cộng đồng"
-	},
-	"voting_loading": {
-		"message": "Đang tải..."
-	},
-	"voting_count_singular": {
-		"message": "$1 phiếu"
-	},
-	"voting_count_plural": {
-		"message": "$1 phiếu"
-	},
-	"voting_button_agree": {
-		"message": "Đồng ý"
-	},
-	"voting_button_disagree": {
-		"message": "Không đồng ý"
+	"tooltip_status_unsafe": {
+		"message": "Không an toàn"
 	},
 	"voting_aria_agree": {
 		"message": "Đồng ý với trạng thái này"
@@ -1271,376 +1619,337 @@
 	"voting_aria_disagree": {
 		"message": "Không đồng ý với trạng thái này"
 	},
+	"voting_button_agree": {
+		"message": "Đồng ý"
+	},
+	"voting_button_disagree": {
+		"message": "Không đồng ý"
+	},
+	"voting_count_plural": {
+		"message": "$1 phiếu"
+	},
+	"voting_count_singular": {
+		"message": "$1 phiếu"
+	},
 	"voting_description": {
 		"message": "Giúp người khác bằng cách xác nhận xem trạng thái của người dùng này có chính xác không."
 	},
-	"engine_status_unknown": {
-		"message": "Không rõ"
+	"voting_header_title": {
+		"message": "Phản hồi Cộng đồng"
 	},
-	"engine_status_latest": {
-		"message": "Mới nhất"
+	"voting_loading": {
+		"message": "Đang tải..."
 	},
-	"engine_status_compatible": {
-		"message": "Tương thích"
+	"warzone_chart_error_load": {
+		"message": "Không tải được dữ liệu lịch sử $1"
 	},
-	"engine_status_outdated": {
-		"message": "Lỗi thời"
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Tỷ lệ Cấm Toàn cầu"
 	},
-	"engine_status_deprecated": {
-		"message": "Đã ngừng hỗ trợ"
+	"warzone_chart_label_global_liberation": {
+		"message": "Giải phóng Toàn cầu"
 	},
-	"engine_desc_unknown": {
-		"message": "Phân tích này đã sử dụng công cụ AI với trạng thái tương thích không rõ."
+	"warzone_chart_label_total_users": {
+		"message": "Tổng Người dùng"
 	},
-	"engine_desc_unknown_impact": {
-		"message": "Không thể xác định khả năng tương thích phiên bản."
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Tỷ lệ Cấm Khu vực"
 	},
-	"engine_desc_latest": {
-		"message": "Phân tích này đã sử dụng công cụ AI hiện đại nhất với khả năng phát hiện mới nhất."
+	"warzone_chart_label_zone_liberation": {
+		"message": "Giải phóng Khu vực"
 	},
-	"engine_desc_latest_impact": {
-		"message": "Độ chính xác cao nhất và phân tích toàn diện nhất."
+	"warzone_chart_legend_banned": {
+		"message": "Đã cấm"
 	},
-	"engine_desc_compatible": {
-		"message": "Phân tích này đã sử dụng công cụ AI vẫn được hỗ trợ nhưng không phải phiên bản mới nhất."
+	"warzone_chart_legend_confirmed": {
+		"message": "Đã xác nhận"
 	},
-	"engine_desc_compatible_impact": {
-		"message": "Vẫn có độ chính xác cao với sự khác biệt nhỏ trong khả năng phát hiện."
+	"warzone_chart_legend_flagged": {
+		"message": "Đã gắn cờ"
 	},
-	"engine_desc_outdated": {
-		"message": "Phân tích này đã sử dụng công cụ AI đáng kể sau phiên bản mới nhất."
+	"warzone_chart_tab_ban_rate": {
+		"message": "Tỷ lệ Cấm"
 	},
-	"engine_desc_outdated_impact": {
-		"message": "Có thể giảm độ chính xác so với các phiên bản công cụ mới hơn."
+	"warzone_chart_tab_liberation": {
+		"message": "Giải phóng"
 	},
-	"engine_desc_deprecated": {
-		"message": "Phân tích này đã sử dụng công cụ AI không còn được hỗ trợ."
+	"warzone_chart_tab_users": {
+		"message": "Người dùng"
 	},
-	"engine_desc_deprecated_impact": {
-		"message": "Độ chính xác có thể giảm đáng kể và kết quả nên được xem xét cẩn thận."
+	"warzone_chart_tooltip_banned": {
+		"message": "Đã cấm"
 	},
-	"engine_aria_info": {
-		"message": "Thông tin phiên bản công cụ"
+	"warzone_chart_tooltip_date": {
+		"message": "Ngày"
 	},
-	"engine_header_version": {
-		"message": "Công cụ v$1"
+	"warzone_chart_tooltip_total_users": {
+		"message": "Tổng Người dùng"
 	},
-	"engine_version_unknown": {
-		"message": "Không rõ"
+	"warzone_common_button_retry": {
+		"message": "Thử lại"
 	},
-	"custom_api_form_title_edit": {
-		"message": "Chỉnh sửa API Tùy chỉnh"
+	"warzone_hunter_beta_discord_link": {
+		"message": "máy chủ Discord"
 	},
-	"custom_api_form_title_add": {
-		"message": "Thêm API Tùy chỉnh"
+	"warzone_hunter_beta_label": {
+		"message": "Closed Beta:"
 	},
-	"custom_api_form_label_name": {
-		"message": "Tên"
+	"warzone_hunter_beta_text_after_link": {
+		"message": "của chúng tôi để cập nhật."
 	},
-	"custom_api_form_label_required": {
-		"message": "*"
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Chỉ dành cho người dùng được chọn. Tham gia"
 	},
-	"custom_api_form_placeholder_name": {
-		"message": "API Tùy chỉnh Của tôi"
+	"warzone_hunter_button_login": {
+		"message": "Đăng nhập bằng Discord"
 	},
-	"custom_api_form_hint_name_length": {
-		"message": "Tối đa 12 ký tự ($1/12)"
+	"warzone_hunter_button_logout": {
+		"message": "Đăng xuất"
 	},
-	"custom_api_form_label_url": {
-		"message": "URL API"
+	"warzone_hunter_confirm_logout": {
+		"message": "Bạn có chắc chắn muốn đăng xuất không?\n\nBạn có thể đăng nhập lại bất cứ lúc nào bằng tài khoản Discord của bạn."
 	},
-	"custom_api_form_placeholder_url": {
-		"message": "https://api.example.com/v1/lookup"
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Ảnh đại diện Discord"
 	},
-	"custom_api_form_hint_url": {
-		"message": "Phải là HTTPS. Đây giống như URL cơ sở cho các endpoint API của bạn. Chúng tôi sẽ gọi {url}/user/{userId} cho tra cứu đơn và {url}/users cho tra cứu hàng loạt."
+	"warzone_hunter_feature_cleanup": {
+		"message": "Giúp dọn dẹp nền tảng và loại bỏ kẻ xấu"
 	},
-	"custom_api_form_label_timeout": {
-		"message": "Thời gian chờ (ms)"
+	"warzone_hunter_feature_community": {
+		"message": "Làm việc với cộng đồng để có tỷ lệ xóa bỏ cao hơn"
 	},
-	"custom_api_form_placeholder_timeout": {
-		"message": "5000"
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Kiếm điểm và leo lên bảng xếp hạng"
 	},
-	"custom_api_form_hint_timeout": {
-		"message": "Thời gian chờ yêu cầu tính bằng mili giây (1000-60000). Mặc định: 5000ms."
+	"warzone_hunter_feature_report": {
+		"message": "Báo cáo người dùng đã xác nhận có rủi ro cao"
 	},
-	"custom_api_form_label_image": {
-		"message": "Hình ảnh Ngang (Tùy chọn)"
+	"warzone_hunter_loading_connecting": {
+		"message": "Đang kết nối..."
 	},
-	"custom_api_form_hint_image": {
-		"message": "Tải lên hình ảnh ngang cho tab chú giải công cụ (PNG, JPG, SVG, WebP). Khuyến nghị: 480x160px (tỷ lệ 3:1)."
+	"warzone_hunter_signup_description": {
+		"message": "Tham gia cộng đồng để báo cáo người dùng đã xác nhận có rủi ro cao. Làm việc cùng với thợ săn trên toàn thế giới để tăng tỷ lệ thành công xóa bỏ và làm cho Roblox an toàn hơn cho tất cả mọi người."
 	},
-	"custom_api_form_button_remove_image": {
-		"message": "Xóa Hình ảnh"
+	"warzone_hunter_stat_points": {
+		"message": "Điểm"
 	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Bật API tùy chỉnh này"
+	"warzone_hunter_stat_status": {
+		"message": "Trạng thái"
 	},
-	"custom_api_form_button_save": {
-		"message": "Lưu"
+	"warzone_hunter_status_anonymous": {
+		"message": "Ẩn danh"
 	},
-	"custom_api_form_button_saving": {
-		"message": "Đang lưu..."
+	"warzone_hunter_status_public": {
+		"message": "Công khai"
 	},
-	"custom_api_form_error_name_required": {
-		"message": "Tên là bắt buộc"
+	"warzone_hunter_title": {
+		"message": "Thợ săn War Zone"
 	},
-	"custom_api_form_error_name_length": {
-		"message": "Tên phải có 12 ký tự hoặc ít hơn"
+	"warzone_hunter_welcome_message": {
+		"message": "Chào mừng, Thợ săn! Bây giờ bạn có thể tham gia các hoạt động War Zone và giúp bảo vệ cộng đồng Roblox. Truy cập trang chủ Roblox để bắt đầu nhiệm vụ săn bắn của bạn."
 	},
-	"custom_api_form_error_url_required": {
-		"message": "URL là bắt buộc"
+	"warzone_leaderboard_badge_you": {
+		"message": "Bạn"
 	},
-	"custom_api_form_error_url_https": {
-		"message": "URL phải bắt đầu bằng https://"
+	"warzone_leaderboard_error_load": {
+		"message": "Không tải được bảng xếp hạng"
 	},
-	"custom_api_form_error_url_invalid": {
-		"message": "Định dạng URL không hợp lệ"
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Bao gồm Thợ săn Ẩn danh"
 	},
-	"custom_api_form_error_timeout_min": {
-		"message": "Thời gian chờ phải ít nhất 1000ms (1 giây)"
+	"warzone_leaderboard_loading": {
+		"message": "Đang tải bảng xếp hạng..."
 	},
-	"custom_api_form_error_timeout_max": {
-		"message": "Thời gian chờ phải là 60000ms (60 giây) hoặc ít hơn"
+	"warzone_leaderboard_section_rankings": {
+		"message": "Xếp hạng"
 	},
-	"custom_api_form_error_image_type": {
-		"message": "Loại tệp không hợp lệ. Vui lòng sử dụng PNG, JPG, SVG hoặc WebP"
+	"warzone_leaderboard_section_top": {
+		"message": "Thợ săn Hàng đầu"
 	},
-	"custom_api_form_error_image_mime": {
-		"message": "Loại hình ảnh không hợp lệ. Loại MIME không khớp với phần mở rộng tệp"
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 báo cáo"
 	},
-	"custom_api_form_error_image_size": {
-		"message": "Cảnh báo: Kích thước tệp lớn ($1KB). Hãy xem xét sử dụng hình ảnh nhỏ hơn để giảm mức sử dụng lưu trữ."
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% thành công"
 	},
-	"custom_api_form_error_image_read": {
-		"message": "Không đọc được tệp hình ảnh"
+	"warzone_leaderboard_total_hunters": {
+		"message": "Tổng Thợ săn: $1"
 	},
-	"custom_api_form_error_image_process": {
-		"message": "Không xử lý được tệp hình ảnh"
+	"warzone_leaderboard_your_rank": {
+		"message": "Xếp hạng của bạn: #$1"
 	},
-	"custom_api_form_error_save_prefix": {
-		"message": "Không lưu được API tùy chỉnh: "
+	"warzone_mode_global": {
+		"message": "toàn cầu"
 	},
-	"custom_api_form_error_unknown": {
-		"message": "Lỗi không xác định"
+	"warzone_mode_zone": {
+		"message": "khu vực"
 	},
-	"custom_api_mgmt_button_back": {
-		"message": "Quay lại"
+	"warzone_nav_tab_leaderboard": {
+		"message": "Bảng xếp hạng"
 	},
-	"custom_api_mgmt_title": {
-		"message": "Tích hợp API"
+	"warzone_nav_tab_profile": {
+		"message": "Hồ sơ"
 	},
-	"custom_api_mgmt_intro": {
-		"message": "Quản lý tất cả các tích hợp API ở một nơi. Rotector cung cấp phân tích an toàn cốt lõi và bạn có thể thêm tối đa 5 API tùy chỉnh để phân tích nội dung bổ sung."
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
 	},
-	"custom_api_mgmt_button_docs": {
-		"message": "Xem Tài liệu"
+	"warzone_order_label_completed": {
+		"message": "Đã hoàn thành"
 	},
-	"custom_api_mgmt_loading": {
-		"message": "Đang tải API tùy chỉnh..."
+	"warzone_order_label_expires": {
+		"message": "Hết hạn"
 	},
-	"custom_api_mgmt_badge_system": {
-		"message": "API Hệ thống"
+	"warzone_order_label_progress": {
+		"message": "Tiến độ"
 	},
-	"custom_api_mgmt_label_single": {
-		"message": "Đơn:"
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
 	},
-	"custom_api_mgmt_label_batch": {
-		"message": "Hàng loạt:"
+	"warzone_order_type_ban_count": {
+		"message": "Số lượng Cấm"
 	},
-	"custom_api_mgmt_label_timeout": {
-		"message": "Thời gian chờ:"
+	"warzone_order_type_verification": {
+		"message": "Xác minh"
 	},
-	"custom_api_mgmt_label_created": {
-		"message": "Đã tạo:"
+	"warzone_order_type_zone_liberation": {
+		"message": "Giải phóng Khu vực"
 	},
-	"custom_api_mgmt_label_last_tested": {
-		"message": "Đã kiểm tra lần cuối:"
+	"warzone_overview_button_find_user": {
+		"message": "Tìm Người dùng để Báo cáo"
 	},
-	"custom_api_mgmt_suffix_ms": {
-		"message": "ms"
+	"warzone_overview_error_auth_expired": {
+		"message": "Xác thực đã hết hạn. Vui lòng đăng xuất và đăng nhập lại."
 	},
-	"custom_api_mgmt_title_move_up": {
-		"message": "Di chuyển lên"
+	"warzone_overview_error_find_user": {
+		"message": "Không tìm được người dùng có thể báo cáo. Vui lòng thử lại."
 	},
-	"custom_api_mgmt_title_move_down": {
-		"message": "Di chuyển xuống"
+	"warzone_overview_error_load": {
+		"message": "Không tải được bản đồ chiến tranh"
 	},
-	"custom_api_mgmt_title_test": {
-		"message": "Kiểm tra Kết nối"
+	"warzone_overview_error_no_users": {
+		"message": "Không có người dùng có thể báo cáo. Hãy quay lại sau!"
 	},
-	"custom_api_mgmt_title_edit": {
-		"message": "Chỉnh sửa"
+	"warzone_overview_finding_user_loading": {
+		"message": "Đang tìm người dùng..."
 	},
-	"custom_api_mgmt_title_delete": {
-		"message": "Xóa"
+	"warzone_overview_loading": {
+		"message": "Đang tải bản đồ chiến tranh..."
 	},
-	"custom_api_mgmt_button_add": {
-		"message": "Thêm API Tùy chỉnh"
+	"warzone_overview_section_global_stats": {
+		"message": "Thống kê Chiến tranh Toàn cầu"
 	},
-	"custom_api_mgmt_notice_max_reached": {
-		"message": "Đã đạt tối đa $1 API tùy chỉnh. Xóa API hiện có để thêm API mới."
+	"warzone_overview_section_global_trends": {
+		"message": "Xu hướng Toàn cầu (30 Ngày)"
 	},
-	"custom_api_mgmt_confirm_delete": {
-		"message": "Xóa API tùy chỉnh \"$1\"?"
+	"warzone_overview_section_major_orders": {
+		"message": "Lệnh Chính Đang hoạt động"
 	},
-	"custom_api_mgmt_error_delete": {
-		"message": "Không xóa được API tùy chỉnh"
+	"warzone_overview_section_targets": {
+		"message": "Mục tiêu Đang hoạt động"
 	},
-	"custom_api_mgmt_test_success": {
-		"message": "✓ Kết nối thành công!\n\nAPI \"$1\" có thể truy cập và đang phản hồi."
+	"warzone_overview_section_zones": {
+		"message": "Khu vực War Zone"
 	},
-	"custom_api_mgmt_test_failed": {
-		"message": "✗ Kết nối thất bại\n\nAPI \"$1\" không phản hồi hoặc trả về lỗi.\n\nVui lòng kiểm tra:\n• URL chính xác và có thể truy cập\n• Máy chủ API đang chạy\n• CORS được cấu hình nếu cần"
+	"warzone_overview_stat_active_targets": {
+		"message": "Mục tiêu Đang hoạt động"
 	},
-	"custom_api_mgmt_test_error": {
-		"message": "✗ Lỗi kiểm tra kết nối\n\nKhông kiểm tra được API \"$1\".\n\nLỗi: $2"
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Giải phóng Trung bình"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Không cập nhật được trạng thái API"
+	"warzone_overview_stat_total_banned": {
+		"message": "Tổng số Đã cấm"
 	},
-	"custom_api_mgmt_http_method_get": {
-		"message": "GET"
+	"warzone_overview_stat_total_zones": {
+		"message": "Tổng Khu vực"
 	},
-	"custom_api_mgmt_http_method_post": {
-		"message": "POST"
+	"warzone_profile_button_logout": {
+		"message": "Đăng xuất"
 	},
-	"custom_api_docs_button_back": {
-		"message": "Quay lại"
+	"warzone_profile_button_reset_uuid": {
+		"message": "Đăng xuất Khỏi Tất cả Thiết bị"
 	},
-	"custom_api_docs_title": {
-		"message": "Tài liệu API"
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Đang đăng xuất..."
 	},
-	"custom_api_docs_intro": {
-		"message": "Triển khai hai endpoint trả về dữ liệu trạng thái người dùng. Tất cả các phản hồi phải sử dụng định dạng bọc với các trường success, data và error."
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Đã đăng xuất khỏi tất cả thiết bị"
 	},
-	"custom_api_docs_section_single_lookup": {
-		"message": "Tra cứu Người dùng Đơn"
+	"warzone_profile_confirm_logout": {
+		"message": "Bạn có chắc chắn muốn đăng xuất không?\n\nBạn có thể đăng nhập lại bất cứ lúc nào bằng tài khoản Discord của bạn."
 	},
-	"custom_api_docs_section_batch_lookup": {
-		"message": "Tra cứu Người dùng Hàng loạt"
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Đăng xuất khỏi tất cả thiết bị?\n\nĐiều này sẽ vô hiệu hóa tất cả các phiên hoạt động trên các thiết bị khác. Bạn sẽ vẫn đăng nhập trên thiết bị này, nhưng tất cả các thiết bị khác sẽ bị đăng xuất.\n\nĐiều này hữu ích nếu bạn nghi ngờ tài khoản của bạn đã bị xâm phạm."
 	},
-	"custom_api_docs_section_notes": {
-		"message": "Lưu ý Quan trọng"
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Ảnh đại diện Discord"
 	},
-	"custom_api_docs_subtitle_example_request": {
-		"message": "Yêu cầu Ví dụ"
+	"warzone_profile_error_reset_uuid": {
+		"message": "Không đăng xuất được khỏi tất cả thiết bị. Vui lòng thử lại."
 	},
-	"custom_api_docs_subtitle_success_response": {
-		"message": "Phản hồi Thành công"
+	"warzone_profile_label_discord": {
+		"message": "Discord"
 	},
-	"custom_api_docs_subtitle_error_response": {
-		"message": "Phản hồi Lỗi"
+	"warzone_profile_label_joined": {
+		"message": "Đã tham gia"
 	},
-	"custom_api_docs_subtitle_required_fields": {
-		"message": "Trường Bắt buộc (trong đối tượng data)"
+	"warzone_profile_label_last_active": {
+		"message": "Hoạt động lần cuối"
 	},
-	"custom_api_docs_subtitle_optional_fields": {
-		"message": "Trường Tùy chọn (trong đối tượng data)"
+	"warzone_profile_label_visibility": {
+		"message": "Hiển thị"
 	},
-	"custom_api_docs_subtitle_flag_types": {
-		"message": "Loại Cờ"
+	"warzone_profile_stat_points": {
+		"message": "Điểm"
 	},
-	"custom_api_docs_subtitle_request_body": {
-		"message": "Thân Yêu cầu"
+	"warzone_profile_title": {
+		"message": "Hồ sơ"
 	},
-	"custom_api_docs_subtitle_https": {
-		"message": "Yêu cầu HTTPS"
+	"warzone_profile_visibility_anonymous": {
+		"message": "Ẩn danh"
 	},
-	"custom_api_docs_subtitle_wrapper": {
-		"message": "Định dạng Bọc"
+	"warzone_profile_visibility_public": {
+		"message": "Công khai"
 	},
-	"custom_api_docs_subtitle_reason_keys": {
-		"message": "Khóa Lý do"
+	"warzone_target_meta_active": {
+		"message": "Hoạt động"
 	},
-	"custom_api_docs_subtitle_badges": {
-		"message": "Huy hiệu"
+	"warzone_target_meta_attempts": {
+		"message": "Lần thử"
 	},
-	"custom_api_docs_subtitle_badge_colors": {
-		"message": "Màu Huy hiệu"
+	"warzone_target_meta_confidence": {
+		"message": "Độ tin cậy"
 	},
-	"custom_api_docs_flag_type_0": {
-		"message": "An toàn"
+	"warzone_target_status_confirmed": {
+		"message": "Đã xác nhận"
 	},
-	"custom_api_docs_flag_type_1": {
-		"message": "Đang chờ"
+	"warzone_target_status_flagged": {
+		"message": "Đã gắn cờ"
 	},
-	"custom_api_docs_flag_type_2": {
-		"message": "Không an toàn (khuyến nghị)"
+	"warzone_zone_button_back": {
+		"message": "Quay lại Tổng quan"
 	},
-	"custom_api_docs_flag_type_3": {
-		"message": "Đã xếp hàng"
+	"warzone_zone_error_load": {
+		"message": "Không tải được chi tiết khu vực"
 	},
-	"custom_api_docs_flag_type_4": {
-		"message": "Không sử dụng"
+	"warzone_zone_loading": {
+		"message": "Đang tải chi tiết khu vực..."
 	},
-	"custom_api_docs_flag_type_5": {
-		"message": "Hỗn hợp"
+	"warzone_zone_section_trends": {
+		"message": "Xu hướng Khu vực (30 Ngày)"
 	},
-	"custom_api_docs_flag_type_6": {
-		"message": "Kẻ Vi phạm Trước đây"
+	"warzone_zone_stat_banned": {
+		"message": "Đã cấm"
 	},
-	"custom_api_docs_flag_type_2_note": {
-		"message": "Loại cờ 2 (Không an toàn) là loại chính bạn cần để chỉ báo người dùng không phù hợp. Chỉ sử dụng các loại cờ khác nếu bạn có lý do cụ thể để phân loại người dùng khác đi."
+	"warzone_zone_stat_confirmed": {
+		"message": "Đã xác nhận"
 	},
-	"custom_api_docs_field_id": {
-		"message": "id (number) - ID Người dùng dưới dạng số nguyên"
+	"warzone_zone_stat_flagged": {
+		"message": "Đã gắn cờ"
 	},
-	"custom_api_docs_field_flag_type": {
-		"message": "flagType (number) - Loại cờ 0-6 (xem bên dưới)"
+	"warzone_zone_stat_total_users": {
+		"message": "Tổng Người dùng"
 	},
-	"custom_api_docs_field_confidence": {
-		"message": "confidence (number) - Mức độ tin cậy 0.0-1.0"
-	},
-	"custom_api_docs_field_reasons": {
-		"message": "reasons (object) - Tên lý do dựa trên chuỗi làm khóa, mỗi lý do chứa:"
-	},
-	"custom_api_docs_field_message": {
-		"message": "message (string) - Mô tả lý do"
-	},
-	"custom_api_docs_field_evidence": {
-		"message": "evidence (array hoặc null) - Chuỗi bằng chứng hoặc null"
-	},
-	"custom_api_docs_field_reviewer": {
-		"message": "reviewer (object) - username và displayName"
-	},
-	"custom_api_docs_field_engine_version": {
-		"message": "engineVersion (string) - Phiên bản công cụ phân tích"
-	},
-	"custom_api_docs_field_last_updated": {
-		"message": "lastUpdated (number) - Dấu thời gian Unix"
-	},
-	"custom_api_docs_field_badges": {
-		"message": "badges (array) - Tối đa 3 đối tượng huy hiệu tùy chỉnh, mỗi đối tượng chứa:"
-	},
-	"custom_api_docs_field_badge_text": {
-		"message": "text (string, bắt buộc) - Văn bản nhãn huy hiệu"
-	},
-	"custom_api_docs_field_badge_color": {
-		"message": "color (string, tùy chọn) - Màu nền (hex, rgb hoặc màu đặt tên)"
-	},
-	"custom_api_docs_field_badge_text_color": {
-		"message": "textColor (string, tùy chọn) - Màu văn bản cho độ tương phản"
-	},
-	"custom_api_docs_field_confidence_reason": {
-		"message": "confidence (number) - Độ tin cậy 0.0-1.0"
-	},
-	"custom_api_docs_note_https": {
-		"message": "Tất cả các endpoint API phải sử dụng HTTPS để bảo mật."
-	},
-	"custom_api_docs_note_wrapper": {
-		"message": "Tất cả các phản hồi phải sử dụng định dạng {success, data, error}. Khi success: true, bao gồm trường data. Khi success: false, bao gồm thông báo error."
-	},
-	"custom_api_docs_note_reason_keys": {
-		"message": "Sử dụng tên chuỗi mô tả cho các khóa lý do (ví dụ: \"Mẫu Rủi ro Cao\", \"Hoạt động Đáng ngờ\"), không phải chỉ số số. Những tên này hiển thị trực tiếp trong chú giải công cụ."
-	},
-	"custom_api_docs_note_badges": {
-		"message": "Huy hiệu là các chỉ báo trực quan nhỏ xuất hiện trong chú giải công cụ người dùng bên cạnh trạng thái cờ. Chúng hiển thị ở đầu chú giải công cụ để nhanh chóng truyền đạt ngữ cảnh bổ sung về người dùng. Sử dụng huy hiệu để làm nổi bật thông tin trạng thái quan trọng như trạng thái xác minh, mức độ ưu tiên hoặc danh mục đặc biệt. Ví dụ phổ biến: \"Đã Xác minh Không an toàn\", \"Ưu tiên Cao\", \"Cộng đồng Báo cáo\", \"Tự động Phát hiện\"."
-	},
-	"custom_api_docs_note_badge_colors": {
-		"message": "Màu huy hiệu hỗ trợ nhiều định dạng: mã hex (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) hoặc màu đặt tên (red). Khi color không được chỉ định, huy hiệu sử dụng màu xanh lam mặc định. Khi textColor không được chỉ định, huy hiệu sử dụng văn bản màu trắng."
-	},
-	"custom_api_docs_note_batch_data": {
-		"message": "Trường data chứa một đối tượng trong đó các khóa là ID người dùng (dưới dạng chuỗi) và các giá trị là các đối tượng trạng thái người dùng."
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% Đã giải phóng"
 	}
 }

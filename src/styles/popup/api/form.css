@@ -1,0 +1,96 @@
+/* =================================
+   FORM COMPONENTS
+   ================================= */
+
+@utility custom-api-form {
+	@apply flex flex-col;
+	gap: 0.75rem;
+}
+
+@utility form-field {
+	@apply flex flex-col;
+	gap: 0.25rem;
+}
+
+@utility form-label {
+	@apply flex items-center;
+	gap: 0.25rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text);
+
+	& .required {
+		color: var(--color-status-unsafe);
+		margin-left: 0.125rem;
+	}
+}
+
+@utility form-input {
+	@apply w-full;
+	padding: 0.5rem 0.625rem;
+	font-size: 0.8125rem;
+	color: var(--color-text);
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	transition: all 0.2s ease;
+	font-family: inherit;
+
+	&::placeholder {
+		color: var(--color-text-tertiary);
+	}
+
+	&:focus {
+		outline: none;
+		border-color: transparent;
+		box-shadow: 0 0 0 2px var(--color-primary);
+	}
+
+	&.error {
+		border-color: var(--color-status-unsafe);
+
+		&:focus {
+			box-shadow: 0 0 0 2px var(--color-status-unsafe);
+		}
+	}
+}
+
+@utility form-hint {
+	font-size: 0.6875rem;
+	color: var(--color-text-tertiary);
+	line-height: 1.3;
+}
+
+@utility form-error {
+	font-size: 0.6875rem;
+	color: var(--color-status-unsafe);
+	line-height: 1.3;
+}
+
+@utility form-checkbox {
+	@apply flex items-center;
+	gap: 0.5rem;
+	padding: 0.625rem;
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background-color: var(--color-hover);
+	}
+
+	& input[type='checkbox'] {
+		width: 0.875rem;
+		height: 0.875rem;
+		cursor: pointer;
+		accent-color: var(--color-primary);
+	}
+
+	& span {
+		@apply flex-1;
+		font-size: 0.8125rem;
+		color: var(--color-text);
+	}
+}

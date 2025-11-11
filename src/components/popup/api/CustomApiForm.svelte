@@ -3,7 +3,7 @@
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
-	import Modal from '../ui/Modal.svelte';
+	import Modal from '../../ui/Modal.svelte';
 
 	interface Props {
 		editingApi: CustomApiConfig | null;

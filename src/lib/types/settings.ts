@@ -130,6 +130,11 @@ export const DEVELOPER_SETTING_CATEGORY: SettingCategory = {
 	titleKey: 'settings_category_developer',
 	settings: [
 		{
+			key: SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED,
+			labelKey: 'settings_label_developer_mode',
+			helpTextKey: 'settings_help_developer_mode'
+		},
+		{
 			key: SETTINGS_KEYS.DEBUG_MODE_ENABLED,
 			labelKey: 'settings_label_debug_logging',
 			helpTextKey: 'settings_help_debug_logging'

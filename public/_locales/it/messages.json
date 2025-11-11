@@ -1,48 +1,468 @@
 {
-	"popup_header_description": {
-		"message": "Indicatori di sicurezza in tempo reale che ti avvertono di utenti Roblox inappropriati prima di interagire con loro."
-	},
 	"banner_advanced_violation_aria_dismiss": {
 		"message": "Chiudi banner raccomandazione"
-	},
-	"banner_advanced_violation_title_dismiss": {
-		"message": "Chiudi raccomandazione"
-	},
-	"banner_advanced_violation_message": {
-		"message": "Abilita i dettagli avanzati delle violazioni per informazioni migliori"
-	},
-	"banner_advanced_violation_title_go_to_setting": {
-		"message": "Vai alle impostazioni dettagli avanzati delle violazioni"
 	},
 	"banner_advanced_violation_button_go_to_setting": {
 		"message": "Vai alle Impostazioni"
 	},
-	"banner_changelog_message": {
-		"message": "È stato rilasciato un nuovo aggiornamento $1!"
+	"banner_advanced_violation_message": {
+		"message": "Abilita i dettagli avanzati delle violazioni per informazioni migliori"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Chiudi raccomandazione"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Vai alle impostazioni dettagli avanzati delle violazioni"
 	},
 	"banner_changelog_aria_dismiss": {
 		"message": "Chiudi banner changelog"
 	},
-	"banner_changelog_title_view_details": {
-		"message": "Visualizza dettagli completi del changelog"
+	"banner_changelog_button_view_details": {
+		"message": "Visualizza Dettagli"
+	},
+	"banner_changelog_message": {
+		"message": "È stato rilasciato un nuovo aggiornamento $1!"
 	},
 	"banner_changelog_title_dismiss": {
 		"message": "Chiudi changelog"
 	},
-	"banner_changelog_button_view_details": {
-		"message": "Visualizza Dettagli"
+	"banner_changelog_title_view_details": {
+		"message": "Visualizza dettagli completi del changelog"
 	},
-	"navbar_tab_stats": {
-		"message": "Statistiche"
+	"custom_api_docs_button_back": {
+		"message": "Indietro"
 	},
-	"navbar_tab_warzone": {
-		"message": "War Zone"
+	"custom_api_docs_error_note": {
+		"message": "Nota: Le risposte di errore si verificano solo quando c'è un errore server interno o un problema backend. Gli utenti non trovati o non ancora analizzati dovrebbero restituire success: true con flagType: 0 (Sicuro)."
 	},
-	"navbar_tab_settings": {
-		"message": "Impostazioni"
+	"custom_api_docs_field_badge_color": {
+		"message": "(string, opzionale) - Colore sfondo (hex, rgb o colore con nome)"
 	},
-	"navbar_settings_tooltip": {
-		"message": "Impostazioni (Alt+Click per modalità sviluppatore)"
+	"custom_api_docs_field_badge_text": {
+		"message": "(string, obbligatorio) - Testo etichetta badge"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "(string, opzionale) - Colore testo per contrasto"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "(array) - Fino a 3 oggetti badge personalizzati, ciascuno contenente:"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "(number) - Float livello di affidabilità tra 0.0 e 1.0"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "(number) - Float affidabilità tra 0.0 e 1.0"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "(string) - Versione motore di analisi"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "(array or null) - Stringhe di prova (es. da username, display name, descrizione) o null"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "(number) - Tipo di segnalazione 0-6 (vedi sotto)"
+	},
+	"custom_api_docs_field_id": {
+		"message": "(number) - ID Utente come intero"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "(number) - Timestamp Unix in secondi"
+	},
+	"custom_api_docs_field_message": {
+		"message": "(string) - Descrizione ragione"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "(object) - Nomi ragioni basati su stringhe come chiavi, ciascuno contenente:"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "(object) - Opzionale. Per accreditare il revisore umano che ha verificato la segnalazione. Includere username e displayName. Omettere se automatizzato/nessuna revisione umana."
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "Sicuro"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "In Attesa"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Non Sicuro (raccomandato)"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Il tipo di segnalazione 2 (Non Sicuro) è il tipo principale necessario per indicare utenti inappropriati. Usa altri tipi di segnalazione solo se hai una ragione specifica per categorizzare gli utenti diversamente."
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "In Coda"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Non Utilizzato"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Misto"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Trasgressore Passato"
+	},
+	"custom_api_docs_intro": {
+		"message": "Implementa due endpoint che restituiscono dati sullo stato dell'utente. Tutte le risposte devono utilizzare il formato wrapper con campi success, data ed error."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "I colori dei badge supportano più formati: codici hex (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) o colori con nome (red). Quando il colore non è specificato, i badge usano un colore teal predefinito. Quando textColor non è specificato, i badge usano testo bianco."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "I badge sono piccoli indicatori visivi che appaiono nei tooltip degli utenti insieme allo stato di segnalazione. Vengono visualizzati nella parte superiore del tooltip per comunicare rapidamente contesto aggiuntivo su un utente. Usa i badge per evidenziare informazioni di stato importanti come stato di verifica, livelli di priorità o categorie speciali. Esempi comuni: \"Verificato Non Sicuro\", \"Alta Priorità\", \"Segnalato dalla Comunità\", \"Rilevato Automaticamente\"."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Il campo data contiene un oggetto dove le chiavi sono gli ID utente (come stringhe) e i valori sono oggetti di stato utente."
+	},
+	"custom_api_docs_note_batch_limit": {
+		"message": "Raccomandiamo di implementare un limite di 100 ID utente per richiesta batch per bilanciare prestazioni e tempo di risposta."
+	},
+	"custom_api_docs_note_batch_partial": {
+		"message": "Restituisci solo gli utenti che esistono nel tuo sistema. Gli utenti sconosciuti dovrebbero essere omessi dalla risposta."
+	},
+	"custom_api_docs_note_cors": {
+		"message": "La tua API deve includere l'header Access-Control-Allow-Origin: * nelle risposte per consentire all'estensione browser di accedere alla tua API."
+	},
+	"custom_api_docs_note_flag_type_0": {
+		"message": "Restituisci flagType 0 per gli utenti non presenti nel tuo sistema (non ancora controllati/sconosciuti)."
+	},
+	"custom_api_docs_note_http_status": {
+		"message": "Restituisci stato HTTP 200 per tutte le richieste riuscite. Qualsiasi altro codice di stato (4xx, 5xx) indica un fallimento e l'estensione lo tratterà come un errore."
+	},
+	"custom_api_docs_note_https": {
+		"message": "Tutti gli endpoint API devono utilizzare HTTPS per sicurezza."
+	},
+	"custom_api_docs_note_no_auth": {
+		"message": "Non è richiesta autenticazione. Questa è un'API completamente pubblica."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Usa nomi di stringhe descrittivi per le chiavi delle ragioni (es. \"Modello Alto Rischio\", \"Attività Sospetta\"), non indici numerici. Questi vengono visualizzati direttamente nei tooltip."
+	},
+	"custom_api_docs_note_url_batch": {
+		"message": "L'estensione utilizza il tuo URL configurato direttamente (senza modifiche) per le ricerche batch."
+	},
+	"custom_api_docs_note_url_single": {
+		"message": "L'estensione aggiunge automaticamente /{userId} al tuo URL configurato per le ricerche di singoli utenti."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Tutte le risposte devono utilizzare il formato {success, data, error}. Quando success: true, includi il campo data. Quando success: false, includi il messaggio error."
+	},
+	"custom_api_docs_section_authentication": {
+		"message": "Autenticazione"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Ricerca Utenti Batch"
+	},
+	"custom_api_docs_section_cors": {
+		"message": "Requisiti CORS"
+	},
+	"custom_api_docs_section_http_status": {
+		"message": "Codici di Stato HTTP"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Note Importanti"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Ricerca Utente Singolo"
+	},
+	"custom_api_docs_section_url_config": {
+		"message": "Configurazione URL API"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Colori Badge"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Badge"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Risposta Errore"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Esempio Richiesta"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Tipi di Segnalazione"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "HTTPS Richiesto"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Campi Opzionali (nell'oggetto data)"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Chiavi Ragione"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Corpo Richiesta"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Campi Obbligatori (nell'oggetto data)"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Risposta Successo"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Formato Wrapper"
+	},
+	"custom_api_docs_title": {
+		"message": "Guida all'Integrazione API Personalizzata"
+	},
+	"custom_api_docs_url_example_1": {
+		"message": "https://api.example.com/users"
+	},
+	"custom_api_docs_url_example_2": {
+		"message": "https://api.example.com/v1/check"
+	},
+	"custom_api_docs_url_example_3": {
+		"message": "https://api.example.com/roblox/analyze"
+	},
+	"custom_api_docs_url_example_wrong_1": {
+		"message": "https://api.example.com/users/{userId} (l'estensione aggiungerà /{userId} automaticamente)"
+	},
+	"custom_api_docs_url_example_wrong_2": {
+		"message": "https://api.example.com/users/:id (l'estensione aggiungerà /{userId} automaticamente)"
+	},
+	"custom_api_docs_url_examples_correct_title": {
+		"message": "Formato URL Corretto"
+	},
+	"custom_api_docs_url_examples_incorrect_title": {
+		"message": "Formato URL Errato"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Rimuovi Immagine"
+	},
+	"custom_api_form_button_save": {
+		"message": "Salva"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Salvataggio..."
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "Abilita questa API personalizzata"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Tipo immagine non valido. Il tipo MIME non corrisponde all'estensione del file"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Impossibile elaborare il file immagine"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Impossibile leggere il file immagine"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Avviso: Dimensione file grande ($1KB). Considera l'uso di un'immagine più piccola per ridurre l'utilizzo dello storage."
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Tipo file non valido. Usa PNG, JPG, SVG o WebP"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Il nome deve essere di 12 caratteri o meno"
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Il nome è obbligatorio"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Impossibile salvare l'API personalizzata: "
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Il timeout deve essere 60000ms (60 secondi) o meno"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Il timeout deve essere almeno 1000ms (1 secondo)"
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Errore sconosciuto"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "L'URL deve iniziare con https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Formato URL non valido"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "L'URL è obbligatorio"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Carica un'immagine orizzontale per la scheda tooltip (PNG, JPG, SVG, WebP). Consigliato: 480x160px (rapporto 3:1)."
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Massimo 12 caratteri ($1/12)"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Timeout richiesta in millisecondi (1000-60000). Predefinito: 5000ms."
+	},
+	"custom_api_form_hint_url": {
+		"message": "Deve essere HTTPS. Questo è come l'URL di base per i tuoi endpoint API. Chiameremo {url}/user/{userId} per le ricerche singole e {url}/users per le ricerche batch."
+	},
+	"custom_api_form_label_image": {
+		"message": "Immagine Orizzontale (Opzionale)"
+	},
+	"custom_api_form_label_name": {
+		"message": "Nome"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Timeout (ms)"
+	},
+	"custom_api_form_label_url": {
+		"message": "URL API"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "La Mia API Personalizzata"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_title_add": {
+		"message": "Aggiungi API Personalizzata"
+	},
+	"custom_api_form_title_edit": {
+		"message": "Modifica API Personalizzata"
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "API di Sistema"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Aggiungi API Personalizzata"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Indietro"
+	},
+	"custom_api_mgmt_button_view_integration_guide": {
+		"message": "Visualizza Guida all'Integrazione"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Eliminare l'API personalizzata \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Impossibile eliminare l'API personalizzata"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Impossibile aggiornare lo stato dell'API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_mgmt_integration_section_description": {
+		"message": "Crea la tua API da integrare con Rotector Extension. Implementa endpoint che restituiscono dati sulla sicurezza degli utenti, e i tuoi risultati verranno visualizzati nei tooltip insieme all'analisi di Rotector."
+	},
+	"custom_api_mgmt_integration_section_title": {
+		"message": "Interessato a integrare con l'estensione?"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Gestisci tutte le integrazioni API in un unico posto. Rotector fornisce l'analisi di sicurezza principale e puoi aggiungere fino a 5 API personalizzate per ulteriori analisi dei contenuti."
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Batch:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Creata:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Ultimo Test:"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Singola:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Timeout:"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Caricamento API personalizzate..."
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Raggiunto il massimo di $1 API personalizzate. Elimina un'API esistente per aggiungerne una nuova."
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "ms"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Errore test connessione\n\nImpossibile testare l'API \"$1\".\n\nErrore: $2"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ Connessione fallita\n\nL'API \"$1\" non risponde o ha restituito un errore.\n\nControlla:\n• L'URL è corretto e accessibile\n• Il server API è in esecuzione\n• CORS è configurato se necessario"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ Connessione riuscita!\n\nL'API \"$1\" è raggiungibile e risponde."
+	},
+	"custom_api_mgmt_title": {
+		"message": "Integrazioni API"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Elimina"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "Modifica"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Sposta giù"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Sposta su"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "Testa Connessione"
+	},
+	"engine_aria_info": {
+		"message": "Informazioni versione motore"
+	},
+	"engine_desc_compatible": {
+		"message": "Questa analisi ha utilizzato un motore AI ancora supportato ma non l'ultima versione."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Ancora molto preciso con differenze minori nelle capacità di rilevamento."
+	},
+	"engine_desc_deprecated": {
+		"message": "Questa analisi ha utilizzato un motore AI non più supportato."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "La precisione potrebbe essere significativamente ridotta e i risultati dovrebbero essere trattati con cautela."
+	},
+	"engine_desc_latest": {
+		"message": "Questa analisi ha utilizzato il motore AI più recente con le ultime capacità di rilevamento."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Massima precisione e analisi più completa."
+	},
+	"engine_desc_outdated": {
+		"message": "Questa analisi ha utilizzato un motore AI significativamente indietro rispetto all'ultima versione."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Potrebbe avere una precisione ridotta rispetto alle versioni più recenti del motore."
+	},
+	"engine_desc_unknown": {
+		"message": "Questa analisi ha utilizzato un motore AI con stato di compatibilità sconosciuto."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "La compatibilità della versione non può essere determinata."
+	},
+	"engine_header_version": {
+		"message": "Motore v$1"
+	},
+	"engine_status_compatible": {
+		"message": "Compatibile"
+	},
+	"engine_status_deprecated": {
+		"message": "Deprecato"
+	},
+	"engine_status_latest": {
+		"message": "Più Recente"
+	},
+	"engine_status_outdated": {
+		"message": "Obsoleto"
+	},
+	"engine_status_unknown": {
+		"message": "Sconosciuto"
+	},
+	"engine_version_unknown": {
+		"message": "Sconosciuto"
 	},
 	"footer_discord": {
 		"message": "Discord"
@@ -50,857 +470,23 @@
 	"footer_github": {
 		"message": "GitHub"
 	},
-	"footer_source_code": {
-		"message": "Codice Sorgente"
-	},
 	"footer_help": {
 		"message": "Aiuto e Informazioni"
-	},
-	"footer_privacy": {
-		"message": "Informativa Privacy"
-	},
-	"footer_terms": {
-		"message": "Termini di Servizio"
 	},
 	"footer_made_by": {
 		"message": "Creato da jaxron"
 	},
-	"settings_developer_unlocked": {
-		"message": "Modalità sviluppatore sbloccata! Le impostazioni avanzate sono ora disponibili."
+	"footer_privacy": {
+		"message": "Informativa Privacy"
 	},
-	"settings_theme_light": {
-		"message": "Chiaro"
+	"footer_source_code": {
+		"message": "Codice Sorgente"
 	},
-	"settings_theme_dark": {
-		"message": "Scuro"
+	"footer_terms": {
+		"message": "Termini di Servizio"
 	},
-	"settings_theme_auto": {
-		"message": "Auto"
-	},
-	"settings_api_system_label": {
-		"message": "(Sistema)"
-	},
-	"settings_manage_apis_button": {
-		"message": "Gestisci Integrazioni API"
-	},
-	"settings_api_count_singular": {
-		"message": "($1 API)"
-	},
-	"settings_api_count_plural": {
-		"message": "($1 API)"
-	},
-	"settings_api_key_label": {
-		"message": "Chiave API (Opzionale)"
-	},
-	"settings_api_key_placeholder": {
-		"message": "Inserisci la tua chiave API"
-	},
-	"settings_api_key_toggle_title": {
-		"message": "Mostra/Nascondi Chiave API"
-	},
-	"settings_api_key_hide": {
-		"message": "NASCONDI"
-	},
-	"settings_api_key_show": {
-		"message": "MOSTRA"
-	},
-	"settings_developer_hide_button": {
-		"message": "Nascondi Impostazioni Sviluppatore"
-	},
-	"settings_category_content_display": {
-		"message": "Visualizzazione Contenuti"
-	},
-	"settings_category_integrations": {
-		"message": "Integrazioni"
-	},
-	"settings_category_page_settings": {
-		"message": "Impostazioni Pagina"
-	},
-	"settings_category_developer": {
-		"message": "Sviluppatore"
-	},
-	"settings_label_theme": {
-		"message": "Tema"
-	},
-	"settings_label_advanced_violations": {
-		"message": "Mostra Dettagli Avanzati delle Violazioni"
-	},
-	"settings_label_home_page": {
-		"message": "Pagina Principale"
-	},
-	"settings_label_profile_pages": {
-		"message": "Pagine Profilo"
-	},
-	"settings_label_friends_pages": {
-		"message": "Pagine Amici"
-	},
-	"settings_label_groups_pages": {
-		"message": "Pagine Gruppi"
-	},
-	"settings_label_search_pages": {
-		"message": "Pagine Ricerca"
-	},
-	"settings_label_report_helper": {
-		"message": "Assistente Segnalazioni"
-	},
-	"settings_label_debug_logging": {
-		"message": "Abilita Registrazione Debug"
-	},
-	"settings_label_cache_duration": {
-		"message": "Durata Cache (minuti)"
-	},
-	"settings_help_theme": {
-		"message": "Auto segue l'impostazione del tema di Roblox. Chiaro e Scuro sovrascrivono questa preferenza."
-	},
-	"settings_help_advanced_violations": {
-		"message": "Visualizza messaggi dettagliati delle violazioni e prove. Può contenere contenuti per adulti."
-	},
-	"settings_help_debug_logging": {
-		"message": "Mostra registri dettagliati nella console del browser (F12 -> Console) per la risoluzione dei problemi."
-	},
-	"settings_help_cache_duration": {
-		"message": "Quanto tempo mantenere i dati sullo stato dell'utente in cache (1-10 minuti). Valori più alti riducono le chiamate API ma potrebbero mostrare informazioni obsolete."
-	},
-	"settings_modal_title": {
-		"message": "Avviso Dettagli Avanzati"
-	},
-	"settings_modal_confirm_button": {
-		"message": "Abilita Dettagli Avanzati"
-	},
-	"settings_modal_warning_intro": {
-		"message": "I dettagli avanzati delle violazioni possono contenere contenuti sensibili"
-	},
-	"settings_modal_warning_continuation": {
-		"message": "che sono riferiti da profili e attività di utenti che hanno violato le politiche della piattaforma."
-	},
-	"settings_modal_enabled_heading": {
-		"message": "Cosa vedrai quando abilitato:"
-	},
-	"settings_modal_enabled_item1": {
-		"message": "Messaggi dettagliati delle violazioni che spiegano perché un utente è stato segnalato"
-	},
-	"settings_modal_enabled_item2": {
-		"message": "Estratti di prove contenenti il contenuto che viola le politiche trovato"
-	},
-	"settings_modal_enabled_item3": {
-		"message": "Esempi specifici di violazioni da profili e attività degli utenti"
-	},
-	"settings_modal_considerations_heading": {
-		"message": "Considerazioni Importanti"
-	},
-	"settings_modal_considerations_item1": {
-		"message": "I contenuti possono includere materiale che viola gli standard della comunità della piattaforma"
-	},
-	"settings_modal_considerations_item2": {
-		"message": "Queste informazioni sono destinate solo a scopi di moderazione e sicurezza"
-	},
-	"settings_modal_considerations_item3": {
-		"message": "Se preferisci non visualizzare le prove dettagliate delle violazioni, mantieni questa impostazione disabilitata"
-	},
-	"settings_modal_considerations_item4": {
-		"message": "Puoi disabilitare questa funzione in qualsiasi momento nelle impostazioni"
-	},
-	"settings_modal_recommendation_label": {
-		"message": "Raccomandazione:"
-	},
-	"settings_modal_recommendation_text": {
-		"message": "Abilita questa funzione solo se hai bisogno di informazioni dettagliate sulle violazioni per scopi di moderazione e comprendi che potresti vedere contenuti che violano le linee guida della comunità."
-	},
-	"stats_changelog_type_added": {
-		"message": "Aggiunto"
-	},
-	"stats_changelog_type_changed": {
-		"message": "Modificato"
-	},
-	"stats_changelog_type_deprecated": {
-		"message": "Deprecato"
-	},
-	"stats_changelog_type_removed": {
-		"message": "Rimosso"
-	},
-	"stats_changelog_type_fixed": {
-		"message": "Corretto"
-	},
-	"stats_changelog_type_security": {
-		"message": "Sicurezza"
-	},
-	"stats_changelog_type_update": {
-		"message": "Aggiornamento"
-	},
-	"stats_changelog_title": {
-		"message": "Registro Modifiche"
-	},
-	"stats_changelog_empty": {
-		"message": "Nessuna voce del registro modifiche disponibile."
-	},
-	"stats_financial_title": {
-		"message": "Obiettivo di Finanziamento"
-	},
-	"stats_financial_raised": {
-		"message": "Raccolti"
-	},
-	"stats_financial_surplus": {
-		"message": "Eccedenza"
-	},
-	"stats_financial_remaining": {
-		"message": "Rimanenti"
-	},
-	"stats_financial_kofi_title": {
-		"message": "Supporta su Ko-fi"
-	},
-	"stats_financial_button_funded": {
-		"message": "Grazie!"
-	},
-	"stats_financial_button_support": {
-		"message": "Supporta lo Sviluppo"
-	},
-	"stats_financial_charts_hide": {
-		"message": "Nascondi grafici di utilizzo"
-	},
-	"stats_financial_charts_show": {
-		"message": "Mostra grafici di utilizzo"
-	},
-	"stats_financial_charts_toggle": {
-		"message": "Grafici di Utilizzo Settimanale"
-	},
-	"stats_financial_aria_funded": {
-		"message": "Completamente finanziato con $1 di eccedenza"
-	},
-	"stats_financial_aria_progress": {
-		"message": "$1 raccolti, $2 rimanenti dell'obiettivo di $3"
-	},
-	"stats_queue_title": {
-		"message": "Limiti Coda"
-	},
-	"stats_queue_loading": {
-		"message": "Caricamento limiti coda..."
-	},
-	"stats_queue_error": {
-		"message": "Impossibile caricare i limiti coda"
-	},
-	"stats_queue_retry": {
-		"message": "Riprova"
-	},
-	"stats_queue_usage": {
-		"message": "Utilizzo"
-	},
-	"stats_queue_remaining": {
-		"message": "Rimanenti"
-	},
-	"stats_queue_enhanced": {
-		"message": "Limiti Avanzati Attivi"
-	},
-	"stats_queue_default": {
-		"message": "Limiti Predefiniti"
-	},
-	"stats_queue_resets_in": {
-		"message": "Si resetta tra"
-	},
-	"stats_queue_resetting": {
-		"message": "Resettando..."
-	},
-	"stats_queue_time_hours": {
-		"message": "$1h $2m"
-	},
-	"stats_queue_time_minutes": {
-		"message": "$1m"
-	},
-	"stats_queue_aria_progress": {
-		"message": "$1 di $2 utilizzati, $3 rimanenti"
-	},
-	"stats_statistics_title": {
-		"message": "Statistiche di Sistema"
-	},
-	"stats_statistics_refresh": {
-		"message": "Aggiorna Statistiche"
-	},
-	"stats_statistics_loading": {
-		"message": "Caricamento statistiche..."
-	},
-	"stats_statistics_error": {
-		"message": "Impossibile caricare le statistiche"
-	},
-	"stats_statistics_retry": {
-		"message": "Riprova"
-	},
-	"stats_statistics_users_title": {
-		"message": "Utenti"
-	},
-	"stats_statistics_groups_title": {
-		"message": "Gruppi"
-	},
-	"stats_statistics_community_title": {
-		"message": "Comunità"
-	},
-	"stats_statistics_flagged": {
-		"message": "Segnalati"
-	},
-	"stats_statistics_confirmed": {
-		"message": "Confermati"
-	},
-	"stats_statistics_votes": {
-		"message": "Voti Totali Espressi"
-	},
-	"stats_statistics_queued": {
-		"message": "Utenti in Coda"
-	},
-	"stats_statistics_users_desc": {
-		"message": "altri utenti bannati da Roblox"
-	},
-	"stats_statistics_groups_desc": {
-		"message": "gruppi con contenuti misti"
-	},
-	"stats_statistics_updated": {
-		"message": "Ultimo aggiornamento:"
-	},
-	"stats_chart_tab_costs": {
-		"message": "Costi AI"
-	},
-	"stats_chart_tab_requests": {
-		"message": "Richieste AI"
-	},
-	"stats_chart_tab_tokens": {
-		"message": "Token AI"
-	},
-	"stats_chart_week_4": {
-		"message": "3 Settimane\nFa"
-	},
-	"stats_chart_week_3": {
-		"message": "2 Settimane\nFa"
-	},
-	"stats_chart_week_2": {
-		"message": "Settimana Scorsa"
-	},
-	"stats_chart_week_1": {
-		"message": "Questa Settimana"
-	},
-	"stats_chart_label_costs": {
-		"message": "Costi AI Settimanali"
-	},
-	"stats_chart_label_requests": {
-		"message": "Richieste AI Settimanali"
-	},
-	"stats_chart_label_tokens": {
-		"message": "Token AI Totali"
-	},
-	"stats_chart_detail_requests": {
-		"message": "Richieste Totali"
-	},
-	"stats_chart_detail_cost": {
-		"message": "Costo Totale"
-	},
-	"stats_chart_detail_period": {
-		"message": "Periodo"
-	},
-	"stats_chart_detail_prompt": {
-		"message": "Token Prompt"
-	},
-	"stats_chart_detail_completion": {
-		"message": "Token Completamento"
-	},
-	"stats_chart_detail_reasoning": {
-		"message": "Token Ragionamento"
-	},
-	"stats_chart_legend_prompt": {
-		"message": "Prompt"
-	},
-	"stats_chart_legend_completion": {
-		"message": "Completamento"
-	},
-	"stats_chart_legend_reasoning": {
-		"message": "Ragionamento"
-	},
-	"stats_chart_month_jan": {
-		"message": "Gen"
-	},
-	"stats_chart_month_feb": {
-		"message": "Feb"
-	},
-	"stats_chart_month_mar": {
-		"message": "Mar"
-	},
-	"stats_chart_month_apr": {
-		"message": "Apr"
-	},
-	"stats_chart_month_may": {
-		"message": "Mag"
-	},
-	"stats_chart_month_jun": {
-		"message": "Giu"
-	},
-	"stats_chart_month_jul": {
-		"message": "Lug"
-	},
-	"stats_chart_month_aug": {
-		"message": "Ago"
-	},
-	"stats_chart_month_sep": {
-		"message": "Set"
-	},
-	"stats_chart_month_oct": {
-		"message": "Ott"
-	},
-	"stats_chart_month_nov": {
-		"message": "Nov"
-	},
-	"stats_chart_month_dec": {
-		"message": "Dic"
-	},
-	"stats_chart_aria_prompt": {
-		"message": "Token prompt per $1: $2"
-	},
-	"stats_chart_aria_completion": {
-		"message": "Token completamento per $1: $2"
-	},
-	"stats_chart_aria_reasoning": {
-		"message": "Token ragionamento per $1: $2"
-	},
-	"stats_chart_aria_general": {
-		"message": "$1 per $2: $3"
-	},
-	"warzone_common_button_retry": {
-		"message": "Riprova"
-	},
-	"warzone_hunter_title": {
-		"message": "Cacciatore War Zone"
-	},
-	"warzone_hunter_stat_points": {
-		"message": "Punti"
-	},
-	"warzone_hunter_stat_status": {
-		"message": "Stato"
-	},
-	"warzone_hunter_discord_avatar_alt": {
-		"message": "Avatar Discord"
-	},
-	"warzone_hunter_loading_connecting": {
-		"message": "Connessione..."
-	},
-	"warzone_hunter_status_anonymous": {
-		"message": "Anonimo"
-	},
-	"warzone_hunter_status_public": {
-		"message": "Pubblico"
-	},
-	"warzone_hunter_signup_description": {
-		"message": "Unisciti alla comunità per segnalare utenti confermati ad alto rischio. Collabora con cacciatori di tutto il mondo per aumentare il successo delle rimozioni e rendere Roblox più sicuro per tutti."
-	},
-	"warzone_hunter_feature_report": {
-		"message": "Segnala utenti confermati ad alto rischio"
-	},
-	"warzone_hunter_feature_cleanup": {
-		"message": "Aiuta a ripulire la piattaforma e rimuovere i malintenzionati"
-	},
-	"warzone_hunter_feature_community": {
-		"message": "Lavora con la comunità per maggior successo nelle rimozioni"
-	},
-	"warzone_hunter_feature_leaderboard": {
-		"message": "Guadagna punti e scala la classifica"
-	},
-	"warzone_hunter_beta_label": {
-		"message": "Beta Chiusa:"
-	},
-	"warzone_hunter_beta_text_before_link": {
-		"message": "Disponibile solo per utenti selezionati. Unisciti al nostro"
-	},
-	"warzone_hunter_beta_discord_link": {
-		"message": "server Discord"
-	},
-	"warzone_hunter_beta_text_after_link": {
-		"message": "per aggiornamenti."
-	},
-	"warzone_hunter_button_login": {
-		"message": "Accedi con Discord"
-	},
-	"warzone_hunter_button_logout": {
-		"message": "Disconnetti"
-	},
-	"warzone_hunter_welcome_message": {
-		"message": "Benvenuto, Cacciatore! Ora puoi partecipare alle attività War Zone e aiutare a proteggere la comunità Roblox. Visita la homepage di Roblox per iniziare le tue missioni di caccia."
-	},
-	"warzone_hunter_confirm_logout": {
-		"message": "Sei sicuro di volerti disconnettere?\n\nPuoi accedere di nuovo in qualsiasi momento usando il tuo account Discord."
-	},
-	"warzone_leaderboard_loading": {
-		"message": "Caricamento classifica..."
-	},
-	"warzone_leaderboard_error_load": {
-		"message": "Impossibile caricare la classifica"
-	},
-	"warzone_leaderboard_filter_anonymous": {
-		"message": "Includi Cacciatori Anonimi"
-	},
-	"warzone_leaderboard_total_hunters": {
-		"message": "Cacciatori Totali: $1"
-	},
-	"warzone_leaderboard_your_rank": {
-		"message": "Tuo Posizionamento: #$1"
-	},
-	"warzone_leaderboard_section_top": {
-		"message": "Migliori Cacciatori"
-	},
-	"warzone_leaderboard_section_rankings": {
-		"message": "Classifica"
-	},
-	"warzone_leaderboard_badge_you": {
-		"message": "Tu"
-	},
-	"warzone_leaderboard_stat_reports": {
-		"message": "$1 segnalazioni"
-	},
-	"warzone_leaderboard_stat_success": {
-		"message": "$1% successo"
-	},
-	"warzone_order_type_ban_count": {
-		"message": "Conteggio Ban"
-	},
-	"warzone_order_type_zone_liberation": {
-		"message": "Liberazione Zona"
-	},
-	"warzone_order_type_verification": {
-		"message": "Verifica"
-	},
-	"warzone_order_label_completed": {
-		"message": "Completato"
-	},
-	"warzone_order_label_expires": {
-		"message": "Scade"
-	},
-	"warzone_order_label_progress": {
-		"message": "Progresso"
-	},
-	"warzone_order_progress_value": {
-		"message": "$1 / $2"
-	},
-	"warzone_target_status_confirmed": {
-		"message": "Confermato"
-	},
-	"warzone_target_status_flagged": {
-		"message": "Segnalato"
-	},
-	"warzone_target_meta_confidence": {
-		"message": "Affidabilità"
-	},
-	"warzone_target_meta_attempts": {
-		"message": "Tentativi"
-	},
-	"warzone_target_meta_active": {
-		"message": "Attivo"
-	},
-	"warzone_mode_global": {
-		"message": "globale"
-	},
-	"warzone_mode_zone": {
-		"message": "zona"
-	},
-	"warzone_chart_error_load": {
-		"message": "Impossibile caricare i dati storici $1"
-	},
-	"warzone_chart_tab_liberation": {
-		"message": "Liberazione"
-	},
-	"warzone_chart_tab_users": {
-		"message": "Utenti"
-	},
-	"warzone_chart_tab_ban_rate": {
-		"message": "Tasso Ban"
-	},
-	"warzone_chart_label_global_liberation": {
-		"message": "Liberazione Globale"
-	},
-	"warzone_chart_label_zone_liberation": {
-		"message": "Liberazione Zona"
-	},
-	"warzone_chart_label_total_users": {
-		"message": "Utenti Totali"
-	},
-	"warzone_chart_label_global_ban_rate": {
-		"message": "Tasso Ban Globale"
-	},
-	"warzone_chart_label_zone_ban_rate": {
-		"message": "Tasso Ban Zona"
-	},
-	"warzone_chart_legend_banned": {
-		"message": "Bannati"
-	},
-	"warzone_chart_legend_flagged": {
-		"message": "Segnalati"
-	},
-	"warzone_chart_legend_confirmed": {
-		"message": "Confermati"
-	},
-	"warzone_chart_tooltip_date": {
-		"message": "Data"
-	},
-	"warzone_chart_tooltip_total_users": {
-		"message": "Utenti Totali"
-	},
-	"warzone_chart_tooltip_banned": {
-		"message": "Bannati"
-	},
-	"warzone_overview_loading": {
-		"message": "Caricamento mappa di guerra..."
-	},
-	"warzone_overview_error_load": {
-		"message": "Impossibile caricare la mappa di guerra"
-	},
-	"warzone_overview_section_zones": {
-		"message": "Zone di Guerra"
-	},
-	"warzone_overview_section_targets": {
-		"message": "Obiettivi Attivi"
-	},
-	"warzone_overview_section_global_stats": {
-		"message": "Statistiche di Guerra Globali"
-	},
-	"warzone_overview_section_global_trends": {
-		"message": "Tendenze Globali (30 Giorni)"
-	},
-	"warzone_overview_section_major_orders": {
-		"message": "Ordini Maggiori Attivi"
-	},
-	"warzone_overview_button_find_user": {
-		"message": "Trova Utente da Segnalare"
-	},
-	"warzone_overview_finding_user_loading": {
-		"message": "Ricerca utente..."
-	},
-	"warzone_overview_error_no_users": {
-		"message": "Nessun utente segnalabile disponibile. Riprova più tardi!"
-	},
-	"warzone_overview_error_auth_expired": {
-		"message": "Autenticazione scaduta. Disconnettiti e accedi di nuovo."
-	},
-	"warzone_overview_error_find_user": {
-		"message": "Impossibile trovare un utente segnalabile. Riprova."
-	},
-	"warzone_overview_stat_total_zones": {
-		"message": "Zone Totali"
-	},
-	"warzone_overview_stat_avg_liberation": {
-		"message": "Liberazione Media"
-	},
-	"warzone_overview_stat_total_banned": {
-		"message": "Totale Bannati"
-	},
-	"warzone_overview_stat_active_targets": {
-		"message": "Obiettivi Attivi"
-	},
-	"warzone_profile_title": {
-		"message": "Profilo"
-	},
-	"warzone_profile_stat_points": {
-		"message": "Punti"
-	},
-	"warzone_profile_label_discord": {
-		"message": "Discord"
-	},
-	"warzone_profile_discord_avatar_alt": {
-		"message": "Avatar Discord"
-	},
-	"warzone_profile_label_visibility": {
-		"message": "Visibilità"
-	},
-	"warzone_profile_label_joined": {
-		"message": "Iscritto"
-	},
-	"warzone_profile_label_last_active": {
-		"message": "Ultima Attività"
-	},
-	"warzone_profile_visibility_anonymous": {
-		"message": "Anonimo"
-	},
-	"warzone_profile_visibility_public": {
-		"message": "Pubblico"
-	},
-	"warzone_profile_button_reset_uuid": {
-		"message": "Disconnetti da Tutti i Dispositivi"
-	},
-	"warzone_profile_button_reset_uuid_loading": {
-		"message": "Disconnessione..."
-	},
-	"warzone_profile_button_reset_uuid_success": {
-		"message": "✓ Disconnesso da tutti i dispositivi"
-	},
-	"warzone_profile_button_logout": {
-		"message": "Disconnetti"
-	},
-	"warzone_profile_confirm_logout": {
-		"message": "Sei sicuro di volerti disconnettere?\n\nPuoi accedere di nuovo in qualsiasi momento usando il tuo account Discord."
-	},
-	"warzone_profile_confirm_reset_uuid": {
-		"message": "Disconnettere da tutti i dispositivi?\n\nQuesto invaliderà tutte le sessioni attive sugli altri dispositivi. Rimarrai connesso su questo dispositivo, ma tutti gli altri dispositivi verranno disconnessi.\n\nQuesto è utile se sospetti che il tuo account sia stato compromesso."
-	},
-	"warzone_profile_error_reset_uuid": {
-		"message": "Impossibile disconnettere da tutti i dispositivi. Riprova."
-	},
-	"warzone_nav_tab_war_zone": {
-		"message": "War Zone"
-	},
-	"warzone_nav_tab_profile": {
-		"message": "Profilo"
-	},
-	"warzone_nav_tab_leaderboard": {
-		"message": "Classifica"
-	},
-	"warzone_zone_loading": {
-		"message": "Caricamento dettagli zona..."
-	},
-	"warzone_zone_error_load": {
-		"message": "Impossibile caricare i dettagli della zona"
-	},
-	"warzone_zone_button_back": {
-		"message": "Torna alla Panoramica"
-	},
-	"warzone_zone_status_liberated_suffix": {
-		"message": "% Liberato"
-	},
-	"warzone_zone_stat_total_users": {
-		"message": "Utenti Totali"
-	},
-	"warzone_zone_stat_banned": {
-		"message": "Bannati"
-	},
-	"warzone_zone_stat_flagged": {
-		"message": "Segnalati"
-	},
-	"warzone_zone_stat_confirmed": {
-		"message": "Confermati"
-	},
-	"warzone_zone_section_trends": {
-		"message": "Tendenze Zona (30 Giorni)"
-	},
-	"queue_popup_cancel_button": {
-		"message": "Annulla"
-	},
-	"queue_popup_submit_button": {
-		"message": "Invia per Revisione"
-	},
-	"queue_popup_submitting_button": {
-		"message": "Invio..."
-	},
-	"queue_popup_title_reprocess": {
-		"message": "Riprocessa Utente per Revisione"
-	},
-	"queue_popup_title_queue": {
-		"message": "Metti in Coda Utente per Revisione"
-	},
-	"queue_popup_description_reanalysis": {
-		"message": "Stai per inviare l'utente (ID: $1) per una nuova analisi del nostro sistema."
-	},
-	"queue_popup_description_analysis": {
-		"message": "Stai per inviare l'utente (ID: $1) per l'analisi del nostro sistema."
-	},
-	"queue_popup_submission_type_heading": {
-		"message": "Che tipo di invio è questo?"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "L'Utente Ha Contenuti Inappropriati"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Questo utente ha chiari contenuti inappropriati nel suo profilo, avatar, amici o gruppi."
-	},
-	"queue_popup_option_general_title": {
-		"message": "Controllo Sicurezza Generale"
-	},
-	"queue_popup_option_general_description": {
-		"message": "Non sono sicuro ma voglio che questo utente venga analizzato per una valutazione generale della sicurezza."
-	},
-	"queue_popup_general_check_message": {
-		"message": "Questo utente verrà analizzato per problemi di sicurezza generali. Non sono richieste ragioni di segnalazione specifiche."
-	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Seleziona le ragioni di segnalazione:"
-	},
-	"queue_popup_outfit_title": {
-		"message": "Abbigliamento Inappropriato"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Questo utente ha abbigliamento o avatar inappropriati."
-	},
-	"queue_popup_profile_title": {
-		"message": "Profilo Inappropriato"
-	},
-	"queue_popup_profile_description": {
-		"message": "Questo utente ha contenuti inappropriati nel nome utente, nome visualizzato o descrizione."
-	},
-	"queue_popup_friends_title": {
-		"message": "Amici Inappropriati"
-	},
-	"queue_popup_friends_description": {
-		"message": "Questo utente ha amici inappropriati."
-	},
-	"queue_popup_groups_title": {
-		"message": "Gruppi Inappropriati"
-	},
-	"queue_popup_groups_description": {
-		"message": "Questo utente è in gruppi inappropriati."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Selezione Richiesta:"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Seleziona almeno una ragione di segnalazione prima di procedere."
-	},
-	"queue_popup_lock_button": {
-		"message": "Blocca la Mia Selezione"
-	},
-	"queue_popup_lock_instruction": {
-		"message": "Devi bloccare la tua selezione prima di inviare."
-	},
-	"queue_popup_summary_heading": {
-		"message": "Opzioni Selezionate:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Sarà prioritizzato per abbigliamento inappropriato"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Sarà prioritizzato per contenuti del profilo inappropriati"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Sarà prioritizzato per amici inappropriati"
-	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Sarà prioritizzato per gruppi inappropriati"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Sblocca Selezione"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Clicca per sbloccare e modificare la tua selezione."
-	},
-	"queue_popup_review_process_heading": {
-		"message": "Processo di Revisione"
-	},
-	"queue_popup_review_process_step1": {
-		"message": "Analizzato da algoritmi AI per rilevare potenziali problemi di sicurezza"
-	},
-	"queue_popup_review_process_step2": {
-		"message": "Se segnalato dall'AI, rivisto da moderatori umani per la conferma finale"
-	},
-	"queue_popup_review_process_step3": {
-		"message": "Risultati aggiunti al database con valutazione di sicurezza appropriata"
-	},
-	"queue_popup_warning_heading": {
-		"message": "Avviso Importante"
-	},
-	"queue_popup_warning_message_prefix": {
-		"message": "L'uso improprio di questa funzione"
-	},
-	"queue_popup_warning_message_suffix": {
-		"message": "(come inviare spam) può comportare restrizioni sul tuo account. Il rilevamento automatico degli abusi è attivo."
+	"friend_warning_avatar_alt": {
+		"message": "Avatar di $1"
 	},
 	"friend_warning_block_button": {
 		"message": "Blocca Utente"
@@ -908,26 +494,38 @@
 	"friend_warning_cancel_button": {
 		"message": "Annulla Richiesta"
 	},
+	"friend_warning_confidence_label": {
+		"message": "Affidabilità: $1%"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Procedere con questa richiesta di amicizia potrebbe esporti a contenuti inappropriati o interazioni dannose."
+	},
 	"friend_warning_proceed_button": {
 		"message": "Procedi Comunque"
 	},
-	"friend_warning_title": {
-		"message": "Avviso: Utente Non Sicuro"
+	"friend_warning_recommendations_heading": {
+		"message": "Azioni raccomandate"
 	},
-	"friend_warning_avatar_alt": {
-		"message": "Avatar di $1"
+	"friend_warning_recommendations_item1": {
+		"message": "Rivedi le informazioni del loro profilo più attentamente"
 	},
-	"friend_warning_user_id_label": {
-		"message": "ID Utente: $1"
+	"friend_warning_recommendations_item2": {
+		"message": "Segnalali a Roblox se vedi contenuti inappropriati"
 	},
-	"friend_warning_risk_title": {
-		"message": "Utente Potenzialmente Inappropriato"
+	"friend_warning_recommendations_item3": {
+		"message": "Connettiti solo con utenti che conosci e di cui ti fidi"
 	},
 	"friend_warning_risk_message": {
 		"message": "Questo utente è stato segnalato dal nostro sistema di rilevamento. Rivedi il suo profilo prima di accettare questa richiesta di amicizia."
 	},
-	"friend_warning_confidence_label": {
-		"message": "Affidabilità: $1%"
+	"friend_warning_risk_title": {
+		"message": "Utente Potenzialmente Inappropriato"
+	},
+	"friend_warning_title": {
+		"message": "Avviso: Utente Non Sicuro"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ID Utente: $1"
 	},
 	"friend_warning_why_matters_heading": {
 		"message": "Perché è importante"
@@ -944,65 +542,212 @@
 	"friend_warning_why_matters_item4": {
 		"message": "Questo utente ha prove chiare di violazione dei Termini di Servizio di Roblox"
 	},
-	"friend_warning_recommendations_heading": {
-		"message": "Azioni raccomandate"
+	"navbar_tab_settings": {
+		"message": "Impostazioni"
 	},
-	"friend_warning_recommendations_item1": {
-		"message": "Rivedi le informazioni del loro profilo più attentamente"
+	"navbar_tab_stats": {
+		"message": "Statistiche"
 	},
-	"friend_warning_recommendations_item2": {
-		"message": "Segnalali a Roblox se vedi contenuti inappropriati"
+	"navbar_tab_warzone": {
+		"message": "War Zone"
 	},
-	"friend_warning_recommendations_item3": {
-		"message": "Connettiti solo con utenti che conosci e di cui ti fidi"
+	"popup_header_description": {
+		"message": "Indicatori di sicurezza in tempo reale che ti avvertono di utenti Roblox inappropriati prima di interagire con loro."
 	},
-	"friend_warning_high_risk_message": {
-		"message": "Procedere con questa richiesta di amicizia potrebbe esporti a contenuti inappropriati o interazioni dannose."
+	"queue_error_modal_close_button": {
+		"message": "Chiudi"
 	},
-	"report_helper_card_title_reportable": {
-		"message": "Contenuti Segnalabili Trovati"
+	"queue_error_modal_details_heading": {
+		"message": "Dettagli Errore"
 	},
-	"report_helper_card_title_not_reportable": {
-		"message": "Nessun Contenuto Segnalabile Rilevato"
+	"queue_error_modal_error_code_label": {
+		"message": "Codice Errore:"
 	},
-	"report_helper_subtitle_reportable": {
-		"message": "Rotector ha identificato contenuti del profilo che violano i Termini di Servizio di Roblox."
+	"queue_error_modal_failed_message": {
+		"message": "Impossibile mettere in coda l'utente ID $1 per la revisione."
 	},
-	"report_helper_evidence_header": {
-		"message": "Problema Rilevato"
+	"queue_error_modal_next_steps_heading": {
+		"message": "Cosa fare dopo"
 	},
-	"report_helper_evidence_reason_label": {
-		"message": "Ragione:"
+	"queue_error_modal_request_id_label": {
+		"message": "ID Richiesta:"
 	},
-	"report_helper_evidence_snippets_label": {
-		"message": "Estratti di Prove:"
+	"queue_error_modal_step1": {
+		"message": "Verifica se l'utente è già stato segnalato dal nostro sistema"
+	},
+	"queue_error_modal_step2": {
+		"message": "Se l'errore persiste, riprova tra qualche minuto"
+	},
+	"queue_error_modal_step3": {
+		"message": "Se hai bisogno di supporto, includi l'ID Richiesta sopra"
+	},
+	"queue_error_modal_title": {
+		"message": "Errore"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "Si è verificato un errore sconosciuto"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Annulla"
+	},
+	"queue_popup_description_analysis": {
+		"message": "Stai per inviare l'utente (ID: $1) per l'analisi del nostro sistema."
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Stai per inviare l'utente (ID: $1) per una nuova analisi del nostro sistema."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Seleziona le ragioni di segnalazione:"
+	},
+	"queue_popup_friends_description": {
+		"message": "Questo utente ha amici inappropriati."
+	},
+	"queue_popup_friends_title": {
+		"message": "Amici Inappropriati"
+	},
+	"queue_popup_general_check_message": {
+		"message": "Questo utente verrà analizzato per problemi di sicurezza generali. Non sono richieste ragioni di segnalazione specifiche."
+	},
+	"queue_popup_groups_description": {
+		"message": "Questo utente è in gruppi inappropriati."
+	},
+	"queue_popup_groups_title": {
+		"message": "Gruppi Inappropriati"
+	},
+	"queue_popup_lock_button": {
+		"message": "Blocca la Mia Selezione"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Devi bloccare la tua selezione prima di inviare."
+	},
+	"queue_popup_option_general_description": {
+		"message": "Non sono sicuro ma voglio che questo utente venga analizzato per una valutazione generale della sicurezza."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Controllo Sicurezza Generale"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "Questo utente ha chiari contenuti inappropriati nel suo profilo, avatar, amici o gruppi."
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "L'Utente Ha Contenuti Inappropriati"
+	},
+	"queue_popup_outfit_description": {
+		"message": "Questo utente ha abbigliamento o avatar inappropriati."
+	},
+	"queue_popup_outfit_title": {
+		"message": "Abbigliamento Inappropriato"
+	},
+	"queue_popup_profile_description": {
+		"message": "Questo utente ha contenuti inappropriati nel nome utente, nome visualizzato o descrizione."
+	},
+	"queue_popup_profile_title": {
+		"message": "Profilo Inappropriato"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Processo di Revisione"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Analizzato da algoritmi AI per rilevare potenziali problemi di sicurezza"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Se segnalato dall'AI, rivisto da moderatori umani per la conferma finale"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Risultati aggiunti al database con valutazione di sicurezza appropriata"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Che tipo di invio è questo?"
+	},
+	"queue_popup_submit_button": {
+		"message": "Invia per Revisione"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Invio..."
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Sarà prioritizzato per amici inappropriati"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Non selezionato"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Sarà prioritizzato per gruppi inappropriati"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Non selezionato"
+	},
+	"queue_popup_summary_heading": {
+		"message": "Opzioni Selezionate:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Sarà prioritizzato per abbigliamento inappropriato"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Non selezionato"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Sarà prioritizzato per contenuti del profilo inappropriati"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Non selezionato"
+	},
+	"queue_popup_title_queue": {
+		"message": "Metti in Coda Utente per Revisione"
+	},
+	"queue_popup_title_reprocess": {
+		"message": "Riprocessa Utente per Revisione"
+	},
+	"queue_popup_unlock_button": {
+		"message": "Sblocca Selezione"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "Clicca per sbloccare e modificare la tua selezione."
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Seleziona almeno una ragione di segnalazione prima di procedere."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Selezione Richiesta:"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Avviso Importante"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "L'uso improprio di questa funzione"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(come inviare spam) può comportare restrizioni sul tuo account. Il rilevamento automatico degli abusi è attivo."
+	},
+	"queue_success_modal_close_button": {
+		"message": "Chiudi"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Cosa succede dopo"
+	},
+	"queue_success_modal_step1": {
+		"message": "La nostra AI analizzerà questo account per schemi di preoccupazione"
+	},
+	"queue_success_modal_step2": {
+		"message": "Se segnalato, lo stato dell'utente verrà confermato entro pochi minuti"
+	},
+	"queue_success_modal_step3": {
+		"message": "La sincronizzazione completa del sistema e la conferma richiederanno 24-48 ore"
+	},
+	"queue_success_modal_success_message": {
+		"message": "L'utente ID $1 è stato messo in coda con successo per la revisione."
+	},
+	"queue_success_modal_title": {
+		"message": "Successo"
 	},
 	"report_helper_action_message": {
 		"message": "Clicca qui sotto e Rotector compilerà automaticamente il modulo di segnalazione con la categoria e i dettagli appropriati."
 	},
-	"report_helper_fill_button": {
-		"message": "Compila Modulo di Segnalazione"
+	"report_helper_card_title_not_reportable": {
+		"message": "Nessun Contenuto Segnalabile Rilevato"
 	},
-	"report_helper_filling_button": {
-		"message": "Compilazione..."
-	},
-	"report_helper_warning_label": {
-		"message": "Importante:"
-	},
-	"report_helper_warning_message": {
-		"message": "Le segnalazioni vengono archiviate con il tuo account Roblox. Rivedi tutte le informazioni prima di inviare e segnala solo violazioni genuine."
-	},
-	"report_helper_subtitle_not_reportable": {
-		"message": "Rotector non ha ancora rilevato contenuti chiaramente segnalabili nella descrizione del profilo di questo utente."
-	},
-	"report_helper_info_message_part1": {
-		"message": "Puoi comunque inviare una segnalazione"
-	},
-	"report_helper_info_message_part2": {
-		"message": "se ritieni che questo utente stia violando i Termini di Servizio di Roblox."
-	},
-	"report_helper_info_message_part3": {
-		"message": "Rotector permette la segnalazione di contenuti inappropriati nelle descrizioni dei profili. Non rileviamo la maggior parte delle categorie di segnalazione, tra cui:"
+	"report_helper_card_title_reportable": {
+		"message": "Contenuti Segnalabili Trovati"
 	},
 	"report_helper_category_item1": {
 		"message": "Richiedere o fornire informazioni private"
@@ -1019,74 +764,50 @@
 	"report_helper_category_item5": {
 		"message": "Minacce nella vita reale o minacce di suicidio"
 	},
+	"report_helper_evidence_header": {
+		"message": "Problema Rilevato"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Ragione:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Estratti di Prove:"
+	},
+	"report_helper_fill_button": {
+		"message": "Compila Modulo di Segnalazione"
+	},
+	"report_helper_filling_button": {
+		"message": "Compilazione..."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Puoi comunque inviare una segnalazione"
+	},
+	"report_helper_info_message_part2": {
+		"message": "se ritieni che questo utente stia violando i Termini di Servizio di Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector permette la segnalazione di contenuti inappropriati nelle descrizioni dei profili. Non rileviamo la maggior parte delle categorie di segnalazione, tra cui:"
+	},
 	"report_helper_info_message_part4": {
 		"message": "Se stai segnalando una di queste violazioni, continua con la tua segnalazione e fornisci dettagli specifici per aiutare i moderatori di Roblox."
 	},
-	"queue_error_modal_close_button": {
-		"message": "Chiudi"
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector non ha ancora rilevato contenuti chiaramente segnalabili nella descrizione del profilo di questo utente."
 	},
-	"queue_error_modal_title": {
-		"message": "Errore"
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector ha identificato contenuti del profilo che violano i Termini di Servizio di Roblox."
 	},
-	"queue_error_modal_unknown_error": {
-		"message": "Si è verificato un errore sconosciuto"
+	"report_helper_warning_label": {
+		"message": "Importante:"
 	},
-	"queue_error_modal_failed_message": {
-		"message": "Impossibile mettere in coda l'utente ID $1 per la revisione."
+	"report_helper_warning_message": {
+		"message": "Le segnalazioni vengono archiviate con il tuo account Roblox. Rivedi tutte le informazioni prima di inviare e segnala solo violazioni genuine."
 	},
-	"queue_error_modal_details_heading": {
-		"message": "Dettagli Errore"
+	"report_page_manager_autofill_failed": {
+		"message": "Compilazione automatica fallita. Compila manualmente il modulo di segnalazione con i dettagli appropriati."
 	},
-	"queue_error_modal_error_code_label": {
-		"message": "Codice Errore:"
-	},
-	"queue_error_modal_request_id_label": {
-		"message": "ID Richiesta:"
-	},
-	"queue_error_modal_next_steps_heading": {
-		"message": "Cosa fare dopo"
-	},
-	"queue_error_modal_step1": {
-		"message": "Verifica se l'utente è già stato segnalato dal nostro sistema"
-	},
-	"queue_error_modal_step2": {
-		"message": "Se l'errore persiste, riprova tra qualche minuto"
-	},
-	"queue_error_modal_step3": {
-		"message": "Se hai bisogno di supporto, includi l'ID Richiesta sopra"
-	},
-	"queue_success_modal_close_button": {
-		"message": "Chiudi"
-	},
-	"queue_success_modal_title": {
-		"message": "Successo"
-	},
-	"queue_success_modal_success_message": {
-		"message": "L'utente ID $1 è stato messo in coda con successo per la revisione."
-	},
-	"queue_success_modal_next_steps_heading": {
-		"message": "Cosa succede dopo"
-	},
-	"queue_success_modal_step1": {
-		"message": "La nostra AI analizzerà questo account per schemi di preoccupazione"
-	},
-	"queue_success_modal_step2": {
-		"message": "Se segnalato, lo stato dell'utente verrà confermato entro pochi minuti"
-	},
-	"queue_success_modal_step3": {
-		"message": "La sincronizzazione completa del sistema e la conferma richiederanno 24-48 ore"
-	},
-	"report_page_manager_report_intro": {
-		"message": "Il profilo di questo utente contiene contenuti inappropriati che violano i Termini di Servizio di Roblox.\n\n"
-	},
-	"report_page_manager_detected_issue_label": {
-		"message": "Problema Rilevato:\n"
-	},
-	"report_page_manager_evidence_label": {
-		"message": "Estratti di Prove:\n"
-	},
-	"report_page_manager_unknown_category": {
-		"message": "Categoria Sconosciuta"
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Compilazione automatica non disponibile. Testo della segnalazione copiato negli appunti. Puoi incollarlo manualmente nel campo commento."
 	},
 	"report_page_manager_category_prefix": {
 		"message": "Categoria: $1"
@@ -1094,86 +815,683 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\nCommento: $1"
 	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Problema Rilevato:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Estratti di Prove:\n"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Il profilo di questo utente contiene contenuti inappropriati che violano i Termini di Servizio di Roblox.\n\n"
+	},
 	"report_page_manager_success_message": {
 		"message": "Modulo compilato con successo! Rivedi e invia quando sei pronto."
 	},
-	"report_page_manager_autofill_failed_clipboard": {
-		"message": "Compilazione automatica non disponibile. Testo della segnalazione copiato negli appunti. Puoi incollarlo manualmente nel campo commento."
+	"report_page_manager_unknown_category": {
+		"message": "Categoria Sconosciuta"
 	},
-	"report_page_manager_autofill_failed": {
-		"message": "Compilazione automatica fallita. Compila manualmente il modulo di segnalazione con i dettagli appropriati."
+	"rotector_api_docs_batch_intro": {
+		"message": "Controlla più utenti in una singola richiesta. Massimo 100 utenti per batch."
 	},
-	"tooltip_loading_user_info": {
-		"message": "Caricamento informazioni utente..."
+	"rotector_api_docs_batch_note": {
+		"message": "Gli utenti non trovati nel database non appariranno nella risposta. Il campo data contiene un oggetto dove le chiavi sono gli ID utente (come stringhe) e i valori sono oggetti di stato utente."
 	},
-	"tooltip_no_data_available": {
-		"message": "Nessun dato disponibile per questa API"
+	"rotector_api_docs_batch_rec_1": {
+		"message": "Usa gli endpoint batch quando controlli più utenti (più efficiente di più richieste singole)"
 	},
-	"tooltip_error_details": {
-		"message": "Dettagli Errore"
+	"rotector_api_docs_batch_rec_2": {
+		"message": "Mantieni le dimensioni dei batch sotto i 100 utenti per richiesta"
 	},
-	"tooltip_loading": {
-		"message": "Caricamento..."
+	"rotector_api_docs_batch_rec_3": {
+		"message": "Aggiungi ritardi tra richieste batch consecutive (consigliato: minimo 250ms)"
 	},
-	"tooltip_queue_button": {
-		"message": "Metti in Coda per Revisione"
+	"rotector_api_docs_button_back": {
+		"message": "Indietro"
 	},
-	"tooltip_badge_reportable": {
-		"message": "Segnalabile"
+	"rotector_api_docs_error_handling_1": {
+		"message": "Controlla sempre il campo success nelle risposte"
 	},
-	"tooltip_badge_queued": {
-		"message": "In Coda"
+	"rotector_api_docs_error_handling_2": {
+		"message": "Gestisci gli errori di rete con garbo con logica di retry appropriata"
+	},
+	"rotector_api_docs_error_handling_3": {
+		"message": "Registra i dettagli degli errori per il debugging (messaggio di errore, stato HTTP, ID richiesta se disponibile)"
+	},
+	"rotector_api_docs_field_confidence": {
+		"message": "Punteggio di affidabilità (0.0-1.0) - Livello di certezza del modello AI"
+	},
+	"rotector_api_docs_field_confidence_reason": {
+		"message": "Punteggio di affidabilità per questa ragione specifica"
+	},
+	"rotector_api_docs_field_display_name": {
+		"message": "Nome visualizzato del revisore"
+	},
+	"rotector_api_docs_field_engine_version": {
+		"message": "Versione del motore di analisi utilizzato"
+	},
+	"rotector_api_docs_field_evidence": {
+		"message": "Array di stringhe di prova o null se non ci sono prove dirette"
+	},
+	"rotector_api_docs_field_flag_type": {
+		"message": "Tipo di segnalazione (0-6) - Livello di classificazione della sicurezza"
+	},
+	"rotector_api_docs_field_id": {
+		"message": "ID Utente (integer) - Identificatore utente Roblox"
+	},
+	"rotector_api_docs_field_last_updated": {
+		"message": "Timestamp Unix dell'ultimo aggiornamento dell'analisi"
+	},
+	"rotector_api_docs_field_message": {
+		"message": "Spiegazione dettagliata del modello di violazione"
+	},
+	"rotector_api_docs_field_reasons": {
+		"message": "Oggetto contenente analisi dettagliata delle violazioni (omesso quando flagType=0)"
+	},
+	"rotector_api_docs_field_reviewer": {
+		"message": "Informazioni sul revisore che ha verificato la segnalazione"
+	},
+	"rotector_api_docs_field_username": {
+		"message": "Nome utente del revisore"
+	},
+	"rotector_api_docs_field_version_compatibility": {
+		"message": "Stato di compatibilità: 'current', 'compatible' o 'outdated'"
+	},
+	"rotector_api_docs_flag_type_0": {
+		"message": "Sicuro - Nessun modello preoccupante rilevato"
+	},
+	"rotector_api_docs_flag_type_1": {
+		"message": "In Attesa - Utente in coda per l'analisi"
+	},
+	"rotector_api_docs_flag_type_2": {
+		"message": "Non Sicuro - Viola le linee guida di sicurezza della piattaforma"
+	},
+	"rotector_api_docs_flag_type_3": {
+		"message": "In Coda - Inviato per revisione"
+	},
+	"rotector_api_docs_flag_type_4": {
+		"message": "Integrazione - Relativo alle funzionalità di integrazione API"
+	},
+	"rotector_api_docs_flag_type_5": {
+		"message": "Misto - Contiene sia segnali sicuri che non sicuri"
+	},
+	"rotector_api_docs_flag_type_6": {
+		"message": "Trasgressore Passato - Precedentemente segnalato ma stato cambiato"
+	},
+	"rotector_api_docs_intro": {
+		"message": "Integra il sistema di rilevamento della sicurezza basato su AI di Rotector nelle tue applicazioni. Questa API fornisce accesso ai dati di analisi degli utenti, tipi di segnalazione, punteggi di affidabilità e ragioni dettagliate delle violazioni."
+	},
+	"rotector_api_docs_note_batch_all_users": {
+		"message": "Tutti gli utenti richiesti vengono restituiti nella risposta. Gli utenti non ancora analizzati o non presenti nel sistema avranno flagType 0 (Sicuro)."
+	},
+	"rotector_api_docs_note_batch_limit": {
+		"message": "Massimo 100 ID utente per richiesta batch. Le richieste che superano questo limite restituiranno un errore."
+	},
+	"rotector_api_docs_note_caching": {
+		"message": "Considera l'implementazione del caching lato client per i dati dello stato utente. Il timestamp lastUpdated indica quando è stata eseguita l'ultima analisi e può essere utilizzato per determinare la freschezza della cache."
+	},
+	"rotector_api_docs_note_cors": {
+		"message": "L'API include header CORS che consentono richieste da tutte le origini."
+	},
+	"rotector_api_docs_note_field_confidence": {
+		"message": "Presente quando l'utente è segnalato (flagType > 0)"
+	},
+	"rotector_api_docs_note_field_reasons": {
+		"message": "Presente per utenti segnalati, misti o confermati (flagType 1, 2, 5, 6)"
+	},
+	"rotector_api_docs_note_field_reviewer": {
+		"message": "Presente solo per utenti confermati (flagType 2) verificati da moderatori umani"
+	},
+	"rotector_api_docs_note_field_version_compatibility": {
+		"message": "Indica se la versione del motore AI utilizzata era l'ultima o obsoleta"
+	},
+	"rotector_api_docs_note_http_status": {
+		"message": "Restituisci stato HTTP 200 per tutte le richieste riuscite (inclusi utenti non segnalati con flagType 0). Risposte di errore con altri codici di stato (4xx, 5xx) si verificano solo per errori server interni o problemi backend."
+	},
+	"rotector_api_docs_note_https": {
+		"message": "Tutte le richieste API devono utilizzare HTTPS. Le richieste HTTP verranno rifiutate."
+	},
+	"rotector_api_docs_note_no_auth": {
+		"message": "Non è richiesta autenticazione. Questa è un'API completamente pubblica."
+	},
+	"rotector_api_docs_note_response_time": {
+		"message": "Caso migliore: ~50ms. Media: ~200ms. Considera l'implementazione di valori di timeout appropriati basati su questi benchmark."
+	},
+	"rotector_api_docs_note_safe_users": {
+		"message": "Per gli utenti con flagType 0 (Sicuro), il campo reasons viene automaticamente cancellato per ridurre la dimensione della risposta. Non viene fornita alcuna analisi dettagliata delle violazioni per gli utenti sicuri."
+	},
+	"rotector_api_docs_note_support": {
+		"message": "Per supporto API, domande o per segnalare problemi, unisciti al server Discord di Rotector:"
+	},
+	"rotector_api_docs_note_timestamp_format": {
+		"message": "Il campo lastUpdated contiene timestamp Unix in secondi (non millisecondi)."
+	},
+	"rotector_api_docs_note_version_compatibility_compatible": {
+		"message": "compatible - L'analisi ha utilizzato una versione del motore supportata ma non l'ultima"
+	},
+	"rotector_api_docs_note_version_compatibility_current": {
+		"message": "current - L'analisi ha utilizzato l'ultima versione del motore AI"
+	},
+	"rotector_api_docs_note_version_compatibility_deprecated": {
+		"message": "deprecated - L'analisi ha utilizzato una versione del motore non più supportata"
+	},
+	"rotector_api_docs_note_version_compatibility_outdated": {
+		"message": "outdated - L'analisi ha utilizzato una versione del motore significativamente più vecchia"
+	},
+	"rotector_api_docs_note_wrapper_format": {
+		"message": "Tutte le risposte API seguono un formato wrapper coerente con success (booleano) e campi data (successo) o error (fallimento)."
+	},
+	"rotector_api_docs_rate_limit_1": {
+		"message": "L'API utilizza la limitazione della velocità di Cloudflare per garantire un uso equo"
+	},
+	"rotector_api_docs_rate_limit_2": {
+		"message": "Gli errori di limite di velocità restituiscono lo stato HTTP 429. Implementa il backoff esponenziale per la logica di retry"
+	},
+	"rotector_api_docs_section_authentication": {
+		"message": "Autenticazione"
+	},
+	"rotector_api_docs_section_batch_lookup": {
+		"message": "Ricerca Utenti Batch"
+	},
+	"rotector_api_docs_section_best_practices": {
+		"message": "Limitazione della Velocità e Migliori Pratiche"
+	},
+	"rotector_api_docs_section_cors": {
+		"message": "Supporto CORS"
+	},
+	"rotector_api_docs_section_http_status": {
+		"message": "Codici di Stato HTTP"
+	},
+	"rotector_api_docs_section_notes": {
+		"message": "Note Aggiuntive"
+	},
+	"rotector_api_docs_section_response_schema": {
+		"message": "Schema Risposta"
+	},
+	"rotector_api_docs_section_single_lookup": {
+		"message": "Ricerca Utente Singolo"
+	},
+	"rotector_api_docs_subtitle_batch_recommendations": {
+		"message": "Raccomandazioni Richieste Batch"
+	},
+	"rotector_api_docs_subtitle_caching": {
+		"message": "Caching delle Risposte"
+	},
+	"rotector_api_docs_subtitle_code_examples": {
+		"message": "Esempi di Codice"
+	},
+	"rotector_api_docs_subtitle_error_handling": {
+		"message": "Gestione degli Errori"
+	},
+	"rotector_api_docs_subtitle_error_response": {
+		"message": "Risposta Errore"
+	},
+	"rotector_api_docs_subtitle_example_request": {
+		"message": "Esempio Richiesta"
+	},
+	"rotector_api_docs_subtitle_field_presence": {
+		"message": "Regole di Presenza Campi"
+	},
+	"rotector_api_docs_subtitle_flag_types": {
+		"message": "Tipi di Segnalazione"
+	},
+	"rotector_api_docs_subtitle_https": {
+		"message": "HTTPS Richiesto"
+	},
+	"rotector_api_docs_subtitle_optional_fields": {
+		"message": "Campi Opzionali"
+	},
+	"rotector_api_docs_subtitle_rate_limiting": {
+		"message": "Limitazione della Velocità"
+	},
+	"rotector_api_docs_subtitle_request_body": {
+		"message": "Corpo Richiesta"
+	},
+	"rotector_api_docs_subtitle_required_fields": {
+		"message": "Campi Obbligatori"
+	},
+	"rotector_api_docs_subtitle_response_time": {
+		"message": "Tempi di Risposta"
+	},
+	"rotector_api_docs_subtitle_safe_users": {
+		"message": "Ottimizzazione Utenti Sicuri"
+	},
+	"rotector_api_docs_subtitle_success_response": {
+		"message": "Risposta Successo"
+	},
+	"rotector_api_docs_subtitle_support": {
+		"message": "Supporto e Domande"
+	},
+	"rotector_api_docs_subtitle_timestamp_format": {
+		"message": "Formato Timestamp"
+	},
+	"rotector_api_docs_subtitle_version_compatibility_values": {
+		"message": "Valori di Compatibilità Versione"
+	},
+	"rotector_api_docs_subtitle_wrapper_format": {
+		"message": "Formato Wrapper Risposta"
+	},
+	"rotector_api_docs_title": {
+		"message": "Documentazione API Rotector"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 API)"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_hide": {
+		"message": "NASCONDI"
+	},
+	"settings_api_key_label": {
+		"message": "Chiave API (Opzionale)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Inserisci la tua chiave API"
+	},
+	"settings_api_key_show": {
+		"message": "MOSTRA"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Mostra/Nascondi Chiave API"
+	},
+	"settings_api_system_label": {
+		"message": "(Sistema)"
+	},
+	"settings_category_content_display": {
+		"message": "Visualizzazione Contenuti"
+	},
+	"settings_category_developer": {
+		"message": "Sviluppatore"
+	},
+	"settings_category_integrations": {
+		"message": "Integrazioni"
+	},
+	"settings_category_page_settings": {
+		"message": "Impostazioni Pagina"
+	},
+	"settings_help_advanced_violations": {
+		"message": "Visualizza messaggi dettagliati delle violazioni e prove. Può contenere contenuti per adulti."
+	},
+	"settings_help_cache_duration": {
+		"message": "Quanto tempo mantenere i dati sullo stato dell'utente in cache (1-10 minuti). Valori più alti riducono le chiamate API ma potrebbero mostrare informazioni obsolete."
+	},
+	"settings_help_debug_logging": {
+		"message": "Mostra registri dettagliati nella console del browser (F12 -> Console) per la risoluzione dei problemi."
+	},
+	"settings_help_developer_mode": {
+		"message": "Sblocca impostazioni avanzate per sviluppatori e gestione delle integrazioni API."
+	},
+	"settings_help_theme": {
+		"message": "Auto segue l'impostazione del tema di Roblox. Chiaro e Scuro sovrascrivono questa preferenza."
+	},
+	"settings_label_advanced_violations": {
+		"message": "Mostra Dettagli Avanzati delle Violazioni"
+	},
+	"settings_label_cache_duration": {
+		"message": "Durata Cache (minuti)"
+	},
+	"settings_label_debug_logging": {
+		"message": "Abilita Registrazione Debug"
+	},
+	"settings_label_developer_mode": {
+		"message": "Abilita Modalità Sviluppatore"
+	},
+	"settings_label_friends_pages": {
+		"message": "Pagine Amici"
+	},
+	"settings_label_groups_pages": {
+		"message": "Pagine Gruppi"
+	},
+	"settings_label_home_page": {
+		"message": "Pagina Principale"
+	},
+	"settings_label_profile_pages": {
+		"message": "Pagine Profilo"
+	},
+	"settings_label_report_helper": {
+		"message": "Assistente Segnalazioni"
+	},
+	"settings_label_search_pages": {
+		"message": "Pagine Ricerca"
+	},
+	"settings_label_theme": {
+		"message": "Tema"
+	},
+	"settings_manage_apis_button": {
+		"message": "Gestisci Integrazioni API"
+	},
+	"settings_modal_confirm_button": {
+		"message": "Abilita Dettagli Avanzati"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Considerazioni Importanti"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "I contenuti possono includere materiale che viola gli standard della comunità della piattaforma"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Queste informazioni sono destinate solo a scopi di moderazione e sicurezza"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Se preferisci non visualizzare le prove dettagliate delle violazioni, mantieni questa impostazione disabilitata"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Puoi disabilitare questa funzione in qualsiasi momento nelle impostazioni"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Cosa vedrai quando abilitato:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Messaggi dettagliati delle violazioni che spiegano perché un utente è stato segnalato"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Estratti di prove contenenti il contenuto che viola le politiche trovato"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Esempi specifici di violazioni da profili e attività degli utenti"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Raccomandazione:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "Abilita questa funzione solo se hai bisogno di informazioni dettagliate sulle violazioni per scopi di moderazione e comprendi che potresti vedere contenuti che violano le linee guida della comunità."
+	},
+	"settings_modal_title": {
+		"message": "Avviso Dettagli Avanzati"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "che sono riferiti da profili e attività di utenti che hanno violato le politiche della piattaforma."
+	},
+	"settings_modal_warning_intro": {
+		"message": "I dettagli avanzati delle violazioni possono contenere contenuti sensibili"
+	},
+	"settings_rotector_api_docs_button": {
+		"message": "Documentazione API Rotector"
+	},
+	"settings_theme_auto": {
+		"message": "Auto"
+	},
+	"settings_theme_dark": {
+		"message": "Scuro"
+	},
+	"settings_theme_light": {
+		"message": "Chiaro"
+	},
+	"stats_changelog_empty": {
+		"message": "Nessuna voce del registro modifiche disponibile."
+	},
+	"stats_changelog_title": {
+		"message": "Registro Modifiche"
+	},
+	"stats_changelog_type_added": {
+		"message": "Aggiunto"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Modificato"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Deprecato"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Corretto"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Rimosso"
+	},
+	"stats_changelog_type_security": {
+		"message": "Sicurezza"
+	},
+	"stats_changelog_type_update": {
+		"message": "Aggiornamento"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Token completamento per $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 per $2: $3"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Token prompt per $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Token ragionamento per $1: $2"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Token Completamento"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Costo Totale"
+	},
+	"stats_chart_detail_period": {
+		"message": "Periodo"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Token Prompt"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Token Ragionamento"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Richieste Totali"
+	},
+	"stats_chart_label_costs": {
+		"message": "Costi AI Settimanali"
+	},
+	"stats_chart_label_requests": {
+		"message": "Richieste AI Settimanali"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Token AI Totali"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Completamento"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Prompt"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Ragionamento"
+	},
+	"stats_chart_month_apr": {
+		"message": "Apr"
+	},
+	"stats_chart_month_aug": {
+		"message": "Ago"
+	},
+	"stats_chart_month_dec": {
+		"message": "Dic"
+	},
+	"stats_chart_month_feb": {
+		"message": "Feb"
+	},
+	"stats_chart_month_jan": {
+		"message": "Gen"
+	},
+	"stats_chart_month_jul": {
+		"message": "Lug"
+	},
+	"stats_chart_month_jun": {
+		"message": "Giu"
+	},
+	"stats_chart_month_mar": {
+		"message": "Mar"
+	},
+	"stats_chart_month_may": {
+		"message": "Mag"
+	},
+	"stats_chart_month_nov": {
+		"message": "Nov"
+	},
+	"stats_chart_month_oct": {
+		"message": "Ott"
+	},
+	"stats_chart_month_sep": {
+		"message": "Set"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Costi AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "Richieste AI"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "Token AI"
+	},
+	"stats_chart_week_1": {
+		"message": "Questa Settimana"
+	},
+	"stats_chart_week_2": {
+		"message": "Settimana Scorsa"
+	},
+	"stats_chart_week_3": {
+		"message": "2 Settimane\nFa"
+	},
+	"stats_chart_week_4": {
+		"message": "3 Settimane\nFa"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Completamente finanziato con $1 di eccedenza"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 raccolti, $2 rimanenti dell'obiettivo di $3"
+	},
+	"stats_financial_button_funded": {
+		"message": "Grazie!"
+	},
+	"stats_financial_button_support": {
+		"message": "Supporta lo Sviluppo"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Nascondi grafici di utilizzo"
+	},
+	"stats_financial_charts_show": {
+		"message": "Mostra grafici di utilizzo"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Grafici di Utilizzo Settimanale"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Supporta su Ko-fi"
+	},
+	"stats_financial_raised": {
+		"message": "Raccolti"
+	},
+	"stats_financial_remaining": {
+		"message": "Rimanenti"
+	},
+	"stats_financial_surplus": {
+		"message": "Eccedenza"
+	},
+	"stats_financial_title": {
+		"message": "Obiettivo di Finanziamento"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$1 di $2 utilizzati, $3 rimanenti"
+	},
+	"stats_queue_default": {
+		"message": "Limiti Predefiniti"
+	},
+	"stats_queue_enhanced": {
+		"message": "Limiti Avanzati Attivi"
+	},
+	"stats_queue_error": {
+		"message": "Impossibile caricare i limiti coda"
+	},
+	"stats_queue_loading": {
+		"message": "Caricamento limiti coda..."
+	},
+	"stats_queue_remaining": {
+		"message": "Rimanenti"
+	},
+	"stats_queue_resets_in": {
+		"message": "Si resetta tra"
+	},
+	"stats_queue_resetting": {
+		"message": "Resettando..."
+	},
+	"stats_queue_retry": {
+		"message": "Riprova"
+	},
+	"stats_queue_time_hours": {
+		"message": "$1h $2m"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1m"
+	},
+	"stats_queue_title": {
+		"message": "Limiti Coda"
+	},
+	"stats_queue_usage": {
+		"message": "Utilizzo"
+	},
+	"stats_statistics_community_title": {
+		"message": "Comunità"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Confermati"
+	},
+	"stats_statistics_error": {
+		"message": "Impossibile caricare le statistiche"
+	},
+	"stats_statistics_flagged": {
+		"message": "Segnalati"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "gruppi con contenuti misti"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Gruppi"
+	},
+	"stats_statistics_loading": {
+		"message": "Caricamento statistiche..."
+	},
+	"stats_statistics_queued": {
+		"message": "Utenti in Coda"
+	},
+	"stats_statistics_refresh": {
+		"message": "Aggiorna Statistiche"
+	},
+	"stats_statistics_retry": {
+		"message": "Riprova"
+	},
+	"stats_statistics_title": {
+		"message": "Statistiche di Sistema"
+	},
+	"stats_statistics_updated": {
+		"message": "Ultimo aggiornamento:"
+	},
+	"stats_statistics_users_desc": {
+		"message": "altri utenti bannati da Roblox"
+	},
+	"stats_statistics_users_title": {
+		"message": "Utenti"
+	},
+	"stats_statistics_votes": {
+		"message": "Voti Totali Espressi"
+	},
+	"tooltip_aria_close": {
+		"message": "Clicca per chiudere il tooltip"
+	},
+	"tooltip_aria_expand": {
+		"message": "Clicca per espandere il tooltip"
 	},
 	"tooltip_badge_outfit": {
 		"message": "Solo Abbigliamento"
 	},
-	"tooltip_reportable_title": {
-		"message": "Segnalabile a Roblox"
-	},
-	"tooltip_reportable_message": {
-		"message": "Questo utente ha prove chiare di contenuti inappropriati visibili ai moderatori di Roblox."
-	},
-	"tooltip_reportable_report_button": {
-		"message": "Segnala a Roblox"
-	},
-	"tooltip_outfit_title": {
-		"message": "Segnalato Solo per Abbigliamento"
-	},
-	"tooltip_outfit_message": {
-		"message": "Questo utente è stato segnalato esclusivamente in base all'abbigliamento del suo avatar. Il rilevamento dell'abbigliamento può avere falsi positivi, quindi usa il tuo giudizio quando valuti questo utente."
-	},
-	"tooltip_metadata_queued": {
+	"tooltip_badge_queued": {
 		"message": "In Coda"
 	},
-	"tooltip_metadata_processing": {
-		"message": "In Elaborazione"
+	"tooltip_badge_reportable": {
+		"message": "Segnalabile"
 	},
-	"tooltip_metadata_took": {
-		"message": "Tempo"
+	"tooltip_entity_group": {
+		"message": "gruppo"
 	},
-	"tooltip_metadata_last_updated": {
-		"message": "Ultimo Aggiornamento"
+	"tooltip_entity_user": {
+		"message": "utente"
 	},
-	"tooltip_metadata_reprocess_button": {
-		"message": "Riprocessare?"
-	},
-	"tooltip_metadata_reprocess_title": {
-		"message": "I dati di questo utente sono obsoleti. Clicca per rimettere in coda per l'analisi."
-	},
-	"tooltip_metadata_processing_status": {
-		"message": "Elaborazione..."
-	},
-	"tooltip_header_unsafe": {
-		"message": "Questo $1 è stato verificato come inappropriato da moderatori umani."
-	},
-	"tooltip_header_pending": {
-		"message": "Questo $1 è stato segnalato dall'AI con $2% di affidabilità."
-	},
-	"tooltip_header_queued_processing": {
-		"message": "Questo $1 è attualmente in fase di controllo da parte del nostro sistema. Potrebbe richiedere alcuni minuti."
-	},
-	"tooltip_header_queued_safe": {
-		"message": "Questo $1 è stato rivisto dal nostro sistema AI e sembra essere sicuro. Se questo è un falso positivo, puoi rimetterlo in coda per ulteriori revisioni."
+	"tooltip_error_details": {
+		"message": "Dettagli Errore"
 	},
 	"tooltip_header_integration": {
 		"message": "Questo $1 è stato segnalato da un sistema di analisi dei contenuti di terze parti."
@@ -1187,26 +1505,86 @@
 	"tooltip_header_past_offender": {
 		"message": "Questo $1 aveva contenuti inappropriati in precedenza ma il loro account attualmente appare pulito e può essere rimesso in coda per la verifica."
 	},
+	"tooltip_header_pending": {
+		"message": "Questo $1 è stato segnalato dall'AI con $2% di affidabilità."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "Questo $1 è attualmente in fase di controllo da parte del nostro sistema. Potrebbe richiedere alcuni minuti."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "Questo $1 è stato rivisto dal nostro sistema AI e sembra essere sicuro. Se questo è un falso positivo, puoi rimetterlo in coda per ulteriori revisioni."
+	},
 	"tooltip_header_safe": {
 		"message": "Questo $1 non è ancora stato rivisto."
-	},
-	"tooltip_header_unknown": {
-		"message": "Stato Sconosciuto"
 	},
 	"tooltip_header_unavailable": {
 		"message": "Informazioni sullo stato non disponibili."
 	},
-	"tooltip_status_not_flagged": {
-		"message": "Non Segnalato"
+	"tooltip_header_unknown": {
+		"message": "Stato Sconosciuto"
 	},
-	"tooltip_status_unsafe": {
-		"message": "Non Sicuro"
+	"tooltip_header_unsafe": {
+		"message": "Questo $1 è stato verificato come inappropriato da moderatori umani."
 	},
-	"tooltip_status_under_review": {
-		"message": "In Revisione"
+	"tooltip_loading": {
+		"message": "Caricamento..."
 	},
-	"tooltip_status_likely_safe": {
-		"message": "Probabilmente Sicuro"
+	"tooltip_loading_user_info": {
+		"message": "Caricamento informazioni utente..."
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Ultimo Aggiornamento"
+	},
+	"tooltip_metadata_processing": {
+		"message": "In Elaborazione"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Elaborazione..."
+	},
+	"tooltip_metadata_queued": {
+		"message": "In Coda"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "Riprocessare?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "I dati di questo utente sono obsoleti. Clicca per rimettere in coda per l'analisi."
+	},
+	"tooltip_metadata_took": {
+		"message": "Tempo"
+	},
+	"tooltip_no_data_available": {
+		"message": "Nessun dato disponibile per questa API"
+	},
+	"tooltip_outfit_message": {
+		"message": "Questo utente è stato segnalato esclusivamente in base all'abbigliamento del suo avatar. Il rilevamento dell'abbigliamento può avere falsi positivi, quindi usa il tuo giudizio quando valuti questo utente."
+	},
+	"tooltip_outfit_title": {
+		"message": "Segnalato Solo per Abbigliamento"
+	},
+	"tooltip_profile_group_id": {
+		"message": "ID Gruppo:"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_profile_user": {
+		"message": "Utente"
+	},
+	"tooltip_queue_button": {
+		"message": "Metti in Coda per Revisione"
+	},
+	"tooltip_reportable_message": {
+		"message": "Questo utente ha prove chiare di contenuti inappropriati visibili ai moderatori di Roblox."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Segnala a Roblox"
+	},
+	"tooltip_reportable_title": {
+		"message": "Segnalabile a Roblox"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Rivisto da"
 	},
 	"tooltip_status_checking": {
 		"message": "Controllo..."
@@ -1214,56 +1592,26 @@
 	"tooltip_status_integration": {
 		"message": "Integrazione"
 	},
+	"tooltip_status_likely_safe": {
+		"message": "Probabilmente Sicuro"
+	},
 	"tooltip_status_mixed": {
 		"message": "Misto"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Non Segnalato"
 	},
 	"tooltip_status_past_offender": {
 		"message": "Trasgressore Passato"
 	},
+	"tooltip_status_under_review": {
+		"message": "In Revisione"
+	},
 	"tooltip_status_unknown": {
 		"message": "Sconosciuto"
 	},
-	"tooltip_reviewer_reviewed_by": {
-		"message": "Rivisto da"
-	},
-	"tooltip_profile_group_id": {
-		"message": "ID Gruppo:"
-	},
-	"tooltip_profile_user": {
-		"message": "Utente"
-	},
-	"tooltip_profile_id": {
-		"message": "ID:"
-	},
-	"tooltip_aria_close": {
-		"message": "Clicca per chiudere il tooltip"
-	},
-	"tooltip_aria_expand": {
-		"message": "Clicca per espandere il tooltip"
-	},
-	"tooltip_entity_user": {
-		"message": "utente"
-	},
-	"tooltip_entity_group": {
-		"message": "gruppo"
-	},
-	"voting_header_title": {
-		"message": "Feedback della Comunità"
-	},
-	"voting_loading": {
-		"message": "Caricamento..."
-	},
-	"voting_count_singular": {
-		"message": "$1 voto"
-	},
-	"voting_count_plural": {
-		"message": "$1 voti"
-	},
-	"voting_button_agree": {
-		"message": "D'accordo"
-	},
-	"voting_button_disagree": {
-		"message": "In disaccordo"
+	"tooltip_status_unsafe": {
+		"message": "Non Sicuro"
 	},
 	"voting_aria_agree": {
 		"message": "D'accordo con questo stato"
@@ -1271,376 +1619,337 @@
 	"voting_aria_disagree": {
 		"message": "In disaccordo con questo stato"
 	},
+	"voting_button_agree": {
+		"message": "D'accordo"
+	},
+	"voting_button_disagree": {
+		"message": "In disaccordo"
+	},
+	"voting_count_plural": {
+		"message": "$1 voti"
+	},
+	"voting_count_singular": {
+		"message": "$1 voto"
+	},
 	"voting_description": {
 		"message": "Aiuta gli altri confermando se lo stato di questo utente è accurato."
 	},
-	"engine_status_unknown": {
-		"message": "Sconosciuto"
+	"voting_header_title": {
+		"message": "Feedback della Comunità"
 	},
-	"engine_status_latest": {
-		"message": "Più Recente"
+	"voting_loading": {
+		"message": "Caricamento..."
 	},
-	"engine_status_compatible": {
-		"message": "Compatibile"
+	"warzone_chart_error_load": {
+		"message": "Impossibile caricare i dati storici $1"
 	},
-	"engine_status_outdated": {
-		"message": "Obsoleto"
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Tasso Ban Globale"
 	},
-	"engine_status_deprecated": {
-		"message": "Deprecato"
+	"warzone_chart_label_global_liberation": {
+		"message": "Liberazione Globale"
 	},
-	"engine_desc_unknown": {
-		"message": "Questa analisi ha utilizzato un motore AI con stato di compatibilità sconosciuto."
+	"warzone_chart_label_total_users": {
+		"message": "Utenti Totali"
 	},
-	"engine_desc_unknown_impact": {
-		"message": "La compatibilità della versione non può essere determinata."
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Tasso Ban Zona"
 	},
-	"engine_desc_latest": {
-		"message": "Questa analisi ha utilizzato il motore AI più recente con le ultime capacità di rilevamento."
+	"warzone_chart_label_zone_liberation": {
+		"message": "Liberazione Zona"
 	},
-	"engine_desc_latest_impact": {
-		"message": "Massima precisione e analisi più completa."
+	"warzone_chart_legend_banned": {
+		"message": "Bannati"
 	},
-	"engine_desc_compatible": {
-		"message": "Questa analisi ha utilizzato un motore AI ancora supportato ma non l'ultima versione."
+	"warzone_chart_legend_confirmed": {
+		"message": "Confermati"
 	},
-	"engine_desc_compatible_impact": {
-		"message": "Ancora molto preciso con differenze minori nelle capacità di rilevamento."
+	"warzone_chart_legend_flagged": {
+		"message": "Segnalati"
 	},
-	"engine_desc_outdated": {
-		"message": "Questa analisi ha utilizzato un motore AI significativamente indietro rispetto all'ultima versione."
+	"warzone_chart_tab_ban_rate": {
+		"message": "Tasso Ban"
 	},
-	"engine_desc_outdated_impact": {
-		"message": "Potrebbe avere una precisione ridotta rispetto alle versioni più recenti del motore."
+	"warzone_chart_tab_liberation": {
+		"message": "Liberazione"
 	},
-	"engine_desc_deprecated": {
-		"message": "Questa analisi ha utilizzato un motore AI non più supportato."
+	"warzone_chart_tab_users": {
+		"message": "Utenti"
 	},
-	"engine_desc_deprecated_impact": {
-		"message": "La precisione potrebbe essere significativamente ridotta e i risultati dovrebbero essere trattati con cautela."
+	"warzone_chart_tooltip_banned": {
+		"message": "Bannati"
 	},
-	"engine_aria_info": {
-		"message": "Informazioni versione motore"
+	"warzone_chart_tooltip_date": {
+		"message": "Data"
 	},
-	"engine_header_version": {
-		"message": "Motore v$1"
+	"warzone_chart_tooltip_total_users": {
+		"message": "Utenti Totali"
 	},
-	"engine_version_unknown": {
-		"message": "Sconosciuto"
+	"warzone_common_button_retry": {
+		"message": "Riprova"
 	},
-	"custom_api_form_title_edit": {
-		"message": "Modifica API Personalizzata"
+	"warzone_hunter_beta_discord_link": {
+		"message": "server Discord"
 	},
-	"custom_api_form_title_add": {
-		"message": "Aggiungi API Personalizzata"
+	"warzone_hunter_beta_label": {
+		"message": "Beta Chiusa:"
 	},
-	"custom_api_form_label_name": {
-		"message": "Nome"
+	"warzone_hunter_beta_text_after_link": {
+		"message": "per aggiornamenti."
 	},
-	"custom_api_form_label_required": {
-		"message": "*"
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Disponibile solo per utenti selezionati. Unisciti al nostro"
 	},
-	"custom_api_form_placeholder_name": {
-		"message": "La Mia API Personalizzata"
+	"warzone_hunter_button_login": {
+		"message": "Accedi con Discord"
 	},
-	"custom_api_form_hint_name_length": {
-		"message": "Massimo 12 caratteri ($1/12)"
+	"warzone_hunter_button_logout": {
+		"message": "Disconnetti"
 	},
-	"custom_api_form_label_url": {
-		"message": "URL API"
+	"warzone_hunter_confirm_logout": {
+		"message": "Sei sicuro di volerti disconnettere?\n\nPuoi accedere di nuovo in qualsiasi momento usando il tuo account Discord."
 	},
-	"custom_api_form_placeholder_url": {
-		"message": "https://api.example.com/v1/lookup"
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Avatar Discord"
 	},
-	"custom_api_form_hint_url": {
-		"message": "Deve essere HTTPS. Questo è come l'URL di base per i tuoi endpoint API. Chiameremo {url}/user/{userId} per le ricerche singole e {url}/users per le ricerche batch."
+	"warzone_hunter_feature_cleanup": {
+		"message": "Aiuta a ripulire la piattaforma e rimuovere i malintenzionati"
 	},
-	"custom_api_form_label_timeout": {
-		"message": "Timeout (ms)"
+	"warzone_hunter_feature_community": {
+		"message": "Lavora con la comunità per maggior successo nelle rimozioni"
 	},
-	"custom_api_form_placeholder_timeout": {
-		"message": "5000"
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Guadagna punti e scala la classifica"
 	},
-	"custom_api_form_hint_timeout": {
-		"message": "Timeout richiesta in millisecondi (1000-60000). Predefinito: 5000ms."
+	"warzone_hunter_feature_report": {
+		"message": "Segnala utenti confermati ad alto rischio"
 	},
-	"custom_api_form_label_image": {
-		"message": "Immagine Orizzontale (Opzionale)"
+	"warzone_hunter_loading_connecting": {
+		"message": "Connessione..."
 	},
-	"custom_api_form_hint_image": {
-		"message": "Carica un'immagine orizzontale per la scheda tooltip (PNG, JPG, SVG, WebP). Consigliato: 480x160px (rapporto 3:1)."
+	"warzone_hunter_signup_description": {
+		"message": "Unisciti alla comunità per segnalare utenti confermati ad alto rischio. Collabora con cacciatori di tutto il mondo per aumentare il successo delle rimozioni e rendere Roblox più sicuro per tutti."
 	},
-	"custom_api_form_button_remove_image": {
-		"message": "Rimuovi Immagine"
+	"warzone_hunter_stat_points": {
+		"message": "Punti"
 	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Abilita questa API personalizzata"
+	"warzone_hunter_stat_status": {
+		"message": "Stato"
 	},
-	"custom_api_form_button_save": {
-		"message": "Salva"
+	"warzone_hunter_status_anonymous": {
+		"message": "Anonimo"
 	},
-	"custom_api_form_button_saving": {
-		"message": "Salvataggio..."
+	"warzone_hunter_status_public": {
+		"message": "Pubblico"
 	},
-	"custom_api_form_error_name_required": {
-		"message": "Il nome è obbligatorio"
+	"warzone_hunter_title": {
+		"message": "Cacciatore War Zone"
 	},
-	"custom_api_form_error_name_length": {
-		"message": "Il nome deve essere di 12 caratteri o meno"
+	"warzone_hunter_welcome_message": {
+		"message": "Benvenuto, Cacciatore! Ora puoi partecipare alle attività War Zone e aiutare a proteggere la comunità Roblox. Visita la homepage di Roblox per iniziare le tue missioni di caccia."
 	},
-	"custom_api_form_error_url_required": {
-		"message": "L'URL è obbligatorio"
+	"warzone_leaderboard_badge_you": {
+		"message": "Tu"
 	},
-	"custom_api_form_error_url_https": {
-		"message": "L'URL deve iniziare con https://"
+	"warzone_leaderboard_error_load": {
+		"message": "Impossibile caricare la classifica"
 	},
-	"custom_api_form_error_url_invalid": {
-		"message": "Formato URL non valido"
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Includi Cacciatori Anonimi"
 	},
-	"custom_api_form_error_timeout_min": {
-		"message": "Il timeout deve essere almeno 1000ms (1 secondo)"
+	"warzone_leaderboard_loading": {
+		"message": "Caricamento classifica..."
 	},
-	"custom_api_form_error_timeout_max": {
-		"message": "Il timeout deve essere 60000ms (60 secondi) o meno"
+	"warzone_leaderboard_section_rankings": {
+		"message": "Classifica"
 	},
-	"custom_api_form_error_image_type": {
-		"message": "Tipo file non valido. Usa PNG, JPG, SVG o WebP"
+	"warzone_leaderboard_section_top": {
+		"message": "Migliori Cacciatori"
 	},
-	"custom_api_form_error_image_mime": {
-		"message": "Tipo immagine non valido. Il tipo MIME non corrisponde all'estensione del file"
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 segnalazioni"
 	},
-	"custom_api_form_error_image_size": {
-		"message": "Avviso: Dimensione file grande ($1KB). Considera l'uso di un'immagine più piccola per ridurre l'utilizzo dello storage."
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% successo"
 	},
-	"custom_api_form_error_image_read": {
-		"message": "Impossibile leggere il file immagine"
+	"warzone_leaderboard_total_hunters": {
+		"message": "Cacciatori Totali: $1"
 	},
-	"custom_api_form_error_image_process": {
-		"message": "Impossibile elaborare il file immagine"
+	"warzone_leaderboard_your_rank": {
+		"message": "Tuo Posizionamento: #$1"
 	},
-	"custom_api_form_error_save_prefix": {
-		"message": "Impossibile salvare l'API personalizzata: "
+	"warzone_mode_global": {
+		"message": "globale"
 	},
-	"custom_api_form_error_unknown": {
-		"message": "Errore sconosciuto"
+	"warzone_mode_zone": {
+		"message": "zona"
 	},
-	"custom_api_mgmt_button_back": {
-		"message": "Indietro"
+	"warzone_nav_tab_leaderboard": {
+		"message": "Classifica"
 	},
-	"custom_api_mgmt_title": {
-		"message": "Integrazioni API"
+	"warzone_nav_tab_profile": {
+		"message": "Profilo"
 	},
-	"custom_api_mgmt_intro": {
-		"message": "Gestisci tutte le integrazioni API in un unico posto. Rotector fornisce l'analisi di sicurezza principale e puoi aggiungere fino a 5 API personalizzate per ulteriori analisi dei contenuti."
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
 	},
-	"custom_api_mgmt_button_docs": {
-		"message": "Visualizza Documentazione"
+	"warzone_order_label_completed": {
+		"message": "Completato"
 	},
-	"custom_api_mgmt_loading": {
-		"message": "Caricamento API personalizzate..."
+	"warzone_order_label_expires": {
+		"message": "Scade"
 	},
-	"custom_api_mgmt_badge_system": {
-		"message": "API di Sistema"
+	"warzone_order_label_progress": {
+		"message": "Progresso"
 	},
-	"custom_api_mgmt_label_single": {
-		"message": "Singola:"
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
 	},
-	"custom_api_mgmt_label_batch": {
-		"message": "Batch:"
+	"warzone_order_type_ban_count": {
+		"message": "Conteggio Ban"
 	},
-	"custom_api_mgmt_label_timeout": {
-		"message": "Timeout:"
+	"warzone_order_type_verification": {
+		"message": "Verifica"
 	},
-	"custom_api_mgmt_label_created": {
-		"message": "Creata:"
+	"warzone_order_type_zone_liberation": {
+		"message": "Liberazione Zona"
 	},
-	"custom_api_mgmt_label_last_tested": {
-		"message": "Ultimo Test:"
+	"warzone_overview_button_find_user": {
+		"message": "Trova Utente da Segnalare"
 	},
-	"custom_api_mgmt_suffix_ms": {
-		"message": "ms"
+	"warzone_overview_error_auth_expired": {
+		"message": "Autenticazione scaduta. Disconnettiti e accedi di nuovo."
 	},
-	"custom_api_mgmt_title_move_up": {
-		"message": "Sposta su"
+	"warzone_overview_error_find_user": {
+		"message": "Impossibile trovare un utente segnalabile. Riprova."
 	},
-	"custom_api_mgmt_title_move_down": {
-		"message": "Sposta giù"
+	"warzone_overview_error_load": {
+		"message": "Impossibile caricare la mappa di guerra"
 	},
-	"custom_api_mgmt_title_test": {
-		"message": "Testa Connessione"
+	"warzone_overview_error_no_users": {
+		"message": "Nessun utente segnalabile disponibile. Riprova più tardi!"
 	},
-	"custom_api_mgmt_title_edit": {
-		"message": "Modifica"
+	"warzone_overview_finding_user_loading": {
+		"message": "Ricerca utente..."
 	},
-	"custom_api_mgmt_title_delete": {
-		"message": "Elimina"
+	"warzone_overview_loading": {
+		"message": "Caricamento mappa di guerra..."
 	},
-	"custom_api_mgmt_button_add": {
-		"message": "Aggiungi API Personalizzata"
+	"warzone_overview_section_global_stats": {
+		"message": "Statistiche di Guerra Globali"
 	},
-	"custom_api_mgmt_notice_max_reached": {
-		"message": "Raggiunto il massimo di $1 API personalizzate. Elimina un'API esistente per aggiungerne una nuova."
+	"warzone_overview_section_global_trends": {
+		"message": "Tendenze Globali (30 Giorni)"
 	},
-	"custom_api_mgmt_confirm_delete": {
-		"message": "Eliminare l'API personalizzata \"$1\"?"
+	"warzone_overview_section_major_orders": {
+		"message": "Ordini Maggiori Attivi"
 	},
-	"custom_api_mgmt_error_delete": {
-		"message": "Impossibile eliminare l'API personalizzata"
+	"warzone_overview_section_targets": {
+		"message": "Obiettivi Attivi"
 	},
-	"custom_api_mgmt_test_success": {
-		"message": "✓ Connessione riuscita!\n\nL'API \"$1\" è raggiungibile e risponde."
+	"warzone_overview_section_zones": {
+		"message": "Zone di Guerra"
 	},
-	"custom_api_mgmt_test_failed": {
-		"message": "✗ Connessione fallita\n\nL'API \"$1\" non risponde o ha restituito un errore.\n\nControlla:\n• L'URL è corretto e accessibile\n• Il server API è in esecuzione\n• CORS è configurato se necessario"
+	"warzone_overview_stat_active_targets": {
+		"message": "Obiettivi Attivi"
 	},
-	"custom_api_mgmt_test_error": {
-		"message": "✗ Errore test connessione\n\nImpossibile testare l'API \"$1\".\n\nErrore: $2"
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Liberazione Media"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Impossibile aggiornare lo stato dell'API"
+	"warzone_overview_stat_total_banned": {
+		"message": "Totale Bannati"
 	},
-	"custom_api_mgmt_http_method_get": {
-		"message": "GET"
+	"warzone_overview_stat_total_zones": {
+		"message": "Zone Totali"
 	},
-	"custom_api_mgmt_http_method_post": {
-		"message": "POST"
+	"warzone_profile_button_logout": {
+		"message": "Disconnetti"
 	},
-	"custom_api_docs_button_back": {
-		"message": "Indietro"
+	"warzone_profile_button_reset_uuid": {
+		"message": "Disconnetti da Tutti i Dispositivi"
 	},
-	"custom_api_docs_title": {
-		"message": "Documentazione API"
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Disconnessione..."
 	},
-	"custom_api_docs_intro": {
-		"message": "Implementa due endpoint che restituiscono dati sullo stato dell'utente. Tutte le risposte devono utilizzare il formato wrapper con campi success, data ed error."
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Disconnesso da tutti i dispositivi"
 	},
-	"custom_api_docs_section_single_lookup": {
-		"message": "Ricerca Utente Singolo"
+	"warzone_profile_confirm_logout": {
+		"message": "Sei sicuro di volerti disconnettere?\n\nPuoi accedere di nuovo in qualsiasi momento usando il tuo account Discord."
 	},
-	"custom_api_docs_section_batch_lookup": {
-		"message": "Ricerca Utenti Batch"
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Disconnettere da tutti i dispositivi?\n\nQuesto invaliderà tutte le sessioni attive sugli altri dispositivi. Rimarrai connesso su questo dispositivo, ma tutti gli altri dispositivi verranno disconnessi.\n\nQuesto è utile se sospetti che il tuo account sia stato compromesso."
 	},
-	"custom_api_docs_section_notes": {
-		"message": "Note Importanti"
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Avatar Discord"
 	},
-	"custom_api_docs_subtitle_example_request": {
-		"message": "Esempio Richiesta"
+	"warzone_profile_error_reset_uuid": {
+		"message": "Impossibile disconnettere da tutti i dispositivi. Riprova."
 	},
-	"custom_api_docs_subtitle_success_response": {
-		"message": "Risposta Successo"
+	"warzone_profile_label_discord": {
+		"message": "Discord"
 	},
-	"custom_api_docs_subtitle_error_response": {
-		"message": "Risposta Errore"
+	"warzone_profile_label_joined": {
+		"message": "Iscritto"
 	},
-	"custom_api_docs_subtitle_required_fields": {
-		"message": "Campi Obbligatori (nell'oggetto data)"
+	"warzone_profile_label_last_active": {
+		"message": "Ultima Attività"
 	},
-	"custom_api_docs_subtitle_optional_fields": {
-		"message": "Campi Opzionali (nell'oggetto data)"
+	"warzone_profile_label_visibility": {
+		"message": "Visibilità"
 	},
-	"custom_api_docs_subtitle_flag_types": {
-		"message": "Tipi di Segnalazione"
+	"warzone_profile_stat_points": {
+		"message": "Punti"
 	},
-	"custom_api_docs_subtitle_request_body": {
-		"message": "Corpo Richiesta"
+	"warzone_profile_title": {
+		"message": "Profilo"
 	},
-	"custom_api_docs_subtitle_https": {
-		"message": "HTTPS Richiesto"
+	"warzone_profile_visibility_anonymous": {
+		"message": "Anonimo"
 	},
-	"custom_api_docs_subtitle_wrapper": {
-		"message": "Formato Wrapper"
+	"warzone_profile_visibility_public": {
+		"message": "Pubblico"
 	},
-	"custom_api_docs_subtitle_reason_keys": {
-		"message": "Chiavi Ragione"
+	"warzone_target_meta_active": {
+		"message": "Attivo"
 	},
-	"custom_api_docs_subtitle_badges": {
-		"message": "Badge"
+	"warzone_target_meta_attempts": {
+		"message": "Tentativi"
 	},
-	"custom_api_docs_subtitle_badge_colors": {
-		"message": "Colori Badge"
+	"warzone_target_meta_confidence": {
+		"message": "Affidabilità"
 	},
-	"custom_api_docs_flag_type_0": {
-		"message": "Sicuro"
+	"warzone_target_status_confirmed": {
+		"message": "Confermato"
 	},
-	"custom_api_docs_flag_type_1": {
-		"message": "In Attesa"
+	"warzone_target_status_flagged": {
+		"message": "Segnalato"
 	},
-	"custom_api_docs_flag_type_2": {
-		"message": "Non Sicuro (raccomandato)"
+	"warzone_zone_button_back": {
+		"message": "Torna alla Panoramica"
 	},
-	"custom_api_docs_flag_type_3": {
-		"message": "In Coda"
+	"warzone_zone_error_load": {
+		"message": "Impossibile caricare i dettagli della zona"
 	},
-	"custom_api_docs_flag_type_4": {
-		"message": "Non Utilizzato"
+	"warzone_zone_loading": {
+		"message": "Caricamento dettagli zona..."
 	},
-	"custom_api_docs_flag_type_5": {
-		"message": "Misto"
+	"warzone_zone_section_trends": {
+		"message": "Tendenze Zona (30 Giorni)"
 	},
-	"custom_api_docs_flag_type_6": {
-		"message": "Trasgressore Passato"
+	"warzone_zone_stat_banned": {
+		"message": "Bannati"
 	},
-	"custom_api_docs_flag_type_2_note": {
-		"message": "Il tipo di segnalazione 2 (Non Sicuro) è il tipo principale necessario per indicare utenti inappropriati. Usa altri tipi di segnalazione solo se hai una ragione specifica per categorizzare gli utenti diversamente."
+	"warzone_zone_stat_confirmed": {
+		"message": "Confermati"
 	},
-	"custom_api_docs_field_id": {
-		"message": "id (number) - ID Utente come intero"
+	"warzone_zone_stat_flagged": {
+		"message": "Segnalati"
 	},
-	"custom_api_docs_field_flag_type": {
-		"message": "flagType (number) - Tipo di segnalazione 0-6 (vedi sotto)"
+	"warzone_zone_stat_total_users": {
+		"message": "Utenti Totali"
 	},
-	"custom_api_docs_field_confidence": {
-		"message": "confidence (number) - Livello di affidabilità 0.0-1.0"
-	},
-	"custom_api_docs_field_reasons": {
-		"message": "reasons (object) - Nomi ragioni basati su stringhe come chiavi, ciascuno contenente:"
-	},
-	"custom_api_docs_field_message": {
-		"message": "message (string) - Descrizione ragione"
-	},
-	"custom_api_docs_field_evidence": {
-		"message": "evidence (array or null) - Stringhe di prova o null"
-	},
-	"custom_api_docs_field_reviewer": {
-		"message": "reviewer (object) - username e displayName"
-	},
-	"custom_api_docs_field_engine_version": {
-		"message": "engineVersion (string) - Versione motore di analisi"
-	},
-	"custom_api_docs_field_last_updated": {
-		"message": "lastUpdated (number) - Timestamp Unix"
-	},
-	"custom_api_docs_field_badges": {
-		"message": "badges (array) - Fino a 3 oggetti badge personalizzati, ciascuno contenente:"
-	},
-	"custom_api_docs_field_badge_text": {
-		"message": "text (string, obbligatorio) - Testo etichetta badge"
-	},
-	"custom_api_docs_field_badge_color": {
-		"message": "color (string, opzionale) - Colore sfondo (hex, rgb o colore con nome)"
-	},
-	"custom_api_docs_field_badge_text_color": {
-		"message": "textColor (string, opzionale) - Colore testo per contrasto"
-	},
-	"custom_api_docs_field_confidence_reason": {
-		"message": "confidence (number) - Affidabilità 0.0-1.0"
-	},
-	"custom_api_docs_note_https": {
-		"message": "Tutti gli endpoint API devono utilizzare HTTPS per sicurezza."
-	},
-	"custom_api_docs_note_wrapper": {
-		"message": "Tutte le risposte devono utilizzare il formato {success, data, error}. Quando success: true, includi il campo data. Quando success: false, includi il messaggio error."
-	},
-	"custom_api_docs_note_reason_keys": {
-		"message": "Usa nomi di stringhe descrittivi per le chiavi delle ragioni (es. \"Modello Alto Rischio\", \"Attività Sospetta\"), non indici numerici. Questi vengono visualizzati direttamente nei tooltip."
-	},
-	"custom_api_docs_note_badges": {
-		"message": "I badge sono piccoli indicatori visivi che appaiono nei tooltip degli utenti insieme allo stato di segnalazione. Vengono visualizzati nella parte superiore del tooltip per comunicare rapidamente contesto aggiuntivo su un utente. Usa i badge per evidenziare informazioni di stato importanti come stato di verifica, livelli di priorità o categorie speciali. Esempi comuni: \"Verificato Non Sicuro\", \"Alta Priorità\", \"Segnalato dalla Comunità\", \"Rilevato Automaticamente\"."
-	},
-	"custom_api_docs_note_badge_colors": {
-		"message": "I colori dei badge supportano più formati: codici hex (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) o colori con nome (red). Quando il colore non è specificato, i badge usano un colore teal predefinito. Quando textColor non è specificato, i badge usano testo bianco."
-	},
-	"custom_api_docs_note_batch_data": {
-		"message": "Il campo data contiene un oggetto dove le chiavi sono gli ID utente (come stringhe) e i valori sono oggetti di stato utente."
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% Liberato"
 	}
 }

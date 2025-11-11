@@ -11,9 +11,4 @@ export interface QueueModalManagerInstance {
 
 export interface SettingsSectionInstance {
 	highlightSetting: (settingKey: string) => void;
-	unlockDeveloperMode: () => Promise<void>;
-}
-
-export interface SettingsPageInstance {
-	unlockDeveloperMode: () => Promise<void>;
 }

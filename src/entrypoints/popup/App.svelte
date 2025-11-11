@@ -3,30 +3,29 @@
 	import StatsPage from '../../components/popup/StatsPage.svelte';
 	import SettingsPage from '../../components/popup/SettingsPage.svelte';
 	import WarzonePage from '../../components/popup/WarzonePage.svelte';
-	import CustomApiManagement from '../../components/popup/CustomApiManagement.svelte';
-	import CustomApiDocumentation from '../../components/popup/CustomApiDocumentation.svelte';
+	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
+	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
+	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import { initializeSettings } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
-	import type { SettingsPageInstance } from '@/lib/types/components';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 
-	type Page = 'stats' | 'settings' | 'warzone' | 'custom-apis' | 'custom-api-docs';
+	type Page =
+		| 'stats'
+		| 'settings'
+		| 'warzone'
+		| 'custom-apis'
+		| 'custom-api-docs'
+		| 'rotector-api-docs';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
 	let currentPage = $state<Page | null>(null);
-	let settingsPage = $state<SettingsPageInstance>();
 
 	function handlePageChange(page: Page) {
 		currentPage = page;
-	}
-
-	function handleDeveloperUnlock() {
-		settingsPage?.unlockDeveloperMode().catch((error) => {
-			logger.error('Failed to unlock developer mode:', error);
-		});
 	}
 
 	$effect(() => {
@@ -50,7 +49,8 @@
 						savedPage === 'settings' ||
 						savedPage === 'warzone' ||
 						savedPage === 'custom-apis' ||
-						savedPage === 'custom-api-docs')
+						savedPage === 'custom-api-docs' ||
+						savedPage === 'rotector-api-docs')
 				) {
 					currentPage = savedPage;
 				} else {
@@ -99,7 +99,7 @@
 	</div>
 
 	<!-- Navigation -->
-	<Navbar {currentPage} onDeveloperUnlock={handleDeveloperUnlock} onPageChange={handlePageChange} />
+	<Navbar {currentPage} onPageChange={handlePageChange} />
 
 	<!-- Page Content -->
 	<div class="page-content">
@@ -108,8 +108,8 @@
 				<StatsPage />
 			{:else if currentPage === 'settings'}
 				<SettingsPage
-					bind:this={settingsPage}
 					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
+					onNavigateToRotectorDocs={() => handlePageChange('rotector-api-docs')}
 				/>
 			{:else if currentPage === 'warzone'}
 				<WarzonePage />
@@ -120,6 +120,8 @@
 				/>
 			{:else if currentPage === 'custom-api-docs'}
 				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
+			{:else if currentPage === 'rotector-api-docs'}
+				<RotectorApiDocumentation onBack={() => handlePageChange('settings')} />
 			{/if}
 		{/if}
 	</div>

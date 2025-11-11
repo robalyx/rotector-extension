@@ -26,12 +26,60 @@
 		{t('custom_api_docs_intro')}
 	</p>
 
+	<!-- Authentication Section -->
+	<div class="docs-section">
+		<h4 class="docs-section-title">{t('custom_api_docs_section_authentication')}</h4>
+		<p class="docs-note">
+			{t('custom_api_docs_note_no_auth')}
+		</p>
+	</div>
+
+	<!-- API URL Configuration Section -->
+	<div class="docs-section">
+		<h4 class="docs-section-title">{t('custom_api_docs_section_url_config')}</h4>
+		<p class="docs-note mb-3">
+			{t('custom_api_docs_note_url_single')}
+		</p>
+		<p class="docs-note mb-3">
+			{t('custom_api_docs_note_url_batch')}
+		</p>
+
+		<h5 class="docs-subtitle">{t('custom_api_docs_url_examples_correct_title')}</h5>
+		<ul class="docs-list mb-3">
+			<li><code>{t('custom_api_docs_url_example_1')}</code></li>
+			<li><code>{t('custom_api_docs_url_example_2')}</code></li>
+			<li><code>{t('custom_api_docs_url_example_3')}</code></li>
+		</ul>
+
+		<h5 class="docs-subtitle">{t('custom_api_docs_url_examples_incorrect_title')}</h5>
+		<ul class="docs-list">
+			<li><code>{t('custom_api_docs_url_example_wrong_1')}</code></li>
+			<li><code>{t('custom_api_docs_url_example_wrong_2')}</code></li>
+		</ul>
+	</div>
+
+	<!-- HTTP Status Codes Section -->
+	<div class="docs-section">
+		<h4 class="docs-section-title">{t('custom_api_docs_section_http_status')}</h4>
+		<p class="docs-note">
+			{t('custom_api_docs_note_http_status')}
+		</p>
+	</div>
+
+	<!-- CORS Requirements Section -->
+	<div class="docs-section">
+		<h4 class="docs-section-title">{t('custom_api_docs_section_cors')}</h4>
+		<p class="docs-note">
+			{t('custom_api_docs_note_cors')}
+		</p>
+	</div>
+
 	<!-- Single Lookup Section -->
 	<div class="docs-section">
 		<h4 class="docs-section-title">{t('custom_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method http-method-get">{t('custom_api_mgmt_http_method_get')}</span>
-			<code class="endpoint-url">{'{{your-api-url}}/{{userId}}'}</code>
+			<code class="endpoint-url">{'{your-api-url}/{userId}'}</code>
 		</div>
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_example_request')}</h5>
@@ -79,11 +127,14 @@
 		/>
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_error_response')}</h5>
+		<p class="docs-note mb-3">
+			{t('custom_api_docs_error_note')}
+		</p>
 		<Highlight
 			code={JSON.stringify(
 				{
 					success: false,
-					error: 'User not found in database'
+					error: 'Internal server error'
 				},
 				null,
 				2
@@ -93,34 +144,34 @@
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_required_fields')}</h5>
 		<ul class="docs-list">
-			<li>{t('custom_api_docs_field_id')}</li>
-			<li>{t('custom_api_docs_field_flag_type')}</li>
+			<li><code>id</code> - {t('custom_api_docs_field_id')}</li>
+			<li><code>flagType</code> - {t('custom_api_docs_field_flag_type')}</li>
 		</ul>
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_optional_fields')}</h5>
 		<ul class="docs-list">
-			<li>{t('custom_api_docs_field_confidence')}</li>
+			<li><code>confidence</code> - {t('custom_api_docs_field_confidence')}</li>
 			<li>
-				{t('custom_api_docs_field_reasons')}
+				<code>reasons</code> - {t('custom_api_docs_field_reasons')}
 				<ul class="docs-list ml-6 mt-2">
-					<li>{t('custom_api_docs_field_message')}</li>
-					<li>{t('custom_api_docs_field_confidence_reason')}</li>
-					<li>{t('custom_api_docs_field_evidence')}</li>
+					<li><code>message</code> - {t('custom_api_docs_field_message')}</li>
+					<li><code>confidence</code> - {t('custom_api_docs_field_confidence_reason')}</li>
+					<li><code>evidence</code> - {t('custom_api_docs_field_evidence')}</li>
 				</ul>
 			</li>
 			<li>
-				{t('custom_api_docs_field_reviewer')}
+				<code>reviewer</code> - {t('custom_api_docs_field_reviewer')}
 			</li>
-			<li>{t('custom_api_docs_field_engine_version')}</li>
-			<li>{t('custom_api_docs_field_last_updated')}</li>
+			<li><code>engineVersion</code> - {t('custom_api_docs_field_engine_version')}</li>
+			<li><code>lastUpdated</code> - {t('custom_api_docs_field_last_updated')}</li>
 			<li>
-				{t('custom_api_docs_field_badges')}
+				<code>badges</code> - {t('custom_api_docs_field_badges')}
 				<ul class="docs-list ml-6 mt-2">
-					<li>{t('custom_api_docs_field_badge_text')}</li>
+					<li><code>text</code> - {t('custom_api_docs_field_badge_text')}</li>
 					<li>
-						{t('custom_api_docs_field_badge_color')}
+						<code>color</code> - {t('custom_api_docs_field_badge_color')}
 					</li>
-					<li>{t('custom_api_docs_field_badge_text_color')}</li>
+					<li><code>textColor</code> - {t('custom_api_docs_field_badge_text_color')}</li>
 				</ul>
 			</li>
 		</ul>
@@ -135,8 +186,11 @@
 			<li><code>5</code> - {t('custom_api_docs_flag_type_5')}</li>
 			<li><code>6</code> - {t('custom_api_docs_flag_type_6')}</li>
 		</ul>
-		<p class="docs-note">
+		<p class="docs-note mb-3">
 			{t('custom_api_docs_flag_type_2_note')}
+		</p>
+		<p class="docs-note">
+			{t('custom_api_docs_note_flag_type_0')}
 		</p>
 	</div>
 
@@ -145,7 +199,7 @@
 		<h4 class="docs-section-title">{t('custom_api_docs_section_batch_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method">{t('custom_api_mgmt_http_method_post')}</span>
-			<code class="endpoint-url">{'{{your-api-url}}'}</code>
+			<code class="endpoint-url">{'{your-api-url}'}</code>
 		</div>
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_example_request')}</h5>
@@ -179,11 +233,14 @@
 		/>
 
 		<h5 class="docs-subtitle">{t('custom_api_docs_subtitle_error_response')}</h5>
+		<p class="docs-note mb-3">
+			{t('custom_api_docs_error_note')}
+		</p>
 		<Highlight
 			code={JSON.stringify(
 				{
 					success: false,
-					error: 'Batch size exceeds maximum limit of 100 users'
+					error: 'Internal server error'
 				},
 				null,
 				2
@@ -191,8 +248,14 @@
 			language={json}
 		/>
 
-		<p class="docs-note">
+		<p class="docs-note mb-3">
 			{t('custom_api_docs_note_batch_data')}
+		</p>
+		<p class="docs-note mb-3">
+			{t('custom_api_docs_note_batch_partial')}
+		</p>
+		<p class="docs-note">
+			{t('custom_api_docs_note_batch_limit')}
 		</p>
 	</div>
 

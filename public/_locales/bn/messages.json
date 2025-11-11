@@ -1,48 +1,468 @@
 {
-	"popup_header_description": {
-		"message": "রিয়েল-টাইম নিরাপত্তা সূচক যা আপনার সাথে ইন্টারঅ্যাক্ট করার আগে অনুপযুক্ত Roblox ব্যবহারকারীদের সম্পর্কে সতর্ক করে।"
-	},
 	"banner_advanced_violation_aria_dismiss": {
 		"message": "সুপারিশ ব্যানার খারিজ করুন"
-	},
-	"banner_advanced_violation_title_dismiss": {
-		"message": "সুপারিশ খারিজ করুন"
-	},
-	"banner_advanced_violation_message": {
-		"message": "আরো ভালো অন্তর্দৃষ্টির জন্য উন্নত লঙ্ঘন বিবরণ সক্রিয় করুন"
-	},
-	"banner_advanced_violation_title_go_to_setting": {
-		"message": "উন্নত লঙ্ঘন বিবরণ সেটিংসে যান"
 	},
 	"banner_advanced_violation_button_go_to_setting": {
 		"message": "সেটিংসে যান"
 	},
-	"banner_changelog_message": {
-		"message": "একটি নতুন আপডেট প্রকাশিত হয়েছে $1!"
+	"banner_advanced_violation_message": {
+		"message": "আরো ভালো অন্তর্দৃষ্টির জন্য উন্নত লঙ্ঘন বিবরণ সক্রিয় করুন"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "সুপারিশ খারিজ করুন"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "উন্নত লঙ্ঘন বিবরণ সেটিংসে যান"
 	},
 	"banner_changelog_aria_dismiss": {
 		"message": "চেঞ্জলগ ব্যানার খারিজ করুন"
 	},
-	"banner_changelog_title_view_details": {
-		"message": "সম্পূর্ণ চেঞ্জলগ বিবরণ দেখুন"
+	"banner_changelog_button_view_details": {
+		"message": "বিবরণ দেখুন"
+	},
+	"banner_changelog_message": {
+		"message": "একটি নতুন আপডেট প্রকাশিত হয়েছে $1!"
 	},
 	"banner_changelog_title_dismiss": {
 		"message": "চেঞ্জলগ খারিজ করুন"
 	},
-	"banner_changelog_button_view_details": {
-		"message": "বিবরণ দেখুন"
+	"banner_changelog_title_view_details": {
+		"message": "সম্পূর্ণ চেঞ্জলগ বিবরণ দেখুন"
 	},
-	"navbar_tab_stats": {
-		"message": "পরিসংখ্যান"
+	"custom_api_docs_button_back": {
+		"message": "ফিরে যান"
 	},
-	"navbar_tab_warzone": {
-		"message": "ওয়ার জোন"
+	"custom_api_docs_error_note": {
+		"message": "নোট: ত্রুটি প্রতিক্রিয়া শুধুমাত্র অভ্যন্তরীণ সার্ভার ত্রুটি বা ব্যাকএন্ড সমস্যা থাকলে ঘটে। পাওয়া যায় না বা এখনও বিশ্লেষণ করা হয়নি এমন ব্যবহারকারীরা সাফল্য ফেরত দেবে: true সহ flagType: 0 (নিরাপদ)।"
 	},
-	"navbar_tab_settings": {
-		"message": "সেটিংস"
+	"custom_api_docs_field_badge_color": {
+		"message": "(string, ঐচ্ছিক) - পটভূমির রঙ (hex, rgb, বা নামযুক্ত রঙ)"
 	},
-	"navbar_settings_tooltip": {
-		"message": "সেটিংস (ডেভেলপার মোডের জন্য Alt+ক্লিক করুন)"
+	"custom_api_docs_field_badge_text": {
+		"message": "(string, আবশ্যক) - ব্যাজ লেবেল টেক্সট"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "(string, ঐচ্ছিক) - কন্ট্রাস্টের জন্য টেক্সট রঙ"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "(array) - সর্বোচ্চ 3টি কাস্টম ব্যাজ অবজেক্ট, প্রতিটিতে রয়েছে:"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "(number) - 0.0 এবং 1.0 এর মধ্যে float আত্মবিশ্বাসের স্তর"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "(number) - 0.0 এবং 1.0 এর মধ্যে float আত্মবিশ্বাস"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "(string) - বিশ্লেষণ ইঞ্জিন সংস্করণ"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "(array বা null) - প্রমাণ স্ট্রিং (যেমন ইউজারনেম, প্রদর্শন নাম, বিবরণ থেকে) বা null"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "(number) - 0-6 ফ্ল্যাগ টাইপ (নীচে দেখুন)"
+	},
+	"custom_api_docs_field_id": {
+		"message": "(number) - পূর্ণসংখ্যা হিসাবে ইউজার আইডি"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "(number) - সেকেন্ডে Unix টাইমস্ট্যাম্প"
+	},
+	"custom_api_docs_field_message": {
+		"message": "(string) - কারণ বিবরণ"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "(object) - কী হিসাবে স্ট্রিং-ভিত্তিক কারণ নাম, প্রতিটিতে রয়েছে:"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "(object) - ঐচ্ছিক। ফ্ল্যাগ যাচাই করা মানব পর্যালোচককে কৃতিত্ব দেওয়ার জন্য। username এবং displayName অন্তর্ভুক্ত করুন। স্বয়ংক্রিয়/কোনো মানব পর্যালোচনা না থাকলে বাদ দিন।"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "নিরাপদ"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "বিচারাধীন"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "অনিরাপদ (প্রস্তাবিত)"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "ফ্ল্যাগ টাইপ ২ (অনিরাপদ) হল প্রাথমিক টাইপ যা আপনার অনুপযুক্ত ব্যবহারকারীদের নির্দেশ করার জন্য প্রয়োজন। অন্য ফ্ল্যাগ টাইপ শুধুমাত্র ব্যবহার করুন যদি ব্যবহারকারীদের ভিন্নভাবে শ্রেণীবদ্ধ করার জন্য আপনার একটি নির্দিষ্ট কারণ থাকে।"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "কিউতে আছে"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "অব্যবহৃত"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "মিশ্র"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "পূর্ববর্তী অপরাধী"
+	},
+	"custom_api_docs_intro": {
+		"message": "ব্যবহারকারী স্ট্যাটাস ডেটা ফেরত দেয় এমন দুটি এন্ডপয়েন্ট প্রয়োগ করুন। সমস্ত রেসপন্স success, data, এবং error ফিল্ড সহ র‍্যাপার ফরম্যাট ব্যবহার করতে হবে।"
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "ব্যাজ রং একাধিক ফরম্যাট সমর্থন করে: hex কোড (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)), বা নামযুক্ত রং (red)। যখন color নির্দিষ্ট করা না হয়, ব্যাজ ডিফল্ট টিল রং ব্যবহার করে। যখন textColor নির্দিষ্ট করা না হয়, ব্যাজ সাদা টেক্সট ব্যবহার করে।"
+	},
+	"custom_api_docs_note_badges": {
+		"message": "ব্যাজ হল ছোট ভিজ্যুয়াল সূচক যা ফ্ল্যাগ স্ট্যাটাসের পাশাপাশি ব্যবহারকারী টুলটিপে প্রদর্শিত হয়। একজন ব্যবহারকারী সম্পর্কে অতিরিক্ত প্রসঙ্গ দ্রুত যোগাযোগ করতে টুলটিপের শীর্ষে প্রদর্শিত হয়। গুরুত্বপূর্ণ স্ট্যাটাস তথ্য যেমন যাচাইকরণ স্ট্যাটাস, অগ্রাধিকার স্তর, বা বিশেষ শ্রেণী হাইলাইট করতে ব্যাজ ব্যবহার করুন। সাধারণ উদাহরণ: \"Verified Unsafe\", \"High Priority\", \"Community Reported\", \"Auto-Detected\"।"
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "ডেটা ফিল্ডে একটি অবজেক্ট রয়েছে যেখানে কী হল ব্যবহারকারী ID (স্ট্রিং হিসাবে) এবং মান হল ব্যবহারকারী স্ট্যাটাস অবজেক্ট।"
+	},
+	"custom_api_docs_note_batch_limit": {
+		"message": "পারফরম্যান্স এবং প্রতিক্রিয়া সময় ভারসাম্য করতে আমরা প্রতি ব্যাচ অনুরোধে 100 ইউজার আইডির একটি সীমা প্রয়োগ করার পরামর্শ দিই।"
+	},
+	"custom_api_docs_note_batch_partial": {
+		"message": "শুধুমাত্র আপনার সিস্টেমে বিদ্যমান ইউজারদের ফেরত দিন। অজানা ইউজারদের প্রতিক্রিয়া থেকে বাদ দেওয়া উচিত।"
+	},
+	"custom_api_docs_note_cors": {
+		"message": "ব্রাউজার এক্সটেনশনকে আপনার API অ্যাক্সেস করার অনুমতি দিতে আপনার API-তে অবশ্যই Access-Control-Allow-Origin: * হেডার অন্তর্ভুক্ত থাকতে হবে।"
+	},
+	"custom_api_docs_note_flag_type_0": {
+		"message": "আপনার সিস্টেমে নেই এমন ইউজারদের জন্য flagType 0 ফেরত দিন (এখনও পরীক্ষা করা হয়নি/অজানা)।"
+	},
+	"custom_api_docs_note_http_status": {
+		"message": "সমস্ত সফল অনুরোধের জন্য HTTP status 200 ফেরত দিন। অন্য কোনো স্ট্যাটাস কোড (4xx, 5xx) ব্যর্থতা নির্দেশ করে এবং এক্সটেনশন এটিকে ত্রুটি হিসাবে বিবেচনা করবে।"
+	},
+	"custom_api_docs_note_https": {
+		"message": "নিরাপত্তার জন্য সমস্ত API এন্ডপয়েন্ট HTTPS ব্যবহার করতে হবে।"
+	},
+	"custom_api_docs_note_no_auth": {
+		"message": "কোনো প্রমাণীকরণ প্রয়োজন নেই। এটি একটি সম্পূর্ণ সর্বজনীন API।"
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "কারণ কী এর জন্য বর্ণনামূলক স্ট্রিং নাম ব্যবহার করুন (যেমন \"High Risk Pattern\", \"Suspicious Activity\"), সংখ্যাসূচক সূচক নয়। এগুলি সরাসরি টুলটিপে প্রদর্শিত হয়।"
+	},
+	"custom_api_docs_note_url_batch": {
+		"message": "এক্সটেনশন ব্যাচ লুকআপের জন্য আপনার কনফিগার করা URL সরাসরি (কোনো পরিবর্তন ছাড়াই) ব্যবহার করে।"
+	},
+	"custom_api_docs_note_url_single": {
+		"message": "এক্সটেনশন একক ইউজার লুকআপের জন্য আপনার কনফিগার করা URL-এ স্বয়ংক্রিয়ভাবে /{userId} যোগ করে।"
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "সমস্ত রেসপন্স {success, data, error} ফরম্যাট ব্যবহার করতে হবে। যখন success: true, data ফিল্ড অন্তর্ভুক্ত করুন। যখন success: false, error বার্তা অন্তর্ভুক্ত করুন।"
+	},
+	"custom_api_docs_section_authentication": {
+		"message": "প্রমাণীকরণ"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "ব্যাচ ব্যবহারকারী লুকআপ"
+	},
+	"custom_api_docs_section_cors": {
+		"message": "CORS প্রয়োজনীয়তা"
+	},
+	"custom_api_docs_section_http_status": {
+		"message": "HTTP স্ট্যাটাস কোড"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "গুরুত্বপূর্ণ নোট"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "একক ব্যবহারকারী লুকআপ"
+	},
+	"custom_api_docs_section_url_config": {
+		"message": "API URL কনফিগারেশন"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "ব্যাজ রং"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "ব্যাজ"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "ত্রুটি রেসপন্স"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "উদাহরণ অনুরোধ"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "ফ্ল্যাগ টাইপ"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "HTTPS প্রয়োজন"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "ঐচ্ছিক ফিল্ড (ডেটা অবজেক্টে)"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "কারণ কী"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "অনুরোধ বডি"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "প্রয়োজনীয় ফিল্ড (ডেটা অবজেক্টে)"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "সফল রেসপন্স"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "র‍্যাপার ফরম্যাট"
+	},
+	"custom_api_docs_title": {
+		"message": "কাস্টম API ইন্টিগ্রেশন গাইড"
+	},
+	"custom_api_docs_url_example_1": {
+		"message": "https://api.example.com/users"
+	},
+	"custom_api_docs_url_example_2": {
+		"message": "https://api.example.com/v1/check"
+	},
+	"custom_api_docs_url_example_3": {
+		"message": "https://api.example.com/roblox/analyze"
+	},
+	"custom_api_docs_url_example_wrong_1": {
+		"message": "https://api.example.com/users/{userId} (এক্সটেনশন স্বয়ংক্রিয়ভাবে /{userId} যোগ করবে)"
+	},
+	"custom_api_docs_url_example_wrong_2": {
+		"message": "https://api.example.com/users/:id (এক্সটেনশন স্বয়ংক্রিয়ভাবে /{userId} যোগ করবে)"
+	},
+	"custom_api_docs_url_examples_correct_title": {
+		"message": "সঠিক URL ফর্ম্যাট"
+	},
+	"custom_api_docs_url_examples_incorrect_title": {
+		"message": "ভুল URL ফর্ম্যাট"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "ছবি সরান"
+	},
+	"custom_api_form_button_save": {
+		"message": "সংরক্ষণ করুন"
+	},
+	"custom_api_form_button_saving": {
+		"message": "সংরক্ষণ হচ্ছে..."
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "এই কাস্টম API সক্রিয় করুন"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "অবৈধ ছবি টাইপ। MIME টাইপ ফাইল এক্সটেনশনের সাথে মেলে না"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "ছবি ফাইল প্রসেস করতে ব্যর্থ"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "ছবি ফাইল পড়তে ব্যর্থ"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "সতর্কতা: বড় ফাইল আকার ($1KB)। স্টোরেজ ব্যবহার কমাতে একটি ছোট ছবি ব্যবহার করার কথা বিবেচনা করুন।"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "অবৈধ ফাইল টাইপ। অনুগ্রহ করে PNG, JPG, SVG, বা WebP ব্যবহার করুন"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "নাম ১২ অক্ষর বা তার কম হতে হবে"
+	},
+	"custom_api_form_error_name_required": {
+		"message": "নাম প্রয়োজন"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "কাস্টম API সংরক্ষণ করতে ব্যর্থ: "
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "টাইমআউট ৬০০০০ms (৬০ সেকেন্ড) বা তার কম হতে হবে"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "টাইমআউট কমপক্ষে ১০০০ms (১ সেকেন্ড) হতে হবে"
+	},
+	"custom_api_form_error_unknown": {
+		"message": "অজানা ত্রুটি"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL অবশ্যই https:// দিয়ে শুরু হতে হবে"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "অবৈধ URL ফরম্যাট"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL প্রয়োজন"
+	},
+	"custom_api_form_hint_image": {
+		"message": "টুলটিপ ট্যাবের জন্য একটি ল্যান্ডস্কেপ ছবি আপলোড করুন (PNG, JPG, SVG, WebP)। প্রস্তাবিত: 480x160px (3:1 অনুপাত)।"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "সর্বোচ্চ ১২ অক্ষর ($1/12)"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "অনুরোধ টাইমআউট মিলিসেকেন্ডে (১০০০-৬০০০০)। ডিফল্ট: ৫০০০ms।"
+	},
+	"custom_api_form_hint_url": {
+		"message": "HTTPS হতে হবে। এটি আপনার API এন্ডপয়েন্টের জন্য বেস URL এর মতো। আমরা একক লুকআপের জন্য {url}/user/{userId} এবং ব্যাচ লুকআপের জন্য {url}/users কল করব।"
+	},
+	"custom_api_form_label_image": {
+		"message": "ল্যান্ডস্কেপ ছবি (ঐচ্ছিক)"
+	},
+	"custom_api_form_label_name": {
+		"message": "নাম"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "টাইমআউট (ms)"
+	},
+	"custom_api_form_label_url": {
+		"message": "API URL"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "আমার কাস্টম API"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_title_add": {
+		"message": "কাস্টম API যোগ করুন"
+	},
+	"custom_api_form_title_edit": {
+		"message": "কাস্টম API সম্পাদনা করুন"
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "সিস্টেম API"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "কাস্টম API যোগ করুন"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "ফিরে যান"
+	},
+	"custom_api_mgmt_button_view_integration_guide": {
+		"message": "ইন্টিগ্রেশন গাইড দেখুন"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "কাস্টম API \"$1\" মুছবেন?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "কাস্টম API মুছতে ব্যর্থ"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "API অবস্থা আপডেট করতে ব্যর্থ"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_mgmt_integration_section_description": {
+		"message": "Rotector Extension এর সাথে ইন্টিগ্রেট করতে আপনার নিজস্ব API তৈরি করুন। ব্যবহারকারীর নিরাপত্তা ডেটা ফেরত দেয় এমন এন্ডপয়েন্ট বাস্তবায়ন করুন, এবং আপনার ফলাফল Rotector এর বিশ্লেষণের পাশাপাশি টুলটিপগুলিতে প্রদর্শিত হবে।"
+	},
+	"custom_api_mgmt_integration_section_title": {
+		"message": "এক্সটেনশনের সাথে ইন্টিগ্রেট করতে আগ্রহী?"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "এক জায়গায় সমস্ত API ইন্টিগ্রেশন পরিচালনা করুন। Rotector মূল নিরাপত্তা বিশ্লেষণ প্রদান করে, এবং আপনি অতিরিক্ত বিষয়বস্তু বিশ্লেষণের জন্য ৫টি পর্যন্ত কাস্টম API যোগ করতে পারেন।"
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "ব্যাচ:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "তৈরি:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "শেষ পরীক্ষিত:"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "একক:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "টাইমআউট:"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "কাস্টম API লোড হচ্ছে..."
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "সর্বোচ্চ $1টি কাস্টম API এ পৌঁছেছে। নতুন একটি যোগ করতে একটি বিদ্যমান API মুছুন।"
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "ms"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ সংযোগ পরীক্ষা ত্রুটি\n\nAPI \"$1\" পরীক্ষা করতে ব্যর্থ।\n\nত্রুটি: $2"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ সংযোগ ব্যর্থ\n\nAPI \"$1\" প্রতিক্রিয়া দিচ্ছে না বা একটি ত্রুটি ফেরত দিয়েছে।\n\nঅনুগ্রহ করে পরীক্ষা করুন:\n• URL সঠিক এবং অ্যাক্সেসযোগ্য\n• API সার্ভার চলছে\n• প্রয়োজনে CORS কনফিগার করা আছে"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ সংযোগ সফল!\n\nAPI \"$1\" পৌঁছানোযোগ্য এবং প্রতিক্রিয়াশীল।"
+	},
+	"custom_api_mgmt_title": {
+		"message": "API ইন্টিগ্রেশন"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "মুছুন"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "সম্পাদনা করুন"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "নিচে সরান"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "উপরে সরান"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "সংযোগ পরীক্ষা করুন"
+	},
+	"engine_aria_info": {
+		"message": "ইঞ্জিন সংস্করণ তথ্য"
+	},
+	"engine_desc_compatible": {
+		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা এখনও সমর্থিত কিন্তু সর্বশেষ সংস্করণ নয়।"
+	},
+	"engine_desc_compatible_impact": {
+		"message": "এখনও অত্যন্ত নির্ভুল সনাক্তকরণ ক্ষমতায় সামান্য পার্থক্য সহ।"
+	},
+	"engine_desc_deprecated": {
+		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা আর সমর্থিত নয়।"
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "নির্ভুলতা উল্লেখযোগ্যভাবে কমে যেতে পারে এবং ফলাফল সতর্কতার সাথে বিবেচনা করা উচিত।"
+	},
+	"engine_desc_latest": {
+		"message": "এই বিশ্লেষণ সর্বশেষ সনাক্তকরণ ক্ষমতা সহ সবচেয়ে বর্তমান AI ইঞ্জিন ব্যবহার করেছে।"
+	},
+	"engine_desc_latest_impact": {
+		"message": "সর্বোচ্চ নির্ভুলতা এবং সবচেয়ে ব্যাপক বিশ্লেষণ।"
+	},
+	"engine_desc_outdated": {
+		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা সর্বশেষ সংস্করণের তুলনায় উল্লেখযোগ্যভাবে পিছিয়ে আছে।"
+	},
+	"engine_desc_outdated_impact": {
+		"message": "নতুন ইঞ্জিন সংস্করণের তুলনায় নির্ভুলতা কমে যেতে পারে।"
+	},
+	"engine_desc_unknown": {
+		"message": "এই বিশ্লেষণ অজানা সামঞ্জস্যতা অবস্থা সহ একটি AI ইঞ্জিন ব্যবহার করেছে।"
+	},
+	"engine_desc_unknown_impact": {
+		"message": "সংস্করণ সামঞ্জস্যতা নির্ধারণ করা যায়নি।"
+	},
+	"engine_header_version": {
+		"message": "ইঞ্জিন v$1"
+	},
+	"engine_status_compatible": {
+		"message": "সামঞ্জস্যপূর্ণ"
+	},
+	"engine_status_deprecated": {
+		"message": "অবচিত"
+	},
+	"engine_status_latest": {
+		"message": "সর্বশেষ"
+	},
+	"engine_status_outdated": {
+		"message": "পুরানো"
+	},
+	"engine_status_unknown": {
+		"message": "অজানা"
+	},
+	"engine_version_unknown": {
+		"message": "অজানা"
 	},
 	"footer_discord": {
 		"message": "Discord"
@@ -50,857 +470,23 @@
 	"footer_github": {
 		"message": "GitHub"
 	},
-	"footer_source_code": {
-		"message": "সোর্স কোড"
-	},
 	"footer_help": {
 		"message": "সাহায্য এবং সম্পর্কে"
-	},
-	"footer_privacy": {
-		"message": "গোপনীয়তা নীতি"
-	},
-	"footer_terms": {
-		"message": "সেবার শর্তাবলী"
 	},
 	"footer_made_by": {
 		"message": "jaxron এর তৈরি"
 	},
-	"settings_developer_unlocked": {
-		"message": "ডেভেলপার মোড আনলক হয়েছে! উন্নত সেটিংস এখন উপলব্ধ।"
+	"footer_privacy": {
+		"message": "গোপনীয়তা নীতি"
 	},
-	"settings_theme_light": {
-		"message": "হালকা"
+	"footer_source_code": {
+		"message": "সোর্স কোড"
 	},
-	"settings_theme_dark": {
-		"message": "গাঢ়"
+	"footer_terms": {
+		"message": "সেবার শর্তাবলী"
 	},
-	"settings_theme_auto": {
-		"message": "স্বয়ংক্রিয়"
-	},
-	"settings_api_system_label": {
-		"message": "(সিস্টেম)"
-	},
-	"settings_manage_apis_button": {
-		"message": "API ইন্টিগ্রেশন পরিচালনা করুন"
-	},
-	"settings_api_count_singular": {
-		"message": "($1 API)"
-	},
-	"settings_api_count_plural": {
-		"message": "($1 APIs)"
-	},
-	"settings_api_key_label": {
-		"message": "API কী (ঐচ্ছিক)"
-	},
-	"settings_api_key_placeholder": {
-		"message": "আপনার API কী লিখুন"
-	},
-	"settings_api_key_toggle_title": {
-		"message": "API কী দেখান/লুকান"
-	},
-	"settings_api_key_hide": {
-		"message": "লুকান"
-	},
-	"settings_api_key_show": {
-		"message": "দেখান"
-	},
-	"settings_developer_hide_button": {
-		"message": "ডেভেলপার সেটিংস লুকান"
-	},
-	"settings_category_content_display": {
-		"message": "কন্টেন্ট প্রদর্শন"
-	},
-	"settings_category_integrations": {
-		"message": "ইন্টিগ্রেশন"
-	},
-	"settings_category_page_settings": {
-		"message": "পেজ সেটিংস"
-	},
-	"settings_category_developer": {
-		"message": "ডেভেলপার"
-	},
-	"settings_label_theme": {
-		"message": "থিম"
-	},
-	"settings_label_advanced_violations": {
-		"message": "উন্নত লঙ্ঘন বিবরণ দেখান"
-	},
-	"settings_label_home_page": {
-		"message": "হোম পেজ"
-	},
-	"settings_label_profile_pages": {
-		"message": "প্রোফাইল পেজ"
-	},
-	"settings_label_friends_pages": {
-		"message": "বন্ধুদের পেজ"
-	},
-	"settings_label_groups_pages": {
-		"message": "গ্রুপ পেজ"
-	},
-	"settings_label_search_pages": {
-		"message": "অনুসন্ধান পেজ"
-	},
-	"settings_label_report_helper": {
-		"message": "রিপোর্ট সহায়ক"
-	},
-	"settings_label_debug_logging": {
-		"message": "ডিবাগ লগিং সক্রিয় করুন"
-	},
-	"settings_label_cache_duration": {
-		"message": "ক্যাশে সময়কাল (মিনিট)"
-	},
-	"settings_help_theme": {
-		"message": "স্বয়ংক্রিয় Roblox এর থিম সেটিং অনুসরণ করে। হালকা এবং গাঢ় এই পছন্দ ওভাররাইড করে।"
-	},
-	"settings_help_advanced_violations": {
-		"message": "বিস্তারিত লঙ্ঘন বার্তা এবং প্রমাণ প্রদর্শন করুন। পরিপক্ক বিষয়বস্তু থাকতে পারে।"
-	},
-	"settings_help_debug_logging": {
-		"message": "ট্রাবলশুটিং এর জন্য ব্রাউজার কনসোলে (F12 -> Console) বিস্তারিত লগ দেখান।"
-	},
-	"settings_help_cache_duration": {
-		"message": "ব্যবহারকারী স্ট্যাটাস ডেটা কতক্ষণ ক্যাশে রাখবেন (১-১০ মিনিট)। উচ্চ মান API কল কমায় কিন্তু পুরানো তথ্য দেখাতে পারে।"
-	},
-	"settings_modal_title": {
-		"message": "উন্নত বিবরণ সতর্কতা"
-	},
-	"settings_modal_confirm_button": {
-		"message": "উন্নত বিবরণ সক্রিয় করুন"
-	},
-	"settings_modal_warning_intro": {
-		"message": "উন্নত লঙ্ঘন বিবরণে সংবেদনশীল বিষয়বস্তু থাকতে পারে"
-	},
-	"settings_modal_warning_continuation": {
-		"message": "যা ব্যবহারকারী প্রোফাইল এবং কার্যকলাপ থেকে উল্লেখ করা হয়েছে যা প্ল্যাটফর্ম নীতি লঙ্ঘন করেছে।"
-	},
-	"settings_modal_enabled_heading": {
-		"message": "সক্রিয় করলে আপনি যা দেখবেন:"
-	},
-	"settings_modal_enabled_item1": {
-		"message": "বিস্তারিত লঙ্ঘন বার্তা ব্যাখ্যা করে কেন একজন ব্যবহারকারীকে ফ্ল্যাগ করা হয়েছে"
-	},
-	"settings_modal_enabled_item2": {
-		"message": "নীতি লঙ্ঘনকারী বিষয়বস্তু সহ প্রমাণ স্নিপেট"
-	},
-	"settings_modal_enabled_item3": {
-		"message": "ব্যবহারকারী প্রোফাইল এবং কার্যকলাপ থেকে লঙ্ঘনের নির্দিষ্ট উদাহরণ"
-	},
-	"settings_modal_considerations_heading": {
-		"message": "গুরুত্বপূর্ণ বিবেচনা"
-	},
-	"settings_modal_considerations_item1": {
-		"message": "বিষয়বস্তুতে এমন উপাদান থাকতে পারে যা প্ল্যাটফর্ম সম্প্রদায় মান লঙ্ঘন করে"
-	},
-	"settings_modal_considerations_item2": {
-		"message": "এই তথ্য শুধুমাত্র মডারেশন এবং নিরাপত্তা উদ্দেশ্যে"
-	},
-	"settings_modal_considerations_item3": {
-		"message": "আপনি যদি বিস্তারিত লঙ্ঘন প্রমাণ দেখতে না চান, তাহলে এই সেটিং অক্ষম রাখুন"
-	},
-	"settings_modal_considerations_item4": {
-		"message": "আপনি যেকোনো সময় সেটিংসে এই বৈশিষ্ট্য অক্ষম করতে পারেন"
-	},
-	"settings_modal_recommendation_label": {
-		"message": "সুপারিশ:"
-	},
-	"settings_modal_recommendation_text": {
-		"message": "শুধুমাত্র এটি সক্রিয় করুন যদি আপনার মডারেশন উদ্দেশ্যে বিস্তারিত লঙ্ঘন তথ্যের প্রয়োজন হয় এবং বুঝতে পারেন যে আপনি এমন বিষয়বস্তু দেখতে পারেন যা সম্প্রদায় নির্দেশিকা লঙ্ঘন করে।"
-	},
-	"stats_changelog_type_added": {
-		"message": "যোগ করা হয়েছে"
-	},
-	"stats_changelog_type_changed": {
-		"message": "পরিবর্তন করা হয়েছে"
-	},
-	"stats_changelog_type_deprecated": {
-		"message": "অবচিত"
-	},
-	"stats_changelog_type_removed": {
-		"message": "সরানো হয়েছে"
-	},
-	"stats_changelog_type_fixed": {
-		"message": "সংশোধন করা হয়েছে"
-	},
-	"stats_changelog_type_security": {
-		"message": "নিরাপত্তা"
-	},
-	"stats_changelog_type_update": {
-		"message": "আপডেট"
-	},
-	"stats_changelog_title": {
-		"message": "চেঞ্জলগ"
-	},
-	"stats_changelog_empty": {
-		"message": "কোনো চেঞ্জলগ এন্ট্রি উপলব্ধ নেই।"
-	},
-	"stats_financial_title": {
-		"message": "তহবিল লক্ষ্য"
-	},
-	"stats_financial_raised": {
-		"message": "সংগৃহীত"
-	},
-	"stats_financial_surplus": {
-		"message": "উদ্বৃত্ত"
-	},
-	"stats_financial_remaining": {
-		"message": "অবশিষ্ট"
-	},
-	"stats_financial_kofi_title": {
-		"message": "Ko-fi তে সমর্থন করুন"
-	},
-	"stats_financial_button_funded": {
-		"message": "ধন্যবাদ!"
-	},
-	"stats_financial_button_support": {
-		"message": "ডেভেলপমেন্ট সমর্থন করুন"
-	},
-	"stats_financial_charts_hide": {
-		"message": "ব্যবহার চার্ট লুকান"
-	},
-	"stats_financial_charts_show": {
-		"message": "ব্যবহার চার্ট দেখান"
-	},
-	"stats_financial_charts_toggle": {
-		"message": "সাপ্তাহিক ব্যবহার চার্ট"
-	},
-	"stats_financial_aria_funded": {
-		"message": "$1 উদ্বৃত্ত সহ সম্পূর্ণ তহবিলযুক্ত"
-	},
-	"stats_financial_aria_progress": {
-		"message": "$1 সংগৃহীত, $3 লক্ষ্যের মধ্যে $2 অবশিষ্ট"
-	},
-	"stats_queue_title": {
-		"message": "কিউ সীমা"
-	},
-	"stats_queue_loading": {
-		"message": "কিউ সীমা লোড হচ্ছে..."
-	},
-	"stats_queue_error": {
-		"message": "কিউ সীমা লোড করতে ব্যর্থ"
-	},
-	"stats_queue_retry": {
-		"message": "পুনরায় চেষ্টা করুন"
-	},
-	"stats_queue_usage": {
-		"message": "ব্যবহার"
-	},
-	"stats_queue_remaining": {
-		"message": "অবশিষ্ট"
-	},
-	"stats_queue_enhanced": {
-		"message": "উন্নত সীমা সক্রিয়"
-	},
-	"stats_queue_default": {
-		"message": "ডিফল্ট সীমা"
-	},
-	"stats_queue_resets_in": {
-		"message": "রিসেট হবে"
-	},
-	"stats_queue_resetting": {
-		"message": "রিসেট হচ্ছে..."
-	},
-	"stats_queue_time_hours": {
-		"message": "$1ঘ $2মি"
-	},
-	"stats_queue_time_minutes": {
-		"message": "$1মি"
-	},
-	"stats_queue_aria_progress": {
-		"message": "$2 এর $1 ব্যবহৃত, $3 অবশিষ্ট"
-	},
-	"stats_statistics_title": {
-		"message": "সিস্টেম পরিসংখ্যান"
-	},
-	"stats_statistics_refresh": {
-		"message": "পরিসংখ্যান রিফ্রেশ করুন"
-	},
-	"stats_statistics_loading": {
-		"message": "পরিসংখ্যান লোড হচ্ছে..."
-	},
-	"stats_statistics_error": {
-		"message": "পরিসংখ্যান লোড করতে ব্যর্থ"
-	},
-	"stats_statistics_retry": {
-		"message": "পুনরায় চেষ্টা করুন"
-	},
-	"stats_statistics_users_title": {
-		"message": "ব্যবহারকারী"
-	},
-	"stats_statistics_groups_title": {
-		"message": "গ্রুপ"
-	},
-	"stats_statistics_community_title": {
-		"message": "সম্প্রদায়"
-	},
-	"stats_statistics_flagged": {
-		"message": "ফ্ল্যাগ করা"
-	},
-	"stats_statistics_confirmed": {
-		"message": "নিশ্চিত"
-	},
-	"stats_statistics_votes": {
-		"message": "মোট ভোট দেওয়া হয়েছে"
-	},
-	"stats_statistics_queued": {
-		"message": "কিউতে থাকা ব্যবহারকারী"
-	},
-	"stats_statistics_users_desc": {
-		"message": "অন্যান্য ব্যবহারকারী Roblox দ্বারা নিষিদ্ধ"
-	},
-	"stats_statistics_groups_desc": {
-		"message": "মিশ্র বিষয়বস্তুসহ গ্রুপ"
-	},
-	"stats_statistics_updated": {
-		"message": "শেষ আপডেট:"
-	},
-	"stats_chart_tab_costs": {
-		"message": "AI খরচ"
-	},
-	"stats_chart_tab_requests": {
-		"message": "AI অনুরোধ"
-	},
-	"stats_chart_tab_tokens": {
-		"message": "AI টোকেন"
-	},
-	"stats_chart_week_4": {
-		"message": "৩ সপ্তাহ\nআগে"
-	},
-	"stats_chart_week_3": {
-		"message": "২ সপ্তাহ\nআগে"
-	},
-	"stats_chart_week_2": {
-		"message": "গত সপ্তাহ"
-	},
-	"stats_chart_week_1": {
-		"message": "এই সপ্তাহ"
-	},
-	"stats_chart_label_costs": {
-		"message": "সাপ্তাহিক AI খরচ"
-	},
-	"stats_chart_label_requests": {
-		"message": "সাপ্তাহিক AI অনুরোধ"
-	},
-	"stats_chart_label_tokens": {
-		"message": "মোট AI টোকেন"
-	},
-	"stats_chart_detail_requests": {
-		"message": "মোট অনুরোধ"
-	},
-	"stats_chart_detail_cost": {
-		"message": "মোট খরচ"
-	},
-	"stats_chart_detail_period": {
-		"message": "সময়কাল"
-	},
-	"stats_chart_detail_prompt": {
-		"message": "প্রম্পট টোকেন"
-	},
-	"stats_chart_detail_completion": {
-		"message": "সমাপ্তি টোকেন"
-	},
-	"stats_chart_detail_reasoning": {
-		"message": "যুক্তি টোকেন"
-	},
-	"stats_chart_legend_prompt": {
-		"message": "প্রম্পট"
-	},
-	"stats_chart_legend_completion": {
-		"message": "সমাপ্তি"
-	},
-	"stats_chart_legend_reasoning": {
-		"message": "যুক্তি"
-	},
-	"stats_chart_month_jan": {
-		"message": "জানু"
-	},
-	"stats_chart_month_feb": {
-		"message": "ফেব্রু"
-	},
-	"stats_chart_month_mar": {
-		"message": "মার্চ"
-	},
-	"stats_chart_month_apr": {
-		"message": "এপ্রিল"
-	},
-	"stats_chart_month_may": {
-		"message": "মে"
-	},
-	"stats_chart_month_jun": {
-		"message": "জুন"
-	},
-	"stats_chart_month_jul": {
-		"message": "জুলাই"
-	},
-	"stats_chart_month_aug": {
-		"message": "আগস্ট"
-	},
-	"stats_chart_month_sep": {
-		"message": "সেপ্টে"
-	},
-	"stats_chart_month_oct": {
-		"message": "অক্টো"
-	},
-	"stats_chart_month_nov": {
-		"message": "নভেম্বর"
-	},
-	"stats_chart_month_dec": {
-		"message": "ডিসেম্বর"
-	},
-	"stats_chart_aria_prompt": {
-		"message": "$1 এর জন্য প্রম্পট টোকেন: $2"
-	},
-	"stats_chart_aria_completion": {
-		"message": "$1 এর জন্য সমাপ্তি টোকেন: $2"
-	},
-	"stats_chart_aria_reasoning": {
-		"message": "$1 এর জন্য যুক্তি টোকেন: $2"
-	},
-	"stats_chart_aria_general": {
-		"message": "$2 এর জন্য $1: $3"
-	},
-	"warzone_common_button_retry": {
-		"message": "পুনরায় চেষ্টা করুন"
-	},
-	"warzone_hunter_title": {
-		"message": "ওয়ার জোন হান্টার"
-	},
-	"warzone_hunter_stat_points": {
-		"message": "পয়েন্ট"
-	},
-	"warzone_hunter_stat_status": {
-		"message": "অবস্থা"
-	},
-	"warzone_hunter_discord_avatar_alt": {
-		"message": "Discord অবতার"
-	},
-	"warzone_hunter_loading_connecting": {
-		"message": "সংযুক্ত হচ্ছে..."
-	},
-	"warzone_hunter_status_anonymous": {
-		"message": "বেনামী"
-	},
-	"warzone_hunter_status_public": {
-		"message": "সর্বজনীন"
-	},
-	"warzone_hunter_signup_description": {
-		"message": "উচ্চ-ঝুঁকিপূর্ণ নিশ্চিত ব্যবহারকারীদের রিপোর্ট করতে সম্প্রদায়ে যোগ দিন। সারাবিশ্বের হান্টারদের সাথে মিলে কাজ করুন যাতে টেকডাউন সফলতা বাড়ানো যায় এবং Roblox সবার জন্য নিরাপদ হয়।"
-	},
-	"warzone_hunter_feature_report": {
-		"message": "উচ্চ-ঝুঁকিপূর্ণ নিশ্চিত ব্যবহারকারীদের রিপোর্ট করুন"
-	},
-	"warzone_hunter_feature_cleanup": {
-		"message": "প্ল্যাটফর্ম পরিষ্কার করতে এবং খারাপ কাজকারীদের সরাতে সাহায্য করুন"
-	},
-	"warzone_hunter_feature_community": {
-		"message": "উচ্চ টেকডাউন সফলতার জন্য সম্প্রদায়ের সাথে কাজ করুন"
-	},
-	"warzone_hunter_feature_leaderboard": {
-		"message": "পয়েন্ট অর্জন করুন এবং লিডারবোর্ডে উঠুন"
-	},
-	"warzone_hunter_beta_label": {
-		"message": "ক্লোজড বিটা:"
-	},
-	"warzone_hunter_beta_text_before_link": {
-		"message": "শুধুমাত্র নির্বাচিত ব্যবহারকারীদের জন্য উপলব্ধ। আমাদের"
-	},
-	"warzone_hunter_beta_discord_link": {
-		"message": "Discord সার্ভারে"
-	},
-	"warzone_hunter_beta_text_after_link": {
-		"message": "যোগ দিন আপডেটের জন্য।"
-	},
-	"warzone_hunter_button_login": {
-		"message": "Discord দিয়ে লগইন করুন"
-	},
-	"warzone_hunter_button_logout": {
-		"message": "লগআউট"
-	},
-	"warzone_hunter_welcome_message": {
-		"message": "স্বাগতম, হান্টার! আপনি এখন ওয়ার জোন কার্যক্রমে অংশগ্রহণ করতে এবং Roblox সম্প্রদায় রক্ষা করতে সাহায্য করতে পারেন। আপনার হান্টিং মিশন শুরু করতে Roblox হোমপেজে যান।"
-	},
-	"warzone_hunter_confirm_logout": {
-		"message": "আপনি কি নিশ্চিত লগআউট করতে চান?\n\nআপনি আপনার Discord অ্যাকাউন্ট ব্যবহার করে যেকোনো সময় আবার লগইন করতে পারেন।"
-	},
-	"warzone_leaderboard_loading": {
-		"message": "লিডারবোর্ড লোড হচ্ছে..."
-	},
-	"warzone_leaderboard_error_load": {
-		"message": "লিডারবোর্ড লোড করতে ব্যর্থ"
-	},
-	"warzone_leaderboard_filter_anonymous": {
-		"message": "বেনামী হান্টার অন্তর্ভুক্ত করুন"
-	},
-	"warzone_leaderboard_total_hunters": {
-		"message": "মোট হান্টার: $1"
-	},
-	"warzone_leaderboard_your_rank": {
-		"message": "আপনার র‍্যাঙ্ক: #$1"
-	},
-	"warzone_leaderboard_section_top": {
-		"message": "শীর্ষ হান্টার"
-	},
-	"warzone_leaderboard_section_rankings": {
-		"message": "র‍্যাঙ্কিং"
-	},
-	"warzone_leaderboard_badge_you": {
-		"message": "আপনি"
-	},
-	"warzone_leaderboard_stat_reports": {
-		"message": "$1 রিপোর্ট"
-	},
-	"warzone_leaderboard_stat_success": {
-		"message": "$1% সফলতা"
-	},
-	"warzone_order_type_ban_count": {
-		"message": "নিষেধাজ্ঞা সংখ্যা"
-	},
-	"warzone_order_type_zone_liberation": {
-		"message": "জোন মুক্তি"
-	},
-	"warzone_order_type_verification": {
-		"message": "যাচাইকরণ"
-	},
-	"warzone_order_label_completed": {
-		"message": "সম্পন্ন"
-	},
-	"warzone_order_label_expires": {
-		"message": "মেয়াদ শেষ"
-	},
-	"warzone_order_label_progress": {
-		"message": "অগ্রগতি"
-	},
-	"warzone_order_progress_value": {
-		"message": "$1 / $2"
-	},
-	"warzone_target_status_confirmed": {
-		"message": "নিশ্চিত"
-	},
-	"warzone_target_status_flagged": {
-		"message": "ফ্ল্যাগ করা"
-	},
-	"warzone_target_meta_confidence": {
-		"message": "আত্মবিশ্বাস"
-	},
-	"warzone_target_meta_attempts": {
-		"message": "প্রচেষ্টা"
-	},
-	"warzone_target_meta_active": {
-		"message": "সক্রিয়"
-	},
-	"warzone_mode_global": {
-		"message": "বৈশ্বিক"
-	},
-	"warzone_mode_zone": {
-		"message": "জোন"
-	},
-	"warzone_chart_error_load": {
-		"message": "$1 ঐতিহাসিক ডেটা লোড করতে ব্যর্থ"
-	},
-	"warzone_chart_tab_liberation": {
-		"message": "মুক্তি"
-	},
-	"warzone_chart_tab_users": {
-		"message": "ব্যবহারকারী"
-	},
-	"warzone_chart_tab_ban_rate": {
-		"message": "নিষেধাজ্ঞার হার"
-	},
-	"warzone_chart_label_global_liberation": {
-		"message": "বৈশ্বিক মুক্তি"
-	},
-	"warzone_chart_label_zone_liberation": {
-		"message": "জোন মুক্তি"
-	},
-	"warzone_chart_label_total_users": {
-		"message": "মোট ব্যবহারকারী"
-	},
-	"warzone_chart_label_global_ban_rate": {
-		"message": "বৈশ্বিক নিষেধাজ্ঞার হার"
-	},
-	"warzone_chart_label_zone_ban_rate": {
-		"message": "জোন নিষেধাজ্ঞার হার"
-	},
-	"warzone_chart_legend_banned": {
-		"message": "নিষিদ্ধ"
-	},
-	"warzone_chart_legend_flagged": {
-		"message": "ফ্ল্যাগ করা"
-	},
-	"warzone_chart_legend_confirmed": {
-		"message": "নিশ্চিত"
-	},
-	"warzone_chart_tooltip_date": {
-		"message": "তারিখ"
-	},
-	"warzone_chart_tooltip_total_users": {
-		"message": "মোট ব্যবহারকারী"
-	},
-	"warzone_chart_tooltip_banned": {
-		"message": "নিষিদ্ধ"
-	},
-	"warzone_overview_loading": {
-		"message": "যুদ্ধ মানচিত্র লোড হচ্ছে..."
-	},
-	"warzone_overview_error_load": {
-		"message": "যুদ্ধ মানচিত্র লোড করতে ব্যর্থ"
-	},
-	"warzone_overview_section_zones": {
-		"message": "ওয়ার জোন"
-	},
-	"warzone_overview_section_targets": {
-		"message": "সক্রিয় লক্ষ্য"
-	},
-	"warzone_overview_section_global_stats": {
-		"message": "বৈশ্বিক যুদ্ধ পরিসংখ্যান"
-	},
-	"warzone_overview_section_global_trends": {
-		"message": "বৈশ্বিক ট্রেন্ড (৩০ দিন)"
-	},
-	"warzone_overview_section_major_orders": {
-		"message": "সক্রিয় প্রধান আদেশ"
-	},
-	"warzone_overview_button_find_user": {
-		"message": "রিপোর্ট করার জন্য ব্যবহারকারী খুঁজুন"
-	},
-	"warzone_overview_finding_user_loading": {
-		"message": "ব্যবহারকারী খুঁজছে..."
-	},
-	"warzone_overview_error_no_users": {
-		"message": "কোন রিপোর্টযোগ্য ব্যবহারকারী উপলব্ধ নেই। পরে আবার চেক করুন!"
-	},
-	"warzone_overview_error_auth_expired": {
-		"message": "প্রমাণীকরণ মেয়াদ শেষ। দয়া করে লগআউট করুন এবং আবার লগইন করুন।"
-	},
-	"warzone_overview_error_find_user": {
-		"message": "রিপোর্টযোগ্য ব্যবহারকারী খুঁজতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
-	},
-	"warzone_overview_stat_total_zones": {
-		"message": "মোট জোন"
-	},
-	"warzone_overview_stat_avg_liberation": {
-		"message": "গড় মুক্তি"
-	},
-	"warzone_overview_stat_total_banned": {
-		"message": "মোট নিষিদ্ধ"
-	},
-	"warzone_overview_stat_active_targets": {
-		"message": "সক্রিয় লক্ষ্য"
-	},
-	"warzone_profile_title": {
-		"message": "প্রোফাইল"
-	},
-	"warzone_profile_stat_points": {
-		"message": "পয়েন্ট"
-	},
-	"warzone_profile_label_discord": {
-		"message": "Discord"
-	},
-	"warzone_profile_discord_avatar_alt": {
-		"message": "Discord অবতার"
-	},
-	"warzone_profile_label_visibility": {
-		"message": "দৃশ্যমানতা"
-	},
-	"warzone_profile_label_joined": {
-		"message": "যোগদান"
-	},
-	"warzone_profile_label_last_active": {
-		"message": "শেষ সক্রিয়"
-	},
-	"warzone_profile_visibility_anonymous": {
-		"message": "বেনামী"
-	},
-	"warzone_profile_visibility_public": {
-		"message": "সর্বজনীন"
-	},
-	"warzone_profile_button_reset_uuid": {
-		"message": "সব ডিভাইস থেকে লগআউট করুন"
-	},
-	"warzone_profile_button_reset_uuid_loading": {
-		"message": "লগআউট হচ্ছে..."
-	},
-	"warzone_profile_button_reset_uuid_success": {
-		"message": "✓ সব ডিভাইস থেকে লগআউট হয়েছে"
-	},
-	"warzone_profile_button_logout": {
-		"message": "লগআউট"
-	},
-	"warzone_profile_confirm_logout": {
-		"message": "আপনি কি নিশ্চিত লগআউট করতে চান?\n\nআপনি আপনার Discord অ্যাকাউন্ট ব্যবহার করে যেকোনো সময় আবার লগইন করতে পারেন।"
-	},
-	"warzone_profile_confirm_reset_uuid": {
-		"message": "সব ডিভাইস থেকে লগআউট করবেন?\n\nএটি অন্যান্য ডিভাইসে সমস্ত সক্রিয় সেশন বাতিল করবে। আপনি এই ডিভাইসে লগইন থাকবেন, কিন্তু অন্য সব ডিভাইস থেকে লগআউট হবে।\n\nআপনার অ্যাকাউন্ট আপোসকৃত হয়েছে বলে সন্দেহ হলে এটি উপকারী।"
-	},
-	"warzone_profile_error_reset_uuid": {
-		"message": "সব ডিভাইস থেকে লগআউট করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
-	},
-	"warzone_nav_tab_war_zone": {
-		"message": "ওয়ার জোন"
-	},
-	"warzone_nav_tab_profile": {
-		"message": "প্রোফাইল"
-	},
-	"warzone_nav_tab_leaderboard": {
-		"message": "লিডারবোর্ড"
-	},
-	"warzone_zone_loading": {
-		"message": "জোন বিবরণ লোড হচ্ছে..."
-	},
-	"warzone_zone_error_load": {
-		"message": "জোন বিবরণ লোড করতে ব্যর্থ"
-	},
-	"warzone_zone_button_back": {
-		"message": "ওভারভিউতে ফিরে যান"
-	},
-	"warzone_zone_status_liberated_suffix": {
-		"message": "% মুক্ত"
-	},
-	"warzone_zone_stat_total_users": {
-		"message": "মোট ব্যবহারকারী"
-	},
-	"warzone_zone_stat_banned": {
-		"message": "নিষিদ্ধ"
-	},
-	"warzone_zone_stat_flagged": {
-		"message": "ফ্ল্যাগ করা"
-	},
-	"warzone_zone_stat_confirmed": {
-		"message": "নিশ্চিত"
-	},
-	"warzone_zone_section_trends": {
-		"message": "জোন ট্রেন্ড (৩০ দিন)"
-	},
-	"queue_popup_cancel_button": {
-		"message": "বাতিল"
-	},
-	"queue_popup_submit_button": {
-		"message": "পর্যালোচনার জন্য জমা দিন"
-	},
-	"queue_popup_submitting_button": {
-		"message": "জমা দেওয়া হচ্ছে..."
-	},
-	"queue_popup_title_reprocess": {
-		"message": "পর্যালোচনার জন্য ব্যবহারকারী পুনঃপ্রসেস করুন"
-	},
-	"queue_popup_title_queue": {
-		"message": "পর্যালোচনার জন্য ব্যবহারকারীকে কিউতে রাখুন"
-	},
-	"queue_popup_description_reanalysis": {
-		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা পুনর্বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
-	},
-	"queue_popup_description_analysis": {
-		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
-	},
-	"queue_popup_submission_type_heading": {
-		"message": "এটি কি ধরনের জমা?"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তু রয়েছে"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "এই ব্যবহারকারীর প্রোফাইল, অবতার, বন্ধু বা গ্রুপে স্পষ্ট অনুপযুক্ত বিষয়বস্তু রয়েছে।"
-	},
-	"queue_popup_option_general_title": {
-		"message": "সাধারণ নিরাপত্তা পরীক্ষা"
-	},
-	"queue_popup_option_general_description": {
-		"message": "আমি নিশ্চিত নই কিন্তু এই ব্যবহারকারীকে সাধারণ নিরাপত্তা মূল্যায়নের জন্য বিশ্লেষণ করতে চাই।"
-	},
-	"queue_popup_general_check_message": {
-		"message": "এই ব্যবহারকারীকে সাধারণ নিরাপত্তা উদ্বেগের জন্য বিশ্লেষণ করা হবে। কোনো নির্দিষ্ট ফ্ল্যাগিং কারণ প্রয়োজন নেই।"
-	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "ফ্ল্যাগিং কারণ(গুলি) নির্বাচন করুন:"
-	},
-	"queue_popup_outfit_title": {
-		"message": "অনুপযুক্ত পোশাক"
-	},
-	"queue_popup_outfit_description": {
-		"message": "এই ব্যবহারকারীর অনুপযুক্ত পোশাক বা অবতার রয়েছে।"
-	},
-	"queue_popup_profile_title": {
-		"message": "অনুপযুক্ত প্রোফাইল"
-	},
-	"queue_popup_profile_description": {
-		"message": "এই ব্যবহারকারীর ব্যবহারকারীর নাম, প্রদর্শন নাম বা বর্ণনায় অনুপযুক্ত বিষয়বস্তু রয়েছে।"
-	},
-	"queue_popup_friends_title": {
-		"message": "অনুপযুক্ত বন্ধু"
-	},
-	"queue_popup_friends_description": {
-		"message": "এই ব্যবহারকারীর অনুপযুক্ত বন্ধু রয়েছে।"
-	},
-	"queue_popup_groups_title": {
-		"message": "অনুপযুক্ত গ্রুপ"
-	},
-	"queue_popup_groups_description": {
-		"message": "এই ব্যবহারকারী অনুপযুক্ত গ্রুপে আছে।"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "নির্বাচন প্রয়োজন:"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "অনুগ্রহ করে এগিয়ে যাওয়ার আগে অন্তত একটি ফ্ল্যাগিং কারণ নির্বাচন করুন।"
-	},
-	"queue_popup_lock_button": {
-		"message": "আমার নির্বাচন লক করুন"
-	},
-	"queue_popup_lock_instruction": {
-		"message": "জমা দেওয়ার আগে আপনাকে আপনার নির্বাচন লক করতে হবে।"
-	},
-	"queue_popup_summary_heading": {
-		"message": "নির্বাচিত বিকল্প:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "অনুপযুক্ত পোশাকের জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "অনুপযুক্ত প্রোফাইল বিষয়বস্তুর জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_friends_selected": {
-		"message": "অনুপযুক্ত বন্ধুদের জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "অনুপযুক্ত গ্রুপগুলির জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_unlock_button": {
-		"message": "নির্বাচন আনলক করুন"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "আনলক করতে এবং আপনার নির্বাচন পরিবর্তন করতে ক্লিক করুন।"
-	},
-	"queue_popup_review_process_heading": {
-		"message": "পর্যালোচনা প্রক্রিয়া"
-	},
-	"queue_popup_review_process_step1": {
-		"message": "সম্ভাব্য নিরাপত্তা উদ্বেগ সনাক্ত করতে AI অ্যালগরিদম দ্বারা বিশ্লেষণ করা হয়"
-	},
-	"queue_popup_review_process_step2": {
-		"message": "AI দ্বারা ফ্ল্যাগ করা হলে, চূড়ান্ত নিশ্চিতকরণের জন্য মানব মডারেটরদের দ্বারা পর্যালোচনা করা হয়"
-	},
-	"queue_popup_review_process_step3": {
-		"message": "উপযুক্ত নিরাপত্তা রেটিং সহ ডাটাবেসে ফলাফল যোগ করা হয়"
-	},
-	"queue_popup_warning_heading": {
-		"message": "গুরুত্বপূর্ণ সতর্কতা"
-	},
-	"queue_popup_warning_message_prefix": {
-		"message": "এই বৈশিষ্ট্যের অপব্যবহার"
-	},
-	"queue_popup_warning_message_suffix": {
-		"message": "(যেমন জমা স্প্যামিং) আপনার অ্যাকাউন্টে সীমাবদ্ধতার কারণ হতে পারে। স্বয়ংক্রিয় অপব্যবহার সনাক্তকরণ সক্রিয়।"
+	"friend_warning_avatar_alt": {
+		"message": "$1 এর অবতার"
 	},
 	"friend_warning_block_button": {
 		"message": "ব্যবহারকারী ব্লক করুন"
@@ -908,26 +494,38 @@
 	"friend_warning_cancel_button": {
 		"message": "অনুরোধ বাতিল করুন"
 	},
+	"friend_warning_confidence_label": {
+		"message": "আত্মবিশ্বাস: $1%"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "এই বন্ধুত্বের অনুরোধ এগিয়ে নিলে আপনি অনুপযুক্ত বিষয়বস্তু বা ক্ষতিকারক ইন্টারঅ্যাকশনের সংস্পর্শে আসতে পারেন।"
+	},
 	"friend_warning_proceed_button": {
 		"message": "যেকোনো ভাবে এগিয়ে যান"
 	},
-	"friend_warning_title": {
-		"message": "সতর্কতা: অনিরাপদ ব্যবহারকারী"
+	"friend_warning_recommendations_heading": {
+		"message": "প্রস্তাবিত পদক্ষেপ"
 	},
-	"friend_warning_avatar_alt": {
-		"message": "$1 এর অবতার"
+	"friend_warning_recommendations_item1": {
+		"message": "তাদের প্রোফাইল তথ্য আরো সাবধানে পর্যালোচনা করুন"
 	},
-	"friend_warning_user_id_label": {
-		"message": "ব্যবহারকারী ID: $1"
+	"friend_warning_recommendations_item2": {
+		"message": "অনুপযুক্ত বিষয়বস্তু দেখলে Roblox এ তাদের রিপোর্ট করুন"
 	},
-	"friend_warning_risk_title": {
-		"message": "সম্ভাব্য অনুপযুক্ত ব্যবহারকারী"
+	"friend_warning_recommendations_item3": {
+		"message": "শুধুমাত্র আপনার পরিচিত এবং বিশ্বস্ত ব্যবহারকারীদের সাথে সংযুক্ত হন"
 	},
 	"friend_warning_risk_message": {
 		"message": "এই ব্যবহারকারী আমাদের সনাক্তকরণ সিস্টেম দ্বারা ফ্ল্যাগ করা হয়েছে। এই বন্ধুত্বের অনুরোধ গ্রহণ করার আগে দয়া করে তাদের প্রোফাইল পর্যালোচনা করুন।"
 	},
-	"friend_warning_confidence_label": {
-		"message": "আত্মবিশ্বাস: $1%"
+	"friend_warning_risk_title": {
+		"message": "সম্ভাব্য অনুপযুক্ত ব্যবহারকারী"
+	},
+	"friend_warning_title": {
+		"message": "সতর্কতা: অনিরাপদ ব্যবহারকারী"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ব্যবহারকারী ID: $1"
 	},
 	"friend_warning_why_matters_heading": {
 		"message": "এটি কেন গুরুত্বপূর্ণ"
@@ -944,65 +542,212 @@
 	"friend_warning_why_matters_item4": {
 		"message": "এই ব্যবহারকারীর কাছে Roblox এর সেবার শর্তাবলী লঙ্ঘনের স্পষ্ট প্রমাণ রয়েছে"
 	},
-	"friend_warning_recommendations_heading": {
-		"message": "প্রস্তাবিত পদক্ষেপ"
+	"navbar_tab_settings": {
+		"message": "সেটিংস"
 	},
-	"friend_warning_recommendations_item1": {
-		"message": "তাদের প্রোফাইল তথ্য আরো সাবধানে পর্যালোচনা করুন"
+	"navbar_tab_stats": {
+		"message": "পরিসংখ্যান"
 	},
-	"friend_warning_recommendations_item2": {
-		"message": "অনুপযুক্ত বিষয়বস্তু দেখলে Roblox এ তাদের রিপোর্ট করুন"
+	"navbar_tab_warzone": {
+		"message": "ওয়ার জোন"
 	},
-	"friend_warning_recommendations_item3": {
-		"message": "শুধুমাত্র আপনার পরিচিত এবং বিশ্বস্ত ব্যবহারকারীদের সাথে সংযুক্ত হন"
+	"popup_header_description": {
+		"message": "রিয়েল-টাইম নিরাপত্তা সূচক যা আপনার সাথে ইন্টারঅ্যাক্ট করার আগে অনুপযুক্ত Roblox ব্যবহারকারীদের সম্পর্কে সতর্ক করে।"
 	},
-	"friend_warning_high_risk_message": {
-		"message": "এই বন্ধুত্বের অনুরোধ এগিয়ে নিলে আপনি অনুপযুক্ত বিষয়বস্তু বা ক্ষতিকারক ইন্টারঅ্যাকশনের সংস্পর্শে আসতে পারেন।"
+	"queue_error_modal_close_button": {
+		"message": "বন্ধ করুন"
 	},
-	"report_helper_card_title_reportable": {
-		"message": "রিপোর্টযোগ্য বিষয়বস্তু পাওয়া গেছে"
+	"queue_error_modal_details_heading": {
+		"message": "ত্রুটি বিবরণ"
 	},
-	"report_helper_card_title_not_reportable": {
-		"message": "কোনো রিপোর্টযোগ্য বিষয়বস্তু সনাক্ত হয়নি"
+	"queue_error_modal_error_code_label": {
+		"message": "ত্রুটি কোড:"
 	},
-	"report_helper_subtitle_reportable": {
-		"message": "Rotector Roblox এর সেবার শর্তাবলী লঙ্ঘন করে এমন প্রোফাইল বিষয়বস্তু চিহ্নিত করেছে।"
+	"queue_error_modal_failed_message": {
+		"message": "পর্যালোচনার জন্য ব্যবহারকারী ID $1 কিউতে রাখতে ব্যর্থ।"
 	},
-	"report_helper_evidence_header": {
-		"message": "সনাক্ত সমস্যা"
+	"queue_error_modal_next_steps_heading": {
+		"message": "এর পরে কি করতে হবে"
 	},
-	"report_helper_evidence_reason_label": {
-		"message": "কারণ:"
+	"queue_error_modal_request_id_label": {
+		"message": "অনুরোধ ID:"
 	},
-	"report_helper_evidence_snippets_label": {
-		"message": "প্রমাণ স্নিপেট:"
+	"queue_error_modal_step1": {
+		"message": "পরীক্ষা করুন যে ব্যবহারকারীকে ইতিমধ্যে আমাদের সিস্টেম দ্বারা ফ্ল্যাগ করা হয়েছে কিনা"
+	},
+	"queue_error_modal_step2": {
+		"message": "ত্রুটি অব্যাহত থাকলে, কয়েক মিনিটে আবার চেষ্টা করুন"
+	},
+	"queue_error_modal_step3": {
+		"message": "আপনার সহায়তার প্রয়োজন হলে, উপরের অনুরোধ ID অন্তর্ভুক্ত করুন"
+	},
+	"queue_error_modal_title": {
+		"message": "ত্রুটি"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "অজানা ত্রুটি ঘটেছে"
+	},
+	"queue_popup_cancel_button": {
+		"message": "বাতিল"
+	},
+	"queue_popup_description_analysis": {
+		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা পুনর্বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "ফ্ল্যাগিং কারণ(গুলি) নির্বাচন করুন:"
+	},
+	"queue_popup_friends_description": {
+		"message": "এই ব্যবহারকারীর অনুপযুক্ত বন্ধু রয়েছে।"
+	},
+	"queue_popup_friends_title": {
+		"message": "অনুপযুক্ত বন্ধু"
+	},
+	"queue_popup_general_check_message": {
+		"message": "এই ব্যবহারকারীকে সাধারণ নিরাপত্তা উদ্বেগের জন্য বিশ্লেষণ করা হবে। কোনো নির্দিষ্ট ফ্ল্যাগিং কারণ প্রয়োজন নেই।"
+	},
+	"queue_popup_groups_description": {
+		"message": "এই ব্যবহারকারী অনুপযুক্ত গ্রুপে আছে।"
+	},
+	"queue_popup_groups_title": {
+		"message": "অনুপযুক্ত গ্রুপ"
+	},
+	"queue_popup_lock_button": {
+		"message": "আমার নির্বাচন লক করুন"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "জমা দেওয়ার আগে আপনাকে আপনার নির্বাচন লক করতে হবে।"
+	},
+	"queue_popup_option_general_description": {
+		"message": "আমি নিশ্চিত নই কিন্তু এই ব্যবহারকারীকে সাধারণ নিরাপত্তা মূল্যায়নের জন্য বিশ্লেষণ করতে চাই।"
+	},
+	"queue_popup_option_general_title": {
+		"message": "সাধারণ নিরাপত্তা পরীক্ষা"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "এই ব্যবহারকারীর প্রোফাইল, অবতার, বন্ধু বা গ্রুপে স্পষ্ট অনুপযুক্ত বিষয়বস্তু রয়েছে।"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তু রয়েছে"
+	},
+	"queue_popup_outfit_description": {
+		"message": "এই ব্যবহারকারীর অনুপযুক্ত পোশাক বা অবতার রয়েছে।"
+	},
+	"queue_popup_outfit_title": {
+		"message": "অনুপযুক্ত পোশাক"
+	},
+	"queue_popup_profile_description": {
+		"message": "এই ব্যবহারকারীর ব্যবহারকারীর নাম, প্রদর্শন নাম বা বর্ণনায় অনুপযুক্ত বিষয়বস্তু রয়েছে।"
+	},
+	"queue_popup_profile_title": {
+		"message": "অনুপযুক্ত প্রোফাইল"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "পর্যালোচনা প্রক্রিয়া"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "সম্ভাব্য নিরাপত্তা উদ্বেগ সনাক্ত করতে AI অ্যালগরিদম দ্বারা বিশ্লেষণ করা হয়"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "AI দ্বারা ফ্ল্যাগ করা হলে, চূড়ান্ত নিশ্চিতকরণের জন্য মানব মডারেটরদের দ্বারা পর্যালোচনা করা হয়"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "উপযুক্ত নিরাপত্তা রেটিং সহ ডাটাবেসে ফলাফল যোগ করা হয়"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "এটি কি ধরনের জমা?"
+	},
+	"queue_popup_submit_button": {
+		"message": "পর্যালোচনার জন্য জমা দিন"
+	},
+	"queue_popup_submitting_button": {
+		"message": "জমা দেওয়া হচ্ছে..."
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "অনুপযুক্ত বন্ধুদের জন্য অগ্রাধিকার দেওয়া হবে"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "নির্বাচিত নয়"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "অনুপযুক্ত গ্রুপগুলির জন্য অগ্রাধিকার দেওয়া হবে"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "নির্বাচিত নয়"
+	},
+	"queue_popup_summary_heading": {
+		"message": "নির্বাচিত বিকল্প:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "অনুপযুক্ত পোশাকের জন্য অগ্রাধিকার দেওয়া হবে"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "নির্বাচিত নয়"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "অনুপযুক্ত প্রোফাইল বিষয়বস্তুর জন্য অগ্রাধিকার দেওয়া হবে"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "নির্বাচিত নয়"
+	},
+	"queue_popup_title_queue": {
+		"message": "পর্যালোচনার জন্য ব্যবহারকারীকে কিউতে রাখুন"
+	},
+	"queue_popup_title_reprocess": {
+		"message": "পর্যালোচনার জন্য ব্যবহারকারী পুনঃপ্রসেস করুন"
+	},
+	"queue_popup_unlock_button": {
+		"message": "নির্বাচন আনলক করুন"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "আনলক করতে এবং আপনার নির্বাচন পরিবর্তন করতে ক্লিক করুন।"
+	},
+	"queue_popup_validation_error_message": {
+		"message": "অনুগ্রহ করে এগিয়ে যাওয়ার আগে অন্তত একটি ফ্ল্যাগিং কারণ নির্বাচন করুন।"
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "নির্বাচন প্রয়োজন:"
+	},
+	"queue_popup_warning_heading": {
+		"message": "গুরুত্বপূর্ণ সতর্কতা"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "এই বৈশিষ্ট্যের অপব্যবহার"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(যেমন জমা স্প্যামিং) আপনার অ্যাকাউন্টে সীমাবদ্ধতার কারণ হতে পারে। স্বয়ংক্রিয় অপব্যবহার সনাক্তকরণ সক্রিয়।"
+	},
+	"queue_success_modal_close_button": {
+		"message": "বন্ধ করুন"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "এর পরে কি ঘটবে"
+	},
+	"queue_success_modal_step1": {
+		"message": "আমাদের AI এই অ্যাকাউন্টকে উদ্বেগের নিদর্শনগুলির জন্য বিশ্লেষণ করবে"
+	},
+	"queue_success_modal_step2": {
+		"message": "ফ্ল্যাগ করা হলে, কয়েক মিনিটের মধ্যে ব্যবহারকারীর স্ট্যাটাস নিশ্চিত হবে"
+	},
+	"queue_success_modal_step3": {
+		"message": "সম্পূর্ণ সিস্টেম সিঙ্ক এবং নিশ্চিতকরণ ২৪-৪৮ ঘন্টা সময় নেবে"
+	},
+	"queue_success_modal_success_message": {
+		"message": "ব্যবহারকারী ID $1 সফলভাবে পর্যালোচনার জন্য কিউতে রাখা হয়েছে।"
+	},
+	"queue_success_modal_title": {
+		"message": "সফল"
 	},
 	"report_helper_action_message": {
 		"message": "নিচে ক্লিক করুন এবং Rotector স্বয়ংক্রিয়ভাবে উপযুক্ত শ্রেণী এবং বিবরণ দিয়ে রিপোর্ট ফর্ম পূরণ করবে।"
 	},
-	"report_helper_fill_button": {
-		"message": "রিপোর্ট ফর্ম পূরণ করুন"
+	"report_helper_card_title_not_reportable": {
+		"message": "কোনো রিপোর্টযোগ্য বিষয়বস্তু সনাক্ত হয়নি"
 	},
-	"report_helper_filling_button": {
-		"message": "পূরণ হচ্ছে..."
-	},
-	"report_helper_warning_label": {
-		"message": "গুরুত্বপূর্ণ:"
-	},
-	"report_helper_warning_message": {
-		"message": "রিপোর্ট আপনার Roblox অ্যাকাউন্টের অধীনে দাখিল করা হয়। জমা দেওয়ার আগে সমস্ত তথ্য পর্যালোচনা করুন এবং শুধুমাত্র প্রকৃত লঙ্ঘন রিপোর্ট করুন।"
-	},
-	"report_helper_subtitle_not_reportable": {
-		"message": "Rotector এখনো এই ব্যবহারকারীর প্রোফাইল বর্ণনায় কোনো স্পষ্টভাবে রিপোর্টযোগ্য বিষয়বস্তু সনাক্ত করেনি।"
-	},
-	"report_helper_info_message_part1": {
-		"message": "আপনি এখনও একটি রিপোর্ট জমা দিতে পারেন"
-	},
-	"report_helper_info_message_part2": {
-		"message": "যদি আপনি বিশ্বাস করেন যে এই ব্যবহারকারী Roblox এর সেবার শর্তাবলী লঙ্ঘন করছে।"
-	},
-	"report_helper_info_message_part3": {
-		"message": "Rotector প্রোফাইল বর্ণনায় অনুপযুক্ত বিষয়বস্তু রিপোর্ট করার অনুমতি দেয়। আমরা বেশিরভাগ রিপোর্ট শ্রেণী সনাক্ত করি না, এর মধ্যে রয়েছে:"
+	"report_helper_card_title_reportable": {
+		"message": "রিপোর্টযোগ্য বিষয়বস্তু পাওয়া গেছে"
 	},
 	"report_helper_category_item1": {
 		"message": "ব্যক্তিগত তথ্য চাওয়া বা দেওয়া"
@@ -1019,74 +764,50 @@
 	"report_helper_category_item5": {
 		"message": "বাস্তব জীবনের হুমকি বা আত্মহত্যার হুমকি"
 	},
+	"report_helper_evidence_header": {
+		"message": "সনাক্ত সমস্যা"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "কারণ:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "প্রমাণ স্নিপেট:"
+	},
+	"report_helper_fill_button": {
+		"message": "রিপোর্ট ফর্ম পূরণ করুন"
+	},
+	"report_helper_filling_button": {
+		"message": "পূরণ হচ্ছে..."
+	},
+	"report_helper_info_message_part1": {
+		"message": "আপনি এখনও একটি রিপোর্ট জমা দিতে পারেন"
+	},
+	"report_helper_info_message_part2": {
+		"message": "যদি আপনি বিশ্বাস করেন যে এই ব্যবহারকারী Roblox এর সেবার শর্তাবলী লঙ্ঘন করছে।"
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector প্রোফাইল বর্ণনায় অনুপযুক্ত বিষয়বস্তু রিপোর্ট করার অনুমতি দেয়। আমরা বেশিরভাগ রিপোর্ট শ্রেণী সনাক্ত করি না, এর মধ্যে রয়েছে:"
+	},
 	"report_helper_info_message_part4": {
 		"message": "আপনি যদি এই লঙ্ঘনগুলির যেকোনো একটি রিপোর্ট করছেন, তাহলে অনুগ্রহ করে আপনার রিপোর্ট চালিয়ে যান এবং Roblox মডারেটরদের সাহায্য করতে নির্দিষ্ট বিবরণ প্রদান করুন।"
 	},
-	"queue_error_modal_close_button": {
-		"message": "বন্ধ করুন"
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector এখনো এই ব্যবহারকারীর প্রোফাইল বর্ণনায় কোনো স্পষ্টভাবে রিপোর্টযোগ্য বিষয়বস্তু সনাক্ত করেনি।"
 	},
-	"queue_error_modal_title": {
-		"message": "ত্রুটি"
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector Roblox এর সেবার শর্তাবলী লঙ্ঘন করে এমন প্রোফাইল বিষয়বস্তু চিহ্নিত করেছে।"
 	},
-	"queue_error_modal_unknown_error": {
-		"message": "অজানা ত্রুটি ঘটেছে"
+	"report_helper_warning_label": {
+		"message": "গুরুত্বপূর্ণ:"
 	},
-	"queue_error_modal_failed_message": {
-		"message": "পর্যালোচনার জন্য ব্যবহারকারী ID $1 কিউতে রাখতে ব্যর্থ।"
+	"report_helper_warning_message": {
+		"message": "রিপোর্ট আপনার Roblox অ্যাকাউন্টের অধীনে দাখিল করা হয়। জমা দেওয়ার আগে সমস্ত তথ্য পর্যালোচনা করুন এবং শুধুমাত্র প্রকৃত লঙ্ঘন রিপোর্ট করুন।"
 	},
-	"queue_error_modal_details_heading": {
-		"message": "ত্রুটি বিবরণ"
+	"report_page_manager_autofill_failed": {
+		"message": "অটো-ফিল ব্যর্থ। অনুগ্রহ করে উপযুক্ত বিবরণ দিয়ে ম্যানুয়ালি রিপোর্ট ফর্ম পূরণ করুন।"
 	},
-	"queue_error_modal_error_code_label": {
-		"message": "ত্রুটি কোড:"
-	},
-	"queue_error_modal_request_id_label": {
-		"message": "অনুরোধ ID:"
-	},
-	"queue_error_modal_next_steps_heading": {
-		"message": "এর পরে কি করতে হবে"
-	},
-	"queue_error_modal_step1": {
-		"message": "পরীক্ষা করুন যে ব্যবহারকারীকে ইতিমধ্যে আমাদের সিস্টেম দ্বারা ফ্ল্যাগ করা হয়েছে কিনা"
-	},
-	"queue_error_modal_step2": {
-		"message": "ত্রুটি অব্যাহত থাকলে, কয়েক মিনিটে আবার চেষ্টা করুন"
-	},
-	"queue_error_modal_step3": {
-		"message": "আপনার সহায়তার প্রয়োজন হলে, উপরের অনুরোধ ID অন্তর্ভুক্ত করুন"
-	},
-	"queue_success_modal_close_button": {
-		"message": "বন্ধ করুন"
-	},
-	"queue_success_modal_title": {
-		"message": "সফল"
-	},
-	"queue_success_modal_success_message": {
-		"message": "ব্যবহারকারী ID $1 সফলভাবে পর্যালোচনার জন্য কিউতে রাখা হয়েছে।"
-	},
-	"queue_success_modal_next_steps_heading": {
-		"message": "এর পরে কি ঘটবে"
-	},
-	"queue_success_modal_step1": {
-		"message": "আমাদের AI এই অ্যাকাউন্টকে উদ্বেগের নিদর্শনগুলির জন্য বিশ্লেষণ করবে"
-	},
-	"queue_success_modal_step2": {
-		"message": "ফ্ল্যাগ করা হলে, কয়েক মিনিটের মধ্যে ব্যবহারকারীর স্ট্যাটাস নিশ্চিত হবে"
-	},
-	"queue_success_modal_step3": {
-		"message": "সম্পূর্ণ সিস্টেম সিঙ্ক এবং নিশ্চিতকরণ ২৪-৪৮ ঘন্টা সময় নেবে"
-	},
-	"report_page_manager_report_intro": {
-		"message": "এই ব্যবহারকারীর প্রোফাইলে অনুপযুক্ত বিষয়বস্তু রয়েছে যা Roblox এর সেবার শর্তাবলী লঙ্ঘন করে।\n\n"
-	},
-	"report_page_manager_detected_issue_label": {
-		"message": "সনাক্ত সমস্যা:\n"
-	},
-	"report_page_manager_evidence_label": {
-		"message": "প্রমাণ স্নিপেট:\n"
-	},
-	"report_page_manager_unknown_category": {
-		"message": "অজানা শ্রেণী"
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "অটো-ফিল উপলব্ধ নেই। রিপোর্ট টেক্সট ক্লিপবোর্ডে কপি করা হয়েছে। আপনি এটি ম্যানুয়ালি মন্তব্য ক্ষেত্রে পেস্ট করতে পারেন।"
 	},
 	"report_page_manager_category_prefix": {
 		"message": "শ্রেণী: $1"
@@ -1094,86 +815,683 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\nমন্তব্য: $1"
 	},
+	"report_page_manager_detected_issue_label": {
+		"message": "সনাক্ত সমস্যা:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "প্রমাণ স্নিপেট:\n"
+	},
+	"report_page_manager_report_intro": {
+		"message": "এই ব্যবহারকারীর প্রোফাইলে অনুপযুক্ত বিষয়বস্তু রয়েছে যা Roblox এর সেবার শর্তাবলী লঙ্ঘন করে।\n\n"
+	},
 	"report_page_manager_success_message": {
 		"message": "ফর্ম সফলভাবে পূরণ হয়েছে! পর্যালোচনা করুন এবং প্রস্তুত হলে জমা দিন।"
 	},
-	"report_page_manager_autofill_failed_clipboard": {
-		"message": "অটো-ফিল উপলব্ধ নেই। রিপোর্ট টেক্সট ক্লিপবোর্ডে কপি করা হয়েছে। আপনি এটি ম্যানুয়ালি মন্তব্য ক্ষেত্রে পেস্ট করতে পারেন।"
+	"report_page_manager_unknown_category": {
+		"message": "অজানা শ্রেণী"
 	},
-	"report_page_manager_autofill_failed": {
-		"message": "অটো-ফিল ব্যর্থ। অনুগ্রহ করে উপযুক্ত বিবরণ দিয়ে ম্যানুয়ালি রিপোর্ট ফর্ম পূরণ করুন।"
+	"rotector_api_docs_batch_intro": {
+		"message": "একটি একক অনুরোধে একাধিক ব্যবহারকারী পরীক্ষা করুন। প্রতি ব্যাচে সর্বোচ্চ ১০০ ব্যবহারকারী।"
 	},
-	"tooltip_loading_user_info": {
-		"message": "ব্যবহারকারীর তথ্য লোড হচ্ছে..."
+	"rotector_api_docs_batch_note": {
+		"message": "ডাটাবেসে পাওয়া যায়নি এমন ব্যবহারকারীরা রেসপন্সে প্রদর্শিত হবে না। ডেটা ফিল্ডে একটি অবজেক্ট রয়েছে যেখানে কী হল ব্যবহারকারী ID (স্ট্রিং হিসাবে) এবং মান হল ব্যবহারকারী স্ট্যাটাস অবজেক্ট।"
 	},
-	"tooltip_no_data_available": {
-		"message": "এই API এর জন্য কোনো ডেটা উপলব্ধ নেই"
+	"rotector_api_docs_batch_rec_1": {
+		"message": "একাধিক ব্যবহারকারী পরীক্ষা করার সময় ব্যাচ এন্ডপয়েন্ট ব্যবহার করুন (একাধিক একক অনুরোধের চেয়ে আরও দক্ষ)"
 	},
-	"tooltip_error_details": {
-		"message": "ত্রুটি বিবরণ"
+	"rotector_api_docs_batch_rec_2": {
+		"message": "ব্যাচের আকার প্রতি অনুরোধে ১০০ ব্যবহারকারীর নিচে রাখুন"
 	},
-	"tooltip_loading": {
-		"message": "লোড হচ্ছে..."
+	"rotector_api_docs_batch_rec_3": {
+		"message": "ধারাবাহিক ব্যাচ অনুরোধের মধ্যে বিলম্ব যোগ করুন (সুপারিশকৃত: ন্যূনতম ২৫০ms)"
 	},
-	"tooltip_queue_button": {
-		"message": "পর্যালোচনার জন্য কিউতে রাখুন"
+	"rotector_api_docs_button_back": {
+		"message": "ফিরে যান"
 	},
-	"tooltip_badge_reportable": {
-		"message": "রিপোর্টযোগ্য"
+	"rotector_api_docs_error_handling_1": {
+		"message": "সর্বদা রেসপন্সে success ফিল্ড পরীক্ষা করুন"
 	},
-	"tooltip_badge_queued": {
-		"message": "কিউতে আছে"
+	"rotector_api_docs_error_handling_2": {
+		"message": "উপযুক্ত রিট্রাই লজিক সহ নেটওয়ার্ক ত্রুটিগুলি সুন্দরভাবে হ্যান্ডেল করুন"
+	},
+	"rotector_api_docs_error_handling_3": {
+		"message": "ডিবাগিংয়ের জন্য ত্রুটি বিবরণ লগ করুন (ত্রুটি বার্তা, HTTP স্ট্যাটাস, অনুরোধ ID যদি উপলব্ধ থাকে)"
+	},
+	"rotector_api_docs_field_confidence": {
+		"message": "আত্মবিশ্বাস স্কোর (0.0-1.0) - AI মডেলের নিশ্চিততা স্তর"
+	},
+	"rotector_api_docs_field_confidence_reason": {
+		"message": "এই নির্দিষ্ট কারণের জন্য আত্মবিশ্বাস স্কোর"
+	},
+	"rotector_api_docs_field_display_name": {
+		"message": "পর্যালোচকের প্রদর্শন নাম"
+	},
+	"rotector_api_docs_field_engine_version": {
+		"message": "ব্যবহৃত বিশ্লেষণ ইঞ্জিনের সংস্করণ"
+	},
+	"rotector_api_docs_field_evidence": {
+		"message": "প্রমাণ স্ট্রিংগুলির অ্যারে বা সরাসরি প্রমাণ না থাকলে null"
+	},
+	"rotector_api_docs_field_flag_type": {
+		"message": "ফ্ল্যাগ প্রকার (0-6) - নিরাপত্তা শ্রেণীবিভাগ স্তর"
+	},
+	"rotector_api_docs_field_id": {
+		"message": "ব্যবহারকারী ID (ইন্টিজার) - Roblox ব্যবহারকারী সনাক্তকারী"
+	},
+	"rotector_api_docs_field_last_updated": {
+		"message": "শেষ বিশ্লেষণ আপডেটের Unix টাইমস্ট্যাম্প"
+	},
+	"rotector_api_docs_field_message": {
+		"message": "লঙ্ঘন প্যাটার্নের বিস্তারিত ব্যাখ্যা"
+	},
+	"rotector_api_docs_field_reasons": {
+		"message": "বিস্তারিত লঙ্ঘন বিশ্লেষণ সম্বলিত অবজেক্ট (flagType=0 হলে বাদ দেওয়া হয়)"
+	},
+	"rotector_api_docs_field_reviewer": {
+		"message": "ফ্ল্যাগ যাচাই করেছেন এমন পর্যালোচকের তথ্য"
+	},
+	"rotector_api_docs_field_username": {
+		"message": "পর্যালোচকের ব্যবহারকারীর নাম"
+	},
+	"rotector_api_docs_field_version_compatibility": {
+		"message": "সামঞ্জস্যতা স্ট্যাটাস: 'current', 'compatible', বা 'outdated'"
+	},
+	"rotector_api_docs_flag_type_0": {
+		"message": "নিরাপদ - কোনো উদ্বেগজনক প্যাটার্ন সনাক্ত হয়নি"
+	},
+	"rotector_api_docs_flag_type_1": {
+		"message": "বিচারাধীন - ব্যবহারকারী বিশ্লেষণের জন্য কিউতে রয়েছে"
+	},
+	"rotector_api_docs_flag_type_2": {
+		"message": "অনিরাপদ - প্ল্যাটফর্ম নিরাপত্তা নির্দেশিকা লঙ্ঘন করে"
+	},
+	"rotector_api_docs_flag_type_3": {
+		"message": "কিউতে আছে - পর্যালোচনার জন্য জমা দেওয়া হয়েছে"
+	},
+	"rotector_api_docs_flag_type_4": {
+		"message": "ইন্টিগ্রেশন - API ইন্টিগ্রেশন বৈশিষ্ট্যের সাথে সম্পর্কিত"
+	},
+	"rotector_api_docs_flag_type_5": {
+		"message": "মিশ্র - নিরাপদ এবং অনিরাপদ উভয় সংকেত রয়েছে"
+	},
+	"rotector_api_docs_flag_type_6": {
+		"message": "পূর্ববর্তী অপরাধী - পূর্বে ফ্ল্যাগ করা হয়েছিল কিন্তু স্ট্যাটাস পরিবর্তিত হয়েছে"
+	},
+	"rotector_api_docs_intro": {
+		"message": "আপনার নিজস্ব অ্যাপ্লিকেশনগুলিতে Rotector এর AI-চালিত নিরাপত্তা সনাক্তকরণ সিস্টেম একীভূত করুন। এই API ব্যবহারকারী বিশ্লেষণ ডেটা, ফ্ল্যাগ প্রকার, আত্মবিশ্বাস স্কোর এবং বিস্তারিত লঙ্ঘন যুক্তির অ্যাক্সেস প্রদান করে।"
+	},
+	"rotector_api_docs_note_batch_all_users": {
+		"message": "সমস্ত অনুরোধ করা ইউজার প্রতিক্রিয়ায় ফেরত দেওয়া হয়। এখনও বিশ্লেষণ করা হয়নি বা সিস্টেমে নেই এমন ইউজারদের flagType 0 (নিরাপদ) থাকবে।"
+	},
+	"rotector_api_docs_note_batch_limit": {
+		"message": "প্রতি ব্যাচ অনুরোধে সর্বোচ্চ 100 ইউজার আইডি। এই সীমা অতিক্রম করা অনুরোধগুলি একটি ত্রুটি ফেরত দেবে।"
+	},
+	"rotector_api_docs_note_caching": {
+		"message": "ব্যবহারকারী স্ট্যাটাস ডেটার জন্য ক্লায়েন্ট-সাইড ক্যাশিং প্রয়োগ করার কথা বিবেচনা করুন। lastUpdated টাইমস্ট্যাম্প নির্দেশ করে কখন বিশ্লেষণ শেষবার সম্পাদিত হয়েছিল এবং ক্যাশে সতেজতা নির্ধারণ করতে ব্যবহার করা যেতে পারে।"
+	},
+	"rotector_api_docs_note_cors": {
+		"message": "API-তে CORS হেডার রয়েছে যা সমস্ত উৎস থেকে অনুরোধের অনুমতি দেয়।"
+	},
+	"rotector_api_docs_note_field_confidence": {
+		"message": "ইউজার ফ্ল্যাগ করা হলে উপস্থিত (flagType > 0)"
+	},
+	"rotector_api_docs_note_field_reasons": {
+		"message": "ফ্ল্যাগ করা, মিশ্র, বা নিশ্চিত ইউজারদের জন্য উপস্থিত (flagType 1, 2, 5, 6)"
+	},
+	"rotector_api_docs_note_field_reviewer": {
+		"message": "শুধুমাত্র নিশ্চিত ইউজারদের জন্য উপস্থিত (flagType 2) যা মানব মডারেটরদের দ্বারা যাচাই করা হয়েছে"
+	},
+	"rotector_api_docs_note_field_version_compatibility": {
+		"message": "ব্যবহৃত AI ইঞ্জিন সংস্করণ সর্বশেষ নাকি পুরানো তা নির্দেশ করে"
+	},
+	"rotector_api_docs_note_http_status": {
+		"message": "সমস্ত সফল অনুরোধের জন্য HTTP status 200 ফেরত দিন (flagType 0 সহ নন-ফ্ল্যাগড ইউজার সহ)। অন্যান্য স্ট্যাটাস কোড (4xx, 5xx) সহ ত্রুটি প্রতিক্রিয়া শুধুমাত্র অভ্যন্তরীণ সার্ভার ত্রুটি বা ব্যাকএন্ড সমস্যার জন্য ঘটে।"
+	},
+	"rotector_api_docs_note_https": {
+		"message": "সমস্ত API অনুরোধ HTTPS ব্যবহার করতে হবে। HTTP অনুরোধ প্রত্যাখ্যান করা হবে।"
+	},
+	"rotector_api_docs_note_no_auth": {
+		"message": "কোনো প্রমাণীকরণ প্রয়োজন নেই। এটি একটি সম্পূর্ণ সর্বজনীন API।"
+	},
+	"rotector_api_docs_note_response_time": {
+		"message": "সেরা ক্ষেত্রে: ~50ms। গড়: ~200ms। এই বেঞ্চমার্কের উপর ভিত্তি করে উপযুক্ত টাইমআউট মান প্রয়োগ করার কথা বিবেচনা করুন।"
+	},
+	"rotector_api_docs_note_safe_users": {
+		"message": "flagType 0 (নিরাপদ) সহ ব্যবহারকারীদের জন্য, reasons ফিল্ড স্বয়ংক্রিয়ভাবে রেসপন্সের আকার কমাতে পরিষ্কার করা হয়। নিরাপদ ব্যবহারকারীদের জন্য কোনো বিস্তারিত লঙ্ঘন বিশ্লেষণ প্রদান করা হয় না।"
+	},
+	"rotector_api_docs_note_support": {
+		"message": "API সাপোর্ট, প্রশ্ন, বা সমস্যা রিপোর্ট করার জন্য, Rotector Discord সার্ভারে যোগ দিন:"
+	},
+	"rotector_api_docs_note_timestamp_format": {
+		"message": "lastUpdated ফিল্ডে সেকেন্ডে Unix টাইমস্ট্যাম্প রয়েছে (মিলিসেকেন্ড নয়)।"
+	},
+	"rotector_api_docs_note_version_compatibility_compatible": {
+		"message": "compatible - বিশ্লেষণ একটি সমর্থিত কিন্তু সর্বশেষ নয় এমন ইঞ্জিন সংস্করণ ব্যবহার করেছে"
+	},
+	"rotector_api_docs_note_version_compatibility_current": {
+		"message": "current - বিশ্লেষণ সর্বশেষ AI ইঞ্জিন সংস্করণ ব্যবহার করেছে"
+	},
+	"rotector_api_docs_note_version_compatibility_deprecated": {
+		"message": "deprecated - বিশ্লেষণ এমন একটি ইঞ্জিন সংস্করণ ব্যবহার করেছে যা আর সমর্থিত নয়"
+	},
+	"rotector_api_docs_note_version_compatibility_outdated": {
+		"message": "outdated - বিশ্লেষণ উল্লেখযোগ্যভাবে পুরানো ইঞ্জিন সংস্করণ ব্যবহার করেছে"
+	},
+	"rotector_api_docs_note_wrapper_format": {
+		"message": "সমস্ত API রেসপন্স success (boolean) এবং data (সফল) বা error (ব্যর্থ) ফিল্ড সহ একটি সামঞ্জস্যপূর্ণ র‍্যাপার ফরম্যাট অনুসরণ করে।"
+	},
+	"rotector_api_docs_rate_limit_1": {
+		"message": "API ন্যায্য ব্যবহার নিশ্চিত করতে Cloudflare রেট লিমিটিং ব্যবহার করে"
+	},
+	"rotector_api_docs_rate_limit_2": {
+		"message": "রেট লিমিট ত্রুটি HTTP স্ট্যাটাস 429 রিটার্ন করে। রিট্রাই লজিকের জন্য এক্সপোনেনশিয়াল ব্যাকঅফ প্রয়োগ করুন"
+	},
+	"rotector_api_docs_section_authentication": {
+		"message": "প্রমাণীকরণ"
+	},
+	"rotector_api_docs_section_batch_lookup": {
+		"message": "ব্যাচ ব্যবহারকারী লুকআপ"
+	},
+	"rotector_api_docs_section_best_practices": {
+		"message": "রেট লিমিটিং এবং সেরা অনুশীলন"
+	},
+	"rotector_api_docs_section_cors": {
+		"message": "CORS সাপোর্ট"
+	},
+	"rotector_api_docs_section_http_status": {
+		"message": "HTTP স্ট্যাটাস কোড"
+	},
+	"rotector_api_docs_section_notes": {
+		"message": "অতিরিক্ত নোট"
+	},
+	"rotector_api_docs_section_response_schema": {
+		"message": "রেসপন্স স্কিমা"
+	},
+	"rotector_api_docs_section_single_lookup": {
+		"message": "একক ব্যবহারকারী লুকআপ"
+	},
+	"rotector_api_docs_subtitle_batch_recommendations": {
+		"message": "ব্যাচ অনুরোধ সুপারিশ"
+	},
+	"rotector_api_docs_subtitle_caching": {
+		"message": "রেসপন্স ক্যাশিং"
+	},
+	"rotector_api_docs_subtitle_code_examples": {
+		"message": "কোড উদাহরণ"
+	},
+	"rotector_api_docs_subtitle_error_handling": {
+		"message": "ত্রুটি হ্যান্ডলিং"
+	},
+	"rotector_api_docs_subtitle_error_response": {
+		"message": "ত্রুটি রেসপন্স"
+	},
+	"rotector_api_docs_subtitle_example_request": {
+		"message": "উদাহরণ অনুরোধ"
+	},
+	"rotector_api_docs_subtitle_field_presence": {
+		"message": "ফিল্ড উপস্থিতির নিয়ম"
+	},
+	"rotector_api_docs_subtitle_flag_types": {
+		"message": "ফ্ল্যাগ প্রকার"
+	},
+	"rotector_api_docs_subtitle_https": {
+		"message": "HTTPS প্রয়োজন"
+	},
+	"rotector_api_docs_subtitle_optional_fields": {
+		"message": "ঐচ্ছিক ফিল্ড"
+	},
+	"rotector_api_docs_subtitle_rate_limiting": {
+		"message": "রেট লিমিটিং"
+	},
+	"rotector_api_docs_subtitle_request_body": {
+		"message": "অনুরোধ বডি"
+	},
+	"rotector_api_docs_subtitle_required_fields": {
+		"message": "প্রয়োজনীয় ফিল্ড"
+	},
+	"rotector_api_docs_subtitle_response_time": {
+		"message": "প্রতিক্রিয়া সময়"
+	},
+	"rotector_api_docs_subtitle_safe_users": {
+		"message": "নিরাপদ ব্যবহারকারী অপ্টিমাইজেশন"
+	},
+	"rotector_api_docs_subtitle_success_response": {
+		"message": "সফল রেসপন্স"
+	},
+	"rotector_api_docs_subtitle_support": {
+		"message": "সাপোর্ট এবং প্রশ্ন"
+	},
+	"rotector_api_docs_subtitle_timestamp_format": {
+		"message": "টাইমস্ট্যাম্প ফর্ম্যাট"
+	},
+	"rotector_api_docs_subtitle_version_compatibility_values": {
+		"message": "সংস্করণ সামঞ্জস্য মান"
+	},
+	"rotector_api_docs_subtitle_wrapper_format": {
+		"message": "রেসপন্স র‍্যাপার ফরম্যাট"
+	},
+	"rotector_api_docs_title": {
+		"message": "Rotector API ডকুমেন্টেশন"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 APIs)"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_hide": {
+		"message": "লুকান"
+	},
+	"settings_api_key_label": {
+		"message": "API কী (ঐচ্ছিক)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "আপনার API কী লিখুন"
+	},
+	"settings_api_key_show": {
+		"message": "দেখান"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "API কী দেখান/লুকান"
+	},
+	"settings_api_system_label": {
+		"message": "(সিস্টেম)"
+	},
+	"settings_category_content_display": {
+		"message": "কন্টেন্ট প্রদর্শন"
+	},
+	"settings_category_developer": {
+		"message": "ডেভেলপার"
+	},
+	"settings_category_integrations": {
+		"message": "ইন্টিগ্রেশন"
+	},
+	"settings_category_page_settings": {
+		"message": "পেজ সেটিংস"
+	},
+	"settings_help_advanced_violations": {
+		"message": "বিস্তারিত লঙ্ঘন বার্তা এবং প্রমাণ প্রদর্শন করুন। পরিপক্ক বিষয়বস্তু থাকতে পারে।"
+	},
+	"settings_help_cache_duration": {
+		"message": "ব্যবহারকারী স্ট্যাটাস ডেটা কতক্ষণ ক্যাশে রাখবেন (১-১০ মিনিট)। উচ্চ মান API কল কমায় কিন্তু পুরানো তথ্য দেখাতে পারে।"
+	},
+	"settings_help_debug_logging": {
+		"message": "ট্রাবলশুটিং এর জন্য ব্রাউজার কনসোলে (F12 -> Console) বিস্তারিত লগ দেখান।"
+	},
+	"settings_help_developer_mode": {
+		"message": "উন্নত ডেভেলপার সেটিংস এবং API ইন্টিগ্রেশন ম্যানেজমেন্ট আনলক করুন।"
+	},
+	"settings_help_theme": {
+		"message": "স্বয়ংক্রিয় Roblox এর থিম সেটিং অনুসরণ করে। হালকা এবং গাঢ় এই পছন্দ ওভাররাইড করে।"
+	},
+	"settings_label_advanced_violations": {
+		"message": "উন্নত লঙ্ঘন বিবরণ দেখান"
+	},
+	"settings_label_cache_duration": {
+		"message": "ক্যাশে সময়কাল (মিনিট)"
+	},
+	"settings_label_debug_logging": {
+		"message": "ডিবাগ লগিং সক্রিয় করুন"
+	},
+	"settings_label_developer_mode": {
+		"message": "ডেভেলপার মোড সক্রিয় করুন"
+	},
+	"settings_label_friends_pages": {
+		"message": "বন্ধুদের পেজ"
+	},
+	"settings_label_groups_pages": {
+		"message": "গ্রুপ পেজ"
+	},
+	"settings_label_home_page": {
+		"message": "হোম পেজ"
+	},
+	"settings_label_profile_pages": {
+		"message": "প্রোফাইল পেজ"
+	},
+	"settings_label_report_helper": {
+		"message": "রিপোর্ট সহায়ক"
+	},
+	"settings_label_search_pages": {
+		"message": "অনুসন্ধান পেজ"
+	},
+	"settings_label_theme": {
+		"message": "থিম"
+	},
+	"settings_manage_apis_button": {
+		"message": "API ইন্টিগ্রেশন পরিচালনা করুন"
+	},
+	"settings_modal_confirm_button": {
+		"message": "উন্নত বিবরণ সক্রিয় করুন"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "গুরুত্বপূর্ণ বিবেচনা"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "বিষয়বস্তুতে এমন উপাদান থাকতে পারে যা প্ল্যাটফর্ম সম্প্রদায় মান লঙ্ঘন করে"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "এই তথ্য শুধুমাত্র মডারেশন এবং নিরাপত্তা উদ্দেশ্যে"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "আপনি যদি বিস্তারিত লঙ্ঘন প্রমাণ দেখতে না চান, তাহলে এই সেটিং অক্ষম রাখুন"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "আপনি যেকোনো সময় সেটিংসে এই বৈশিষ্ট্য অক্ষম করতে পারেন"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "সক্রিয় করলে আপনি যা দেখবেন:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "বিস্তারিত লঙ্ঘন বার্তা ব্যাখ্যা করে কেন একজন ব্যবহারকারীকে ফ্ল্যাগ করা হয়েছে"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "নীতি লঙ্ঘনকারী বিষয়বস্তু সহ প্রমাণ স্নিপেট"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "ব্যবহারকারী প্রোফাইল এবং কার্যকলাপ থেকে লঙ্ঘনের নির্দিষ্ট উদাহরণ"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "সুপারিশ:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "শুধুমাত্র এটি সক্রিয় করুন যদি আপনার মডারেশন উদ্দেশ্যে বিস্তারিত লঙ্ঘন তথ্যের প্রয়োজন হয় এবং বুঝতে পারেন যে আপনি এমন বিষয়বস্তু দেখতে পারেন যা সম্প্রদায় নির্দেশিকা লঙ্ঘন করে।"
+	},
+	"settings_modal_title": {
+		"message": "উন্নত বিবরণ সতর্কতা"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "যা ব্যবহারকারী প্রোফাইল এবং কার্যকলাপ থেকে উল্লেখ করা হয়েছে যা প্ল্যাটফর্ম নীতি লঙ্ঘন করেছে।"
+	},
+	"settings_modal_warning_intro": {
+		"message": "উন্নত লঙ্ঘন বিবরণে সংবেদনশীল বিষয়বস্তু থাকতে পারে"
+	},
+	"settings_rotector_api_docs_button": {
+		"message": "Rotector API ডকুমেন্টেশন"
+	},
+	"settings_theme_auto": {
+		"message": "স্বয়ংক্রিয়"
+	},
+	"settings_theme_dark": {
+		"message": "গাঢ়"
+	},
+	"settings_theme_light": {
+		"message": "হালকা"
+	},
+	"stats_changelog_empty": {
+		"message": "কোনো চেঞ্জলগ এন্ট্রি উপলব্ধ নেই।"
+	},
+	"stats_changelog_title": {
+		"message": "চেঞ্জলগ"
+	},
+	"stats_changelog_type_added": {
+		"message": "যোগ করা হয়েছে"
+	},
+	"stats_changelog_type_changed": {
+		"message": "পরিবর্তন করা হয়েছে"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "অবচিত"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "সংশোধন করা হয়েছে"
+	},
+	"stats_changelog_type_removed": {
+		"message": "সরানো হয়েছে"
+	},
+	"stats_changelog_type_security": {
+		"message": "নিরাপত্তা"
+	},
+	"stats_changelog_type_update": {
+		"message": "আপডেট"
+	},
+	"stats_chart_aria_completion": {
+		"message": "$1 এর জন্য সমাপ্তি টোকেন: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$2 এর জন্য $1: $3"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "$1 এর জন্য প্রম্পট টোকেন: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "$1 এর জন্য যুক্তি টোকেন: $2"
+	},
+	"stats_chart_detail_completion": {
+		"message": "সমাপ্তি টোকেন"
+	},
+	"stats_chart_detail_cost": {
+		"message": "মোট খরচ"
+	},
+	"stats_chart_detail_period": {
+		"message": "সময়কাল"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "প্রম্পট টোকেন"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "যুক্তি টোকেন"
+	},
+	"stats_chart_detail_requests": {
+		"message": "মোট অনুরোধ"
+	},
+	"stats_chart_label_costs": {
+		"message": "সাপ্তাহিক AI খরচ"
+	},
+	"stats_chart_label_requests": {
+		"message": "সাপ্তাহিক AI অনুরোধ"
+	},
+	"stats_chart_label_tokens": {
+		"message": "মোট AI টোকেন"
+	},
+	"stats_chart_legend_completion": {
+		"message": "সমাপ্তি"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "প্রম্পট"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "যুক্তি"
+	},
+	"stats_chart_month_apr": {
+		"message": "এপ্রিল"
+	},
+	"stats_chart_month_aug": {
+		"message": "আগস্ট"
+	},
+	"stats_chart_month_dec": {
+		"message": "ডিসেম্বর"
+	},
+	"stats_chart_month_feb": {
+		"message": "ফেব্রু"
+	},
+	"stats_chart_month_jan": {
+		"message": "জানু"
+	},
+	"stats_chart_month_jul": {
+		"message": "জুলাই"
+	},
+	"stats_chart_month_jun": {
+		"message": "জুন"
+	},
+	"stats_chart_month_mar": {
+		"message": "মার্চ"
+	},
+	"stats_chart_month_may": {
+		"message": "মে"
+	},
+	"stats_chart_month_nov": {
+		"message": "নভেম্বর"
+	},
+	"stats_chart_month_oct": {
+		"message": "অক্টো"
+	},
+	"stats_chart_month_sep": {
+		"message": "সেপ্টে"
+	},
+	"stats_chart_tab_costs": {
+		"message": "AI খরচ"
+	},
+	"stats_chart_tab_requests": {
+		"message": "AI অনুরোধ"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "AI টোকেন"
+	},
+	"stats_chart_week_1": {
+		"message": "এই সপ্তাহ"
+	},
+	"stats_chart_week_2": {
+		"message": "গত সপ্তাহ"
+	},
+	"stats_chart_week_3": {
+		"message": "২ সপ্তাহ\nআগে"
+	},
+	"stats_chart_week_4": {
+		"message": "৩ সপ্তাহ\nআগে"
+	},
+	"stats_financial_aria_funded": {
+		"message": "$1 উদ্বৃত্ত সহ সম্পূর্ণ তহবিলযুক্ত"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 সংগৃহীত, $3 লক্ষ্যের মধ্যে $2 অবশিষ্ট"
+	},
+	"stats_financial_button_funded": {
+		"message": "ধন্যবাদ!"
+	},
+	"stats_financial_button_support": {
+		"message": "ডেভেলপমেন্ট সমর্থন করুন"
+	},
+	"stats_financial_charts_hide": {
+		"message": "ব্যবহার চার্ট লুকান"
+	},
+	"stats_financial_charts_show": {
+		"message": "ব্যবহার চার্ট দেখান"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "সাপ্তাহিক ব্যবহার চার্ট"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Ko-fi তে সমর্থন করুন"
+	},
+	"stats_financial_raised": {
+		"message": "সংগৃহীত"
+	},
+	"stats_financial_remaining": {
+		"message": "অবশিষ্ট"
+	},
+	"stats_financial_surplus": {
+		"message": "উদ্বৃত্ত"
+	},
+	"stats_financial_title": {
+		"message": "তহবিল লক্ষ্য"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$2 এর $1 ব্যবহৃত, $3 অবশিষ্ট"
+	},
+	"stats_queue_default": {
+		"message": "ডিফল্ট সীমা"
+	},
+	"stats_queue_enhanced": {
+		"message": "উন্নত সীমা সক্রিয়"
+	},
+	"stats_queue_error": {
+		"message": "কিউ সীমা লোড করতে ব্যর্থ"
+	},
+	"stats_queue_loading": {
+		"message": "কিউ সীমা লোড হচ্ছে..."
+	},
+	"stats_queue_remaining": {
+		"message": "অবশিষ্ট"
+	},
+	"stats_queue_resets_in": {
+		"message": "রিসেট হবে"
+	},
+	"stats_queue_resetting": {
+		"message": "রিসেট হচ্ছে..."
+	},
+	"stats_queue_retry": {
+		"message": "পুনরায় চেষ্টা করুন"
+	},
+	"stats_queue_time_hours": {
+		"message": "$1ঘ $2মি"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1মি"
+	},
+	"stats_queue_title": {
+		"message": "কিউ সীমা"
+	},
+	"stats_queue_usage": {
+		"message": "ব্যবহার"
+	},
+	"stats_statistics_community_title": {
+		"message": "সম্প্রদায়"
+	},
+	"stats_statistics_confirmed": {
+		"message": "নিশ্চিত"
+	},
+	"stats_statistics_error": {
+		"message": "পরিসংখ্যান লোড করতে ব্যর্থ"
+	},
+	"stats_statistics_flagged": {
+		"message": "ফ্ল্যাগ করা"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "মিশ্র বিষয়বস্তুসহ গ্রুপ"
+	},
+	"stats_statistics_groups_title": {
+		"message": "গ্রুপ"
+	},
+	"stats_statistics_loading": {
+		"message": "পরিসংখ্যান লোড হচ্ছে..."
+	},
+	"stats_statistics_queued": {
+		"message": "কিউতে থাকা ব্যবহারকারী"
+	},
+	"stats_statistics_refresh": {
+		"message": "পরিসংখ্যান রিফ্রেশ করুন"
+	},
+	"stats_statistics_retry": {
+		"message": "পুনরায় চেষ্টা করুন"
+	},
+	"stats_statistics_title": {
+		"message": "সিস্টেম পরিসংখ্যান"
+	},
+	"stats_statistics_updated": {
+		"message": "শেষ আপডেট:"
+	},
+	"stats_statistics_users_desc": {
+		"message": "অন্যান্য ব্যবহারকারী Roblox দ্বারা নিষিদ্ধ"
+	},
+	"stats_statistics_users_title": {
+		"message": "ব্যবহারকারী"
+	},
+	"stats_statistics_votes": {
+		"message": "মোট ভোট দেওয়া হয়েছে"
+	},
+	"tooltip_aria_close": {
+		"message": "টুলটিপ বন্ধ করতে ক্লিক করুন"
+	},
+	"tooltip_aria_expand": {
+		"message": "টুলটিপ প্রসারিত করতে ক্লিক করুন"
 	},
 	"tooltip_badge_outfit": {
 		"message": "শুধু পোশাক"
 	},
-	"tooltip_reportable_title": {
-		"message": "Roblox এ রিপোর্টযোগ্য"
-	},
-	"tooltip_reportable_message": {
-		"message": "এই ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তুর স্পষ্ট প্রমাণ রয়েছে যা Roblox মডারেটরদের কাছে দৃশ্যমান।"
-	},
-	"tooltip_reportable_report_button": {
-		"message": "Roblox এ রিপোর্ট করুন"
-	},
-	"tooltip_outfit_title": {
-		"message": "শুধুমাত্র পোশাকের জন্য ফ্ল্যাগ করা"
-	},
-	"tooltip_outfit_message": {
-		"message": "এই ব্যবহারকারীকে শুধুমাত্র তাদের অবতার পোশাকের উপর ভিত্তি করে ফ্ল্যাগ করা হয়েছে। পোশাক সনাক্তকরণে মিথ্যা ইতিবাচক থাকতে পারে, তাই এই ব্যবহারকারীকে মূল্যায়ন করার সময় অনুগ্রহ করে আপনার নিজের বিচার ব্যবহার করুন।"
-	},
-	"tooltip_metadata_queued": {
+	"tooltip_badge_queued": {
 		"message": "কিউতে আছে"
 	},
-	"tooltip_metadata_processing": {
-		"message": "প্রসেসিং"
+	"tooltip_badge_reportable": {
+		"message": "রিপোর্টযোগ্য"
 	},
-	"tooltip_metadata_took": {
-		"message": "সময় লেগেছে"
+	"tooltip_entity_group": {
+		"message": "গ্রুপ"
 	},
-	"tooltip_metadata_last_updated": {
-		"message": "শেষ আপডেট"
+	"tooltip_entity_user": {
+		"message": "ব্যবহারকারী"
 	},
-	"tooltip_metadata_reprocess_button": {
-		"message": "পুনঃপ্রসেস?"
-	},
-	"tooltip_metadata_reprocess_title": {
-		"message": "এই ব্যবহারকারীর ডেটা পুরানো। বিশ্লেষণের জন্য পুনরায় কিউতে রাখতে ক্লিক করুন।"
-	},
-	"tooltip_metadata_processing_status": {
-		"message": "প্রসেসিং..."
-	},
-	"tooltip_header_unsafe": {
-		"message": "এই $1 মানব মডারেটরদের দ্বারা অনুপযুক্ত হিসাবে যাচাই করা হয়েছে।"
-	},
-	"tooltip_header_pending": {
-		"message": "এই $1 AI দ্বারা $2% আত্মবিশ্বাসের সাথে ফ্ল্যাগ করা হয়েছে।"
-	},
-	"tooltip_header_queued_processing": {
-		"message": "এই $1 বর্তমানে আমাদের সিস্টেম দ্বারা পরীক্ষা করা হচ্ছে। এতে কয়েক মিনিট সময় লাগতে পারে।"
-	},
-	"tooltip_header_queued_safe": {
-		"message": "এই $1 আমাদের AI সিস্টেম দ্বারা পর্যালোচনা করা হয়েছে এবং নিরাপদ বলে মনে হচ্ছে। এটি একটি মিথ্যা ইতিবাচক হলে, আপনি আরও পর্যালোচনার জন্য পুনরায় কিউতে রাখতে পারেন।"
+	"tooltip_error_details": {
+		"message": "ত্রুটি বিবরণ"
 	},
 	"tooltip_header_integration": {
 		"message": "এই $1 তৃতীয় পক্ষের বিষয়বস্তু বিশ্লেষণ সিস্টেম দ্বারা ফ্ল্যাগ করা হয়েছে।"
@@ -1187,26 +1505,86 @@
 	"tooltip_header_past_offender": {
 		"message": "এই $1 এর আগে অনুপযুক্ত বিষয়বস্তু ছিল কিন্তু তাদের অ্যাকাউন্ট বর্তমানে পরিষ্কার বলে মনে হচ্ছে এবং যাচাইয়ের জন্য পুনরায় কিউতে রাখা যেতে পারে।"
 	},
+	"tooltip_header_pending": {
+		"message": "এই $1 AI দ্বারা $2% আত্মবিশ্বাসের সাথে ফ্ল্যাগ করা হয়েছে।"
+	},
+	"tooltip_header_queued_processing": {
+		"message": "এই $1 বর্তমানে আমাদের সিস্টেম দ্বারা পরীক্ষা করা হচ্ছে। এতে কয়েক মিনিট সময় লাগতে পারে।"
+	},
+	"tooltip_header_queued_safe": {
+		"message": "এই $1 আমাদের AI সিস্টেম দ্বারা পর্যালোচনা করা হয়েছে এবং নিরাপদ বলে মনে হচ্ছে। এটি একটি মিথ্যা ইতিবাচক হলে, আপনি আরও পর্যালোচনার জন্য পুনরায় কিউতে রাখতে পারেন।"
+	},
 	"tooltip_header_safe": {
 		"message": "এই $1 এখনো পর্যালোচনা করা হয়নি।"
-	},
-	"tooltip_header_unknown": {
-		"message": "অজানা অবস্থা"
 	},
 	"tooltip_header_unavailable": {
 		"message": "স্ট্যাটাস তথ্য উপলব্ধ নেই।"
 	},
-	"tooltip_status_not_flagged": {
-		"message": "ফ্ল্যাগ করা হয়নি"
+	"tooltip_header_unknown": {
+		"message": "অজানা অবস্থা"
 	},
-	"tooltip_status_unsafe": {
-		"message": "অনিরাপদ"
+	"tooltip_header_unsafe": {
+		"message": "এই $1 মানব মডারেটরদের দ্বারা অনুপযুক্ত হিসাবে যাচাই করা হয়েছে।"
 	},
-	"tooltip_status_under_review": {
-		"message": "পর্যালোচনাধীন"
+	"tooltip_loading": {
+		"message": "লোড হচ্ছে..."
 	},
-	"tooltip_status_likely_safe": {
-		"message": "সম্ভবত নিরাপদ"
+	"tooltip_loading_user_info": {
+		"message": "ব্যবহারকারীর তথ্য লোড হচ্ছে..."
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "শেষ আপডেট"
+	},
+	"tooltip_metadata_processing": {
+		"message": "প্রসেসিং"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "প্রসেসিং..."
+	},
+	"tooltip_metadata_queued": {
+		"message": "কিউতে আছে"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "পুনঃপ্রসেস?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "এই ব্যবহারকারীর ডেটা পুরানো। বিশ্লেষণের জন্য পুনরায় কিউতে রাখতে ক্লিক করুন।"
+	},
+	"tooltip_metadata_took": {
+		"message": "সময় লেগেছে"
+	},
+	"tooltip_no_data_available": {
+		"message": "এই API এর জন্য কোনো ডেটা উপলব্ধ নেই"
+	},
+	"tooltip_outfit_message": {
+		"message": "এই ব্যবহারকারীকে শুধুমাত্র তাদের অবতার পোশাকের উপর ভিত্তি করে ফ্ল্যাগ করা হয়েছে। পোশাক সনাক্তকরণে মিথ্যা ইতিবাচক থাকতে পারে, তাই এই ব্যবহারকারীকে মূল্যায়ন করার সময় অনুগ্রহ করে আপনার নিজের বিচার ব্যবহার করুন।"
+	},
+	"tooltip_outfit_title": {
+		"message": "শুধুমাত্র পোশাকের জন্য ফ্ল্যাগ করা"
+	},
+	"tooltip_profile_group_id": {
+		"message": "গ্রুপ ID:"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_profile_user": {
+		"message": "ব্যবহারকারী"
+	},
+	"tooltip_queue_button": {
+		"message": "পর্যালোচনার জন্য কিউতে রাখুন"
+	},
+	"tooltip_reportable_message": {
+		"message": "এই ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তুর স্পষ্ট প্রমাণ রয়েছে যা Roblox মডারেটরদের কাছে দৃশ্যমান।"
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Roblox এ রিপোর্ট করুন"
+	},
+	"tooltip_reportable_title": {
+		"message": "Roblox এ রিপোর্টযোগ্য"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "পর্যালোচক"
 	},
 	"tooltip_status_checking": {
 		"message": "পরীক্ষা করা হচ্ছে..."
@@ -1214,56 +1592,26 @@
 	"tooltip_status_integration": {
 		"message": "ইন্টিগ্রেশন"
 	},
+	"tooltip_status_likely_safe": {
+		"message": "সম্ভবত নিরাপদ"
+	},
 	"tooltip_status_mixed": {
 		"message": "মিশ্র"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "ফ্ল্যাগ করা হয়নি"
 	},
 	"tooltip_status_past_offender": {
 		"message": "পূর্ববর্তী অপরাধী"
 	},
+	"tooltip_status_under_review": {
+		"message": "পর্যালোচনাধীন"
+	},
 	"tooltip_status_unknown": {
 		"message": "অজানা"
 	},
-	"tooltip_reviewer_reviewed_by": {
-		"message": "পর্যালোচক"
-	},
-	"tooltip_profile_group_id": {
-		"message": "গ্রুপ ID:"
-	},
-	"tooltip_profile_user": {
-		"message": "ব্যবহারকারী"
-	},
-	"tooltip_profile_id": {
-		"message": "ID:"
-	},
-	"tooltip_aria_close": {
-		"message": "টুলটিপ বন্ধ করতে ক্লিক করুন"
-	},
-	"tooltip_aria_expand": {
-		"message": "টুলটিপ প্রসারিত করতে ক্লিক করুন"
-	},
-	"tooltip_entity_user": {
-		"message": "ব্যবহারকারী"
-	},
-	"tooltip_entity_group": {
-		"message": "গ্রুপ"
-	},
-	"voting_header_title": {
-		"message": "সম্প্রদায় প্রতিক্রিয়া"
-	},
-	"voting_loading": {
-		"message": "লোড হচ্ছে..."
-	},
-	"voting_count_singular": {
-		"message": "$1 ভোট"
-	},
-	"voting_count_plural": {
-		"message": "$1 ভোট"
-	},
-	"voting_button_agree": {
-		"message": "সম্মত"
-	},
-	"voting_button_disagree": {
-		"message": "অসম্মত"
+	"tooltip_status_unsafe": {
+		"message": "অনিরাপদ"
 	},
 	"voting_aria_agree": {
 		"message": "এই অবস্থার সাথে সম্মত"
@@ -1271,376 +1619,337 @@
 	"voting_aria_disagree": {
 		"message": "এই অবস্থার সাথে অসম্মত"
 	},
+	"voting_button_agree": {
+		"message": "সম্মত"
+	},
+	"voting_button_disagree": {
+		"message": "অসম্মত"
+	},
+	"voting_count_plural": {
+		"message": "$1 ভোট"
+	},
+	"voting_count_singular": {
+		"message": "$1 ভোট"
+	},
 	"voting_description": {
 		"message": "এই ব্যবহারকারীর অবস্থা সঠিক কিনা তা নিশ্চিত করে অন্যদের সাহায্য করুন।"
 	},
-	"engine_status_unknown": {
-		"message": "অজানা"
+	"voting_header_title": {
+		"message": "সম্প্রদায় প্রতিক্রিয়া"
 	},
-	"engine_status_latest": {
-		"message": "সর্বশেষ"
+	"voting_loading": {
+		"message": "লোড হচ্ছে..."
 	},
-	"engine_status_compatible": {
-		"message": "সামঞ্জস্যপূর্ণ"
+	"warzone_chart_error_load": {
+		"message": "$1 ঐতিহাসিক ডেটা লোড করতে ব্যর্থ"
 	},
-	"engine_status_outdated": {
-		"message": "পুরানো"
+	"warzone_chart_label_global_ban_rate": {
+		"message": "বৈশ্বিক নিষেধাজ্ঞার হার"
 	},
-	"engine_status_deprecated": {
-		"message": "অবচিত"
+	"warzone_chart_label_global_liberation": {
+		"message": "বৈশ্বিক মুক্তি"
 	},
-	"engine_desc_unknown": {
-		"message": "এই বিশ্লেষণ অজানা সামঞ্জস্যতা অবস্থা সহ একটি AI ইঞ্জিন ব্যবহার করেছে।"
+	"warzone_chart_label_total_users": {
+		"message": "মোট ব্যবহারকারী"
 	},
-	"engine_desc_unknown_impact": {
-		"message": "সংস্করণ সামঞ্জস্যতা নির্ধারণ করা যায়নি।"
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "জোন নিষেধাজ্ঞার হার"
 	},
-	"engine_desc_latest": {
-		"message": "এই বিশ্লেষণ সর্বশেষ সনাক্তকরণ ক্ষমতা সহ সবচেয়ে বর্তমান AI ইঞ্জিন ব্যবহার করেছে।"
+	"warzone_chart_label_zone_liberation": {
+		"message": "জোন মুক্তি"
 	},
-	"engine_desc_latest_impact": {
-		"message": "সর্বোচ্চ নির্ভুলতা এবং সবচেয়ে ব্যাপক বিশ্লেষণ।"
+	"warzone_chart_legend_banned": {
+		"message": "নিষিদ্ধ"
 	},
-	"engine_desc_compatible": {
-		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা এখনও সমর্থিত কিন্তু সর্বশেষ সংস্করণ নয়।"
+	"warzone_chart_legend_confirmed": {
+		"message": "নিশ্চিত"
 	},
-	"engine_desc_compatible_impact": {
-		"message": "এখনও অত্যন্ত নির্ভুল সনাক্তকরণ ক্ষমতায় সামান্য পার্থক্য সহ।"
+	"warzone_chart_legend_flagged": {
+		"message": "ফ্ল্যাগ করা"
 	},
-	"engine_desc_outdated": {
-		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা সর্বশেষ সংস্করণের তুলনায় উল্লেখযোগ্যভাবে পিছিয়ে আছে।"
+	"warzone_chart_tab_ban_rate": {
+		"message": "নিষেধাজ্ঞার হার"
 	},
-	"engine_desc_outdated_impact": {
-		"message": "নতুন ইঞ্জিন সংস্করণের তুলনায় নির্ভুলতা কমে যেতে পারে।"
+	"warzone_chart_tab_liberation": {
+		"message": "মুক্তি"
 	},
-	"engine_desc_deprecated": {
-		"message": "এই বিশ্লেষণ একটি AI ইঞ্জিন ব্যবহার করেছে যা আর সমর্থিত নয়।"
+	"warzone_chart_tab_users": {
+		"message": "ব্যবহারকারী"
 	},
-	"engine_desc_deprecated_impact": {
-		"message": "নির্ভুলতা উল্লেখযোগ্যভাবে কমে যেতে পারে এবং ফলাফল সতর্কতার সাথে বিবেচনা করা উচিত।"
+	"warzone_chart_tooltip_banned": {
+		"message": "নিষিদ্ধ"
 	},
-	"engine_aria_info": {
-		"message": "ইঞ্জিন সংস্করণ তথ্য"
+	"warzone_chart_tooltip_date": {
+		"message": "তারিখ"
 	},
-	"engine_header_version": {
-		"message": "ইঞ্জিন v$1"
+	"warzone_chart_tooltip_total_users": {
+		"message": "মোট ব্যবহারকারী"
 	},
-	"engine_version_unknown": {
-		"message": "অজানা"
+	"warzone_common_button_retry": {
+		"message": "পুনরায় চেষ্টা করুন"
 	},
-	"custom_api_form_title_edit": {
-		"message": "কাস্টম API সম্পাদনা করুন"
+	"warzone_hunter_beta_discord_link": {
+		"message": "Discord সার্ভারে"
 	},
-	"custom_api_form_title_add": {
-		"message": "কাস্টম API যোগ করুন"
+	"warzone_hunter_beta_label": {
+		"message": "ক্লোজড বিটা:"
 	},
-	"custom_api_form_label_name": {
-		"message": "নাম"
+	"warzone_hunter_beta_text_after_link": {
+		"message": "যোগ দিন আপডেটের জন্য।"
 	},
-	"custom_api_form_label_required": {
-		"message": "*"
+	"warzone_hunter_beta_text_before_link": {
+		"message": "শুধুমাত্র নির্বাচিত ব্যবহারকারীদের জন্য উপলব্ধ। আমাদের"
 	},
-	"custom_api_form_placeholder_name": {
-		"message": "আমার কাস্টম API"
+	"warzone_hunter_button_login": {
+		"message": "Discord দিয়ে লগইন করুন"
 	},
-	"custom_api_form_hint_name_length": {
-		"message": "সর্বোচ্চ ১২ অক্ষর ($1/12)"
+	"warzone_hunter_button_logout": {
+		"message": "লগআউট"
 	},
-	"custom_api_form_label_url": {
-		"message": "API URL"
+	"warzone_hunter_confirm_logout": {
+		"message": "আপনি কি নিশ্চিত লগআউট করতে চান?\n\nআপনি আপনার Discord অ্যাকাউন্ট ব্যবহার করে যেকোনো সময় আবার লগইন করতে পারেন।"
 	},
-	"custom_api_form_placeholder_url": {
-		"message": "https://api.example.com/v1/lookup"
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Discord অবতার"
 	},
-	"custom_api_form_hint_url": {
-		"message": "HTTPS হতে হবে। এটি আপনার API এন্ডপয়েন্টের জন্য বেস URL এর মতো। আমরা একক লুকআপের জন্য {url}/user/{userId} এবং ব্যাচ লুকআপের জন্য {url}/users কল করব।"
+	"warzone_hunter_feature_cleanup": {
+		"message": "প্ল্যাটফর্ম পরিষ্কার করতে এবং খারাপ কাজকারীদের সরাতে সাহায্য করুন"
 	},
-	"custom_api_form_label_timeout": {
-		"message": "টাইমআউট (ms)"
+	"warzone_hunter_feature_community": {
+		"message": "উচ্চ টেকডাউন সফলতার জন্য সম্প্রদায়ের সাথে কাজ করুন"
 	},
-	"custom_api_form_placeholder_timeout": {
-		"message": "5000"
+	"warzone_hunter_feature_leaderboard": {
+		"message": "পয়েন্ট অর্জন করুন এবং লিডারবোর্ডে উঠুন"
 	},
-	"custom_api_form_hint_timeout": {
-		"message": "অনুরোধ টাইমআউট মিলিসেকেন্ডে (১০০০-৬০০০০)। ডিফল্ট: ৫০০০ms।"
+	"warzone_hunter_feature_report": {
+		"message": "উচ্চ-ঝুঁকিপূর্ণ নিশ্চিত ব্যবহারকারীদের রিপোর্ট করুন"
 	},
-	"custom_api_form_label_image": {
-		"message": "ল্যান্ডস্কেপ ছবি (ঐচ্ছিক)"
+	"warzone_hunter_loading_connecting": {
+		"message": "সংযুক্ত হচ্ছে..."
 	},
-	"custom_api_form_hint_image": {
-		"message": "টুলটিপ ট্যাবের জন্য একটি ল্যান্ডস্কেপ ছবি আপলোড করুন (PNG, JPG, SVG, WebP)। প্রস্তাবিত: 480x160px (3:1 অনুপাত)।"
+	"warzone_hunter_signup_description": {
+		"message": "উচ্চ-ঝুঁকিপূর্ণ নিশ্চিত ব্যবহারকারীদের রিপোর্ট করতে সম্প্রদায়ে যোগ দিন। সারাবিশ্বের হান্টারদের সাথে মিলে কাজ করুন যাতে টেকডাউন সফলতা বাড়ানো যায় এবং Roblox সবার জন্য নিরাপদ হয়।"
 	},
-	"custom_api_form_button_remove_image": {
-		"message": "ছবি সরান"
+	"warzone_hunter_stat_points": {
+		"message": "পয়েন্ট"
 	},
-	"custom_api_form_checkbox_enable": {
-		"message": "এই কাস্টম API সক্রিয় করুন"
+	"warzone_hunter_stat_status": {
+		"message": "অবস্থা"
 	},
-	"custom_api_form_button_save": {
-		"message": "সংরক্ষণ করুন"
+	"warzone_hunter_status_anonymous": {
+		"message": "বেনামী"
 	},
-	"custom_api_form_button_saving": {
-		"message": "সংরক্ষণ হচ্ছে..."
+	"warzone_hunter_status_public": {
+		"message": "সর্বজনীন"
 	},
-	"custom_api_form_error_name_required": {
-		"message": "নাম প্রয়োজন"
+	"warzone_hunter_title": {
+		"message": "ওয়ার জোন হান্টার"
 	},
-	"custom_api_form_error_name_length": {
-		"message": "নাম ১২ অক্ষর বা তার কম হতে হবে"
+	"warzone_hunter_welcome_message": {
+		"message": "স্বাগতম, হান্টার! আপনি এখন ওয়ার জোন কার্যক্রমে অংশগ্রহণ করতে এবং Roblox সম্প্রদায় রক্ষা করতে সাহায্য করতে পারেন। আপনার হান্টিং মিশন শুরু করতে Roblox হোমপেজে যান।"
 	},
-	"custom_api_form_error_url_required": {
-		"message": "URL প্রয়োজন"
+	"warzone_leaderboard_badge_you": {
+		"message": "আপনি"
 	},
-	"custom_api_form_error_url_https": {
-		"message": "URL অবশ্যই https:// দিয়ে শুরু হতে হবে"
+	"warzone_leaderboard_error_load": {
+		"message": "লিডারবোর্ড লোড করতে ব্যর্থ"
 	},
-	"custom_api_form_error_url_invalid": {
-		"message": "অবৈধ URL ফরম্যাট"
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "বেনামী হান্টার অন্তর্ভুক্ত করুন"
 	},
-	"custom_api_form_error_timeout_min": {
-		"message": "টাইমআউট কমপক্ষে ১০০০ms (১ সেকেন্ড) হতে হবে"
+	"warzone_leaderboard_loading": {
+		"message": "লিডারবোর্ড লোড হচ্ছে..."
 	},
-	"custom_api_form_error_timeout_max": {
-		"message": "টাইমআউট ৬০০০০ms (৬০ সেকেন্ড) বা তার কম হতে হবে"
+	"warzone_leaderboard_section_rankings": {
+		"message": "র‍্যাঙ্কিং"
 	},
-	"custom_api_form_error_image_type": {
-		"message": "অবৈধ ফাইল টাইপ। অনুগ্রহ করে PNG, JPG, SVG, বা WebP ব্যবহার করুন"
+	"warzone_leaderboard_section_top": {
+		"message": "শীর্ষ হান্টার"
 	},
-	"custom_api_form_error_image_mime": {
-		"message": "অবৈধ ছবি টাইপ। MIME টাইপ ফাইল এক্সটেনশনের সাথে মেলে না"
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 রিপোর্ট"
 	},
-	"custom_api_form_error_image_size": {
-		"message": "সতর্কতা: বড় ফাইল আকার ($1KB)। স্টোরেজ ব্যবহার কমাতে একটি ছোট ছবি ব্যবহার করার কথা বিবেচনা করুন।"
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% সফলতা"
 	},
-	"custom_api_form_error_image_read": {
-		"message": "ছবি ফাইল পড়তে ব্যর্থ"
+	"warzone_leaderboard_total_hunters": {
+		"message": "মোট হান্টার: $1"
 	},
-	"custom_api_form_error_image_process": {
-		"message": "ছবি ফাইল প্রসেস করতে ব্যর্থ"
+	"warzone_leaderboard_your_rank": {
+		"message": "আপনার র‍্যাঙ্ক: #$1"
 	},
-	"custom_api_form_error_save_prefix": {
-		"message": "কাস্টম API সংরক্ষণ করতে ব্যর্থ: "
+	"warzone_mode_global": {
+		"message": "বৈশ্বিক"
 	},
-	"custom_api_form_error_unknown": {
-		"message": "অজানা ত্রুটি"
+	"warzone_mode_zone": {
+		"message": "জোন"
 	},
-	"custom_api_mgmt_button_back": {
-		"message": "ফিরে যান"
+	"warzone_nav_tab_leaderboard": {
+		"message": "লিডারবোর্ড"
 	},
-	"custom_api_mgmt_title": {
-		"message": "API ইন্টিগ্রেশন"
+	"warzone_nav_tab_profile": {
+		"message": "প্রোফাইল"
 	},
-	"custom_api_mgmt_intro": {
-		"message": "এক জায়গায় সমস্ত API ইন্টিগ্রেশন পরিচালনা করুন। Rotector মূল নিরাপত্তা বিশ্লেষণ প্রদান করে, এবং আপনি অতিরিক্ত বিষয়বস্তু বিশ্লেষণের জন্য ৫টি পর্যন্ত কাস্টম API যোগ করতে পারেন।"
+	"warzone_nav_tab_war_zone": {
+		"message": "ওয়ার জোন"
 	},
-	"custom_api_mgmt_button_docs": {
-		"message": "ডকুমেন্টেশন দেখুন"
+	"warzone_order_label_completed": {
+		"message": "সম্পন্ন"
 	},
-	"custom_api_mgmt_loading": {
-		"message": "কাস্টম API লোড হচ্ছে..."
+	"warzone_order_label_expires": {
+		"message": "মেয়াদ শেষ"
 	},
-	"custom_api_mgmt_badge_system": {
-		"message": "সিস্টেম API"
+	"warzone_order_label_progress": {
+		"message": "অগ্রগতি"
 	},
-	"custom_api_mgmt_label_single": {
-		"message": "একক:"
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
 	},
-	"custom_api_mgmt_label_batch": {
-		"message": "ব্যাচ:"
+	"warzone_order_type_ban_count": {
+		"message": "নিষেধাজ্ঞা সংখ্যা"
 	},
-	"custom_api_mgmt_label_timeout": {
-		"message": "টাইমআউট:"
+	"warzone_order_type_verification": {
+		"message": "যাচাইকরণ"
 	},
-	"custom_api_mgmt_label_created": {
-		"message": "তৈরি:"
+	"warzone_order_type_zone_liberation": {
+		"message": "জোন মুক্তি"
 	},
-	"custom_api_mgmt_label_last_tested": {
-		"message": "শেষ পরীক্ষিত:"
+	"warzone_overview_button_find_user": {
+		"message": "রিপোর্ট করার জন্য ব্যবহারকারী খুঁজুন"
 	},
-	"custom_api_mgmt_suffix_ms": {
-		"message": "ms"
+	"warzone_overview_error_auth_expired": {
+		"message": "প্রমাণীকরণ মেয়াদ শেষ। দয়া করে লগআউট করুন এবং আবার লগইন করুন।"
 	},
-	"custom_api_mgmt_title_move_up": {
-		"message": "উপরে সরান"
+	"warzone_overview_error_find_user": {
+		"message": "রিপোর্টযোগ্য ব্যবহারকারী খুঁজতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
 	},
-	"custom_api_mgmt_title_move_down": {
-		"message": "নিচে সরান"
+	"warzone_overview_error_load": {
+		"message": "যুদ্ধ মানচিত্র লোড করতে ব্যর্থ"
 	},
-	"custom_api_mgmt_title_test": {
-		"message": "সংযোগ পরীক্ষা করুন"
+	"warzone_overview_error_no_users": {
+		"message": "কোন রিপোর্টযোগ্য ব্যবহারকারী উপলব্ধ নেই। পরে আবার চেক করুন!"
 	},
-	"custom_api_mgmt_title_edit": {
-		"message": "সম্পাদনা করুন"
+	"warzone_overview_finding_user_loading": {
+		"message": "ব্যবহারকারী খুঁজছে..."
 	},
-	"custom_api_mgmt_title_delete": {
-		"message": "মুছুন"
+	"warzone_overview_loading": {
+		"message": "যুদ্ধ মানচিত্র লোড হচ্ছে..."
 	},
-	"custom_api_mgmt_button_add": {
-		"message": "কাস্টম API যোগ করুন"
+	"warzone_overview_section_global_stats": {
+		"message": "বৈশ্বিক যুদ্ধ পরিসংখ্যান"
 	},
-	"custom_api_mgmt_notice_max_reached": {
-		"message": "সর্বোচ্চ $1টি কাস্টম API এ পৌঁছেছে। নতুন একটি যোগ করতে একটি বিদ্যমান API মুছুন।"
+	"warzone_overview_section_global_trends": {
+		"message": "বৈশ্বিক ট্রেন্ড (৩০ দিন)"
 	},
-	"custom_api_mgmt_confirm_delete": {
-		"message": "কাস্টম API \"$1\" মুছবেন?"
+	"warzone_overview_section_major_orders": {
+		"message": "সক্রিয় প্রধান আদেশ"
 	},
-	"custom_api_mgmt_error_delete": {
-		"message": "কাস্টম API মুছতে ব্যর্থ"
+	"warzone_overview_section_targets": {
+		"message": "সক্রিয় লক্ষ্য"
 	},
-	"custom_api_mgmt_test_success": {
-		"message": "✓ সংযোগ সফল!\n\nAPI \"$1\" পৌঁছানোযোগ্য এবং প্রতিক্রিয়াশীল।"
+	"warzone_overview_section_zones": {
+		"message": "ওয়ার জোন"
 	},
-	"custom_api_mgmt_test_failed": {
-		"message": "✗ সংযোগ ব্যর্থ\n\nAPI \"$1\" প্রতিক্রিয়া দিচ্ছে না বা একটি ত্রুটি ফেরত দিয়েছে।\n\nঅনুগ্রহ করে পরীক্ষা করুন:\n• URL সঠিক এবং অ্যাক্সেসযোগ্য\n• API সার্ভার চলছে\n• প্রয়োজনে CORS কনফিগার করা আছে"
+	"warzone_overview_stat_active_targets": {
+		"message": "সক্রিয় লক্ষ্য"
 	},
-	"custom_api_mgmt_test_error": {
-		"message": "✗ সংযোগ পরীক্ষা ত্রুটি\n\nAPI \"$1\" পরীক্ষা করতে ব্যর্থ।\n\nত্রুটি: $2"
+	"warzone_overview_stat_avg_liberation": {
+		"message": "গড় মুক্তি"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "API অবস্থা আপডেট করতে ব্যর্থ"
+	"warzone_overview_stat_total_banned": {
+		"message": "মোট নিষিদ্ধ"
 	},
-	"custom_api_mgmt_http_method_get": {
-		"message": "GET"
+	"warzone_overview_stat_total_zones": {
+		"message": "মোট জোন"
 	},
-	"custom_api_mgmt_http_method_post": {
-		"message": "POST"
+	"warzone_profile_button_logout": {
+		"message": "লগআউট"
 	},
-	"custom_api_docs_button_back": {
-		"message": "ফিরে যান"
+	"warzone_profile_button_reset_uuid": {
+		"message": "সব ডিভাইস থেকে লগআউট করুন"
 	},
-	"custom_api_docs_title": {
-		"message": "API ডকুমেন্টেশন"
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "লগআউট হচ্ছে..."
 	},
-	"custom_api_docs_intro": {
-		"message": "ব্যবহারকারী স্ট্যাটাস ডেটা ফেরত দেয় এমন দুটি এন্ডপয়েন্ট প্রয়োগ করুন। সমস্ত রেসপন্স success, data, এবং error ফিল্ড সহ র‍্যাপার ফরম্যাট ব্যবহার করতে হবে।"
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ সব ডিভাইস থেকে লগআউট হয়েছে"
 	},
-	"custom_api_docs_section_single_lookup": {
-		"message": "একক ব্যবহারকারী লুকআপ"
+	"warzone_profile_confirm_logout": {
+		"message": "আপনি কি নিশ্চিত লগআউট করতে চান?\n\nআপনি আপনার Discord অ্যাকাউন্ট ব্যবহার করে যেকোনো সময় আবার লগইন করতে পারেন।"
 	},
-	"custom_api_docs_section_batch_lookup": {
-		"message": "ব্যাচ ব্যবহারকারী লুকআপ"
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "সব ডিভাইস থেকে লগআউট করবেন?\n\nএটি অন্যান্য ডিভাইসে সমস্ত সক্রিয় সেশন বাতিল করবে। আপনি এই ডিভাইসে লগইন থাকবেন, কিন্তু অন্য সব ডিভাইস থেকে লগআউট হবে।\n\nআপনার অ্যাকাউন্ট আপোসকৃত হয়েছে বলে সন্দেহ হলে এটি উপকারী।"
 	},
-	"custom_api_docs_section_notes": {
-		"message": "গুরুত্বপূর্ণ নোট"
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Discord অবতার"
 	},
-	"custom_api_docs_subtitle_example_request": {
-		"message": "উদাহরণ অনুরোধ"
+	"warzone_profile_error_reset_uuid": {
+		"message": "সব ডিভাইস থেকে লগআউট করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
 	},
-	"custom_api_docs_subtitle_success_response": {
-		"message": "সফল রেসপন্স"
+	"warzone_profile_label_discord": {
+		"message": "Discord"
 	},
-	"custom_api_docs_subtitle_error_response": {
-		"message": "ত্রুটি রেসপন্স"
+	"warzone_profile_label_joined": {
+		"message": "যোগদান"
 	},
-	"custom_api_docs_subtitle_required_fields": {
-		"message": "প্রয়োজনীয় ফিল্ড (ডেটা অবজেক্টে)"
+	"warzone_profile_label_last_active": {
+		"message": "শেষ সক্রিয়"
 	},
-	"custom_api_docs_subtitle_optional_fields": {
-		"message": "ঐচ্ছিক ফিল্ড (ডেটা অবজেক্টে)"
+	"warzone_profile_label_visibility": {
+		"message": "দৃশ্যমানতা"
 	},
-	"custom_api_docs_subtitle_flag_types": {
-		"message": "ফ্ল্যাগ টাইপ"
+	"warzone_profile_stat_points": {
+		"message": "পয়েন্ট"
 	},
-	"custom_api_docs_subtitle_request_body": {
-		"message": "অনুরোধ বডি"
+	"warzone_profile_title": {
+		"message": "প্রোফাইল"
 	},
-	"custom_api_docs_subtitle_https": {
-		"message": "HTTPS প্রয়োজন"
+	"warzone_profile_visibility_anonymous": {
+		"message": "বেনামী"
 	},
-	"custom_api_docs_subtitle_wrapper": {
-		"message": "র‍্যাপার ফরম্যাট"
+	"warzone_profile_visibility_public": {
+		"message": "সর্বজনীন"
 	},
-	"custom_api_docs_subtitle_reason_keys": {
-		"message": "কারণ কী"
+	"warzone_target_meta_active": {
+		"message": "সক্রিয়"
 	},
-	"custom_api_docs_subtitle_badges": {
-		"message": "ব্যাজ"
+	"warzone_target_meta_attempts": {
+		"message": "প্রচেষ্টা"
 	},
-	"custom_api_docs_subtitle_badge_colors": {
-		"message": "ব্যাজ রং"
+	"warzone_target_meta_confidence": {
+		"message": "আত্মবিশ্বাস"
 	},
-	"custom_api_docs_flag_type_0": {
-		"message": "নিরাপদ"
+	"warzone_target_status_confirmed": {
+		"message": "নিশ্চিত"
 	},
-	"custom_api_docs_flag_type_1": {
-		"message": "বিচারাধীন"
+	"warzone_target_status_flagged": {
+		"message": "ফ্ল্যাগ করা"
 	},
-	"custom_api_docs_flag_type_2": {
-		"message": "অনিরাপদ (প্রস্তাবিত)"
+	"warzone_zone_button_back": {
+		"message": "ওভারভিউতে ফিরে যান"
 	},
-	"custom_api_docs_flag_type_3": {
-		"message": "কিউতে আছে"
+	"warzone_zone_error_load": {
+		"message": "জোন বিবরণ লোড করতে ব্যর্থ"
 	},
-	"custom_api_docs_flag_type_4": {
-		"message": "অব্যবহৃত"
+	"warzone_zone_loading": {
+		"message": "জোন বিবরণ লোড হচ্ছে..."
 	},
-	"custom_api_docs_flag_type_5": {
-		"message": "মিশ্র"
+	"warzone_zone_section_trends": {
+		"message": "জোন ট্রেন্ড (৩০ দিন)"
 	},
-	"custom_api_docs_flag_type_6": {
-		"message": "পূর্ববর্তী অপরাধী"
+	"warzone_zone_stat_banned": {
+		"message": "নিষিদ্ধ"
 	},
-	"custom_api_docs_flag_type_2_note": {
-		"message": "ফ্ল্যাগ টাইপ ২ (অনিরাপদ) হল প্রাথমিক টাইপ যা আপনার অনুপযুক্ত ব্যবহারকারীদের নির্দেশ করার জন্য প্রয়োজন। অন্য ফ্ল্যাগ টাইপ শুধুমাত্র ব্যবহার করুন যদি ব্যবহারকারীদের ভিন্নভাবে শ্রেণীবদ্ধ করার জন্য আপনার একটি নির্দিষ্ট কারণ থাকে।"
+	"warzone_zone_stat_confirmed": {
+		"message": "নিশ্চিত"
 	},
-	"custom_api_docs_field_id": {
-		"message": "id (number) - ইন্টিজার হিসাবে ব্যবহারকারী ID"
+	"warzone_zone_stat_flagged": {
+		"message": "ফ্ল্যাগ করা"
 	},
-	"custom_api_docs_field_flag_type": {
-		"message": "flagType (number) - 0-6 ফ্ল্যাগ টাইপ (নিচে দেখুন)"
+	"warzone_zone_stat_total_users": {
+		"message": "মোট ব্যবহারকারী"
 	},
-	"custom_api_docs_field_confidence": {
-		"message": "confidence (number) - 0.0-1.0 আত্মবিশ্বাস স্তর"
-	},
-	"custom_api_docs_field_reasons": {
-		"message": "reasons (object) - কী হিসাবে স্ট্রিং-ভিত্তিক কারণ নাম, প্রতিটিতে রয়েছে:"
-	},
-	"custom_api_docs_field_message": {
-		"message": "message (string) - কারণ বর্ণনা"
-	},
-	"custom_api_docs_field_evidence": {
-		"message": "evidence (array or null) - প্রমাণ স্ট্রিং বা null"
-	},
-	"custom_api_docs_field_reviewer": {
-		"message": "reviewer (object) - username এবং displayName"
-	},
-	"custom_api_docs_field_engine_version": {
-		"message": "engineVersion (string) - বিশ্লেষণ ইঞ্জিন সংস্করণ"
-	},
-	"custom_api_docs_field_last_updated": {
-		"message": "lastUpdated (number) - Unix টাইমস্ট্যাম্প"
-	},
-	"custom_api_docs_field_badges": {
-		"message": "badges (array) - ৩টি পর্যন্ত কাস্টম ব্যাজ অবজেক্ট, প্রতিটিতে রয়েছে:"
-	},
-	"custom_api_docs_field_badge_text": {
-		"message": "text (string, প্রয়োজনীয়) - ব্যাজ লেবেল টেক্সট"
-	},
-	"custom_api_docs_field_badge_color": {
-		"message": "color (string, ঐচ্ছিক) - ব্যাকগ্রাউন্ড রং (hex, rgb, বা নামযুক্ত রং)"
-	},
-	"custom_api_docs_field_badge_text_color": {
-		"message": "textColor (string, ঐচ্ছিক) - কন্ট্রাস্টের জন্য টেক্সট রং"
-	},
-	"custom_api_docs_field_confidence_reason": {
-		"message": "confidence (number) - 0.0-1.0 আত্মবিশ্বাস"
-	},
-	"custom_api_docs_note_https": {
-		"message": "নিরাপত্তার জন্য সমস্ত API এন্ডপয়েন্ট HTTPS ব্যবহার করতে হবে।"
-	},
-	"custom_api_docs_note_wrapper": {
-		"message": "সমস্ত রেসপন্স {success, data, error} ফরম্যাট ব্যবহার করতে হবে। যখন success: true, data ফিল্ড অন্তর্ভুক্ত করুন। যখন success: false, error বার্তা অন্তর্ভুক্ত করুন।"
-	},
-	"custom_api_docs_note_reason_keys": {
-		"message": "কারণ কী এর জন্য বর্ণনামূলক স্ট্রিং নাম ব্যবহার করুন (যেমন \"High Risk Pattern\", \"Suspicious Activity\"), সংখ্যাসূচক সূচক নয়। এগুলি সরাসরি টুলটিপে প্রদর্শিত হয়।"
-	},
-	"custom_api_docs_note_badges": {
-		"message": "ব্যাজ হল ছোট ভিজ্যুয়াল সূচক যা ফ্ল্যাগ স্ট্যাটাসের পাশাপাশি ব্যবহারকারী টুলটিপে প্রদর্শিত হয়। একজন ব্যবহারকারী সম্পর্কে অতিরিক্ত প্রসঙ্গ দ্রুত যোগাযোগ করতে টুলটিপের শীর্ষে প্রদর্শিত হয়। গুরুত্বপূর্ণ স্ট্যাটাস তথ্য যেমন যাচাইকরণ স্ট্যাটাস, অগ্রাধিকার স্তর, বা বিশেষ শ্রেণী হাইলাইট করতে ব্যাজ ব্যবহার করুন। সাধারণ উদাহরণ: \"Verified Unsafe\", \"High Priority\", \"Community Reported\", \"Auto-Detected\"।"
-	},
-	"custom_api_docs_note_badge_colors": {
-		"message": "ব্যাজ রং একাধিক ফরম্যাট সমর্থন করে: hex কোড (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)), বা নামযুক্ত রং (red)। যখন color নির্দিষ্ট করা না হয়, ব্যাজ ডিফল্ট টিল রং ব্যবহার করে। যখন textColor নির্দিষ্ট করা না হয়, ব্যাজ সাদা টেক্সট ব্যবহার করে।"
-	},
-	"custom_api_docs_note_batch_data": {
-		"message": "ডেটা ফিল্ডে একটি অবজেক্ট রয়েছে যেখানে কী হল ব্যবহারকারী ID (স্ট্রিং হিসাবে) এবং মান হল ব্যবহারকারী স্ট্যাটাস অবজেক্ট।"
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% মুক্ত"
 	}
 }

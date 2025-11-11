@@ -20,6 +20,7 @@
 		"knip": "knip",
 		"knip:production": "knip --production",
 		"validate:i18n": "node scripts/validate-i18n.js",
+		"format:i18n": "node scripts/format-i18n.js",
 		"quality": "bun run check && bun run knip && bun run validate:i18n && bun run lint:fix",
 		"postinstall": "wxt prepare",
 		"format": "prettier --write ."

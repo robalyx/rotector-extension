@@ -11,36 +11,24 @@
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
 	} from '@/lib/types/settings';
-	import { PartyPopper, ChevronRight } from 'lucide-svelte';
+	import { ChevronRight } from 'lucide-svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
+		onNavigateToRotectorDocs?: () => void;
 	}
 
-	let { onNavigateToCustomApis }: Props = $props();
+	let { onNavigateToCustomApis, onNavigateToRotectorDocs }: Props = $props();
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
 	let highlightedSetting = $state<string | null>(null);
 
-	// Developer mode unlock state
-	let showUnlockMessage = $state(false);
-
 	// Toggle API key input field visibility between text and password
 	function toggleApiKeyVisibility() {
 		apiKeyVisible = !apiKeyVisible;
-	}
-
-	// Unlock developer mode (called from navbar)
-	export async function unlockDeveloperMode() {
-		await updateSetting(SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED, true);
-		showUnlockMessage = true;
-
-		setTimeout(() => {
-			showUnlockMessage = false;
-		}, 3000);
 	}
 
 	// Handle setting changes with special handling for mature content warning
@@ -80,12 +68,6 @@
 		showMatureWarning = false;
 	}
 
-	// Reset developer mode to locked state
-	async function resetDeveloperMode() {
-		await updateSetting(SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED, false);
-		showUnlockMessage = false;
-	}
-
 	// Highlight a specific setting temporarily
 	export function highlightSetting(settingKey: string) {
 		highlightedSetting = settingKey;
@@ -101,20 +83,6 @@
 		});
 	});
 </script>
-
-<!-- Developer mode unlock success message -->
-{#if showUnlockMessage}
-	<div
-		class="
-        mb-2 rounded-sm border border-green-300 bg-green-100 p-2 text-sm
-        text-green-800 flex items-center gap-2
-        dark:border-green-700 dark:bg-green-900 dark:text-green-200
-      "
-	>
-		<PartyPopper size={16} />
-		{t('settings_developer_unlocked')}
-	</div>
-{/if}
 
 <div
 	style:border-color="var(--color-border-subtle)"
@@ -213,7 +181,7 @@
 				{/if}
 
 				<!-- API Integrations Management Button -->
-				{#if category.titleKey === 'settings_category_integrations' && onNavigateToCustomApis}
+				{#if category.titleKey === 'settings_category_integrations' && onNavigateToCustomApis && $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 					<button class="manage-custom-apis-button" onclick={onNavigateToCustomApis} type="button">
 						<span class="manage-custom-apis-text">
 							{t('settings_manage_apis_button')}
@@ -233,26 +201,45 @@
 		</fieldset>
 	{/each}
 
-	<!-- Developer settings (shown only when unlocked) -->
-	{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-		<fieldset
-			style:border-color="var(--color-border-subtle)"
-			class="
+	<!-- Developer settings (always visible) -->
+	<fieldset
+		style:border-color="var(--color-border-subtle)"
+		class="
                 m-0 mb-2 rounded-sm border bg-yellow-50 p-1.5 px-2 pb-2
                 last:mb-0
                 dark:bg-yellow-900/20
               "
-		>
-			<legend
-				class="
+	>
+		<legend
+			class="
         text-text-subtle ml-0.5 px-1 text-2xs font-medium
         dark:text-text-subtle-dark
       "
-			>
-				{t(DEVELOPER_SETTING_CATEGORY.titleKey)}
-			</legend>
-			<div class="settings-category">
-				{#each DEVELOPER_SETTING_CATEGORY.settings as setting (setting.key)}
+		>
+			{t(DEVELOPER_SETTING_CATEGORY.titleKey)}
+		</legend>
+		<div class="settings-category">
+			{#each DEVELOPER_SETTING_CATEGORY.settings as setting (setting.key)}
+				{#if setting.key === SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
+					<!-- Developer Mode Toggle (always shown) -->
+					<div
+						class="setting-item"
+						class:setting-highlighted={highlightedSetting === setting.key}
+						data-setting-key={setting.key}
+					>
+						<div class="setting-label">
+							{t(setting.labelKey)}
+							{#if setting.helpTextKey}
+								<HelpIndicator text={t(setting.helpTextKey)} />
+							{/if}
+						</div>
+						<Toggle
+							checked={Boolean($settings[setting.key] ?? false)}
+							onchange={(value: boolean) => handleSettingChange(setting.key, value)}
+						/>
+					</div>
+				{:else if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
+					<!-- Other developer settings (shown only when developer mode is enabled) -->
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
 						<NumberInput
 							helpText={setting.helpTextKey ? t(setting.helpTextKey) : undefined}
@@ -280,9 +267,11 @@
 							/>
 						</div>
 					{/if}
-				{/each}
+				{/if}
+			{/each}
 
-				<!-- API Key input field -->
+			<!-- API Key input field (shown only when developer mode is enabled) -->
+			{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 				<div class="api-key-container mt-2.5">
 					<div class="setting-label mb-1.5 w-full">{t('settings_api_key_label')}</div>
 					<div class="flex items-center gap-1">
@@ -306,20 +295,22 @@
 					</div>
 				</div>
 
-				<!-- Reset developer mode button -->
-				<div
-					class="
-          border-border mt-3 border-t pt-3
-          dark:border-border-dark
-        "
-				>
-					<button class="developer-reset-button" onclick={resetDeveloperMode} type="button">
-						{t('settings_developer_hide_button')}
+				<!-- Rotector API Documentation Button -->
+				{#if onNavigateToRotectorDocs}
+					<button
+						class="manage-custom-apis-button"
+						onclick={onNavigateToRotectorDocs}
+						type="button"
+					>
+						<span class="manage-custom-apis-text">
+							{t('settings_rotector_api_docs_button')}
+						</span>
+						<ChevronRight size={16} />
 					</button>
-				</div>
-			</div>
-		</fieldset>
-	{/if}
+				{/if}
+			{/if}
+		</div>
+	</fieldset>
 </div>
 
 <!-- Mature Content Warning Modal -->

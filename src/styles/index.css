@@ -52,7 +52,9 @@
 @import './popup/settings/warnings.css';
 
 /* Custom API Management */
-@import './popup/custom-api-management.css';
+@import './popup/api/management.css';
+@import './popup/api/form.css';
+@import './popup/api/documentation.css';
 
 /* Warzone Page */
 @import './popup/warzone/base.css';

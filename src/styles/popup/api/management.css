@@ -81,8 +81,31 @@
 	gap: 0.5rem;
 }
 
+@utility custom-api-integration-section {
+	@apply flex flex-col;
+	gap: 0.5rem;
+	padding: 0.75rem;
+	background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+	border-radius: 0.375rem;
+}
+
+@utility integration-section-title {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--color-text-heading);
+	margin: 0;
+}
+
+@utility integration-section-description {
+	font-size: 0.8125rem;
+	color: var(--color-text-subtle);
+	line-height: 1.5;
+	margin: 0;
+}
+
 @utility docs-button {
-	@apply flex items-center;
+	@apply flex items-center justify-center w-full;
 	gap: 0.375rem;
 	padding: 0.375rem 0.625rem;
 	font-size: 0.75rem;
@@ -429,242 +452,4 @@
 			background-color: color-mix(in srgb, var(--color-status-unsafe) 10%, transparent);
 		}
 	}
-}
-
-/* =================================
-   FORM COMPONENTS
-   ================================= */
-
-@utility custom-api-form {
-	@apply flex flex-col;
-	gap: 0.75rem;
-}
-
-@utility form-field {
-	@apply flex flex-col;
-	gap: 0.25rem;
-}
-
-@utility form-label {
-	@apply flex items-center;
-	gap: 0.25rem;
-	font-size: 0.75rem;
-	font-weight: 500;
-	color: var(--color-text);
-
-	& .required {
-		color: var(--color-status-unsafe);
-		margin-left: 0.125rem;
-	}
-}
-
-@utility form-input {
-	@apply w-full;
-	padding: 0.5rem 0.625rem;
-	font-size: 0.8125rem;
-	color: var(--color-text);
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border);
-	border-radius: 0.25rem;
-	transition: all 0.2s ease;
-	font-family: inherit;
-
-	&::placeholder {
-		color: var(--color-text-tertiary);
-	}
-
-	&:focus {
-		outline: none;
-		border-color: transparent;
-		box-shadow: 0 0 0 2px var(--color-primary);
-	}
-
-	&.error {
-		border-color: var(--color-status-unsafe);
-
-		&:focus {
-			box-shadow: 0 0 0 2px var(--color-status-unsafe);
-		}
-	}
-}
-
-@utility form-hint {
-	font-size: 0.6875rem;
-	color: var(--color-text-tertiary);
-	line-height: 1.3;
-}
-
-@utility form-error {
-	font-size: 0.6875rem;
-	color: var(--color-status-unsafe);
-	line-height: 1.3;
-}
-
-@utility form-checkbox {
-	@apply flex items-center;
-	gap: 0.5rem;
-	padding: 0.625rem;
-	background-color: var(--color-bg-secondary);
-	border: 1px solid var(--color-border);
-	border-radius: 0.25rem;
-	cursor: pointer;
-	transition: all 0.2s ease;
-
-	&:hover {
-		background-color: var(--color-hover);
-	}
-
-	& input[type='checkbox'] {
-		width: 0.875rem;
-		height: 0.875rem;
-		cursor: pointer;
-		accent-color: var(--color-primary);
-	}
-
-	& span {
-		@apply flex-1;
-		font-size: 0.8125rem;
-		color: var(--color-text);
-	}
-}
-
-/* =================================
-   DOCUMENTATION PAGE
-   ================================= */
-
-@utility custom-api-documentation-page {
-	@apply flex flex-col w-full;
-	gap: 0.75rem;
-}
-
-@utility docs-intro {
-	font-size: 0.8125rem;
-	color: var(--color-text-subtle);
-	line-height: 1.5;
-	margin: 0;
-}
-
-/* =================================
-   DOCUMENTATION SECTIONS
-   ================================= */
-
-@utility docs-section {
-	@apply flex flex-col;
-	gap: 0.5rem;
-	padding-top: 0.5rem;
-	border-top: 1px solid var(--color-border-subtle);
-
-	&:first-of-type {
-		padding-top: 0;
-		border-top: none;
-	}
-}
-
-@utility docs-section-title {
-	font-size: 0.8125rem;
-	font-weight: 600;
-	color: var(--color-text-heading);
-	margin: 0;
-}
-
-/* =================================
-   DOCUMENTATION CONTENT
-   ================================= */
-
-@utility docs-subtitle {
-	font-size: 0.75rem;
-	font-weight: 600;
-	color: var(--color-text-heading);
-	margin: 0.375rem 0 0.25rem 0;
-}
-
-@utility docs-endpoint {
-	@apply flex items-center;
-	gap: 0.5rem;
-	padding: 0.5rem 0.625rem;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border);
-	border-radius: 0.25rem;
-	font-family:
-		ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-}
-
-@utility http-method {
-	@apply inline-flex items-center;
-	padding: 0.125rem 0.375rem;
-	font-size: 0.625rem;
-	font-weight: 700;
-	color: white;
-	background-color: #2196f3;
-	border-radius: 0.25rem;
-	letter-spacing: 0.025em;
-
-	&.http-method-get {
-		background-color: #4caf50;
-	}
-}
-
-@utility endpoint-url {
-	font-size: 0.6875rem;
-	color: var(--color-text);
-	word-break: break-all;
-}
-
-@utility code-block {
-	padding: 0.5rem 0.625rem;
-	background-color: var(--color-bg-tertiary);
-	border: 1px solid var(--color-border);
-	border-radius: 0.25rem;
-	overflow-x: auto;
-	margin: 0.25rem 0;
-
-	& code {
-		font-size: 0.6875rem;
-		font-family:
-			ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-		color: var(--color-text);
-		line-height: 1.5;
-		white-space: pre-wrap;
-		word-break: break-word;
-	}
-}
-
-@utility docs-list {
-	margin: 0.25rem 0;
-	padding-left: 1rem;
-	font-size: 0.75rem;
-	color: var(--color-text);
-	line-height: 1.5;
-
-	& li {
-		margin-bottom: 0.25rem;
-
-		& code {
-			padding: 0.125rem 0.25rem;
-			font-size: 0.6875rem;
-			font-family:
-				ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-			color: var(--color-primary);
-			background-color: var(--color-bg-tertiary);
-			border-radius: 0.25rem;
-		}
-	}
-}
-
-@utility docs-important {
-	padding: 0.625rem 0.75rem;
-	font-size: 0.75rem;
-	color: var(--color-warning);
-	background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 30%, transparent);
-	border-radius: 0.25rem;
-	line-height: 1.5;
-}
-
-@utility docs-note {
-	font-size: 0.75rem;
-	font-weight: 500;
-	color: var(--color-text);
-	line-height: 1.5;
-	margin: 0.375rem 0;
 }

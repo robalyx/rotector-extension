@@ -1,48 +1,468 @@
 {
-	"popup_header_description": {
-		"message": "实时安全指示器，在您与 Roblox 用户互动之前对不当用户发出警告。"
-	},
 	"banner_advanced_violation_aria_dismiss": {
 		"message": "关闭推荐横幅"
-	},
-	"banner_advanced_violation_title_dismiss": {
-		"message": "关闭推荐"
-	},
-	"banner_advanced_violation_message": {
-		"message": "启用高级违规详情以获得更好的洞察"
-	},
-	"banner_advanced_violation_title_go_to_setting": {
-		"message": "前往高级违规详情设置"
 	},
 	"banner_advanced_violation_button_go_to_setting": {
 		"message": "前往设置"
 	},
-	"banner_changelog_message": {
-		"message": "新版本已于 $1 发布！"
+	"banner_advanced_violation_message": {
+		"message": "启用高级违规详情以获得更好的洞察"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "关闭推荐"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "前往高级违规详情设置"
 	},
 	"banner_changelog_aria_dismiss": {
 		"message": "关闭更新日志横幅"
 	},
-	"banner_changelog_title_view_details": {
-		"message": "查看完整更新日志详情"
+	"banner_changelog_button_view_details": {
+		"message": "查看详情"
+	},
+	"banner_changelog_message": {
+		"message": "新版本已于 $1 发布！"
 	},
 	"banner_changelog_title_dismiss": {
 		"message": "关闭更新日志"
 	},
-	"banner_changelog_button_view_details": {
-		"message": "查看详情"
+	"banner_changelog_title_view_details": {
+		"message": "查看完整更新日志详情"
 	},
-	"navbar_tab_stats": {
-		"message": "统计"
+	"custom_api_docs_button_back": {
+		"message": "返回"
 	},
-	"navbar_tab_warzone": {
-		"message": "War Zone"
+	"custom_api_docs_error_note": {
+		"message": "注意：仅当发生内部服务器错误或后端问题时才会返回错误响应。未找到的用户或尚未分析的用户将返回 success: true 和 flagType: 0（安全）。"
 	},
-	"navbar_tab_settings": {
-		"message": "设置"
+	"custom_api_docs_field_badge_color": {
+		"message": "（字符串，可选）- 背景颜色（十六进制、rgb 或命名颜色）"
 	},
-	"navbar_settings_tooltip": {
-		"message": "设置（Alt+点击开启开发者模式）"
+	"custom_api_docs_field_badge_text": {
+		"message": "（字符串，必填）- 徽章标签文本"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "（字符串，可选）- 对比度的文本颜色"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "（数组）- 最多 3 个自定义徽章对象，每个包含："
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "（数字）- 0.0-1.0 之间的浮点数信心度"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "（数字）- 0.0-1.0 之间的浮点数信心度"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "（字符串）- 分析引擎版本"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "（数组或 null）- 证据字符串（例如来自用户名、显示名称、描述）或 null"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "（数字）- 0-6 标记类型（见下文）"
+	},
+	"custom_api_docs_field_id": {
+		"message": "（数字）- 整数形式的用户 ID"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "（数字）- Unix 时间戳（秒）"
+	},
+	"custom_api_docs_field_message": {
+		"message": "（字符串）- 原因描述"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "（对象）- 字符串形式的原因名称作为键，每个包含："
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "（对象）- 可选。用于标注验证标记的人工审核员。包含 username 和 displayName。如果是自动/无人工审核则省略。"
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "安全"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "待定"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "不安全（推荐）"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "标记类型 2（不安全）是您指示不当用户所需的主要类型。仅在您有特定原因以不同方式对用户进行分类时才使用其他标记类型。"
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "已排队"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "未使用"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "混合"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "过去的违规者"
+	},
+	"custom_api_docs_intro": {
+		"message": "实现两个返回用户状态数据的端点。所有响应必须使用包含 success、data 和 error 字段的包装器格式。"
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "徽章颜色支持多种格式：十六进制代码（#ef4444）、RGB（rgb(239, 68, 68)）、RGBA（rgba(239, 68, 68, 0.9)）或命名颜色（red）。如果未指定颜色，徽章将使用默认的青色。如果未指定 textColor，徽章将使用白色文本。"
+	},
+	"custom_api_docs_note_badges": {
+		"message": "徽章是出现在用户提示框中标记状态旁边的小型视觉指示器。它们显示在提示框顶部，以快速传达有关用户的其他上下文。使用徽章突出显示重要的状态信息，如验证状态、优先级或特殊类别。常见示例：\"已验证不安全\"、\"高优先级\"、\"社区举报\"、\"自动检测\"。"
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "data 字段包含一个对象，其中键是用户 ID（作为字符串），值是用户状态对象。"
+	},
+	"custom_api_docs_note_batch_limit": {
+		"message": "我们建议每批请求限制为 100 个用户 ID，以平衡性能和响应时间。"
+	},
+	"custom_api_docs_note_batch_partial": {
+		"message": "仅返回系统中存在的用户。未知用户应从响应中省略。"
+	},
+	"custom_api_docs_note_cors": {
+		"message": "您的 API 必须在响应中包含 Access-Control-Allow-Origin: * 标头，以允许浏览器扩展访问您的 API。"
+	},
+	"custom_api_docs_note_flag_type_0": {
+		"message": "对于不在您系统中的用户（尚未检查/未知），返回 flagType 0。"
+	},
+	"custom_api_docs_note_http_status": {
+		"message": "所有成功请求都返回 HTTP 状态码 200。任何其他状态码（4xx、5xx）表示失败，扩展将视为错误。"
+	},
+	"custom_api_docs_note_https": {
+		"message": "为了安全起见，所有 API 端点必须使用 HTTPS。"
+	},
+	"custom_api_docs_note_no_auth": {
+		"message": "无需身份验证。这是一个完全公开的 API。"
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "为原因键使用描述性字符串名称（例如\"高风险模式\"、\"可疑活动\"），而不是数字索引。这些会直接显示在提示框中。"
+	},
+	"custom_api_docs_note_url_batch": {
+		"message": "扩展直接使用您配置的 URL（无修改）进行批量查询。"
+	},
+	"custom_api_docs_note_url_single": {
+		"message": "扩展会自动将 /{userId} 附加到您配置的 URL 用于单个用户查询。"
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "所有响应必须使用 {success, data, error} 格式。当 success: true 时，包含 data 字段。当 success: false 时，包含 error 消息。"
+	},
+	"custom_api_docs_section_authentication": {
+		"message": "身份验证"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "批量用户查找"
+	},
+	"custom_api_docs_section_cors": {
+		"message": "CORS 要求"
+	},
+	"custom_api_docs_section_http_status": {
+		"message": "HTTP 状态码"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "重要注意事项"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "单个用户查找"
+	},
+	"custom_api_docs_section_url_config": {
+		"message": "API URL 配置"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "徽章颜色"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "徽章"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "错误响应"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "示例请求"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "标记类型"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "需要 HTTPS"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "可选字段（在 data 对象中）"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "原因键"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "请求主体"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "必填字段（在 data 对象中）"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "成功响应"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "包装器格式"
+	},
+	"custom_api_docs_title": {
+		"message": "自定义 API 集成指南"
+	},
+	"custom_api_docs_url_example_1": {
+		"message": "https://api.example.com/users"
+	},
+	"custom_api_docs_url_example_2": {
+		"message": "https://api.example.com/v1/check"
+	},
+	"custom_api_docs_url_example_3": {
+		"message": "https://api.example.com/roblox/analyze"
+	},
+	"custom_api_docs_url_example_wrong_1": {
+		"message": "https://api.example.com/users/{userId}（扩展会自动附加 /{userId}）"
+	},
+	"custom_api_docs_url_example_wrong_2": {
+		"message": "https://api.example.com/users/:id（扩展会自动附加 /{userId}）"
+	},
+	"custom_api_docs_url_examples_correct_title": {
+		"message": "正确的 URL 格式"
+	},
+	"custom_api_docs_url_examples_incorrect_title": {
+		"message": "错误的 URL 格式"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "移除图片"
+	},
+	"custom_api_form_button_save": {
+		"message": "保存"
+	},
+	"custom_api_form_button_saving": {
+		"message": "保存中..."
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "启用此自定义 API"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "无效的图片类型。MIME 类型与文件扩展名不匹配"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "处理图片文件失败"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "读取图片文件失败"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "警告：文件大小较大（$1KB）。考虑使用较小的图片以减少存储使用。"
+	},
+	"custom_api_form_error_image_type": {
+		"message": "无效的文件类型。请使用 PNG、JPG、SVG 或 WebP"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "名称必须为 12 个字符或更少"
+	},
+	"custom_api_form_error_name_required": {
+		"message": "名称为必填项"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "保存自定义 API 失败："
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "超时必须为 60000 毫秒（60 秒）或更少"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "超时必须至少为 1000 毫秒（1 秒）"
+	},
+	"custom_api_form_error_unknown": {
+		"message": "未知错误"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL 必须以 https:// 开头"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "无效的 URL 格式"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL 为必填项"
+	},
+	"custom_api_form_hint_image": {
+		"message": "上传用于提示框标签的横向图片（PNG、JPG、SVG、WebP）。推荐：480x160 像素（3:1 比例）。"
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "最多 12 个字符（$1/12）"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "请求超时（毫秒）（1000-60000）。默认：5000 毫秒。"
+	},
+	"custom_api_form_hint_url": {
+		"message": "必须是 HTTPS。这类似于您的 API 端点的基础 URL。我们将为单个查找调用 {url}/user/{userId}，为批量查找调用 {url}/users。"
+	},
+	"custom_api_form_label_image": {
+		"message": "横向图片（可选）"
+	},
+	"custom_api_form_label_name": {
+		"message": "名称"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "超时（毫秒）"
+	},
+	"custom_api_form_label_url": {
+		"message": "API URL"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "我的自定义 API"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_title_add": {
+		"message": "添加自定义 API"
+	},
+	"custom_api_form_title_edit": {
+		"message": "编辑自定义 API"
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "系统 API"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "添加自定义 API"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "返回"
+	},
+	"custom_api_mgmt_button_view_integration_guide": {
+		"message": "查看集成指南"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "删除自定义 API \"$1\"？"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "删除自定义 API 失败"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "更新 API 状态失败"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_mgmt_integration_section_description": {
+		"message": "构建您自己的 API 以与 Rotector 扩展集成。实现返回用户安全数据的端点，您的结果将在 Rotector 分析旁边的工具提示中显示。"
+	},
+	"custom_api_mgmt_integration_section_title": {
+		"message": "有兴趣与扩展集成吗？"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "在一个地方管理所有 API 集成。Rotector 提供核心安全分析，您可以添加最多 5 个自定义 API 进行额外的内容分析。"
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "批量："
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "创建时间："
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "最后测试："
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "单个："
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "超时："
+	},
+	"custom_api_mgmt_loading": {
+		"message": "加载自定义 API 中..."
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "已达到 $1 个自定义 API 的最大限制。删除现有 API 以添加新的。"
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "毫秒"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ 连接测试错误\n\n测试 API \"$1\" 失败。\n\n错误：$2"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ 连接失败\n\nAPI \"$1\" 未响应或返回错误。\n\n请检查：\n• URL 是否正确且可访问\n• API 服务器是否正在运行\n• 如果需要，是否已配置 CORS"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ 连接成功！\n\nAPI \"$1\" 可访问且正在响应。"
+	},
+	"custom_api_mgmt_title": {
+		"message": "API 集成"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "删除"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "编辑"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "下移"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "上移"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "测试连接"
+	},
+	"engine_aria_info": {
+		"message": "引擎版本信息"
+	},
+	"engine_desc_compatible": {
+		"message": "此分析使用的 AI 引擎仍受支持但不是最新版本。"
+	},
+	"engine_desc_compatible_impact": {
+		"message": "仍然具有高准确性，但在检测功能上存在细微差异。"
+	},
+	"engine_desc_deprecated": {
+		"message": "此分析使用的 AI 引擎已不再受支持。"
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "准确性可能会显著降低，结果应谨慎对待。"
+	},
+	"engine_desc_latest": {
+		"message": "此分析使用了具有最新检测功能的最新 AI 引擎。"
+	},
+	"engine_desc_latest_impact": {
+		"message": "最高准确性和最全面的分析。"
+	},
+	"engine_desc_outdated": {
+		"message": "此分析使用的 AI 引擎明显落后于最新版本。"
+	},
+	"engine_desc_outdated_impact": {
+		"message": "与较新的引擎版本相比，准确性可能降低。"
+	},
+	"engine_desc_unknown": {
+		"message": "此分析使用了兼容性状态未知的 AI 引擎。"
+	},
+	"engine_desc_unknown_impact": {
+		"message": "无法确定版本兼容性。"
+	},
+	"engine_header_version": {
+		"message": "引擎 v$1"
+	},
+	"engine_status_compatible": {
+		"message": "兼容"
+	},
+	"engine_status_deprecated": {
+		"message": "已弃用"
+	},
+	"engine_status_latest": {
+		"message": "最新"
+	},
+	"engine_status_outdated": {
+		"message": "过时"
+	},
+	"engine_status_unknown": {
+		"message": "未知"
+	},
+	"engine_version_unknown": {
+		"message": "未知"
 	},
 	"footer_discord": {
 		"message": "Discord"
@@ -50,857 +470,23 @@
 	"footer_github": {
 		"message": "GitHub"
 	},
-	"footer_source_code": {
-		"message": "源代码"
-	},
 	"footer_help": {
 		"message": "帮助与关于"
-	},
-	"footer_privacy": {
-		"message": "隐私政策"
-	},
-	"footer_terms": {
-		"message": "服务条款"
 	},
 	"footer_made_by": {
 		"message": "由 jaxron 制作"
 	},
-	"settings_developer_unlocked": {
-		"message": "开发者模式已解锁！高级设置现已可用。"
+	"footer_privacy": {
+		"message": "隐私政策"
 	},
-	"settings_theme_light": {
-		"message": "浅色"
+	"footer_source_code": {
+		"message": "源代码"
 	},
-	"settings_theme_dark": {
-		"message": "深色"
+	"footer_terms": {
+		"message": "服务条款"
 	},
-	"settings_theme_auto": {
-		"message": "自动"
-	},
-	"settings_api_system_label": {
-		"message": "（系统）"
-	},
-	"settings_manage_apis_button": {
-		"message": "管理 API 集成"
-	},
-	"settings_api_count_singular": {
-		"message": "（$1 个 API）"
-	},
-	"settings_api_count_plural": {
-		"message": "（$1 个 API）"
-	},
-	"settings_api_key_label": {
-		"message": "API 密钥（可选）"
-	},
-	"settings_api_key_placeholder": {
-		"message": "输入您的 API 密钥"
-	},
-	"settings_api_key_toggle_title": {
-		"message": "显示/隐藏 API 密钥"
-	},
-	"settings_api_key_hide": {
-		"message": "隐藏"
-	},
-	"settings_api_key_show": {
-		"message": "显示"
-	},
-	"settings_developer_hide_button": {
-		"message": "隐藏开发者设置"
-	},
-	"settings_category_content_display": {
-		"message": "内容显示"
-	},
-	"settings_category_integrations": {
-		"message": "集成"
-	},
-	"settings_category_page_settings": {
-		"message": "页面设置"
-	},
-	"settings_category_developer": {
-		"message": "开发者"
-	},
-	"settings_label_theme": {
-		"message": "主题"
-	},
-	"settings_label_advanced_violations": {
-		"message": "显示高级违规详情"
-	},
-	"settings_label_home_page": {
-		"message": "主页"
-	},
-	"settings_label_profile_pages": {
-		"message": "个人资料页面"
-	},
-	"settings_label_friends_pages": {
-		"message": "好友页面"
-	},
-	"settings_label_groups_pages": {
-		"message": "群组页面"
-	},
-	"settings_label_search_pages": {
-		"message": "搜索页面"
-	},
-	"settings_label_report_helper": {
-		"message": "举报助手"
-	},
-	"settings_label_debug_logging": {
-		"message": "启用调试日志"
-	},
-	"settings_label_cache_duration": {
-		"message": "缓存持续时间（分钟）"
-	},
-	"settings_help_theme": {
-		"message": "自动模式会跟随 Roblox 的主题设置。浅色和深色会覆盖此偏好设置。"
-	},
-	"settings_help_advanced_violations": {
-		"message": "显示详细的违规信息和证据。可能包含不当内容。"
-	},
-	"settings_help_debug_logging": {
-		"message": "在浏览器控制台（F12 → 控制台）中显示详细日志以进行故障排查。"
-	},
-	"settings_help_cache_duration": {
-		"message": "缓存用户状态数据的时长（1-10 分钟）。较高的值会减少 API 调用但可能显示过时信息。"
-	},
-	"settings_modal_title": {
-		"message": "高级详情警告"
-	},
-	"settings_modal_confirm_button": {
-		"message": "启用高级详情"
-	},
-	"settings_modal_warning_intro": {
-		"message": "高级违规详情可能包含敏感内容"
-	},
-	"settings_modal_warning_continuation": {
-		"message": "这些内容引用自违反平台政策的用户资料和活动。"
-	},
-	"settings_modal_enabled_heading": {
-		"message": "启用后您将看到："
-	},
-	"settings_modal_enabled_item1": {
-		"message": "详细的违规信息，说明用户被标记的原因"
-	},
-	"settings_modal_enabled_item2": {
-		"message": "包含违规内容的证据片段"
-	},
-	"settings_modal_enabled_item3": {
-		"message": "来自用户资料和活动的具体违规示例"
-	},
-	"settings_modal_considerations_heading": {
-		"message": "重要注意事项"
-	},
-	"settings_modal_considerations_item1": {
-		"message": "内容可能包括违反平台社区准则的材料"
-	},
-	"settings_modal_considerations_item2": {
-		"message": "此信息仅用于审核和安全目的"
-	},
-	"settings_modal_considerations_item3": {
-		"message": "如果您不想查看详细的违规证据，请保持此设置关闭"
-	},
-	"settings_modal_considerations_item4": {
-		"message": "您可以随时在设置中禁用此功能"
-	},
-	"settings_modal_recommendation_label": {
-		"message": "建议："
-	},
-	"settings_modal_recommendation_text": {
-		"message": "仅当您出于审核目的需要详细的违规信息并且理解您可能会看到违反社区准则的内容时才启用此功能。"
-	},
-	"stats_changelog_type_added": {
-		"message": "新增"
-	},
-	"stats_changelog_type_changed": {
-		"message": "更改"
-	},
-	"stats_changelog_type_deprecated": {
-		"message": "已弃用"
-	},
-	"stats_changelog_type_removed": {
-		"message": "移除"
-	},
-	"stats_changelog_type_fixed": {
-		"message": "修复"
-	},
-	"stats_changelog_type_security": {
-		"message": "安全"
-	},
-	"stats_changelog_type_update": {
-		"message": "更新"
-	},
-	"stats_changelog_title": {
-		"message": "更新日志"
-	},
-	"stats_changelog_empty": {
-		"message": "没有可用的更新日志条目。"
-	},
-	"stats_financial_title": {
-		"message": "资金目标"
-	},
-	"stats_financial_raised": {
-		"message": "已筹集"
-	},
-	"stats_financial_surplus": {
-		"message": "盈余"
-	},
-	"stats_financial_remaining": {
-		"message": "剩余"
-	},
-	"stats_financial_kofi_title": {
-		"message": "在 Ko-fi 上支持"
-	},
-	"stats_financial_button_funded": {
-		"message": "谢谢！"
-	},
-	"stats_financial_button_support": {
-		"message": "支持开发"
-	},
-	"stats_financial_charts_hide": {
-		"message": "隐藏使用图表"
-	},
-	"stats_financial_charts_show": {
-		"message": "显示使用图表"
-	},
-	"stats_financial_charts_toggle": {
-		"message": "每周使用图表"
-	},
-	"stats_financial_aria_funded": {
-		"message": "已完全资助，盈余 $1"
-	},
-	"stats_financial_aria_progress": {
-		"message": "已筹集 $1，目标 $3 还剩 $2"
-	},
-	"stats_queue_title": {
-		"message": "队列限制"
-	},
-	"stats_queue_loading": {
-		"message": "加载队列限制中..."
-	},
-	"stats_queue_error": {
-		"message": "加载队列限制失败"
-	},
-	"stats_queue_retry": {
-		"message": "重试"
-	},
-	"stats_queue_usage": {
-		"message": "使用量"
-	},
-	"stats_queue_remaining": {
-		"message": "剩余"
-	},
-	"stats_queue_enhanced": {
-		"message": "增强限制已激活"
-	},
-	"stats_queue_default": {
-		"message": "默认限制"
-	},
-	"stats_queue_resets_in": {
-		"message": "重置于"
-	},
-	"stats_queue_resetting": {
-		"message": "重置中..."
-	},
-	"stats_queue_time_hours": {
-		"message": "$1 小时 $2 分"
-	},
-	"stats_queue_time_minutes": {
-		"message": "$1 分"
-	},
-	"stats_queue_aria_progress": {
-		"message": "已使用 $1/$2，剩余 $3"
-	},
-	"stats_statistics_title": {
-		"message": "系统统计"
-	},
-	"stats_statistics_refresh": {
-		"message": "刷新统计"
-	},
-	"stats_statistics_loading": {
-		"message": "加载统计中..."
-	},
-	"stats_statistics_error": {
-		"message": "加载统计失败"
-	},
-	"stats_statistics_retry": {
-		"message": "重试"
-	},
-	"stats_statistics_users_title": {
-		"message": "用户"
-	},
-	"stats_statistics_groups_title": {
-		"message": "群组"
-	},
-	"stats_statistics_community_title": {
-		"message": "社区"
-	},
-	"stats_statistics_flagged": {
-		"message": "已标记"
-	},
-	"stats_statistics_confirmed": {
-		"message": "已确认"
-	},
-	"stats_statistics_votes": {
-		"message": "总投票数"
-	},
-	"stats_statistics_queued": {
-		"message": "排队用户"
-	},
-	"stats_statistics_users_desc": {
-		"message": "其他被 Roblox 封禁的用户"
-	},
-	"stats_statistics_groups_desc": {
-		"message": "包含混合内容的群组"
-	},
-	"stats_statistics_updated": {
-		"message": "最后更新："
-	},
-	"stats_chart_tab_costs": {
-		"message": "AI 成本"
-	},
-	"stats_chart_tab_requests": {
-		"message": "AI 请求"
-	},
-	"stats_chart_tab_tokens": {
-		"message": "AI 令牌"
-	},
-	"stats_chart_week_4": {
-		"message": "3 周前"
-	},
-	"stats_chart_week_3": {
-		"message": "2 周前"
-	},
-	"stats_chart_week_2": {
-		"message": "上周"
-	},
-	"stats_chart_week_1": {
-		"message": "本周"
-	},
-	"stats_chart_label_costs": {
-		"message": "每周 AI 成本"
-	},
-	"stats_chart_label_requests": {
-		"message": "每周 AI 请求"
-	},
-	"stats_chart_label_tokens": {
-		"message": "总 AI 令牌"
-	},
-	"stats_chart_detail_requests": {
-		"message": "总请求数"
-	},
-	"stats_chart_detail_cost": {
-		"message": "总成本"
-	},
-	"stats_chart_detail_period": {
-		"message": "周期"
-	},
-	"stats_chart_detail_prompt": {
-		"message": "提示词令牌"
-	},
-	"stats_chart_detail_completion": {
-		"message": "完成令牌"
-	},
-	"stats_chart_detail_reasoning": {
-		"message": "推理令牌"
-	},
-	"stats_chart_legend_prompt": {
-		"message": "提示词"
-	},
-	"stats_chart_legend_completion": {
-		"message": "完成"
-	},
-	"stats_chart_legend_reasoning": {
-		"message": "推理"
-	},
-	"stats_chart_month_jan": {
-		"message": "1月"
-	},
-	"stats_chart_month_feb": {
-		"message": "2月"
-	},
-	"stats_chart_month_mar": {
-		"message": "3月"
-	},
-	"stats_chart_month_apr": {
-		"message": "4月"
-	},
-	"stats_chart_month_may": {
-		"message": "5月"
-	},
-	"stats_chart_month_jun": {
-		"message": "6月"
-	},
-	"stats_chart_month_jul": {
-		"message": "7月"
-	},
-	"stats_chart_month_aug": {
-		"message": "8月"
-	},
-	"stats_chart_month_sep": {
-		"message": "9月"
-	},
-	"stats_chart_month_oct": {
-		"message": "10月"
-	},
-	"stats_chart_month_nov": {
-		"message": "11月"
-	},
-	"stats_chart_month_dec": {
-		"message": "12月"
-	},
-	"stats_chart_aria_prompt": {
-		"message": "$1 的提示词令牌：$2"
-	},
-	"stats_chart_aria_completion": {
-		"message": "$1 的完成令牌：$2"
-	},
-	"stats_chart_aria_reasoning": {
-		"message": "$1 的推理令牌：$2"
-	},
-	"stats_chart_aria_general": {
-		"message": "$2 的 $1：$3"
-	},
-	"warzone_common_button_retry": {
-		"message": "重试"
-	},
-	"warzone_hunter_title": {
-		"message": "War Zone 猎手"
-	},
-	"warzone_hunter_stat_points": {
-		"message": "积分"
-	},
-	"warzone_hunter_stat_status": {
-		"message": "状态"
-	},
-	"warzone_hunter_discord_avatar_alt": {
-		"message": "Discord 头像"
-	},
-	"warzone_hunter_loading_connecting": {
-		"message": "连接中..."
-	},
-	"warzone_hunter_status_anonymous": {
-		"message": "匿名"
-	},
-	"warzone_hunter_status_public": {
-		"message": "公开"
-	},
-	"warzone_hunter_signup_description": {
-		"message": "加入社区举报高风险已确认用户。与全球猎手合作，提高封禁成功率，让 Roblox 对所有人更安全。"
-	},
-	"warzone_hunter_feature_report": {
-		"message": "举报高风险已确认用户"
-	},
-	"warzone_hunter_feature_cleanup": {
-		"message": "帮助清理平台并移除不良行为者"
-	},
-	"warzone_hunter_feature_community": {
-		"message": "与社区合作以提高封禁成功率"
-	},
-	"warzone_hunter_feature_leaderboard": {
-		"message": "赚取积分并攀登排行榜"
-	},
-	"warzone_hunter_beta_label": {
-		"message": "封闭测试："
-	},
-	"warzone_hunter_beta_text_before_link": {
-		"message": "仅对选定用户开放。加入我们的"
-	},
-	"warzone_hunter_beta_discord_link": {
-		"message": "Discord 服务器"
-	},
-	"warzone_hunter_beta_text_after_link": {
-		"message": "获取更新。"
-	},
-	"warzone_hunter_button_login": {
-		"message": "使用 Discord 登录"
-	},
-	"warzone_hunter_button_logout": {
-		"message": "登出"
-	},
-	"warzone_hunter_welcome_message": {
-		"message": "欢迎，猎手！您现在可以参与 War Zone 活动并帮助保护 Roblox 社区。访问 Roblox 主页开始您的狩猎任务。"
-	},
-	"warzone_hunter_confirm_logout": {
-		"message": "您确定要登出吗？\n\n您可以随时使用 Discord 账户重新登录。"
-	},
-	"warzone_leaderboard_loading": {
-		"message": "加载排行榜中..."
-	},
-	"warzone_leaderboard_error_load": {
-		"message": "加载排行榜失败"
-	},
-	"warzone_leaderboard_filter_anonymous": {
-		"message": "包含匿名猎手"
-	},
-	"warzone_leaderboard_total_hunters": {
-		"message": "猎手总数：$1"
-	},
-	"warzone_leaderboard_your_rank": {
-		"message": "您的排名：#$1"
-	},
-	"warzone_leaderboard_section_top": {
-		"message": "顶级猎手"
-	},
-	"warzone_leaderboard_section_rankings": {
-		"message": "排名"
-	},
-	"warzone_leaderboard_badge_you": {
-		"message": "您"
-	},
-	"warzone_leaderboard_stat_reports": {
-		"message": "$1 次举报"
-	},
-	"warzone_leaderboard_stat_success": {
-		"message": "$1% 成功率"
-	},
-	"warzone_order_type_ban_count": {
-		"message": "封禁数量"
-	},
-	"warzone_order_type_zone_liberation": {
-		"message": "区域解放"
-	},
-	"warzone_order_type_verification": {
-		"message": "验证"
-	},
-	"warzone_order_label_completed": {
-		"message": "已完成"
-	},
-	"warzone_order_label_expires": {
-		"message": "过期"
-	},
-	"warzone_order_label_progress": {
-		"message": "进度"
-	},
-	"warzone_order_progress_value": {
-		"message": "$1 / $2"
-	},
-	"warzone_target_status_confirmed": {
-		"message": "已确认"
-	},
-	"warzone_target_status_flagged": {
-		"message": "已标记"
-	},
-	"warzone_target_meta_confidence": {
-		"message": "可信度"
-	},
-	"warzone_target_meta_attempts": {
-		"message": "尝试次数"
-	},
-	"warzone_target_meta_active": {
-		"message": "活跃"
-	},
-	"warzone_mode_global": {
-		"message": "全球"
-	},
-	"warzone_mode_zone": {
-		"message": "区域"
-	},
-	"warzone_chart_error_load": {
-		"message": "加载 $1 历史数据失败"
-	},
-	"warzone_chart_tab_liberation": {
-		"message": "解放"
-	},
-	"warzone_chart_tab_users": {
-		"message": "用户"
-	},
-	"warzone_chart_tab_ban_rate": {
-		"message": "封禁率"
-	},
-	"warzone_chart_label_global_liberation": {
-		"message": "全球解放"
-	},
-	"warzone_chart_label_zone_liberation": {
-		"message": "区域解放"
-	},
-	"warzone_chart_label_total_users": {
-		"message": "总用户数"
-	},
-	"warzone_chart_label_global_ban_rate": {
-		"message": "全球封禁率"
-	},
-	"warzone_chart_label_zone_ban_rate": {
-		"message": "区域封禁率"
-	},
-	"warzone_chart_legend_banned": {
-		"message": "已封禁"
-	},
-	"warzone_chart_legend_flagged": {
-		"message": "已标记"
-	},
-	"warzone_chart_legend_confirmed": {
-		"message": "已确认"
-	},
-	"warzone_chart_tooltip_date": {
-		"message": "日期"
-	},
-	"warzone_chart_tooltip_total_users": {
-		"message": "总用户数"
-	},
-	"warzone_chart_tooltip_banned": {
-		"message": "已封禁"
-	},
-	"warzone_overview_loading": {
-		"message": "加载战争地图中..."
-	},
-	"warzone_overview_error_load": {
-		"message": "加载战争地图失败"
-	},
-	"warzone_overview_section_zones": {
-		"message": "战争区域"
-	},
-	"warzone_overview_section_targets": {
-		"message": "活跃目标"
-	},
-	"warzone_overview_section_global_stats": {
-		"message": "全球战争统计"
-	},
-	"warzone_overview_section_global_trends": {
-		"message": "全球趋势（30 天）"
-	},
-	"warzone_overview_section_major_orders": {
-		"message": "活跃主要命令"
-	},
-	"warzone_overview_button_find_user": {
-		"message": "查找用户进行举报"
-	},
-	"warzone_overview_finding_user_loading": {
-		"message": "查找用户中..."
-	},
-	"warzone_overview_error_no_users": {
-		"message": "没有可举报的用户。请稍后再查看！"
-	},
-	"warzone_overview_error_auth_expired": {
-		"message": "身份验证已过期。请登出并重新登录。"
-	},
-	"warzone_overview_error_find_user": {
-		"message": "查找可举报用户失败。请重试。"
-	},
-	"warzone_overview_stat_total_zones": {
-		"message": "总区域数"
-	},
-	"warzone_overview_stat_avg_liberation": {
-		"message": "平均解放率"
-	},
-	"warzone_overview_stat_total_banned": {
-		"message": "总封禁数"
-	},
-	"warzone_overview_stat_active_targets": {
-		"message": "活跃目标"
-	},
-	"warzone_profile_title": {
-		"message": "个人资料"
-	},
-	"warzone_profile_stat_points": {
-		"message": "积分"
-	},
-	"warzone_profile_label_discord": {
-		"message": "Discord"
-	},
-	"warzone_profile_discord_avatar_alt": {
-		"message": "Discord 头像"
-	},
-	"warzone_profile_label_visibility": {
-		"message": "可见性"
-	},
-	"warzone_profile_label_joined": {
-		"message": "加入时间"
-	},
-	"warzone_profile_label_last_active": {
-		"message": "最后活跃"
-	},
-	"warzone_profile_visibility_anonymous": {
-		"message": "匿名"
-	},
-	"warzone_profile_visibility_public": {
-		"message": "公开"
-	},
-	"warzone_profile_button_reset_uuid": {
-		"message": "从所有设备登出"
-	},
-	"warzone_profile_button_reset_uuid_loading": {
-		"message": "登出中..."
-	},
-	"warzone_profile_button_reset_uuid_success": {
-		"message": "✓ 已从所有设备登出"
-	},
-	"warzone_profile_button_logout": {
-		"message": "登出"
-	},
-	"warzone_profile_confirm_logout": {
-		"message": "您确定要登出吗？\n\n您可以随时使用 Discord 账户重新登录。"
-	},
-	"warzone_profile_confirm_reset_uuid": {
-		"message": "从所有设备登出？\n\n这将使所有其他设备上的活跃会话失效。您将在此设备上保持登录状态，但所有其他设备将被登出。\n\n如果您怀疑您的账户已被盗用，这将很有用。"
-	},
-	"warzone_profile_error_reset_uuid": {
-		"message": "从所有设备登出失败。请重试。"
-	},
-	"warzone_nav_tab_war_zone": {
-		"message": "War Zone"
-	},
-	"warzone_nav_tab_profile": {
-		"message": "个人资料"
-	},
-	"warzone_nav_tab_leaderboard": {
-		"message": "排行榜"
-	},
-	"warzone_zone_loading": {
-		"message": "加载区域详情中..."
-	},
-	"warzone_zone_error_load": {
-		"message": "加载区域详情失败"
-	},
-	"warzone_zone_button_back": {
-		"message": "返回概览"
-	},
-	"warzone_zone_status_liberated_suffix": {
-		"message": "% 已解放"
-	},
-	"warzone_zone_stat_total_users": {
-		"message": "总用户数"
-	},
-	"warzone_zone_stat_banned": {
-		"message": "已封禁"
-	},
-	"warzone_zone_stat_flagged": {
-		"message": "已标记"
-	},
-	"warzone_zone_stat_confirmed": {
-		"message": "已确认"
-	},
-	"warzone_zone_section_trends": {
-		"message": "区域趋势（30 天）"
-	},
-	"queue_popup_cancel_button": {
-		"message": "取消"
-	},
-	"queue_popup_submit_button": {
-		"message": "提交审核"
-	},
-	"queue_popup_submitting_button": {
-		"message": "提交中..."
-	},
-	"queue_popup_title_reprocess": {
-		"message": "重新处理用户以进行审核"
-	},
-	"queue_popup_title_queue": {
-		"message": "将用户加入审核队列"
-	},
-	"queue_popup_description_reanalysis": {
-		"message": "您即将提交用户（ID：$1）以供我们的系统重新分析。"
-	},
-	"queue_popup_description_analysis": {
-		"message": "您即将提交用户（ID：$1）以供我们的系统分析。"
-	},
-	"queue_popup_submission_type_heading": {
-		"message": "这是什么类型的提交？"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "用户有不当内容"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "此用户的个人资料、头像、好友或群组中有明显的不当内容。"
-	},
-	"queue_popup_option_general_title": {
-		"message": "一般安全检查"
-	},
-	"queue_popup_option_general_description": {
-		"message": "我不确定，但希望对此用户进行一般安全评估分析。"
-	},
-	"queue_popup_general_check_message": {
-		"message": "此用户将进行一般安全问题分析。无需具体标记原因。"
-	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "选择标记原因："
-	},
-	"queue_popup_outfit_title": {
-		"message": "不当装扮"
-	},
-	"queue_popup_outfit_description": {
-		"message": "此用户有不当装扮或头像。"
-	},
-	"queue_popup_profile_title": {
-		"message": "不当个人资料"
-	},
-	"queue_popup_profile_description": {
-		"message": "此用户的用户名、显示名称或描述中有不当内容。"
-	},
-	"queue_popup_friends_title": {
-		"message": "不当好友"
-	},
-	"queue_popup_friends_description": {
-		"message": "此用户有不当好友。"
-	},
-	"queue_popup_groups_title": {
-		"message": "不当群组"
-	},
-	"queue_popup_groups_description": {
-		"message": "此用户加入了不当群组。"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "需要选择："
-	},
-	"queue_popup_validation_error_message": {
-		"message": "请在继续之前至少选择一个标记原因。"
-	},
-	"queue_popup_lock_button": {
-		"message": "锁定我的选择"
-	},
-	"queue_popup_lock_instruction": {
-		"message": "您必须在提交之前锁定您的选择。"
-	},
-	"queue_popup_summary_heading": {
-		"message": "已选择的选项："
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "将优先检查不当装扮"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "将优先检查不当个人资料内容"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_friends_selected": {
-		"message": "将优先检查不当好友"
-	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "将优先检查不当群组"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_unlock_button": {
-		"message": "解锁选择"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "点击解锁并修改您的选择。"
-	},
-	"queue_popup_review_process_heading": {
-		"message": "审核流程"
-	},
-	"queue_popup_review_process_step1": {
-		"message": "由 AI 算法分析以检测潜在的安全问题"
-	},
-	"queue_popup_review_process_step2": {
-		"message": "如果被 AI 标记，将由人工审核员进行最终确认"
-	},
-	"queue_popup_review_process_step3": {
-		"message": "结果将添加到数据库并给出适当的安全评级"
-	},
-	"queue_popup_warning_heading": {
-		"message": "重要警告"
-	},
-	"queue_popup_warning_message_prefix": {
-		"message": "滥用此功能"
-	},
-	"queue_popup_warning_message_suffix": {
-		"message": "（如垃圾提交）可能导致您的账户受到限制。自动滥用检测已启用。"
+	"friend_warning_avatar_alt": {
+		"message": "$1 的头像"
 	},
 	"friend_warning_block_button": {
 		"message": "屏蔽用户"
@@ -908,26 +494,38 @@
 	"friend_warning_cancel_button": {
 		"message": "取消请求"
 	},
+	"friend_warning_confidence_label": {
+		"message": "可信度：$1%"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "继续此好友请求可能会使您接触到不当内容或有害互动。"
+	},
 	"friend_warning_proceed_button": {
 		"message": "仍然继续"
 	},
-	"friend_warning_title": {
-		"message": "警告：不安全用户"
+	"friend_warning_recommendations_heading": {
+		"message": "推荐的操作"
 	},
-	"friend_warning_avatar_alt": {
-		"message": "$1 的头像"
+	"friend_warning_recommendations_item1": {
+		"message": "更仔细地查看其个人资料信息"
 	},
-	"friend_warning_user_id_label": {
-		"message": "用户 ID：$1"
+	"friend_warning_recommendations_item2": {
+		"message": "如果看到不当内容，请向 Roblox 举报"
 	},
-	"friend_warning_risk_title": {
-		"message": "可能不当用户"
+	"friend_warning_recommendations_item3": {
+		"message": "仅与您认识和信任的用户建立联系"
 	},
 	"friend_warning_risk_message": {
 		"message": "此用户已被我们的检测系统标记。请在接受此好友请求之前查看其个人资料。"
 	},
-	"friend_warning_confidence_label": {
-		"message": "可信度：$1%"
+	"friend_warning_risk_title": {
+		"message": "可能不当用户"
+	},
+	"friend_warning_title": {
+		"message": "警告：不安全用户"
+	},
+	"friend_warning_user_id_label": {
+		"message": "用户 ID：$1"
 	},
 	"friend_warning_why_matters_heading": {
 		"message": "为什么这很重要"
@@ -944,65 +542,212 @@
 	"friend_warning_why_matters_item4": {
 		"message": "此用户有明确违反 Roblox 服务条款的证据"
 	},
-	"friend_warning_recommendations_heading": {
-		"message": "推荐的操作"
+	"navbar_tab_settings": {
+		"message": "设置"
 	},
-	"friend_warning_recommendations_item1": {
-		"message": "更仔细地查看其个人资料信息"
+	"navbar_tab_stats": {
+		"message": "统计"
 	},
-	"friend_warning_recommendations_item2": {
-		"message": "如果看到不当内容，请向 Roblox 举报"
+	"navbar_tab_warzone": {
+		"message": "War Zone"
 	},
-	"friend_warning_recommendations_item3": {
-		"message": "仅与您认识和信任的用户建立联系"
+	"popup_header_description": {
+		"message": "实时安全指示器，在您与 Roblox 用户互动之前对不当用户发出警告。"
 	},
-	"friend_warning_high_risk_message": {
-		"message": "继续此好友请求可能会使您接触到不当内容或有害互动。"
+	"queue_error_modal_close_button": {
+		"message": "关闭"
 	},
-	"report_helper_card_title_reportable": {
-		"message": "发现可举报内容"
+	"queue_error_modal_details_heading": {
+		"message": "错误详情"
 	},
-	"report_helper_card_title_not_reportable": {
-		"message": "未检测到可举报内容"
+	"queue_error_modal_error_code_label": {
+		"message": "错误代码："
 	},
-	"report_helper_subtitle_reportable": {
-		"message": "Rotector 识别出违反 Roblox 服务条款的个人资料内容。"
+	"queue_error_modal_failed_message": {
+		"message": "将用户 ID $1 加入审核队列失败。"
 	},
-	"report_helper_evidence_header": {
-		"message": "检测到的问题"
+	"queue_error_modal_next_steps_heading": {
+		"message": "下一步操作"
 	},
-	"report_helper_evidence_reason_label": {
-		"message": "原因："
+	"queue_error_modal_request_id_label": {
+		"message": "请求 ID："
 	},
-	"report_helper_evidence_snippets_label": {
-		"message": "证据片段："
+	"queue_error_modal_step1": {
+		"message": "检查用户是否已被我们的系统标记"
+	},
+	"queue_error_modal_step2": {
+		"message": "如果错误持续存在，请在几分钟后重试"
+	},
+	"queue_error_modal_step3": {
+		"message": "如果您需要支持，请包含上面的请求 ID"
+	},
+	"queue_error_modal_title": {
+		"message": "错误"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "发生未知错误"
+	},
+	"queue_popup_cancel_button": {
+		"message": "取消"
+	},
+	"queue_popup_description_analysis": {
+		"message": "您即将提交用户（ID：$1）以供我们的系统分析。"
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "您即将提交用户（ID：$1）以供我们的系统重新分析。"
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "选择标记原因："
+	},
+	"queue_popup_friends_description": {
+		"message": "此用户有不当好友。"
+	},
+	"queue_popup_friends_title": {
+		"message": "不当好友"
+	},
+	"queue_popup_general_check_message": {
+		"message": "此用户将进行一般安全问题分析。无需具体标记原因。"
+	},
+	"queue_popup_groups_description": {
+		"message": "此用户加入了不当群组。"
+	},
+	"queue_popup_groups_title": {
+		"message": "不当群组"
+	},
+	"queue_popup_lock_button": {
+		"message": "锁定我的选择"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "您必须在提交之前锁定您的选择。"
+	},
+	"queue_popup_option_general_description": {
+		"message": "我不确定，但希望对此用户进行一般安全评估分析。"
+	},
+	"queue_popup_option_general_title": {
+		"message": "一般安全检查"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "此用户的个人资料、头像、好友或群组中有明显的不当内容。"
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "用户有不当内容"
+	},
+	"queue_popup_outfit_description": {
+		"message": "此用户有不当装扮或头像。"
+	},
+	"queue_popup_outfit_title": {
+		"message": "不当装扮"
+	},
+	"queue_popup_profile_description": {
+		"message": "此用户的用户名、显示名称或描述中有不当内容。"
+	},
+	"queue_popup_profile_title": {
+		"message": "不当个人资料"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "审核流程"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "由 AI 算法分析以检测潜在的安全问题"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "如果被 AI 标记，将由人工审核员进行最终确认"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "结果将添加到数据库并给出适当的安全评级"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "这是什么类型的提交？"
+	},
+	"queue_popup_submit_button": {
+		"message": "提交审核"
+	},
+	"queue_popup_submitting_button": {
+		"message": "提交中..."
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "将优先检查不当好友"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "未选择"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "将优先检查不当群组"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "未选择"
+	},
+	"queue_popup_summary_heading": {
+		"message": "已选择的选项："
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "将优先检查不当装扮"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "未选择"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "将优先检查不当个人资料内容"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "未选择"
+	},
+	"queue_popup_title_queue": {
+		"message": "将用户加入审核队列"
+	},
+	"queue_popup_title_reprocess": {
+		"message": "重新处理用户以进行审核"
+	},
+	"queue_popup_unlock_button": {
+		"message": "解锁选择"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "点击解锁并修改您的选择。"
+	},
+	"queue_popup_validation_error_message": {
+		"message": "请在继续之前至少选择一个标记原因。"
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "需要选择："
+	},
+	"queue_popup_warning_heading": {
+		"message": "重要警告"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "滥用此功能"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "（如垃圾提交）可能导致您的账户受到限制。自动滥用检测已启用。"
+	},
+	"queue_success_modal_close_button": {
+		"message": "关闭"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "下一步"
+	},
+	"queue_success_modal_step1": {
+		"message": "我们的 AI 将分析此账户的可疑模式"
+	},
+	"queue_success_modal_step2": {
+		"message": "如果被标记，用户状态将在几分钟内得到确认"
+	},
+	"queue_success_modal_step3": {
+		"message": "完整的系统同步和确认需要 24-48 小时"
+	},
+	"queue_success_modal_success_message": {
+		"message": "用户 ID $1 已成功加入审核队列。"
+	},
+	"queue_success_modal_title": {
+		"message": "成功"
 	},
 	"report_helper_action_message": {
 		"message": "点击下方，Rotector 将自动填写举报表单并填入适当的类别和详情。"
 	},
-	"report_helper_fill_button": {
-		"message": "填写举报表单"
+	"report_helper_card_title_not_reportable": {
+		"message": "未检测到可举报内容"
 	},
-	"report_helper_filling_button": {
-		"message": "填写中..."
-	},
-	"report_helper_warning_label": {
-		"message": "重要："
-	},
-	"report_helper_warning_message": {
-		"message": "举报将使用您的 Roblox 账户提交。请在提交前审查所有信息，仅举报真正的违规行为。"
-	},
-	"report_helper_subtitle_not_reportable": {
-		"message": "Rotector 尚未在此用户的个人资料描述中检测到任何明显可举报的内容。"
-	},
-	"report_helper_info_message_part1": {
-		"message": "您仍然可以提交举报"
-	},
-	"report_helper_info_message_part2": {
-		"message": "如果您认为此用户违反了 Roblox 的服务条款。"
-	},
-	"report_helper_info_message_part3": {
-		"message": "Rotector 允许举报个人资料描述中的不当内容。我们不检测大多数举报类别，包括："
+	"report_helper_card_title_reportable": {
+		"message": "发现可举报内容"
 	},
 	"report_helper_category_item1": {
 		"message": "索取或提供私人信息"
@@ -1019,74 +764,50 @@
 	"report_helper_category_item5": {
 		"message": "现实生活威胁或自杀威胁"
 	},
+	"report_helper_evidence_header": {
+		"message": "检测到的问题"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "原因："
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "证据片段："
+	},
+	"report_helper_fill_button": {
+		"message": "填写举报表单"
+	},
+	"report_helper_filling_button": {
+		"message": "填写中..."
+	},
+	"report_helper_info_message_part1": {
+		"message": "您仍然可以提交举报"
+	},
+	"report_helper_info_message_part2": {
+		"message": "如果您认为此用户违反了 Roblox 的服务条款。"
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector 允许举报个人资料描述中的不当内容。我们不检测大多数举报类别，包括："
+	},
 	"report_helper_info_message_part4": {
 		"message": "如果您要举报任何这些违规行为，请继续您的举报并提供具体详情以帮助 Roblox 审核员。"
 	},
-	"queue_error_modal_close_button": {
-		"message": "关闭"
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector 尚未在此用户的个人资料描述中检测到任何明显可举报的内容。"
 	},
-	"queue_error_modal_title": {
-		"message": "错误"
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector 识别出违反 Roblox 服务条款的个人资料内容。"
 	},
-	"queue_error_modal_unknown_error": {
-		"message": "发生未知错误"
+	"report_helper_warning_label": {
+		"message": "重要："
 	},
-	"queue_error_modal_failed_message": {
-		"message": "将用户 ID $1 加入审核队列失败。"
+	"report_helper_warning_message": {
+		"message": "举报将使用您的 Roblox 账户提交。请在提交前审查所有信息，仅举报真正的违规行为。"
 	},
-	"queue_error_modal_details_heading": {
-		"message": "错误详情"
+	"report_page_manager_autofill_failed": {
+		"message": "自动填写失败。请手动填写举报表单并填入适当的详情。"
 	},
-	"queue_error_modal_error_code_label": {
-		"message": "错误代码："
-	},
-	"queue_error_modal_request_id_label": {
-		"message": "请求 ID："
-	},
-	"queue_error_modal_next_steps_heading": {
-		"message": "下一步操作"
-	},
-	"queue_error_modal_step1": {
-		"message": "检查用户是否已被我们的系统标记"
-	},
-	"queue_error_modal_step2": {
-		"message": "如果错误持续存在，请在几分钟后重试"
-	},
-	"queue_error_modal_step3": {
-		"message": "如果您需要支持，请包含上面的请求 ID"
-	},
-	"queue_success_modal_close_button": {
-		"message": "关闭"
-	},
-	"queue_success_modal_title": {
-		"message": "成功"
-	},
-	"queue_success_modal_success_message": {
-		"message": "用户 ID $1 已成功加入审核队列。"
-	},
-	"queue_success_modal_next_steps_heading": {
-		"message": "下一步"
-	},
-	"queue_success_modal_step1": {
-		"message": "我们的 AI 将分析此账户的可疑模式"
-	},
-	"queue_success_modal_step2": {
-		"message": "如果被标记，用户状态将在几分钟内得到确认"
-	},
-	"queue_success_modal_step3": {
-		"message": "完整的系统同步和确认需要 24-48 小时"
-	},
-	"report_page_manager_report_intro": {
-		"message": "此用户的个人资料包含违反 Roblox 服务条款的不当内容。\n\n"
-	},
-	"report_page_manager_detected_issue_label": {
-		"message": "检测到的问题：\n"
-	},
-	"report_page_manager_evidence_label": {
-		"message": "证据片段：\n"
-	},
-	"report_page_manager_unknown_category": {
-		"message": "未知类别"
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "自动填写不可用。举报文本已复制到剪贴板。您可以手动将其粘贴到评论字段中。"
 	},
 	"report_page_manager_category_prefix": {
 		"message": "类别：$1"
@@ -1094,86 +815,683 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\n评论：$1"
 	},
+	"report_page_manager_detected_issue_label": {
+		"message": "检测到的问题：\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "证据片段：\n"
+	},
+	"report_page_manager_report_intro": {
+		"message": "此用户的个人资料包含违反 Roblox 服务条款的不当内容。\n\n"
+	},
 	"report_page_manager_success_message": {
 		"message": "表单填写成功！准备好后查看并提交。"
 	},
-	"report_page_manager_autofill_failed_clipboard": {
-		"message": "自动填写不可用。举报文本已复制到剪贴板。您可以手动将其粘贴到评论字段中。"
+	"report_page_manager_unknown_category": {
+		"message": "未知类别"
 	},
-	"report_page_manager_autofill_failed": {
-		"message": "自动填写失败。请手动填写举报表单并填入适当的详情。"
+	"rotector_api_docs_batch_intro": {
+		"message": "在单个请求中检查多个用户。每批最多 100 个用户。"
 	},
-	"tooltip_loading_user_info": {
-		"message": "加载用户信息中..."
+	"rotector_api_docs_batch_note": {
+		"message": "数据库中未找到的用户不会出现在响应中。data 字段包含一个对象，其中键是用户 ID（作为字符串），值是用户状态对象。"
 	},
-	"tooltip_no_data_available": {
-		"message": "此 API 没有可用数据"
+	"rotector_api_docs_batch_rec_1": {
+		"message": "检查多个用户时使用批量端点（比多个单独请求更高效）"
 	},
-	"tooltip_error_details": {
-		"message": "错误详情"
+	"rotector_api_docs_batch_rec_2": {
+		"message": "每个请求的批量大小保持在 100 个用户以下"
 	},
-	"tooltip_loading": {
-		"message": "加载中..."
+	"rotector_api_docs_batch_rec_3": {
+		"message": "在连续批量请求之间添加延迟（建议：最少 250 毫秒）"
 	},
-	"tooltip_queue_button": {
-		"message": "加入审核队列"
+	"rotector_api_docs_button_back": {
+		"message": "返回"
 	},
-	"tooltip_badge_reportable": {
-		"message": "可举报"
+	"rotector_api_docs_error_handling_1": {
+		"message": "始终检查响应中的 success 字段"
 	},
-	"tooltip_badge_queued": {
-		"message": "已排队"
+	"rotector_api_docs_error_handling_2": {
+		"message": "使用适当的重试逻辑优雅地处理网络错误"
+	},
+	"rotector_api_docs_error_handling_3": {
+		"message": "记录错误详情以进行调试（错误消息、HTTP 状态、请求 ID（如果可用））"
+	},
+	"rotector_api_docs_field_confidence": {
+		"message": "可信度分数（0.0-1.0）- AI 模型的确定性水平"
+	},
+	"rotector_api_docs_field_confidence_reason": {
+		"message": "此特定原因的可信度分数"
+	},
+	"rotector_api_docs_field_display_name": {
+		"message": "审核员的显示名称"
+	},
+	"rotector_api_docs_field_engine_version": {
+		"message": "使用的分析引擎版本"
+	},
+	"rotector_api_docs_field_evidence": {
+		"message": "证据字符串数组或 null（如果没有直接证据）"
+	},
+	"rotector_api_docs_field_flag_type": {
+		"message": "标记类型（0-6）- 安全分类级别"
+	},
+	"rotector_api_docs_field_id": {
+		"message": "用户 ID（整数）- Roblox 用户标识符"
+	},
+	"rotector_api_docs_field_last_updated": {
+		"message": "最后分析更新的 Unix 时间戳"
+	},
+	"rotector_api_docs_field_message": {
+		"message": "违规模式的详细解释"
+	},
+	"rotector_api_docs_field_reasons": {
+		"message": "包含详细违规分析的对象（当 flagType=0 时省略）"
+	},
+	"rotector_api_docs_field_reviewer": {
+		"message": "验证标记的审核员信息"
+	},
+	"rotector_api_docs_field_username": {
+		"message": "审核员的用户名"
+	},
+	"rotector_api_docs_field_version_compatibility": {
+		"message": "兼容性状态：'current'、'compatible' 或 'outdated'"
+	},
+	"rotector_api_docs_flag_type_0": {
+		"message": "安全 - 未检测到令人担忧的模式"
+	},
+	"rotector_api_docs_flag_type_1": {
+		"message": "待定 - 用户已排队等待分析"
+	},
+	"rotector_api_docs_flag_type_2": {
+		"message": "不安全 - 违反平台安全准则"
+	},
+	"rotector_api_docs_flag_type_3": {
+		"message": "已排队 - 已提交审核"
+	},
+	"rotector_api_docs_flag_type_4": {
+		"message": "集成 - 与 API 集成功能相关"
+	},
+	"rotector_api_docs_flag_type_5": {
+		"message": "混合 - 包含安全和不安全信号"
+	},
+	"rotector_api_docs_flag_type_6": {
+		"message": "过去的违规者 - 之前被标记但状态已更改"
+	},
+	"rotector_api_docs_intro": {
+		"message": "将 Rotector 的 AI 驱动安全检测系统集成到您自己的应用程序中。此 API 提供对用户分析数据、标记类型、可信度分数和详细违规原因的访问。"
+	},
+	"rotector_api_docs_note_batch_all_users": {
+		"message": "响应中返回所有请求的用户。尚未分析或不在系统中的用户将具有 flagType 0（安全）。"
+	},
+	"rotector_api_docs_note_batch_limit": {
+		"message": "每批请求最多 100 个用户 ID。超过此限制的请求将返回错误。"
+	},
+	"rotector_api_docs_note_caching": {
+		"message": "考虑为用户状态数据实现客户端缓存。lastUpdated 时间戳指示上次执行分析的时间，可用于确定缓存的新鲜度。"
+	},
+	"rotector_api_docs_note_cors": {
+		"message": "API 包含允许来自所有来源的请求的 CORS 标头。"
+	},
+	"rotector_api_docs_note_field_confidence": {
+		"message": "当用户被标记时存在（flagType > 0）"
+	},
+	"rotector_api_docs_note_field_reasons": {
+		"message": "对于已标记、混合或已确认的用户存在（flagType 1、2、5、6）"
+	},
+	"rotector_api_docs_note_field_reviewer": {
+		"message": "仅对于由人工审核员验证的已确认用户（flagType 2）存在"
+	},
+	"rotector_api_docs_note_field_version_compatibility": {
+		"message": "指示使用的 AI 引擎版本是最新还是过时"
+	},
+	"rotector_api_docs_note_http_status": {
+		"message": "所有成功请求（包括 flagType 为 0 的非标记用户）都返回 HTTP 状态码 200。带有其他状态码（4xx、5xx）的错误响应仅在内部服务器错误或后端问题时发生。"
+	},
+	"rotector_api_docs_note_https": {
+		"message": "所有 API 请求必须使用 HTTPS。HTTP 请求将被拒绝。"
+	},
+	"rotector_api_docs_note_no_auth": {
+		"message": "无需身份验证。这是一个完全公开的 API。"
+	},
+	"rotector_api_docs_note_response_time": {
+		"message": "最佳情况：约 50 毫秒。平均：约 200 毫秒。考虑根据这些基准实现适当的超时值。"
+	},
+	"rotector_api_docs_note_safe_users": {
+		"message": "对于 flagType 为 0（安全）的用户，reasons 字段会自动清除以减小响应大小。不为安全用户提供详细的违规分析。"
+	},
+	"rotector_api_docs_note_support": {
+		"message": "如需 API 支持、问题或报告问题，请加入 Rotector Discord 服务器："
+	},
+	"rotector_api_docs_note_timestamp_format": {
+		"message": "lastUpdated 字段包含 Unix 时间戳（秒，而非毫秒）。"
+	},
+	"rotector_api_docs_note_version_compatibility_compatible": {
+		"message": "compatible - 分析使用了受支持但非最新的引擎版本"
+	},
+	"rotector_api_docs_note_version_compatibility_current": {
+		"message": "current - 分析使用了最新的 AI 引擎版本"
+	},
+	"rotector_api_docs_note_version_compatibility_deprecated": {
+		"message": "deprecated - 分析使用了不再受支持的引擎版本"
+	},
+	"rotector_api_docs_note_version_compatibility_outdated": {
+		"message": "outdated - 分析使用了明显较旧的引擎版本"
+	},
+	"rotector_api_docs_note_wrapper_format": {
+		"message": "所有 API 响应都遵循一致的包装器格式，包含 success（布尔值）以及 data（成功）或 error（失败）字段。"
+	},
+	"rotector_api_docs_rate_limit_1": {
+		"message": "API 使用 Cloudflare 速率限制以确保公平使用"
+	},
+	"rotector_api_docs_rate_limit_2": {
+		"message": "速率限制错误返回 HTTP 状态 429。为重试逻辑实现指数退避"
+	},
+	"rotector_api_docs_section_authentication": {
+		"message": "身份验证"
+	},
+	"rotector_api_docs_section_batch_lookup": {
+		"message": "批量用户查找"
+	},
+	"rotector_api_docs_section_best_practices": {
+		"message": "速率限制和最佳实践"
+	},
+	"rotector_api_docs_section_cors": {
+		"message": "CORS 支持"
+	},
+	"rotector_api_docs_section_http_status": {
+		"message": "HTTP 状态码"
+	},
+	"rotector_api_docs_section_notes": {
+		"message": "附加说明"
+	},
+	"rotector_api_docs_section_response_schema": {
+		"message": "响应架构"
+	},
+	"rotector_api_docs_section_single_lookup": {
+		"message": "单个用户查找"
+	},
+	"rotector_api_docs_subtitle_batch_recommendations": {
+		"message": "批量请求建议"
+	},
+	"rotector_api_docs_subtitle_caching": {
+		"message": "响应缓存"
+	},
+	"rotector_api_docs_subtitle_code_examples": {
+		"message": "代码示例"
+	},
+	"rotector_api_docs_subtitle_error_handling": {
+		"message": "错误处理"
+	},
+	"rotector_api_docs_subtitle_error_response": {
+		"message": "错误响应"
+	},
+	"rotector_api_docs_subtitle_example_request": {
+		"message": "示例请求"
+	},
+	"rotector_api_docs_subtitle_field_presence": {
+		"message": "字段存在规则"
+	},
+	"rotector_api_docs_subtitle_flag_types": {
+		"message": "标记类型"
+	},
+	"rotector_api_docs_subtitle_https": {
+		"message": "需要 HTTPS"
+	},
+	"rotector_api_docs_subtitle_optional_fields": {
+		"message": "可选字段"
+	},
+	"rotector_api_docs_subtitle_rate_limiting": {
+		"message": "速率限制"
+	},
+	"rotector_api_docs_subtitle_request_body": {
+		"message": "请求主体"
+	},
+	"rotector_api_docs_subtitle_required_fields": {
+		"message": "必填字段"
+	},
+	"rotector_api_docs_subtitle_response_time": {
+		"message": "响应时间"
+	},
+	"rotector_api_docs_subtitle_safe_users": {
+		"message": "安全用户优化"
+	},
+	"rotector_api_docs_subtitle_success_response": {
+		"message": "成功响应"
+	},
+	"rotector_api_docs_subtitle_support": {
+		"message": "支持和问题"
+	},
+	"rotector_api_docs_subtitle_timestamp_format": {
+		"message": "时间戳格式"
+	},
+	"rotector_api_docs_subtitle_version_compatibility_values": {
+		"message": "版本兼容性值"
+	},
+	"rotector_api_docs_subtitle_wrapper_format": {
+		"message": "响应包装器格式"
+	},
+	"rotector_api_docs_title": {
+		"message": "Rotector API 文档"
+	},
+	"settings_api_count_plural": {
+		"message": "（$1 个 API）"
+	},
+	"settings_api_count_singular": {
+		"message": "（$1 个 API）"
+	},
+	"settings_api_key_hide": {
+		"message": "隐藏"
+	},
+	"settings_api_key_label": {
+		"message": "API 密钥（可选）"
+	},
+	"settings_api_key_placeholder": {
+		"message": "输入您的 API 密钥"
+	},
+	"settings_api_key_show": {
+		"message": "显示"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "显示/隐藏 API 密钥"
+	},
+	"settings_api_system_label": {
+		"message": "（系统）"
+	},
+	"settings_category_content_display": {
+		"message": "内容显示"
+	},
+	"settings_category_developer": {
+		"message": "开发者"
+	},
+	"settings_category_integrations": {
+		"message": "集成"
+	},
+	"settings_category_page_settings": {
+		"message": "页面设置"
+	},
+	"settings_help_advanced_violations": {
+		"message": "显示详细的违规信息和证据。可能包含不当内容。"
+	},
+	"settings_help_cache_duration": {
+		"message": "缓存用户状态数据的时长（1-10 分钟）。较高的值会减少 API 调用但可能显示过时信息。"
+	},
+	"settings_help_debug_logging": {
+		"message": "在浏览器控制台（F12 → 控制台）中显示详细日志以进行故障排查。"
+	},
+	"settings_help_developer_mode": {
+		"message": "解锁高级开发者设置和 API 集成管理。"
+	},
+	"settings_help_theme": {
+		"message": "自动模式会跟随 Roblox 的主题设置。浅色和深色会覆盖此偏好设置。"
+	},
+	"settings_label_advanced_violations": {
+		"message": "显示高级违规详情"
+	},
+	"settings_label_cache_duration": {
+		"message": "缓存持续时间（分钟）"
+	},
+	"settings_label_debug_logging": {
+		"message": "启用调试日志"
+	},
+	"settings_label_developer_mode": {
+		"message": "启用开发者模式"
+	},
+	"settings_label_friends_pages": {
+		"message": "好友页面"
+	},
+	"settings_label_groups_pages": {
+		"message": "群组页面"
+	},
+	"settings_label_home_page": {
+		"message": "主页"
+	},
+	"settings_label_profile_pages": {
+		"message": "个人资料页面"
+	},
+	"settings_label_report_helper": {
+		"message": "举报助手"
+	},
+	"settings_label_search_pages": {
+		"message": "搜索页面"
+	},
+	"settings_label_theme": {
+		"message": "主题"
+	},
+	"settings_manage_apis_button": {
+		"message": "管理 API 集成"
+	},
+	"settings_modal_confirm_button": {
+		"message": "启用高级详情"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "重要注意事项"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "内容可能包括违反平台社区准则的材料"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "此信息仅用于审核和安全目的"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "如果您不想查看详细的违规证据，请保持此设置关闭"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "您可以随时在设置中禁用此功能"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "启用后您将看到："
+	},
+	"settings_modal_enabled_item1": {
+		"message": "详细的违规信息，说明用户被标记的原因"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "包含违规内容的证据片段"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "来自用户资料和活动的具体违规示例"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "建议："
+	},
+	"settings_modal_recommendation_text": {
+		"message": "仅当您出于审核目的需要详细的违规信息并且理解您可能会看到违反社区准则的内容时才启用此功能。"
+	},
+	"settings_modal_title": {
+		"message": "高级详情警告"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "这些内容引用自违反平台政策的用户资料和活动。"
+	},
+	"settings_modal_warning_intro": {
+		"message": "高级违规详情可能包含敏感内容"
+	},
+	"settings_rotector_api_docs_button": {
+		"message": "Rotector API 文档"
+	},
+	"settings_theme_auto": {
+		"message": "自动"
+	},
+	"settings_theme_dark": {
+		"message": "深色"
+	},
+	"settings_theme_light": {
+		"message": "浅色"
+	},
+	"stats_changelog_empty": {
+		"message": "没有可用的更新日志条目。"
+	},
+	"stats_changelog_title": {
+		"message": "更新日志"
+	},
+	"stats_changelog_type_added": {
+		"message": "新增"
+	},
+	"stats_changelog_type_changed": {
+		"message": "更改"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "已弃用"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "修复"
+	},
+	"stats_changelog_type_removed": {
+		"message": "移除"
+	},
+	"stats_changelog_type_security": {
+		"message": "安全"
+	},
+	"stats_changelog_type_update": {
+		"message": "更新"
+	},
+	"stats_chart_aria_completion": {
+		"message": "$1 的完成令牌：$2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$2 的 $1：$3"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "$1 的提示词令牌：$2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "$1 的推理令牌：$2"
+	},
+	"stats_chart_detail_completion": {
+		"message": "完成令牌"
+	},
+	"stats_chart_detail_cost": {
+		"message": "总成本"
+	},
+	"stats_chart_detail_period": {
+		"message": "周期"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "提示词令牌"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "推理令牌"
+	},
+	"stats_chart_detail_requests": {
+		"message": "总请求数"
+	},
+	"stats_chart_label_costs": {
+		"message": "每周 AI 成本"
+	},
+	"stats_chart_label_requests": {
+		"message": "每周 AI 请求"
+	},
+	"stats_chart_label_tokens": {
+		"message": "总 AI 令牌"
+	},
+	"stats_chart_legend_completion": {
+		"message": "完成"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "提示词"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "推理"
+	},
+	"stats_chart_month_apr": {
+		"message": "4月"
+	},
+	"stats_chart_month_aug": {
+		"message": "8月"
+	},
+	"stats_chart_month_dec": {
+		"message": "12月"
+	},
+	"stats_chart_month_feb": {
+		"message": "2月"
+	},
+	"stats_chart_month_jan": {
+		"message": "1月"
+	},
+	"stats_chart_month_jul": {
+		"message": "7月"
+	},
+	"stats_chart_month_jun": {
+		"message": "6月"
+	},
+	"stats_chart_month_mar": {
+		"message": "3月"
+	},
+	"stats_chart_month_may": {
+		"message": "5月"
+	},
+	"stats_chart_month_nov": {
+		"message": "11月"
+	},
+	"stats_chart_month_oct": {
+		"message": "10月"
+	},
+	"stats_chart_month_sep": {
+		"message": "9月"
+	},
+	"stats_chart_tab_costs": {
+		"message": "AI 成本"
+	},
+	"stats_chart_tab_requests": {
+		"message": "AI 请求"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "AI 令牌"
+	},
+	"stats_chart_week_1": {
+		"message": "本周"
+	},
+	"stats_chart_week_2": {
+		"message": "上周"
+	},
+	"stats_chart_week_3": {
+		"message": "2 周前"
+	},
+	"stats_chart_week_4": {
+		"message": "3 周前"
+	},
+	"stats_financial_aria_funded": {
+		"message": "已完全资助，盈余 $1"
+	},
+	"stats_financial_aria_progress": {
+		"message": "已筹集 $1，目标 $3 还剩 $2"
+	},
+	"stats_financial_button_funded": {
+		"message": "谢谢！"
+	},
+	"stats_financial_button_support": {
+		"message": "支持开发"
+	},
+	"stats_financial_charts_hide": {
+		"message": "隐藏使用图表"
+	},
+	"stats_financial_charts_show": {
+		"message": "显示使用图表"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "每周使用图表"
+	},
+	"stats_financial_kofi_title": {
+		"message": "在 Ko-fi 上支持"
+	},
+	"stats_financial_raised": {
+		"message": "已筹集"
+	},
+	"stats_financial_remaining": {
+		"message": "剩余"
+	},
+	"stats_financial_surplus": {
+		"message": "盈余"
+	},
+	"stats_financial_title": {
+		"message": "资金目标"
+	},
+	"stats_queue_aria_progress": {
+		"message": "已使用 $1/$2，剩余 $3"
+	},
+	"stats_queue_default": {
+		"message": "默认限制"
+	},
+	"stats_queue_enhanced": {
+		"message": "增强限制已激活"
+	},
+	"stats_queue_error": {
+		"message": "加载队列限制失败"
+	},
+	"stats_queue_loading": {
+		"message": "加载队列限制中..."
+	},
+	"stats_queue_remaining": {
+		"message": "剩余"
+	},
+	"stats_queue_resets_in": {
+		"message": "重置于"
+	},
+	"stats_queue_resetting": {
+		"message": "重置中..."
+	},
+	"stats_queue_retry": {
+		"message": "重试"
+	},
+	"stats_queue_time_hours": {
+		"message": "$1 小时 $2 分"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1 分"
+	},
+	"stats_queue_title": {
+		"message": "队列限制"
+	},
+	"stats_queue_usage": {
+		"message": "使用量"
+	},
+	"stats_statistics_community_title": {
+		"message": "社区"
+	},
+	"stats_statistics_confirmed": {
+		"message": "已确认"
+	},
+	"stats_statistics_error": {
+		"message": "加载统计失败"
+	},
+	"stats_statistics_flagged": {
+		"message": "已标记"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "包含混合内容的群组"
+	},
+	"stats_statistics_groups_title": {
+		"message": "群组"
+	},
+	"stats_statistics_loading": {
+		"message": "加载统计中..."
+	},
+	"stats_statistics_queued": {
+		"message": "排队用户"
+	},
+	"stats_statistics_refresh": {
+		"message": "刷新统计"
+	},
+	"stats_statistics_retry": {
+		"message": "重试"
+	},
+	"stats_statistics_title": {
+		"message": "系统统计"
+	},
+	"stats_statistics_updated": {
+		"message": "最后更新："
+	},
+	"stats_statistics_users_desc": {
+		"message": "其他被 Roblox 封禁的用户"
+	},
+	"stats_statistics_users_title": {
+		"message": "用户"
+	},
+	"stats_statistics_votes": {
+		"message": "总投票数"
+	},
+	"tooltip_aria_close": {
+		"message": "点击关闭提示框"
+	},
+	"tooltip_aria_expand": {
+		"message": "点击展开提示框"
 	},
 	"tooltip_badge_outfit": {
 		"message": "仅装扮"
 	},
-	"tooltip_reportable_title": {
-		"message": "可向 Roblox 举报"
-	},
-	"tooltip_reportable_message": {
-		"message": "此用户有明确的不当内容证据，Roblox 审核员可以看到。"
-	},
-	"tooltip_reportable_report_button": {
-		"message": "向 Roblox 举报"
-	},
-	"tooltip_outfit_title": {
-		"message": "仅因装扮被标记"
-	},
-	"tooltip_outfit_message": {
-		"message": "此用户仅因头像装扮被标记。装扮检测可能出现误报，因此请在评估此用户时使用您自己的判断。"
-	},
-	"tooltip_metadata_queued": {
+	"tooltip_badge_queued": {
 		"message": "已排队"
 	},
-	"tooltip_metadata_processing": {
-		"message": "处理中"
+	"tooltip_badge_reportable": {
+		"message": "可举报"
 	},
-	"tooltip_metadata_took": {
-		"message": "耗时"
+	"tooltip_entity_group": {
+		"message": "群组"
 	},
-	"tooltip_metadata_last_updated": {
-		"message": "最后更新"
+	"tooltip_entity_user": {
+		"message": "用户"
 	},
-	"tooltip_metadata_reprocess_button": {
-		"message": "重新处理？"
-	},
-	"tooltip_metadata_reprocess_title": {
-		"message": "此用户的数据已过时。点击重新加入分析队列。"
-	},
-	"tooltip_metadata_processing_status": {
-		"message": "处理中..."
-	},
-	"tooltip_header_unsafe": {
-		"message": "此$1已被人工审核员验证为不当内容。"
-	},
-	"tooltip_header_pending": {
-		"message": "此$1已被 AI 标记，可信度为 $2%。"
-	},
-	"tooltip_header_queued_processing": {
-		"message": "此$1目前正在由我们的系统检查。这可能需要几分钟。"
-	},
-	"tooltip_header_queued_safe": {
-		"message": "此$1已由我们的 AI 系统审查，看起来是安全的。如果这是误报，您可以重新加入队列进行进一步审查。"
+	"tooltip_error_details": {
+		"message": "错误详情"
 	},
 	"tooltip_header_integration": {
 		"message": "此$1已被第三方内容分析系统标记。"
@@ -1187,26 +1505,86 @@
 	"tooltip_header_past_offender": {
 		"message": "此$1之前有不当内容，但其账户目前看起来是干净的，可以重新加入队列进行验证。"
 	},
+	"tooltip_header_pending": {
+		"message": "此$1已被 AI 标记，可信度为 $2%。"
+	},
+	"tooltip_header_queued_processing": {
+		"message": "此$1目前正在由我们的系统检查。这可能需要几分钟。"
+	},
+	"tooltip_header_queued_safe": {
+		"message": "此$1已由我们的 AI 系统审查，看起来是安全的。如果这是误报，您可以重新加入队列进行进一步审查。"
+	},
 	"tooltip_header_safe": {
 		"message": "此$1尚未被审查。"
-	},
-	"tooltip_header_unknown": {
-		"message": "未知状态"
 	},
 	"tooltip_header_unavailable": {
 		"message": "状态信息不可用。"
 	},
-	"tooltip_status_not_flagged": {
-		"message": "未标记"
+	"tooltip_header_unknown": {
+		"message": "未知状态"
 	},
-	"tooltip_status_unsafe": {
-		"message": "不安全"
+	"tooltip_header_unsafe": {
+		"message": "此$1已被人工审核员验证为不当内容。"
 	},
-	"tooltip_status_under_review": {
-		"message": "审核中"
+	"tooltip_loading": {
+		"message": "加载中..."
 	},
-	"tooltip_status_likely_safe": {
-		"message": "可能安全"
+	"tooltip_loading_user_info": {
+		"message": "加载用户信息中..."
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "最后更新"
+	},
+	"tooltip_metadata_processing": {
+		"message": "处理中"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "处理中..."
+	},
+	"tooltip_metadata_queued": {
+		"message": "已排队"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "重新处理？"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "此用户的数据已过时。点击重新加入分析队列。"
+	},
+	"tooltip_metadata_took": {
+		"message": "耗时"
+	},
+	"tooltip_no_data_available": {
+		"message": "此 API 没有可用数据"
+	},
+	"tooltip_outfit_message": {
+		"message": "此用户仅因头像装扮被标记。装扮检测可能出现误报，因此请在评估此用户时使用您自己的判断。"
+	},
+	"tooltip_outfit_title": {
+		"message": "仅因装扮被标记"
+	},
+	"tooltip_profile_group_id": {
+		"message": "群组 ID："
+	},
+	"tooltip_profile_id": {
+		"message": "ID："
+	},
+	"tooltip_profile_user": {
+		"message": "用户"
+	},
+	"tooltip_queue_button": {
+		"message": "加入审核队列"
+	},
+	"tooltip_reportable_message": {
+		"message": "此用户有明确的不当内容证据，Roblox 审核员可以看到。"
+	},
+	"tooltip_reportable_report_button": {
+		"message": "向 Roblox 举报"
+	},
+	"tooltip_reportable_title": {
+		"message": "可向 Roblox 举报"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "审核者"
 	},
 	"tooltip_status_checking": {
 		"message": "检查中..."
@@ -1214,56 +1592,26 @@
 	"tooltip_status_integration": {
 		"message": "集成"
 	},
+	"tooltip_status_likely_safe": {
+		"message": "可能安全"
+	},
 	"tooltip_status_mixed": {
 		"message": "混合"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "未标记"
 	},
 	"tooltip_status_past_offender": {
 		"message": "过去的违规者"
 	},
+	"tooltip_status_under_review": {
+		"message": "审核中"
+	},
 	"tooltip_status_unknown": {
 		"message": "未知"
 	},
-	"tooltip_reviewer_reviewed_by": {
-		"message": "审核者"
-	},
-	"tooltip_profile_group_id": {
-		"message": "群组 ID："
-	},
-	"tooltip_profile_user": {
-		"message": "用户"
-	},
-	"tooltip_profile_id": {
-		"message": "ID："
-	},
-	"tooltip_aria_close": {
-		"message": "点击关闭提示框"
-	},
-	"tooltip_aria_expand": {
-		"message": "点击展开提示框"
-	},
-	"tooltip_entity_user": {
-		"message": "用户"
-	},
-	"tooltip_entity_group": {
-		"message": "群组"
-	},
-	"voting_header_title": {
-		"message": "社区反馈"
-	},
-	"voting_loading": {
-		"message": "加载中..."
-	},
-	"voting_count_singular": {
-		"message": "$1 票"
-	},
-	"voting_count_plural": {
-		"message": "$1 票"
-	},
-	"voting_button_agree": {
-		"message": "同意"
-	},
-	"voting_button_disagree": {
-		"message": "不同意"
+	"tooltip_status_unsafe": {
+		"message": "不安全"
 	},
 	"voting_aria_agree": {
 		"message": "同意此状态"
@@ -1271,376 +1619,337 @@
 	"voting_aria_disagree": {
 		"message": "不同意此状态"
 	},
+	"voting_button_agree": {
+		"message": "同意"
+	},
+	"voting_button_disagree": {
+		"message": "不同意"
+	},
+	"voting_count_plural": {
+		"message": "$1 票"
+	},
+	"voting_count_singular": {
+		"message": "$1 票"
+	},
 	"voting_description": {
 		"message": "通过确认此用户的状态是否准确来帮助他人。"
 	},
-	"engine_status_unknown": {
-		"message": "未知"
+	"voting_header_title": {
+		"message": "社区反馈"
 	},
-	"engine_status_latest": {
-		"message": "最新"
+	"voting_loading": {
+		"message": "加载中..."
 	},
-	"engine_status_compatible": {
-		"message": "兼容"
+	"warzone_chart_error_load": {
+		"message": "加载 $1 历史数据失败"
 	},
-	"engine_status_outdated": {
-		"message": "过时"
+	"warzone_chart_label_global_ban_rate": {
+		"message": "全球封禁率"
 	},
-	"engine_status_deprecated": {
-		"message": "已弃用"
+	"warzone_chart_label_global_liberation": {
+		"message": "全球解放"
 	},
-	"engine_desc_unknown": {
-		"message": "此分析使用了兼容性状态未知的 AI 引擎。"
+	"warzone_chart_label_total_users": {
+		"message": "总用户数"
 	},
-	"engine_desc_unknown_impact": {
-		"message": "无法确定版本兼容性。"
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "区域封禁率"
 	},
-	"engine_desc_latest": {
-		"message": "此分析使用了具有最新检测功能的最新 AI 引擎。"
+	"warzone_chart_label_zone_liberation": {
+		"message": "区域解放"
 	},
-	"engine_desc_latest_impact": {
-		"message": "最高准确性和最全面的分析。"
+	"warzone_chart_legend_banned": {
+		"message": "已封禁"
 	},
-	"engine_desc_compatible": {
-		"message": "此分析使用的 AI 引擎仍受支持但不是最新版本。"
+	"warzone_chart_legend_confirmed": {
+		"message": "已确认"
 	},
-	"engine_desc_compatible_impact": {
-		"message": "仍然具有高准确性，但在检测功能上存在细微差异。"
+	"warzone_chart_legend_flagged": {
+		"message": "已标记"
 	},
-	"engine_desc_outdated": {
-		"message": "此分析使用的 AI 引擎明显落后于最新版本。"
+	"warzone_chart_tab_ban_rate": {
+		"message": "封禁率"
 	},
-	"engine_desc_outdated_impact": {
-		"message": "与较新的引擎版本相比，准确性可能降低。"
+	"warzone_chart_tab_liberation": {
+		"message": "解放"
 	},
-	"engine_desc_deprecated": {
-		"message": "此分析使用的 AI 引擎已不再受支持。"
+	"warzone_chart_tab_users": {
+		"message": "用户"
 	},
-	"engine_desc_deprecated_impact": {
-		"message": "准确性可能会显著降低，结果应谨慎对待。"
+	"warzone_chart_tooltip_banned": {
+		"message": "已封禁"
 	},
-	"engine_aria_info": {
-		"message": "引擎版本信息"
+	"warzone_chart_tooltip_date": {
+		"message": "日期"
 	},
-	"engine_header_version": {
-		"message": "引擎 v$1"
+	"warzone_chart_tooltip_total_users": {
+		"message": "总用户数"
 	},
-	"engine_version_unknown": {
-		"message": "未知"
+	"warzone_common_button_retry": {
+		"message": "重试"
 	},
-	"custom_api_form_title_edit": {
-		"message": "编辑自定义 API"
+	"warzone_hunter_beta_discord_link": {
+		"message": "Discord 服务器"
 	},
-	"custom_api_form_title_add": {
-		"message": "添加自定义 API"
+	"warzone_hunter_beta_label": {
+		"message": "封闭测试："
 	},
-	"custom_api_form_label_name": {
-		"message": "名称"
+	"warzone_hunter_beta_text_after_link": {
+		"message": "获取更新。"
 	},
-	"custom_api_form_label_required": {
-		"message": "*"
+	"warzone_hunter_beta_text_before_link": {
+		"message": "仅对选定用户开放。加入我们的"
 	},
-	"custom_api_form_placeholder_name": {
-		"message": "我的自定义 API"
+	"warzone_hunter_button_login": {
+		"message": "使用 Discord 登录"
 	},
-	"custom_api_form_hint_name_length": {
-		"message": "最多 12 个字符（$1/12）"
+	"warzone_hunter_button_logout": {
+		"message": "登出"
 	},
-	"custom_api_form_label_url": {
-		"message": "API URL"
+	"warzone_hunter_confirm_logout": {
+		"message": "您确定要登出吗？\n\n您可以随时使用 Discord 账户重新登录。"
 	},
-	"custom_api_form_placeholder_url": {
-		"message": "https://api.example.com/v1/lookup"
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Discord 头像"
 	},
-	"custom_api_form_hint_url": {
-		"message": "必须是 HTTPS。这类似于您的 API 端点的基础 URL。我们将为单个查找调用 {url}/user/{userId}，为批量查找调用 {url}/users。"
+	"warzone_hunter_feature_cleanup": {
+		"message": "帮助清理平台并移除不良行为者"
 	},
-	"custom_api_form_label_timeout": {
-		"message": "超时（毫秒）"
+	"warzone_hunter_feature_community": {
+		"message": "与社区合作以提高封禁成功率"
 	},
-	"custom_api_form_placeholder_timeout": {
-		"message": "5000"
+	"warzone_hunter_feature_leaderboard": {
+		"message": "赚取积分并攀登排行榜"
 	},
-	"custom_api_form_hint_timeout": {
-		"message": "请求超时（毫秒）（1000-60000）。默认：5000 毫秒。"
+	"warzone_hunter_feature_report": {
+		"message": "举报高风险已确认用户"
 	},
-	"custom_api_form_label_image": {
-		"message": "横向图片（可选）"
+	"warzone_hunter_loading_connecting": {
+		"message": "连接中..."
 	},
-	"custom_api_form_hint_image": {
-		"message": "上传用于提示框标签的横向图片（PNG、JPG、SVG、WebP）。推荐：480x160 像素（3:1 比例）。"
+	"warzone_hunter_signup_description": {
+		"message": "加入社区举报高风险已确认用户。与全球猎手合作，提高封禁成功率，让 Roblox 对所有人更安全。"
 	},
-	"custom_api_form_button_remove_image": {
-		"message": "移除图片"
+	"warzone_hunter_stat_points": {
+		"message": "积分"
 	},
-	"custom_api_form_checkbox_enable": {
-		"message": "启用此自定义 API"
+	"warzone_hunter_stat_status": {
+		"message": "状态"
 	},
-	"custom_api_form_button_save": {
-		"message": "保存"
+	"warzone_hunter_status_anonymous": {
+		"message": "匿名"
 	},
-	"custom_api_form_button_saving": {
-		"message": "保存中..."
+	"warzone_hunter_status_public": {
+		"message": "公开"
 	},
-	"custom_api_form_error_name_required": {
-		"message": "名称为必填项"
+	"warzone_hunter_title": {
+		"message": "War Zone 猎手"
 	},
-	"custom_api_form_error_name_length": {
-		"message": "名称必须为 12 个字符或更少"
+	"warzone_hunter_welcome_message": {
+		"message": "欢迎，猎手！您现在可以参与 War Zone 活动并帮助保护 Roblox 社区。访问 Roblox 主页开始您的狩猎任务。"
 	},
-	"custom_api_form_error_url_required": {
-		"message": "URL 为必填项"
+	"warzone_leaderboard_badge_you": {
+		"message": "您"
 	},
-	"custom_api_form_error_url_https": {
-		"message": "URL 必须以 https:// 开头"
+	"warzone_leaderboard_error_load": {
+		"message": "加载排行榜失败"
 	},
-	"custom_api_form_error_url_invalid": {
-		"message": "无效的 URL 格式"
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "包含匿名猎手"
 	},
-	"custom_api_form_error_timeout_min": {
-		"message": "超时必须至少为 1000 毫秒（1 秒）"
+	"warzone_leaderboard_loading": {
+		"message": "加载排行榜中..."
 	},
-	"custom_api_form_error_timeout_max": {
-		"message": "超时必须为 60000 毫秒（60 秒）或更少"
+	"warzone_leaderboard_section_rankings": {
+		"message": "排名"
 	},
-	"custom_api_form_error_image_type": {
-		"message": "无效的文件类型。请使用 PNG、JPG、SVG 或 WebP"
+	"warzone_leaderboard_section_top": {
+		"message": "顶级猎手"
 	},
-	"custom_api_form_error_image_mime": {
-		"message": "无效的图片类型。MIME 类型与文件扩展名不匹配"
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 次举报"
 	},
-	"custom_api_form_error_image_size": {
-		"message": "警告：文件大小较大（$1KB）。考虑使用较小的图片以减少存储使用。"
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% 成功率"
 	},
-	"custom_api_form_error_image_read": {
-		"message": "读取图片文件失败"
+	"warzone_leaderboard_total_hunters": {
+		"message": "猎手总数：$1"
 	},
-	"custom_api_form_error_image_process": {
-		"message": "处理图片文件失败"
+	"warzone_leaderboard_your_rank": {
+		"message": "您的排名：#$1"
 	},
-	"custom_api_form_error_save_prefix": {
-		"message": "保存自定义 API 失败："
+	"warzone_mode_global": {
+		"message": "全球"
 	},
-	"custom_api_form_error_unknown": {
-		"message": "未知错误"
+	"warzone_mode_zone": {
+		"message": "区域"
 	},
-	"custom_api_mgmt_button_back": {
-		"message": "返回"
+	"warzone_nav_tab_leaderboard": {
+		"message": "排行榜"
 	},
-	"custom_api_mgmt_title": {
-		"message": "API 集成"
+	"warzone_nav_tab_profile": {
+		"message": "个人资料"
 	},
-	"custom_api_mgmt_intro": {
-		"message": "在一个地方管理所有 API 集成。Rotector 提供核心安全分析，您可以添加最多 5 个自定义 API 进行额外的内容分析。"
+	"warzone_nav_tab_war_zone": {
+		"message": "War Zone"
 	},
-	"custom_api_mgmt_button_docs": {
-		"message": "查看文档"
+	"warzone_order_label_completed": {
+		"message": "已完成"
 	},
-	"custom_api_mgmt_loading": {
-		"message": "加载自定义 API 中..."
+	"warzone_order_label_expires": {
+		"message": "过期"
 	},
-	"custom_api_mgmt_badge_system": {
-		"message": "系统 API"
+	"warzone_order_label_progress": {
+		"message": "进度"
 	},
-	"custom_api_mgmt_label_single": {
-		"message": "单个："
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
 	},
-	"custom_api_mgmt_label_batch": {
-		"message": "批量："
+	"warzone_order_type_ban_count": {
+		"message": "封禁数量"
 	},
-	"custom_api_mgmt_label_timeout": {
-		"message": "超时："
+	"warzone_order_type_verification": {
+		"message": "验证"
 	},
-	"custom_api_mgmt_label_created": {
-		"message": "创建时间："
+	"warzone_order_type_zone_liberation": {
+		"message": "区域解放"
 	},
-	"custom_api_mgmt_label_last_tested": {
-		"message": "最后测试："
+	"warzone_overview_button_find_user": {
+		"message": "查找用户进行举报"
 	},
-	"custom_api_mgmt_suffix_ms": {
-		"message": "毫秒"
+	"warzone_overview_error_auth_expired": {
+		"message": "身份验证已过期。请登出并重新登录。"
 	},
-	"custom_api_mgmt_title_move_up": {
-		"message": "上移"
+	"warzone_overview_error_find_user": {
+		"message": "查找可举报用户失败。请重试。"
 	},
-	"custom_api_mgmt_title_move_down": {
-		"message": "下移"
+	"warzone_overview_error_load": {
+		"message": "加载战争地图失败"
 	},
-	"custom_api_mgmt_title_test": {
-		"message": "测试连接"
+	"warzone_overview_error_no_users": {
+		"message": "没有可举报的用户。请稍后再查看！"
 	},
-	"custom_api_mgmt_title_edit": {
-		"message": "编辑"
+	"warzone_overview_finding_user_loading": {
+		"message": "查找用户中..."
 	},
-	"custom_api_mgmt_title_delete": {
-		"message": "删除"
+	"warzone_overview_loading": {
+		"message": "加载战争地图中..."
 	},
-	"custom_api_mgmt_button_add": {
-		"message": "添加自定义 API"
+	"warzone_overview_section_global_stats": {
+		"message": "全球战争统计"
 	},
-	"custom_api_mgmt_notice_max_reached": {
-		"message": "已达到 $1 个自定义 API 的最大限制。删除现有 API 以添加新的。"
+	"warzone_overview_section_global_trends": {
+		"message": "全球趋势（30 天）"
 	},
-	"custom_api_mgmt_confirm_delete": {
-		"message": "删除自定义 API \"$1\"？"
+	"warzone_overview_section_major_orders": {
+		"message": "活跃主要命令"
 	},
-	"custom_api_mgmt_error_delete": {
-		"message": "删除自定义 API 失败"
+	"warzone_overview_section_targets": {
+		"message": "活跃目标"
 	},
-	"custom_api_mgmt_test_success": {
-		"message": "✓ 连接成功！\n\nAPI \"$1\" 可访问且正在响应。"
+	"warzone_overview_section_zones": {
+		"message": "战争区域"
 	},
-	"custom_api_mgmt_test_failed": {
-		"message": "✗ 连接失败\n\nAPI \"$1\" 未响应或返回错误。\n\n请检查：\n• URL 是否正确且可访问\n• API 服务器是否正在运行\n• 如果需要，是否已配置 CORS"
+	"warzone_overview_stat_active_targets": {
+		"message": "活跃目标"
 	},
-	"custom_api_mgmt_test_error": {
-		"message": "✗ 连接测试错误\n\n测试 API \"$1\" 失败。\n\n错误：$2"
+	"warzone_overview_stat_avg_liberation": {
+		"message": "平均解放率"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "更新 API 状态失败"
+	"warzone_overview_stat_total_banned": {
+		"message": "总封禁数"
 	},
-	"custom_api_mgmt_http_method_get": {
-		"message": "GET"
+	"warzone_overview_stat_total_zones": {
+		"message": "总区域数"
 	},
-	"custom_api_mgmt_http_method_post": {
-		"message": "POST"
+	"warzone_profile_button_logout": {
+		"message": "登出"
 	},
-	"custom_api_docs_button_back": {
-		"message": "返回"
+	"warzone_profile_button_reset_uuid": {
+		"message": "从所有设备登出"
 	},
-	"custom_api_docs_title": {
-		"message": "API 文档"
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "登出中..."
 	},
-	"custom_api_docs_intro": {
-		"message": "实现两个返回用户状态数据的端点。所有响应必须使用包含 success、data 和 error 字段的包装器格式。"
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ 已从所有设备登出"
 	},
-	"custom_api_docs_section_single_lookup": {
-		"message": "单个用户查找"
+	"warzone_profile_confirm_logout": {
+		"message": "您确定要登出吗？\n\n您可以随时使用 Discord 账户重新登录。"
 	},
-	"custom_api_docs_section_batch_lookup": {
-		"message": "批量用户查找"
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "从所有设备登出？\n\n这将使所有其他设备上的活跃会话失效。您将在此设备上保持登录状态，但所有其他设备将被登出。\n\n如果您怀疑您的账户已被盗用，这将很有用。"
 	},
-	"custom_api_docs_section_notes": {
-		"message": "重要注意事项"
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Discord 头像"
 	},
-	"custom_api_docs_subtitle_example_request": {
-		"message": "示例请求"
+	"warzone_profile_error_reset_uuid": {
+		"message": "从所有设备登出失败。请重试。"
 	},
-	"custom_api_docs_subtitle_success_response": {
-		"message": "成功响应"
+	"warzone_profile_label_discord": {
+		"message": "Discord"
 	},
-	"custom_api_docs_subtitle_error_response": {
-		"message": "错误响应"
+	"warzone_profile_label_joined": {
+		"message": "加入时间"
 	},
-	"custom_api_docs_subtitle_required_fields": {
-		"message": "必填字段（在 data 对象中）"
+	"warzone_profile_label_last_active": {
+		"message": "最后活跃"
 	},
-	"custom_api_docs_subtitle_optional_fields": {
-		"message": "可选字段（在 data 对象中）"
+	"warzone_profile_label_visibility": {
+		"message": "可见性"
 	},
-	"custom_api_docs_subtitle_flag_types": {
-		"message": "标记类型"
+	"warzone_profile_stat_points": {
+		"message": "积分"
 	},
-	"custom_api_docs_subtitle_request_body": {
-		"message": "请求主体"
+	"warzone_profile_title": {
+		"message": "个人资料"
 	},
-	"custom_api_docs_subtitle_https": {
-		"message": "需要 HTTPS"
+	"warzone_profile_visibility_anonymous": {
+		"message": "匿名"
 	},
-	"custom_api_docs_subtitle_wrapper": {
-		"message": "包装器格式"
+	"warzone_profile_visibility_public": {
+		"message": "公开"
 	},
-	"custom_api_docs_subtitle_reason_keys": {
-		"message": "原因键"
+	"warzone_target_meta_active": {
+		"message": "活跃"
 	},
-	"custom_api_docs_subtitle_badges": {
-		"message": "徽章"
+	"warzone_target_meta_attempts": {
+		"message": "尝试次数"
 	},
-	"custom_api_docs_subtitle_badge_colors": {
-		"message": "徽章颜色"
+	"warzone_target_meta_confidence": {
+		"message": "可信度"
 	},
-	"custom_api_docs_flag_type_0": {
-		"message": "安全"
+	"warzone_target_status_confirmed": {
+		"message": "已确认"
 	},
-	"custom_api_docs_flag_type_1": {
-		"message": "待定"
+	"warzone_target_status_flagged": {
+		"message": "已标记"
 	},
-	"custom_api_docs_flag_type_2": {
-		"message": "不安全（推荐）"
+	"warzone_zone_button_back": {
+		"message": "返回概览"
 	},
-	"custom_api_docs_flag_type_3": {
-		"message": "已排队"
+	"warzone_zone_error_load": {
+		"message": "加载区域详情失败"
 	},
-	"custom_api_docs_flag_type_4": {
-		"message": "未使用"
+	"warzone_zone_loading": {
+		"message": "加载区域详情中..."
 	},
-	"custom_api_docs_flag_type_5": {
-		"message": "混合"
+	"warzone_zone_section_trends": {
+		"message": "区域趋势（30 天）"
 	},
-	"custom_api_docs_flag_type_6": {
-		"message": "过去的违规者"
+	"warzone_zone_stat_banned": {
+		"message": "已封禁"
 	},
-	"custom_api_docs_flag_type_2_note": {
-		"message": "标记类型 2（不安全）是您指示不当用户所需的主要类型。仅在您有特定原因以不同方式对用户进行分类时才使用其他标记类型。"
+	"warzone_zone_stat_confirmed": {
+		"message": "已确认"
 	},
-	"custom_api_docs_field_id": {
-		"message": "id（数字）- 整数形式的用户 ID"
+	"warzone_zone_stat_flagged": {
+		"message": "已标记"
 	},
-	"custom_api_docs_field_flag_type": {
-		"message": "flagType（数字）- 0-6 标记类型（见下文）"
+	"warzone_zone_stat_total_users": {
+		"message": "总用户数"
 	},
-	"custom_api_docs_field_confidence": {
-		"message": "confidence（数字）- 0.0-1.0 可信度级别"
-	},
-	"custom_api_docs_field_reasons": {
-		"message": "reasons（对象）- 基于字符串的原因名称作为键，每个包含："
-	},
-	"custom_api_docs_field_message": {
-		"message": "message（字符串）- 原因描述"
-	},
-	"custom_api_docs_field_evidence": {
-		"message": "evidence（数组或 null）- 证据字符串或 null"
-	},
-	"custom_api_docs_field_reviewer": {
-		"message": "reviewer（对象）- username 和 displayName"
-	},
-	"custom_api_docs_field_engine_version": {
-		"message": "engineVersion（字符串）- 分析引擎版本"
-	},
-	"custom_api_docs_field_last_updated": {
-		"message": "lastUpdated（数字）- Unix 时间戳"
-	},
-	"custom_api_docs_field_badges": {
-		"message": "badges（数组）- 最多 3 个自定义徽章对象，每个包含："
-	},
-	"custom_api_docs_field_badge_text": {
-		"message": "text（字符串，必填）- 徽章标签文本"
-	},
-	"custom_api_docs_field_badge_color": {
-		"message": "color（字符串，可选）- 背景颜色（十六进制、rgb 或命名颜色）"
-	},
-	"custom_api_docs_field_badge_text_color": {
-		"message": "textColor（字符串，可选）- 对比度的文本颜色"
-	},
-	"custom_api_docs_field_confidence_reason": {
-		"message": "confidence（数字）- 0.0-1.0 可信度"
-	},
-	"custom_api_docs_note_https": {
-		"message": "为了安全起见，所有 API 端点必须使用 HTTPS。"
-	},
-	"custom_api_docs_note_wrapper": {
-		"message": "所有响应必须使用 {success, data, error} 格式。当 success: true 时，包含 data 字段。当 success: false 时，包含 error 消息。"
-	},
-	"custom_api_docs_note_reason_keys": {
-		"message": "为原因键使用描述性字符串名称（例如\"高风险模式\"、\"可疑活动\"），而不是数字索引。这些会直接显示在提示框中。"
-	},
-	"custom_api_docs_note_badges": {
-		"message": "徽章是出现在用户提示框中标记状态旁边的小型视觉指示器。它们显示在提示框顶部，以快速传达有关用户的其他上下文。使用徽章突出显示重要的状态信息，如验证状态、优先级或特殊类别。常见示例：\"已验证不安全\"、\"高优先级\"、\"社区举报\"、\"自动检测\"。"
-	},
-	"custom_api_docs_note_badge_colors": {
-		"message": "徽章颜色支持多种格式：十六进制代码（#ef4444）、RGB（rgb(239, 68, 68)）、RGBA（rgba(239, 68, 68, 0.9)）或命名颜色（red）。如果未指定颜色，徽章将使用默认的青色。如果未指定 textColor，徽章将使用白色文本。"
-	},
-	"custom_api_docs_note_batch_data": {
-		"message": "data 字段包含一个对象，其中键是用户 ID（作为字符串），值是用户状态对象。"
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% 已解放"
 	}
 }

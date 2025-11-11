@@ -7,18 +7,9 @@
 	interface NavbarProps {
 		currentPage: string | null;
 		onPageChange: (page: NavPage) => void;
-		onDeveloperUnlock: () => void | Promise<void>;
 	}
 
-	let { currentPage, onPageChange, onDeveloperUnlock }: NavbarProps = $props();
-
-	async function handleSettingsClick(event: MouseEvent) {
-		if (event.altKey) {
-			await onDeveloperUnlock();
-		} else {
-			onPageChange('settings');
-		}
-	}
+	let { currentPage, onPageChange }: NavbarProps = $props();
 </script>
 
 <nav class="navbar">
@@ -52,8 +43,7 @@
 		class="navbar-tab"
 		class:active={currentPage === 'settings'}
 		aria-current={currentPage === 'settings' ? 'page' : undefined}
-		onclick={handleSettingsClick}
-		title={t('navbar_settings_tooltip')}
+		onclick={() => onPageChange('settings')}
 		type="button"
 	>
 		<span class="navbar-icon">

@@ -1,48 +1,468 @@
 {
-	"popup_header_description": {
-		"message": "Індикатори безпеки в реальному часі, які попереджають вас про недоречних користувачів Roblox перед взаємодією з ними."
-	},
 	"banner_advanced_violation_aria_dismiss": {
 		"message": "Закрити банер рекомендації"
-	},
-	"banner_advanced_violation_title_dismiss": {
-		"message": "Закрити рекомендацію"
-	},
-	"banner_advanced_violation_message": {
-		"message": "Увімкніть розширені деталі порушень для кращої інформації"
-	},
-	"banner_advanced_violation_title_go_to_setting": {
-		"message": "Перейти до налаштування розширених деталей порушень"
 	},
 	"banner_advanced_violation_button_go_to_setting": {
 		"message": "Перейти до налаштувань"
 	},
-	"banner_changelog_message": {
-		"message": "Випущено нове оновлення $1!"
+	"banner_advanced_violation_message": {
+		"message": "Увімкніть розширені деталі порушень для кращої інформації"
+	},
+	"banner_advanced_violation_title_dismiss": {
+		"message": "Закрити рекомендацію"
+	},
+	"banner_advanced_violation_title_go_to_setting": {
+		"message": "Перейти до налаштування розширених деталей порушень"
 	},
 	"banner_changelog_aria_dismiss": {
 		"message": "Закрити банер змін"
 	},
-	"banner_changelog_title_view_details": {
-		"message": "Переглянути повний список змін"
+	"banner_changelog_button_view_details": {
+		"message": "Переглянути деталі"
+	},
+	"banner_changelog_message": {
+		"message": "Випущено нове оновлення $1!"
 	},
 	"banner_changelog_title_dismiss": {
 		"message": "Закрити список змін"
 	},
-	"banner_changelog_button_view_details": {
-		"message": "Переглянути деталі"
+	"banner_changelog_title_view_details": {
+		"message": "Переглянути повний список змін"
 	},
-	"navbar_tab_stats": {
-		"message": "Статистика"
+	"custom_api_docs_button_back": {
+		"message": "Назад"
 	},
-	"navbar_tab_warzone": {
-		"message": "Зона війни"
+	"custom_api_docs_error_note": {
+		"message": "Примітка: Відповіді при помилці виникають лише при внутрішній помилці сервера або проблемі з backendом. Користувачі, які не знайдені або ще не проаналізовані, повертаються із успіхом: true з flagType: 0 (Безпечний)."
 	},
-	"navbar_tab_settings": {
-		"message": "Налаштування"
+	"custom_api_docs_field_badge_color": {
+		"message": "(string, необов'язково) - колір фону (hex, rgb або іменований колір)"
 	},
-	"navbar_settings_tooltip": {
-		"message": "Налаштування (Alt+Клік для режиму розробника)"
+	"custom_api_docs_field_badge_text": {
+		"message": "(string, обов'язково) - текст мітки значка"
+	},
+	"custom_api_docs_field_badge_text_color": {
+		"message": "(string, необов'язково) - колір тексту для контрасту"
+	},
+	"custom_api_docs_field_badges": {
+		"message": "(array) - До 3 об'єктів користувацьких значків, кожен містить:"
+	},
+	"custom_api_docs_field_confidence": {
+		"message": "(number) - рівень впевненості 0.0-1.0"
+	},
+	"custom_api_docs_field_confidence_reason": {
+		"message": "(number) - впевненість 0.0-1.0"
+	},
+	"custom_api_docs_field_engine_version": {
+		"message": "(string) - версія аналізуючого движка"
+	},
+	"custom_api_docs_field_evidence": {
+		"message": "(array або null) - рядки доказів або null"
+	},
+	"custom_api_docs_field_flag_type": {
+		"message": "(number) - тип позначення 0-6 (див. нижче)"
+	},
+	"custom_api_docs_field_id": {
+		"message": "(number) - ID користувача як ціле число"
+	},
+	"custom_api_docs_field_last_updated": {
+		"message": "(number) - мітка часу Unix (секунди)"
+	},
+	"custom_api_docs_field_message": {
+		"message": "(string) - опис причини"
+	},
+	"custom_api_docs_field_reasons": {
+		"message": "(object) - текстові назви причин як ключі, кожна містить:"
+	},
+	"custom_api_docs_field_reviewer": {
+		"message": "(object) - Необов'язково. Для вказівки людини-оглядача, який перевірив позначення. Включіть username та displayName. Опустіть, якщо автоматизовано/немає людського перегляду."
+	},
+	"custom_api_docs_flag_type_0": {
+		"message": "Безпечний"
+	},
+	"custom_api_docs_flag_type_1": {
+		"message": "В очікуванні"
+	},
+	"custom_api_docs_flag_type_2": {
+		"message": "Небезпечний (рекомендовано)"
+	},
+	"custom_api_docs_flag_type_2_note": {
+		"message": "Тип позначення 2 (Небезпечний) є основним типом, який вам потрібен для позначення недоречних користувачів. Використовуйте інші типи позначень лише якщо у вас є конкретна причина для категоризації користувачів інакше."
+	},
+	"custom_api_docs_flag_type_3": {
+		"message": "У черзі"
+	},
+	"custom_api_docs_flag_type_4": {
+		"message": "Не використовується"
+	},
+	"custom_api_docs_flag_type_5": {
+		"message": "Змішаний"
+	},
+	"custom_api_docs_flag_type_6": {
+		"message": "Колишній порушник"
+	},
+	"custom_api_docs_intro": {
+		"message": "Реалізуйте дві точки доступу, які повертають дані про статус користувача. Усі відповіді повинні використовувати формат обгортки з полями success, data та error."
+	},
+	"custom_api_docs_note_badge_colors": {
+		"message": "Кольори значків підтримують кілька форматів: hex коди (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) або іменовані кольори (red). Коли колір не вказано, значки використовують стандартний бірюзовий колір. Коли textColor не вказано, значки використовують білий текст."
+	},
+	"custom_api_docs_note_badges": {
+		"message": "Значки - це невеликі візуальні індикатори, які з'являються в підказках користувачів поряд зі статусом позначення. Вони відображаються у верхній частині підказки для швидкої передачі додаткового контексту про користувача. Використовуйте значки, щоб підкреслити важливу інформацію про статус, таку як статус перевірки, рівні пріоритету або спеціальні категорії. Типові приклади: \"Перевірений небезпечний\", \"Високий пріоритет\", \"Повідомлено спільнотою\", \"Авто-виявлено\"."
+	},
+	"custom_api_docs_note_batch_data": {
+		"message": "Поле data містить об'єкт, де ключі - це ID користувачів (як рядки), а значення - об'єкти статусу користувача."
+	},
+	"custom_api_docs_note_batch_limit": {
+		"message": "Ми рекомендуємо встановити ліміт у 100 ID користувачів на пакетний запит для балансування продуктивності та часу відповіді."
+	},
+	"custom_api_docs_note_batch_partial": {
+		"message": "Повертайте лише користувачів, які існують у вашій системі. Невідомі користувачі повинні бути пропущені у відповіді."
+	},
+	"custom_api_docs_note_cors": {
+		"message": "Ваш API повинен включати заголовок Access-Control-Allow-Origin: * у відповідях, щоб дозволити розширенню браузера доступ до вашого API."
+	},
+	"custom_api_docs_note_flag_type_0": {
+		"message": "Повертайте flagType 0 для користувачів, яких немає у вашій системі (ще не перевірено/невідомо)."
+	},
+	"custom_api_docs_note_http_status": {
+		"message": "Повертайте HTTP статус 200 для всіх успішних запитів. Будь-який інший код статусу (4xx, 5xx) вказує на невдачу, і розширення розглядатиме це як помилку."
+	},
+	"custom_api_docs_note_https": {
+		"message": "Усі точки доступу API повинні використовувати HTTPS для безпеки."
+	},
+	"custom_api_docs_note_no_auth": {
+		"message": "Автентифікація не потрібна. Це повністю публічний API."
+	},
+	"custom_api_docs_note_reason_keys": {
+		"message": "Використовуйте описові текстові назви для ключів причин (наприклад, \"Патерн високого ризику\", \"Підозріла активність\"), а не числові індекси. Вони відображаються безпосередньо в підказках."
+	},
+	"custom_api_docs_note_url_batch": {
+		"message": "Розширення використовує ваш налаштований URL безпосередньо (без змін) для пакетних запитів."
+	},
+	"custom_api_docs_note_url_single": {
+		"message": "Розширення автоматично додає /{userId} до вашого налаштованого URL для одиничних запитів користувача."
+	},
+	"custom_api_docs_note_wrapper": {
+		"message": "Усі відповіді повинні використовувати формат {success, data, error}. Коли success: true, включіть поле data. Коли success: false, включіть повідомлення про помилку."
+	},
+	"custom_api_docs_section_authentication": {
+		"message": "Автентифікація"
+	},
+	"custom_api_docs_section_batch_lookup": {
+		"message": "Пакетний запит користувачів"
+	},
+	"custom_api_docs_section_cors": {
+		"message": "Вимоги CORS"
+	},
+	"custom_api_docs_section_http_status": {
+		"message": "HTTP коди статусу"
+	},
+	"custom_api_docs_section_notes": {
+		"message": "Важливі примітки"
+	},
+	"custom_api_docs_section_single_lookup": {
+		"message": "Одиничний запит користувача"
+	},
+	"custom_api_docs_section_url_config": {
+		"message": "Налаштування URL API"
+	},
+	"custom_api_docs_subtitle_badge_colors": {
+		"message": "Кольори значків"
+	},
+	"custom_api_docs_subtitle_badges": {
+		"message": "Значки"
+	},
+	"custom_api_docs_subtitle_error_response": {
+		"message": "Відповідь при помилці"
+	},
+	"custom_api_docs_subtitle_example_request": {
+		"message": "Приклад запиту"
+	},
+	"custom_api_docs_subtitle_flag_types": {
+		"message": "Типи позначень"
+	},
+	"custom_api_docs_subtitle_https": {
+		"message": "Обов'язковий HTTPS"
+	},
+	"custom_api_docs_subtitle_optional_fields": {
+		"message": "Необов'язкові поля (в об'єкті data)"
+	},
+	"custom_api_docs_subtitle_reason_keys": {
+		"message": "Ключі причин"
+	},
+	"custom_api_docs_subtitle_request_body": {
+		"message": "Тіло запиту"
+	},
+	"custom_api_docs_subtitle_required_fields": {
+		"message": "Обов'язкові поля (в об'єкті data)"
+	},
+	"custom_api_docs_subtitle_success_response": {
+		"message": "Відповідь при успіху"
+	},
+	"custom_api_docs_subtitle_wrapper": {
+		"message": "Формат обгортки"
+	},
+	"custom_api_docs_title": {
+		"message": "Посібник з інтеграції користувацького API"
+	},
+	"custom_api_docs_url_example_1": {
+		"message": "https://api.example.com/users"
+	},
+	"custom_api_docs_url_example_2": {
+		"message": "https://api.example.com/v1/check"
+	},
+	"custom_api_docs_url_example_3": {
+		"message": "https://api.example.com/roblox/analyze"
+	},
+	"custom_api_docs_url_example_wrong_1": {
+		"message": "https://api.example.com/users/{userId} (розширення автоматично додасть /{userId})"
+	},
+	"custom_api_docs_url_example_wrong_2": {
+		"message": "https://api.example.com/users/:id (розширення автоматично додасть /{userId})"
+	},
+	"custom_api_docs_url_examples_correct_title": {
+		"message": "Правильний формат URL"
+	},
+	"custom_api_docs_url_examples_incorrect_title": {
+		"message": "Неправильний формат URL"
+	},
+	"custom_api_form_button_remove_image": {
+		"message": "Видалити зображення"
+	},
+	"custom_api_form_button_save": {
+		"message": "Зберегти"
+	},
+	"custom_api_form_button_saving": {
+		"message": "Збереження..."
+	},
+	"custom_api_form_checkbox_enable": {
+		"message": "Увімкнути цей користувацький API"
+	},
+	"custom_api_form_error_image_mime": {
+		"message": "Неправильний тип зображення. MIME тип не відповідає розширенню файлу"
+	},
+	"custom_api_form_error_image_process": {
+		"message": "Не вдалося обробити файл зображення"
+	},
+	"custom_api_form_error_image_read": {
+		"message": "Не вдалося прочитати файл зображення"
+	},
+	"custom_api_form_error_image_size": {
+		"message": "Попередження: Великий розмір файлу ($1КБ). Розгляньте використання меншого зображення для зменшення використання пам'яті."
+	},
+	"custom_api_form_error_image_type": {
+		"message": "Неправильний тип файлу. Будь ласка, використовуйте PNG, JPG, SVG або WebP"
+	},
+	"custom_api_form_error_name_length": {
+		"message": "Назва має бути не більше 12 символів"
+	},
+	"custom_api_form_error_name_required": {
+		"message": "Назва обов'язкова"
+	},
+	"custom_api_form_error_save_prefix": {
+		"message": "Не вдалося зберегти користувацький API: "
+	},
+	"custom_api_form_error_timeout_max": {
+		"message": "Тайм-аут має бути 60000мс (60 секунд) або менше"
+	},
+	"custom_api_form_error_timeout_min": {
+		"message": "Тайм-аут має бути щонайменше 1000мс (1 секунда)"
+	},
+	"custom_api_form_error_unknown": {
+		"message": "Невідома помилка"
+	},
+	"custom_api_form_error_url_https": {
+		"message": "URL має починатися з https://"
+	},
+	"custom_api_form_error_url_invalid": {
+		"message": "Неправильний формат URL"
+	},
+	"custom_api_form_error_url_required": {
+		"message": "URL обов'язковий"
+	},
+	"custom_api_form_hint_image": {
+		"message": "Завантажте горизонтальне зображення для вкладки підказки (PNG, JPG, SVG, WebP). Рекомендовано: 480x160px (співвідношення 3:1)."
+	},
+	"custom_api_form_hint_name_length": {
+		"message": "Максимум 12 символів ($1/12)"
+	},
+	"custom_api_form_hint_timeout": {
+		"message": "Тайм-аут запиту в мілісекундах (1000-60000). За замовчуванням: 5000мс."
+	},
+	"custom_api_form_hint_url": {
+		"message": "Має бути HTTPS. Це базовий URL для ваших API точок доступу. Ми будемо викликати {url}/user/{userId} для одиничних запитів і {url}/users для пакетних запитів."
+	},
+	"custom_api_form_label_image": {
+		"message": "Горизонтальне зображення (Необов'язково)"
+	},
+	"custom_api_form_label_name": {
+		"message": "Назва"
+	},
+	"custom_api_form_label_required": {
+		"message": "*"
+	},
+	"custom_api_form_label_timeout": {
+		"message": "Тайм-аут (мс)"
+	},
+	"custom_api_form_label_url": {
+		"message": "URL API"
+	},
+	"custom_api_form_placeholder_name": {
+		"message": "Мій користувацький API"
+	},
+	"custom_api_form_placeholder_timeout": {
+		"message": "5000"
+	},
+	"custom_api_form_placeholder_url": {
+		"message": "https://api.example.com/v1/lookup"
+	},
+	"custom_api_form_title_add": {
+		"message": "Додати користувацький API"
+	},
+	"custom_api_form_title_edit": {
+		"message": "Редагувати користувацький API"
+	},
+	"custom_api_mgmt_badge_system": {
+		"message": "Системний API"
+	},
+	"custom_api_mgmt_button_add": {
+		"message": "Додати користувацький API"
+	},
+	"custom_api_mgmt_button_back": {
+		"message": "Назад"
+	},
+	"custom_api_mgmt_button_view_integration_guide": {
+		"message": "Переглянути посібник з інтеграції"
+	},
+	"custom_api_mgmt_confirm_delete": {
+		"message": "Видалити користувацький API \"$1\"?"
+	},
+	"custom_api_mgmt_error_delete": {
+		"message": "Не вдалося видалити користувацький API"
+	},
+	"custom_api_mgmt_error_update_status": {
+		"message": "Не вдалося оновити статус API"
+	},
+	"custom_api_mgmt_http_method_get": {
+		"message": "GET"
+	},
+	"custom_api_mgmt_http_method_post": {
+		"message": "POST"
+	},
+	"custom_api_mgmt_integration_section_description": {
+		"message": "Створіть власний API для інтеграції з Rotector Extension. Реалізуйте точки доступу, які повертають дані про безпеку користувача, і ваші результати будуть відображатися в підказках разом з аналізом Rotector."
+	},
+	"custom_api_mgmt_integration_section_title": {
+		"message": "Зацікавлені в інтеграції з розширенням?"
+	},
+	"custom_api_mgmt_intro": {
+		"message": "Керуйте всіма інтеграціями API в одному місці. Rotector забезпечує основний аналіз безпеки, і ви можете додати до 5 користувацьких API для додаткового аналізу контенту."
+	},
+	"custom_api_mgmt_label_batch": {
+		"message": "Пакетний:"
+	},
+	"custom_api_mgmt_label_created": {
+		"message": "Створено:"
+	},
+	"custom_api_mgmt_label_last_tested": {
+		"message": "Останнє тестування:"
+	},
+	"custom_api_mgmt_label_single": {
+		"message": "Одиничний:"
+	},
+	"custom_api_mgmt_label_timeout": {
+		"message": "Тайм-аут:"
+	},
+	"custom_api_mgmt_loading": {
+		"message": "Завантаження користувацьких API..."
+	},
+	"custom_api_mgmt_notice_max_reached": {
+		"message": "Досягнуто максимуму $1 користувацьких API. Видаліть існуючий API, щоб додати новий."
+	},
+	"custom_api_mgmt_suffix_ms": {
+		"message": "мс"
+	},
+	"custom_api_mgmt_test_error": {
+		"message": "✗ Помилка тесту з'єднання\n\nНе вдалося протестувати API \"$1\".\n\nПомилка: $2"
+	},
+	"custom_api_mgmt_test_failed": {
+		"message": "✗ З'єднання не вдалося\n\nAPI \"$1\" не відповідає або повернув помилку.\n\nБудь ласка, перевірте:\n• URL правильний та доступний\n• Сервер API працює\n• CORS налаштовано за потреби"
+	},
+	"custom_api_mgmt_test_success": {
+		"message": "✓ З'єднання успішне!\n\nAPI \"$1\" досяжний та відповідає."
+	},
+	"custom_api_mgmt_title": {
+		"message": "Інтеграції API"
+	},
+	"custom_api_mgmt_title_delete": {
+		"message": "Видалити"
+	},
+	"custom_api_mgmt_title_edit": {
+		"message": "Редагувати"
+	},
+	"custom_api_mgmt_title_move_down": {
+		"message": "Перемістити вниз"
+	},
+	"custom_api_mgmt_title_move_up": {
+		"message": "Перемістити вгору"
+	},
+	"custom_api_mgmt_title_test": {
+		"message": "Тестувати з'єднання"
+	},
+	"engine_aria_info": {
+		"message": "Інформація про версію движка"
+	},
+	"engine_desc_compatible": {
+		"message": "Цей аналіз використовував AI движок, який все ще підтримується, але не є останньою версією."
+	},
+	"engine_desc_compatible_impact": {
+		"message": "Все ще високо точний з незначними відмінностями в можливостях виявлення."
+	},
+	"engine_desc_deprecated": {
+		"message": "Цей аналіз використовував AI движок, який більше не підтримується."
+	},
+	"engine_desc_deprecated_impact": {
+		"message": "Точність може бути значно знижена, і результати слід розглядати з обережністю."
+	},
+	"engine_desc_latest": {
+		"message": "Цей аналіз використовував найновіший AI движок з останніми можливостями виявлення."
+	},
+	"engine_desc_latest_impact": {
+		"message": "Найвища точність і найбільш повний аналіз."
+	},
+	"engine_desc_outdated": {
+		"message": "Цей аналіз використовував AI движок, який значно відстає від останньої версії."
+	},
+	"engine_desc_outdated_impact": {
+		"message": "Може мати знижену точність порівняно з новішими версіями движка."
+	},
+	"engine_desc_unknown": {
+		"message": "Цей аналіз використовував AI движок з невідомим статусом сумісності."
+	},
+	"engine_desc_unknown_impact": {
+		"message": "Сумісність версії не вдалося визначити."
+	},
+	"engine_header_version": {
+		"message": "Движок v$1"
+	},
+	"engine_status_compatible": {
+		"message": "Сумісний"
+	},
+	"engine_status_deprecated": {
+		"message": "Застарів"
+	},
+	"engine_status_latest": {
+		"message": "Останній"
+	},
+	"engine_status_outdated": {
+		"message": "Застарілий"
+	},
+	"engine_status_unknown": {
+		"message": "Невідомий"
+	},
+	"engine_version_unknown": {
+		"message": "Невідомий"
 	},
 	"footer_discord": {
 		"message": "Discord"
@@ -50,857 +470,23 @@
 	"footer_github": {
 		"message": "GitHub"
 	},
-	"footer_source_code": {
-		"message": "Вихідний код"
-	},
 	"footer_help": {
 		"message": "Допомога та інформація"
-	},
-	"footer_privacy": {
-		"message": "Політика конфіденційності"
-	},
-	"footer_terms": {
-		"message": "Умови використання"
 	},
 	"footer_made_by": {
 		"message": "Створено jaxron"
 	},
-	"settings_developer_unlocked": {
-		"message": "Режим розробника розблоковано! Розширені налаштування тепер доступні."
+	"footer_privacy": {
+		"message": "Політика конфіденційності"
 	},
-	"settings_theme_light": {
-		"message": "Світла"
+	"footer_source_code": {
+		"message": "Вихідний код"
 	},
-	"settings_theme_dark": {
-		"message": "Темна"
+	"footer_terms": {
+		"message": "Умови використання"
 	},
-	"settings_theme_auto": {
-		"message": "Авто"
-	},
-	"settings_api_system_label": {
-		"message": "(Системний)"
-	},
-	"settings_manage_apis_button": {
-		"message": "Керування інтеграціями API"
-	},
-	"settings_api_count_singular": {
-		"message": "($1 API)"
-	},
-	"settings_api_count_plural": {
-		"message": "($1 API)"
-	},
-	"settings_api_key_label": {
-		"message": "API ключ (Необов'язково)"
-	},
-	"settings_api_key_placeholder": {
-		"message": "Введіть ваш API ключ"
-	},
-	"settings_api_key_toggle_title": {
-		"message": "Показати/Приховати API ключ"
-	},
-	"settings_api_key_hide": {
-		"message": "ПРИХОВАТИ"
-	},
-	"settings_api_key_show": {
-		"message": "ПОКАЗАТИ"
-	},
-	"settings_developer_hide_button": {
-		"message": "Приховати налаштування розробника"
-	},
-	"settings_category_content_display": {
-		"message": "Відображення контенту"
-	},
-	"settings_category_integrations": {
-		"message": "Інтеграції"
-	},
-	"settings_category_page_settings": {
-		"message": "Налаштування сторінок"
-	},
-	"settings_category_developer": {
-		"message": "Розробник"
-	},
-	"settings_label_theme": {
-		"message": "Тема"
-	},
-	"settings_label_advanced_violations": {
-		"message": "Показати розширені деталі порушень"
-	},
-	"settings_label_home_page": {
-		"message": "Головна сторінка"
-	},
-	"settings_label_profile_pages": {
-		"message": "Сторінки профілю"
-	},
-	"settings_label_friends_pages": {
-		"message": "Сторінки друзів"
-	},
-	"settings_label_groups_pages": {
-		"message": "Сторінки груп"
-	},
-	"settings_label_search_pages": {
-		"message": "Сторінки пошуку"
-	},
-	"settings_label_report_helper": {
-		"message": "Помічник зі скаргами"
-	},
-	"settings_label_debug_logging": {
-		"message": "Увімкнути налагодження"
-	},
-	"settings_label_cache_duration": {
-		"message": "Тривалість кешування (хвилини)"
-	},
-	"settings_help_theme": {
-		"message": "Авто слідує за темою Roblox. Світла та Темна перевизначають цю налаштування."
-	},
-	"settings_help_advanced_violations": {
-		"message": "Відображає детальні повідомлення про порушення та докази. Може містити дорослий контент."
-	},
-	"settings_help_debug_logging": {
-		"message": "Показує детальні логи в консолі браузера (F12 -> Консоль) для усунення несправностей."
-	},
-	"settings_help_cache_duration": {
-		"message": "Скільки часу зберігати дані про статус користувачів (1-10 хвилин). Вищі значення зменшують кількість запитів до API, але можуть показувати застарілу інформацію."
-	},
-	"settings_modal_title": {
-		"message": "Попередження про розширені деталі"
-	},
-	"settings_modal_confirm_button": {
-		"message": "Увімкнути розширені деталі"
-	},
-	"settings_modal_warning_intro": {
-		"message": "Розширені деталі порушень можуть містити чутливий контент"
-	},
-	"settings_modal_warning_continuation": {
-		"message": "який посилається на профілі та активності користувачів, що порушили політику платформи."
-	},
-	"settings_modal_enabled_heading": {
-		"message": "Що ви побачите після увімкнення:"
-	},
-	"settings_modal_enabled_item1": {
-		"message": "Детальні повідомлення про порушення, що пояснюють, чому користувача було позначено"
-	},
-	"settings_modal_enabled_item2": {
-		"message": "Фрагменти доказів, що містять контент, який порушує політику"
-	},
-	"settings_modal_enabled_item3": {
-		"message": "Конкретні приклади порушень з профілів і активностей користувачів"
-	},
-	"settings_modal_considerations_heading": {
-		"message": "Важливі міркування"
-	},
-	"settings_modal_considerations_item1": {
-		"message": "Контент може містити матеріали, що порушують стандарти спільноти платформи"
-	},
-	"settings_modal_considerations_item2": {
-		"message": "Ця інформація призначена лише для модерації та безпеки"
-	},
-	"settings_modal_considerations_item3": {
-		"message": "Якщо ви не бажаєте переглядати детальні докази порушень, залиште це налаштування вимкненим"
-	},
-	"settings_modal_considerations_item4": {
-		"message": "Ви можете вимкнути цю функцію в будь-який час у налаштуваннях"
-	},
-	"settings_modal_recommendation_label": {
-		"message": "Рекомендація:"
-	},
-	"settings_modal_recommendation_text": {
-		"message": "Вмикайте це лише якщо вам потрібна детальна інформація про порушення для цілей модерації і ви розумієте, що можете побачити контент, який порушує правила спільноти."
-	},
-	"stats_changelog_type_added": {
-		"message": "Додано"
-	},
-	"stats_changelog_type_changed": {
-		"message": "Змінено"
-	},
-	"stats_changelog_type_deprecated": {
-		"message": "Застаріло"
-	},
-	"stats_changelog_type_removed": {
-		"message": "Видалено"
-	},
-	"stats_changelog_type_fixed": {
-		"message": "Виправлено"
-	},
-	"stats_changelog_type_security": {
-		"message": "Безпека"
-	},
-	"stats_changelog_type_update": {
-		"message": "Оновлення"
-	},
-	"stats_changelog_title": {
-		"message": "Список змін"
-	},
-	"stats_changelog_empty": {
-		"message": "Немає записів у списку змін."
-	},
-	"stats_financial_title": {
-		"message": "Ціль фінансування"
-	},
-	"stats_financial_raised": {
-		"message": "Зібрано"
-	},
-	"stats_financial_surplus": {
-		"message": "Надлишок"
-	},
-	"stats_financial_remaining": {
-		"message": "Залишилось"
-	},
-	"stats_financial_kofi_title": {
-		"message": "Підтримати на Ko-fi"
-	},
-	"stats_financial_button_funded": {
-		"message": "Дякуємо!"
-	},
-	"stats_financial_button_support": {
-		"message": "Підтримати розробку"
-	},
-	"stats_financial_charts_hide": {
-		"message": "Приховати графіки використання"
-	},
-	"stats_financial_charts_show": {
-		"message": "Показати графіки використання"
-	},
-	"stats_financial_charts_toggle": {
-		"message": "Тижневі графіки використання"
-	},
-	"stats_financial_aria_funded": {
-		"message": "Повністю профінансовано з надлишком $1"
-	},
-	"stats_financial_aria_progress": {
-		"message": "$1 зібрано, $2 залишилось з цілі $3"
-	},
-	"stats_queue_title": {
-		"message": "Ліміти черги"
-	},
-	"stats_queue_loading": {
-		"message": "Завантаження лімітів черги..."
-	},
-	"stats_queue_error": {
-		"message": "Не вдалося завантажити ліміти черги"
-	},
-	"stats_queue_retry": {
-		"message": "Повторити"
-	},
-	"stats_queue_usage": {
-		"message": "Використання"
-	},
-	"stats_queue_remaining": {
-		"message": "Залишилось"
-	},
-	"stats_queue_enhanced": {
-		"message": "Розширені ліміти активні"
-	},
-	"stats_queue_default": {
-		"message": "Стандартні ліміти"
-	},
-	"stats_queue_resets_in": {
-		"message": "Скидання через"
-	},
-	"stats_queue_resetting": {
-		"message": "Скидання..."
-	},
-	"stats_queue_time_hours": {
-		"message": "$1год $2хв"
-	},
-	"stats_queue_time_minutes": {
-		"message": "$1хв"
-	},
-	"stats_queue_aria_progress": {
-		"message": "$1 з $2 використано, $3 залишилось"
-	},
-	"stats_statistics_title": {
-		"message": "Системна статистика"
-	},
-	"stats_statistics_refresh": {
-		"message": "Оновити статистику"
-	},
-	"stats_statistics_loading": {
-		"message": "Завантаження статистики..."
-	},
-	"stats_statistics_error": {
-		"message": "Не вдалося завантажити статистику"
-	},
-	"stats_statistics_retry": {
-		"message": "Повторити"
-	},
-	"stats_statistics_users_title": {
-		"message": "Користувачі"
-	},
-	"stats_statistics_groups_title": {
-		"message": "Групи"
-	},
-	"stats_statistics_community_title": {
-		"message": "Спільнота"
-	},
-	"stats_statistics_flagged": {
-		"message": "Позначено"
-	},
-	"stats_statistics_confirmed": {
-		"message": "Підтверджено"
-	},
-	"stats_statistics_votes": {
-		"message": "Всього голосів"
-	},
-	"stats_statistics_queued": {
-		"message": "Користувачів у черзі"
-	},
-	"stats_statistics_users_desc": {
-		"message": "інших користувачів заблоковано Roblox"
-	},
-	"stats_statistics_groups_desc": {
-		"message": "груп зі змішаним контентом"
-	},
-	"stats_statistics_updated": {
-		"message": "Останнє оновлення:"
-	},
-	"stats_chart_tab_costs": {
-		"message": "Витрати AI"
-	},
-	"stats_chart_tab_requests": {
-		"message": "Запити AI"
-	},
-	"stats_chart_tab_tokens": {
-		"message": "Токени AI"
-	},
-	"stats_chart_week_4": {
-		"message": "3 тижні\nтому"
-	},
-	"stats_chart_week_3": {
-		"message": "2 тижні\nтому"
-	},
-	"stats_chart_week_2": {
-		"message": "Минулий тиждень"
-	},
-	"stats_chart_week_1": {
-		"message": "Цей тиждень"
-	},
-	"stats_chart_label_costs": {
-		"message": "Тижневі витрати AI"
-	},
-	"stats_chart_label_requests": {
-		"message": "Тижневі запити AI"
-	},
-	"stats_chart_label_tokens": {
-		"message": "Всього токенів AI"
-	},
-	"stats_chart_detail_requests": {
-		"message": "Всього запитів"
-	},
-	"stats_chart_detail_cost": {
-		"message": "Загальні витрати"
-	},
-	"stats_chart_detail_period": {
-		"message": "Період"
-	},
-	"stats_chart_detail_prompt": {
-		"message": "Токени запитів"
-	},
-	"stats_chart_detail_completion": {
-		"message": "Токени завершення"
-	},
-	"stats_chart_detail_reasoning": {
-		"message": "Токени міркування"
-	},
-	"stats_chart_legend_prompt": {
-		"message": "Запит"
-	},
-	"stats_chart_legend_completion": {
-		"message": "Завершення"
-	},
-	"stats_chart_legend_reasoning": {
-		"message": "Міркування"
-	},
-	"stats_chart_month_jan": {
-		"message": "Січ"
-	},
-	"stats_chart_month_feb": {
-		"message": "Лют"
-	},
-	"stats_chart_month_mar": {
-		"message": "Бер"
-	},
-	"stats_chart_month_apr": {
-		"message": "Кві"
-	},
-	"stats_chart_month_may": {
-		"message": "Тра"
-	},
-	"stats_chart_month_jun": {
-		"message": "Чер"
-	},
-	"stats_chart_month_jul": {
-		"message": "Лип"
-	},
-	"stats_chart_month_aug": {
-		"message": "Сер"
-	},
-	"stats_chart_month_sep": {
-		"message": "Вер"
-	},
-	"stats_chart_month_oct": {
-		"message": "Жов"
-	},
-	"stats_chart_month_nov": {
-		"message": "Лис"
-	},
-	"stats_chart_month_dec": {
-		"message": "Гру"
-	},
-	"stats_chart_aria_prompt": {
-		"message": "Токени запитів для $1: $2"
-	},
-	"stats_chart_aria_completion": {
-		"message": "Токени завершення для $1: $2"
-	},
-	"stats_chart_aria_reasoning": {
-		"message": "Токени міркування для $1: $2"
-	},
-	"stats_chart_aria_general": {
-		"message": "$1 для $2: $3"
-	},
-	"warzone_common_button_retry": {
-		"message": "Повторити"
-	},
-	"warzone_hunter_title": {
-		"message": "Мисливець зони війни"
-	},
-	"warzone_hunter_stat_points": {
-		"message": "Очки"
-	},
-	"warzone_hunter_stat_status": {
-		"message": "Статус"
-	},
-	"warzone_hunter_discord_avatar_alt": {
-		"message": "Аватар Discord"
-	},
-	"warzone_hunter_loading_connecting": {
-		"message": "Підключення..."
-	},
-	"warzone_hunter_status_anonymous": {
-		"message": "Анонімний"
-	},
-	"warzone_hunter_status_public": {
-		"message": "Публічний"
-	},
-	"warzone_hunter_signup_description": {
-		"message": "Приєднуйтесь до спільноти, щоб повідомляти про користувачів з високим ризиком. Працюйте разом з мисливцями по всьому світу, щоб підвищити успішність видалення та зробити Roblox безпечнішим для всіх."
-	},
-	"warzone_hunter_feature_report": {
-		"message": "Повідомляти про користувачів з високим ризиком"
-	},
-	"warzone_hunter_feature_cleanup": {
-		"message": "Допомагати очистити платформу від порушників"
-	},
-	"warzone_hunter_feature_community": {
-		"message": "Працювати зі спільнотою для вищого успіху"
-	},
-	"warzone_hunter_feature_leaderboard": {
-		"message": "Заробляти очки і підніматися в рейтингу"
-	},
-	"warzone_hunter_beta_label": {
-		"message": "Закрита бета:"
-	},
-	"warzone_hunter_beta_text_before_link": {
-		"message": "Доступно лише обраним користувачам. Приєднуйтесь до нашого"
-	},
-	"warzone_hunter_beta_discord_link": {
-		"message": "серверу Discord"
-	},
-	"warzone_hunter_beta_text_after_link": {
-		"message": "для оновлень."
-	},
-	"warzone_hunter_button_login": {
-		"message": "Увійти через Discord"
-	},
-	"warzone_hunter_button_logout": {
-		"message": "Вийти"
-	},
-	"warzone_hunter_welcome_message": {
-		"message": "Ласкаво просимо, мисливцю! Тепер ви можете брати участь у діяльності зони війни та допомагати захищати спільноту Roblox. Відвідайте головну сторінку Roblox, щоб почати свої полювання."
-	},
-	"warzone_hunter_confirm_logout": {
-		"message": "Ви впевнені, що хочете вийти?\n\nВи можете увійти знову в будь-який час через свій обліковий запис Discord."
-	},
-	"warzone_leaderboard_loading": {
-		"message": "Завантаження рейтингу..."
-	},
-	"warzone_leaderboard_error_load": {
-		"message": "Не вдалося завантажити рейтинг"
-	},
-	"warzone_leaderboard_filter_anonymous": {
-		"message": "Включити анонімних мисливців"
-	},
-	"warzone_leaderboard_total_hunters": {
-		"message": "Всього мисливців: $1"
-	},
-	"warzone_leaderboard_your_rank": {
-		"message": "Ваш ранг: #$1"
-	},
-	"warzone_leaderboard_section_top": {
-		"message": "Топ мисливців"
-	},
-	"warzone_leaderboard_section_rankings": {
-		"message": "Рейтинги"
-	},
-	"warzone_leaderboard_badge_you": {
-		"message": "Ви"
-	},
-	"warzone_leaderboard_stat_reports": {
-		"message": "$1 скарг"
-	},
-	"warzone_leaderboard_stat_success": {
-		"message": "$1% успішно"
-	},
-	"warzone_order_type_ban_count": {
-		"message": "Кількість блокувань"
-	},
-	"warzone_order_type_zone_liberation": {
-		"message": "Визволення зони"
-	},
-	"warzone_order_type_verification": {
-		"message": "Перевірка"
-	},
-	"warzone_order_label_completed": {
-		"message": "Завершено"
-	},
-	"warzone_order_label_expires": {
-		"message": "Закінчується"
-	},
-	"warzone_order_label_progress": {
-		"message": "Прогрес"
-	},
-	"warzone_order_progress_value": {
-		"message": "$1 / $2"
-	},
-	"warzone_target_status_confirmed": {
-		"message": "Підтверджено"
-	},
-	"warzone_target_status_flagged": {
-		"message": "Позначено"
-	},
-	"warzone_target_meta_confidence": {
-		"message": "Впевненість"
-	},
-	"warzone_target_meta_attempts": {
-		"message": "Спроби"
-	},
-	"warzone_target_meta_active": {
-		"message": "Активний"
-	},
-	"warzone_mode_global": {
-		"message": "глобальна"
-	},
-	"warzone_mode_zone": {
-		"message": "зона"
-	},
-	"warzone_chart_error_load": {
-		"message": "Не вдалося завантажити $1 історичні дані"
-	},
-	"warzone_chart_tab_liberation": {
-		"message": "Визволення"
-	},
-	"warzone_chart_tab_users": {
-		"message": "Користувачі"
-	},
-	"warzone_chart_tab_ban_rate": {
-		"message": "Рівень блокувань"
-	},
-	"warzone_chart_label_global_liberation": {
-		"message": "Глобальне визволення"
-	},
-	"warzone_chart_label_zone_liberation": {
-		"message": "Визволення зони"
-	},
-	"warzone_chart_label_total_users": {
-		"message": "Всього користувачів"
-	},
-	"warzone_chart_label_global_ban_rate": {
-		"message": "Глобальний рівень блокувань"
-	},
-	"warzone_chart_label_zone_ban_rate": {
-		"message": "Рівень блокувань зони"
-	},
-	"warzone_chart_legend_banned": {
-		"message": "Заблоковано"
-	},
-	"warzone_chart_legend_flagged": {
-		"message": "Позначено"
-	},
-	"warzone_chart_legend_confirmed": {
-		"message": "Підтверджено"
-	},
-	"warzone_chart_tooltip_date": {
-		"message": "Дата"
-	},
-	"warzone_chart_tooltip_total_users": {
-		"message": "Всього користувачів"
-	},
-	"warzone_chart_tooltip_banned": {
-		"message": "Заблоковано"
-	},
-	"warzone_overview_loading": {
-		"message": "Завантаження карти війни..."
-	},
-	"warzone_overview_error_load": {
-		"message": "Не вдалося завантажити карту війни"
-	},
-	"warzone_overview_section_zones": {
-		"message": "Зони війни"
-	},
-	"warzone_overview_section_targets": {
-		"message": "Активні цілі"
-	},
-	"warzone_overview_section_global_stats": {
-		"message": "Глобальна статистика війни"
-	},
-	"warzone_overview_section_global_trends": {
-		"message": "Глобальні тенденції (30 днів)"
-	},
-	"warzone_overview_section_major_orders": {
-		"message": "Активні основні завдання"
-	},
-	"warzone_overview_button_find_user": {
-		"message": "Знайти користувача для скарги"
-	},
-	"warzone_overview_finding_user_loading": {
-		"message": "Пошук користувача..."
-	},
-	"warzone_overview_error_no_users": {
-		"message": "Немає користувачів для скарг. Повторіть спробу пізніше!"
-	},
-	"warzone_overview_error_auth_expired": {
-		"message": "Автентифікація закінчилась. Будь ласка, вийдіть і увійдіть знову."
-	},
-	"warzone_overview_error_find_user": {
-		"message": "Не вдалося знайти користувача для скарги. Будь ласка, спробуйте ще раз."
-	},
-	"warzone_overview_stat_total_zones": {
-		"message": "Всього зон"
-	},
-	"warzone_overview_stat_avg_liberation": {
-		"message": "Середнє визволення"
-	},
-	"warzone_overview_stat_total_banned": {
-		"message": "Всього заблоковано"
-	},
-	"warzone_overview_stat_active_targets": {
-		"message": "Активні цілі"
-	},
-	"warzone_profile_title": {
-		"message": "Профіль"
-	},
-	"warzone_profile_stat_points": {
-		"message": "Очки"
-	},
-	"warzone_profile_label_discord": {
-		"message": "Discord"
-	},
-	"warzone_profile_discord_avatar_alt": {
-		"message": "Аватар Discord"
-	},
-	"warzone_profile_label_visibility": {
-		"message": "Видимість"
-	},
-	"warzone_profile_label_joined": {
-		"message": "Приєднався"
-	},
-	"warzone_profile_label_last_active": {
-		"message": "Остання активність"
-	},
-	"warzone_profile_visibility_anonymous": {
-		"message": "Анонімний"
-	},
-	"warzone_profile_visibility_public": {
-		"message": "Публічний"
-	},
-	"warzone_profile_button_reset_uuid": {
-		"message": "Вийти з усіх пристроїв"
-	},
-	"warzone_profile_button_reset_uuid_loading": {
-		"message": "Вихід..."
-	},
-	"warzone_profile_button_reset_uuid_success": {
-		"message": "✓ Вийшли з усіх пристроїв"
-	},
-	"warzone_profile_button_logout": {
-		"message": "Вийти"
-	},
-	"warzone_profile_confirm_logout": {
-		"message": "Ви впевнені, що хочете вийти?\n\nВи можете увійти знову в будь-який час через свій обліковий запис Discord."
-	},
-	"warzone_profile_confirm_reset_uuid": {
-		"message": "Вийти з усіх пристроїв?\n\nЦе скасує всі активні сеанси на інших пристроях. Ви залишитесь у системі на цьому пристрої, але всі інші пристрої будуть виведені.\n\nЦе корисно, якщо ви підозрюєте, що ваш обліковий запис було скомпрометовано."
-	},
-	"warzone_profile_error_reset_uuid": {
-		"message": "Не вдалося вийти з усіх пристроїв. Будь ласка, спробуйте ще раз."
-	},
-	"warzone_nav_tab_war_zone": {
-		"message": "Зона війни"
-	},
-	"warzone_nav_tab_profile": {
-		"message": "Профіль"
-	},
-	"warzone_nav_tab_leaderboard": {
-		"message": "Рейтинг"
-	},
-	"warzone_zone_loading": {
-		"message": "Завантаження деталей зони..."
-	},
-	"warzone_zone_error_load": {
-		"message": "Не вдалося завантажити деталі зони"
-	},
-	"warzone_zone_button_back": {
-		"message": "Назад до огляду"
-	},
-	"warzone_zone_status_liberated_suffix": {
-		"message": "% визволено"
-	},
-	"warzone_zone_stat_total_users": {
-		"message": "Всього користувачів"
-	},
-	"warzone_zone_stat_banned": {
-		"message": "Заблоковано"
-	},
-	"warzone_zone_stat_flagged": {
-		"message": "Позначено"
-	},
-	"warzone_zone_stat_confirmed": {
-		"message": "Підтверджено"
-	},
-	"warzone_zone_section_trends": {
-		"message": "Тенденції зони (30 днів)"
-	},
-	"queue_popup_cancel_button": {
-		"message": "Скасувати"
-	},
-	"queue_popup_submit_button": {
-		"message": "Подати на розгляд"
-	},
-	"queue_popup_submitting_button": {
-		"message": "Подання..."
-	},
-	"queue_popup_title_reprocess": {
-		"message": "Повторно обробити користувача для розгляду"
-	},
-	"queue_popup_title_queue": {
-		"message": "Додати користувача до черги для розгляду"
-	},
-	"queue_popup_description_reanalysis": {
-		"message": "Ви збираєтесь подати користувача (ID: $1) для повторного аналізу нашою системою."
-	},
-	"queue_popup_description_analysis": {
-		"message": "Ви збираєтесь подати користувача (ID: $1) для аналізу нашою системою."
-	},
-	"queue_popup_submission_type_heading": {
-		"message": "Який це тип подання?"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Користувач має недоречний контент"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Цей користувач має явний недоречний контент у своєму профілі, аватарі, друзях або групах."
-	},
-	"queue_popup_option_general_title": {
-		"message": "Загальна перевірка безпеки"
-	},
-	"queue_popup_option_general_description": {
-		"message": "Я не впевнений, але хочу, щоб цей користувач був проаналізований для загальної оцінки безпеки."
-	},
-	"queue_popup_general_check_message": {
-		"message": "Цей користувач буде проаналізований на загальні проблеми безпеки. Конкретні причини позначення не потрібні."
-	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Виберіть причину(и) позначення:"
-	},
-	"queue_popup_outfit_title": {
-		"message": "Недоречний одяг"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Цей користувач має недоречний одяг або аватари."
-	},
-	"queue_popup_profile_title": {
-		"message": "Недоречний профіль"
-	},
-	"queue_popup_profile_description": {
-		"message": "Цей користувач має недоречний контент в імені користувача, відображуваному імені або описі."
-	},
-	"queue_popup_friends_title": {
-		"message": "Недоречні друзі"
-	},
-	"queue_popup_friends_description": {
-		"message": "Цей користувач має недоречних друзів."
-	},
-	"queue_popup_groups_title": {
-		"message": "Недоречні групи"
-	},
-	"queue_popup_groups_description": {
-		"message": "Цей користувач перебуває в недоречних групах."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Вимагається вибір:"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Будь ласка, виберіть принаймні одну причину позначення перед продовженням."
-	},
-	"queue_popup_lock_button": {
-		"message": "Зафіксувати мій вибір"
-	},
-	"queue_popup_lock_instruction": {
-		"message": "Ви повинні зафіксувати свій вибір перед поданням."
-	},
-	"queue_popup_summary_heading": {
-		"message": "Вибрані параметри:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Буде надано пріоритет для недоречного одягу"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Буде надано пріоритет для недоречного контенту профілю"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Буде надано пріоритет для недоречних друзів"
-	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Буде надано пріоритет для недоречних груп"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Розблокувати вибір"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Натисніть, щоб розблокувати та змінити свій вибір."
-	},
-	"queue_popup_review_process_heading": {
-		"message": "Процес розгляду"
-	},
-	"queue_popup_review_process_step1": {
-		"message": "Аналізується алгоритмами AI для виявлення потенційних проблем безпеки"
-	},
-	"queue_popup_review_process_step2": {
-		"message": "Якщо позначено AI, перевіряється модераторами-людьми для остаточного підтвердження"
-	},
-	"queue_popup_review_process_step3": {
-		"message": "Результати додаються до бази даних з відповідною оцінкою безпеки"
-	},
-	"queue_popup_warning_heading": {
-		"message": "Важливе попередження"
-	},
-	"queue_popup_warning_message_prefix": {
-		"message": "Зловживання цією функцією"
-	},
-	"queue_popup_warning_message_suffix": {
-		"message": "(наприклад, спам подань) може призвести до обмежень вашого облікового запису. Автоматичне виявлення зловживань активне."
+	"friend_warning_avatar_alt": {
+		"message": "Аватар $1"
 	},
 	"friend_warning_block_button": {
 		"message": "Заблокувати користувача"
@@ -908,26 +494,38 @@
 	"friend_warning_cancel_button": {
 		"message": "Скасувати запит"
 	},
+	"friend_warning_confidence_label": {
+		"message": "Впевненість: $1%"
+	},
+	"friend_warning_high_risk_message": {
+		"message": "Продовження цього запиту в друзі може піддати вас недоречному контенту або шкідливим взаємодіям."
+	},
 	"friend_warning_proceed_button": {
 		"message": "Все одно продовжити"
 	},
-	"friend_warning_title": {
-		"message": "Попередження: небезпечний користувач"
+	"friend_warning_recommendations_heading": {
+		"message": "Рекомендовані дії"
 	},
-	"friend_warning_avatar_alt": {
-		"message": "Аватар $1"
+	"friend_warning_recommendations_item1": {
+		"message": "Більш уважно перегляньте інформацію їх профілю"
 	},
-	"friend_warning_user_id_label": {
-		"message": "ID користувача: $1"
+	"friend_warning_recommendations_item2": {
+		"message": "Повідомте про них Roblox, якщо бачите недоречний контент"
 	},
-	"friend_warning_risk_title": {
-		"message": "Потенційно недоречний користувач"
+	"friend_warning_recommendations_item3": {
+		"message": "Спілкуйтесь лише з користувачами, яких ви знаєте і яким довіряєте"
 	},
 	"friend_warning_risk_message": {
 		"message": "Цей користувач був позначений нашою системою виявлення. Будь ласка, перегляньте його профіль перед прийняттям цього запиту в друзі."
 	},
-	"friend_warning_confidence_label": {
-		"message": "Впевненість: $1%"
+	"friend_warning_risk_title": {
+		"message": "Потенційно недоречний користувач"
+	},
+	"friend_warning_title": {
+		"message": "Попередження: небезпечний користувач"
+	},
+	"friend_warning_user_id_label": {
+		"message": "ID користувача: $1"
 	},
 	"friend_warning_why_matters_heading": {
 		"message": "Чому це важливо"
@@ -944,65 +542,212 @@
 	"friend_warning_why_matters_item4": {
 		"message": "Цей користувач має явні докази порушення Умов використання Roblox"
 	},
-	"friend_warning_recommendations_heading": {
-		"message": "Рекомендовані дії"
+	"navbar_tab_settings": {
+		"message": "Налаштування"
 	},
-	"friend_warning_recommendations_item1": {
-		"message": "Більш уважно перегляньте інформацію їх профілю"
+	"navbar_tab_stats": {
+		"message": "Статистика"
 	},
-	"friend_warning_recommendations_item2": {
-		"message": "Повідомте про них Roblox, якщо бачите недоречний контент"
+	"navbar_tab_warzone": {
+		"message": "Зона війни"
 	},
-	"friend_warning_recommendations_item3": {
-		"message": "Спілкуйтесь лише з користувачами, яких ви знаєте і яким довіряєте"
+	"popup_header_description": {
+		"message": "Індикатори безпеки в реальному часі, які попереджають вас про недоречних користувачів Roblox перед взаємодією з ними."
 	},
-	"friend_warning_high_risk_message": {
-		"message": "Продовження цього запиту в друзі може піддати вас недоречному контенту або шкідливим взаємодіям."
+	"queue_error_modal_close_button": {
+		"message": "Закрити"
 	},
-	"report_helper_card_title_reportable": {
-		"message": "Знайдено контент для скарги"
+	"queue_error_modal_details_heading": {
+		"message": "Деталі помилки"
 	},
-	"report_helper_card_title_not_reportable": {
-		"message": "Контент для скарги не виявлено"
+	"queue_error_modal_error_code_label": {
+		"message": "Код помилки:"
 	},
-	"report_helper_subtitle_reportable": {
-		"message": "Rotector виявив контент профілю, який порушує Умови використання Roblox."
+	"queue_error_modal_failed_message": {
+		"message": "Не вдалося додати користувача ID $1 до черги для розгляду."
 	},
-	"report_helper_evidence_header": {
-		"message": "Виявлена проблема"
+	"queue_error_modal_next_steps_heading": {
+		"message": "Що робити далі"
 	},
-	"report_helper_evidence_reason_label": {
-		"message": "Причина:"
+	"queue_error_modal_request_id_label": {
+		"message": "ID запиту:"
 	},
-	"report_helper_evidence_snippets_label": {
-		"message": "Фрагменти доказів:"
+	"queue_error_modal_step1": {
+		"message": "Перевірте, чи користувача вже позначено нашою системою"
+	},
+	"queue_error_modal_step2": {
+		"message": "Якщо помилка не зникає, спробуйте ще раз через кілька хвилин"
+	},
+	"queue_error_modal_step3": {
+		"message": "Якщо вам потрібна підтримка, включіть ID запиту вище"
+	},
+	"queue_error_modal_title": {
+		"message": "Помилка"
+	},
+	"queue_error_modal_unknown_error": {
+		"message": "Сталася невідома помилка"
+	},
+	"queue_popup_cancel_button": {
+		"message": "Скасувати"
+	},
+	"queue_popup_description_analysis": {
+		"message": "Ви збираєтесь подати користувача (ID: $1) для аналізу нашою системою."
+	},
+	"queue_popup_description_reanalysis": {
+		"message": "Ви збираєтесь подати користувача (ID: $1) для повторного аналізу нашою системою."
+	},
+	"queue_popup_flagging_reasons_heading": {
+		"message": "Виберіть причину(и) позначення:"
+	},
+	"queue_popup_friends_description": {
+		"message": "Цей користувач має недоречних друзів."
+	},
+	"queue_popup_friends_title": {
+		"message": "Недоречні друзі"
+	},
+	"queue_popup_general_check_message": {
+		"message": "Цей користувач буде проаналізований на загальні проблеми безпеки. Конкретні причини позначення не потрібні."
+	},
+	"queue_popup_groups_description": {
+		"message": "Цей користувач перебуває в недоречних групах."
+	},
+	"queue_popup_groups_title": {
+		"message": "Недоречні групи"
+	},
+	"queue_popup_lock_button": {
+		"message": "Зафіксувати мій вибір"
+	},
+	"queue_popup_lock_instruction": {
+		"message": "Ви повинні зафіксувати свій вибір перед поданням."
+	},
+	"queue_popup_option_general_description": {
+		"message": "Я не впевнений, але хочу, щоб цей користувач був проаналізований для загальної оцінки безпеки."
+	},
+	"queue_popup_option_general_title": {
+		"message": "Загальна перевірка безпеки"
+	},
+	"queue_popup_option_inappropriate_description": {
+		"message": "Цей користувач має явний недоречний контент у своєму профілі, аватарі, друзях або групах."
+	},
+	"queue_popup_option_inappropriate_title": {
+		"message": "Користувач має недоречний контент"
+	},
+	"queue_popup_outfit_description": {
+		"message": "Цей користувач має недоречний одяг або аватари."
+	},
+	"queue_popup_outfit_title": {
+		"message": "Недоречний одяг"
+	},
+	"queue_popup_profile_description": {
+		"message": "Цей користувач має недоречний контент в імені користувача, відображуваному імені або описі."
+	},
+	"queue_popup_profile_title": {
+		"message": "Недоречний профіль"
+	},
+	"queue_popup_review_process_heading": {
+		"message": "Процес розгляду"
+	},
+	"queue_popup_review_process_step1": {
+		"message": "Аналізується алгоритмами AI для виявлення потенційних проблем безпеки"
+	},
+	"queue_popup_review_process_step2": {
+		"message": "Якщо позначено AI, перевіряється модераторами-людьми для остаточного підтвердження"
+	},
+	"queue_popup_review_process_step3": {
+		"message": "Результати додаються до бази даних з відповідною оцінкою безпеки"
+	},
+	"queue_popup_submission_type_heading": {
+		"message": "Який це тип подання?"
+	},
+	"queue_popup_submit_button": {
+		"message": "Подати на розгляд"
+	},
+	"queue_popup_submitting_button": {
+		"message": "Подання..."
+	},
+	"queue_popup_summary_friends_selected": {
+		"message": "Буде надано пріоритет для недоречних друзів"
+	},
+	"queue_popup_summary_friends_unselected": {
+		"message": "Не вибрано"
+	},
+	"queue_popup_summary_groups_selected": {
+		"message": "Буде надано пріоритет для недоречних груп"
+	},
+	"queue_popup_summary_groups_unselected": {
+		"message": "Не вибрано"
+	},
+	"queue_popup_summary_heading": {
+		"message": "Вибрані параметри:"
+	},
+	"queue_popup_summary_outfit_selected": {
+		"message": "Буде надано пріоритет для недоречного одягу"
+	},
+	"queue_popup_summary_outfit_unselected": {
+		"message": "Не вибрано"
+	},
+	"queue_popup_summary_profile_selected": {
+		"message": "Буде надано пріоритет для недоречного контенту профілю"
+	},
+	"queue_popup_summary_profile_unselected": {
+		"message": "Не вибрано"
+	},
+	"queue_popup_title_queue": {
+		"message": "Додати користувача до черги для розгляду"
+	},
+	"queue_popup_title_reprocess": {
+		"message": "Повторно обробити користувача для розгляду"
+	},
+	"queue_popup_unlock_button": {
+		"message": "Розблокувати вибір"
+	},
+	"queue_popup_unlock_instruction": {
+		"message": "Натисніть, щоб розблокувати та змінити свій вибір."
+	},
+	"queue_popup_validation_error_message": {
+		"message": "Будь ласка, виберіть принаймні одну причину позначення перед продовженням."
+	},
+	"queue_popup_validation_error_prefix": {
+		"message": "Вимагається вибір:"
+	},
+	"queue_popup_warning_heading": {
+		"message": "Важливе попередження"
+	},
+	"queue_popup_warning_message_prefix": {
+		"message": "Зловживання цією функцією"
+	},
+	"queue_popup_warning_message_suffix": {
+		"message": "(наприклад, спам подань) може призвести до обмежень вашого облікового запису. Автоматичне виявлення зловживань активне."
+	},
+	"queue_success_modal_close_button": {
+		"message": "Закрити"
+	},
+	"queue_success_modal_next_steps_heading": {
+		"message": "Що буде далі"
+	},
+	"queue_success_modal_step1": {
+		"message": "Наш AI проаналізує цей обліковий запис на предмет тривожних патернів"
+	},
+	"queue_success_modal_step2": {
+		"message": "Якщо буде позначено, статус користувача буде підтверджено протягом кількох хвилин"
+	},
+	"queue_success_modal_step3": {
+		"message": "Повна синхронізація системи та підтвердження займуть 24-48 годин"
+	},
+	"queue_success_modal_success_message": {
+		"message": "Користувача ID $1 було успішно додано до черги для розгляду."
+	},
+	"queue_success_modal_title": {
+		"message": "Успішно"
 	},
 	"report_helper_action_message": {
 		"message": "Натисніть нижче, і Rotector автоматично заповнить форму скарги з відповідною категорією та деталями."
 	},
-	"report_helper_fill_button": {
-		"message": "Заповнити форму скарги"
+	"report_helper_card_title_not_reportable": {
+		"message": "Контент для скарги не виявлено"
 	},
-	"report_helper_filling_button": {
-		"message": "Заповнення..."
-	},
-	"report_helper_warning_label": {
-		"message": "Важливо:"
-	},
-	"report_helper_warning_message": {
-		"message": "Скарги подаються від вашого облікового запису Roblox. Перегляньте всю інформацію перед поданням і повідомляйте лише про справжні порушення."
-	},
-	"report_helper_subtitle_not_reportable": {
-		"message": "Rotector ще не виявив чітко контенту для скарги в описі профілю цього користувача."
-	},
-	"report_helper_info_message_part1": {
-		"message": "Ви все одно можете подати скаргу"
-	},
-	"report_helper_info_message_part2": {
-		"message": "якщо вважаєте, що цей користувач порушує Умови використання Roblox."
-	},
-	"report_helper_info_message_part3": {
-		"message": "Rotector дозволяє повідомляти про недоречний контент в описах профілів. Ми не виявляємо більшість категорій скарг, включаючи:"
+	"report_helper_card_title_reportable": {
+		"message": "Знайдено контент для скарги"
 	},
 	"report_helper_category_item1": {
 		"message": "Запит або надання приватної інформації"
@@ -1019,74 +764,50 @@
 	"report_helper_category_item5": {
 		"message": "Реальні загрози або загрози самогубства"
 	},
+	"report_helper_evidence_header": {
+		"message": "Виявлена проблема"
+	},
+	"report_helper_evidence_reason_label": {
+		"message": "Причина:"
+	},
+	"report_helper_evidence_snippets_label": {
+		"message": "Фрагменти доказів:"
+	},
+	"report_helper_fill_button": {
+		"message": "Заповнити форму скарги"
+	},
+	"report_helper_filling_button": {
+		"message": "Заповнення..."
+	},
+	"report_helper_info_message_part1": {
+		"message": "Ви все одно можете подати скаргу"
+	},
+	"report_helper_info_message_part2": {
+		"message": "якщо вважаєте, що цей користувач порушує Умови використання Roblox."
+	},
+	"report_helper_info_message_part3": {
+		"message": "Rotector дозволяє повідомляти про недоречний контент в описах профілів. Ми не виявляємо більшість категорій скарг, включаючи:"
+	},
 	"report_helper_info_message_part4": {
 		"message": "Якщо ви повідомляєте про будь-яке з цих порушень, будь ласка, продовжуйте зі своєю скаргою та надайте конкретні деталі, щоб допомогти модераторам Roblox."
 	},
-	"queue_error_modal_close_button": {
-		"message": "Закрити"
+	"report_helper_subtitle_not_reportable": {
+		"message": "Rotector ще не виявив чітко контенту для скарги в описі профілю цього користувача."
 	},
-	"queue_error_modal_title": {
-		"message": "Помилка"
+	"report_helper_subtitle_reportable": {
+		"message": "Rotector виявив контент профілю, який порушує Умови використання Roblox."
 	},
-	"queue_error_modal_unknown_error": {
-		"message": "Сталася невідома помилка"
+	"report_helper_warning_label": {
+		"message": "Важливо:"
 	},
-	"queue_error_modal_failed_message": {
-		"message": "Не вдалося додати користувача ID $1 до черги для розгляду."
+	"report_helper_warning_message": {
+		"message": "Скарги подаються від вашого облікового запису Roblox. Перегляньте всю інформацію перед поданням і повідомляйте лише про справжні порушення."
 	},
-	"queue_error_modal_details_heading": {
-		"message": "Деталі помилки"
+	"report_page_manager_autofill_failed": {
+		"message": "Не вдалося автоматично заповнити. Будь ласка, вручну заповніть форму скарги з відповідними деталями."
 	},
-	"queue_error_modal_error_code_label": {
-		"message": "Код помилки:"
-	},
-	"queue_error_modal_request_id_label": {
-		"message": "ID запиту:"
-	},
-	"queue_error_modal_next_steps_heading": {
-		"message": "Що робити далі"
-	},
-	"queue_error_modal_step1": {
-		"message": "Перевірте, чи користувача вже позначено нашою системою"
-	},
-	"queue_error_modal_step2": {
-		"message": "Якщо помилка не зникає, спробуйте ще раз через кілька хвилин"
-	},
-	"queue_error_modal_step3": {
-		"message": "Якщо вам потрібна підтримка, включіть ID запиту вище"
-	},
-	"queue_success_modal_close_button": {
-		"message": "Закрити"
-	},
-	"queue_success_modal_title": {
-		"message": "Успішно"
-	},
-	"queue_success_modal_success_message": {
-		"message": "Користувача ID $1 було успішно додано до черги для розгляду."
-	},
-	"queue_success_modal_next_steps_heading": {
-		"message": "Що буде далі"
-	},
-	"queue_success_modal_step1": {
-		"message": "Наш AI проаналізує цей обліковий запис на предмет тривожних патернів"
-	},
-	"queue_success_modal_step2": {
-		"message": "Якщо буде позначено, статус користувача буде підтверджено протягом кількох хвилин"
-	},
-	"queue_success_modal_step3": {
-		"message": "Повна синхронізація системи та підтвердження займуть 24-48 годин"
-	},
-	"report_page_manager_report_intro": {
-		"message": "Профіль цього користувача містить недоречний контент, який порушує Умови використання Roblox.\n\n"
-	},
-	"report_page_manager_detected_issue_label": {
-		"message": "Виявлена проблема:\n"
-	},
-	"report_page_manager_evidence_label": {
-		"message": "Фрагменти доказів:\n"
-	},
-	"report_page_manager_unknown_category": {
-		"message": "Невідома категорія"
+	"report_page_manager_autofill_failed_clipboard": {
+		"message": "Автозаповнення недоступне. Текст скарги скопійовано в буфер обміну. Ви можете вставити його в поле коментарів вручну."
 	},
 	"report_page_manager_category_prefix": {
 		"message": "Категорія: $1"
@@ -1094,86 +815,683 @@
 	"report_page_manager_comment_prefix": {
 		"message": "\n\nКоментар: $1"
 	},
+	"report_page_manager_detected_issue_label": {
+		"message": "Виявлена проблема:\n"
+	},
+	"report_page_manager_evidence_label": {
+		"message": "Фрагменти доказів:\n"
+	},
+	"report_page_manager_report_intro": {
+		"message": "Профіль цього користувача містить недоречний контент, який порушує Умови використання Roblox.\n\n"
+	},
 	"report_page_manager_success_message": {
 		"message": "Форму успішно заповнено! Перегляньте та подайте, коли будете готові."
 	},
-	"report_page_manager_autofill_failed_clipboard": {
-		"message": "Автозаповнення недоступне. Текст скарги скопійовано в буфер обміну. Ви можете вставити його в поле коментарів вручну."
+	"report_page_manager_unknown_category": {
+		"message": "Невідома категорія"
 	},
-	"report_page_manager_autofill_failed": {
-		"message": "Не вдалося автоматично заповнити. Будь ласка, вручну заповніть форму скарги з відповідними деталями."
+	"rotector_api_docs_batch_intro": {
+		"message": "Перевірте кількох користувачів в одному запиті. Максимум 100 користувачів на пакет."
 	},
-	"tooltip_loading_user_info": {
-		"message": "Завантаження інформації про користувача..."
+	"rotector_api_docs_batch_note": {
+		"message": "Користувачі, не знайдені в базі даних, не з'являться у відповіді. Поле data містить об'єкт, де ключі - це ID користувачів (як рядки), а значення - об'єкти статусу користувача."
 	},
-	"tooltip_no_data_available": {
-		"message": "Немає даних для цього API"
+	"rotector_api_docs_batch_rec_1": {
+		"message": "Використовуйте пакетні точки доступу при перевірці кількох користувачів (ефективніше, ніж кілька одиничних запитів)"
 	},
-	"tooltip_error_details": {
-		"message": "Деталі помилки"
+	"rotector_api_docs_batch_rec_2": {
+		"message": "Тримайте розміри пакетів під 100 користувачів на запит"
 	},
-	"tooltip_loading": {
-		"message": "Завантаження..."
+	"rotector_api_docs_batch_rec_3": {
+		"message": "Додавайте затримки між послідовними пакетними запитами (рекомендовано: мінімум 250 мс)"
 	},
-	"tooltip_queue_button": {
-		"message": "Додати до черги для розгляду"
+	"rotector_api_docs_button_back": {
+		"message": "Назад"
 	},
-	"tooltip_badge_reportable": {
-		"message": "Для скарги"
+	"rotector_api_docs_error_handling_1": {
+		"message": "Завжди перевіряйте поле success у відповідях"
 	},
-	"tooltip_badge_queued": {
-		"message": "У черзі"
+	"rotector_api_docs_error_handling_2": {
+		"message": "Обробляйте мережеві помилки коректно з відповідною логікою повторних спроб"
+	},
+	"rotector_api_docs_error_handling_3": {
+		"message": "Записуйте деталі помилок для налагодження (повідомлення про помилку, HTTP статус, ID запиту, якщо доступний)"
+	},
+	"rotector_api_docs_field_confidence": {
+		"message": "Бал впевненості (0.0-1.0) - рівень певності моделі AI"
+	},
+	"rotector_api_docs_field_confidence_reason": {
+		"message": "Бал впевненості для цієї конкретної причини"
+	},
+	"rotector_api_docs_field_display_name": {
+		"message": "Відображуване ім'я оглядача"
+	},
+	"rotector_api_docs_field_engine_version": {
+		"message": "Версія використаного движка аналізу"
+	},
+	"rotector_api_docs_field_evidence": {
+		"message": "Масив рядків доказів або null, якщо немає прямих доказів"
+	},
+	"rotector_api_docs_field_flag_type": {
+		"message": "Тип позначення (0-6) - рівень класифікації безпеки"
+	},
+	"rotector_api_docs_field_id": {
+		"message": "ID користувача (ціле число) - ідентифікатор користувача Roblox"
+	},
+	"rotector_api_docs_field_last_updated": {
+		"message": "Мітка часу Unix останнього оновлення аналізу"
+	},
+	"rotector_api_docs_field_message": {
+		"message": "Детальне пояснення патерну порушення"
+	},
+	"rotector_api_docs_field_reasons": {
+		"message": "Об'єкт, що містить детальний аналіз порушень (опущено, коли flagType=0)"
+	},
+	"rotector_api_docs_field_reviewer": {
+		"message": "Інформація про оглядача, який перевірив позначення"
+	},
+	"rotector_api_docs_field_username": {
+		"message": "Ім'я користувача оглядача"
+	},
+	"rotector_api_docs_field_version_compatibility": {
+		"message": "Статус сумісності: 'current', 'compatible' або 'outdated'"
+	},
+	"rotector_api_docs_flag_type_0": {
+		"message": "Безпечний - не виявлено тривожних патернів"
+	},
+	"rotector_api_docs_flag_type_1": {
+		"message": "В очікуванні - користувач у черзі на аналіз"
+	},
+	"rotector_api_docs_flag_type_2": {
+		"message": "Небезпечний - порушує правила безпеки платформи"
+	},
+	"rotector_api_docs_flag_type_3": {
+		"message": "У черзі - подано на розгляд"
+	},
+	"rotector_api_docs_flag_type_4": {
+		"message": "Інтеграція - пов'язано з функціями інтеграції API"
+	},
+	"rotector_api_docs_flag_type_5": {
+		"message": "Змішаний - містить як безпечні, так і небезпечні сигнали"
+	},
+	"rotector_api_docs_flag_type_6": {
+		"message": "Колишній порушник - раніше позначено, але статус змінився"
+	},
+	"rotector_api_docs_intro": {
+		"message": "Інтегруйте систему виявлення безпеки на основі AI від Rotector у ваші власні додатки. Цей API надає доступ до даних аналізу користувачів, типів позначень, балів впевненості та детального обґрунтування порушень."
+	},
+	"rotector_api_docs_note_batch_all_users": {
+		"message": "Всі запитані користувачі повертаються у відповіді. Користувачі, які ще не проаналізовані або відсутні в системі, матимуть flagType 0 (Безпечний)."
+	},
+	"rotector_api_docs_note_batch_limit": {
+		"message": "Максимум 100 ID користувачів на пакетний запит. Запити, що перевищують цей ліміт, повернуть помилку."
+	},
+	"rotector_api_docs_note_caching": {
+		"message": "Розгляньте можливість реалізації клієнтського кешування для даних про статус користувачів. Мітка часу lastUpdated вказує, коли аналіз був виконаний останній раз, і може бути використана для визначення свіжості кешу."
+	},
+	"rotector_api_docs_note_cors": {
+		"message": "API включає заголовки CORS, які дозволяють запити з усіх джерел."
+	},
+	"rotector_api_docs_note_field_confidence": {
+		"message": "Присутнє, коли користувача позначено (flagType > 0)"
+	},
+	"rotector_api_docs_note_field_reasons": {
+		"message": "Присутнє для позначених, змішаних або підтверджених користувачів (flagType 1, 2, 5, 6)"
+	},
+	"rotector_api_docs_note_field_reviewer": {
+		"message": "Присутнє лише для підтверджених користувачів (flagType 2), перевірених модераторами-людьми"
+	},
+	"rotector_api_docs_note_field_version_compatibility": {
+		"message": "Вказує, чи використана версія AI движка була останньою чи застарілою"
+	},
+	"rotector_api_docs_note_http_status": {
+		"message": "Повертайте HTTP статус 200 для всіх успішних запитів (включаючи непозначених користувачів з flagType 0). Відповіді при помилках з іншими кодами статусу (4xx, 5xx) виникають лише при внутрішніх помилках сервера або проблемах з backendом."
+	},
+	"rotector_api_docs_note_https": {
+		"message": "Всі запити API повинні використовувати HTTPS. HTTP запити будуть відхилені."
+	},
+	"rotector_api_docs_note_no_auth": {
+		"message": "Автентифікація не потрібна. Це повністю публічний API."
+	},
+	"rotector_api_docs_note_response_time": {
+		"message": "Найкращий випадок: ~50мс. Середній: ~200мс. Розгляньте можливість реалізації відповідних значень тайм-ауту на основі цих показників."
+	},
+	"rotector_api_docs_note_safe_users": {
+		"message": "Для користувачів з flagType 0 (Безпечний), поле reasons автоматично очищається для зменшення розміру відповіді. Детальний аналіз порушень не надається для безпечних користувачів."
+	},
+	"rotector_api_docs_note_support": {
+		"message": "Для підтримки API, питань або повідомлення про проблеми, приєднуйтесь до серверу Discord Rotector:"
+	},
+	"rotector_api_docs_note_timestamp_format": {
+		"message": "Поле lastUpdated містить мітку часу Unix в секундах (не мілісекундах)."
+	},
+	"rotector_api_docs_note_version_compatibility_compatible": {
+		"message": "compatible - аналіз використовував підтримувану, але не останню версію движка"
+	},
+	"rotector_api_docs_note_version_compatibility_current": {
+		"message": "current - аналіз використовував останню версію AI движка"
+	},
+	"rotector_api_docs_note_version_compatibility_deprecated": {
+		"message": "deprecated - аналіз використовував версію движка, яка більше не підтримується"
+	},
+	"rotector_api_docs_note_version_compatibility_outdated": {
+		"message": "outdated - аналіз використовував значно старішу версію движка"
+	},
+	"rotector_api_docs_note_wrapper_format": {
+		"message": "Всі відповіді API слідують послідовному формату обгортки з success (булеве значення) і або data (успіх), або error (невдача) полями."
+	},
+	"rotector_api_docs_rate_limit_1": {
+		"message": "API використовує обмеження швидкості Cloudflare для забезпечення справедливого використання"
+	},
+	"rotector_api_docs_rate_limit_2": {
+		"message": "Помилки обмеження швидкості повертають HTTP статус 429. Реалізуйте експоненційне відступання для логіки повторних спроб"
+	},
+	"rotector_api_docs_section_authentication": {
+		"message": "Автентифікація"
+	},
+	"rotector_api_docs_section_batch_lookup": {
+		"message": "Пакетний запит користувачів"
+	},
+	"rotector_api_docs_section_best_practices": {
+		"message": "Обмеження швидкості та найкращі практики"
+	},
+	"rotector_api_docs_section_cors": {
+		"message": "Підтримка CORS"
+	},
+	"rotector_api_docs_section_http_status": {
+		"message": "HTTP коди статусу"
+	},
+	"rotector_api_docs_section_notes": {
+		"message": "Додаткові примітки"
+	},
+	"rotector_api_docs_section_response_schema": {
+		"message": "Схема відповіді"
+	},
+	"rotector_api_docs_section_single_lookup": {
+		"message": "Одиничний запит користувача"
+	},
+	"rotector_api_docs_subtitle_batch_recommendations": {
+		"message": "Рекомендації для пакетних запитів"
+	},
+	"rotector_api_docs_subtitle_caching": {
+		"message": "Кешування відповідей"
+	},
+	"rotector_api_docs_subtitle_code_examples": {
+		"message": "Приклади коду"
+	},
+	"rotector_api_docs_subtitle_error_handling": {
+		"message": "Обробка помилок"
+	},
+	"rotector_api_docs_subtitle_error_response": {
+		"message": "Відповідь при помилці"
+	},
+	"rotector_api_docs_subtitle_example_request": {
+		"message": "Приклад запиту"
+	},
+	"rotector_api_docs_subtitle_field_presence": {
+		"message": "Правила присутності полів"
+	},
+	"rotector_api_docs_subtitle_flag_types": {
+		"message": "Типи позначень"
+	},
+	"rotector_api_docs_subtitle_https": {
+		"message": "Обов'язковий HTTPS"
+	},
+	"rotector_api_docs_subtitle_optional_fields": {
+		"message": "Необов'язкові поля"
+	},
+	"rotector_api_docs_subtitle_rate_limiting": {
+		"message": "Обмеження швидкості"
+	},
+	"rotector_api_docs_subtitle_request_body": {
+		"message": "Тіло запиту"
+	},
+	"rotector_api_docs_subtitle_required_fields": {
+		"message": "Обов'язкові поля"
+	},
+	"rotector_api_docs_subtitle_response_time": {
+		"message": "Час відповіді"
+	},
+	"rotector_api_docs_subtitle_safe_users": {
+		"message": "Оптимізація для безпечних користувачів"
+	},
+	"rotector_api_docs_subtitle_success_response": {
+		"message": "Відповідь при успіху"
+	},
+	"rotector_api_docs_subtitle_support": {
+		"message": "Підтримка та питання"
+	},
+	"rotector_api_docs_subtitle_timestamp_format": {
+		"message": "Формат мітки часу"
+	},
+	"rotector_api_docs_subtitle_version_compatibility_values": {
+		"message": "Значення сумісності версій"
+	},
+	"rotector_api_docs_subtitle_wrapper_format": {
+		"message": "Формат обгортки відповіді"
+	},
+	"rotector_api_docs_title": {
+		"message": "Документація Rotector API"
+	},
+	"settings_api_count_plural": {
+		"message": "($1 API)"
+	},
+	"settings_api_count_singular": {
+		"message": "($1 API)"
+	},
+	"settings_api_key_hide": {
+		"message": "ПРИХОВАТИ"
+	},
+	"settings_api_key_label": {
+		"message": "API ключ (Необов'язково)"
+	},
+	"settings_api_key_placeholder": {
+		"message": "Введіть ваш API ключ"
+	},
+	"settings_api_key_show": {
+		"message": "ПОКАЗАТИ"
+	},
+	"settings_api_key_toggle_title": {
+		"message": "Показати/Приховати API ключ"
+	},
+	"settings_api_system_label": {
+		"message": "(Системний)"
+	},
+	"settings_category_content_display": {
+		"message": "Відображення контенту"
+	},
+	"settings_category_developer": {
+		"message": "Розробник"
+	},
+	"settings_category_integrations": {
+		"message": "Інтеграції"
+	},
+	"settings_category_page_settings": {
+		"message": "Налаштування сторінок"
+	},
+	"settings_help_advanced_violations": {
+		"message": "Відображає детальні повідомлення про порушення та докази. Може містити дорослий контент."
+	},
+	"settings_help_cache_duration": {
+		"message": "Скільки часу зберігати дані про статус користувачів (1-10 хвилин). Вищі значення зменшують кількість запитів до API, але можуть показувати застарілу інформацію."
+	},
+	"settings_help_debug_logging": {
+		"message": "Показує детальні логи в консолі браузера (F12 -> Консоль) для усунення несправностей."
+	},
+	"settings_help_developer_mode": {
+		"message": "Розблокуйте розширені налаштування розробника та управління інтеграцією API."
+	},
+	"settings_help_theme": {
+		"message": "Авто слідує за темою Roblox. Світла та Темна перевизначають цю налаштування."
+	},
+	"settings_label_advanced_violations": {
+		"message": "Показати розширені деталі порушень"
+	},
+	"settings_label_cache_duration": {
+		"message": "Тривалість кешування (хвилини)"
+	},
+	"settings_label_debug_logging": {
+		"message": "Увімкнути налагодження"
+	},
+	"settings_label_developer_mode": {
+		"message": "Увімкнути режим розробника"
+	},
+	"settings_label_friends_pages": {
+		"message": "Сторінки друзів"
+	},
+	"settings_label_groups_pages": {
+		"message": "Сторінки груп"
+	},
+	"settings_label_home_page": {
+		"message": "Головна сторінка"
+	},
+	"settings_label_profile_pages": {
+		"message": "Сторінки профілю"
+	},
+	"settings_label_report_helper": {
+		"message": "Помічник зі скаргами"
+	},
+	"settings_label_search_pages": {
+		"message": "Сторінки пошуку"
+	},
+	"settings_label_theme": {
+		"message": "Тема"
+	},
+	"settings_manage_apis_button": {
+		"message": "Керування інтеграціями API"
+	},
+	"settings_modal_confirm_button": {
+		"message": "Увімкнути розширені деталі"
+	},
+	"settings_modal_considerations_heading": {
+		"message": "Важливі міркування"
+	},
+	"settings_modal_considerations_item1": {
+		"message": "Контент може містити матеріали, що порушують стандарти спільноти платформи"
+	},
+	"settings_modal_considerations_item2": {
+		"message": "Ця інформація призначена лише для модерації та безпеки"
+	},
+	"settings_modal_considerations_item3": {
+		"message": "Якщо ви не бажаєте переглядати детальні докази порушень, залиште це налаштування вимкненим"
+	},
+	"settings_modal_considerations_item4": {
+		"message": "Ви можете вимкнути цю функцію в будь-який час у налаштуваннях"
+	},
+	"settings_modal_enabled_heading": {
+		"message": "Що ви побачите після увімкнення:"
+	},
+	"settings_modal_enabled_item1": {
+		"message": "Детальні повідомлення про порушення, що пояснюють, чому користувача було позначено"
+	},
+	"settings_modal_enabled_item2": {
+		"message": "Фрагменти доказів, що містять контент, який порушує політику"
+	},
+	"settings_modal_enabled_item3": {
+		"message": "Конкретні приклади порушень з профілів і активностей користувачів"
+	},
+	"settings_modal_recommendation_label": {
+		"message": "Рекомендація:"
+	},
+	"settings_modal_recommendation_text": {
+		"message": "Вмикайте це лише якщо вам потрібна детальна інформація про порушення для цілей модерації і ви розумієте, що можете побачити контент, який порушує правила спільноти."
+	},
+	"settings_modal_title": {
+		"message": "Попередження про розширені деталі"
+	},
+	"settings_modal_warning_continuation": {
+		"message": "який посилається на профілі та активності користувачів, що порушили політику платформи."
+	},
+	"settings_modal_warning_intro": {
+		"message": "Розширені деталі порушень можуть містити чутливий контент"
+	},
+	"settings_rotector_api_docs_button": {
+		"message": "Документація Rotector API"
+	},
+	"settings_theme_auto": {
+		"message": "Авто"
+	},
+	"settings_theme_dark": {
+		"message": "Темна"
+	},
+	"settings_theme_light": {
+		"message": "Світла"
+	},
+	"stats_changelog_empty": {
+		"message": "Немає записів у списку змін."
+	},
+	"stats_changelog_title": {
+		"message": "Список змін"
+	},
+	"stats_changelog_type_added": {
+		"message": "Додано"
+	},
+	"stats_changelog_type_changed": {
+		"message": "Змінено"
+	},
+	"stats_changelog_type_deprecated": {
+		"message": "Застаріло"
+	},
+	"stats_changelog_type_fixed": {
+		"message": "Виправлено"
+	},
+	"stats_changelog_type_removed": {
+		"message": "Видалено"
+	},
+	"stats_changelog_type_security": {
+		"message": "Безпека"
+	},
+	"stats_changelog_type_update": {
+		"message": "Оновлення"
+	},
+	"stats_chart_aria_completion": {
+		"message": "Токени завершення для $1: $2"
+	},
+	"stats_chart_aria_general": {
+		"message": "$1 для $2: $3"
+	},
+	"stats_chart_aria_prompt": {
+		"message": "Токени запитів для $1: $2"
+	},
+	"stats_chart_aria_reasoning": {
+		"message": "Токени міркування для $1: $2"
+	},
+	"stats_chart_detail_completion": {
+		"message": "Токени завершення"
+	},
+	"stats_chart_detail_cost": {
+		"message": "Загальні витрати"
+	},
+	"stats_chart_detail_period": {
+		"message": "Період"
+	},
+	"stats_chart_detail_prompt": {
+		"message": "Токени запитів"
+	},
+	"stats_chart_detail_reasoning": {
+		"message": "Токени міркування"
+	},
+	"stats_chart_detail_requests": {
+		"message": "Всього запитів"
+	},
+	"stats_chart_label_costs": {
+		"message": "Тижневі витрати AI"
+	},
+	"stats_chart_label_requests": {
+		"message": "Тижневі запити AI"
+	},
+	"stats_chart_label_tokens": {
+		"message": "Всього токенів AI"
+	},
+	"stats_chart_legend_completion": {
+		"message": "Завершення"
+	},
+	"stats_chart_legend_prompt": {
+		"message": "Запит"
+	},
+	"stats_chart_legend_reasoning": {
+		"message": "Міркування"
+	},
+	"stats_chart_month_apr": {
+		"message": "Кві"
+	},
+	"stats_chart_month_aug": {
+		"message": "Сер"
+	},
+	"stats_chart_month_dec": {
+		"message": "Гру"
+	},
+	"stats_chart_month_feb": {
+		"message": "Лют"
+	},
+	"stats_chart_month_jan": {
+		"message": "Січ"
+	},
+	"stats_chart_month_jul": {
+		"message": "Лип"
+	},
+	"stats_chart_month_jun": {
+		"message": "Чер"
+	},
+	"stats_chart_month_mar": {
+		"message": "Бер"
+	},
+	"stats_chart_month_may": {
+		"message": "Тра"
+	},
+	"stats_chart_month_nov": {
+		"message": "Лис"
+	},
+	"stats_chart_month_oct": {
+		"message": "Жов"
+	},
+	"stats_chart_month_sep": {
+		"message": "Вер"
+	},
+	"stats_chart_tab_costs": {
+		"message": "Витрати AI"
+	},
+	"stats_chart_tab_requests": {
+		"message": "Запити AI"
+	},
+	"stats_chart_tab_tokens": {
+		"message": "Токени AI"
+	},
+	"stats_chart_week_1": {
+		"message": "Цей тиждень"
+	},
+	"stats_chart_week_2": {
+		"message": "Минулий тиждень"
+	},
+	"stats_chart_week_3": {
+		"message": "2 тижні\nтому"
+	},
+	"stats_chart_week_4": {
+		"message": "3 тижні\nтому"
+	},
+	"stats_financial_aria_funded": {
+		"message": "Повністю профінансовано з надлишком $1"
+	},
+	"stats_financial_aria_progress": {
+		"message": "$1 зібрано, $2 залишилось з цілі $3"
+	},
+	"stats_financial_button_funded": {
+		"message": "Дякуємо!"
+	},
+	"stats_financial_button_support": {
+		"message": "Підтримати розробку"
+	},
+	"stats_financial_charts_hide": {
+		"message": "Приховати графіки використання"
+	},
+	"stats_financial_charts_show": {
+		"message": "Показати графіки використання"
+	},
+	"stats_financial_charts_toggle": {
+		"message": "Тижневі графіки використання"
+	},
+	"stats_financial_kofi_title": {
+		"message": "Підтримати на Ko-fi"
+	},
+	"stats_financial_raised": {
+		"message": "Зібрано"
+	},
+	"stats_financial_remaining": {
+		"message": "Залишилось"
+	},
+	"stats_financial_surplus": {
+		"message": "Надлишок"
+	},
+	"stats_financial_title": {
+		"message": "Ціль фінансування"
+	},
+	"stats_queue_aria_progress": {
+		"message": "$1 з $2 використано, $3 залишилось"
+	},
+	"stats_queue_default": {
+		"message": "Стандартні ліміти"
+	},
+	"stats_queue_enhanced": {
+		"message": "Розширені ліміти активні"
+	},
+	"stats_queue_error": {
+		"message": "Не вдалося завантажити ліміти черги"
+	},
+	"stats_queue_loading": {
+		"message": "Завантаження лімітів черги..."
+	},
+	"stats_queue_remaining": {
+		"message": "Залишилось"
+	},
+	"stats_queue_resets_in": {
+		"message": "Скидання через"
+	},
+	"stats_queue_resetting": {
+		"message": "Скидання..."
+	},
+	"stats_queue_retry": {
+		"message": "Повторити"
+	},
+	"stats_queue_time_hours": {
+		"message": "$1год $2хв"
+	},
+	"stats_queue_time_minutes": {
+		"message": "$1хв"
+	},
+	"stats_queue_title": {
+		"message": "Ліміти черги"
+	},
+	"stats_queue_usage": {
+		"message": "Використання"
+	},
+	"stats_statistics_community_title": {
+		"message": "Спільнота"
+	},
+	"stats_statistics_confirmed": {
+		"message": "Підтверджено"
+	},
+	"stats_statistics_error": {
+		"message": "Не вдалося завантажити статистику"
+	},
+	"stats_statistics_flagged": {
+		"message": "Позначено"
+	},
+	"stats_statistics_groups_desc": {
+		"message": "груп зі змішаним контентом"
+	},
+	"stats_statistics_groups_title": {
+		"message": "Групи"
+	},
+	"stats_statistics_loading": {
+		"message": "Завантаження статистики..."
+	},
+	"stats_statistics_queued": {
+		"message": "Користувачів у черзі"
+	},
+	"stats_statistics_refresh": {
+		"message": "Оновити статистику"
+	},
+	"stats_statistics_retry": {
+		"message": "Повторити"
+	},
+	"stats_statistics_title": {
+		"message": "Системна статистика"
+	},
+	"stats_statistics_updated": {
+		"message": "Останнє оновлення:"
+	},
+	"stats_statistics_users_desc": {
+		"message": "інших користувачів заблоковано Roblox"
+	},
+	"stats_statistics_users_title": {
+		"message": "Користувачі"
+	},
+	"stats_statistics_votes": {
+		"message": "Всього голосів"
+	},
+	"tooltip_aria_close": {
+		"message": "Натисніть, щоб закрити підказку"
+	},
+	"tooltip_aria_expand": {
+		"message": "Натисніть, щоб розгорнути підказку"
 	},
 	"tooltip_badge_outfit": {
 		"message": "Тільки одяг"
 	},
-	"tooltip_reportable_title": {
-		"message": "Можна подати скаргу в Roblox"
-	},
-	"tooltip_reportable_message": {
-		"message": "Цей користувач має явні докази недоречного контенту, який видно модераторам Roblox."
-	},
-	"tooltip_reportable_report_button": {
-		"message": "Повідомити Roblox"
-	},
-	"tooltip_outfit_title": {
-		"message": "Позначено лише за одяг"
-	},
-	"tooltip_outfit_message": {
-		"message": "Цього користувача було позначено виключно на основі його аватара. Виявлення одягу може мати помилкові спрацювання, тому, будь ласка, використовуйте власну думку при оцінці цього користувача."
-	},
-	"tooltip_metadata_queued": {
+	"tooltip_badge_queued": {
 		"message": "У черзі"
 	},
-	"tooltip_metadata_processing": {
-		"message": "Обробка"
+	"tooltip_badge_reportable": {
+		"message": "Для скарги"
 	},
-	"tooltip_metadata_took": {
-		"message": "Тривало"
+	"tooltip_entity_group": {
+		"message": "група"
 	},
-	"tooltip_metadata_last_updated": {
-		"message": "Останнє оновлення"
+	"tooltip_entity_user": {
+		"message": "користувач"
 	},
-	"tooltip_metadata_reprocess_button": {
-		"message": "Повторно обробити?"
-	},
-	"tooltip_metadata_reprocess_title": {
-		"message": "Дані цього користувача застарілі. Натисніть, щоб повторно додати до черги для аналізу."
-	},
-	"tooltip_metadata_processing_status": {
-		"message": "Обробка..."
-	},
-	"tooltip_header_unsafe": {
-		"message": "Цей $1 було підтверджено як недоречний модераторами-людьми."
-	},
-	"tooltip_header_pending": {
-		"message": "Цей $1 було позначено AI з впевненістю $2%."
-	},
-	"tooltip_header_queued_processing": {
-		"message": "Цей $1 наразі перевіряється нашою системою. Це може зайняти кілька хвилин."
-	},
-	"tooltip_header_queued_safe": {
-		"message": "Цей $1 було перевірено нашою системою AI і здається безпечним. Якщо це помилка, ви можете додати до черги для подальшого розгляду."
+	"tooltip_error_details": {
+		"message": "Деталі помилки"
 	},
 	"tooltip_header_integration": {
 		"message": "Цей $1 було позначено системою аналізу контенту третьої сторони."
@@ -1187,26 +1505,86 @@
 	"tooltip_header_past_offender": {
 		"message": "Цей $1 раніше мав недоречний контент, але його обліковий запис наразі виглядає чистим і може бути повторно перевірений."
 	},
+	"tooltip_header_pending": {
+		"message": "Цей $1 було позначено AI з впевненістю $2%."
+	},
+	"tooltip_header_queued_processing": {
+		"message": "Цей $1 наразі перевіряється нашою системою. Це може зайняти кілька хвилин."
+	},
+	"tooltip_header_queued_safe": {
+		"message": "Цей $1 було перевірено нашою системою AI і здається безпечним. Якщо це помилка, ви можете додати до черги для подальшого розгляду."
+	},
 	"tooltip_header_safe": {
 		"message": "Цей $1 ще не було перевірено."
-	},
-	"tooltip_header_unknown": {
-		"message": "Невідомий статус"
 	},
 	"tooltip_header_unavailable": {
 		"message": "Інформація про статус недоступна."
 	},
-	"tooltip_status_not_flagged": {
-		"message": "Не позначено"
+	"tooltip_header_unknown": {
+		"message": "Невідомий статус"
 	},
-	"tooltip_status_unsafe": {
-		"message": "Небезпечний"
+	"tooltip_header_unsafe": {
+		"message": "Цей $1 було підтверджено як недоречний модераторами-людьми."
 	},
-	"tooltip_status_under_review": {
-		"message": "На розгляді"
+	"tooltip_loading": {
+		"message": "Завантаження..."
 	},
-	"tooltip_status_likely_safe": {
-		"message": "Ймовірно безпечний"
+	"tooltip_loading_user_info": {
+		"message": "Завантаження інформації про користувача..."
+	},
+	"tooltip_metadata_last_updated": {
+		"message": "Останнє оновлення"
+	},
+	"tooltip_metadata_processing": {
+		"message": "Обробка"
+	},
+	"tooltip_metadata_processing_status": {
+		"message": "Обробка..."
+	},
+	"tooltip_metadata_queued": {
+		"message": "У черзі"
+	},
+	"tooltip_metadata_reprocess_button": {
+		"message": "Повторно обробити?"
+	},
+	"tooltip_metadata_reprocess_title": {
+		"message": "Дані цього користувача застарілі. Натисніть, щоб повторно додати до черги для аналізу."
+	},
+	"tooltip_metadata_took": {
+		"message": "Тривало"
+	},
+	"tooltip_no_data_available": {
+		"message": "Немає даних для цього API"
+	},
+	"tooltip_outfit_message": {
+		"message": "Цього користувача було позначено виключно на основі його аватара. Виявлення одягу може мати помилкові спрацювання, тому, будь ласка, використовуйте власну думку при оцінці цього користувача."
+	},
+	"tooltip_outfit_title": {
+		"message": "Позначено лише за одяг"
+	},
+	"tooltip_profile_group_id": {
+		"message": "ID групи:"
+	},
+	"tooltip_profile_id": {
+		"message": "ID:"
+	},
+	"tooltip_profile_user": {
+		"message": "Користувач"
+	},
+	"tooltip_queue_button": {
+		"message": "Додати до черги для розгляду"
+	},
+	"tooltip_reportable_message": {
+		"message": "Цей користувач має явні докази недоречного контенту, який видно модераторам Roblox."
+	},
+	"tooltip_reportable_report_button": {
+		"message": "Повідомити Roblox"
+	},
+	"tooltip_reportable_title": {
+		"message": "Можна подати скаргу в Roblox"
+	},
+	"tooltip_reviewer_reviewed_by": {
+		"message": "Перевірено"
 	},
 	"tooltip_status_checking": {
 		"message": "Перевірка..."
@@ -1214,56 +1592,26 @@
 	"tooltip_status_integration": {
 		"message": "Інтеграція"
 	},
+	"tooltip_status_likely_safe": {
+		"message": "Ймовірно безпечний"
+	},
 	"tooltip_status_mixed": {
 		"message": "Змішаний"
+	},
+	"tooltip_status_not_flagged": {
+		"message": "Не позначено"
 	},
 	"tooltip_status_past_offender": {
 		"message": "Колишній порушник"
 	},
+	"tooltip_status_under_review": {
+		"message": "На розгляді"
+	},
 	"tooltip_status_unknown": {
 		"message": "Невідомий"
 	},
-	"tooltip_reviewer_reviewed_by": {
-		"message": "Перевірено"
-	},
-	"tooltip_profile_group_id": {
-		"message": "ID групи:"
-	},
-	"tooltip_profile_user": {
-		"message": "Користувач"
-	},
-	"tooltip_profile_id": {
-		"message": "ID:"
-	},
-	"tooltip_aria_close": {
-		"message": "Натисніть, щоб закрити підказку"
-	},
-	"tooltip_aria_expand": {
-		"message": "Натисніть, щоб розгорнути підказку"
-	},
-	"tooltip_entity_user": {
-		"message": "користувач"
-	},
-	"tooltip_entity_group": {
-		"message": "група"
-	},
-	"voting_header_title": {
-		"message": "Відгуки спільноти"
-	},
-	"voting_loading": {
-		"message": "Завантаження..."
-	},
-	"voting_count_singular": {
-		"message": "$1 голос"
-	},
-	"voting_count_plural": {
-		"message": "$1 голосів"
-	},
-	"voting_button_agree": {
-		"message": "Згоден"
-	},
-	"voting_button_disagree": {
-		"message": "Не згоден"
+	"tooltip_status_unsafe": {
+		"message": "Небезпечний"
 	},
 	"voting_aria_agree": {
 		"message": "Погодитися з цим статусом"
@@ -1271,376 +1619,337 @@
 	"voting_aria_disagree": {
 		"message": "Не погодитися з цим статусом"
 	},
+	"voting_button_agree": {
+		"message": "Згоден"
+	},
+	"voting_button_disagree": {
+		"message": "Не згоден"
+	},
+	"voting_count_plural": {
+		"message": "$1 голосів"
+	},
+	"voting_count_singular": {
+		"message": "$1 голос"
+	},
 	"voting_description": {
 		"message": "Допоможіть іншим, підтвердивши, чи статус цього користувача точний."
 	},
-	"engine_status_unknown": {
-		"message": "Невідомий"
+	"voting_header_title": {
+		"message": "Відгуки спільноти"
 	},
-	"engine_status_latest": {
-		"message": "Останній"
+	"voting_loading": {
+		"message": "Завантаження..."
 	},
-	"engine_status_compatible": {
-		"message": "Сумісний"
+	"warzone_chart_error_load": {
+		"message": "Не вдалося завантажити $1 історичні дані"
 	},
-	"engine_status_outdated": {
-		"message": "Застарілий"
+	"warzone_chart_label_global_ban_rate": {
+		"message": "Глобальний рівень блокувань"
 	},
-	"engine_status_deprecated": {
-		"message": "Застарів"
+	"warzone_chart_label_global_liberation": {
+		"message": "Глобальне визволення"
 	},
-	"engine_desc_unknown": {
-		"message": "Цей аналіз використовував AI движок з невідомим статусом сумісності."
+	"warzone_chart_label_total_users": {
+		"message": "Всього користувачів"
 	},
-	"engine_desc_unknown_impact": {
-		"message": "Сумісність версії не вдалося визначити."
+	"warzone_chart_label_zone_ban_rate": {
+		"message": "Рівень блокувань зони"
 	},
-	"engine_desc_latest": {
-		"message": "Цей аналіз використовував найновіший AI движок з останніми можливостями виявлення."
+	"warzone_chart_label_zone_liberation": {
+		"message": "Визволення зони"
 	},
-	"engine_desc_latest_impact": {
-		"message": "Найвища точність і найбільш повний аналіз."
+	"warzone_chart_legend_banned": {
+		"message": "Заблоковано"
 	},
-	"engine_desc_compatible": {
-		"message": "Цей аналіз використовував AI движок, який все ще підтримується, але не є останньою версією."
+	"warzone_chart_legend_confirmed": {
+		"message": "Підтверджено"
 	},
-	"engine_desc_compatible_impact": {
-		"message": "Все ще високо точний з незначними відмінностями в можливостях виявлення."
+	"warzone_chart_legend_flagged": {
+		"message": "Позначено"
 	},
-	"engine_desc_outdated": {
-		"message": "Цей аналіз використовував AI движок, який значно відстає від останньої версії."
+	"warzone_chart_tab_ban_rate": {
+		"message": "Рівень блокувань"
 	},
-	"engine_desc_outdated_impact": {
-		"message": "Може мати знижену точність порівняно з новішими версіями движка."
+	"warzone_chart_tab_liberation": {
+		"message": "Визволення"
 	},
-	"engine_desc_deprecated": {
-		"message": "Цей аналіз використовував AI движок, який більше не підтримується."
+	"warzone_chart_tab_users": {
+		"message": "Користувачі"
 	},
-	"engine_desc_deprecated_impact": {
-		"message": "Точність може бути значно знижена, і результати слід розглядати з обережністю."
+	"warzone_chart_tooltip_banned": {
+		"message": "Заблоковано"
 	},
-	"engine_aria_info": {
-		"message": "Інформація про версію движка"
+	"warzone_chart_tooltip_date": {
+		"message": "Дата"
 	},
-	"engine_header_version": {
-		"message": "Движок v$1"
+	"warzone_chart_tooltip_total_users": {
+		"message": "Всього користувачів"
 	},
-	"engine_version_unknown": {
-		"message": "Невідомий"
+	"warzone_common_button_retry": {
+		"message": "Повторити"
 	},
-	"custom_api_form_title_edit": {
-		"message": "Редагувати користувацький API"
+	"warzone_hunter_beta_discord_link": {
+		"message": "серверу Discord"
 	},
-	"custom_api_form_title_add": {
-		"message": "Додати користувацький API"
+	"warzone_hunter_beta_label": {
+		"message": "Закрита бета:"
 	},
-	"custom_api_form_label_name": {
-		"message": "Назва"
+	"warzone_hunter_beta_text_after_link": {
+		"message": "для оновлень."
 	},
-	"custom_api_form_label_required": {
-		"message": "*"
+	"warzone_hunter_beta_text_before_link": {
+		"message": "Доступно лише обраним користувачам. Приєднуйтесь до нашого"
 	},
-	"custom_api_form_placeholder_name": {
-		"message": "Мій користувацький API"
+	"warzone_hunter_button_login": {
+		"message": "Увійти через Discord"
 	},
-	"custom_api_form_hint_name_length": {
-		"message": "Максимум 12 символів ($1/12)"
+	"warzone_hunter_button_logout": {
+		"message": "Вийти"
 	},
-	"custom_api_form_label_url": {
-		"message": "URL API"
+	"warzone_hunter_confirm_logout": {
+		"message": "Ви впевнені, що хочете вийти?\n\nВи можете увійти знову в будь-який час через свій обліковий запис Discord."
 	},
-	"custom_api_form_placeholder_url": {
-		"message": "https://api.example.com/v1/lookup"
+	"warzone_hunter_discord_avatar_alt": {
+		"message": "Аватар Discord"
 	},
-	"custom_api_form_hint_url": {
-		"message": "Має бути HTTPS. Це базовий URL для ваших API точок доступу. Ми будемо викликати {url}/user/{userId} для одиничних запитів і {url}/users для пакетних запитів."
+	"warzone_hunter_feature_cleanup": {
+		"message": "Допомагати очистити платформу від порушників"
 	},
-	"custom_api_form_label_timeout": {
-		"message": "Тайм-аут (мс)"
+	"warzone_hunter_feature_community": {
+		"message": "Працювати зі спільнотою для вищого успіху"
 	},
-	"custom_api_form_placeholder_timeout": {
-		"message": "5000"
+	"warzone_hunter_feature_leaderboard": {
+		"message": "Заробляти очки і підніматися в рейтингу"
 	},
-	"custom_api_form_hint_timeout": {
-		"message": "Тайм-аут запиту в мілісекундах (1000-60000). За замовчуванням: 5000мс."
+	"warzone_hunter_feature_report": {
+		"message": "Повідомляти про користувачів з високим ризиком"
 	},
-	"custom_api_form_label_image": {
-		"message": "Горизонтальне зображення (Необов'язково)"
+	"warzone_hunter_loading_connecting": {
+		"message": "Підключення..."
 	},
-	"custom_api_form_hint_image": {
-		"message": "Завантажте горизонтальне зображення для вкладки підказки (PNG, JPG, SVG, WebP). Рекомендовано: 480x160px (співвідношення 3:1)."
+	"warzone_hunter_signup_description": {
+		"message": "Приєднуйтесь до спільноти, щоб повідомляти про користувачів з високим ризиком. Працюйте разом з мисливцями по всьому світу, щоб підвищити успішність видалення та зробити Roblox безпечнішим для всіх."
 	},
-	"custom_api_form_button_remove_image": {
-		"message": "Видалити зображення"
+	"warzone_hunter_stat_points": {
+		"message": "Очки"
 	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Увімкнути цей користувацький API"
+	"warzone_hunter_stat_status": {
+		"message": "Статус"
 	},
-	"custom_api_form_button_save": {
-		"message": "Зберегти"
+	"warzone_hunter_status_anonymous": {
+		"message": "Анонімний"
 	},
-	"custom_api_form_button_saving": {
-		"message": "Збереження..."
+	"warzone_hunter_status_public": {
+		"message": "Публічний"
 	},
-	"custom_api_form_error_name_required": {
-		"message": "Назва обов'язкова"
+	"warzone_hunter_title": {
+		"message": "Мисливець зони війни"
 	},
-	"custom_api_form_error_name_length": {
-		"message": "Назва має бути не більше 12 символів"
+	"warzone_hunter_welcome_message": {
+		"message": "Ласкаво просимо, мисливцю! Тепер ви можете брати участь у діяльності зони війни та допомагати захищати спільноту Roblox. Відвідайте головну сторінку Roblox, щоб почати свої полювання."
 	},
-	"custom_api_form_error_url_required": {
-		"message": "URL обов'язковий"
+	"warzone_leaderboard_badge_you": {
+		"message": "Ви"
 	},
-	"custom_api_form_error_url_https": {
-		"message": "URL має починатися з https://"
+	"warzone_leaderboard_error_load": {
+		"message": "Не вдалося завантажити рейтинг"
 	},
-	"custom_api_form_error_url_invalid": {
-		"message": "Неправильний формат URL"
+	"warzone_leaderboard_filter_anonymous": {
+		"message": "Включити анонімних мисливців"
 	},
-	"custom_api_form_error_timeout_min": {
-		"message": "Тайм-аут має бути щонайменше 1000мс (1 секунда)"
+	"warzone_leaderboard_loading": {
+		"message": "Завантаження рейтингу..."
 	},
-	"custom_api_form_error_timeout_max": {
-		"message": "Тайм-аут має бути 60000мс (60 секунд) або менше"
+	"warzone_leaderboard_section_rankings": {
+		"message": "Рейтинги"
 	},
-	"custom_api_form_error_image_type": {
-		"message": "Неправильний тип файлу. Будь ласка, використовуйте PNG, JPG, SVG або WebP"
+	"warzone_leaderboard_section_top": {
+		"message": "Топ мисливців"
 	},
-	"custom_api_form_error_image_mime": {
-		"message": "Неправильний тип зображення. MIME тип не відповідає розширенню файлу"
+	"warzone_leaderboard_stat_reports": {
+		"message": "$1 скарг"
 	},
-	"custom_api_form_error_image_size": {
-		"message": "Попередження: Великий розмір файлу ($1КБ). Розгляньте використання меншого зображення для зменшення використання пам'яті."
+	"warzone_leaderboard_stat_success": {
+		"message": "$1% успішно"
 	},
-	"custom_api_form_error_image_read": {
-		"message": "Не вдалося прочитати файл зображення"
+	"warzone_leaderboard_total_hunters": {
+		"message": "Всього мисливців: $1"
 	},
-	"custom_api_form_error_image_process": {
-		"message": "Не вдалося обробити файл зображення"
+	"warzone_leaderboard_your_rank": {
+		"message": "Ваш ранг: #$1"
 	},
-	"custom_api_form_error_save_prefix": {
-		"message": "Не вдалося зберегти користувацький API: "
+	"warzone_mode_global": {
+		"message": "глобальна"
 	},
-	"custom_api_form_error_unknown": {
-		"message": "Невідома помилка"
+	"warzone_mode_zone": {
+		"message": "зона"
 	},
-	"custom_api_mgmt_button_back": {
-		"message": "Назад"
+	"warzone_nav_tab_leaderboard": {
+		"message": "Рейтинг"
 	},
-	"custom_api_mgmt_title": {
-		"message": "Інтеграції API"
+	"warzone_nav_tab_profile": {
+		"message": "Профіль"
 	},
-	"custom_api_mgmt_intro": {
-		"message": "Керуйте всіма інтеграціями API в одному місці. Rotector забезпечує основний аналіз безпеки, і ви можете додати до 5 користувацьких API для додаткового аналізу контенту."
+	"warzone_nav_tab_war_zone": {
+		"message": "Зона війни"
 	},
-	"custom_api_mgmt_button_docs": {
-		"message": "Переглянути документацію"
+	"warzone_order_label_completed": {
+		"message": "Завершено"
 	},
-	"custom_api_mgmt_loading": {
-		"message": "Завантаження користувацьких API..."
+	"warzone_order_label_expires": {
+		"message": "Закінчується"
 	},
-	"custom_api_mgmt_badge_system": {
-		"message": "Системний API"
+	"warzone_order_label_progress": {
+		"message": "Прогрес"
 	},
-	"custom_api_mgmt_label_single": {
-		"message": "Одиничний:"
+	"warzone_order_progress_value": {
+		"message": "$1 / $2"
 	},
-	"custom_api_mgmt_label_batch": {
-		"message": "Пакетний:"
+	"warzone_order_type_ban_count": {
+		"message": "Кількість блокувань"
 	},
-	"custom_api_mgmt_label_timeout": {
-		"message": "Тайм-аут:"
+	"warzone_order_type_verification": {
+		"message": "Перевірка"
 	},
-	"custom_api_mgmt_label_created": {
-		"message": "Створено:"
+	"warzone_order_type_zone_liberation": {
+		"message": "Визволення зони"
 	},
-	"custom_api_mgmt_label_last_tested": {
-		"message": "Останнє тестування:"
+	"warzone_overview_button_find_user": {
+		"message": "Знайти користувача для скарги"
 	},
-	"custom_api_mgmt_suffix_ms": {
-		"message": "мс"
+	"warzone_overview_error_auth_expired": {
+		"message": "Автентифікація закінчилась. Будь ласка, вийдіть і увійдіть знову."
 	},
-	"custom_api_mgmt_title_move_up": {
-		"message": "Перемістити вгору"
+	"warzone_overview_error_find_user": {
+		"message": "Не вдалося знайти користувача для скарги. Будь ласка, спробуйте ще раз."
 	},
-	"custom_api_mgmt_title_move_down": {
-		"message": "Перемістити вниз"
+	"warzone_overview_error_load": {
+		"message": "Не вдалося завантажити карту війни"
 	},
-	"custom_api_mgmt_title_test": {
-		"message": "Тестувати з'єднання"
+	"warzone_overview_error_no_users": {
+		"message": "Немає користувачів для скарг. Повторіть спробу пізніше!"
 	},
-	"custom_api_mgmt_title_edit": {
-		"message": "Редагувати"
+	"warzone_overview_finding_user_loading": {
+		"message": "Пошук користувача..."
 	},
-	"custom_api_mgmt_title_delete": {
-		"message": "Видалити"
+	"warzone_overview_loading": {
+		"message": "Завантаження карти війни..."
 	},
-	"custom_api_mgmt_button_add": {
-		"message": "Додати користувацький API"
+	"warzone_overview_section_global_stats": {
+		"message": "Глобальна статистика війни"
 	},
-	"custom_api_mgmt_notice_max_reached": {
-		"message": "Досягнуто максимуму $1 користувацьких API. Видаліть існуючий API, щоб додати новий."
+	"warzone_overview_section_global_trends": {
+		"message": "Глобальні тенденції (30 днів)"
 	},
-	"custom_api_mgmt_confirm_delete": {
-		"message": "Видалити користувацький API \"$1\"?"
+	"warzone_overview_section_major_orders": {
+		"message": "Активні основні завдання"
 	},
-	"custom_api_mgmt_error_delete": {
-		"message": "Не вдалося видалити користувацький API"
+	"warzone_overview_section_targets": {
+		"message": "Активні цілі"
 	},
-	"custom_api_mgmt_test_success": {
-		"message": "✓ З'єднання успішне!\n\nAPI \"$1\" досяжний та відповідає."
+	"warzone_overview_section_zones": {
+		"message": "Зони війни"
 	},
-	"custom_api_mgmt_test_failed": {
-		"message": "✗ З'єднання не вдалося\n\nAPI \"$1\" не відповідає або повернув помилку.\n\nБудь ласка, перевірте:\n• URL правильний та доступний\n• Сервер API працює\n• CORS налаштовано за потреби"
+	"warzone_overview_stat_active_targets": {
+		"message": "Активні цілі"
 	},
-	"custom_api_mgmt_test_error": {
-		"message": "✗ Помилка тесту з'єднання\n\nНе вдалося протестувати API \"$1\".\n\nПомилка: $2"
+	"warzone_overview_stat_avg_liberation": {
+		"message": "Середнє визволення"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Не вдалося оновити статус API"
+	"warzone_overview_stat_total_banned": {
+		"message": "Всього заблоковано"
 	},
-	"custom_api_mgmt_http_method_get": {
-		"message": "GET"
+	"warzone_overview_stat_total_zones": {
+		"message": "Всього зон"
 	},
-	"custom_api_mgmt_http_method_post": {
-		"message": "POST"
+	"warzone_profile_button_logout": {
+		"message": "Вийти"
 	},
-	"custom_api_docs_button_back": {
-		"message": "Назад"
+	"warzone_profile_button_reset_uuid": {
+		"message": "Вийти з усіх пристроїв"
 	},
-	"custom_api_docs_title": {
-		"message": "Документація API"
+	"warzone_profile_button_reset_uuid_loading": {
+		"message": "Вихід..."
 	},
-	"custom_api_docs_intro": {
-		"message": "Реалізуйте дві точки доступу, які повертають дані про статус користувача. Усі відповіді повинні використовувати формат обгортки з полями success, data та error."
+	"warzone_profile_button_reset_uuid_success": {
+		"message": "✓ Вийшли з усіх пристроїв"
 	},
-	"custom_api_docs_section_single_lookup": {
-		"message": "Одиничний запит користувача"
+	"warzone_profile_confirm_logout": {
+		"message": "Ви впевнені, що хочете вийти?\n\nВи можете увійти знову в будь-який час через свій обліковий запис Discord."
 	},
-	"custom_api_docs_section_batch_lookup": {
-		"message": "Пакетний запит користувачів"
+	"warzone_profile_confirm_reset_uuid": {
+		"message": "Вийти з усіх пристроїв?\n\nЦе скасує всі активні сеанси на інших пристроях. Ви залишитесь у системі на цьому пристрої, але всі інші пристрої будуть виведені.\n\nЦе корисно, якщо ви підозрюєте, що ваш обліковий запис було скомпрометовано."
 	},
-	"custom_api_docs_section_notes": {
-		"message": "Важливі примітки"
+	"warzone_profile_discord_avatar_alt": {
+		"message": "Аватар Discord"
 	},
-	"custom_api_docs_subtitle_example_request": {
-		"message": "Приклад запиту"
+	"warzone_profile_error_reset_uuid": {
+		"message": "Не вдалося вийти з усіх пристроїв. Будь ласка, спробуйте ще раз."
 	},
-	"custom_api_docs_subtitle_success_response": {
-		"message": "Відповідь при успіху"
+	"warzone_profile_label_discord": {
+		"message": "Discord"
 	},
-	"custom_api_docs_subtitle_error_response": {
-		"message": "Відповідь при помилці"
+	"warzone_profile_label_joined": {
+		"message": "Приєднався"
 	},
-	"custom_api_docs_subtitle_required_fields": {
-		"message": "Обов'язкові поля (в об'єкті data)"
+	"warzone_profile_label_last_active": {
+		"message": "Остання активність"
 	},
-	"custom_api_docs_subtitle_optional_fields": {
-		"message": "Необов'язкові поля (в об'єкті data)"
+	"warzone_profile_label_visibility": {
+		"message": "Видимість"
 	},
-	"custom_api_docs_subtitle_flag_types": {
-		"message": "Типи позначень"
+	"warzone_profile_stat_points": {
+		"message": "Очки"
 	},
-	"custom_api_docs_subtitle_request_body": {
-		"message": "Тіло запиту"
+	"warzone_profile_title": {
+		"message": "Профіль"
 	},
-	"custom_api_docs_subtitle_https": {
-		"message": "Обов'язковий HTTPS"
+	"warzone_profile_visibility_anonymous": {
+		"message": "Анонімний"
 	},
-	"custom_api_docs_subtitle_wrapper": {
-		"message": "Формат обгортки"
+	"warzone_profile_visibility_public": {
+		"message": "Публічний"
 	},
-	"custom_api_docs_subtitle_reason_keys": {
-		"message": "Ключі причин"
+	"warzone_target_meta_active": {
+		"message": "Активний"
 	},
-	"custom_api_docs_subtitle_badges": {
-		"message": "Значки"
+	"warzone_target_meta_attempts": {
+		"message": "Спроби"
 	},
-	"custom_api_docs_subtitle_badge_colors": {
-		"message": "Кольори значків"
+	"warzone_target_meta_confidence": {
+		"message": "Впевненість"
 	},
-	"custom_api_docs_flag_type_0": {
-		"message": "Безпечний"
+	"warzone_target_status_confirmed": {
+		"message": "Підтверджено"
 	},
-	"custom_api_docs_flag_type_1": {
-		"message": "В очікуванні"
+	"warzone_target_status_flagged": {
+		"message": "Позначено"
 	},
-	"custom_api_docs_flag_type_2": {
-		"message": "Небезпечний (рекомендовано)"
+	"warzone_zone_button_back": {
+		"message": "Назад до огляду"
 	},
-	"custom_api_docs_flag_type_3": {
-		"message": "У черзі"
+	"warzone_zone_error_load": {
+		"message": "Не вдалося завантажити деталі зони"
 	},
-	"custom_api_docs_flag_type_4": {
-		"message": "Не використовується"
+	"warzone_zone_loading": {
+		"message": "Завантаження деталей зони..."
 	},
-	"custom_api_docs_flag_type_5": {
-		"message": "Змішаний"
+	"warzone_zone_section_trends": {
+		"message": "Тенденції зони (30 днів)"
 	},
-	"custom_api_docs_flag_type_6": {
-		"message": "Колишній порушник"
+	"warzone_zone_stat_banned": {
+		"message": "Заблоковано"
 	},
-	"custom_api_docs_flag_type_2_note": {
-		"message": "Тип позначення 2 (Небезпечний) є основним типом, який вам потрібен для позначення недоречних користувачів. Використовуйте інші типи позначень лише якщо у вас є конкретна причина для категоризації користувачів інакше."
+	"warzone_zone_stat_confirmed": {
+		"message": "Підтверджено"
 	},
-	"custom_api_docs_field_id": {
-		"message": "id (number) - ID користувача як ціле число"
+	"warzone_zone_stat_flagged": {
+		"message": "Позначено"
 	},
-	"custom_api_docs_field_flag_type": {
-		"message": "flagType (number) - тип позначення 0-6 (див. нижче)"
+	"warzone_zone_stat_total_users": {
+		"message": "Всього користувачів"
 	},
-	"custom_api_docs_field_confidence": {
-		"message": "confidence (number) - рівень впевненості 0.0-1.0"
-	},
-	"custom_api_docs_field_reasons": {
-		"message": "reasons (object) - текстові назви причин як ключі, кожна містить:"
-	},
-	"custom_api_docs_field_message": {
-		"message": "message (string) - опис причини"
-	},
-	"custom_api_docs_field_evidence": {
-		"message": "evidence (array or null) - рядки доказів або null"
-	},
-	"custom_api_docs_field_reviewer": {
-		"message": "reviewer (object) - username та displayName"
-	},
-	"custom_api_docs_field_engine_version": {
-		"message": "engineVersion (string) - версія аналізуючого движка"
-	},
-	"custom_api_docs_field_last_updated": {
-		"message": "lastUpdated (number) - мітка часу Unix"
-	},
-	"custom_api_docs_field_badges": {
-		"message": "badges (array) - До 3 об'єктів користувацьких значків, кожен містить:"
-	},
-	"custom_api_docs_field_badge_text": {
-		"message": "text (string, обов'язково) - текст мітки значка"
-	},
-	"custom_api_docs_field_badge_color": {
-		"message": "color (string, необов'язково) - колір фону (hex, rgb або іменований колір)"
-	},
-	"custom_api_docs_field_badge_text_color": {
-		"message": "textColor (string, необов'язково) - колір тексту для контрасту"
-	},
-	"custom_api_docs_field_confidence_reason": {
-		"message": "confidence (number) - впевненість 0.0-1.0"
-	},
-	"custom_api_docs_note_https": {
-		"message": "Усі точки доступу API повинні використовувати HTTPS для безпеки."
-	},
-	"custom_api_docs_note_wrapper": {
-		"message": "Усі відповіді повинні використовувати формат {success, data, error}. Коли success: true, включіть поле data. Коли success: false, включіть повідомлення про помилку."
-	},
-	"custom_api_docs_note_reason_keys": {
-		"message": "Використовуйте описові текстові назви для ключів причин (наприклад, \"Патерн високого ризику\", \"Підозріла активність\"), а не числові індекси. Вони відображаються безпосередньо в підказках."
-	},
-	"custom_api_docs_note_badges": {
-		"message": "Значки - це невеликі візуальні індикатори, які з'являються в підказках користувачів поряд зі статусом позначення. Вони відображаються у верхній частині підказки для швидкої передачі додаткового контексту про користувача. Використовуйте значки, щоб підкреслити важливу інформацію про статус, таку як статус перевірки, рівні пріоритету або спеціальні категорії. Типові приклади: \"Перевірений небезпечний\", \"Високий пріоритет\", \"Повідомлено спільнотою\", \"Авто-виявлено\"."
-	},
-	"custom_api_docs_note_badge_colors": {
-		"message": "Кольори значків підтримують кілька форматів: hex коди (#ef4444), RGB (rgb(239, 68, 68)), RGBA (rgba(239, 68, 68, 0.9)) або іменовані кольори (red). Коли колір не вказано, значки використовують стандартний бірюзовий колір. Коли textColor не вказано, значки використовують білий текст."
-	},
-	"custom_api_docs_note_batch_data": {
-		"message": "Поле data містить об'єкт, де ключі - це ID користувачів (як рядки), а значення - об'єкти статусу користувача."
+	"warzone_zone_status_liberated_suffix": {
+		"message": "% визволено"
 	}
 }

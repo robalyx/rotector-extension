@@ -5,16 +5,12 @@
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
+		onNavigateToRotectorDocs?: () => void;
 	}
 
-	let { onNavigateToCustomApis }: Props = $props();
+	let { onNavigateToCustomApis, onNavigateToRotectorDocs }: Props = $props();
 
 	let settingsSection = $state<SettingsSectionInstance>();
-
-	// Expose unlock method for parent component
-	export async function unlockDeveloperMode() {
-		await settingsSection?.unlockDeveloperMode();
-	}
 </script>
 
 <div class="settings-page">
@@ -22,5 +18,9 @@
 	<AdvancedViolationBanner {settingsSection} />
 
 	<!-- Settings Section -->
-	<SettingsSection bind:this={settingsSection} {onNavigateToCustomApis} />
+	<SettingsSection
+		bind:this={settingsSection}
+		{onNavigateToCustomApis}
+		{onNavigateToRotectorDocs}
+	/>
 </div>

@@ -26,8 +26,8 @@
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
-	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
-	import Toggle from '../ui/Toggle.svelte';
+	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
+	import Toggle from '../../ui/Toggle.svelte';
 
 	interface Props {
 		onBack: () => void;
@@ -194,12 +194,18 @@
 		<p class="custom-api-intro-text">
 			{t('custom_api_mgmt_intro')}
 		</p>
-		<div class="custom-api-intro-actions">
-			<button class="docs-button" onclick={onNavigateToDocumentation} type="button">
-				<BookOpen size={16} />
-				{t('custom_api_mgmt_button_docs')}
-			</button>
-		</div>
+	</div>
+
+	<!-- Integration Guide Section -->
+	<div class="custom-api-integration-section">
+		<h3 class="integration-section-title">{t('custom_api_mgmt_integration_section_title')}</h3>
+		<p class="integration-section-description">
+			{t('custom_api_mgmt_integration_section_description')}
+		</p>
+		<button class="docs-button" onclick={onNavigateToDocumentation} type="button">
+			<BookOpen size={16} />
+			{t('custom_api_mgmt_button_view_integration_guide')}
+		</button>
 	</div>
 
 	<!-- API List -->

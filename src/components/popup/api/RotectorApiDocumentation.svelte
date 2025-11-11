@@ -64,8 +64,7 @@
 		<h4 class="docs-section-title">{t('rotector_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method http-method-get">{t('custom_api_mgmt_http_method_get')}</span>
-			<code class="endpoint-url"
-				>https://roscoe.robalyx.com/v1/lookup/roblox/user/{'{{userId}}'}</code
+			<code class="endpoint-url">https://roscoe.robalyx.com/v1/lookup/roblox/user/{'{userId}'}</code
 			>
 		</div>
 

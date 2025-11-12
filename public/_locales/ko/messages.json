@@ -369,10 +369,10 @@
 		"message": "API 가져오기 실패: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
-		"message": "API가 \"$1\"(으)로 가져왔습니다 (해당 이름의 API가 이미 존재하여 \"$2\"에서 이름 변경됨)"
+		"message": "API가 \"$1\"(으)로 가져와졌습니다 (해당 이름의 API가 이미 존재하여 \"$2\"에서 이름 변경됨)"
 	},
 	"custom_api_mgmt_alert_import_success": {
-		"message": "API \"$1\"이(가) 성공적으로 가져왔습니다!"
+		"message": "API \"$1\"이(가) 성공적으로 가져와졌습니다!"
 	},
 	"custom_api_mgmt_badge_system": {
 		"message": "시스템 API"

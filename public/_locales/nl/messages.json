@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Terug"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Documentatie kopiëren"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Opmerking: Foutreacties treden alleen op bij interne serverfouten of problemen met de backend. Gebruikers die niet zijn gevonden of nog niet zijn geanalyseerd, moeten success: true retourneren met flagType: 0 (Veilig)."
 	},

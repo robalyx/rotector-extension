@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, Copy, Check } from 'lucide-svelte';
 	import Highlight from 'svelte-highlight';
 	import json from 'svelte-highlight/languages/json';
 	import javascript from 'svelte-highlight/languages/javascript';
@@ -8,7 +8,9 @@
 	import go from 'svelte-highlight/languages/go';
 	import lua from 'svelte-highlight/languages/lua';
 	import 'svelte-highlight/styles/github-dark.css';
+	import TurndownService from 'turndown';
 	import { t } from '@/lib/stores/i18n';
+	import { logger } from '@/lib/utils/logger';
 
 	interface Props {
 		onBack: () => void;
@@ -17,17 +19,81 @@
 	let { onBack }: Props = $props();
 
 	type Language = 'javascript' | 'typescript' | 'python' | 'go' | 'lua';
-	let activeSingleLookupTab = $state<Language>('javascript');
-	let activeBatchLookupTab = $state<Language>('javascript');
+	let activeLanguageTab = $state<Language>('javascript');
+
+	let docContainer: HTMLDivElement;
+	let copySuccess = $state(false);
+	let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+	const turndownService = new TurndownService({
+		headingStyle: 'atx',
+		codeBlockStyle: 'fenced',
+		bulletListMarker: '-'
+	});
+
+	async function copyDocumentation() {
+		if (!docContainer) return;
+
+		try {
+			// Clone the container to avoid modifying the original
+			const clone = docContainer.cloneNode(true) as HTMLElement;
+
+			// Remove the header section
+			const header = clone.querySelector('.custom-api-header');
+			if (header) {
+				header.remove();
+			}
+
+			const html = clone.innerHTML || '';
+			const markdown = turndownService.turndown(html);
+			await navigator.clipboard.writeText(markdown);
+
+			// Clear any existing timeout
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+
+			copySuccess = true;
+			timeoutId = setTimeout(() => {
+				copySuccess = false;
+				timeoutId = null;
+			}, 2000);
+		} catch (error) {
+			logger.error('Failed to copy documentation', error);
+		}
+	}
+
+	// Cleanup on unmount
+	$effect(() => {
+		return () => {
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+		};
+	});
 </script>
 
-<div class="custom-api-documentation-page">
+<div bind:this={docContainer} class="custom-api-documentation-page">
 	<!-- Header -->
 	<div class="custom-api-header">
-		<button class="back-button" onclick={onBack} type="button">
-			<ArrowLeft size={16} />
-			<span>{t('rotector_api_docs_button_back')}</span>
-		</button>
+		<div class="header-actions">
+			<button class="back-button" onclick={onBack} type="button">
+				<ArrowLeft size={16} />
+				<span>{t('rotector_api_docs_button_back')}</span>
+			</button>
+			<button
+				class="copy-button"
+				onclick={copyDocumentation}
+				title={t('custom_api_docs_button_copy')}
+				type="button"
+			>
+				{#if copySuccess}
+					<Check size={16} />
+				{:else}
+					<Copy size={16} />
+				{/if}
+			</button>
+		</div>
 		<h2 class="custom-api-title">{t('rotector_api_docs_title')}</h2>
 	</div>
 
@@ -79,40 +145,40 @@
 		<div class="code-tabs">
 			<button
 				class="code-tab"
-				class:active={activeSingleLookupTab === 'javascript'}
-				onclick={() => (activeSingleLookupTab = 'javascript')}
+				class:active={activeLanguageTab === 'javascript'}
+				onclick={() => (activeLanguageTab = 'javascript')}
 				type="button"
 			>
 				JS
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeSingleLookupTab === 'typescript'}
-				onclick={() => (activeSingleLookupTab = 'typescript')}
+				class:active={activeLanguageTab === 'typescript'}
+				onclick={() => (activeLanguageTab = 'typescript')}
 				type="button"
 			>
 				TS
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeSingleLookupTab === 'python'}
-				onclick={() => (activeSingleLookupTab = 'python')}
+				class:active={activeLanguageTab === 'python'}
+				onclick={() => (activeLanguageTab = 'python')}
 				type="button"
 			>
 				Python
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeSingleLookupTab === 'go'}
-				onclick={() => (activeSingleLookupTab = 'go')}
+				class:active={activeLanguageTab === 'go'}
+				onclick={() => (activeLanguageTab = 'go')}
 				type="button"
 			>
 				Go
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeSingleLookupTab === 'lua'}
-				onclick={() => (activeSingleLookupTab = 'lua')}
+				class:active={activeLanguageTab === 'lua'}
+				onclick={() => (activeLanguageTab = 'lua')}
 				type="button"
 			>
 				Lua
@@ -121,7 +187,7 @@
 
 		<!-- Code Examples -->
 		<div class="code-content">
-			{#if activeSingleLookupTab === 'javascript'}
+			{#if activeLanguageTab === 'javascript'}
 				<Highlight
 					code={`async function checkUser(userId) {
   const response = await fetch(
@@ -146,7 +212,7 @@ try {
 }`}
 					language={javascript}
 				/>
-			{:else if activeSingleLookupTab === 'typescript'}
+			{:else if activeLanguageTab === 'typescript'}
 				<Highlight
 					code={`interface Reason {
   message: string;
@@ -204,7 +270,7 @@ try {
 }`}
 					language={typescript}
 				/>
-			{:else if activeSingleLookupTab === 'python'}
+			{:else if activeLanguageTab === 'python'}
 				<Highlight
 					code={`import requests
 
@@ -226,7 +292,7 @@ except requests.exceptions.RequestException as e:
     print(f"Error checking user: {e}")`}
 					language={python}
 				/>
-			{:else if activeSingleLookupTab === 'go'}
+			{:else if activeLanguageTab === 'go'}
 				<Highlight
 					code={`package main
 
@@ -289,7 +355,7 @@ func main() {
 }`}
 					language={go}
 				/>
-			{:else if activeSingleLookupTab === 'lua'}
+			{:else if activeLanguageTab === 'lua'}
 				<Highlight
 					code={`local HttpService = game:GetService("HttpService")
 
@@ -420,40 +486,40 @@ end`}
 		<div class="code-tabs">
 			<button
 				class="code-tab"
-				class:active={activeBatchLookupTab === 'javascript'}
-				onclick={() => (activeBatchLookupTab = 'javascript')}
+				class:active={activeLanguageTab === 'javascript'}
+				onclick={() => (activeLanguageTab = 'javascript')}
 				type="button"
 			>
 				JS
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeBatchLookupTab === 'typescript'}
-				onclick={() => (activeBatchLookupTab = 'typescript')}
+				class:active={activeLanguageTab === 'typescript'}
+				onclick={() => (activeLanguageTab = 'typescript')}
 				type="button"
 			>
 				TS
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeBatchLookupTab === 'python'}
-				onclick={() => (activeBatchLookupTab = 'python')}
+				class:active={activeLanguageTab === 'python'}
+				onclick={() => (activeLanguageTab = 'python')}
 				type="button"
 			>
 				Python
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeBatchLookupTab === 'go'}
-				onclick={() => (activeBatchLookupTab = 'go')}
+				class:active={activeLanguageTab === 'go'}
+				onclick={() => (activeLanguageTab = 'go')}
 				type="button"
 			>
 				Go
 			</button>
 			<button
 				class="code-tab"
-				class:active={activeBatchLookupTab === 'lua'}
-				onclick={() => (activeBatchLookupTab = 'lua')}
+				class:active={activeLanguageTab === 'lua'}
+				onclick={() => (activeLanguageTab = 'lua')}
 				type="button"
 			>
 				Lua
@@ -462,7 +528,7 @@ end`}
 
 		<!-- Code Examples for Batch -->
 		<div class="code-content">
-			{#if activeBatchLookupTab === 'javascript'}
+			{#if activeLanguageTab === 'javascript'}
 				<Highlight
 					code={`async function checkMultipleUsers(userIds) {
   const response = await fetch(
@@ -496,7 +562,7 @@ try {
 }`}
 					language={javascript}
 				/>
-			{:else if activeBatchLookupTab === 'typescript'}
+			{:else if activeLanguageTab === 'typescript'}
 				<Highlight
 					code={`interface Reason {
   message: string;
@@ -567,7 +633,7 @@ try {
 }`}
 					language={typescript}
 				/>
-			{:else if activeBatchLookupTab === 'python'}
+			{:else if activeLanguageTab === 'python'}
 				<Highlight
 					code={`import requests
 
@@ -596,7 +662,7 @@ except requests.exceptions.RequestException as e:
     print(f"Error checking users: {e}")`}
 					language={python}
 				/>
-			{:else if activeBatchLookupTab === 'go'}
+			{:else if activeLanguageTab === 'go'}
 				<Highlight
 					code={`package main
 
@@ -669,7 +735,7 @@ func main() {
 }`}
 					language={go}
 				/>
-			{:else if activeBatchLookupTab === 'lua'}
+			{:else if activeLanguageTab === 'lua'}
 				<Highlight
 					code={`local HttpService = game:GetService("HttpService")
 

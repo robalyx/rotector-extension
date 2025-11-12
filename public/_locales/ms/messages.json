@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Kembali"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Salin Dokumentasi"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Nota: Respons ralat hanya berlaku apabila terdapat ralat pelayan dalaman atau masalah backend. Pengguna yang tidak ditemui atau belum dianalisis harus mengembalikan success: true dengan flagType: 0 (Selamat)."
 	},

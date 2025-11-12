@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "戻る"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "ドキュメンテーションをコピー"
+	},
 	"custom_api_docs_error_note": {
 		"message": "注意：エラーレスポンスは、内部サーバーエラーまたはバックエンド問題がある場合にのみ発生します。見つからないユーザーまたはまだ分析されていないユーザーは、success: true かつ flagType: 0（安全）で返すべきです。"
 	},

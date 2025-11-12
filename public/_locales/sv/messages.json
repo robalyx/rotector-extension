@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Tillbaka"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Kopiera dokumentation"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Obs: Felsvar inträffar endast när det finns ett internt serverfel eller backend-problem. Användare som inte hittas eller ännu inte har analyserats returnerar success: true med flagType: 0 (Säker)."
 	},

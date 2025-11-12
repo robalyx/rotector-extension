@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "กลับ"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "คัดลอกเอกสาร"
+	},
 	"custom_api_docs_error_note": {
 		"message": "หมายเหตุ: การตอบสนองข้อผิดพลาดจะเกิดขึ้นเฉพาะเมื่อมีข้อผิดพลาดของเซิร์ฟเวอร์ภายในหรือปัญหา backend เท่านั้น ผู้ใช้ที่ไม่พบหรือยังไม่ได้วิเคราะห์จะส่งคืน success: true โดยมี flagType: 0 (ปลอดภัย)"
 	},

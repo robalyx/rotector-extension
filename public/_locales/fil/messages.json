@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Bumalik"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Kopyahin ang Documentation"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Paalala: Ang mga error response ay nangyayari lang kapag may internal server error o backend issue. Ang mga user na hindi nahanap o hindi pa sinusuri ay dapat magbalik ng success: true na may flagType: 0 (Ligtas)."
 	},

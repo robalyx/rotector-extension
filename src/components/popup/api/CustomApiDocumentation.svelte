@@ -1,24 +1,91 @@
 <script lang="ts">
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, Copy, Check } from 'lucide-svelte';
 	import Highlight from 'svelte-highlight';
 	import json from 'svelte-highlight/languages/json';
 	import 'svelte-highlight/styles/github-dark.css';
+	import TurndownService from 'turndown';
 	import { t } from '@/lib/stores/i18n';
+	import { logger } from '@/lib/utils/logger';
 
 	interface Props {
 		onBack: () => void;
 	}
 
 	let { onBack }: Props = $props();
+
+	let docContainer: HTMLDivElement;
+	let copySuccess = $state(false);
+	let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+	const turndownService = new TurndownService({
+		headingStyle: 'atx',
+		codeBlockStyle: 'fenced',
+		bulletListMarker: '-'
+	});
+
+	async function copyDocumentation() {
+		if (!docContainer) return;
+
+		try {
+			// Clone the container to avoid modifying the original
+			const clone = docContainer.cloneNode(true) as HTMLElement;
+
+			// Remove the header section
+			const header = clone.querySelector('.custom-api-header');
+			if (header) {
+				header.remove();
+			}
+
+			const html = clone.innerHTML || '';
+			const markdown = turndownService.turndown(html);
+			await navigator.clipboard.writeText(markdown);
+
+			// Clear any existing timeout
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+
+			copySuccess = true;
+			timeoutId = setTimeout(() => {
+				copySuccess = false;
+				timeoutId = null;
+			}, 2000);
+		} catch (error) {
+			logger.error('Failed to copy documentation', error);
+		}
+	}
+
+	// Cleanup on unmount
+	$effect(() => {
+		return () => {
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+		};
+	});
 </script>
 
-<div class="custom-api-documentation-page">
+<div bind:this={docContainer} class="custom-api-documentation-page">
 	<!-- Header -->
 	<div class="custom-api-header">
-		<button class="back-button" onclick={onBack} type="button">
-			<ArrowLeft size={16} />
-			<span>{t('custom_api_docs_button_back')}</span>
-		</button>
+		<div class="header-actions">
+			<button class="back-button" onclick={onBack} type="button">
+				<ArrowLeft size={16} />
+				<span>{t('custom_api_docs_button_back')}</span>
+			</button>
+			<button
+				class="copy-button"
+				onclick={copyDocumentation}
+				title={t('custom_api_docs_button_copy')}
+				type="button"
+			>
+				{#if copySuccess}
+					<Check size={16} />
+				{:else}
+					<Copy size={16} />
+				{/if}
+			</button>
+		</div>
 		<h2 class="custom-api-title">{t('custom_api_docs_title')}</h2>
 	</div>
 

@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Kembali"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Salin Dokumentasi"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Catatan: Respons kesalahan hanya terjadi ketika ada kesalahan server internal atau masalah backend. Pengguna yang tidak ditemukan atau belum dianalisis harus mengembalikan success: true dengan flagType: 0 (Aman)."
 	},

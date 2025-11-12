@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "뒤로"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "문서 복사"
+	},
 	"custom_api_docs_error_note": {
 		"message": "참고: 오류 응답은 내부 서버 오류 또는 백엔드 문제가 있을 때만 발생합니다. 찾을 수 없거나 아직 분석되지 않은 사용자는 success: true 및 flagType: 0 (안전)으로 반환해야 합니다."
 	},

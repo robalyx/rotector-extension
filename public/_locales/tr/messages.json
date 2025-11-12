@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Geri"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Belgelemeyi Kopyala"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Not: Hata yanıtları yalnızca dahili sunucu hatası veya arka uç sorunu olduğunda oluşur. Bulunamayan veya henüz analiz edilmemiş kullanıcılar success: true ve flagType: 0 (Güvenli) ile dönerler."
 	},

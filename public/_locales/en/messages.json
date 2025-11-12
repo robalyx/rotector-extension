@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Back"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Copy Documentation"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Note: Error responses only occur when there is an internal server error or backend issue. Users not found or not yet analyzed should return success: true with flagType: 0 (Safe)."
 	},

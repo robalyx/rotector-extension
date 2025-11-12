@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "返回"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "複製文件"
+	},
 	"custom_api_docs_error_note": {
 		"message": "注意：僅當發生內部伺服器錯誤或後端問題時才會傳回錯誤回應。未找到的使用者或尚未分析的使用者應傳回 success: true 和 flagType: 0（安全）。"
 	},

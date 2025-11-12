@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "वापस"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "दस्तावेज़ कॉपी करें"
+	},
 	"custom_api_docs_error_note": {
 		"message": "ध्यान दें: त्रुटि प्रतिक्रियाएं केवल तभी होती हैं जब आंतरिक सर्वर त्रुटि या बैकएंड समस्या हो। खोजे न गए उपयोगकर्ता या अभी तक विश्लेषण न किए गए उपयोगकर्ता success: true के साथ flagType: 0 (सुरक्षित) लौटाने चाहिए।"
 	},

@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "Quay lại"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "Sao chép Tài liệu"
+	},
 	"custom_api_docs_error_note": {
 		"message": "Lưu ý: Phản hồi lỗi chỉ xảy ra khi có lỗi máy chủ nội bộ hoặc sự cố backend. Người dùng không tìm thấy hoặc chưa được phân tích sẽ trả về success: true với flagType: 0 (An toàn)."
 	},

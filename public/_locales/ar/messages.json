@@ -32,6 +32,9 @@
 	"custom_api_docs_button_back": {
 		"message": "رجوع"
 	},
+	"custom_api_docs_button_copy": {
+		"message": "نسخ التوثيق"
+	},
 	"custom_api_docs_error_note": {
 		"message": "ملاحظة: استجابات الخطأ تحدث فقط عند وجود خطأ في الخادم الداخلي أو مشكلة في الواجهة الخلفية. المستخدمون غير الموجودين أو غير المحللين بعد يجب أن يعيدوا النجاح: صحيح مع flagType: 0 (آمن)."
 	},

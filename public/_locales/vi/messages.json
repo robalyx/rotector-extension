@@ -366,7 +366,7 @@
 		"message": "Đã tải xuống cấu hình API thành công!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Không thể nhập API:"
+		"message": "Không thể nhập API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "Đã nhập API dưới tên \"$1\" (đổi tên từ \"$2\" vì đã có API với tên đó)"

@@ -366,7 +366,7 @@
 		"message": "API-konfiguration nedladdad framgångsrikt!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Misslyckades med att importera API:"
+		"message": "Misslyckades med att importera API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API importerat som \"$1\" (omdöpt från \"$2\" eftersom ett API med det namnet redan finns)"

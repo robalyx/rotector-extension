@@ -29,6 +29,7 @@
 		// Check file extension
 		if (!file.name.endsWith('.rotector-api')) {
 			alert(t('custom_api_import_error_invalid_file_extension'));
+			input.value = '';
 			return;
 		}
 
@@ -37,9 +38,11 @@
 		reader.onload = (e) => {
 			const content = e.target?.result as string;
 			encodedData = content.trim();
+			input.value = '';
 		};
 		reader.onerror = () => {
 			alert(t('custom_api_import_error_file_read_failed'));
+			input.value = '';
 		};
 		reader.readAsText(file);
 	}
@@ -70,7 +73,7 @@
 			logger.error('Failed to import custom API:', error);
 			const errorMessage =
 				error instanceof Error ? error.message : t('custom_api_import_error_unknown');
-			alert(`${t('custom_api_mgmt_alert_import_failed')} ${errorMessage}`);
+			alert(t('custom_api_mgmt_alert_import_failed', [errorMessage]));
 		} finally {
 			importing = false;
 		}
@@ -118,12 +121,10 @@
 
 		<!-- File Upload -->
 		<div class="import-form-group">
-			<button class="upload-file-button" type="button">
-				<label for="file-upload">
-					<Upload size={16} />
-					<span>{t('custom_api_import_button_upload_file')}</span>
-				</label>
-			</button>
+			<label class="upload-file-button" for="file-upload">
+				<Upload size={16} />
+				<span>{t('custom_api_import_button_upload_file')}</span>
+			</label>
 			<input
 				id="file-upload"
 				class="file-input-hidden"

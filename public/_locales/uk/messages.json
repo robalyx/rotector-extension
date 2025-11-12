@@ -366,7 +366,7 @@
 		"message": "Конфігурацію API успішно завантажено!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Не вдалося імпортувати API:"
+		"message": "Не вдалося імпортувати API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API імпортовано як \"$1\" (перейменовано з \"$2\", оскільки API з такою назвою вже існує)"

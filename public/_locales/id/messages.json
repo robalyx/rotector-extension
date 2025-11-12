@@ -366,7 +366,7 @@
 		"message": "Konfigurasi API berhasil diunduh!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Gagal mengimpor API:"
+		"message": "Gagal mengimpor API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API diimpor sebagai \"$1\" (diganti namanya dari \"$2\" karena API dengan nama tersebut sudah ada)"

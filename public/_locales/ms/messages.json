@@ -366,7 +366,7 @@
 		"message": "Konfigurasi API berjaya dimuat turun!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Gagal mengimport API:"
+		"message": "Gagal mengimport API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API diimport sebagai \"$1\" (dinamakan semula daripada \"$2\" kerana API dengan nama itu sudah wujud)"

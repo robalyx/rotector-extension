@@ -366,7 +366,7 @@
 		"message": "API 設定下載成功！"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "匯入 API 失敗："
+		"message": "匯入 API 失敗：$1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API 已匯入為「$1」（從「$2」重新命名，因為該名稱的 API 已存在）"

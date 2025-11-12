@@ -366,7 +366,7 @@
 		"message": "API 配置下载成功！"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "导入 API 失败："
+		"message": "导入 API 失败：$1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API 已导入为 \"$1\"（从 \"$2\" 重命名，因为已存在同名 API）"

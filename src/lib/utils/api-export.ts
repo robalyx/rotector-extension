@@ -86,8 +86,8 @@ export function importCustomApi(
 		throw new Error('Invalid API data: URL must use HTTPS protocol');
 	}
 
-	if (data.timeout < 100 || data.timeout > 30000) {
-		throw new Error('Invalid API data: Timeout must be between 100 and 30000 milliseconds');
+	if (data.timeout < 1000 || data.timeout > 60000) {
+		throw new Error('Invalid API data: Timeout must be between 1000 and 60000 milliseconds');
 	}
 
 	// Validate optional fields

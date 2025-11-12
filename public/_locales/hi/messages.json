@@ -366,7 +366,7 @@
 		"message": "API कॉन्फ़िगरेशन सफलतापूर्वक डाउनलोड हो गया!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "API आयात करने में विफल:"
+		"message": "API आयात करने में विफल: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API को \"$1\" के रूप में आयात किया गया (\"$2\" से नाम बदला गया क्योंकि उस नाम वाला API पहले से मौजूद है)"

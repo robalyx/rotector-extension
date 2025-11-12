@@ -366,7 +366,7 @@
 		"message": "Configurazione API scaricata con successo!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Impossibile importare l'API:"
+		"message": "Impossibile importare l'API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API importata come \"$1\" (rinominata da \"$2\" perché esiste già un'API con quel nome)"

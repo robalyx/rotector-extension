@@ -366,7 +366,7 @@
 		"message": "API設定のダウンロードに成功しました！"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "APIのインポートに失敗しました:"
+		"message": "APIのインポートに失敗しました: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "APIを「$1」としてインポートしました（同じ名前のAPIが既に存在するため、「$2」から名前を変更しました）"

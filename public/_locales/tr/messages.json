@@ -366,7 +366,7 @@
 		"message": "API yapılandırması başarıyla indirildi!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "API içe aktarılamadı:"
+		"message": "API içe aktarılamadı: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "API \"$1\" olarak içe aktarıldı (\"$2\" adından yeniden adlandırıldı çünkü bu isimde bir API zaten mevcut)"

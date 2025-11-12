@@ -366,7 +366,7 @@
 		"message": "تم تنزيل تكوين API بنجاح!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "فشل استيراد API:"
+		"message": "فشل استيراد API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "تم استيراد API باسم \"$1\" (تمت إعادة التسمية من \"$2\" لأن API بهذا الاسم موجود بالفعل)"

@@ -366,10 +366,10 @@
 		"message": "Matagumpay na na-download ang API configuration!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "Nabigo ang pag-import ng API:"
+		"message": "Nabigo ang pag-import ng API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
-		"message": "Na-import ang API bilang \"$1\" (pinalitan ang pangalan mula sa \"$2\" dahil may existing API na na may pangalang iyon)"
+		"message": "Na-import ang API bilang \"$1\" (pinalitan ang pangalan mula sa \"$2\" dahil may existing API na may pangalang iyon)"
 	},
 	"custom_api_mgmt_alert_import_success": {
 		"message": "Matagumpay na na-import ang API na \"$1\"!"

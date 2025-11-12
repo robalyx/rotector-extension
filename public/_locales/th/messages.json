@@ -366,7 +366,7 @@
 		"message": "ดาวน์โหลดการกำหนดค่า API สำเร็จแล้ว!"
 	},
 	"custom_api_mgmt_alert_import_failed": {
-		"message": "ไม่สามารถนำเข้า API:"
+		"message": "ไม่สามารถนำเข้า API: $1"
 	},
 	"custom_api_mgmt_alert_import_renamed": {
 		"message": "นำเข้า API เป็น \"$1\" (เปลี่ยนชื่อจาก \"$2\" เนื่องจากมี API ที่มีชื่อนี้อยู่แล้ว)"

@@ -67,8 +67,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
-          git push origin "v${{ env.VERSION }}"
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Tag v${{ env.VERSION }} already exists, skipping tag creation"
+          else
+            echo "Creating new tag v${{ env.VERSION }}"
+            git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+            git push origin "v${{ env.VERSION }}"
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

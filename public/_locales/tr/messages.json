@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Özel API'yi Düzenle"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "İptal"
+	},
+	"custom_api_import_button_import": {
+		"message": "İçe Aktar"
+	},
+	"custom_api_import_button_importing": {
+		"message": "İçe Aktarılıyor..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Dosya Yükle"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Lütfen bir API yapılandırması yapıştırın veya dosya yükleyin."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Dosya okunamadı. Lütfen tekrar deneyin."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Geçersiz dosya türü. Lütfen bir .rotector-api dosyası seçin."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Bilinmeyen hata"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API Yapılandırmasını Yapıştır"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Dışa aktarılan API yapılandırma dizesini buraya yapıştırın..."
+	},
+	"custom_api_import_title": {
+		"message": "Özel API İçe Aktar"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API yapılandırması panoya kopyalandı!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "API dışa aktarılamadı: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API yapılandırması başarıyla indirildi!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "API içe aktarılamadı: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API \"$1\" olarak içe aktarıldı (\"$2\" adından yeniden adlandırıldı çünkü bu isimde bir API zaten mevcut)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" başarıyla içe aktarıldı!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "Sistem API'si"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Geri"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Panoya Kopyala"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Dosya İndir"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "API İçe Aktar"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Entegrasyon Kılavuzunu Görüntüle"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Düzenle"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Dışa Aktar"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "API İçe Aktar"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Aşağı taşı"
@@ -1500,10 +1566,10 @@
 		"message": "Bu grup uygun ve uygunsuz üyelerin bir karışımını içeriyor."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Bu kullanıcı uygunsuz içerikle ilişkilendirildi, ancak Roblox'un işlem yapması için yeterli kanıt yok. Onlarla etkileşime geçerken dikkatli olun."
+		"message": "Bu kullanıcı uygunsuz içerikle bağlantılı ancak Roblox'un işlem yapması için yeterli kanıt yok. Ayrıca bir mağdur olabilirler. Dikkatli olun."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Bu $1 daha önce uygunsuz içeriğe sahipti ancak hesabı şu anda temiz görünüyor ve doğrulama için yeniden kuyruğa alınabilir."
+		"message": "Bu $1 daha önce uygunsuz içeriğe sahipti ancak hesabı şu anda temiz görünüyor."
 	},
 	"tooltip_header_pending": {
 		"message": "Bu $1 AI tarafından %$2 güvenle işaretlendi."
@@ -1512,7 +1578,7 @@
 		"message": "Bu $1 şu anda sistemimiz tarafından kontrol ediliyor. Bu birkaç dakika sürebilir."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Bu $1 AI sistemimiz tarafından incelendi ve güvenli görünüyor. Yanlış pozitifse, daha fazla inceleme için yeniden kuyruğa alabilirsiniz."
+		"message": "Bu $1 AI sistemimiz tarafından incelendi ve güvenli görünüyor. Yanlışsa, lütfen bize bildirin."
 	},
 	"tooltip_header_safe": {
 		"message": "Bu $1 henüz incelenmedi."

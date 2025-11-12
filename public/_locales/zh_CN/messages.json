@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "编辑自定义 API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "取消"
+	},
+	"custom_api_import_button_import": {
+		"message": "导入"
+	},
+	"custom_api_import_button_importing": {
+		"message": "导入中..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "上传文件"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "请粘贴 API 配置或上传文件。"
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "无法读取文件。请重试。"
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "文件类型无效。请选择 .rotector-api 文件。"
+	},
+	"custom_api_import_error_unknown": {
+		"message": "未知错误"
+	},
+	"custom_api_import_label_paste": {
+		"message": "粘贴 API 配置"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "在此粘贴导出的 API 配置字符串..."
+	},
+	"custom_api_import_title": {
+		"message": "导入自定义 API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API 配置已复制到剪贴板！"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "导出 API 失败：$1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API 配置下载成功！"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "导入 API 失败：$1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API 已导入为 \"$1\"（从 \"$2\" 重命名，因为已存在同名 API）"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" 导入成功！"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "系统 API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "返回"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "复制到剪贴板"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "下载文件"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "导入 API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "查看集成指南"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "编辑"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "导出"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "导入 API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "下移"
@@ -1500,10 +1566,10 @@
 		"message": "此群组包含适当和不当成员的混合内容。"
 	},
 	"tooltip_header_mixed_user": {
-		"message": "此用户已与不当内容关联，但没有足够的证据让 Roblox 采取行动。与其互动时请谨慎。"
+		"message": "此用户已与不当内容关联，但缺乏足够证据让 Roblox 采取行动。他们也可能是受害者。请谨慎行事。"
 	},
 	"tooltip_header_past_offender": {
-		"message": "此$1之前有不当内容，但其账户目前看起来是干净的，可以重新加入队列进行验证。"
+		"message": "此$1之前有不当内容，但其账户目前看起来是干净的。"
 	},
 	"tooltip_header_pending": {
 		"message": "此$1已被 AI 标记，可信度为 $2%。"
@@ -1512,7 +1578,7 @@
 		"message": "此$1目前正在由我们的系统检查。这可能需要几分钟。"
 	},
 	"tooltip_header_queued_safe": {
-		"message": "此$1已由我们的 AI 系统审查，看起来是安全的。如果这是误报，您可以重新加入队列进行进一步审查。"
+		"message": "此$1已由我们的 AI 系统审查，看起来是安全的。如果这不正确，请向我们报告。"
 	},
 	"tooltip_header_safe": {
 		"message": "此$1尚未被审查。"

@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Edit Custom API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Cancel"
+	},
+	"custom_api_import_button_import": {
+		"message": "Import"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importing..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Upload File"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Please paste an API configuration or upload a file."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Failed to read file. Please try again."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Invalid file type. Please select a .rotector-api file."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Unknown error"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Paste API Configuration"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Paste the exported API configuration string here..."
+	},
+	"custom_api_import_title": {
+		"message": "Import Custom API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API configuration copied to clipboard!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Failed to export API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API configuration downloaded successfully!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Failed to import API: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API imported as \"$1\" (renamed from \"$2\" because an API with that name already exists)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" imported successfully!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "System API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Back"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Copy to Clipboard"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Download File"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Import API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "View Integration Guide"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Edit"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Export"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Import API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Move down"
@@ -1500,10 +1566,10 @@
 		"message": "This group contains a mix of appropriate and inappropriate members."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "This user has been associated with inappropriate content, but there isn't sufficient evidence for Roblox to take action. Exercise caution when interacting with them."
+		"message": "This user has been linked to inappropriate content, but lacks sufficient evidence for Roblox action. They could also be a victim. Exercise caution."
 	},
 	"tooltip_header_past_offender": {
-		"message": "This $1 had inappropriate content previously but their account currently appears clean and can be requeued for verification."
+		"message": "This $1 had inappropriate content previously but their account currently appears clean."
 	},
 	"tooltip_header_pending": {
 		"message": "This $1 has been flagged by AI with $2% confidence."
@@ -1512,7 +1578,7 @@
 		"message": "This $1 is currently being checked by our system. This may take a few minutes."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "This $1 has been reviewed by our AI system and appears to be safe. If this is a false positive, you can requeue for further review."
+		"message": "This $1 has been reviewed by our AI system and appears to be safe. If this is incorrect, please report it to us."
 	},
 	"tooltip_header_safe": {
 		"message": "This $1 has not been reviewed yet."

@@ -54,6 +54,7 @@
 /* Custom API Management */
 @import './popup/api/management.css';
 @import './popup/api/form.css';
+@import './popup/api/import.css';
 @import './popup/api/documentation.css';
 
 /* Warzone Page */

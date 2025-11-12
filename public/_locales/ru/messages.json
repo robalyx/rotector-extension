@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Редактировать пользовательский API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Отмена"
+	},
+	"custom_api_import_button_import": {
+		"message": "Импортировать"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Импортирование..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Загрузить файл"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Пожалуйста, вставьте конфигурацию API или загрузите файл."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Не удалось прочитать файл. Попробуйте снова."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Недопустимый тип файла. Выберите файл .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Неизвестная ошибка"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Вставить конфигурацию API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Вставьте экспортированную строку конфигурации API сюда..."
+	},
+	"custom_api_import_title": {
+		"message": "Импортировать пользовательский API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Конфигурация API скопирована в буфер обмена!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Не удалось экспортировать API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Конфигурация API успешно загружена!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Не удалось импортировать API: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API импортирован как \"$1\" (переименован с \"$2\", так как API с таким именем уже существует)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" успешно импортирован!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "Системный API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Назад"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Копировать в буфер обмена"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Скачать файл"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Импортировать API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Просмотреть руководство по интеграции"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Редактировать"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Экспорт"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Импортировать API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Переместить вниз"
@@ -1500,10 +1566,10 @@
 		"message": "Эта группа содержит смесь подходящих и неподходящих участников."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Этот пользователь был связан с неподходящим контентом, но недостаточно доказательств для действий Roblox. Будьте осторожны при взаимодействии с ним."
+		"message": "Этот пользователь был связан с неподходящим контентом, но недостаточно доказательств для действий Roblox. Он также может быть жертвой. Будьте осторожны."
 	},
 	"tooltip_header_past_offender": {
-		"message": "У этого $1 ранее был неподходящий контент, но его учётная запись в настоящее время выглядит чистой и может быть поставлена в очередь на проверку."
+		"message": "У этого $1 ранее был неподходящий контент, но его учётная запись в настоящее время выглядит чистой."
 	},
 	"tooltip_header_pending": {
 		"message": "Этот $1 был отмечен AI с $2% уверенностью."
@@ -1512,7 +1578,7 @@
 		"message": "Этот $1 в данный момент проверяется нашей системой. Это может занять несколько минут."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Этот $1 был проверен нашей AI-системой и кажется безопасным. Если это ложное срабатывание, вы можете поставить в очередь на дальнейшую проверку."
+		"message": "Этот $1 был проверен нашей AI-системой и кажется безопасным. Если это неверно, пожалуйста, сообщите нам."
 	},
 	"tooltip_header_safe": {
 		"message": "Этот $1 ещё не был проверен."

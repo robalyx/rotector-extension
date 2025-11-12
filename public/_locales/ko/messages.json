@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "사용자 정의 API 편집"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "취소"
+	},
+	"custom_api_import_button_import": {
+		"message": "가져오기"
+	},
+	"custom_api_import_button_importing": {
+		"message": "가져오는 중..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "파일 업로드"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "API 구성을 붙여넣거나 파일을 업로드하세요."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "파일을 읽지 못했습니다. 다시 시도하세요."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "잘못된 파일 형식입니다. .rotector-api 파일을 선택하세요."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "알 수 없는 오류"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API 구성 붙여넣기"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "내보낸 API 구성 문자열을 여기에 붙여넣으세요..."
+	},
+	"custom_api_import_title": {
+		"message": "사용자 정의 API 가져오기"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API 구성이 클립보드에 복사되었습니다!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "API 내보내기 실패: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API 구성이 성공적으로 다운로드되었습니다!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "API 가져오기 실패: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API가 \"$1\"(으)로 가져와졌습니다 (해당 이름의 API가 이미 존재하여 \"$2\"에서 이름 변경됨)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\"이(가) 성공적으로 가져와졌습니다!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "시스템 API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "뒤로"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "클립보드에 복사"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "파일 다운로드"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "API 가져오기"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "통합 가이드 보기"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "편집"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "내보내기"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "API 가져오기"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "아래로 이동"
@@ -1500,10 +1566,10 @@
 		"message": "이 그룹에는 적절한 회원과 부적절한 회원이 혼합되어 있습니다."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "이 사용자는 부적절한 콘텐츠와 연관되어 있지만 Roblox가 조치를 취하기에 충분한 증거가 없습니다. 상호작용할 때 주의하세요."
+		"message": "이 사용자는 부적절한 콘텐츠와 연관되어 있지만 Roblox가 조치를 취하기에 충분한 증거가 부족합니다. 피해자일 수도 있습니다. 주의하세요."
 	},
 	"tooltip_header_past_offender": {
-		"message": "이 $1은(는) 이전에 부적절한 콘텐츠가 있었지만 현재 계정은 깨끗해 보이며 확인을 위해 다시 대기열에 추가할 수 있습니다."
+		"message": "이 $1은(는) 이전에 부적절한 콘텐츠가 있었지만 현재 계정은 깨끗해 보입니다."
 	},
 	"tooltip_header_pending": {
 		"message": "이 $1은(는) $2% 신뢰도로 AI에 의해 신고되었습니다."
@@ -1512,7 +1578,7 @@
 		"message": "이 $1은(는) 현재 시스템에서 확인 중입니다. 몇 분이 소요될 수 있습니다."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "이 $1은(는) AI 시스템에 의해 검토되었으며 안전한 것으로 보입니다. 오탐인 경우 추가 검토를 위해 다시 대기열에 추가할 수 있습니다."
+		"message": "이 $1은(는) AI 시스템에 의해 검토되었으며 안전한 것으로 보입니다. 오류라고 생각되면 저희에게 신고해 주세요."
 	},
 	"tooltip_header_safe": {
 		"message": "이 $1은(는) 아직 검토되지 않았습니다."

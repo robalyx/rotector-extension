@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Modifica API Personalizzata"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Annulla"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importa"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importazione..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Carica File"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Si prega di incollare una configurazione API o caricare un file."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Impossibile leggere il file. Riprova."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Tipo di file non valido. Seleziona un file .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Errore sconosciuto"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Incolla Configurazione API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Incolla qui la stringa di configurazione API esportata..."
+	},
+	"custom_api_import_title": {
+		"message": "Importa API Personalizzata"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Configurazione API copiata negli appunti!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Impossibile esportare l'API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Configurazione API scaricata con successo!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Impossibile importare l'API: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API importata come \"$1\" (rinominata da \"$2\" perché esiste già un'API con quel nome)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" importata con successo!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API di Sistema"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Indietro"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Copia negli Appunti"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Scarica File"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Importa API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Visualizza Guida all'Integrazione"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Modifica"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Esporta"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Importa API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Sposta giù"
@@ -1500,10 +1566,10 @@
 		"message": "Questo gruppo contiene un mix di membri appropriati e inappropriati."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Questo utente è stato associato a contenuti inappropriati, ma non ci sono prove sufficienti perché Roblox possa agire. Usa cautela quando interagisci con loro."
+		"message": "Questo utente è stato collegato a contenuti inappropriati, ma mancano prove sufficienti per un'azione di Roblox. Potrebbero anche essere una vittima. Procedi con cautela."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Questo $1 aveva contenuti inappropriati in precedenza ma il loro account attualmente appare pulito e può essere rimesso in coda per la verifica."
+		"message": "Questo $1 aveva contenuti inappropriati in precedenza ma il suo account attualmente appare pulito."
 	},
 	"tooltip_header_pending": {
 		"message": "Questo $1 è stato segnalato dall'AI con $2% di affidabilità."
@@ -1512,7 +1578,7 @@
 		"message": "Questo $1 è attualmente in fase di controllo da parte del nostro sistema. Potrebbe richiedere alcuni minuti."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Questo $1 è stato rivisto dal nostro sistema AI e sembra essere sicuro. Se questo è un falso positivo, puoi rimetterlo in coda per ulteriori revisioni."
+		"message": "Questo $1 è stato rivisto dal nostro sistema AI e sembra essere sicuro. Se questo è errato, ti preghiamo di segnalarcelo."
 	},
 	"tooltip_header_safe": {
 		"message": "Questo $1 non è ancora stato rivisto."

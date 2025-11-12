@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "カスタムAPIを編集"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "キャンセル"
+	},
+	"custom_api_import_button_import": {
+		"message": "インポート"
+	},
+	"custom_api_import_button_importing": {
+		"message": "インポート中..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "ファイルをアップロード"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "API設定を貼り付けるか、ファイルをアップロードしてください。"
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "ファイルの読み取りに失敗しました。もう一度お試しください。"
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "無効なファイルタイプです。.rotector-apiファイルを選択してください。"
+	},
+	"custom_api_import_error_unknown": {
+		"message": "不明なエラー"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API設定を貼り付け"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "エクスポートされたAPI設定文字列をここに貼り付けてください..."
+	},
+	"custom_api_import_title": {
+		"message": "カスタムAPIをインポート"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API設定をクリップボードにコピーしました！"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "APIのエクスポートに失敗しました: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API設定のダウンロードに成功しました！"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "APIのインポートに失敗しました: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "APIを「$1」としてインポートしました（同じ名前のAPIが既に存在するため、「$2」から名前を変更しました）"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API「$1」のインポートに成功しました！"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "システムAPI"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "戻る"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "クリップボードにコピー"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "ファイルをダウンロード"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "APIをインポート"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "統合ガイドを表示"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "編集"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "エクスポート"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "APIをインポート"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "下に移動"
@@ -1500,10 +1566,10 @@
 		"message": "このグループには適切なメンバーと不適切なメンバーが混在しています。"
 	},
 	"tooltip_header_mixed_user": {
-		"message": "このユーザーは不適切なコンテンツに関連付けられていますが、Robloxが措置を取るのに十分な証拠がありません。やり取りする際は注意してください。"
+		"message": "このユーザーは不適切なコンテンツに関連付けられていますが、Robloxが措置を取るのに十分な証拠がありません。被害者である可能性もあります。注意してください。"
 	},
 	"tooltip_header_past_offender": {
-		"message": "この$1は以前に不適切なコンテンツがありましたが、現在のアカウントはクリーンに見え、検証のために再キューに追加できます。"
+		"message": "この$1は以前に不適切なコンテンツがありましたが、現在のアカウントはクリーンに見えます。"
 	},
 	"tooltip_header_pending": {
 		"message": "この$1はAIによって$2%の信頼度でフラグが立てられています。"
@@ -1512,7 +1578,7 @@
 		"message": "この$1は現在システムによってチェックされています。これには数分かかる場合があります。"
 	},
 	"tooltip_header_queued_safe": {
-		"message": "この$1はAIシステムによってレビューされ、安全であると判断されました。これが誤検出の場合、再レビューのために再キューに追加できます。"
+		"message": "この$1はAIシステムによってレビューされ、安全であると判断されました。これが誤っている場合は、ご報告ください。"
 	},
 	"tooltip_header_safe": {
 		"message": "この$1はまだレビューされていません。"

@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Benutzerdefinierte API bearbeiten"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Abbrechen"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importieren"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Wird importiert..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Datei hochladen"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Bitte fügen Sie eine API-Konfiguration ein oder laden Sie eine Datei hoch."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Datei konnte nicht gelesen werden. Bitte versuchen Sie es erneut."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Ungültiger Dateityp. Bitte wählen Sie eine .rotector-api-Datei."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Unbekannter Fehler"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API-Konfiguration einfügen"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Fügen Sie hier die exportierte API-Konfigurationszeichenfolge ein..."
+	},
+	"custom_api_import_title": {
+		"message": "Benutzerdefinierte API importieren"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API-Konfiguration in die Zwischenablage kopiert!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "API-Export fehlgeschlagen: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API-Konfiguration erfolgreich heruntergeladen!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "API-Import fehlgeschlagen: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API wurde als \"$1\" importiert (umbenannt von \"$2\", da bereits eine API mit diesem Namen existiert)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" erfolgreich importiert!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "System-API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Zurück"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "In Zwischenablage kopieren"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Datei herunterladen"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "API importieren"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Integrationsleitfaden anzeigen"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Bearbeiten"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Exportieren"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "API importieren"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Nach unten verschieben"
@@ -1500,10 +1566,10 @@
 		"message": "Diese Gruppe enthält eine Mischung aus angemessenen und unangemessenen Mitgliedern."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Dieser Benutzer wurde mit unangemessenen Inhalten in Verbindung gebracht, aber es gibt nicht genügend Beweise für Roblox, um Maßnahmen zu ergreifen. Seien Sie vorsichtig bei der Interaktion mit ihm."
+		"message": "Dieser Benutzer wurde mit unangemessenen Inhalten in Verbindung gebracht, verfügt jedoch nicht über ausreichende Beweise für Roblox-Maßnahmen. Er könnte auch ein Opfer sein. Seien Sie vorsichtig."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Diese(r) $1 hatte zuvor unangemessene Inhalte, aber das Konto scheint derzeit sauber zu sein und kann zur Verifizierung erneut eingereicht werden."
+		"message": "Diese(r) $1 hatte zuvor unangemessene Inhalte, aber das Konto scheint derzeit sauber zu sein."
 	},
 	"tooltip_header_pending": {
 		"message": "Diese(r) $1 wurde von AI mit $2% Konfidenz markiert."
@@ -1512,7 +1578,7 @@
 		"message": "Diese(r) $1 wird derzeit von unserem System überprüft. Dies kann einige Minuten dauern."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Diese(r) $1 wurde von unserem AI-System überprüft und scheint sicher zu sein. Wenn dies ein falsch-negatives Ergebnis ist, können Sie eine erneute Überprüfung einreichen."
+		"message": "Diese(r) $1 wurde von unserem AI-System überprüft und scheint sicher zu sein. Wenn dies falsch ist, melden Sie es uns bitte."
 	},
 	"tooltip_header_safe": {
 		"message": "Diese(r) $1 wurde noch nicht überprüft."

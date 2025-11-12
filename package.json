@@ -54,6 +54,7 @@
 	},
 	"dependencies": {
 		"lucide-svelte": "^0.546.0",
+		"lz-string": "^1.5.0",
 		"svelte-highlight": "^7.9.0",
 		"svelte-portal": "^2.2.1"
 	}

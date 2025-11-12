@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "I-edit ang Custom API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Kanselahin"
+	},
+	"custom_api_import_button_import": {
+		"message": "I-import"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Ini-import..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Mag-upload ng File"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Mangyaring mag-paste ng API configuration o mag-upload ng file."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Nabigo ang pagbasa ng file. Mangyaring subukan muli."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Hindi wastong uri ng file. Mangyaring pumili ng .rotector-api file."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Hindi kilalang error"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Mag-paste ng API Configuration"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "I-paste dito ang exported API configuration string..."
+	},
+	"custom_api_import_title": {
+		"message": "I-import ang Custom API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Na-copy ang API configuration sa clipboard!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Nabigo ang pag-export ng API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Matagumpay na na-download ang API configuration!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Nabigo ang pag-import ng API: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "Na-import ang API bilang \"$1\" (pinalitan ang pangalan mula sa \"$2\" dahil may existing API na may pangalang iyon)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "Matagumpay na na-import ang API na \"$1\"!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "System API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Bumalik"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "I-copy sa Clipboard"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "I-download ang File"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "I-import ang API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Tingnan ang Integration Guide"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "I-edit"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "I-export"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "I-import ang API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Ilipat pababa"
@@ -1500,10 +1566,10 @@
 		"message": "Ang grupo na ito ay naglalaman ng halo-halong angkop at hindi angkop na mga miyembro."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Ang user na ito ay naiugnay sa hindi angkop na nilalaman, ngunit walang sapat na ebidensya para kumilos ang Roblox. Mag-ingat kapag nakikipag-ugnayan sa kanila."
+		"message": "Ang user na ito ay naiugnay sa hindi angkop na nilalaman, ngunit walang sapat na ebidensya para kumilos ang Roblox. Maaari din silang maging biktima. Mag-ingat."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Ang $1 na ito ay may hindi angkop na nilalaman dati ngunit ang kanilang account ay mukhang malinis na ngayon at pwedeng i-requeue para sa verification."
+		"message": "Ang $1 na ito ay may hindi angkop na nilalaman dati ngunit ang kanilang account ay mukhang malinis na ngayon."
 	},
 	"tooltip_header_pending": {
 		"message": "Ang $1 na ito ay na-flag ng AI na may $2% tiwala."
@@ -1512,7 +1578,7 @@
 		"message": "Ang $1 na ito ay kasalukuyang sinusuri ng aming sistema. Maaaring tumagal ito ng ilang minuto."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Ang $1 na ito ay sinuri ng aming AI system at mukhang ligtas. Kung ito ay false positive, maaari mong i-requeue para sa karagdagang review."
+		"message": "Ang $1 na ito ay sinuri ng aming AI system at mukhang ligtas. Kung mali ito, mangyaring iulat ito sa amin."
 	},
 	"tooltip_header_safe": {
 		"message": "Ang $1 na ito ay hindi pa nasusuri."

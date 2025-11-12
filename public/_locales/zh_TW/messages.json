@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "編輯自訂 API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "取消"
+	},
+	"custom_api_import_button_import": {
+		"message": "匯入"
+	},
+	"custom_api_import_button_importing": {
+		"message": "正在匯入..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "上傳檔案"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "請貼上 API 設定或上傳檔案。"
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "無法讀取檔案。請再試一次。"
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "無效的檔案類型。請選擇 .rotector-api 檔案。"
+	},
+	"custom_api_import_error_unknown": {
+		"message": "未知錯誤"
+	},
+	"custom_api_import_label_paste": {
+		"message": "貼上 API 設定"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "在此貼上匯出的 API 設定字串..."
+	},
+	"custom_api_import_title": {
+		"message": "匯入自訂 API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API 設定已複製到剪貼簿！"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "匯出 API 失敗：$1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API 設定下載成功！"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "匯入 API 失敗：$1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API 已匯入為「$1」（從「$2」重新命名，因為該名稱的 API 已存在）"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API「$1」匯入成功！"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "系統 API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "返回"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "複製到剪貼簿"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "下載檔案"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "匯入 API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "查看整合指南"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "編輯"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "匯出"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "匯入 API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "下移"
@@ -1500,10 +1566,10 @@
 		"message": "此群組包含適當和不當成員的混合。"
 	},
 	"tooltip_header_mixed_user": {
-		"message": "此使用者已與不當內容關聯，但沒有足夠的證據讓 Roblox 採取行動。與他們互動時請謹慎。"
+		"message": "此使用者已與不當內容關聯，但沒有足夠的證據讓 Roblox 採取行動。他們也可能是受害者。請謹慎行事。"
 	},
 	"tooltip_header_past_offender": {
-		"message": "此 $1 先前有不當內容，但他們的帳號目前看起來乾淨，可以重新加入佇列進行驗證。"
+		"message": "此 $1 先前有不當內容，但他們的帳號目前看起來乾淨。"
 	},
 	"tooltip_header_pending": {
 		"message": "此 $1 已被 AI 以 $2% 的信心度標記。"
@@ -1512,7 +1578,7 @@
 		"message": "此 $1 目前正在由我們的系統檢查中。這可能需要幾分鐘。"
 	},
 	"tooltip_header_queued_safe": {
-		"message": "此 $1 已由我們的 AI 系統審核，似乎是安全的。如果這是誤報，您可以重新加入佇列以進行進一步審核。"
+		"message": "此 $1 已由我們的 AI 系統審核，似乎是安全的。如果這是不正確的，請向我們回報。"
 	},
 	"tooltip_header_safe": {
 		"message": "此 $1 尚未被審核。"

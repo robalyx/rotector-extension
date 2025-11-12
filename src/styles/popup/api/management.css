@@ -175,11 +175,17 @@
 }
 
 /* =================================
-   ADD API CARD
+   ADD/IMPORT API SECTION
    ================================= */
 
+@utility api-list-actions {
+	@apply flex items-center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
 @utility add-api-card {
-	@apply flex items-center justify-center;
+	@apply flex items-center justify-center flex-1;
 	gap: 0.375rem;
 	padding: 0.75rem;
 	background-color: var(--color-bg-secondary);
@@ -190,6 +196,7 @@
 	font-size: 0.8125rem;
 	font-weight: 500;
 	color: var(--color-primary);
+	min-width: 0;
 
 	&:hover {
 		border-color: var(--color-primary);
@@ -201,7 +208,36 @@
 	}
 }
 
+@utility import-api-button {
+	@apply flex items-center justify-center;
+	gap: 0.375rem;
+	padding: 0.75rem 1rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.375rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--color-primary);
+	white-space: nowrap;
+
+	&:hover:not(:disabled) {
+		background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+	}
+
+	&:active:not(:disabled) {
+		transform: scale(0.98);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
 @utility max-apis-notice {
+	@apply flex-1;
 	padding: 0.625rem 0.75rem;
 	font-size: 0.75rem;
 	color: var(--color-warning);
@@ -451,5 +487,61 @@
 		&:hover {
 			background-color: color-mix(in srgb, var(--color-status-unsafe) 10%, transparent);
 		}
+	}
+
+	&.export-button {
+		color: var(--color-text);
+
+		&:hover {
+			border-color: var(--color-text-subtle);
+			background-color: var(--color-hover);
+		}
+	}
+}
+
+/* =================================
+   EXPORT DROPDOWN
+   ================================= */
+
+@utility export-dropdown-container {
+	position: relative;
+	display: inline-flex;
+}
+
+@utility export-dropdown-menu {
+	@apply flex flex-col;
+	position: absolute;
+	top: calc(100% + 0.25rem);
+	right: 0;
+	min-width: 160px;
+	padding: 0.25rem;
+	background-color: var(--color-card);
+	border: 1px solid var(--color-border);
+	border-radius: 0.375rem;
+	box-shadow: var(--shadow-dropdown);
+	z-index: 100;
+}
+
+@utility dropdown-item {
+	@apply flex items-center;
+	gap: 0.5rem;
+	width: 100%;
+	padding: 0.5rem 0.625rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text);
+	background-color: transparent;
+	border: none;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-align: left;
+
+	&:hover {
+		background-color: var(--color-hover);
+	}
+
+	&:active {
+		transform: scale(0.98);
 	}
 }

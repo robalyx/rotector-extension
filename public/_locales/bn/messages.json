@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "কাস্টম API সম্পাদনা করুন"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "বাতিল করুন"
+	},
+	"custom_api_import_button_import": {
+		"message": "আমদানি করুন"
+	},
+	"custom_api_import_button_importing": {
+		"message": "আমদানি করা হচ্ছে..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "ফাইল আপলোড করুন"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "একটি API কনফিগারেশন পেস্ট করুন বা একটি ফাইল আপলোড করুন।"
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "ফাইল পড়তে ব্যর্থ। আবার চেষ্টা করুন।"
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "অবৈধ ফাইল প্রকার। একটি .rotector-api ফাইল নির্বাচন করুন।"
+	},
+	"custom_api_import_error_unknown": {
+		"message": "অজানা ত্রুটি"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API কনফিগারেশন পেস্ট করুন"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "এখানে রপ্তানি করা API কনফিগারেশন স্ট্রিং পেস্ট করুন..."
+	},
+	"custom_api_import_title": {
+		"message": "কাস্টম API আমদানি করুন"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API কনফিগারেশন ক্লিপবোর্ডে কপি করা হয়েছে!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "API রপ্তানি করতে ব্যর্থ: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API কনফিগারেশন সফলভাবে ডাউনলোড করা হয়েছে!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "API আমদানি করতে ব্যর্থ: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API \"$1\" হিসাবে আমদানি করা হয়েছে (\"$2\" থেকে নাম পরিবর্তন করা হয়েছে কারণ এই নামের একটি API ইতিমধ্যে বিদ্যমান)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" সফলভাবে আমদানি করা হয়েছে!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "সিস্টেম API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "ফিরে যান"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "ক্লিপবোর্ডে কপি করুন"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "ফাইল ডাউনলোড করুন"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "API আমদানি করুন"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "ইন্টিগ্রেশন গাইড দেখুন"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "সম্পাদনা করুন"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "রপ্তানি করুন"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "API আমদানি করুন"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "নিচে সরান"
@@ -1500,10 +1566,10 @@
 		"message": "এই গ্রুপে উপযুক্ত এবং অনুপযুক্ত সদস্যদের মিশ্রণ রয়েছে।"
 	},
 	"tooltip_header_mixed_user": {
-		"message": "এই ব্যবহারকারী অনুপযুক্ত বিষয়বস্তুর সাথে যুক্ত হয়েছে, কিন্তু Roblox এর পদক্ষেপ নেওয়ার জন্য যথেষ্ট প্রমাণ নেই। তাদের সাথে ইন্টারঅ্যাক্ট করার সময় সতর্ক থাকুন।"
+		"message": "এই ব্যবহারকারী অনুপযুক্ত বিষয়বস্তুর সাথে যুক্ত হয়েছে, কিন্তু Roblox পদক্ষেপের জন্য যথেষ্ট প্রমাণ নেই। তারা একজন শিকারও হতে পারে। সতর্ক থাকুন।"
 	},
 	"tooltip_header_past_offender": {
-		"message": "এই $1 এর আগে অনুপযুক্ত বিষয়বস্তু ছিল কিন্তু তাদের অ্যাকাউন্ট বর্তমানে পরিষ্কার বলে মনে হচ্ছে এবং যাচাইয়ের জন্য পুনরায় কিউতে রাখা যেতে পারে।"
+		"message": "এই $1 এর আগে অনুপযুক্ত বিষয়বস্তু ছিল কিন্তু তাদের অ্যাকাউন্ট বর্তমানে পরিষ্কার বলে মনে হচ্ছে।"
 	},
 	"tooltip_header_pending": {
 		"message": "এই $1 AI দ্বারা $2% আত্মবিশ্বাসের সাথে ফ্ল্যাগ করা হয়েছে।"
@@ -1512,7 +1578,7 @@
 		"message": "এই $1 বর্তমানে আমাদের সিস্টেম দ্বারা পরীক্ষা করা হচ্ছে। এতে কয়েক মিনিট সময় লাগতে পারে।"
 	},
 	"tooltip_header_queued_safe": {
-		"message": "এই $1 আমাদের AI সিস্টেম দ্বারা পর্যালোচনা করা হয়েছে এবং নিরাপদ বলে মনে হচ্ছে। এটি একটি মিথ্যা ইতিবাচক হলে, আপনি আরও পর্যালোচনার জন্য পুনরায় কিউতে রাখতে পারেন।"
+		"message": "এই $1 আমাদের AI সিস্টেম দ্বারা পর্যালোচনা করা হয়েছে এবং নিরাপদ বলে মনে হচ্ছে। যদি এটি ভুল হয়, অনুগ্রহ করে আমাদের কাছে রিপোর্ট করুন।"
 	},
 	"tooltip_header_safe": {
 		"message": "এই $1 এখনো পর্যালোচনা করা হয়নি।"

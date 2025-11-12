@@ -10,7 +10,11 @@
 		Check,
 		X,
 		BookOpen,
-		FlaskConical
+		FlaskConical,
+		Share2,
+		Copy,
+		Download,
+		Upload
 	} from 'lucide-svelte';
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import {
@@ -21,11 +25,13 @@
 		testCustomApiConnection,
 		updateTestResult,
 		updateCustomApi,
+		exportApi,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
+	import CustomApiImport from './CustomApiImport.svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import Toggle from '../../ui/Toggle.svelte';
 
@@ -38,8 +44,10 @@
 
 	// Local state
 	let showForm = $state(false);
+	let showImportModal = $state(false);
 	let editingApi = $state<CustomApiConfig | null>(null);
 	let testingApiId = $state<string | null>(null);
+	let openExportDropdown = $state<string | null>(null);
 	let loading = $state(true);
 
 	// Computed
@@ -137,6 +145,80 @@
 	function handleFormClose() {
 		showForm = false;
 		editingApi = null;
+	}
+
+	// Toggle export dropdown
+	function toggleExportDropdown(apiId: string) {
+		openExportDropdown = openExportDropdown === apiId ? null : apiId;
+	}
+
+	// Close export dropdown when clicking outside
+	function closeExportDropdown() {
+		openExportDropdown = null;
+	}
+
+	// Handle export to clipboard
+	async function handleExportClipboard(api: CustomApiConfig) {
+		try {
+			const exported = exportApi(api.id);
+			await navigator.clipboard.writeText(exported);
+			alert(t('custom_api_mgmt_alert_export_clipboard_success'));
+			logger.userAction('custom_api_exported_clipboard', { apiId: api.id, apiName: api.name });
+		} catch (error) {
+			logger.error('Failed to export API to clipboard:', error);
+			alert(
+				t('custom_api_mgmt_alert_export_failed', [
+					error instanceof Error ? error.message : 'Unknown error'
+				])
+			);
+		} finally {
+			closeExportDropdown();
+		}
+	}
+
+	// Handle export to file
+	function handleExportFile(api: CustomApiConfig) {
+		try {
+			const exported = exportApi(api.id);
+			const filename = `${api.name.replace(/[^a-z0-9]/gi, '-')}.rotector-api`;
+
+			// Create blob and trigger download
+			const blob = new Blob([exported], { type: 'text/plain' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+
+			alert(t('custom_api_mgmt_alert_export_file_success'));
+			logger.userAction('custom_api_exported_file', { apiId: api.id, apiName: api.name });
+		} catch (error) {
+			logger.error('Failed to export API to file:', error);
+			alert(
+				t('custom_api_mgmt_alert_export_failed', [
+					error instanceof Error ? error.message : 'Unknown error'
+				])
+			);
+		} finally {
+			closeExportDropdown();
+		}
+	}
+
+	// Handle import success
+	function handleImportSuccess(apiName: string, wasRenamed: boolean, originalName?: string) {
+		if (wasRenamed && originalName) {
+			alert(t('custom_api_mgmt_alert_import_renamed', [apiName, originalName]));
+		} else {
+			alert(t('custom_api_mgmt_alert_import_success', [apiName]));
+		}
+	}
+
+	// Handle import modal close
+	function handleImportClose() {
+		showImportModal = false;
 	}
 
 	// Format timestamp
@@ -338,6 +420,36 @@
 										<FlaskConical size={14} />
 									{/if}
 								</button>
+								<div class="export-dropdown-container">
+									<button
+										class="action-button export-button"
+										onclick={() => toggleExportDropdown(api.id)}
+										title={t('custom_api_mgmt_title_export')}
+										type="button"
+									>
+										<Share2 size={14} />
+									</button>
+									{#if openExportDropdown === api.id}
+										<div class="export-dropdown-menu">
+											<button
+												class="dropdown-item"
+												onclick={() => handleExportClipboard(api)}
+												type="button"
+											>
+												<Copy size={14} />
+												<span>{t('custom_api_mgmt_button_export_clipboard')}</span>
+											</button>
+											<button
+												class="dropdown-item"
+												onclick={() => handleExportFile(api)}
+												type="button"
+											>
+												<Download size={14} />
+												<span>{t('custom_api_mgmt_button_export_file')}</span>
+											</button>
+										</div>
+									{/if}
+								</div>
 								<button
 									class="action-button edit-button"
 									onclick={() => handleEdit(api)}
@@ -360,22 +472,39 @@
 				</div>
 			{/each}
 
-			<!-- Add Custom API Card -->
-			{#if canAddMore}
-				<button class="add-api-card" onclick={handleAdd} type="button">
-					<Plus size={16} />
-					<span>{t('custom_api_mgmt_button_add')}</span>
+			<!-- Add/Import Buttons -->
+			<div class="api-list-actions">
+				{#if canAddMore}
+					<button class="add-api-card" onclick={handleAdd} type="button">
+						<Plus size={16} />
+						<span>{t('custom_api_mgmt_button_add')}</span>
+					</button>
+				{:else}
+					<div class="max-apis-notice">
+						{t('custom_api_mgmt_notice_max_reached', [MAX_CUSTOM_APIS.toString()])}
+					</div>
+				{/if}
+				<button
+					class="import-api-button"
+					disabled={!canAddMore}
+					onclick={() => (showImportModal = true)}
+					title={t('custom_api_mgmt_title_import')}
+					type="button"
+				>
+					<Upload size={16} />
+					<span>{t('custom_api_mgmt_button_import')}</span>
 				</button>
-			{:else}
-				<div class="max-apis-notice">
-					{t('custom_api_mgmt_notice_max_reached', [MAX_CUSTOM_APIS.toString()])}
-				</div>
-			{/if}
+			</div>
 		{/if}
 	</div>
 
 	<!-- Form Modal -->
 	{#if showForm}
 		<CustomApiForm {editingApi} onClose={handleFormClose} />
+	{/if}
+
+	<!-- Import Modal -->
+	{#if showImportModal}
+		<CustomApiImport onClose={handleImportClose} onSuccess={handleImportSuccess} />
 	{/if}
 </div>

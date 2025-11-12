@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Aangepaste API Bewerken"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Annuleren"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importeren"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importeren..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Bestand Uploaden"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Plak een API-configuratie of upload een bestand."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Kan bestand niet lezen. Probeer het opnieuw."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Ongeldig bestandstype. Selecteer een .rotector-api bestand."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Onbekende fout"
+	},
+	"custom_api_import_label_paste": {
+		"message": "API-configuratie Plakken"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Plak de geëxporteerde API-configuratiestring hier..."
+	},
+	"custom_api_import_title": {
+		"message": "Aangepaste API Importeren"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API-configuratie gekopieerd naar klembord!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Kan API niet exporteren: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API-configuratie succesvol gedownload!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Kan API niet importeren: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API geïmporteerd als \"$1\" (hernoemd van \"$2\" omdat een API met die naam al bestaat)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" succesvol geïmporteerd!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "Systeem-API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Terug"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Kopiëren naar Klembord"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Bestand Downloaden"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "API Importeren"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Integratiegids bekijken"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Bewerken"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Exporteren"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "API Importeren"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Omlaag verplaatsen"
@@ -1500,10 +1566,10 @@
 		"message": "Deze groep bevat een mix van gepaste en ongepaste leden."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Deze gebruiker is in verband gebracht met ongepaste inhoud, maar er is niet voldoende bewijs voor Roblox om actie te ondernemen. Wees voorzichtig bij interactie met hen."
+		"message": "Deze gebruiker is in verband gebracht met ongepaste inhoud, maar er is onvoldoende bewijs voor actie door Roblox. Ze kunnen ook een slachtoffer zijn. Wees voorzichtig."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Deze $1 had eerder ongepaste inhoud, maar hun account lijkt momenteel schoon en kan opnieuw in de wachtrij worden geplaatst voor verificatie."
+		"message": "Deze $1 had eerder ongepaste inhoud, maar hun account lijkt momenteel schoon."
 	},
 	"tooltip_header_pending": {
 		"message": "Deze $1 is gemarkeerd door AI met $2% vertrouwen."
@@ -1512,7 +1578,7 @@
 		"message": "Deze $1 wordt momenteel gecontroleerd door ons systeem. Dit kan enkele minuten duren."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Deze $1 is beoordeeld door ons AI-systeem en lijkt veilig te zijn. Als dit een fout-positief is, kunt u opnieuw in de wachtrij plaatsen voor verdere beoordeling."
+		"message": "Deze $1 is beoordeeld door ons AI-systeem en lijkt veilig te zijn. Als dit onjuist is, meld dit dan aan ons."
 	},
 	"tooltip_header_safe": {
 		"message": "Deze $1 is nog niet beoordeeld."

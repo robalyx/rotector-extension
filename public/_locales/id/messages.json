@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Edit API Kustom"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Batal"
+	},
+	"custom_api_import_button_import": {
+		"message": "Impor"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Mengimpor..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Unggah File"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Silakan tempelkan konfigurasi API atau unggah file."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Gagal membaca file. Silakan coba lagi."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Jenis file tidak valid. Silakan pilih file .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Kesalahan tidak diketahui"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Tempelkan Konfigurasi API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Tempelkan string konfigurasi API yang diekspor di sini..."
+	},
+	"custom_api_import_title": {
+		"message": "Impor API Kustom"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Konfigurasi API disalin ke clipboard!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Gagal mengekspor API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Konfigurasi API berhasil diunduh!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Gagal mengimpor API: $1"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API diimpor sebagai \"$1\" (diganti namanya dari \"$2\" karena API dengan nama tersebut sudah ada)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" berhasil diimpor!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API Sistem"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Kembali"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Salin ke Clipboard"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Unduh File"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Impor API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Lihat Panduan Integrasi"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Edit"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Ekspor"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Impor API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Pindahkan ke bawah"
@@ -1500,10 +1566,10 @@
 		"message": "Grup ini berisi campuran anggota yang pantas dan tidak pantas."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Pengguna ini telah dikaitkan dengan konten tidak pantas, tetapi tidak ada bukti yang cukup bagi Roblox untuk mengambil tindakan. Berhati-hatilah saat berinteraksi dengan mereka."
+		"message": "Pengguna ini telah dikaitkan dengan konten tidak pantas, tetapi tidak ada bukti yang cukup bagi Roblox untuk mengambil tindakan. Mereka juga bisa menjadi korban. Berhati-hatilah."
 	},
 	"tooltip_header_past_offender": {
-		"message": "$1 ini memiliki konten tidak pantas sebelumnya tetapi akun mereka saat ini tampak bersih dan dapat diantrikan ulang untuk verifikasi."
+		"message": "$1 ini memiliki konten tidak pantas sebelumnya tetapi akun mereka saat ini tampak bersih."
 	},
 	"tooltip_header_pending": {
 		"message": "$1 ini telah ditandai oleh AI dengan kepercayaan $2%."
@@ -1512,7 +1578,7 @@
 		"message": "$1 ini sedang diperiksa oleh sistem kami. Ini mungkin memakan waktu beberapa menit."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "$1 ini telah ditinjau oleh sistem AI kami dan tampaknya aman. Jika ini positif palsu, Anda dapat mengantrikan ulang untuk peninjauan lebih lanjut."
+		"message": "$1 ini telah ditinjau oleh sistem AI kami dan tampaknya aman. Jika ini salah, silakan laporkan kepada kami."
 	},
 	"tooltip_header_safe": {
 		"message": "$1 ini belum ditinjau."

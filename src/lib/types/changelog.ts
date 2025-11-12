@@ -19,9 +19,9 @@ export const CHANGELOGS: Changelog[] = [
 		id: 'v2.5.0',
 		version: '2.5.0',
 		date: '2025-11-17',
-		title: 'Custom API Integration System',
+		title: 'API Integration & Multi-Language Support',
 		summary:
-			'This update introduces a custom API integration system that allows you to connect your own content analysis APIs alongside Rotector for multi-source safety analysis.',
+			'This update introduces API integration features including custom API connections and public API documentation, along with multi-language support for 24 languages and several bug fixes.',
 		changes: [
 			{
 				type: 'added',
@@ -29,8 +29,32 @@ export const CHANGELOGS: Changelog[] = [
 					'Custom API integration system - Connect your own content analysis APIs alongside Rotector',
 				subpoints: [
 					'Full management interface for adding, editing, and configuring custom APIs',
-					'Tabbed tooltips showing results from all enabled APIs with smart default tab selection'
+					'Tabbed tooltips showing results from all enabled APIs with smart default tab selection',
+					'Export and import functionality for sharing custom API configurations'
 				]
+			},
+			{
+				type: 'added',
+				description:
+					'Multi-language support - Extension now available in 24 languages based on browser settings',
+				subpoints: [
+					'Supported languages: English, Spanish, Arabic, Bengali, German, Filipino, French, Hindi, Indonesian, Italian, Japanese, Korean, Malay, Dutch, Polish, Portuguese, Russian, Swedish, Thai, Turkish, Ukrainian, Vietnamese, Chinese (Simplified), Chinese (Traditional)'
+				]
+			},
+			{
+				type: 'added',
+				description:
+					'Rotector API documentation - Complete public API reference for integrating Rotector into your own systems'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Friend warning displays - Friend warnings now only appear when attempting to add inappropriate users, not safe users'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Internationalized URL support - Extension now works correctly on non-English Roblox URLs (e.g., roblox.com/es/, roblox.com/de/)'
 			}
 		]
 	},

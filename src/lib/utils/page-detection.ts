@@ -26,9 +26,16 @@ interface PageDetectionResult {
 	container: Element | null;
 }
 
+// Normalizes a pathname by stripping the language prefix if present.
+export function normalizePathname(pathname: string): string {
+	// Match language prefixes like /es/, /de/, /pt-br/ at the start
+	// Pattern: slash + 2-5 lowercase letters/hyphens + slash
+	return pathname.replace(/^\/[a-z]{2}(?:-[a-z]{2})?\//, '/');
+}
+
 // Detect the page type and container from an anchor element
 export function detectPageContext(anchorElement: HTMLElement): PageDetectionResult {
-	// Check for specific element containers first (using constants)
+	// Check for specific element containers
 	const isCarouselTile = anchorElement.closest(FRIENDS_CAROUSEL_SELECTORS.TILE);
 	const isFriendsCard = anchorElement.closest(FRIENDS_SELECTORS.CARD.CONTAINER);
 	const isMembersTile = anchorElement.closest(GROUPS_SELECTORS.TILE);
@@ -39,13 +46,12 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	);
 	const isBTRobloxGroupCard = anchorElement.closest(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
-	// URL-based page detection (fallback)
-	const isProfilePage = window.location.pathname.includes('/users/');
+	// Check for URL-based page
+	const normalizedPath = normalizePathname(window.location.pathname);
+	const isProfilePage = normalizedPath.includes('/users/');
 	const isGroupPage =
-		window.location.pathname.includes('/groups/') ||
-		window.location.pathname.includes('/communities/');
+		normalizedPath.includes('/groups/') || normalizedPath.includes('/communities/');
 
-	// Prioritize specific element containers
 	if (isCarouselTile) {
 		return { pageType: 'carousel', container: isCarouselTile };
 	}
@@ -65,7 +71,6 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 		};
 	}
 
-	// URL-based detection for page-level containers
 	if (isGroupPage) {
 		return {
 			pageType: 'group',

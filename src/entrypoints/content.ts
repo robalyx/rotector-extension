@@ -11,6 +11,7 @@ import { loadCustomApis } from '@/lib/stores/custom-apis';
 
 export default defineContentScript({
 	matches: [
+		// Standard URLs (no language prefix)
 		'https://*.roblox.com/users/*/profile*',
 		'https://*.roblox.com/users/*/profile/*',
 		'https://*.roblox.com/home*',
@@ -30,7 +31,28 @@ export default defineContentScript({
 		'https://*.roblox.com/search/users*',
 		'https://*.roblox.com/search/users/*',
 		'https://*.roblox.com/report-abuse*',
-		'https://*.roblox.com/report-abuse/*'
+		'https://*.roblox.com/report-abuse/*',
+		// Internationalized URLs (with language prefix like /es/, /de/)
+		'https://*.roblox.com/*/users/*/profile*',
+		'https://*.roblox.com/*/users/*/profile/*',
+		'https://*.roblox.com/*/home*',
+		'https://*.roblox.com/*/home/*',
+		'https://*.roblox.com/*/users/*/friends*',
+		'https://*.roblox.com/*/users/*/friends/*',
+		'https://*.roblox.com/*/users/*/followers*',
+		'https://*.roblox.com/*/users/*/followers/*',
+		'https://*.roblox.com/*/users/*/following*',
+		'https://*.roblox.com/*/users/*/following/*',
+		'https://*.roblox.com/*/users/friends*',
+		'https://*.roblox.com/*/users/friends/*',
+		'https://*.roblox.com/*/groups*',
+		'https://*.roblox.com/*/groups/*',
+		'https://*.roblox.com/*/communities*',
+		'https://*.roblox.com/*/communities/*',
+		'https://*.roblox.com/*/search/users*',
+		'https://*.roblox.com/*/search/users/*',
+		'https://*.roblox.com/*/report-abuse*',
+		'https://*.roblox.com/*/report-abuse/*'
 	],
 
 	async main() {

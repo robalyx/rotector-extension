@@ -1,5 +1,6 @@
 import { logger } from '../utils/logger';
 import { sanitizeUrl } from '../utils/sanitizer';
+import { normalizePathname } from '../utils/page-detection';
 import { PAGE_TYPES } from '../types/constants';
 import type { PageType } from '../types/api';
 import type { PageController } from './PageController';
@@ -137,7 +138,7 @@ export class PageControllerManager {
 	private detectPageType(url: string): PageType | null {
 		try {
 			const urlObj = new URL(url);
-			const pathname = urlObj.pathname.toLowerCase();
+			const pathname = normalizePathname(urlObj.pathname.toLowerCase());
 
 			// URL pattern to page type mapping
 			const pagePatterns = [

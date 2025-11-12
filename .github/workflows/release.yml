@@ -1,0 +1,86 @@
+name: Release Extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build from'
+        required: true
+        default: 'main'
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Extract version from package.json
+        id: extract_version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Build Chrome extension
+        run: bun run build
+
+      - name: Build Firefox extension
+        run: bun run build:firefox
+
+      - name: Build Edge extension
+        run: bun run build:edge
+
+      - name: Create Chrome zip
+        run: bun run zip
+
+      - name: Create Firefox zip
+        run: bun run zip:firefox
+
+      - name: Create Edge zip
+        run: bun run zip:edge
+
+      - name: List generated files
+        run: |
+          echo "Generated files in .output directory:"
+          ls -lh .output/*.zip
+
+      - name: Create and push git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Tag v${{ env.VERSION }} already exists, skipping tag creation"
+          else
+            echo "Creating new tag v${{ env.VERSION }}"
+            git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+            git push origin "v${{ env.VERSION }}"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
+          draft: true
+          files: |
+            .output/*.zip
+          token: ${{ secrets.GITHUB_TOKEN }}

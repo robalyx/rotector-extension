@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Cache ESLint
+        uses: actions/cache@v4
+        with:
+          path: .eslintcache
+          key: eslint-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('**/*.js', '**/*.ts', '**/*.svelte') }}
+          restore-keys: |
+            eslint-${{ runner.os }}-${{ github.ref_name }}-
+            eslint-${{ runner.os }}-
+
+      - name: Run ESLint
+        run: bun run lint
+
+      - name: Run Svelte type checking
+        run: bun run check
+
+      - name: Run dead code detection
+        run: bun run knip
+
+      - name: Run i18n validation
+        run: bun run validate:i18n

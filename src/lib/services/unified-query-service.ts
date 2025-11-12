@@ -3,6 +3,7 @@ import type { UserStatus } from '../types/api';
 import { apiClient } from './api-client';
 import { customApis, ROTECTOR_API_ID } from '../stores/custom-apis';
 import { logger } from '../utils/logger';
+import { STATUS } from '../types/constants';
 import { get } from 'svelte/store';
 
 // Re-export for components
@@ -157,7 +158,13 @@ export function countCustomApiFlags(combined: CombinedStatus): number {
 	for (const [apiId, result] of combined.customApis.entries()) {
 		if (apiId === ROTECTOR_API_ID) continue;
 
-		if (result.data && result.data.flagType >= 1) {
+		if (
+			result.data &&
+			(result.data.flagType === STATUS.FLAGS.UNSAFE ||
+				result.data.flagType === STATUS.FLAGS.PENDING ||
+				result.data.flagType === STATUS.FLAGS.MIXED ||
+				result.data.flagType === STATUS.FLAGS.PAST_OFFENDER)
+		) {
 			count++;
 		}
 	}

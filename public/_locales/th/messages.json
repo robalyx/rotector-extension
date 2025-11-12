@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "แก้ไข Custom API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "ยกเลิก"
+	},
+	"custom_api_import_button_import": {
+		"message": "นำเข้า"
+	},
+	"custom_api_import_button_importing": {
+		"message": "กำลังนำเข้า..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "อัปโหลดไฟล์"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "กรุณาวางการกำหนดค่า API หรืออัปโหลดไฟล์"
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "ไม่สามารถอ่านไฟล์ได้ กรุณาลองอีกครั้ง"
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "ประเภทไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .rotector-api"
+	},
+	"custom_api_import_error_unknown": {
+		"message": "ข้อผิดพลาดที่ไม่รู้จัก"
+	},
+	"custom_api_import_label_paste": {
+		"message": "วางการกำหนดค่า API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "วางสตริงการกำหนดค่า API ที่ส่งออกที่นี่..."
+	},
+	"custom_api_import_title": {
+		"message": "นำเข้า Custom API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "คัดลอกการกำหนดค่า API ไปยังคลิปบอร์ดแล้ว!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "ไม่สามารถส่งออก API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "ดาวน์โหลดการกำหนดค่า API สำเร็จแล้ว!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "ไม่สามารถนำเข้า API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "นำเข้า API เป็น \"$1\" (เปลี่ยนชื่อจาก \"$2\" เนื่องจากมี API ที่มีชื่อนี้อยู่แล้ว)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "นำเข้า API \"$1\" สำเร็จแล้ว!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "System API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "กลับ"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "คัดลอกไปยังคลิปบอร์ด"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "ดาวน์โหลดไฟล์"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "นำเข้า API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "ดูคู่มือการรวมเข้า"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "แก้ไข"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "ส่งออก"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "นำเข้า API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "ย้ายลง"
@@ -1500,10 +1566,10 @@
 		"message": "กลุ่มนี้มีสมาชิกที่เหมาะสมและไม่เหมาะสมผสมกัน"
 	},
 	"tooltip_header_mixed_user": {
-		"message": "ผู้ใช้นี้เชื่อมโยงกับเนื้อหาที่ไม่เหมาะสม แต่ไม่มีหลักฐานเพียงพอสำหรับ Roblox ในการดำเนินการ ระมัดระวังเมื่อโต้ตอบกับพวกเขา"
+		"message": "ผู้ใช้นี้เชื่อมโยงกับเนื้อหาที่ไม่เหมาะสม แต่ขาดหลักฐานเพียงพอสำหรับ Roblox ในการดำเนินการ พวกเขาอาจเป็นเหยื่อด้วย ใช้ความระมัดระวัง"
 	},
 	"tooltip_header_past_offender": {
-		"message": "$1 นี้มีเนื้อหาที่ไม่เหมาะสมก่อนหน้านี้ แต่บัญชีของพวกเขาในปัจจุบันดูสะอาดและสามารถเพิ่มเข้าคิวเพื่อตรวจสอบได้"
+		"message": "$1 นี้มีเนื้อหาที่ไม่เหมาะสมก่อนหน้านี้ แต่บัญชีของพวกเขาในปัจจุบันดูสะอาด"
 	},
 	"tooltip_header_pending": {
 		"message": "$1 นี้ถูกตั้งค่าสถานะโดย AI ด้วยความมั่นใจ $2%"
@@ -1512,7 +1578,7 @@
 		"message": "$1 นี้กำลังถูกตรวจสอบโดยระบบของเรา อาจใช้เวลาสักครู่"
 	},
 	"tooltip_header_queued_safe": {
-		"message": "$1 นี้ได้รับการตรวจสอบโดยระบบ AI ของเราและดูเหมือนว่าจะปลอดภัย หากเป็นการตรวจจับเป็นบวกลวง คุณสามารถเพิ่มเข้าคิวเพื่อตรวจสอบเพิ่มเติม"
+		"message": "$1 นี้ได้รับการตรวจสอบโดยระบบ AI ของเราและดูเหมือนว่าจะปลอดภัย หากไม่ถูกต้อง กรุณารายงานให้เราทราบ"
 	},
 	"tooltip_header_safe": {
 		"message": "$1 นี้ยังไม่ได้รับการตรวจสอบ"

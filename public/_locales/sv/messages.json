@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Redigera anpassat API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Avbryt"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importera"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importerar..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Ladda upp fil"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Vänligen klistra in en API-konfiguration eller ladda upp en fil."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Misslyckades med att läsa fil. Vänligen försök igen."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Ogiltig filtyp. Vänligen välj en .rotector-api fil."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Okänt fel"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Klistra in API-konfiguration"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Klistra in den exporterade API-konfigurationssträngen här..."
+	},
+	"custom_api_import_title": {
+		"message": "Importera anpassat API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "API-konfiguration kopierad till urklipp!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Misslyckades med att exportera API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "API-konfiguration nedladdad framgångsrikt!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Misslyckades med att importera API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API importerat som \"$1\" (omdöpt från \"$2\" eftersom ett API med det namnet redan finns)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" importerat framgångsrikt!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "System-API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Tillbaka"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Kopiera till urklipp"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Ladda ner fil"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Importera API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Visa integrationsguide"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Redigera"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Exportera"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Importera API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Flytta ner"
@@ -1500,10 +1566,10 @@
 		"message": "Denna grupp innehåller en blandning av lämpliga och olämpliga medlemmar."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Denna användare har associerats med olämpligt innehåll, men det finns inte tillräckligt med bevis för att Roblox ska vidta åtgärder. Var försiktig när du interagerar med dem."
+		"message": "Denna användare har kopplats till olämpligt innehåll, men saknar tillräckliga bevis för att Roblox ska agera. De kan också vara ett offer. Var försiktig."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Denna $1 hade olämpligt innehåll tidigare men deras konto verkar för närvarande rent och kan köas om för verifiering."
+		"message": "Denna $1 hade tidigare olämpligt innehåll men deras konto verkar för närvarande rent."
 	},
 	"tooltip_header_pending": {
 		"message": "Denna $1 har flaggats av AI med $2% konfidens."
@@ -1512,7 +1578,7 @@
 		"message": "Denna $1 kontrolleras för närvarande av vårt system. Detta kan ta några minuter."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Denna $1 har granskats av vårt AI-system och verkar vara säker. Om detta är en falsk positiv kan du köa om för ytterligare granskning."
+		"message": "Denna $1 har granskats av vårt AI-system och verkar vara säker. Om detta är felaktigt, vänligen rapportera det till oss."
 	},
 	"tooltip_header_safe": {
 		"message": "Denna $1 har inte granskats ännu."

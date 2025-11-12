@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Editar API Personalizada"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Cancelar"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importar"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importando..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Subir Archivo"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Por favor pega una configuración de API o sube un archivo."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Error al leer el archivo. Por favor intenta de nuevo."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Tipo de archivo inválido. Por favor selecciona un archivo .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Error desconocido"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Pegar Configuración de API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Pega la cadena de configuración de API exportada aquí..."
+	},
+	"custom_api_import_title": {
+		"message": "Importar API Personalizada"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "¡Configuración de API copiada al portapapeles!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Error al exportar API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "¡Configuración de API descargada exitosamente!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Error al importar API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API importada como \"$1\" (renombrada desde \"$2\" porque ya existe una API con ese nombre)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "¡API \"$1\" importada exitosamente!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API del Sistema"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Atrás"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Copiar al Portapapeles"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Descargar Archivo"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Importar API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Ver Guía de Integración"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Editar"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Exportar"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Importar API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Mover abajo"
@@ -1500,10 +1566,10 @@
 		"message": "Este grupo contiene una mezcla de miembros apropiados e inapropiados."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Este usuario ha sido asociado con contenido inapropiado, pero no hay suficiente evidencia para que Roblox tome acción. Ten precaución al interactuar con ellos."
+		"message": "Este usuario ha sido vinculado a contenido inapropiado, pero carece de evidencia suficiente para que Roblox tome acción. También podría ser una víctima. Procede con precaución."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Este $1 tenía contenido inapropiado previamente pero su cuenta actualmente parece limpia y puede ser puesta en cola para verificación."
+		"message": "Este $1 tenía contenido inapropiado previamente pero su cuenta actualmente parece limpia."
 	},
 	"tooltip_header_pending": {
 		"message": "Este $1 ha sido marcado por IA con $2% de confianza."
@@ -1512,7 +1578,7 @@
 		"message": "Este $1 está siendo verificado actualmente por nuestro sistema. Esto puede tomar unos minutos."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Este $1 ha sido revisado por nuestro sistema de IA y parece ser seguro. Si esto es un falso positivo, puedes ponerlo en cola nuevamente para revisión adicional."
+		"message": "Este $1 ha sido revisado por nuestro sistema de IA y parece ser seguro. Si esto es incorrecto, por favor repórtalo."
 	},
 	"tooltip_header_safe": {
 		"message": "Este $1 no ha sido revisado todavía."

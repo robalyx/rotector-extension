@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Редагувати користувацький API"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Скасувати"
+	},
+	"custom_api_import_button_import": {
+		"message": "Імпортувати"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Імпортування..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Завантажити файл"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Будь ласка, вставте конфігурацію API або завантажте файл."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Не вдалося прочитати файл. Спробуйте ще раз."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Неправильний тип файлу. Виберіть файл .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Невідома помилка"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Вставте конфігурацію API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Вставте експортований рядок конфігурації API тут..."
+	},
+	"custom_api_import_title": {
+		"message": "Імпортувати користувацький API"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Конфігурацію API скопійовано до буферу обміну!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Не вдалося експортувати API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Конфігурацію API успішно завантажено!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Не вдалося імпортувати API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API імпортовано як \"$1\" (перейменовано з \"$2\", оскільки API з такою назвою вже існує)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" успішно імпортовано!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "Системний API"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Назад"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Копіювати до буферу обміну"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Завантажити файл"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Імпортувати API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Переглянути посібник з інтеграції"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Редагувати"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Експортувати"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Імпортувати API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Перемістити вниз"
@@ -1500,10 +1566,10 @@
 		"message": "Ця група містить суміш відповідних та недоречних учасників."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Цей користувач був пов'язаний з недоречним контентом, але недостатньо доказів для дій Roblox. Будьте обережні при взаємодії з ним."
+		"message": "Цей користувач був пов'язаний з недоречним контентом, але бракує достатніх доказів для дій Roblox. Він також може бути жертвою. Будьте обережні."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Цей $1 раніше мав недоречний контент, але його обліковий запис наразі виглядає чистим і може бути повторно перевірений."
+		"message": "Цей $1 раніше мав недоречний контент, але його обліковий запис наразі виглядає чистим."
 	},
 	"tooltip_header_pending": {
 		"message": "Цей $1 було позначено AI з впевненістю $2%."
@@ -1512,7 +1578,7 @@
 		"message": "Цей $1 наразі перевіряється нашою системою. Це може зайняти кілька хвилин."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Цей $1 було перевірено нашою системою AI і здається безпечним. Якщо це помилка, ви можете додати до черги для подальшого розгляду."
+		"message": "Цей $1 було перевірено нашою системою AI і здається безпечним. Якщо це неправильно, будь ласка, повідомте нам."
 	},
 	"tooltip_header_safe": {
 		"message": "Цей $1 ще не було перевірено."

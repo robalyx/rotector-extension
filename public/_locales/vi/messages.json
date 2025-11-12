@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Chỉnh sửa API Tùy chỉnh"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Hủy"
+	},
+	"custom_api_import_button_import": {
+		"message": "Nhập"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Đang nhập..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Tải lên tệp"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Vui lòng dán cấu hình API hoặc tải lên tệp."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Không thể đọc tệp. Vui lòng thử lại."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Loại tệp không hợp lệ. Vui lòng chọn tệp .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Lỗi không xác định"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Dán cấu hình API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Dán chuỗi cấu hình API đã xuất tại đây..."
+	},
+	"custom_api_import_title": {
+		"message": "Nhập API tùy chỉnh"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Đã sao chép cấu hình API vào clipboard!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Không thể xuất API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Đã tải xuống cấu hình API thành công!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Không thể nhập API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "Đã nhập API dưới tên \"$1\" (đổi tên từ \"$2\" vì đã có API với tên đó)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "Đã nhập API \"$1\" thành công!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API Hệ thống"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Quay lại"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Sao chép vào Clipboard"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Tải xuống tệp"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Nhập API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Xem Hướng dẫn Tích hợp"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Chỉnh sửa"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Xuất"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Nhập API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Di chuyển xuống"
@@ -1500,10 +1566,10 @@
 		"message": "Nhóm này chứa hỗn hợp thành viên phù hợp và không phù hợp."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Người dùng này đã được liên kết với nội dung không phù hợp, nhưng không có đủ bằng chứng để Roblox hành động. Hãy cẩn thận khi tương tác với họ."
+		"message": "Người dùng này đã được liên kết với nội dung không phù hợp, nhưng thiếu bằng chứng đủ để Roblox hành động. Họ cũng có thể là nạn nhân. Hãy thận trọng."
 	},
 	"tooltip_header_past_offender": {
-		"message": "$1 này đã có nội dung không phù hợp trước đây nhưng tài khoản của họ hiện có vẻ sạch và có thể được xếp hàng lại để xác minh."
+		"message": "$1 này trước đây có nội dung không phù hợp nhưng tài khoản hiện tại có vẻ sạch sẽ."
 	},
 	"tooltip_header_pending": {
 		"message": "$1 này đã được gắn cờ bởi AI với độ tin cậy $2%."
@@ -1512,7 +1578,7 @@
 		"message": "$1 này hiện đang được kiểm tra bởi hệ thống của chúng tôi. Điều này có thể mất vài phút."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "$1 này đã được xem xét bởi hệ thống AI của chúng tôi và có vẻ an toàn. Nếu đây là kết quả dương tính giả, bạn có thể xếp hàng lại để xem xét thêm."
+		"message": "$1 này đã được xem xét bởi hệ thống AI của chúng tôi và có vẻ an toàn. Nếu điều này không đúng, vui lòng báo cáo cho chúng tôi."
 	},
 	"tooltip_header_safe": {
 		"message": "$1 này chưa được xem xét."

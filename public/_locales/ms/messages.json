@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Edit API Tersuai"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Batal"
+	},
+	"custom_api_import_button_import": {
+		"message": "Import"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Mengimport..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Muat Naik Fail"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Sila tampal konfigurasi API atau muat naik fail."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Gagal membaca fail. Sila cuba lagi."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Jenis fail tidak sah. Sila pilih fail .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Ralat tidak diketahui"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Tampal Konfigurasi API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Tampal rentetan konfigurasi API yang dieksport di sini..."
+	},
+	"custom_api_import_title": {
+		"message": "Import API Tersuai"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Konfigurasi API disalin ke papan keratan!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Gagal mengeksport API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Konfigurasi API berjaya dimuat turun!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Gagal mengimport API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API diimport sebagai \"$1\" (dinamakan semula daripada \"$2\" kerana API dengan nama itu sudah wujud)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" berjaya diimport!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API Sistem"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Kembali"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Salin ke Papan Keratan"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Muat Turun Fail"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Import API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Lihat Panduan Integrasi"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Edit"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Eksport"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Import API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Gerak ke bawah"
@@ -1500,10 +1566,10 @@
 		"message": "Kumpulan ini mengandungi campuran ahli sesuai dan tidak sesuai."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Pengguna ini telah dikaitkan dengan kandungan tidak sesuai, tetapi tidak ada bukti mencukupi untuk Roblox mengambil tindakan. Berhati-hati ketika berinteraksi dengan mereka."
+		"message": "Pengguna ini telah dikaitkan dengan kandungan tidak sesuai, tetapi kekurangan bukti mencukupi untuk tindakan Roblox. Mereka juga mungkin menjadi mangsa. Berhati-hati."
 	},
 	"tooltip_header_past_offender": {
-		"message": "$1 ini mempunyai kandungan tidak sesuai sebelum ini tetapi akaun mereka pada masa ini nampaknya bersih dan boleh digilirkan semula untuk pengesahan."
+		"message": "$1 ini mempunyai kandungan tidak sesuai sebelum ini tetapi akaun mereka pada masa ini nampaknya bersih."
 	},
 	"tooltip_header_pending": {
 		"message": "$1 ini telah dibenderakan oleh AI dengan keyakinan $2%."
@@ -1512,7 +1578,7 @@
 		"message": "$1 ini sedang disemak oleh sistem kami. Ini mungkin mengambil masa beberapa minit."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "$1 ini telah disemak oleh sistem AI kami dan nampaknya selamat. Jika ini adalah positif palsu, anda boleh gilirkan semula untuk semakan lanjut."
+		"message": "$1 ini telah disemak oleh sistem AI kami dan nampaknya selamat. Jika ini tidak betul, sila laporkan kepada kami."
 	},
 	"tooltip_header_safe": {
 		"message": "$1 ini belum disemak lagi."

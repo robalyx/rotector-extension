@@ -3,6 +3,7 @@ import type { CustomApiConfig } from '../types/custom-api';
 import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
+import { exportCustomApi, importCustomApi } from '../utils/api-export';
 
 // Maximum number of custom APIs allowed
 export const MAX_CUSTOM_APIS = 5;
@@ -384,4 +385,55 @@ export function validateUserStatusResponse(response: unknown): {
 		valid: errors.length === 0,
 		errors
 	};
+}
+
+// Export a custom API configuration to a compressed string
+export function exportApi(id: string): string {
+	const current = get(customApis);
+
+	const api = current.find((api) => api.id === id);
+	if (!api) {
+		throw new Error(`Custom API not found: ${id}`);
+	}
+
+	// Prevent exporting system APIs
+	if (api.isSystem) {
+		throw new Error('Cannot export system APIs');
+	}
+
+	return exportCustomApi(api);
+}
+
+// Import a custom API configuration from a compressed string
+export async function importApi(encodedData: string): Promise<CustomApiConfig> {
+	// Decode and validate the imported data
+	const decodedConfig = importCustomApi(encodedData);
+
+	// Check for duplicate names and auto-rename if needed
+	const current = get(customApis);
+	let newName = decodedConfig.name;
+	let counter = 1;
+
+	while (current.some((api) => api.name === newName)) {
+		newName = `${decodedConfig.name} (${counter})`;
+		counter++;
+	}
+
+	// Apply the new name if it was changed
+	const configToAdd = {
+		...decodedConfig,
+		name: newName
+	};
+
+	// Add the API using existing function
+	const newApi = await addCustomApi(configToAdd);
+
+	logger.info('Imported custom API:', {
+		id: newApi.id,
+		originalName: decodedConfig.name,
+		finalName: newName,
+		wasRenamed: newName !== decodedConfig.name
+	});
+
+	return newApi;
 }

@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "تعديل API مخصص"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "إلغاء"
+	},
+	"custom_api_import_button_import": {
+		"message": "استيراد"
+	},
+	"custom_api_import_button_importing": {
+		"message": "جاري الاستيراد..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "تحميل ملف"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "يرجى لصق تكوين API أو تحميل ملف."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "فشل قراءة الملف. يرجى المحاولة مرة أخرى."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "نوع الملف غير صالح. يرجى تحديد ملف .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "خطأ غير معروف"
+	},
+	"custom_api_import_label_paste": {
+		"message": "لصق تكوين API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "الصق سلسلة تكوين API المُصدَّرة هنا..."
+	},
+	"custom_api_import_title": {
+		"message": "استيراد API مخصص"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "تم نسخ تكوين API إلى الحافظة!"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "فشل تصدير API: $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "تم تنزيل تكوين API بنجاح!"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "فشل استيراد API:"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "تم استيراد API باسم \"$1\" (تمت إعادة التسمية من \"$2\" لأن API بهذا الاسم موجود بالفعل)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "تم استيراد API \"$1\" بنجاح!"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API نظام"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "رجوع"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "نسخ إلى الحافظة"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "تنزيل ملف"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "استيراد API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "عرض دليل التكامل"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "تعديل"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "تصدير"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "استيراد API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "نقل لأسفل"
@@ -1500,10 +1566,10 @@
 		"message": "تحتوي هذه المجموعة على مزيج من الأعضاء المناسبين وغير المناسبين."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "تم ربط هذا المستخدم بمحتوى غير مناسب، لكن لا يوجد دليل كافٍ لـ Roblox لاتخاذ إجراء. توخَّ الحذر عند التفاعل معهم."
+		"message": "تم ربط هذا المستخدم بمحتوى غير مناسب، لكن لا يوجد دليل كافٍ لإجراء Roblox. قد يكون أيضًا ضحية. توخَّ الحذر."
 	},
 	"tooltip_header_past_offender": {
-		"message": "كان لدى هذا $1 محتوى غير مناسب سابقًا لكن حسابهم يبدو نظيفًا حاليًا ويمكن إعادة إضافته إلى قائمة الانتظار للتحقق."
+		"message": "كان لدى هذا $1 محتوى غير مناسب سابقًا لكن حسابهم يبدو نظيفًا حاليًا."
 	},
 	"tooltip_header_pending": {
 		"message": "تم الإبلاغ عن هذا $1 بواسطة AI بثقة $2%."
@@ -1512,7 +1578,7 @@
 		"message": "يتم حاليًا فحص هذا $1 بواسطة نظامنا. قد يستغرق هذا بضع دقائق."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "تمت مراجعة هذا $1 بواسطة نظام AI لدينا ويبدو آمنًا. إذا كانت هذه نتيجة إيجابية خاطئة، يمكنك إعادة الإضافة إلى قائمة الانتظار لمزيد من المراجعة."
+		"message": "تمت مراجعة هذا $1 بواسطة نظام AI لدينا ويبدو آمنًا. إذا كان هذا غير صحيح، يرجى الإبلاغ عنه لنا."
 	},
 	"tooltip_header_safe": {
 		"message": "لم تتم مراجعة هذا $1 بعد."

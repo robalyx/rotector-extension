@@ -323,6 +323,57 @@
 	"custom_api_form_title_edit": {
 		"message": "Modifier l'API Personnalisée"
 	},
+	"custom_api_import_button_cancel": {
+		"message": "Annuler"
+	},
+	"custom_api_import_button_import": {
+		"message": "Importer"
+	},
+	"custom_api_import_button_importing": {
+		"message": "Importation..."
+	},
+	"custom_api_import_button_upload_file": {
+		"message": "Télécharger un Fichier"
+	},
+	"custom_api_import_error_empty_data": {
+		"message": "Veuillez coller une configuration d'API ou télécharger un fichier."
+	},
+	"custom_api_import_error_file_read_failed": {
+		"message": "Échec de la lecture du fichier. Veuillez réessayer."
+	},
+	"custom_api_import_error_invalid_file_extension": {
+		"message": "Type de fichier invalide. Veuillez sélectionner un fichier .rotector-api."
+	},
+	"custom_api_import_error_unknown": {
+		"message": "Erreur inconnue"
+	},
+	"custom_api_import_label_paste": {
+		"message": "Coller la Configuration de l'API"
+	},
+	"custom_api_import_placeholder_paste": {
+		"message": "Collez la chaîne de configuration API exportée ici..."
+	},
+	"custom_api_import_title": {
+		"message": "Importer une API Personnalisée"
+	},
+	"custom_api_mgmt_alert_export_clipboard_success": {
+		"message": "Configuration de l'API copiée dans le presse-papiers !"
+	},
+	"custom_api_mgmt_alert_export_failed": {
+		"message": "Échec de l'exportation de l'API : $1"
+	},
+	"custom_api_mgmt_alert_export_file_success": {
+		"message": "Configuration de l'API téléchargée avec succès !"
+	},
+	"custom_api_mgmt_alert_import_failed": {
+		"message": "Échec de l'importation de l'API :"
+	},
+	"custom_api_mgmt_alert_import_renamed": {
+		"message": "API importée sous le nom \"$1\" (renommée de \"$2\" car une API portant ce nom existe déjà)"
+	},
+	"custom_api_mgmt_alert_import_success": {
+		"message": "API \"$1\" importée avec succès !"
+	},
 	"custom_api_mgmt_badge_system": {
 		"message": "API Système"
 	},
@@ -331,6 +382,15 @@
 	},
 	"custom_api_mgmt_button_back": {
 		"message": "Retour"
+	},
+	"custom_api_mgmt_button_export_clipboard": {
+		"message": "Copier dans le Presse-papiers"
+	},
+	"custom_api_mgmt_button_export_file": {
+		"message": "Télécharger le Fichier"
+	},
+	"custom_api_mgmt_button_import": {
+		"message": "Importer une API"
 	},
 	"custom_api_mgmt_button_view_integration_guide": {
 		"message": "Voir le Guide d'Intégration"
@@ -400,6 +460,12 @@
 	},
 	"custom_api_mgmt_title_edit": {
 		"message": "Modifier"
+	},
+	"custom_api_mgmt_title_export": {
+		"message": "Exporter"
+	},
+	"custom_api_mgmt_title_import": {
+		"message": "Importer une API"
 	},
 	"custom_api_mgmt_title_move_down": {
 		"message": "Déplacer vers le bas"
@@ -1500,10 +1566,10 @@
 		"message": "Ce groupe contient un mélange de membres appropriés et inappropriés."
 	},
 	"tooltip_header_mixed_user": {
-		"message": "Cet utilisateur a été associé à du contenu inapproprié, mais il n'y a pas suffisamment de preuves pour que Roblox prenne des mesures. Soyez prudent lors de vos interactions avec eux."
+		"message": "Cet utilisateur a été associé à du contenu inapproprié, mais il n'y a pas suffisamment de preuves pour que Roblox prenne des mesures. Ils pourraient aussi être une victime. Faites preuve de prudence."
 	},
 	"tooltip_header_past_offender": {
-		"message": "Ce $1 avait du contenu inapproprié auparavant mais son compte semble actuellement propre et peut être remis en file d'attente pour vérification."
+		"message": "Ce $1 avait du contenu inapproprié auparavant mais son compte semble actuellement propre."
 	},
 	"tooltip_header_pending": {
 		"message": "Ce $1 a été signalé par l'IA avec $2% de confiance."
@@ -1512,7 +1578,7 @@
 		"message": "Ce $1 est actuellement en cours de vérification par notre système. Cela peut prendre quelques minutes."
 	},
 	"tooltip_header_queued_safe": {
-		"message": "Ce $1 a été examiné par notre système IA et semble être sûr. Si c'est un faux positif, vous pouvez le remettre en file d'attente pour un examen approfondi."
+		"message": "Ce $1 a été examiné par notre système IA et semble être sûr. Si cela est incorrect, veuillez nous le signaler."
 	},
 	"tooltip_header_safe": {
 		"message": "Ce $1 n'a pas encore été examiné."

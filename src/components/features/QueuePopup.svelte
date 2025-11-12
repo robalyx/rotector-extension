@@ -57,7 +57,10 @@
 
 	const isReanalysis = $derived(
 		isReprocess ||
-			(userStatus && userStatus.flagType > 0 && userStatus.flagType !== STATUS.FLAGS.PAST_OFFENDER)
+			(userStatus &&
+				(userStatus.flagType === STATUS.FLAGS.UNSAFE ||
+					userStatus.flagType === STATUS.FLAGS.PENDING ||
+					userStatus.flagType === STATUS.FLAGS.MIXED))
 	);
 	const hasSelection = $derived(
 		inappropriateOutfit || inappropriateProfile || inappropriateFriends || inappropriateGroups

@@ -11,6 +11,7 @@
 		PAGE_TYPES,
 		PROFILE_GROUPS_SHOWCASE_SELECTORS,
 		PROFILE_SELECTORS,
+		STATUS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
@@ -36,7 +37,11 @@
 	const isFlagged = $derived(() => {
 		if (!userStatus) return false;
 		return Array.from(userStatus.customApis.values()).some(
-			(result) => result.data && result.data.flagType > 0
+			(result) =>
+				result.data &&
+				(result.data.flagType === STATUS.FLAGS.UNSAFE ||
+					result.data.flagType === STATUS.FLAGS.PENDING ||
+					result.data.flagType === STATUS.FLAGS.MIXED)
 		);
 	});
 

@@ -47,13 +47,6 @@
 		return username || `User ${sanitizedUserId()}`;
 	});
 
-	const isRisky = $derived(() => {
-		if (!userStatus) return false;
-		return Array.from(userStatus.customApis.values()).some(
-			(result) => result.data && result.data.flagType > 0
-		);
-	});
-
 	const warningConfig = $derived(() => {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		const rawConfidence = rotector?.data?.confidence ?? 0;
@@ -75,7 +68,6 @@
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_proceed', {
 			userId: sanitizedUserId(),
-			isRisky: isRisky(),
 			statusFlag: rotector?.data?.flagType
 		});
 
@@ -91,7 +83,6 @@
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_cancel', {
 			userId: sanitizedUserId(),
-			isRisky: isRisky(),
 			statusFlag: rotector?.data?.flagType
 		});
 
@@ -107,7 +98,6 @@
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_block', {
 			userId: sanitizedUserId(),
-			isRisky: isRisky(),
 			statusFlag: rotector?.data?.flagType
 		});
 

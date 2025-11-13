@@ -738,43 +738,43 @@
 	{@const metadata = metadataInfo}
 	{#if metadata}
 		<div class="tooltip-metadata">
-			{#if metadata.queuedTime}
-				<div class="tooltip-metadata-item" title={metadata.queuedExact}>
+			{#if metadata?.queuedTime}
+				<div class="tooltip-metadata-item" title={metadata?.queuedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					<span class="tooltip-metadata-label">{t('tooltip_metadata_queued')}</span>
-					<span class="tooltip-metadata-value">{metadata.queuedTime}</span>
+					<span class="tooltip-metadata-value">{metadata?.queuedTime}</span>
 				</div>
 			{/if}
 
-			{#if metadata.duration}
+			{#if metadata?.duration}
 				<div
 					class="tooltip-metadata-item"
-					class:processing={metadata.isProcessing}
-					title={metadata.processedExact || t('tooltip_metadata_processing_status')}
+					class:processing={metadata?.isProcessing}
+					title={metadata?.processedExact || t('tooltip_metadata_processing_status')}
 				>
-					{#if metadata.isProcessing}
+					{#if metadata?.isProcessing}
 						<Loader2 class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
 					{:else}
 						<Check class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					{/if}
 					<span class="tooltip-metadata-label">
-						{#if metadata.isProcessing}{t('tooltip_metadata_processing')}{:else}{t(
+						{#if metadata?.isProcessing}{t('tooltip_metadata_processing')}{:else}{t(
 								'tooltip_metadata_took'
 							)}{/if}
 					</span>
-					<span class="tooltip-metadata-value">{metadata.duration}</span>
+					<span class="tooltip-metadata-value">{metadata?.duration}</span>
 				</div>
 			{/if}
 
-			{#if metadata.lastUpdatedTime}
-				<div class="tooltip-metadata-item" title={metadata.lastUpdatedExact}>
+			{#if metadata?.lastUpdatedTime}
+				<div class="tooltip-metadata-item" title={metadata?.lastUpdatedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					<span class="tooltip-metadata-label">{t('tooltip_metadata_last_updated')}</span>
-					<span class="tooltip-metadata-value">{metadata.lastUpdatedTime}</span>
+					<span class="tooltip-metadata-value">{metadata?.lastUpdatedTime}</span>
 				</div>
 			{/if}
 
-			{#if isOutdated && !metadata.isProcessing}
+			{#if isOutdated && !metadata?.isProcessing}
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}

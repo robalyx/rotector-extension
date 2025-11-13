@@ -508,9 +508,10 @@
 		}
 	}
 
-	// Reset translation state when switching tabs
+	// Reset translation state when switching tabs or data changes
 	$effect(() => {
 		void activeTab;
+		void reasonEntries;
 		translationsMap = {};
 		translationError = null;
 		translationAttempted = false;

@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Авто слідує за темою Roblox. Світла та Темна перевизначають цю налаштування."
 	},
+	"settings_help_translate_violations": {
+		"message": "Автоматично перекладає повідомлення про порушення мовою вашого браузера при перегляді підказок."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Показати розширені деталі порушень"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Тема"
+	},
+	"settings_label_translate_violations": {
+		"message": "Автоматичний переклад порушень"
 	},
 	"settings_manage_apis_button": {
 		"message": "Керування інтеграціями API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Небезпечний"
+	},
+	"tooltip_translation_failed": {
+		"message": "Переклад не вдався"
+	},
+	"tooltip_translation_translating": {
+		"message": "Перекладається..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Переглянути оригінал"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Переглянути переклад"
 	},
 	"voting_aria_agree": {
 		"message": "Погодитися з цим статусом"

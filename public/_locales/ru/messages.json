@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Авто следует настройке темы Roblox. Светлая и Тёмная переопределяют этот параметр."
 	},
+	"settings_help_translate_violations": {
+		"message": "Автоматически переводит сообщения о нарушениях на язык вашего браузера при просмотре подсказок."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Показывать расширенные сведения о нарушениях"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Тема"
+	},
+	"settings_label_translate_violations": {
+		"message": "Автоперевод нарушений"
 	},
 	"settings_manage_apis_button": {
 		"message": "Управление интеграциями API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Небезопасный"
+	},
+	"tooltip_translation_failed": {
+		"message": "Перевод не удался"
+	},
+	"tooltip_translation_translating": {
+		"message": "Перевод..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Просмотреть оригинал"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Просмотреть перевод"
 	},
 	"voting_aria_agree": {
 		"message": "Согласиться с этим статусом"

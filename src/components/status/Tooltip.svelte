@@ -29,12 +29,23 @@
 		calculateTooltipPosition,
 		calculateTransformOrigin
 	} from '@/lib/utils/tooltip-positioning';
-	import { User, AlertCircle, Shirt, Clock, Loader2, Check, RefreshCw } from 'lucide-svelte';
+	import {
+		User,
+		AlertCircle,
+		Shirt,
+		Clock,
+		Loader2,
+		Check,
+		RefreshCw,
+		Languages,
+		FileText
+	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import EngineVersionIndicator from './EngineVersionIndicator.svelte';
 	import { get } from 'svelte/store';
-	import { t } from '@/lib/stores/i18n';
+	import { t, getCurrentLanguage } from '@/lib/stores/i18n';
+	import { SETTINGS_KEYS } from '@/lib/types/settings';
 
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
@@ -79,6 +90,22 @@
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
+
+	// Translation state
+	let translationsMap = $state<Record<string, string>>({});
+	let isTranslating = $state(false);
+	let translationError = $state<string | null>(null);
+	let showTranslated = $state(true); // Toggle between original and translated text
+	let translationAttempted = $state(false); // Track if we've tried translating
+
+	// Check if any translations actually differ from originals
+	const hasActualTranslations = $derived.by(() => {
+		if (Object.keys(translationsMap).length === 0) return false;
+
+		return Object.entries(translationsMap).some(
+			([original, translated]) => original !== translated
+		);
+	});
 
 	// Get active status based on selected tab
 	const activeStatus = $derived.by(() => {
@@ -319,6 +346,19 @@
 		return formatViolationReasons(currentStatus.reasons, entityType);
 	});
 
+	// Check if auto-translation should be enabled
+	const shouldAutoTranslate = $derived.by(() => {
+		const translateEnabled = get(settings)[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED];
+		const hasReasons = reasonEntries.length > 0;
+		return translateEnabled && hasReasons;
+	});
+
+	// Get text to display (original or translated)
+	function getDisplayText(originalText: string): string {
+		if (!showTranslated) return originalText;
+		return translationsMap[originalText] || originalText;
+	}
+
 	const reviewerInfo = $derived.by((): ReviewerInfo | null => {
 		if (isGroup) return null;
 		const currentStatus = activeUserStatus;
@@ -465,6 +505,95 @@
 	function handleExpand() {
 		if (!isExpanded && onExpand) {
 			onExpand();
+		}
+	}
+
+	// Reset translation state when switching tabs
+	$effect(() => {
+		void activeTab;
+		translationsMap = {};
+		translationError = null;
+		translationAttempted = false;
+		showTranslated = true;
+	});
+
+	// Trigger automatic translation
+	$effect(() => {
+		if (shouldAutoTranslate && !translationAttempted && !isTranslating) {
+			void performAutoTranslation();
+		}
+	});
+
+	// Automatically translate when conditions are met
+	async function performAutoTranslation() {
+		if (isTranslating || Object.keys(translationsMap).length > 0) return;
+
+		try {
+			isTranslating = true;
+			translationError = null;
+
+			const currentLanguage = getCurrentLanguage();
+			const isEnglishUser = currentLanguage.split('-')[0].toLowerCase() === 'en';
+
+			// Determine translation direction
+			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
+			const sourceLanguage = isEnglishUser ? 'auto' : 'en';
+
+			const allTranslations: Record<string, string> = {};
+			let totalTextsCount = 0;
+
+			// Process each reason separately
+			for (const reason of reasonEntries) {
+				const textsForReason: string[] = [];
+
+				// Collect reason message
+				if (!isEnglishUser && reason.message) {
+					textsForReason.push(reason.message);
+				}
+
+				// Collect all evidence
+				if (reason.evidence) {
+					for (const evidence of reason.evidence) {
+						if (evidence.type === 'outfit') {
+							if (evidence.outfitName) textsForReason.push(evidence.outfitName);
+							if (evidence.outfitReason) textsForReason.push(evidence.outfitReason);
+						} else if (evidence.content) {
+							textsForReason.push(evidence.content);
+						}
+					}
+				}
+
+				// Batch translate all texts
+				if (textsForReason.length > 0) {
+					try {
+						const result = await apiClient.translateTexts(
+							textsForReason,
+							targetLanguage,
+							sourceLanguage
+						);
+						Object.assign(allTranslations, result.translations);
+						totalTextsCount += textsForReason.length;
+					} catch (err) {
+						logger.warn('Translation failed for reason, keeping original:', err);
+					}
+				}
+			}
+
+			translationsMap = allTranslations;
+
+			if (totalTextsCount > 0) {
+				logger.userAction('auto_translation_completed', {
+					count: totalTextsCount,
+					from: sourceLanguage,
+					to: targetLanguage
+				});
+			}
+		} catch (err) {
+			logger.error('Auto-translation failed:', err);
+			translationError = extractErrorMessage(err);
+		} finally {
+			isTranslating = false;
+			translationAttempted = true;
 		}
 	}
 
@@ -838,6 +967,44 @@
 					{#if shouldShowVoting || (activeTab === ROTECTOR_API_ID && !isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || customApiBadges.length > 0}
 						<div class="tooltip-divider"></div>
 					{/if}
+
+					<!-- Translation status/toggle -->
+					{#if shouldAutoTranslate}
+						{#if isTranslating}
+							<!-- Loading state -->
+							<div class="translate-status-container">
+								<LoadingSpinner size="small" />
+								<span class="translate-status-text">{t('tooltip_translation_translating')}</span>
+							</div>
+						{:else if translationError}
+							<!-- Error state -->
+							<div class="translate-status-container">
+								<span class="translate-error">{t('tooltip_translation_failed')}</span>
+							</div>
+						{:else if hasActualTranslations}
+							<!-- Toggle button -->
+							<div class="translation-toggle-container">
+								<button
+									class="translation-toggle-button"
+									onmousedown={(e) => {
+										e.stopPropagation();
+										e.preventDefault();
+										showTranslated = !showTranslated;
+									}}
+									type="button"
+								>
+									{#if showTranslated}
+										<FileText size={11} />
+										<span>{t('tooltip_translation_view_original')}</span>
+									{:else}
+										<Languages size={11} />
+										<span>{t('tooltip_translation_view_translated')}</span>
+									{/if}
+								</button>
+							</div>
+						{/if}
+					{/if}
+
 					<div class="reasons-container">
 						{#each reasonEntries as reason (reason.typeName)}
 							<div class="reason-item">
@@ -846,7 +1013,7 @@
 								</div>
 								{#if reason.message}
 									<div class="reason-message">
-										{reason.message}
+										{getDisplayText(reason.message)}
 									</div>
 								{/if}
 								{#if reason.evidence && reason.evidence.length > 0}
@@ -855,7 +1022,7 @@
 											{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
 												<div class="evidence-item outfit-evidence-item">
 													<div class="outfit-evidence-header">
-														<div class="outfit-name">{evidence.outfitName}</div>
+														<div class="outfit-name">{getDisplayText(evidence.outfitName)}</div>
 														{#if evidence.outfitConfidence !== null}
 															<div class="outfit-confidence-badge">
 																{evidence.outfitConfidence}
@@ -863,10 +1030,10 @@
 															</div>
 														{/if}
 													</div>
-													<div class="outfit-reason">{evidence.outfitReason}</div>
+													<div class="outfit-reason">{getDisplayText(evidence.outfitReason)}</div>
 												</div>
 											{:else}
-												<div class="evidence-item">{evidence.content}</div>
+												<div class="evidence-item">{getDisplayText(evidence.content)}</div>
 											{/if}
 										{/each}
 									</div>

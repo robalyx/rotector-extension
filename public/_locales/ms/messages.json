@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Auto mengikut tetapan tema Roblox. Cerah dan Gelap mengatasi pilihan ini."
 	},
+	"settings_help_translate_violations": {
+		"message": "Secara automatik menerjemah mesej pelanggaran ke bahasa pelayar anda apabila melihat tooltip."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Tunjuk Butiran Pelanggaran Lanjutan"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Tema"
+	},
+	"settings_label_translate_violations": {
+		"message": "Auto-Terjemah Pelanggaran"
 	},
 	"settings_manage_apis_button": {
 		"message": "Urus Integrasi API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Tidak Selamat"
+	},
+	"tooltip_translation_failed": {
+		"message": "Terjemahan gagal"
+	},
+	"tooltip_translation_translating": {
+		"message": "Sedang menerjemah..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Lihat Asal"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Lihat Terjemahan"
 	},
 	"voting_aria_agree": {
 		"message": "Setuju dengan status ini"

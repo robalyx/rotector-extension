@@ -248,6 +248,39 @@
 	}
 }
 
+@utility translate-status-container {
+	@apply flex items-center gap-1.5 justify-center mb-2;
+}
+
+@utility translate-status-text {
+	@apply text-2xs;
+	color: var(--color-text-secondary);
+}
+
+@utility translate-error {
+	@apply text-2xs;
+	color: var(--color-status-unsafe);
+}
+
+@utility translation-toggle-container {
+	@apply flex justify-center mb-2;
+}
+
+@utility translation-toggle-button {
+	@apply flex items-center gap-1 px-2 py-0.5 text-3xs font-normal border-none cursor-pointer transition-all duration-200;
+	background: transparent;
+	color: var(--color-text-tertiary);
+	opacity: 0.7;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	&:active {
+		opacity: 0.8;
+	}
+}
+
 @utility reasons-container {
 	@apply text-left mt-2;
 }

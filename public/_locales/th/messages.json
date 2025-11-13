@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "อัตโนมัติจะตามการตั้งค่าธีมของ Roblox สว่างและมืดจะแทนที่การตั้งค่านี้"
 	},
+	"settings_help_translate_violations": {
+		"message": "แปลข้อความการละเมิดเป็นภาษาเบราว์เซอร์ของคุณโดยอัตโนมัติเมื่อดูคำแนะนำเครื่องมือ"
+	},
 	"settings_label_advanced_violations": {
 		"message": "แสดงรายละเอียดการละเมิดขั้นสูง"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "ธีม"
+	},
+	"settings_label_translate_violations": {
+		"message": "แปลการละเมิดอัตโนมัติ"
 	},
 	"settings_manage_apis_button": {
 		"message": "จัดการการเชื่อมต่อ API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "ไม่ปลอดภัย"
+	},
+	"tooltip_translation_failed": {
+		"message": "การแปลล้มเหลว"
+	},
+	"tooltip_translation_translating": {
+		"message": "กำลังแปล..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "ดูต้นฉบับ"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "ดูคำแปล"
 	},
 	"voting_aria_agree": {
 		"message": "เห็นด้วยกับสถานะนี้"

@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Auto följer Roblox temainställning. Ljust och Mörkt åsidosätter denna inställning."
 	},
+	"settings_help_translate_violations": {
+		"message": "Översätter automatiskt överträdelsemeddelanden till ditt webbläsarspråk när du visar verktygstips."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Visa avancerade överträdelsedetaljer"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Tema"
+	},
+	"settings_label_translate_violations": {
+		"message": "Auto-översätt överträdelser"
 	},
 	"settings_manage_apis_button": {
 		"message": "Hantera API-integrationer"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Osäker"
+	},
+	"tooltip_translation_failed": {
+		"message": "Översättning misslyckades"
+	},
+	"tooltip_translation_translating": {
+		"message": "Översätter..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Visa original"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Visa översättning"
 	},
 	"voting_aria_agree": {
 		"message": "Håller med om denna status"

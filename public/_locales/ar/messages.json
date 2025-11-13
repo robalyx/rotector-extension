@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "التلقائي يتبع إعدادات مظهر Roblox. الفاتح والداكن يتجاوزان هذا التفضيل."
 	},
+	"settings_help_translate_violations": {
+		"message": "يترجم تلقائياً رسائل الانتهاكات إلى لغة متصفحك عند عرض النصائح."
+	},
 	"settings_label_advanced_violations": {
 		"message": "إظهار تفاصيل الانتهاكات المتقدمة"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "المظهر"
+	},
+	"settings_label_translate_violations": {
+		"message": "ترجمة الانتهاكات تلقائياً"
 	},
 	"settings_manage_apis_button": {
 		"message": "إدارة تكاملات API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "غير آمن"
+	},
+	"tooltip_translation_failed": {
+		"message": "فشلت الترجمة"
+	},
+	"tooltip_translation_translating": {
+		"message": "جارٍ الترجمة..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "عرض الأصلي"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "عرض الترجمة"
 	},
 	"voting_aria_agree": {
 		"message": "الموافقة على هذه الحالة"

@@ -8,3 +8,8 @@ export function t(key: string, substitutions?: string[]): string {
 	);
 	return message || key;
 }
+
+// Get the current browser language
+export function getCurrentLanguage(): string {
+	return browser.i18n.getUILanguage();
+}

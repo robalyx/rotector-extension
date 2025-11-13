@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Automatisch folgt der Design-Einstellung von Roblox. Hell und Dunkel überschreiben diese Präferenz."
 	},
+	"settings_help_translate_violations": {
+		"message": "Übersetzt Verstoßmeldungen automatisch in Ihre Browsersprache, wenn Sie Tooltips anzeigen."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Erweiterte Verstoßdetails anzeigen"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Design"
+	},
+	"settings_label_translate_violations": {
+		"message": "Verstöße automatisch übersetzen"
 	},
 	"settings_manage_apis_button": {
 		"message": "API-Integrationen verwalten"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Unsicher"
+	},
+	"tooltip_translation_failed": {
+		"message": "Übersetzung fehlgeschlagen"
+	},
+	"tooltip_translation_translating": {
+		"message": "Wird übersetzt..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Original anzeigen"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Übersetzung anzeigen"
 	},
 	"voting_aria_agree": {
 		"message": "Mit diesem Status übereinstimmen"

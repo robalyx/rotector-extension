@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Automatisch volgt de thema-instelling van Roblox. Licht en Donker overschrijven deze voorkeur."
 	},
+	"settings_help_translate_violations": {
+		"message": "Vertaalt overtredingsberichten automatisch naar de taal van uw browser bij het weergeven van tooltips."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Geavanceerde Overtredingsdetails Tonen"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Thema"
+	},
+	"settings_label_translate_violations": {
+		"message": "Automatisch vertalen van overtredingen"
 	},
 	"settings_manage_apis_button": {
 		"message": "API-integraties Beheren"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Onveilig"
+	},
+	"tooltip_translation_failed": {
+		"message": "Vertaling mislukt"
+	},
+	"tooltip_translation_translating": {
+		"message": "Vertalen..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Origineel weergeven"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Vertaling weergeven"
 	},
 	"voting_aria_agree": {
 		"message": "Eens met deze status"

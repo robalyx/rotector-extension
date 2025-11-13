@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Awtomatikong sumusunod sa tema ng Roblox. Ang Maliwanag at Madilim ay nag-o-override sa kagustuhan na ito."
 	},
+	"settings_help_translate_violations": {
+		"message": "Awtomatikong itinatalin ang mga mensahe ng paglabag sa wika ng iyong browser kapag tinitingnan ang mga tooltip."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Ipakita ang Detalyadong Impormasyon ng Paglabag"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Tema"
+	},
+	"settings_label_translate_violations": {
+		"message": "Awtomatikong I-translate ang mga Paglabag"
 	},
 	"settings_manage_apis_button": {
 		"message": "Pamahalaan ang API Integration"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Hindi Ligtas"
+	},
+	"tooltip_translation_failed": {
+		"message": "Nabigo ang pagsasalin"
+	},
+	"tooltip_translation_translating": {
+		"message": "Isinasalin..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Tingnan ang Orihinal"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Tingnan ang Salin"
 	},
 	"voting_aria_agree": {
 		"message": "Sumang-ayon sa status na ito"

@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "ऑटो Roblox की थीम सेटिंग का अनुसरण करता है। लाइट और डार्क इस वरीयता को ओवरराइड करते हैं।"
 	},
+	"settings_help_translate_violations": {
+		"message": "टूलटिप देखते समय उल्लंघन संदेशों को आपकी ब्राउज़र भाषा में स्वचालित रूप से अनुवाद करता है।"
+	},
 	"settings_label_advanced_violations": {
 		"message": "उन्नत उल्लंघन विवरण दिखाएं"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "थीम"
+	},
+	"settings_label_translate_violations": {
+		"message": "उल्लंघनों का स्वचालित अनुवाद"
 	},
 	"settings_manage_apis_button": {
 		"message": "API एकीकरण प्रबंधित करें"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "असुरक्षित"
+	},
+	"tooltip_translation_failed": {
+		"message": "अनुवाद विफल"
+	},
+	"tooltip_translation_translating": {
+		"message": "अनुवाद जारी है..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "मूल देखें"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "अनुवाद देखें"
 	},
 	"voting_aria_agree": {
 		"message": "इस स्थिति से सहमत हों"

@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "自動はRobloxのテーマ設定に従います。ライトとダークはこの設定を上書きします。"
 	},
+	"settings_help_translate_violations": {
+		"message": "ツールチップを表示する際に、違反メッセージをブラウザの言語に自動翻訳します。"
+	},
 	"settings_label_advanced_violations": {
 		"message": "詳細な違反情報を表示"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "テーマ"
+	},
+	"settings_label_translate_violations": {
+		"message": "違反の自動翻訳"
 	},
 	"settings_manage_apis_button": {
 		"message": "API統合を管理"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "安全でない"
+	},
+	"tooltip_translation_failed": {
+		"message": "翻訳に失敗しました"
+	},
+	"tooltip_translation_translating": {
+		"message": "翻訳中..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "オリジナルを表示"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "翻訳版を表示"
 	},
 	"voting_aria_agree": {
 		"message": "このステータスに賛成"

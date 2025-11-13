@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Automatyczny dostosowuje się do ustawień motywu Roblox. Jasny i Ciemny nadpisują tę preferencję."
 	},
+	"settings_help_translate_violations": {
+		"message": "Automatycznie tłumaczy komunikaty naruszeń na język przeglądarki podczas przeglądania wskazówek."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Pokaż szczegółowe informacje o naruszeniach"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Motyw"
+	},
+	"settings_label_translate_violations": {
+		"message": "Automatyczne tłumaczenie naruszeń"
 	},
 	"settings_manage_apis_button": {
 		"message": "Zarządzaj integracjami API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Niebezpieczny"
+	},
+	"tooltip_translation_failed": {
+		"message": "Tłumaczenie nie powiodło się"
+	},
+	"tooltip_translation_translating": {
+		"message": "Tłumaczenie..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Wyświetl oryginał"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Wyświetl tłumaczenie"
 	},
 	"voting_aria_agree": {
 		"message": "Zgadzam się z tym statusem"

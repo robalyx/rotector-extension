@@ -183,16 +183,14 @@ async function translateParallel(
 
 		const response = await fetch(url);
 		if (!response.ok) {
-			throw new Error(
-				`Translation API returned status ${response.status} for text: ${text.substring(0, 50)}`
-			);
+			throw new Error(`Translation API returned status ${response.status}`);
 		}
 
 		const data = (await response.json()) as GoogleTranslateResponse;
 		const translated = data[0]?.[0]?.[0];
 
 		if (!translated) {
-			throw new Error(`No translation returned for text: ${text.substring(0, 50)}`);
+			throw new Error('No translation returned');
 		}
 
 		setCachedTranslation(text, targetLanguage, sourceLanguage, translated);

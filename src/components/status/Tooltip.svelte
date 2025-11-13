@@ -566,11 +566,7 @@
 				// Batch translate all texts
 				if (textsForReason.length > 0) {
 					try {
-						const result = await apiClient.translateTexts(
-							textsForReason,
-							targetLanguage,
-							sourceLanguage
-						);
+						const result = await apiClient.translateTexts(textsForReason, targetLanguage, 'auto');
 						Object.assign(allTranslations, result.translations);
 						totalTextsCount += textsForReason.length;
 					} catch (err) {

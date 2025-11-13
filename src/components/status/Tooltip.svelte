@@ -348,7 +348,7 @@
 
 	// Check if auto-translation should be enabled
 	const shouldAutoTranslate = $derived.by(() => {
-		const translateEnabled = get(settings)[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED];
+		const translateEnabled = $settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED];
 		const hasReasons = reasonEntries.length > 0;
 		return translateEnabled && hasReasons;
 	});

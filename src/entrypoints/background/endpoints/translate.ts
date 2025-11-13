@@ -262,7 +262,7 @@ export async function translateTexts(
 		const cached = getCachedTranslation(text, normalizedTarget, normalizedSource);
 		if (cached) {
 			translations[text] = cached;
-			logger.debug('Translation cache hit', { text: text.substring(0, 50) });
+			logger.debug('Translation cache hit', { len: text.length });
 		} else {
 			uncachedTexts.push(text);
 		}

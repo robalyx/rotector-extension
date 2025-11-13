@@ -1230,7 +1230,7 @@
 		"message": "Tema"
 	},
 	"settings_label_translate_violations": {
-		"message": "Auto-översätt överträdelser"
+		"message": "Autoöversätt överträdelser"
 	},
 	"settings_manage_apis_button": {
 		"message": "Hantera API-integrationer"

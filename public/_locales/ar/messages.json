@@ -1194,7 +1194,7 @@
 		"message": "التلقائي يتبع إعدادات مظهر Roblox. الفاتح والداكن يتجاوزان هذا التفضيل."
 	},
 	"settings_help_translate_violations": {
-		"message": "يترجم تلقائياً رسائل الانتهاكات إلى لغة متصفحك عند عرض النصائح."
+		"message": "يترجم تلقائياً رسائل الانتهاكات إلى لغة متصفحك عند عرض التلميحات."
 	},
 	"settings_label_advanced_violations": {
 		"message": "إظهار تفاصيل الانتهاكات المتقدمة"
@@ -1695,7 +1695,7 @@
 		"message": "جارٍ الترجمة..."
 	},
 	"tooltip_translation_view_original": {
-		"message": "عرض الأصلي"
+		"message": "عرض النص الأصلي"
 	},
 	"tooltip_translation_view_translated": {
 		"message": "عرض الترجمة"

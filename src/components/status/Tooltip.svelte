@@ -535,10 +535,7 @@
 			const currentLanguage = getCurrentLanguage();
 			const isEnglishUser = currentLanguage.split('-')[0].toLowerCase() === 'en';
 
-			// Determine translation direction
 			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
-			const sourceLanguage = isEnglishUser ? 'auto' : 'en';
-
 			const allTranslations: Record<string, string> = {};
 			let totalTextsCount = 0;
 
@@ -580,7 +577,6 @@
 			if (totalTextsCount > 0) {
 				logger.userAction('auto_translation_completed', {
 					count: totalTextsCount,
-					from: sourceLanguage,
 					to: targetLanguage
 				});
 			}

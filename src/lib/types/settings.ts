@@ -16,7 +16,8 @@ export const SETTINGS_KEYS = {
 	CHANGELOG_SECTION_EXPANDED: 'changelogSectionExpanded',
 	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed',
 	CUSTOM_APIS: 'customApis',
-	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab'
+	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab',
+	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -42,6 +43,7 @@ export interface Settings {
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: boolean;
 	[SETTINGS_KEYS.CUSTOM_APIS]?: string;
 	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
+	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: boolean;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -60,7 +62,8 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.THEME]: 'auto',
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: '',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
-	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false
+	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false,
+	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false
 };
 
 interface SettingCategory {
@@ -87,6 +90,11 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 				labelKey: 'settings_label_advanced_violations',
 				helpTextKey: 'settings_help_advanced_violations',
 				requiresConfirmation: true
+			},
+			{
+				key: SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED,
+				labelKey: 'settings_label_translate_violations',
+				helpTextKey: 'settings_help_translate_violations'
 			}
 		]
 	},

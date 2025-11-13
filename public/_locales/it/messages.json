@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Auto segue l'impostazione del tema di Roblox. Chiaro e Scuro sovrascrivono questa preferenza."
 	},
+	"settings_help_translate_violations": {
+		"message": "Traduce automaticamente i messaggi di violazione nella lingua del tuo browser quando visualizzi i tooltip."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Mostra Dettagli Avanzati delle Violazioni"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Tema"
+	},
+	"settings_label_translate_violations": {
+		"message": "Traduci Automaticamente le Violazioni"
 	},
 	"settings_manage_apis_button": {
 		"message": "Gestisci Integrazioni API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Non Sicuro"
+	},
+	"tooltip_translation_failed": {
+		"message": "Traduzione non riuscita"
+	},
+	"tooltip_translation_translating": {
+		"message": "Traduzione in corso..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Visualizza Originale"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Visualizza Traduzione"
 	},
 	"voting_aria_agree": {
 		"message": "D'accordo con questo stato"

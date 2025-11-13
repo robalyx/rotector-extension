@@ -14,6 +14,7 @@ import type {
 	QueueResult,
 	ReportableUserResponse,
 	RequestOptions,
+	TranslationResult,
 	UserStatus,
 	VoteData,
 	VoteResult,
@@ -244,6 +245,18 @@ class RotectorApiClient {
 		return sendMessage<LeaderboardResponse>(API_ACTIONS.EXTENSION_GET_LEADERBOARD, {
 			limit,
 			includeAnonymous
+		});
+	}
+
+	async translateTexts(
+		texts: string[],
+		targetLanguage: string,
+		sourceLanguage: string = 'en'
+	): Promise<TranslationResult> {
+		return sendMessage<TranslationResult>(API_ACTIONS.TRANSLATE_TEXT, {
+			texts,
+			targetLanguage,
+			sourceLanguage
 		});
 	}
 }

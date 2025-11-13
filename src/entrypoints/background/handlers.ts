@@ -32,6 +32,7 @@ import {
 	getWarZoneStatistics
 } from './endpoints/war';
 import { customApiCheckUser, customApiCheckMultipleUsers } from './endpoints/custom';
+import { translateTexts } from './endpoints/translate';
 
 // Action handlers with validation
 export const actionHandlers = {
@@ -136,5 +137,14 @@ export const actionHandlers = {
 		return getWarZone(request.zoneId);
 	},
 	[API_ACTIONS.EXTENSION_GET_LEADERBOARD]: async (request: ContentMessage) =>
-		getLeaderboard(request.limit, request.includeAnonymous)
+		getLeaderboard(request.limit, request.includeAnonymous),
+	[API_ACTIONS.TRANSLATE_TEXT]: async (request: ContentMessage) => {
+		if (!request.texts || request.texts.length === 0) {
+			throw new Error('Texts are required for translation');
+		}
+		if (!request.targetLanguage) {
+			throw new Error('Target language is required for translation');
+		}
+		return translateTexts(request.texts, request.targetLanguage, request.sourceLanguage);
+	}
 } as const;

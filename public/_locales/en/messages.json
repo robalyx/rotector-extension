@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Auto follows Roblox's theme setting. Light and Dark override this preference."
 	},
+	"settings_help_translate_violations": {
+		"message": "Automatically translates violation messages to your browser language when viewing tooltips."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Show Advanced Violation Details"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Theme"
+	},
+	"settings_label_translate_violations": {
+		"message": "Auto-Translate Violations"
 	},
 	"settings_manage_apis_button": {
 		"message": "Manage API Integrations"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Unsafe"
+	},
+	"tooltip_translation_failed": {
+		"message": "Translation failed"
+	},
+	"tooltip_translation_translating": {
+		"message": "Translating..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "View Original"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "View Translation"
 	},
 	"voting_aria_agree": {
 		"message": "Agree with this status"

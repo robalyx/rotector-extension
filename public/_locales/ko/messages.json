@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "자동은 Roblox의 테마 설정을 따릅니다. 라이트와 다크는 이 설정을 무시합니다."
 	},
+	"settings_help_translate_violations": {
+		"message": "툴팁을 볼 때 위반 메시지를 브라우저 언어로 자동 번역합니다."
+	},
 	"settings_label_advanced_violations": {
 		"message": "고급 위반 세부정보 표시"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "테마"
+	},
+	"settings_label_translate_violations": {
+		"message": "위반 자동 번역"
 	},
 	"settings_manage_apis_button": {
 		"message": "API 통합 관리"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "안전하지 않음"
+	},
+	"tooltip_translation_failed": {
+		"message": "번역 실패"
+	},
+	"tooltip_translation_translating": {
+		"message": "번역 중..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "원본 보기"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "번역본 보기"
 	},
 	"voting_aria_agree": {
 		"message": "이 상태에 동의"

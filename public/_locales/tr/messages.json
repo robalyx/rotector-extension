@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Otomatik seçeneği Roblox'un tema ayarını takip eder. Açık ve Koyu seçenekleri bu tercihi geçersiz kılar."
 	},
+	"settings_help_translate_violations": {
+		"message": "Araç ipuçlarını görüntülerken ihlal mesajlarını tarayıcı dilinize otomatik olarak çevirir."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Gelişmiş İhlal Ayrıntılarını Göster"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Tema"
+	},
+	"settings_label_translate_violations": {
+		"message": "İhlalleri Otomatik Olarak Çevir"
 	},
 	"settings_manage_apis_button": {
 		"message": "API Entegrasyonlarını Yönet"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Güvenli Değil"
+	},
+	"tooltip_translation_failed": {
+		"message": "Çeviri başarısız oldu"
+	},
+	"tooltip_translation_translating": {
+		"message": "Çeviriliyor..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Orijinalini Göster"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Çeviriyi Göster"
 	},
 	"voting_aria_agree": {
 		"message": "Bu duruma katılın"

@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "自动模式会跟随 Roblox 的主题设置。浅色和深色会覆盖此偏好设置。"
 	},
+	"settings_help_translate_violations": {
+		"message": "在查看工具提示时，自动将违规信息翻译为您的浏览器语言。"
+	},
 	"settings_label_advanced_violations": {
 		"message": "显示高级违规详情"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "主题"
+	},
+	"settings_label_translate_violations": {
+		"message": "自动翻译违规信息"
 	},
 	"settings_manage_apis_button": {
 		"message": "管理 API 集成"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "不安全"
+	},
+	"tooltip_translation_failed": {
+		"message": "翻译失败"
+	},
+	"tooltip_translation_translating": {
+		"message": "翻译中..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "查看原文"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "查看翻译"
 	},
 	"voting_aria_agree": {
 		"message": "同意此状态"

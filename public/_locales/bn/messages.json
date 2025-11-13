@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "স্বয়ংক্রিয় Roblox এর থিম সেটিং অনুসরণ করে। হালকা এবং গাঢ় এই পছন্দ ওভাররাইড করে।"
 	},
+	"settings_help_translate_violations": {
+		"message": "টুলটিপ দেখার সময় স্বয়ংক্রিয়ভাবে লঙ্ঘন বার্তাগুলি আপনার ব্রাউজারের ভাষায় অনুবাদ করে।"
+	},
 	"settings_label_advanced_violations": {
 		"message": "উন্নত লঙ্ঘন বিবরণ দেখান"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "থিম"
+	},
+	"settings_label_translate_violations": {
+		"message": "স্বয়ংক্রিয়ভাবে লঙ্ঘন অনুবাদ করুন"
 	},
 	"settings_manage_apis_button": {
 		"message": "API ইন্টিগ্রেশন পরিচালনা করুন"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "অনিরাপদ"
+	},
+	"tooltip_translation_failed": {
+		"message": "অনুবাদ ব্যর্থ হয়েছে"
+	},
+	"tooltip_translation_translating": {
+		"message": "অনুবাদ করা হচ্ছে..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "মূল দেখুন"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "অনুবাদ দেখুন"
 	},
 	"voting_aria_agree": {
 		"message": "এই অবস্থার সাথে সম্মত"

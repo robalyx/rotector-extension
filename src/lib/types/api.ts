@@ -124,6 +124,11 @@ export type PageType =
 	| 'report'
 	| 'search-user';
 
+// Translation result
+export interface TranslationResult {
+	translations: Record<string, string>;
+}
+
 // Content script message data
 export interface ContentMessage {
 	action: string;
@@ -152,6 +157,10 @@ export interface ContentMessage {
 	state?: string;
 	zoneId?: number;
 	orderId?: number;
+
+	texts?: string[];
+	targetLanguage?: string;
+	sourceLanguage?: string;
 }
 
 // Extension User Profile

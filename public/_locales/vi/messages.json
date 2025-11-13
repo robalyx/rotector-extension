@@ -1193,6 +1193,9 @@
 	"settings_help_theme": {
 		"message": "Tự động theo giao diện của Roblox. Sáng và Tối sẽ ghi đè tùy chọn này."
 	},
+	"settings_help_translate_violations": {
+		"message": "Tự động dịch các thông báo vi phạm sang ngôn ngữ trình duyệt của bạn khi xem các mẹo công cụ."
+	},
 	"settings_label_advanced_violations": {
 		"message": "Hiển thị Chi tiết Vi phạm Nâng cao"
 	},
@@ -1225,6 +1228,9 @@
 	},
 	"settings_label_theme": {
 		"message": "Giao diện"
+	},
+	"settings_label_translate_violations": {
+		"message": "Tự động Dịch Vi phạm"
 	},
 	"settings_manage_apis_button": {
 		"message": "Quản lý Tích hợp API"
@@ -1681,6 +1687,18 @@
 	},
 	"tooltip_status_unsafe": {
 		"message": "Không an toàn"
+	},
+	"tooltip_translation_failed": {
+		"message": "Dịch không thành công"
+	},
+	"tooltip_translation_translating": {
+		"message": "Đang dịch..."
+	},
+	"tooltip_translation_view_original": {
+		"message": "Xem Bản gốc"
+	},
+	"tooltip_translation_view_translated": {
+		"message": "Xem Bản dịch"
 	},
 	"voting_aria_agree": {
 		"message": "Đồng ý với trạng thái này"

@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Kesalahan tidak diketahui terjadi"
 	},
+	"queue_loading_modal_title": {
+		"message": "Memproses Permintaan"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Batal"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Opsi Pemeriksaan"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Anda akan mengirim pengguna (ID: $1) untuk dianalisis oleh sistem kami."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Anda akan mengirim pengguna (ID: $1) untuk dianalisis ulang oleh sistem kami."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Pilih alasan penandaan:"
+	"queue_popup_friends_check_description": {
+		"message": "Menganalisis daftar teman untuk pengguna yang ditandai atau mencurigakan."
 	},
-	"queue_popup_friends_description": {
-		"message": "Pengguna ini memiliki teman yang tidak pantas."
+	"queue_popup_friends_check_title": {
+		"message": "Pemeriksaan Teman"
 	},
-	"queue_popup_friends_title": {
-		"message": "Teman Tidak Pantas"
+	"queue_popup_groups_check_description": {
+		"message": "Menganalisis keanggotaan grup untuk tema atau konten yang tidak pantas."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Pengguna ini akan dianalisis untuk masalah keamanan umum. Tidak diperlukan alasan penandaan spesifik."
+	"queue_popup_groups_check_title": {
+		"message": "Pemeriksaan Grup"
 	},
-	"queue_popup_groups_description": {
-		"message": "Pengguna ini berada di grup yang tidak pantas."
+	"queue_popup_outfit_check_description": {
+		"message": "Menganalisis pakaian avatar untuk pakaian yang terbuka atau tidak pantas."
 	},
-	"queue_popup_groups_title": {
-		"message": "Grup Tidak Pantas"
+	"queue_popup_outfit_check_title": {
+		"message": "Pemeriksaan Pakaian"
 	},
-	"queue_popup_lock_button": {
-		"message": "Kunci Pilihan Saya"
+	"queue_popup_outfit_disabled": {
+		"message": "Dinonaktifkan"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Anda harus mengunci pilihan Anda sebelum mengirim."
+	"queue_popup_outfit_enabled": {
+		"message": "Diaktifkan"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Saya tidak yakin tetapi ingin pengguna ini dianalisis untuk penilaian keamanan umum."
+	"queue_popup_profile_check_description": {
+		"message": "Menganalisis nama pengguna, nama tampilan, dan bio untuk konten yang tidak pantas."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Pemeriksaan Keamanan Umum"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Pengguna ini memiliki konten tidak pantas yang jelas di profil, avatar, teman, atau grup mereka."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Pengguna Memiliki Konten Tidak Pantas"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Pengguna ini memiliki pakaian atau avatar yang tidak pantas."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Pakaian Tidak Pantas"
-	},
-	"queue_popup_profile_description": {
-		"message": "Pengguna ini memiliki konten tidak pantas di nama pengguna, nama tampilan, atau deskripsi mereka."
-	},
-	"queue_popup_profile_title": {
-		"message": "Profil Tidak Pantas"
+	"queue_popup_profile_check_title": {
+		"message": "Pemeriksaan Profil"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Proses Peninjauan"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Hasil ditambahkan ke database dengan peringkat keamanan yang sesuai"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Jenis pengiriman apa ini?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Kirim untuk Ditinjau"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Mengirim..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Akan diprioritaskan untuk teman tidak pantas"
+	"queue_popup_threshold_quick": {
+		"message": "Cepat"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Akan diprioritaskan untuk grup tidak pantas"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Opsi yang Dipilih:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Akan diprioritaskan untuk pakaian tidak pantas"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Akan diprioritaskan untuk konten profil tidak pantas"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Tidak dipilih"
+	"queue_popup_threshold_thorough": {
+		"message": "Menyeluruh"
 	},
 	"queue_popup_title_queue": {
 		"message": "Antrikan Pengguna untuk Ditinjau"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Proses Ulang Pengguna untuk Ditinjau"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Buka Kunci Pilihan"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Klik untuk membuka kunci dan memodifikasi pilihan Anda."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Silakan pilih setidaknya satu alasan penandaan sebelum melanjutkan."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Pilihan Diperlukan:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Peringatan Penting"

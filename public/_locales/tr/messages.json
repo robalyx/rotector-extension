@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Bilinmeyen hata oluştu"
 	},
+	"queue_loading_modal_title": {
+		"message": "Talep İşleniyor"
+	},
 	"queue_popup_cancel_button": {
 		"message": "İptal"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Kontrol Seçenekleri"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Sistemimiz tarafından analiz edilmek üzere kullanıcıyı (ID: $1) göndermek üzeresiniz."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Sistemimiz tarafından yeniden analiz edilmek üzere kullanıcıyı (ID: $1) göndermek üzeresiniz."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "İşaretleme nedeni(leri)ni seçin:"
+	"queue_popup_friends_check_description": {
+		"message": "İşaretlenmiş veya şüpheli kullanıcılar için arkadaş listesini analiz edin."
 	},
-	"queue_popup_friends_description": {
-		"message": "Bu kullanıcının uygunsuz arkadaşları var."
+	"queue_popup_friends_check_title": {
+		"message": "Arkadaş Kontrolü"
 	},
-	"queue_popup_friends_title": {
-		"message": "Uygunsuz Arkadaşlar"
+	"queue_popup_groups_check_description": {
+		"message": "Uygunsuz temalar veya içerik için grup üyeliklerini analiz edin."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Bu kullanıcı genel güvenlik endişeleri için analiz edilecek. Belirli işaretleme nedenleri gerekmiyor."
+	"queue_popup_groups_check_title": {
+		"message": "Grup Kontrolü"
 	},
-	"queue_popup_groups_description": {
-		"message": "Bu kullanıcı uygunsuz gruplarda."
+	"queue_popup_outfit_check_description": {
+		"message": "Açık veya uygunsuz kıyafetler için avatar kıyafetlerini analiz edin."
 	},
-	"queue_popup_groups_title": {
-		"message": "Uygunsuz Gruplar"
+	"queue_popup_outfit_check_title": {
+		"message": "Kıyafet Kontrolü"
 	},
-	"queue_popup_lock_button": {
-		"message": "Seçimimi Kilitle"
+	"queue_popup_outfit_disabled": {
+		"message": "Devre Dışı"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Göndermeden önce seçiminizi kilitlemelisiniz."
+	"queue_popup_outfit_enabled": {
+		"message": "Etkin"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Emin değilim ama bu kullanıcının genel güvenlik değerlendirmesi için analiz edilmesini istiyorum."
+	"queue_popup_profile_check_description": {
+		"message": "Uygunsuz içerik için kullanıcı adı, görünen ad ve biyografiyi analiz edin."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Genel Güvenlik Kontrolü"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Bu kullanıcının profilinde, avatarında, arkadaşlarında veya gruplarında açık uygunsuz içerik var."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Kullanıcının Uygunsuz İçeriği Var"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Bu kullanıcının uygunsuz kıyafetleri veya avatarları var."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Uygunsuz Kıyafetler"
-	},
-	"queue_popup_profile_description": {
-		"message": "Bu kullanıcının kullanıcı adında, görünen adında veya açıklamasında uygunsuz içerik var."
-	},
-	"queue_popup_profile_title": {
-		"message": "Uygunsuz Profil"
+	"queue_popup_profile_check_title": {
+		"message": "Profil Kontrolü"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "İnceleme Süreci"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Sonuçlar uygun güvenlik derecelendirmesi ile veritabanına eklenir"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Bu ne tür bir gönderi?"
-	},
 	"queue_popup_submit_button": {
 		"message": "İnceleme İçin Gönder"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Gönderiliyor..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Uygunsuz arkadaşlar için önceliklendirilecek"
+	"queue_popup_threshold_quick": {
+		"message": "Hızlı"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Seçilmedi"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Uygunsuz gruplar için önceliklendirilecek"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Seçilmedi"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Seçilen Seçenekler:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Uygunsuz kıyafetler için önceliklendirilecek"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Seçilmedi"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Uygunsuz profil içeriği için önceliklendirilecek"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Seçilmedi"
+	"queue_popup_threshold_thorough": {
+		"message": "Kapsamlı"
 	},
 	"queue_popup_title_queue": {
 		"message": "Kullanıcıyı İnceleme İçin Kuyruğa Al"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Kullanıcıyı İnceleme İçin Yeniden İşle"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Seçimi Kilidi Aç"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Kilidi açmak ve seçiminizi değiştirmek için tıklayın."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Devam etmeden önce lütfen en az bir işaretleme nedeni seçin."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Seçim Gerekli:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Önemli Uyarı"

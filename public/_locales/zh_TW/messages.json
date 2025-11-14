@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "發生未知錯誤"
 	},
+	"queue_loading_modal_title": {
+		"message": "處理請求中"
+	},
 	"queue_popup_cancel_button": {
 		"message": "取消"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "檢查選項"
 	},
 	"queue_popup_description_analysis": {
 		"message": "您即將提交使用者（ID：$1）供我們的系統分析。"
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "您即將提交使用者（ID：$1）供我們的系統重新分析。"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "選擇標記原因："
+	"queue_popup_friends_check_description": {
+		"message": "分析好友列表中的已標記或可疑使用者。"
 	},
-	"queue_popup_friends_description": {
-		"message": "此使用者有不當的好友。"
+	"queue_popup_friends_check_title": {
+		"message": "好友檢查"
 	},
-	"queue_popup_friends_title": {
-		"message": "不當好友"
+	"queue_popup_groups_check_description": {
+		"message": "分析群組成員身份中的不當主題或內容。"
 	},
-	"queue_popup_general_check_message": {
-		"message": "此使用者將被分析以檢查一般安全問題。不需要特定的標記原因。"
+	"queue_popup_groups_check_title": {
+		"message": "群組檢查"
 	},
-	"queue_popup_groups_description": {
-		"message": "此使用者加入了不當的群組。"
+	"queue_popup_outfit_check_description": {
+		"message": "分析虛擬人偶服裝中的暴露或不當服飾。"
 	},
-	"queue_popup_groups_title": {
-		"message": "不當群組"
+	"queue_popup_outfit_check_title": {
+		"message": "服裝檢查"
 	},
-	"queue_popup_lock_button": {
-		"message": "鎖定我的選擇"
+	"queue_popup_outfit_disabled": {
+		"message": "已停用"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "您必須鎖定您的選擇才能提交。"
+	"queue_popup_outfit_enabled": {
+		"message": "已啟用"
 	},
-	"queue_popup_option_general_description": {
-		"message": "我不確定，但希望此使用者進行一般安全評估。"
+	"queue_popup_profile_check_description": {
+		"message": "分析使用者名稱、顯示名稱和個人簡介中的不當內容。"
 	},
-	"queue_popup_option_general_title": {
-		"message": "一般安全檢查"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "此使用者的個人檔案、虛擬人偶、好友或群組中有明顯的不當內容。"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "使用者有不當內容"
-	},
-	"queue_popup_outfit_description": {
-		"message": "此使用者有不當的服裝或虛擬人偶。"
-	},
-	"queue_popup_outfit_title": {
-		"message": "不當服裝"
-	},
-	"queue_popup_profile_description": {
-		"message": "此使用者的使用者名稱、顯示名稱或描述中有不當內容。"
-	},
-	"queue_popup_profile_title": {
-		"message": "不當個人檔案"
+	"queue_popup_profile_check_title": {
+		"message": "個人檔案檢查"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "審核流程"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "結果將加入資料庫並給予適當的安全評級"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "這是什麼類型的提交？"
-	},
 	"queue_popup_submit_button": {
 		"message": "提交審核"
 	},
 	"queue_popup_submitting_button": {
 		"message": "提交中..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "將優先檢查不當好友"
+	"queue_popup_threshold_quick": {
+		"message": "快速"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "未選擇"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "將優先檢查不當群組"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "未選擇"
-	},
-	"queue_popup_summary_heading": {
-		"message": "已選擇的選項："
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "將優先檢查不當服裝"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "未選擇"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "將優先檢查不當個人檔案內容"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "未選擇"
+	"queue_popup_threshold_thorough": {
+		"message": "徹底"
 	},
 	"queue_popup_title_queue": {
 		"message": "將使用者加入佇列以供審核"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "重新處理使用者以供審核"
-	},
-	"queue_popup_unlock_button": {
-		"message": "解鎖選擇"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "點擊以解鎖並修改您的選擇。"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "請在繼續之前至少選擇一個標記原因。"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "需要選擇："
 	},
 	"queue_popup_warning_heading": {
 		"message": "重要警告"

@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Đã xảy ra lỗi không xác định"
 	},
+	"queue_loading_modal_title": {
+		"message": "Đang xử lý yêu cầu"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Hủy"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Tùy chọn Kiểm tra"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích bởi hệ thống của chúng tôi."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Bạn sắp gửi người dùng (ID: $1) để phân tích lại bởi hệ thống của chúng tôi."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Chọn lý do gắn cờ:"
+	"queue_popup_friends_check_description": {
+		"message": "Phân tích danh sách bạn bè để tìm người dùng bị gắn cờ hoặc đáng ngờ."
 	},
-	"queue_popup_friends_description": {
-		"message": "Người dùng này có bạn bè không phù hợp."
+	"queue_popup_friends_check_title": {
+		"message": "Kiểm tra Bạn bè"
 	},
-	"queue_popup_friends_title": {
-		"message": "Bạn bè Không phù hợp"
+	"queue_popup_groups_check_description": {
+		"message": "Phân tích thành viên nhóm để tìm chủ đề hoặc nội dung không phù hợp."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Người dùng này sẽ được phân tích cho các mối lo ngại an toàn chung. Không yêu cầu lý do gắn cờ cụ thể."
+	"queue_popup_groups_check_title": {
+		"message": "Kiểm tra Nhóm"
 	},
-	"queue_popup_groups_description": {
-		"message": "Người dùng này ở trong các nhóm không phù hợp."
+	"queue_popup_outfit_check_description": {
+		"message": "Phân tích trang phục hình đại diện để tìm quần áo hở hang hoặc không phù hợp."
 	},
-	"queue_popup_groups_title": {
-		"message": "Nhóm Không phù hợp"
+	"queue_popup_outfit_check_title": {
+		"message": "Kiểm tra Trang phục"
 	},
-	"queue_popup_lock_button": {
-		"message": "Khóa Lựa chọn Của tôi"
+	"queue_popup_outfit_disabled": {
+		"message": "Đã tắt"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Bạn phải khóa lựa chọn của mình trước khi gửi."
+	"queue_popup_outfit_enabled": {
+		"message": "Đã bật"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Tôi không chắc chắn nhưng muốn người dùng này được phân tích để đánh giá an toàn chung."
+	"queue_popup_profile_check_description": {
+		"message": "Phân tích tên người dùng, tên hiển thị và tiểu sử để tìm nội dung không phù hợp."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Kiểm tra An toàn Chung"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Người dùng này có nội dung không phù hợp rõ ràng trong hồ sơ, hình đại diện, bạn bè hoặc nhóm của họ."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Người dùng Có Nội dung Không phù hợp"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Người dùng này có trang phục hoặc hình đại diện không phù hợp."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Trang phục Không phù hợp"
-	},
-	"queue_popup_profile_description": {
-		"message": "Người dùng này có nội dung không phù hợp trong tên người dùng, tên hiển thị hoặc mô tả của họ."
-	},
-	"queue_popup_profile_title": {
-		"message": "Hồ sơ Không phù hợp"
+	"queue_popup_profile_check_title": {
+		"message": "Kiểm tra Hồ sơ"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Quy trình Xem xét"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Kết quả được thêm vào cơ sở dữ liệu với xếp hạng an toàn phù hợp"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Đây là loại gửi nào?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Gửi để Xem xét"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Đang gửi..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Sẽ được ưu tiên cho bạn bè không phù hợp"
+	"queue_popup_threshold_quick": {
+		"message": "Nhanh"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Sẽ được ưu tiên cho nhóm không phù hợp"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Các Tùy chọn Đã chọn:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Sẽ được ưu tiên cho trang phục không phù hợp"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Chưa chọn"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Sẽ được ưu tiên cho nội dung hồ sơ không phù hợp"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Chưa chọn"
+	"queue_popup_threshold_thorough": {
+		"message": "Kỹ lưỡng"
 	},
 	"queue_popup_title_queue": {
 		"message": "Xếp hàng Người dùng để Xem xét"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Xử lý lại Người dùng để Xem xét"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Mở khóa Lựa chọn"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Nhấp để mở khóa và sửa đổi lựa chọn của bạn."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Vui lòng chọn ít nhất một lý do gắn cờ trước khi tiếp tục."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Yêu cầu Lựa chọn:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Cảnh báo Quan trọng"

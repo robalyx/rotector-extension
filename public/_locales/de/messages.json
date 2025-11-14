@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Unbekannter Fehler aufgetreten"
 	},
+	"queue_loading_modal_title": {
+		"message": "Anfrage wird verarbeitet"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Abbrechen"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Überprüfungsoptionen"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Sie sind dabei, Benutzer (ID: $1) zur Analyse durch unser System einzureichen."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Sie sind dabei, Benutzer (ID: $1) zur erneuten Analyse durch unser System einzureichen."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Markierungsgrund(gründe) auswählen:"
+	"queue_popup_friends_check_description": {
+		"message": "Freundesliste auf markierte oder verdächtige Benutzer analysieren."
 	},
-	"queue_popup_friends_description": {
-		"message": "Dieser Benutzer hat unangemessene Freunde."
+	"queue_popup_friends_check_title": {
+		"message": "Freunde-Überprüfung"
 	},
-	"queue_popup_friends_title": {
-		"message": "Unangemessene Freunde"
+	"queue_popup_groups_check_description": {
+		"message": "Gruppenmitgliedschaften auf unangemessene Themen oder Inhalte analysieren."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Dieser Benutzer wird auf allgemeine Sicherheitsbedenken analysiert. Keine spezifischen Markierungsgründe erforderlich."
+	"queue_popup_groups_check_title": {
+		"message": "Gruppen-Überprüfung"
 	},
-	"queue_popup_groups_description": {
-		"message": "Dieser Benutzer ist in unangemessenen Gruppen."
+	"queue_popup_outfit_check_description": {
+		"message": "Avatar-Outfits auf freizügige oder unangemessene Kleidung analysieren."
 	},
-	"queue_popup_groups_title": {
-		"message": "Unangemessene Gruppen"
+	"queue_popup_outfit_check_title": {
+		"message": "Outfit-Überprüfung"
 	},
-	"queue_popup_lock_button": {
-		"message": "Meine Auswahl festlegen"
+	"queue_popup_outfit_disabled": {
+		"message": "Deaktiviert"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Sie müssen Ihre Auswahl festlegen, bevor Sie einreichen."
+	"queue_popup_outfit_enabled": {
+		"message": "Aktiviert"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Ich bin mir unsicher, möchte aber, dass dieser Benutzer auf allgemeine Sicherheit analysiert wird."
+	"queue_popup_profile_check_description": {
+		"message": "Benutzername, Anzeigename und Biografie auf unangemessene Inhalte analysieren."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Allgemeine Sicherheitsüberprüfung"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Dieser Benutzer hat eindeutig unangemessene Inhalte in seinem Profil, Avatar, Freunden oder Gruppen."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Benutzer hat unangemessene Inhalte"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Dieser Benutzer hat unangemessene Outfits oder Avatare."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Unangemessene Outfits"
-	},
-	"queue_popup_profile_description": {
-		"message": "Dieser Benutzer hat unangemessene Inhalte in seinem Benutzernamen, Anzeigenamen oder seiner Beschreibung."
-	},
-	"queue_popup_profile_title": {
-		"message": "Unangemessenes Profil"
+	"queue_popup_profile_check_title": {
+		"message": "Profil-Überprüfung"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Überprüfungsprozess"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Ergebnisse werden mit entsprechender Sicherheitsbewertung zur Datenbank hinzugefügt"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Welche Art von Einreichung ist dies?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Zur Überprüfung einreichen"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Wird eingereicht..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Wird für unangemessene Freunde priorisiert"
+	"queue_popup_threshold_quick": {
+		"message": "Schnell"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Nicht ausgewählt"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Wird für unangemessene Gruppen priorisiert"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Nicht ausgewählt"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Ausgewählte Optionen:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Wird für unangemessene Outfits priorisiert"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Nicht ausgewählt"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Wird für unangemessene Profilinhalte priorisiert"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Nicht ausgewählt"
+	"queue_popup_threshold_thorough": {
+		"message": "Gründlich"
 	},
 	"queue_popup_title_queue": {
 		"message": "Benutzer zur Überprüfung einreihen"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Benutzer zur Überprüfung erneut verarbeiten"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Auswahl entsperren"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Klicken Sie hier, um die Auswahl zu entsperren und zu ändern."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Bitte wählen Sie mindestens einen Markierungsgrund aus, bevor Sie fortfahren."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Auswahl erforderlich:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Wichtige Warnung"

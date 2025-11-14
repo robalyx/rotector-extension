@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "알 수 없는 오류가 발생했습니다"
 	},
+	"queue_loading_modal_title": {
+		"message": "요청 처리 중"
+	},
 	"queue_popup_cancel_button": {
 		"message": "취소"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "확인 옵션"
 	},
 	"queue_popup_description_analysis": {
 		"message": "사용자(ID: $1)를 시스템 분석에 제출하려고 합니다."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "사용자(ID: $1)를 시스템 재분석에 제출하려고 합니다."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "신고 이유 선택:"
+	"queue_popup_friends_check_description": {
+		"message": "신고되거나 의심스러운 사용자의 친구 목록을 분석합니다."
 	},
-	"queue_popup_friends_description": {
-		"message": "이 사용자에게 부적절한 친구가 있습니다."
+	"queue_popup_friends_check_title": {
+		"message": "친구 확인"
 	},
-	"queue_popup_friends_title": {
-		"message": "부적절한 친구"
+	"queue_popup_groups_check_description": {
+		"message": "부적절한 테마나 콘텐츠의 그룹 멤버십을 분석합니다."
 	},
-	"queue_popup_general_check_message": {
-		"message": "이 사용자는 일반 안전 문제에 대해 분석됩니다. 구체적인 신고 이유는 필요하지 않습니다."
+	"queue_popup_groups_check_title": {
+		"message": "그룹 확인"
 	},
-	"queue_popup_groups_description": {
-		"message": "이 사용자가 부적절한 그룹에 가입되어 있습니다."
+	"queue_popup_outfit_check_description": {
+		"message": "노출이 심하거나 부적절한 의상의 아바타 옷을 분석합니다."
 	},
-	"queue_popup_groups_title": {
-		"message": "부적절한 그룹"
+	"queue_popup_outfit_check_title": {
+		"message": "의상 확인"
 	},
-	"queue_popup_lock_button": {
-		"message": "선택 확정"
+	"queue_popup_outfit_disabled": {
+		"message": "비활성화됨"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "제출하기 전에 선택을 확정해야 합니다."
+	"queue_popup_outfit_enabled": {
+		"message": "활성화됨"
 	},
-	"queue_popup_option_general_description": {
-		"message": "확실하지 않지만 일반 안전 평가를 위해 이 사용자를 분석하고 싶습니다."
+	"queue_popup_profile_check_description": {
+		"message": "사용자명, 표시 이름 및 자기소개의 부적절한 콘텐츠를 분석합니다."
 	},
-	"queue_popup_option_general_title": {
-		"message": "일반 안전 검사"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "이 사용자의 프로필, 아바타, 친구 또는 그룹에 명백한 부적절한 콘텐츠가 있습니다."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "부적절한 콘텐츠 포함 사용자"
-	},
-	"queue_popup_outfit_description": {
-		"message": "이 사용자에게 부적절한 의상이나 아바타가 있습니다."
-	},
-	"queue_popup_outfit_title": {
-		"message": "부적절한 의상"
-	},
-	"queue_popup_profile_description": {
-		"message": "이 사용자의 사용자명, 표시 이름 또는 설명에 부적절한 콘텐츠가 있습니다."
-	},
-	"queue_popup_profile_title": {
-		"message": "부적절한 프로필"
+	"queue_popup_profile_check_title": {
+		"message": "프로필 확인"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "검토 프로세스"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "적절한 안전 등급과 함께 데이터베이스에 결과가 추가됩니다"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "어떤 유형의 제출입니까?"
-	},
 	"queue_popup_submit_button": {
 		"message": "검토 요청"
 	},
 	"queue_popup_submitting_button": {
 		"message": "제출 중..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "부적절한 친구로 우선 처리됨"
+	"queue_popup_threshold_quick": {
+		"message": "빠름"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "선택 안 됨"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "부적절한 그룹으로 우선 처리됨"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "선택 안 됨"
-	},
-	"queue_popup_summary_heading": {
-		"message": "선택한 옵션:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "부적절한 의상으로 우선 처리됨"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "선택 안 됨"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "부적절한 프로필 콘텐츠로 우선 처리됨"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "선택 안 됨"
+	"queue_popup_threshold_thorough": {
+		"message": "철저함"
 	},
 	"queue_popup_title_queue": {
 		"message": "사용자 검토 대기열 추가"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "사용자 재검토 요청"
-	},
-	"queue_popup_unlock_button": {
-		"message": "선택 해제"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "클릭하여 선택을 해제하고 수정하세요."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "계속하기 전에 최소 하나의 신고 이유를 선택하세요."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "선택 필요:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "중요 경고"

@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "不明なエラーが発生しました"
 	},
+	"queue_loading_modal_title": {
+		"message": "リクエスト処理中"
+	},
 	"queue_popup_cancel_button": {
 		"message": "キャンセル"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "チェックオプション"
 	},
 	"queue_popup_description_analysis": {
 		"message": "ユーザー（ID：$1）をシステムで分析するために提出しようとしています。"
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "ユーザー（ID：$1）をシステムで再分析するために提出しようとしています。"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "フラグ理由を選択："
+	"queue_popup_friends_check_description": {
+		"message": "フラグが立てられた、または疑わしいユーザーのフレンドリストを分析します。"
 	},
-	"queue_popup_friends_description": {
-		"message": "このユーザーには不適切なフレンドがいます。"
+	"queue_popup_friends_check_title": {
+		"message": "フレンドチェック"
 	},
-	"queue_popup_friends_title": {
-		"message": "不適切なフレンド"
+	"queue_popup_groups_check_description": {
+		"message": "不適切なテーマまたはコンテンツのグループメンバーシップを分析します。"
 	},
-	"queue_popup_general_check_message": {
-		"message": "このユーザーは一般的な安全上の懸念について分析されます。特定のフラグ理由は不要です。"
+	"queue_popup_groups_check_title": {
+		"message": "グループチェック"
 	},
-	"queue_popup_groups_description": {
-		"message": "このユーザーは不適切なグループに参加しています。"
+	"queue_popup_outfit_check_description": {
+		"message": "露出度の高い、または不適切な衣服のアバター衣装を分析します。"
 	},
-	"queue_popup_groups_title": {
-		"message": "不適切なグループ"
+	"queue_popup_outfit_check_title": {
+		"message": "衣装チェック"
 	},
-	"queue_popup_lock_button": {
-		"message": "選択を確定"
+	"queue_popup_outfit_disabled": {
+		"message": "無効"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "提出する前に選択を確定する必要があります。"
+	"queue_popup_outfit_enabled": {
+		"message": "有効"
 	},
-	"queue_popup_option_general_description": {
-		"message": "不明ですが、このユーザーを一般的な安全評価のために分析してほしいです。"
+	"queue_popup_profile_check_description": {
+		"message": "ユーザー名、表示名、および自己紹介を不適切なコンテンツについて分析します。"
 	},
-	"queue_popup_option_general_title": {
-		"message": "一般的な安全チェック"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "このユーザーのプロフィール、アバター、フレンド、またはグループに明確な不適切なコンテンツがあります。"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "ユーザーが不適切なコンテンツを持っている"
-	},
-	"queue_popup_outfit_description": {
-		"message": "このユーザーは不適切な衣装やアバターを持っています。"
-	},
-	"queue_popup_outfit_title": {
-		"message": "不適切な衣装"
-	},
-	"queue_popup_profile_description": {
-		"message": "このユーザーのユーザー名、表示名、または説明に不適切なコンテンツがあります。"
-	},
-	"queue_popup_profile_title": {
-		"message": "不適切なプロフィール"
+	"queue_popup_profile_check_title": {
+		"message": "プロフィールチェック"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "レビュープロセス"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "適切な安全評価とともに結果がデータベースに追加されます"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "これはどのタイプの提出ですか？"
-	},
 	"queue_popup_submit_button": {
 		"message": "レビューに提出"
 	},
 	"queue_popup_submitting_button": {
 		"message": "提出中..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "不適切なフレンドを優先的に処理します"
+	"queue_popup_threshold_quick": {
+		"message": "クイック"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "未選択"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "不適切なグループを優先的に処理します"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "未選択"
-	},
-	"queue_popup_summary_heading": {
-		"message": "選択されたオプション："
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "不適切な衣装を優先的に処理します"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "未選択"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "不適切なプロフィールコンテンツを優先的に処理します"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "未選択"
+	"queue_popup_threshold_thorough": {
+		"message": "徹底的"
 	},
 	"queue_popup_title_queue": {
 		"message": "ユーザーをレビューキューに追加"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "ユーザーを再処理してレビュー"
-	},
-	"queue_popup_unlock_button": {
-		"message": "選択を解除"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "クリックして選択を解除し、変更します。"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "続行する前に、少なくとも1つのフラグ理由を選択してください。"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "選択が必要："
 	},
 	"queue_popup_warning_heading": {
 		"message": "重要な警告"

@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Okänt fel uppstod"
 	},
+	"queue_loading_modal_title": {
+		"message": "Bearbetar begäran"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Avbryt"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Kontrollalternativ"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Du är på väg att skicka användare (ID: $1) för analys av vårt system."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Du är på väg att skicka användare (ID: $1) för omanalys av vårt system."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Välj flaggningsorsak(er):"
+	"queue_popup_friends_check_description": {
+		"message": "Analysera vänlista för flaggade eller misstänkta användare."
 	},
-	"queue_popup_friends_description": {
-		"message": "Denna användare har olämpliga vänner."
+	"queue_popup_friends_check_title": {
+		"message": "Vänkontroll"
 	},
-	"queue_popup_friends_title": {
-		"message": "Olämpliga vänner"
+	"queue_popup_groups_check_description": {
+		"message": "Analysera gruppmedlemskap för olämpliga teman eller innehåll."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Denna användare kommer att analyseras för allmänna säkerhetsproblem. Inga specifika flaggningsorsaker krävs."
+	"queue_popup_groups_check_title": {
+		"message": "Gruppkontroll"
 	},
-	"queue_popup_groups_description": {
-		"message": "Denna användare är med i olämpliga grupper."
+	"queue_popup_outfit_check_description": {
+		"message": "Analysera avatar-outfits för avslöjande eller olämpliga kläder."
 	},
-	"queue_popup_groups_title": {
-		"message": "Olämpliga grupper"
+	"queue_popup_outfit_check_title": {
+		"message": "Outfitkontroll"
 	},
-	"queue_popup_lock_button": {
-		"message": "Lås in mitt val"
+	"queue_popup_outfit_disabled": {
+		"message": "Inaktiverad"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Du måste låsa in ditt val innan du skickar."
+	"queue_popup_outfit_enabled": {
+		"message": "Aktiverad"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Jag är osäker men vill ha denna användare analyserad för allmän säkerhetsbedömning."
+	"queue_popup_profile_check_description": {
+		"message": "Analysera användarnamn, visningsnamn och bio för olämpligt innehåll."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Allmän säkerhetskontroll"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Denna användare har tydligt olämpligt innehåll i sin profil, avatar, vänner eller grupper."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Användare har olämpligt innehåll"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Denna användare har olämpliga kläder eller avatarer."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Olämpliga kläder"
-	},
-	"queue_popup_profile_description": {
-		"message": "Denna användare har olämpligt innehåll i sitt användarnamn, visningsnamn eller beskrivning."
-	},
-	"queue_popup_profile_title": {
-		"message": "Olämplig profil"
+	"queue_popup_profile_check_title": {
+		"message": "Profilkontroll"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Granskningsprocess"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Resultat läggs till i databasen med lämplig säkerhetsklassificering"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Vilken typ av inlämning är detta?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Skicka för granskning"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Skickar..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Kommer att prioriteras för olämpliga vänner"
+	"queue_popup_threshold_quick": {
+		"message": "Snabb"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Inte valt"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Kommer att prioriteras för olämpliga grupper"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Inte valt"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Valda alternativ:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Kommer att prioriteras för olämpliga kläder"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Inte valt"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Kommer att prioriteras för olämpligt profilinnehåll"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Inte valt"
+	"queue_popup_threshold_thorough": {
+		"message": "Grundlig"
 	},
 	"queue_popup_title_queue": {
 		"message": "Köa användare för granskning"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Ombearbeta användare för granskning"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Lås upp val"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Klicka för att låsa upp och ändra ditt val."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Vänligen välj minst en flaggningsorsak innan du fortsätter."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Val krävs:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Viktig varning"

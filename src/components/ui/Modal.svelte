@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Portal from 'svelte-portal';
-	import { AlertCircle, AlertTriangle, X } from 'lucide-svelte';
+	import { AlertCircle, AlertTriangle, CheckCircle, XCircle, X } from 'lucide-svelte';
 
 	interface ModalProps {
 		isOpen: boolean;
@@ -10,6 +10,8 @@
 		cancelText?: string;
 		blockText?: string;
 		showCancel?: boolean;
+		showConfirm?: boolean;
+		showClose?: boolean;
 		showBlock?: boolean;
 		confirmVariant?: 'primary' | 'danger' | 'queue';
 		confirmDisabled?: boolean;
@@ -19,7 +21,7 @@
 		icon?: string;
 		actionsLayout?: 'horizontal' | 'vertical';
 		size?: 'normal' | 'small';
-		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error';
+		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error' | 'queue-loading';
 		children: import('svelte').Snippet;
 	}
 
@@ -31,6 +33,8 @@
 		cancelText = 'Cancel',
 		blockText = 'Block User',
 		showCancel = true,
+		showConfirm = true,
+		showClose = true,
 		showBlock = false,
 		confirmVariant = 'primary',
 		confirmDisabled = false,
@@ -74,13 +78,13 @@
 	}
 
 	function handleEscape(e: KeyboardEvent) {
-		if (e.key === 'Escape' && isOpen) {
+		if (e.key === 'Escape' && isOpen && showClose) {
 			closeModal(false);
 		}
 	}
 
 	function handleOverlayClick(e: MouseEvent | KeyboardEvent) {
-		if (e.target === overlayElement) {
+		if (e.target === overlayElement && showClose) {
 			closeModal(false);
 		}
 	}
@@ -117,7 +121,11 @@
 					overlayElement.classList.add('visible');
 				}
 				// Move initial focus inside the dialog
-				closeButtonEl?.focus();
+				if (showClose && closeButtonEl) {
+					closeButtonEl.focus();
+				} else if (popupElement) {
+					popupElement.focus();
+				}
 			});
 			return () => document.removeEventListener('keydown', handleEscape);
 		}
@@ -142,7 +150,9 @@
 					? 'queue-success-overlay'
 					: modalType === 'queue-error'
 						? 'queue-error-overlay'
-						: 'modal-overlay'}
+						: modalType === 'queue-loading'
+							? 'queue-loading-overlay'
+							: 'modal-overlay'}
 			class:closing={isClosing}
 			onclick={handleOverlayClick}
 		>
@@ -155,14 +165,18 @@
 							? 'queue-success-popup-small'
 							: modalType === 'queue-error'
 								? 'queue-error-popup-small'
-								: 'modal-popup-small'
+								: modalType === 'queue-loading'
+									? 'queue-loading-popup-small'
+									: 'modal-popup-small'
 					: modalType === 'friend-warning'
 						? 'friend-warning-popup'
 						: modalType === 'queue-success'
 							? 'queue-success-popup'
 							: modalType === 'queue-error'
 								? 'queue-error-popup'
-								: 'modal-popup'}
+								: modalType === 'queue-loading'
+									? 'queue-loading-popup'
+									: 'modal-popup'}
 				aria-labelledby={headingId}
 				aria-modal="true"
 				onkeydown={trapFocus}
@@ -176,7 +190,9 @@
 							? 'queue-success-header'
 							: modalType === 'queue-error'
 								? 'queue-error-header'
-								: 'modal-header'}
+								: modalType === 'queue-loading'
+									? 'queue-loading-header'
+									: 'modal-header'}
 				>
 					{#if icon}
 						<div class="mr-2 flex items-center">
@@ -186,8 +202,10 @@
 								{:else}
 									<AlertCircle class="modal-warning-icon" size={32} />
 								{/if}
-							{:else}
-								<div class="text-2xl">{icon}</div>
+							{:else if icon === 'success'}
+								<CheckCircle class="modal-success-icon" size={32} />
+							{:else if icon === 'error'}
+								<XCircle class="modal-error-icon" size={32} />
 							{/if}
 						</div>
 					{/if}
@@ -199,19 +217,23 @@
 								? 'queue-success-title'
 								: modalType === 'queue-error'
 									? 'queue-error-title'
-									: 'modal-title'}
+									: modalType === 'queue-loading'
+										? 'queue-loading-title'
+										: 'modal-title'}
 					>
 						{title}
 					</h3>
-					<button
-						bind:this={closeButtonEl}
-						class="modal-close"
-						aria-label="Close dialog"
-						onclick={() => closeModal(false)}
-						type="button"
-					>
-						<X aria-hidden="true" color="var(--color-error)" size={24} />
-					</button>
+					{#if showClose}
+						<button
+							bind:this={closeButtonEl}
+							class="modal-close"
+							aria-label="Close dialog"
+							onclick={() => closeModal(false)}
+							type="button"
+						>
+							<X aria-hidden="true" color="var(--color-error)" size={24} />
+						</button>
+					{/if}
 				</div>
 
 				<div
@@ -222,14 +244,18 @@
 								? 'queue-success-content-small'
 								: modalType === 'queue-error'
 									? 'queue-error-content-small'
-									: 'modal-content-small'
+									: modalType === 'queue-loading'
+										? 'queue-loading-content-small'
+										: 'modal-content-small'
 						: modalType === 'friend-warning'
 							? 'friend-warning-content'
 							: modalType === 'queue-success'
 								? 'queue-success-content'
 								: modalType === 'queue-error'
 									? 'queue-error-content'
-									: 'modal-content'}
+									: modalType === 'queue-loading'
+										? 'queue-loading-content'
+										: 'modal-content'}
 				>
 					{@render children()}
 				</div>
@@ -242,14 +268,18 @@
 								? 'queue-success-actions-horizontal'
 								: modalType === 'queue-error'
 									? 'queue-error-actions-horizontal'
-									: 'modal-actions-horizontal'
+									: modalType === 'queue-loading'
+										? 'queue-loading-actions-horizontal'
+										: 'modal-actions-horizontal'
 						: modalType === 'friend-warning'
 							? 'friend-warning-actions'
 							: modalType === 'queue-success'
 								? 'queue-success-actions'
 								: modalType === 'queue-error'
 									? 'queue-error-actions'
-									: 'modal-actions'}
+									: modalType === 'queue-loading'
+										? 'queue-loading-actions'
+										: 'modal-actions'}
 				>
 					{#if showBlock}
 						<button
@@ -269,19 +299,22 @@
 							{cancelText}
 						</button>
 					{/if}
-					<button
-						class={modalType === 'friend-warning' ? 'friend-warning-confirm' : 'modal-confirm'}
-						class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
-							confirmVariant === 'danger'}
-						class:modal-confirm-danger={modalType !== 'friend-warning' &&
-							confirmVariant === 'danger'}
-						class:modal-confirm-queue={modalType !== 'friend-warning' && confirmVariant === 'queue'}
-						disabled={confirmDisabled}
-						onclick={() => closeModal(true)}
-						type="button"
-					>
-						{confirmText}
-					</button>
+					{#if showConfirm}
+						<button
+							class={modalType === 'friend-warning' ? 'friend-warning-confirm' : 'modal-confirm'}
+							class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
+								confirmVariant === 'danger'}
+							class:modal-confirm-danger={modalType !== 'friend-warning' &&
+								confirmVariant === 'danger'}
+							class:modal-confirm-queue={modalType !== 'friend-warning' &&
+								confirmVariant === 'queue'}
+							disabled={confirmDisabled}
+							onclick={() => closeModal(true)}
+							type="button"
+						>
+							{confirmText}
+						</button>
+					{/if}
 				</div>
 			</div>
 		</div>

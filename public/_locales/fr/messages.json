@@ -656,8 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Une erreur inconnue s'est produite"
 	},
+	"queue_loading_modal_title": {
+		"message": "Traitement de la demande"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Annuler"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Options de Vérification"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Vous êtes sur le point de soumettre l'utilisateur (ID : $1) pour analyse par notre système."
@@ -665,53 +671,35 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Vous êtes sur le point de soumettre l'utilisateur (ID : $1) pour une nouvelle analyse par notre système."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Sélectionnez la ou les raison(s) de signalement :"
+	"queue_popup_friends_check_description": {
+		"message": "Analyser la liste d'amis pour les utilisateurs signalés ou suspects."
 	},
-	"queue_popup_friends_description": {
-		"message": "Cet utilisateur a des amis inappropriés."
+	"queue_popup_friends_check_title": {
+		"message": "Vérification des Amis"
 	},
-	"queue_popup_friends_title": {
-		"message": "Amis Inappropriés"
+	"queue_popup_groups_check_description": {
+		"message": "Analyser les adhésions aux groupes pour les thèmes ou contenus inappropriés."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Cet utilisateur sera analysé pour des problèmes de sécurité généraux. Aucune raison de signalement spécifique requise."
+	"queue_popup_groups_check_title": {
+		"message": "Vérification des Groupes"
 	},
-	"queue_popup_groups_description": {
-		"message": "Cet utilisateur est dans des groupes inappropriés."
+	"queue_popup_outfit_check_description": {
+		"message": "Analyser les tenues d'avatar pour les vêtements révélateurs ou inappropriés."
 	},
-	"queue_popup_groups_title": {
-		"message": "Groupes Inappropriés"
+	"queue_popup_outfit_check_title": {
+		"message": "Vérification de la Tenue"
 	},
-	"queue_popup_lock_button": {
-		"message": "Verrouiller Ma Sélection"
+	"queue_popup_outfit_disabled": {
+		"message": "Désactivé"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Vous devez verrouiller votre sélection avant de soumettre."
+	"queue_popup_outfit_enabled": {
+		"message": "Activé"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Je ne suis pas sûr mais je veux que cet utilisateur soit analysé pour une évaluation de sécurité générale."
+	"queue_popup_profile_check_description": {
+		"message": "Analyser le nom d'utilisateur, le nom d'affichage et la biographie pour le contenu inapproprié."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Vérification de Sécurité Générale"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Cet utilisateur a du contenu clairement inapproprié dans son profil, avatar, amis ou groupes."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "L'Utilisateur a du Contenu Inapproprié"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Cet utilisateur a des tenues ou avatars inappropriés."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Tenues Inappropriées"
-	},
-	"queue_popup_profile_description": {
-		"message": "Cet utilisateur a du contenu inapproprié dans son nom d'utilisateur, nom d'affichage ou description."
-	},
-	"queue_popup_profile_title": {
-		"message": "Profil Inapproprié"
+	"queue_popup_profile_check_title": {
+		"message": "Vérification du Profil"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Processus de Révision"
@@ -725,59 +713,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Résultats ajoutés à la base de données avec une évaluation de sécurité appropriée"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Quel type de soumission est-ce ?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Soumettre pour Révision"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Envoi en cours..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Sera priorisé pour les amis inappropriés"
+	"queue_popup_threshold_quick": {
+		"message": "Rapide"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Non sélectionné"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Sera priorisé pour les groupes inappropriés"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Non sélectionné"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Options Sélectionnées :"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Sera priorisé pour les tenues inappropriées"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Non sélectionné"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Sera priorisé pour le contenu de profil inapproprié"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Non sélectionné"
+	"queue_popup_threshold_thorough": {
+		"message": "Approfondi"
 	},
 	"queue_popup_title_queue": {
 		"message": "Mettre l'Utilisateur en File d'Attente pour Révision"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Retraiter l'Utilisateur pour Révision"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Déverrouiller la Sélection"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Cliquez pour déverrouiller et modifier votre sélection."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Veuillez sélectionner au moins une raison de signalement avant de continuer."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Sélection Requise :"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Avertissement Important"

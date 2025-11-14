@@ -47,6 +47,16 @@ export const CHANGELOGS: Changelog[] = [
 					'Rotector API documentation - Complete public API reference for integrating Rotector into your own systems'
 			},
 			{
+				type: 'changed',
+				description:
+					'Streamlined queue submission interface - Simplified from multi-step process to single-screen selection with threshold options'
+			},
+			{
+				type: 'changed',
+				description:
+					'Reprocess with custom options - Select specific check options when reprocessing already-analyzed users'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Friend warning displays - Friend warnings now only appear when attempting to add inappropriate users, not safe users'

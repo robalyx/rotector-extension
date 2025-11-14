@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(como envíos de spam) puede resultar en restricciones en tu cuenta. La detección automática de abuso está activa."
 	},
+	"queue_loading_modal_title": {
+		"message": "Procesando Solicitud"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Cerrar"
 	},

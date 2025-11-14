@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "（スパム提出など）はアカウントの制限につながる可能性があります。自動不正使用検出が有効です。"
 	},
+	"queue_loading_modal_title": {
+		"message": "リクエスト処理中"
+	},
 	"queue_success_modal_close_button": {
 		"message": "閉じる"
 	},

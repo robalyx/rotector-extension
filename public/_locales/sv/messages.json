@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(som att spamma inlämningar) kan resultera i begränsningar på ditt konto. Automatisk missbruksdetektering är aktiv."
 	},
+	"queue_loading_modal_title": {
+		"message": "Bearbetar begäran"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Stäng"
 	},

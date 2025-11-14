@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(tulad ng pag-spam ng mga submission) ay maaaring magresulta sa mga paghihigpit sa iyong account. May aktibong automated abuse detection."
 	},
+	"queue_loading_modal_title": {
+		"message": "Pinoproseso ang Kahilingan"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Isara"
 	},

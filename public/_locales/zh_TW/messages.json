@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "（例如濫發提交）可能會導致您的帳號受到限制。自動濫用偵測已啟用。"
 	},
+	"queue_loading_modal_title": {
+		"message": "處理請求中"
+	},
 	"queue_success_modal_close_button": {
 		"message": "關閉"
 	},

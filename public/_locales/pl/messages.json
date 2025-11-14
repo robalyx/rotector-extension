@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(takie jak spam zgłoszeń) może skutkować ograniczeniami na Twoim koncie. Automatyczne wykrywanie nadużyć jest aktywne."
 	},
+	"queue_loading_modal_title": {
+		"message": "Przetwarzanie Żądania"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Zamknij"
 	},

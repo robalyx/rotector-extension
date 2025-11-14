@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "（如垃圾提交）可能导致您的账户受到限制。自动滥用检测已启用。"
 	},
+	"queue_loading_modal_title": {
+		"message": "处理请求中"
+	},
 	"queue_success_modal_close_button": {
 		"message": "关闭"
 	},

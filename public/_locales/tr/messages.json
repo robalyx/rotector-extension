@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(spam gönderimi gibi) hesabınızda kısıtlamalara neden olabilir. Otomatik kötüye kullanım tespiti aktiftir."
 	},
+	"queue_loading_modal_title": {
+		"message": "Talep İşleniyor"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Kapat"
 	},

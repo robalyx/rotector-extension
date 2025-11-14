@@ -3,6 +3,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import type { QueueErrorData, QueueSuccessData, UserStatus } from '@/lib/types/api';
 	import QueuePopup from './QueuePopup.svelte';
+	import QueueLoadingModal from './QueueLoadingModal.svelte';
 	import QueueSuccessModal from './QueueSuccessModal.svelte';
 	import QueueErrorModal from './QueueErrorModal.svelte';
 
@@ -17,6 +18,7 @@
 	let queueUserId = $state<string>('');
 	let isReprocess = $state(false);
 	let userStatus = $state<UserStatus | null>(null);
+	let showLoadingModal = $state(false);
 	let showSuccessModal = $state(false);
 	let showErrorModal = $state(false);
 	let successData = $state<QueueSuccessData | null>(null);
@@ -44,6 +46,10 @@
 		inappropriateFriends?: boolean,
 		inappropriateGroups?: boolean
 	) {
+		// Close queue popup and show loading modal
+		showQueueModal = false;
+		showLoadingModal = true;
+
 		try {
 			logger.userAction('queue_user', {
 				userId: queueUserId,
@@ -95,8 +101,8 @@
 
 			logger.error('Failed to queue user:', error);
 		} finally {
-			// Reset queue modal state
-			showQueueModal = false;
+			// Close loading modal and reset queue state
+			showLoadingModal = false;
 			queueUserId = '';
 		}
 	}
@@ -132,6 +138,9 @@
 	{userStatus}
 	bind:isOpen={showQueueModal}
 />
+
+<!-- Loading Modal -->
+<QueueLoadingModal bind:isOpen={showLoadingModal} />
 
 <!-- Success Modal -->
 {#if successData}

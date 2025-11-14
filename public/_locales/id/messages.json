@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(seperti spam pengiriman) dapat mengakibatkan pembatasan pada akun Anda. Deteksi penyalahgunaan otomatis aktif."
 	},
+	"queue_loading_modal_title": {
+		"message": "Memproses Permintaan"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Tutup"
 	},

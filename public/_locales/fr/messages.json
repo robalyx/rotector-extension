@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(comme le spam de soumissions) peut entraîner des restrictions sur votre compte. La détection automatique des abus est active."
 	},
+	"queue_loading_modal_title": {
+		"message": "Traitement de la demande"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Fermer"
 	},

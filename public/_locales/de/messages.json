@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(wie Spam-Einreichungen) kann zu Einschränkungen Ihres Kontos führen. Automatische Missbrauchserkennung ist aktiv."
 	},
+	"queue_loading_modal_title": {
+		"message": "Anfrage wird verarbeitet"
+	},
 	"queue_success_modal_close_button": {
 		"message": "Schließen"
 	},

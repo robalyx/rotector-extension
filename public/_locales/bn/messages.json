@@ -737,6 +737,9 @@
 	"queue_popup_warning_message_suffix": {
 		"message": "(যেমন জমা স্প্যামিং) আপনার অ্যাকাউন্টে সীমাবদ্ধতার কারণ হতে পারে। স্বয়ংক্রিয় অপব্যবহার সনাক্তকরণ সক্রিয়।"
 	},
+	"queue_loading_modal_title": {
+		"message": "অনুরোধ প্রক্রিয়াকরণ"
+	},
 	"queue_success_modal_close_button": {
 		"message": "বন্ধ করুন"
 	},

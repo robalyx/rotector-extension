@@ -82,6 +82,54 @@
 }
 
 /* =================================
+   QUEUE LOADING MODAL
+   ================================= */
+@utility queue-loading-overlay {
+	@apply modal-overlay-base;
+}
+
+@utility queue-loading-popup {
+	@apply modal-popup-base;
+	width: 400px;
+}
+
+@utility queue-loading-popup-small {
+	@apply modal-popup-base-small;
+}
+
+@utility queue-loading-header {
+	@apply modal-header-base;
+}
+
+@utility queue-loading-title {
+	@apply text-lg font-semibold m-0 flex-grow;
+	color: var(--color-text-heading);
+}
+
+@utility queue-loading-content {
+	@apply modal-content-base;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+}
+
+@utility queue-loading-content-small {
+	@apply modal-content-base-small;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@utility queue-loading-actions {
+	@apply modal-actions-base;
+}
+
+@utility queue-loading-actions-horizontal {
+	@apply modal-actions-horizontal;
+}
+
+/* =================================
    SELECTION SECTION
    ================================= */
 

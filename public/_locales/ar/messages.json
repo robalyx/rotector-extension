@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "الاستخدام"
 	},
+	"stats_statistics_banned": {
+		"message": "محظورون"
+	},
 	"stats_statistics_community_title": {
 		"message": "المجتمع"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "تم الإبلاغ عنهم"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "مجموعات ذات محتوى مختلط"
-	},
 	"stats_statistics_groups_title": {
 		"message": "المجموعات"
 	},
 	"stats_statistics_loading": {
 		"message": "جارٍ تحميل الإحصائيات..."
+	},
+	"stats_statistics_mixed": {
+		"message": "مختلط"
 	},
 	"stats_statistics_queued": {
 		"message": "المستخدمون في قائمة الانتظار"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "آخر تحديث:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "مستخدمون آخرون محظورون من قبل Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "المستخدمون"

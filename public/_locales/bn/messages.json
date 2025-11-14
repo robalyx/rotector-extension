@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "ব্যবহার"
 	},
+	"stats_statistics_banned": {
+		"message": "নিষিদ্ধ"
+	},
 	"stats_statistics_community_title": {
 		"message": "সম্প্রদায়"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "ফ্ল্যাগ করা"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "মিশ্র বিষয়বস্তুসহ গ্রুপ"
-	},
 	"stats_statistics_groups_title": {
 		"message": "গ্রুপ"
 	},
 	"stats_statistics_loading": {
 		"message": "পরিসংখ্যান লোড হচ্ছে..."
+	},
+	"stats_statistics_mixed": {
+		"message": "মিশ্র"
 	},
 	"stats_statistics_queued": {
 		"message": "কিউতে থাকা ব্যবহারকারী"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "শেষ আপডেট:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "অন্যান্য ব্যবহারকারী Roblox দ্বারা নিষিদ্ধ"
 	},
 	"stats_statistics_users_title": {
 		"message": "ব্যবহারকারী"

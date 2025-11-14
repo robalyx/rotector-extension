@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "사용량"
 	},
+	"stats_statistics_banned": {
+		"message": "금지됨"
+	},
 	"stats_statistics_community_title": {
 		"message": "커뮤니티"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "신고됨"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "개 그룹이 혼합 콘텐츠 포함"
-	},
 	"stats_statistics_groups_title": {
 		"message": "그룹"
 	},
 	"stats_statistics_loading": {
 		"message": "통계 로딩 중..."
+	},
+	"stats_statistics_mixed": {
+		"message": "혼합"
 	},
 	"stats_statistics_queued": {
 		"message": "대기 중인 사용자"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "마지막 업데이트:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "명의 사용자가 Roblox에 의해 차단됨"
 	},
 	"stats_statistics_users_title": {
 		"message": "사용자"

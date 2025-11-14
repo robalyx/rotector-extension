@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Användning"
 	},
+	"stats_statistics_banned": {
+		"message": "Bannad"
+	},
 	"stats_statistics_community_title": {
 		"message": "Gemenskap"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Flaggade"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "grupper med blandat innehåll"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Grupper"
 	},
 	"stats_statistics_loading": {
 		"message": "Laddar statistik..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Blandad"
 	},
 	"stats_statistics_queued": {
 		"message": "Köade användare"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Senast uppdaterad:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "andra användare bannade av Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Användare"

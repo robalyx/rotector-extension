@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "การใช้งาน"
 	},
+	"stats_statistics_banned": {
+		"message": "ถูกแบน"
+	},
 	"stats_statistics_community_title": {
 		"message": "ชุมชน"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "ถูกตั้งค่าสถานะ"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "กลุ่มที่มีเนื้อหาผสม"
-	},
 	"stats_statistics_groups_title": {
 		"message": "กลุ่ม"
 	},
 	"stats_statistics_loading": {
 		"message": "กำลังโหลดสถิติ..."
+	},
+	"stats_statistics_mixed": {
+		"message": "ผสม"
 	},
 	"stats_statistics_queued": {
 		"message": "ผู้ใช้ในคิว"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "อัปเดตล่าสุด:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "ผู้ใช้อื่นๆ ที่ถูกแบนโดย Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "ผู้ใช้"

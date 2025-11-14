@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Использование"
 	},
+	"stats_statistics_banned": {
+		"message": "Забанено"
+	},
 	"stats_statistics_community_title": {
 		"message": "Сообщество"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Отмечено"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "групп со смешанным контентом"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Группы"
 	},
 	"stats_statistics_loading": {
 		"message": "Загрузка статистики..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Смешанное"
 	},
 	"stats_statistics_queued": {
 		"message": "Пользователи в очереди"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Последнее обновление:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "других пользователей забанено Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Пользователи"

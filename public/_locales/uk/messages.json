@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Використання"
 	},
+	"stats_statistics_banned": {
+		"message": "Заблоковано"
+	},
 	"stats_statistics_community_title": {
 		"message": "Спільнота"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Позначено"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "груп зі змішаним контентом"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Групи"
 	},
 	"stats_statistics_loading": {
 		"message": "Завантаження статистики..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Змішаний"
 	},
 	"stats_statistics_queued": {
 		"message": "Користувачів у черзі"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Останнє оновлення:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "інших користувачів заблоковано Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Користувачі"

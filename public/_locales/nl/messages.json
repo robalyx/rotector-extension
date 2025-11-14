@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Gebruik"
 	},
+	"stats_statistics_banned": {
+		"message": "Verbannen"
+	},
 	"stats_statistics_community_title": {
 		"message": "Community"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Gemarkeerd"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "groepen met gemengde inhoud"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Groepen"
 	},
 	"stats_statistics_loading": {
 		"message": "Statistieken laden..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Gemengd"
 	},
 	"stats_statistics_queued": {
 		"message": "Gebruikers in Wachtrij"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Laatst bijgewerkt:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "andere gebruikers verbannen door Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Gebruikers"

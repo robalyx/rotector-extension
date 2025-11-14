@@ -1452,7 +1452,7 @@
 		"message": "사용량"
 	},
 	"stats_statistics_banned": {
-		"message": "금지됨"
+		"message": "차단됨"
 	},
 	"stats_statistics_community_title": {
 		"message": "커뮤니티"

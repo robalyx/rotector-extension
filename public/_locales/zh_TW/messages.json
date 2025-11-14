@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "如果您要檢舉任何這些違規行為，請繼續您的檢舉並提供具體詳情以協助 Roblox 審核員。"
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "前往擴充功能彈出視窗 → 設定分頁 → 啟用「顯示進階違規詳情」以使用此功能。"
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "檢舉助手自動填寫功能需要在擴充功能設定中啟用「顯示進階違規詳情」。"
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "您仍可使用表單手動檢舉此使用者。"
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector 尚未在此使用者的個人檔案描述中偵測到任何明確可檢舉的內容。"
 	},

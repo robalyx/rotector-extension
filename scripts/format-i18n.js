@@ -68,8 +68,8 @@ function formatLocaleFile(locale) {
 				return acc;
 			}, {});
 
-		// Write back with 2-space indentation
-		const formatted = JSON.stringify(sortedData, null, 2) + '\n';
+		// Write back with tab indentation
+		const formatted = JSON.stringify(sortedData, null, '\t') + '\n';
 		fs.writeFileSync(filePath, formatted, 'utf8');
 
 		return true;

@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "Bu ihlallerden herhangi birini bildiriyorsanız, lütfen raporunuzla devam edin ve Roblox moderatörlerine yardımcı olmak için belirli ayrıntılar sağlayın."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "Bu özelliği kullanmak için uzantı açılır penceresi → Ayarlar sekmesi → 'Gelişmiş İhlal Ayrıntılarını Göster'i etkinleştirin."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "Raporlama Yardımcısı otomatik doldurma özelliği, uzantı ayarlarınızda 'Gelişmiş İhlal Ayrıntılarını Göster'in etkinleştirilmesini gerektirir."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "Formu kullanarak bu kullanıcıyı manuel olarak bildirebilirsiniz."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector bu kullanıcının profil açıklamasında henüz açıkça raporlanabilir içerik tespit etmedi."
 	},

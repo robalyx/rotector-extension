@@ -24,6 +24,9 @@
 	let successMessageElement: HTMLElement | null = null;
 	let submitButtonListener: (() => void) | null = null;
 
+	// Read violation info setting
+	const advancedInfoEnabled = get(settings)[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] ?? false;
+
 	// Initialize components when mounted
 	$effect(() => {
 		void initialize();
@@ -221,7 +224,8 @@
 					target: container,
 					props: {
 						status: userStatus,
-						onFillForm: handleFillForm
+						onFillForm: handleFillForm,
+						advancedInfoEnabled
 					}
 				});
 

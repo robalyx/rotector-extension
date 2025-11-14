@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Anuluj"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Opcje sprawdzania"
+	},
 	"queue_popup_description_analysis": {
 		"message": "Zamierzasz przesłać użytkownika (ID: $1) do analizy przez nasz system."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Zamierzasz przesłać użytkownika (ID: $1) do ponownej analizy przez nasz system."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Wybierz powód(-y) oznaczenia:"
+	"queue_popup_friends_check_description": {
+		"message": "Analizuj listę znajomych pod kątem oznaczonych lub podejrzanych użytkowników."
 	},
-	"queue_popup_friends_description": {
-		"message": "Ten użytkownik ma nieodpowiednich znajomych."
+	"queue_popup_friends_check_title": {
+		"message": "Sprawdzenie znajomych"
 	},
-	"queue_popup_friends_title": {
-		"message": "Nieodpowiedni znajomi"
+	"queue_popup_groups_check_description": {
+		"message": "Analizuj członkostwa w grupach pod kątem nieodpowiednich tematów lub treści."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Ten użytkownik zostanie przeanalizowany pod kątem ogólnych problemów z bezpieczeństwem. Nie są wymagane konkretne powody oznaczenia."
+	"queue_popup_groups_check_title": {
+		"message": "Sprawdzenie grup"
 	},
-	"queue_popup_groups_description": {
-		"message": "Ten użytkownik jest w nieodpowiednich grupach."
+	"queue_popup_outfit_check_description": {
+		"message": "Analizuj stroje awatara pod kątem odkrywającej lub nieodpowiedniej odzieży."
 	},
-	"queue_popup_groups_title": {
-		"message": "Nieodpowiednie grupy"
+	"queue_popup_outfit_check_title": {
+		"message": "Sprawdzenie stroju"
 	},
-	"queue_popup_lock_button": {
-		"message": "Zablokuj mój wybór"
+	"queue_popup_outfit_disabled": {
+		"message": "Wyłączono"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Musisz zablokować swój wybór przed przesłaniem."
+	"queue_popup_outfit_enabled": {
+		"message": "Włączono"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Nie jestem pewien, ale chcę, aby ten użytkownik został przeanalizowany pod kątem ogólnej oceny bezpieczeństwa."
+	"queue_popup_profile_check_description": {
+		"message": "Analizuj nazwę użytkownika, nazwę wyświetlaną i bio pod kątem nieodpowiedniej treści."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Ogólne sprawdzenie bezpieczeństwa"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Ten użytkownik ma wyraźnie nieodpowiednią zawartość w swoim profilu, awatarze, znajomych lub grupach."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Użytkownik ma nieodpowiednią zawartość"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Ten użytkownik ma nieodpowiednie stroje lub awatary."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Nieodpowiednie stroje"
-	},
-	"queue_popup_profile_description": {
-		"message": "Ten użytkownik ma nieodpowiednią zawartość w nazwie użytkownika, nazwie wyświetlanej lub opisie."
-	},
-	"queue_popup_profile_title": {
-		"message": "Nieodpowiedni profil"
+	"queue_popup_profile_check_title": {
+		"message": "Sprawdzenie profilu"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Proces przeglądu"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Wyniki dodane do bazy danych z odpowiednią oceną bezpieczeństwa"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Jaki to typ zgłoszenia?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Prześlij do przeglądu"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Przesyłanie..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Zostanie priorytetowo sprawdzony pod kątem nieodpowiednich znajomych"
+	"queue_popup_threshold_quick": {
+		"message": "Szybkie"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Nie wybrano"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Zostanie priorytetowo sprawdzony pod kątem nieodpowiednich grup"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Nie wybrano"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Wybrane opcje:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Zostanie priorytetowo sprawdzony pod kątem nieodpowiednich strojów"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Nie wybrano"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Zostanie priorytetowo sprawdzony pod kątem nieodpowiedniej zawartości profilu"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Nie wybrano"
+	"queue_popup_threshold_thorough": {
+		"message": "Dokładne"
 	},
 	"queue_popup_title_queue": {
 		"message": "Dodaj użytkownika do kolejki do przeglądu"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Przetwórz użytkownika ponownie do przeglądu"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Odblokuj wybór"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Kliknij, aby odblokować i zmodyfikować swój wybór."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Wybierz co najmniej jeden powód oznaczenia przed kontynuowaniem."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Wymagany wybór:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Ważne ostrzeżenie"

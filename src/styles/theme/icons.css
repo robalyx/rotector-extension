@@ -55,6 +55,17 @@
 	color: var(--color-warning);
 }
 
+/* Success and Error icon utilities */
+@utility modal-success-icon {
+	@apply w-8 h-8 mr-3 flex-shrink-0;
+	color: var(--color-success);
+}
+
+@utility modal-error-icon {
+	@apply w-8 h-8 mr-3 flex-shrink-0;
+	color: var(--color-error);
+}
+
 /* Voting icon utilities */
 @utility voting-icon {
 	@apply w-3.5 h-3.5;

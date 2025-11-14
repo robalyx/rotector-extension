@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "إلغاء"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "خيارات الفحص"
+	},
 	"queue_popup_description_analysis": {
 		"message": "أنت على وشك إرسال المستخدم (المعرّف: $1) للتحليل بواسطة نظامنا."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "أنت على وشك إرسال المستخدم (المعرّف: $1) لإعادة التحليل بواسطة نظامنا."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "حدد سبب (أسباب) الإبلاغ:"
+	"queue_popup_friends_check_description": {
+		"message": "تحليل قائمة الأصدقاء بحثًا عن مستخدمين محددين أو مشبوهين."
 	},
-	"queue_popup_friends_description": {
-		"message": "هذا المستخدم لديه أصدقاء غير مناسبين."
+	"queue_popup_friends_check_title": {
+		"message": "فحص الأصدقاء"
 	},
-	"queue_popup_friends_title": {
-		"message": "أصدقاء غير مناسبين"
+	"queue_popup_groups_check_description": {
+		"message": "تحليل عضويات المجموعات بحثًا عن مواضيع أو محتوى غير لائق."
 	},
-	"queue_popup_general_check_message": {
-		"message": "سيتم تحليل هذا المستخدم لمخاوف الأمان العامة. لا توجد حاجة لأسباب إبلاغ محددة."
+	"queue_popup_groups_check_title": {
+		"message": "فحص المجموعات"
 	},
-	"queue_popup_groups_description": {
-		"message": "هذا المستخدم في مجموعات غير مناسبة."
+	"queue_popup_outfit_check_description": {
+		"message": "تحليل ملابس الصورة الرمزية بحثًا عن ملابس كاشفة أو غير لائقة."
 	},
-	"queue_popup_groups_title": {
-		"message": "مجموعات غير مناسبة"
+	"queue_popup_outfit_check_title": {
+		"message": "فحص الملابس"
 	},
-	"queue_popup_lock_button": {
-		"message": "تثبيت اختياري"
+	"queue_popup_outfit_disabled": {
+		"message": "معطل"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "يجب تثبيت اختيارك قبل الإرسال."
+	"queue_popup_outfit_enabled": {
+		"message": "مُفعَّل"
 	},
-	"queue_popup_option_general_description": {
-		"message": "لست متأكدًا ولكني أريد تحليل هذا المستخدم لتقييم الأمان العام."
+	"queue_popup_profile_check_description": {
+		"message": "تحليل اسم المستخدم والاسم المعروض والسيرة الذاتية بحثًا عن محتوى غير لائق."
 	},
-	"queue_popup_option_general_title": {
-		"message": "فحص أمان عام"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "هذا المستخدم لديه محتوى غير مناسب واضح في ملفه الشخصي أو صورته الرمزية أو أصدقائه أو مجموعاته."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "المستخدم لديه محتوى غير مناسب"
-	},
-	"queue_popup_outfit_description": {
-		"message": "هذا المستخدم لديه أزياء أو صور رمزية غير مناسبة."
-	},
-	"queue_popup_outfit_title": {
-		"message": "أزياء غير مناسبة"
-	},
-	"queue_popup_profile_description": {
-		"message": "هذا المستخدم لديه محتوى غير مناسب في اسم المستخدم أو الاسم المعروض أو الوصف."
-	},
-	"queue_popup_profile_title": {
-		"message": "ملف شخصي غير مناسب"
+	"queue_popup_profile_check_title": {
+		"message": "فحص الملف الشخصي"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "عملية المراجعة"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "تُضاف النتائج إلى قاعدة البيانات مع تصنيف الأمان المناسب"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "ما نوع هذا الإرسال؟"
-	},
 	"queue_popup_submit_button": {
 		"message": "إرسال للمراجعة"
 	},
 	"queue_popup_submitting_button": {
 		"message": "جارٍ الإرسال..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "ستحصل على الأولوية للأصدقاء غير المناسبين"
+	"queue_popup_threshold_quick": {
+		"message": "سريع"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "غير محدد"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "ستحصل على الأولوية للمجموعات غير المناسبة"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "غير محدد"
-	},
-	"queue_popup_summary_heading": {
-		"message": "الخيارات المحددة:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "ستحصل على الأولوية للأزياء غير المناسبة"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "غير محدد"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "ستحصل على الأولوية لمحتوى الملف الشخصي غير المناسب"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "غير محدد"
+	"queue_popup_threshold_thorough": {
+		"message": "شامل"
 	},
 	"queue_popup_title_queue": {
 		"message": "إضافة المستخدم إلى قائمة الانتظار للمراجعة"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "إعادة معالجة المستخدم للمراجعة"
-	},
-	"queue_popup_unlock_button": {
-		"message": "إلغاء التثبيت"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "انقر لإلغاء التثبيت وتعديل اختيارك."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "يرجى تحديد سبب واحد على الأقل للإبلاغ قبل المتابعة."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "يلزم الاختيار:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "تحذير مهم"

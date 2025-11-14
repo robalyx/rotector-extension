@@ -82,236 +82,137 @@
 }
 
 /* =================================
-   QUEUE SELECTION SECTION
+   SELECTION SECTION
    ================================= */
 
 @utility queue-selection-section {
 	@apply mb-4;
 }
 
-@utility queue-option-card {
-	@apply p-3 rounded-[10px] cursor-pointer transition-all duration-200 relative overflow-hidden w-full block text-left;
+@utility queue-threshold-card {
+	@apply p-4 rounded-[10px] transition-all duration-200 w-full;
 	background-color: var(--color-bg-content);
 	border: 2px solid var(--color-border);
 }
 
-@utility queue-option-card-outfit {
-	@apply queue-option-card;
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-border-hover);
-	}
-
-	&.selected {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-status-outfit);
-		box-shadow: 0 0 0 1px var(--color-status-outfit);
-	}
-
-	&.locked {
-		@apply cursor-not-allowed opacity-60;
-	}
+@utility queue-threshold-card-profile {
+	@apply queue-threshold-card;
+	border-color: var(--color-status-profile);
 }
 
-@utility queue-option-card-profile {
-	@apply queue-option-card;
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-border-hover);
-	}
-
-	&.selected {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-status-profile);
-		box-shadow: 0 0 0 1px var(--color-status-profile);
-	}
-
-	&.locked {
-		@apply cursor-not-allowed opacity-60;
-	}
+@utility queue-threshold-card-friends {
+	@apply queue-threshold-card;
+	border-color: var(--color-status-friends);
 }
 
-@utility queue-option-card-friends {
-	@apply queue-option-card;
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-border-hover);
-	}
-
-	&.selected {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-status-friends);
-		box-shadow: 0 0 0 1px var(--color-status-friends);
-	}
-
-	&.locked {
-		@apply cursor-not-allowed opacity-60;
-	}
+@utility queue-threshold-card-groups {
+	@apply queue-threshold-card;
+	border-color: var(--color-status-groups);
 }
 
-@utility queue-option-card-groups {
-	@apply queue-option-card;
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-border-hover);
-	}
-
-	&.selected {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-status-groups);
-		box-shadow: 0 0 0 1px var(--color-status-groups);
-	}
-
-	&.locked {
-		@apply cursor-not-allowed opacity-60;
-	}
+@utility queue-threshold-header {
+	@apply flex items-center gap-3 mb-2;
 }
 
-@utility queue-option-header {
-	@apply flex items-center gap-3 mb-1.5;
-}
-
-@utility queue-option-title {
+@utility queue-threshold-title {
 	@apply text-base font-semibold;
 	color: var(--color-text);
 }
 
-@utility queue-option-description {
-	@apply text-sm leading-relaxed;
+@utility queue-threshold-description {
+	@apply text-sm leading-relaxed mb-3;
 	color: var(--color-text-subtle);
 }
 
-@utility queue-lock-button {
-	@apply px-6 py-3 font-medium rounded-lg transition-colors;
-	background-color: var(--color-primary);
-	color: white !important;
-
-	&:hover:not(:disabled) {
-		background-color: var(--color-primary-hover);
-	}
-
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
+@utility queue-threshold-options {
+	@apply flex gap-3;
 }
 
-@utility queue-lock-button-locked {
-	@apply px-6 py-3 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
-	background-color: var(--color-success);
-	user-select: none;
+@utility queue-threshold-option {
+	@apply flex items-center gap-2 cursor-pointer;
 
-	&:hover {
-		filter: brightness(0.9);
+	input[type='radio'] {
+		@apply w-4 h-4 cursor-pointer;
+		accent-color: var(--color-primary);
 	}
 
-	&:active {
-		filter: brightness(0.8);
+	span {
+		@apply text-sm font-medium;
+		color: var(--color-text);
+	}
+
+	&:hover span {
+		color: var(--color-primary);
 	}
 }
 
-@utility queue-lock-button-unlocking {
-	@apply px-6 py-3 text-white font-medium rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
-	background-color: var(--color-warning);
-	user-select: none;
-
-	&:hover {
-		background-color: var(--color-warning-hover);
-	}
-}
-
-@utility queue-validation-error {
-	@apply p-3 rounded-lg text-sm;
-	background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
-	color: var(--color-error);
-	animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-	0%,
-	100% {
-		transform: translateX(0);
-	}
-	25% {
-		transform: translateX(-5px);
-	}
-	75% {
-		transform: translateX(5px);
-	}
-}
-
-/* =================================
-   QUEUE SUMMARY STYLES
-   ================================= */
-
-@utility queue-summary-container {
-	@apply space-y-3 mb-6;
-}
-
-@utility queue-summary-item {
-	@apply flex items-center gap-3 p-3 rounded-lg;
-}
-
-@utility queue-summary-item-selected {
-	@apply queue-summary-item;
-	background-color: var(--color-bg-tertiary);
-	border: 1px solid var(--color-border);
-}
-
-@utility queue-summary-item-unselected {
-	@apply queue-summary-item;
+@utility queue-toggle-card {
+	@apply p-4 rounded-[10px] transition-all duration-200 w-full;
 	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border-subtle);
-	opacity: 0.6;
+	border: 2px solid var(--color-border);
 }
 
-@utility queue-summary-icon {
-	@apply w-6 h-6 flex-shrink-0 rounded flex items-center justify-center text-sm font-bold;
+@utility queue-toggle-card-outfit {
+	@apply queue-toggle-card;
+	border-color: var(--color-status-outfit);
 }
 
-@utility queue-summary-icon-selected {
-	@apply queue-summary-icon text-white;
-	background-color: var(--color-success);
+@utility queue-toggle-header {
+	@apply flex items-center gap-3 mb-2;
 }
 
-@utility queue-summary-icon-unselected {
-	@apply queue-summary-icon;
-	background-color: var(--color-text-tertiary);
-	color: var(--color-bg-content);
-}
-
-@utility queue-summary-content {
-	@apply flex-1;
-}
-
-@utility queue-summary-title {
-	@apply font-medium text-sm;
+@utility queue-toggle-title {
+	@apply text-base font-semibold;
 	color: var(--color-text);
 }
 
-@utility queue-summary-description {
-	@apply text-xs mt-1;
+@utility queue-toggle-description {
+	@apply text-sm leading-relaxed mb-3;
 	color: var(--color-text-subtle);
 }
 
-/* =================================
-   UNLOCK PROGRESS STYLES
-   ================================= */
-
-@utility unlock-progress-container {
-	@apply relative w-full h-full flex items-center justify-center;
+@utility queue-toggle-container {
+	@apply flex items-center gap-3;
 }
 
-@utility unlock-progress-bar {
-	@apply absolute left-0 top-0 h-full transition-all duration-100 ease-out rounded-l-lg;
-	background-color: color-mix(in srgb, var(--color-warning-hover) 50%, var(--color-warning));
+@utility queue-toggle-label {
+	@apply text-sm font-medium;
+	color: var(--color-text);
 }
 
-@utility unlock-progress-text {
-	@apply relative z-10 font-medium text-white;
+@utility queue-toggle-switch {
+	@apply relative inline-block;
+	width: 48px;
+	height: 24px;
+
+	input[type='checkbox'] {
+		@apply opacity-0 w-0 h-0;
+	}
+
+	.queue-toggle-slider {
+		@apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-all duration-300;
+		background-color: var(--color-border);
+
+		&::before {
+			@apply absolute rounded-full transition-all duration-300;
+			content: '';
+			height: 18px;
+			width: 18px;
+			left: 3px;
+			bottom: 3px;
+			background-color: white;
+		}
+	}
+
+	input[type='checkbox']:checked + .queue-toggle-slider {
+		background-color: var(--color-status-outfit);
+	}
+
+	input[type='checkbox']:checked + .queue-toggle-slider::before {
+		transform: translateX(24px);
+	}
+
+	&:hover .queue-toggle-slider {
+		filter: brightness(0.95);
+	}
 }

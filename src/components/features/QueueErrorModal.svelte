@@ -45,6 +45,7 @@
 	actionsLayout="horizontal"
 	confirmText={t('queue_error_modal_close_button')}
 	confirmVariant="danger"
+	icon="error"
 	modalType="queue-error"
 	onConfirm={handleClose}
 	showCancel={false}

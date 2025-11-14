@@ -665,53 +665,38 @@
 	"queue_popup_description_reanalysis": {
 		"message": "您即将提交用户（ID：$1）以供我们的系统重新分析。"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "选择标记原因："
+	"queue_popup_check_options_heading": {
+		"message": "检查选项"
 	},
-	"queue_popup_friends_description": {
-		"message": "此用户有不当好友。"
+	"queue_popup_friends_check_description": {
+		"message": "分析好友列表中的已标记或可疑用户。"
 	},
-	"queue_popup_friends_title": {
-		"message": "不当好友"
+	"queue_popup_friends_check_title": {
+		"message": "好友检查"
 	},
-	"queue_popup_general_check_message": {
-		"message": "此用户将进行一般安全问题分析。无需具体标记原因。"
+	"queue_popup_groups_check_description": {
+		"message": "分析群组成员身份中的不当主题或内容。"
 	},
-	"queue_popup_groups_description": {
-		"message": "此用户加入了不当群组。"
+	"queue_popup_groups_check_title": {
+		"message": "群组检查"
 	},
-	"queue_popup_groups_title": {
-		"message": "不当群组"
+	"queue_popup_outfit_check_description": {
+		"message": "分析头像装扮中的暴露或不当服装。"
 	},
-	"queue_popup_lock_button": {
-		"message": "锁定我的选择"
+	"queue_popup_outfit_check_title": {
+		"message": "装扮检查"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "您必须在提交之前锁定您的选择。"
+	"queue_popup_outfit_disabled": {
+		"message": "已禁用"
 	},
-	"queue_popup_option_general_description": {
-		"message": "我不确定，但希望对此用户进行一般安全评估分析。"
+	"queue_popup_outfit_enabled": {
+		"message": "已启用"
 	},
-	"queue_popup_option_general_title": {
-		"message": "一般安全检查"
+	"queue_popup_profile_check_description": {
+		"message": "分析用户名、显示名称和个人简介中的不当内容。"
 	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "此用户的个人资料、头像、好友或群组中有明显的不当内容。"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "用户有不当内容"
-	},
-	"queue_popup_outfit_description": {
-		"message": "此用户有不当装扮或头像。"
-	},
-	"queue_popup_outfit_title": {
-		"message": "不当装扮"
-	},
-	"queue_popup_profile_description": {
-		"message": "此用户的用户名、显示名称或描述中有不当内容。"
-	},
-	"queue_popup_profile_title": {
-		"message": "不当个人资料"
+	"queue_popup_profile_check_title": {
+		"message": "个人资料检查"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "审核流程"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "结果将添加到数据库并给出适当的安全评级"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "这是什么类型的提交？"
-	},
 	"queue_popup_submit_button": {
 		"message": "提交审核"
 	},
 	"queue_popup_submitting_button": {
 		"message": "提交中..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "将优先检查不当好友"
+	"queue_popup_threshold_quick": {
+		"message": "快速"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "将优先检查不当群组"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_heading": {
-		"message": "已选择的选项："
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "将优先检查不当装扮"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "未选择"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "将优先检查不当个人资料内容"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "未选择"
+	"queue_popup_threshold_thorough": {
+		"message": "彻底"
 	},
 	"queue_popup_title_queue": {
 		"message": "将用户加入审核队列"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "重新处理用户以进行审核"
-	},
-	"queue_popup_unlock_button": {
-		"message": "解锁选择"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "点击解锁并修改您的选择。"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "请在继续之前至少选择一个标记原因。"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "需要选择："
 	},
 	"queue_popup_warning_heading": {
 		"message": "重要警告"

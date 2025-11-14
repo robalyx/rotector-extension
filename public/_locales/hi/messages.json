@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "रद्द करें"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "जांच विकल्प"
+	},
 	"queue_popup_description_analysis": {
 		"message": "आप उपयोगकर्ता (ID: $1) को हमारे सिस्टम द्वारा विश्लेषण के लिए सबमिट करने वाले हैं।"
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "आप उपयोगकर्ता (ID: $1) को हमारे सिस्टम द्वारा पुनर्विश्लेषण के लिए सबमिट करने वाले हैं।"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "फ्लैगिंग कारण चुनें:"
+	"queue_popup_friends_check_description": {
+		"message": "फ्लैग या संदिग्ध उपयोगकर्ताओं के लिए मित्र सूची का विश्लेषण करें।"
 	},
-	"queue_popup_friends_description": {
-		"message": "इस उपयोगकर्ता के अनुपयुक्त मित्र हैं।"
+	"queue_popup_friends_check_title": {
+		"message": "मित्र जांच"
 	},
-	"queue_popup_friends_title": {
-		"message": "अनुपयुक्त मित्र"
+	"queue_popup_groups_check_description": {
+		"message": "अनुपयुक्त थीम या सामग्री के लिए समूह सदस्यता का विश्लेषण करें।"
 	},
-	"queue_popup_general_check_message": {
-		"message": "इस उपयोगकर्ता का सामान्य सुरक्षा चिंताओं के लिए विश्लेषण किया जाएगा। कोई विशिष्ट फ्लैगिंग कारण आवश्यक नहीं।"
+	"queue_popup_groups_check_title": {
+		"message": "समूह जांच"
 	},
-	"queue_popup_groups_description": {
-		"message": "यह उपयोगकर्ता अनुपयुक्त समूहों में है।"
+	"queue_popup_outfit_check_description": {
+		"message": "उजागर या अनुपयुक्त कपड़ों के लिए अवतार पोशाकों का विश्लेषण करें।"
 	},
-	"queue_popup_groups_title": {
-		"message": "अनुपयुक्त समूह"
+	"queue_popup_outfit_check_title": {
+		"message": "पोशाक जांच"
 	},
-	"queue_popup_lock_button": {
-		"message": "मेरे चयन को लॉक करें"
+	"queue_popup_outfit_disabled": {
+		"message": "अक्षम"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "आपको सबमिट करने से पहले अपने चयन को लॉक करना होगा।"
+	"queue_popup_outfit_enabled": {
+		"message": "सक्षम"
 	},
-	"queue_popup_option_general_description": {
-		"message": "मुझे यकीन नहीं है लेकिन मैं चाहता हूं कि इस उपयोगकर्ता का सामान्य सुरक्षा मूल्यांकन के लिए विश्लेषण किया जाए।"
+	"queue_popup_profile_check_description": {
+		"message": "अनुपयुक्त सामग्री के लिए उपयोगकर्ता नाम, प्रदर्शन नाम और बायो का विश्लेषण करें।"
 	},
-	"queue_popup_option_general_title": {
-		"message": "सामान्य सुरक्षा जांच"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "इस उपयोगकर्ता के पास उनकी प्रोफ़ाइल, अवतार, मित्रों या समूहों में स्पष्ट अनुपयुक्त सामग्री है।"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "उपयोगकर्ता के पास अनुपयुक्त सामग्री है"
-	},
-	"queue_popup_outfit_description": {
-		"message": "इस उपयोगकर्ता के पास अनुपयुक्त पोशाकें या अवतार हैं।"
-	},
-	"queue_popup_outfit_title": {
-		"message": "अनुपयुक्त पोशाकें"
-	},
-	"queue_popup_profile_description": {
-		"message": "इस उपयोगकर्ता के पास उनके उपयोगकर्ता नाम, प्रदर्शन नाम या विवरण में अनुपयुक्त सामग्री है।"
-	},
-	"queue_popup_profile_title": {
-		"message": "अनुपयुक्त प्रोफ़ाइल"
+	"queue_popup_profile_check_title": {
+		"message": "प्रोफ़ाइल जांच"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "समीक्षा प्रक्रिया"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "उचित सुरक्षा रेटिंग के साथ डेटाबेस में परिणाम जोड़े गए"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "यह किस प्रकार का सबमिशन है?"
-	},
 	"queue_popup_submit_button": {
 		"message": "समीक्षा के लिए सबमिट करें"
 	},
 	"queue_popup_submitting_button": {
 		"message": "सबमिट हो रहा है..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "अनुपयुक्त मित्रों के लिए प्राथमिकता दी जाएगी"
+	"queue_popup_threshold_quick": {
+		"message": "त्वरित"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "चयनित नहीं"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "अनुपयुक्त समूहों के लिए प्राथमिकता दी जाएगी"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "चयनित नहीं"
-	},
-	"queue_popup_summary_heading": {
-		"message": "चयनित विकल्प:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "अनुपयुक्त पोशाकों के लिए प्राथमिकता दी जाएगी"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "चयनित नहीं"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "अनुपयुक्त प्रोफ़ाइल सामग्री के लिए प्राथमिकता दी जाएगी"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "चयनित नहीं"
+	"queue_popup_threshold_thorough": {
+		"message": "गहन"
 	},
 	"queue_popup_title_queue": {
 		"message": "समीक्षा के लिए उपयोगकर्ता को कतार में रखें"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "समीक्षा के लिए उपयोगकर्ता को पुनः प्रोसेस करें"
-	},
-	"queue_popup_unlock_button": {
-		"message": "चयन अनलॉक करें"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "अनलॉक करने और अपने चयन को संशोधित करने के लिए क्लिक करें।"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "कृपया आगे बढ़ने से पहले कम से कम एक फ्लैगिंग कारण चुनें।"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "चयन आवश्यक:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "महत्वपूर्ण चेतावनी"

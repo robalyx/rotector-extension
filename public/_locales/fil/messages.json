@@ -665,53 +665,38 @@
 	"queue_popup_description_reanalysis": {
 		"message": "Isusumite mo ang user (ID: $1) para sa muling pagsusuri ng aming sistema."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Pumili ng (mga) dahilan ng pag-flag:"
+	"queue_popup_check_options_heading": {
+		"message": "Mga Opsyon ng Pagsusuri"
 	},
-	"queue_popup_friends_description": {
-		"message": "Ang user na ito ay may hindi angkop na mga kaibigan."
+	"queue_popup_friends_check_description": {
+		"message": "Suriin ang listahan ng mga kaibigan para sa mga naka-flag o kahina-hinalang user."
 	},
-	"queue_popup_friends_title": {
-		"message": "Hindi Angkop na mga Kaibigan"
+	"queue_popup_friends_check_title": {
+		"message": "Pagsusuri ng mga Kaibigan"
 	},
-	"queue_popup_general_check_message": {
-		"message": "Ang user na ito ay susuriin para sa pangkalahatang alalahanin sa kaligtasan. Walang kailangang tukoy na dahilan ng pag-flag."
+	"queue_popup_groups_check_description": {
+		"message": "Suriin ang membership sa mga grupo para sa hindi angkop na tema o nilalaman."
 	},
-	"queue_popup_groups_description": {
-		"message": "Ang user na ito ay nasa hindi angkop na mga grupo."
+	"queue_popup_groups_check_title": {
+		"message": "Pagsusuri ng mga Grupo"
 	},
-	"queue_popup_groups_title": {
-		"message": "Hindi Angkop na mga Grupo"
+	"queue_popup_outfit_check_description": {
+		"message": "Suriin ang mga avatar outfit para sa nakakapukaw o hindi angkop na damit."
 	},
-	"queue_popup_lock_button": {
-		"message": "I-lock ang Aking Pinili"
+	"queue_popup_outfit_check_title": {
+		"message": "Pagsusuri ng Outfit"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Kailangan mong i-lock ang iyong pinili bago magpatuloy."
+	"queue_popup_outfit_disabled": {
+		"message": "Naka-disable"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Hindi ako sigurado pero gusto kong suriin ang user na ito para sa pangkalahatang pagtatasa ng kaligtasan."
+	"queue_popup_outfit_enabled": {
+		"message": "Naka-enable"
 	},
-	"queue_popup_option_general_title": {
-		"message": "Pangkalahatang Pagsusuri sa Kaligtasan"
+	"queue_popup_profile_check_description": {
+		"message": "Suriin ang username, display name, at bio para sa hindi angkop na nilalaman."
 	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Ang user na ito ay may malinaw na hindi angkop na nilalaman sa kanilang profile, avatar, kaibigan, o grupo."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "May Hindi Angkop na Nilalaman ang User"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Ang user na ito ay may hindi angkop na outfit o avatar."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Hindi Angkop na Outfit"
-	},
-	"queue_popup_profile_description": {
-		"message": "Ang user na ito ay may hindi angkop na nilalaman sa kanilang username, display name, o description."
-	},
-	"queue_popup_profile_title": {
-		"message": "Hindi Angkop na Profile"
+	"queue_popup_profile_check_title": {
+		"message": "Pagsusuri ng Profile"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Proseso ng Review"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Ang mga resulta ay idinadagdag sa database na may angkop na rating sa kaligtasan"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Anong uri ng submission ito?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Isumite para sa Review"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Isinusumite..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Uunahin para sa hindi angkop na mga kaibigan"
+	"queue_popup_threshold_quick": {
+		"message": "Mabilis"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Hindi napili"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Uunahin para sa hindi angkop na mga grupo"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Hindi napili"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Mga Napiling Opsyon:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Uunahin para sa hindi angkop na outfit"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Hindi napili"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Uunahin para sa hindi angkop na nilalaman ng profile"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Hindi napili"
+	"queue_popup_threshold_thorough": {
+		"message": "Masusing"
 	},
 	"queue_popup_title_queue": {
 		"message": "I-queue ang User para sa Review"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "I-reprocess ang User para sa Review"
-	},
-	"queue_popup_unlock_button": {
-		"message": "I-unlock ang Pagpili"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "I-click para i-unlock at baguhin ang iyong pinili."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Mangyaring pumili ng kahit isang dahilan ng pag-flag bago magpatuloy."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Kailangan ang Pagpili:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Mahalagang Babala"

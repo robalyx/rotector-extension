@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "ยกเลิก"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "ตัวเลือกการตรวจสอบ"
+	},
 	"queue_popup_description_analysis": {
 		"message": "คุณกำลังจะส่งผู้ใช้ (ID: $1) เพื่อวิเคราะห์โดยระบบของเรา"
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "คุณกำลังจะส่งผู้ใช้ (ID: $1) เพื่อวิเคราะห์ใหม่โดยระบบของเรา"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "เลือกเหตุผลการตั้งค่าสถานะ:"
+	"queue_popup_friends_check_description": {
+		"message": "วิเคราะห์รายชื่อเพื่อนเพื่อหาผู้ใช้ที่ถูกตั้งค่าสถานะหรือน่าสงสัย"
 	},
-	"queue_popup_friends_description": {
-		"message": "ผู้ใช้นี้มีเพื่อนที่ไม่เหมาะสม"
+	"queue_popup_friends_check_title": {
+		"message": "การตรวจสอบเพื่อน"
 	},
-	"queue_popup_friends_title": {
-		"message": "เพื่อนไม่เหมาะสม"
+	"queue_popup_groups_check_description": {
+		"message": "วิเคราะห์การเป็นสมาชิกกลุ่มเพื่อหาธีมหรือเนื้อหาที่ไม่เหมาะสม"
 	},
-	"queue_popup_general_check_message": {
-		"message": "ผู้ใช้นี้จะได้รับการวิเคราะห์เพื่อหาข้อกังวลด้านความปลอดภัยทั่วไป ไม่จำเป็นต้องระบุเหตุผลการตั้งค่าสถานะเฉพาะ"
+	"queue_popup_groups_check_title": {
+		"message": "การตรวจสอบกลุ่ม"
 	},
-	"queue_popup_groups_description": {
-		"message": "ผู้ใช้นี้อยู่ในกลุ่มที่ไม่เหมาะสม"
+	"queue_popup_outfit_check_description": {
+		"message": "วิเคราะห์ชุดอวตาร์เพื่อหาเสื้อผ้าที่เปิดเผยหรือไม่เหมาะสม"
 	},
-	"queue_popup_groups_title": {
-		"message": "กลุ่มไม่เหมาะสม"
+	"queue_popup_outfit_check_title": {
+		"message": "การตรวจสอบชุด"
 	},
-	"queue_popup_lock_button": {
-		"message": "ยืนยันการเลือกของฉัน"
+	"queue_popup_outfit_disabled": {
+		"message": "ปิดใช้งาน"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "คุณต้องยืนยันการเลือกก่อนส่ง"
+	"queue_popup_outfit_enabled": {
+		"message": "เปิดใช้งาน"
 	},
-	"queue_popup_option_general_description": {
-		"message": "ฉันไม่แน่ใจ แต่ต้องการให้วิเคราะห์ผู้ใช้นี้เพื่อประเมินความปลอดภัยทั่วไป"
+	"queue_popup_profile_check_description": {
+		"message": "วิเคราะห์ชื่อผู้ใช้ ชื่อที่แสดง และประวัติส่วนตัวเพื่อหาเนื้อหาที่ไม่เหมาะสม"
 	},
-	"queue_popup_option_general_title": {
-		"message": "การตรวจสอบความปลอดภัยทั่วไป"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "ผู้ใช้นี้มีเนื้อหาไม่เหมาะสมที่ชัดเจนในโปรไฟล์ อวตาร์ เพื่อน หรือกลุ่มของพวกเขา"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "ผู้ใช้มีเนื้อหาไม่เหมาะสม"
-	},
-	"queue_popup_outfit_description": {
-		"message": "ผู้ใช้นี้มีชุดหรืออวตาร์ที่ไม่เหมาะสม"
-	},
-	"queue_popup_outfit_title": {
-		"message": "ชุดที่ไม่เหมาะสม"
-	},
-	"queue_popup_profile_description": {
-		"message": "ผู้ใช้นี้มีเนื้อหาไม่เหมาะสมในชื่อผู้ใช้ ชื่อที่แสดง หรือคำอธิบาย"
-	},
-	"queue_popup_profile_title": {
-		"message": "โปรไฟล์ไม่เหมาะสม"
+	"queue_popup_profile_check_title": {
+		"message": "การตรวจสอบโปรไฟล์"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "กระบวนการตรวจสอบ"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "ผลลัพธ์จะถูกเพิ่มลงในฐานข้อมูลพร้อมการให้คะแนนความปลอดภัยที่เหมาะสม"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "นี่เป็นการส่งประเภทใด?"
-	},
 	"queue_popup_submit_button": {
 		"message": "ส่งเพื่อตรวจสอบ"
 	},
 	"queue_popup_submitting_button": {
 		"message": "กำลังส่ง..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "จะได้รับความสำคัญสำหรับเพื่อนที่ไม่เหมาะสม"
+	"queue_popup_threshold_quick": {
+		"message": "รวดเร็ว"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "ไม่ได้เลือก"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "จะได้รับความสำคัญสำหรับกลุ่มที่ไม่เหมาะสม"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "ไม่ได้เลือก"
-	},
-	"queue_popup_summary_heading": {
-		"message": "ตัวเลือกที่เลือก:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "จะได้รับความสำคัญสำหรับชุดที่ไม่เหมาะสม"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "ไม่ได้เลือก"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "จะได้รับความสำคัญสำหรับเนื้อหาโปรไฟล์ที่ไม่เหมาะสม"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "ไม่ได้เลือก"
+	"queue_popup_threshold_thorough": {
+		"message": "ละเอียดถี่ถ้วน"
 	},
 	"queue_popup_title_queue": {
 		"message": "เพิ่มผู้ใช้เข้าคิวเพื่อตรวจสอบ"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "ประมวลผลผู้ใช้ใหม่เพื่อตรวจสอบ"
-	},
-	"queue_popup_unlock_button": {
-		"message": "ปลดล็อกการเลือก"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "คลิกเพื่อปลดล็อกและแก้ไขการเลือกของคุณ"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "โปรดเลือกเหตุผลการตั้งค่าสถานะอย่างน้อยหนึ่งรายการก่อนดำเนินการ"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "จำเป็นต้องเลือก:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "คำเตือนที่สำคัญ"

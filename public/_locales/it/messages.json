@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Annulla"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Opzioni di Controllo"
+	},
 	"queue_popup_description_analysis": {
 		"message": "Stai per inviare l'utente (ID: $1) per l'analisi del nostro sistema."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Stai per inviare l'utente (ID: $1) per una nuova analisi del nostro sistema."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Seleziona le ragioni di segnalazione:"
+	"queue_popup_friends_check_description": {
+		"message": "Analizza l'elenco degli amici per utenti segnalati o sospetti."
 	},
-	"queue_popup_friends_description": {
-		"message": "Questo utente ha amici inappropriati."
+	"queue_popup_friends_check_title": {
+		"message": "Controllo Amici"
 	},
-	"queue_popup_friends_title": {
-		"message": "Amici Inappropriati"
+	"queue_popup_groups_check_description": {
+		"message": "Analizza le appartenenze ai gruppi per temi o contenuti inappropriati."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Questo utente verrà analizzato per problemi di sicurezza generali. Non sono richieste ragioni di segnalazione specifiche."
+	"queue_popup_groups_check_title": {
+		"message": "Controllo Gruppi"
 	},
-	"queue_popup_groups_description": {
-		"message": "Questo utente è in gruppi inappropriati."
+	"queue_popup_outfit_check_description": {
+		"message": "Analizza gli abbigliamenti dell'avatar per vestiti rivelatori o inappropriati."
 	},
-	"queue_popup_groups_title": {
-		"message": "Gruppi Inappropriati"
+	"queue_popup_outfit_check_title": {
+		"message": "Controllo Abbigliamento"
 	},
-	"queue_popup_lock_button": {
-		"message": "Blocca la Mia Selezione"
+	"queue_popup_outfit_disabled": {
+		"message": "Disabilitato"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Devi bloccare la tua selezione prima di inviare."
+	"queue_popup_outfit_enabled": {
+		"message": "Abilitato"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Non sono sicuro ma voglio che questo utente venga analizzato per una valutazione generale della sicurezza."
+	"queue_popup_profile_check_description": {
+		"message": "Analizza nome utente, nome visualizzato e biografia per contenuti inappropriati."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Controllo Sicurezza Generale"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Questo utente ha chiari contenuti inappropriati nel suo profilo, avatar, amici o gruppi."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "L'Utente Ha Contenuti Inappropriati"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Questo utente ha abbigliamento o avatar inappropriati."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Abbigliamento Inappropriato"
-	},
-	"queue_popup_profile_description": {
-		"message": "Questo utente ha contenuti inappropriati nel nome utente, nome visualizzato o descrizione."
-	},
-	"queue_popup_profile_title": {
-		"message": "Profilo Inappropriato"
+	"queue_popup_profile_check_title": {
+		"message": "Controllo Profilo"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Processo di Revisione"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Risultati aggiunti al database con valutazione di sicurezza appropriata"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Che tipo di invio è questo?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Invia per Revisione"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Invio..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Sarà prioritizzato per amici inappropriati"
+	"queue_popup_threshold_quick": {
+		"message": "Veloce"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Sarà prioritizzato per gruppi inappropriati"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Opzioni Selezionate:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Sarà prioritizzato per abbigliamento inappropriato"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Non selezionato"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Sarà prioritizzato per contenuti del profilo inappropriati"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Non selezionato"
+	"queue_popup_threshold_thorough": {
+		"message": "Approfondito"
 	},
 	"queue_popup_title_queue": {
 		"message": "Metti in Coda Utente per Revisione"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Riprocessa Utente per Revisione"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Sblocca Selezione"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Clicca per sbloccare e modificare la tua selezione."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Seleziona almeno una ragione di segnalazione prima di procedere."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Selezione Richiesta:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Avviso Importante"

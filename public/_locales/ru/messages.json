@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Отмена"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Опции проверки"
+	},
 	"queue_popup_description_analysis": {
 		"message": "Вы собираетесь отправить пользователя (ID: $1) на анализ нашей системой."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Вы собираетесь отправить пользователя (ID: $1) на повторный анализ нашей системой."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Выберите причину(ы) отметки:"
+	"queue_popup_friends_check_description": {
+		"message": "Анализ списка друзей на наличие отмеченных или подозрительных пользователей."
 	},
-	"queue_popup_friends_description": {
-		"message": "У этого пользователя неподходящие друзья."
+	"queue_popup_friends_check_title": {
+		"message": "Проверка друзей"
 	},
-	"queue_popup_friends_title": {
-		"message": "Неподходящие друзья"
+	"queue_popup_groups_check_description": {
+		"message": "Анализ членства в группах на наличие неподходящих тем или контента."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Этот пользователь будет проанализирован на общие проблемы безопасности. Конкретные причины отметки не требуются."
+	"queue_popup_groups_check_title": {
+		"message": "Проверка групп"
 	},
-	"queue_popup_groups_description": {
-		"message": "Этот пользователь состоит в неподходящих группах."
+	"queue_popup_outfit_check_description": {
+		"message": "Анализ нарядов аватара на наличие откровенной или неподходящей одежды."
 	},
-	"queue_popup_groups_title": {
-		"message": "Неподходящие группы"
+	"queue_popup_outfit_check_title": {
+		"message": "Проверка нарядов"
 	},
-	"queue_popup_lock_button": {
-		"message": "Зафиксировать мой выбор"
+	"queue_popup_outfit_disabled": {
+		"message": "Отключено"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Вы должны зафиксировать свой выбор перед отправкой."
+	"queue_popup_outfit_enabled": {
+		"message": "Включено"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Я не уверен, но хочу, чтобы этот пользователь был проанализирован на общую оценку безопасности."
+	"queue_popup_profile_check_description": {
+		"message": "Анализ имени пользователя, отображаемого имени и биографии на наличие неподходящего контента."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Общая проверка безопасности"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "У этого пользователя явно неподходящий контент в профиле, аватаре, друзьях или группах."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "У пользователя неподходящий контент"
-	},
-	"queue_popup_outfit_description": {
-		"message": "У этого пользователя неподходящие наряды или аватары."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Неподходящие наряды"
-	},
-	"queue_popup_profile_description": {
-		"message": "У этого пользователя неподходящий контент в имени пользователя, отображаемом имени или описании."
-	},
-	"queue_popup_profile_title": {
-		"message": "Неподходящий профиль"
+	"queue_popup_profile_check_title": {
+		"message": "Проверка профиля"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Процесс проверки"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Результаты добавляются в базу данных с соответствующей оценкой безопасности"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Какой это тип отправки?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Отправить на проверку"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Отправка..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Будет приоритезирован для неподходящих друзей"
+	"queue_popup_threshold_quick": {
+		"message": "Быстро"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Не выбрано"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Будет приоритезирован для неподходящих групп"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Не выбрано"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Выбранные опции:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Будет приоритезирован для неподходящих нарядов"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Не выбрано"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Будет приоритезирован для неподходящего контента профиля"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Не выбрано"
+	"queue_popup_threshold_thorough": {
+		"message": "Тщательно"
 	},
 	"queue_popup_title_queue": {
 		"message": "Поставить пользователя в очередь на проверку"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Повторная проверка пользователя"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Разблокировать выбор"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Нажмите, чтобы разблокировать и изменить свой выбор."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Пожалуйста, выберите хотя бы одну причину отметки перед продолжением."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Требуется выбор:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Важное предупреждение"

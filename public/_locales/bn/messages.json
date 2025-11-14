@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "বাতিল"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "চেক অপশন"
+	},
 	"queue_popup_description_analysis": {
 		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা পুনর্বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "ফ্ল্যাগিং কারণ(গুলি) নির্বাচন করুন:"
+	"queue_popup_friends_check_description": {
+		"message": "ফ্ল্যাগ করা বা সন্দেহজনক ব্যবহারকারীদের জন্য বন্ধু তালিকা বিশ্লেষণ করুন।"
 	},
-	"queue_popup_friends_description": {
-		"message": "এই ব্যবহারকারীর অনুপযুক্ত বন্ধু রয়েছে।"
+	"queue_popup_friends_check_title": {
+		"message": "বন্ধু চেক"
 	},
-	"queue_popup_friends_title": {
-		"message": "অনুপযুক্ত বন্ধু"
+	"queue_popup_groups_check_description": {
+		"message": "অনুপযুক্ত থিম বা বিষয়বস্তুর জন্য গ্রুপ সদস্যপদ বিশ্লেষণ করুন।"
 	},
-	"queue_popup_general_check_message": {
-		"message": "এই ব্যবহারকারীকে সাধারণ নিরাপত্তা উদ্বেগের জন্য বিশ্লেষণ করা হবে। কোনো নির্দিষ্ট ফ্ল্যাগিং কারণ প্রয়োজন নেই।"
+	"queue_popup_groups_check_title": {
+		"message": "গ্রুপ চেক"
 	},
-	"queue_popup_groups_description": {
-		"message": "এই ব্যবহারকারী অনুপযুক্ত গ্রুপে আছে।"
+	"queue_popup_outfit_check_description": {
+		"message": "প্রকাশক বা অনুপযুক্ত পোশাকের জন্য অবতার পোশাক বিশ্লেষণ করুন।"
 	},
-	"queue_popup_groups_title": {
-		"message": "অনুপযুক্ত গ্রুপ"
+	"queue_popup_outfit_check_title": {
+		"message": "পোশাক চেক"
 	},
-	"queue_popup_lock_button": {
-		"message": "আমার নির্বাচন লক করুন"
+	"queue_popup_outfit_disabled": {
+		"message": "অক্ষম"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "জমা দেওয়ার আগে আপনাকে আপনার নির্বাচন লক করতে হবে।"
+	"queue_popup_outfit_enabled": {
+		"message": "সক্ষম"
 	},
-	"queue_popup_option_general_description": {
-		"message": "আমি নিশ্চিত নই কিন্তু এই ব্যবহারকারীকে সাধারণ নিরাপত্তা মূল্যায়নের জন্য বিশ্লেষণ করতে চাই।"
+	"queue_popup_profile_check_description": {
+		"message": "অনুপযুক্ত বিষয়বস্তুর জন্য ব্যবহারকারীর নাম, প্রদর্শন নাম এবং বায়ো বিশ্লেষণ করুন।"
 	},
-	"queue_popup_option_general_title": {
-		"message": "সাধারণ নিরাপত্তা পরীক্ষা"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "এই ব্যবহারকারীর প্রোফাইল, অবতার, বন্ধু বা গ্রুপে স্পষ্ট অনুপযুক্ত বিষয়বস্তু রয়েছে।"
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তু রয়েছে"
-	},
-	"queue_popup_outfit_description": {
-		"message": "এই ব্যবহারকারীর অনুপযুক্ত পোশাক বা অবতার রয়েছে।"
-	},
-	"queue_popup_outfit_title": {
-		"message": "অনুপযুক্ত পোশাক"
-	},
-	"queue_popup_profile_description": {
-		"message": "এই ব্যবহারকারীর ব্যবহারকারীর নাম, প্রদর্শন নাম বা বর্ণনায় অনুপযুক্ত বিষয়বস্তু রয়েছে।"
-	},
-	"queue_popup_profile_title": {
-		"message": "অনুপযুক্ত প্রোফাইল"
+	"queue_popup_profile_check_title": {
+		"message": "প্রোফাইল চেক"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "পর্যালোচনা প্রক্রিয়া"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "উপযুক্ত নিরাপত্তা রেটিং সহ ডাটাবেসে ফলাফল যোগ করা হয়"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "এটি কি ধরনের জমা?"
-	},
 	"queue_popup_submit_button": {
 		"message": "পর্যালোচনার জন্য জমা দিন"
 	},
 	"queue_popup_submitting_button": {
 		"message": "জমা দেওয়া হচ্ছে..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "অনুপযুক্ত বন্ধুদের জন্য অগ্রাধিকার দেওয়া হবে"
+	"queue_popup_threshold_quick": {
+		"message": "দ্রুত"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "অনুপযুক্ত গ্রুপগুলির জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_heading": {
-		"message": "নির্বাচিত বিকল্প:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "অনুপযুক্ত পোশাকের জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "নির্বাচিত নয়"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "অনুপযুক্ত প্রোফাইল বিষয়বস্তুর জন্য অগ্রাধিকার দেওয়া হবে"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "নির্বাচিত নয়"
+	"queue_popup_threshold_thorough": {
+		"message": "পুঙ্খানুপুঙ্খ"
 	},
 	"queue_popup_title_queue": {
 		"message": "পর্যালোচনার জন্য ব্যবহারকারীকে কিউতে রাখুন"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "পর্যালোচনার জন্য ব্যবহারকারী পুনঃপ্রসেস করুন"
-	},
-	"queue_popup_unlock_button": {
-		"message": "নির্বাচন আনলক করুন"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "আনলক করতে এবং আপনার নির্বাচন পরিবর্তন করতে ক্লিক করুন।"
-	},
-	"queue_popup_validation_error_message": {
-		"message": "অনুগ্রহ করে এগিয়ে যাওয়ার আগে অন্তত একটি ফ্ল্যাগিং কারণ নির্বাচন করুন।"
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "নির্বাচন প্রয়োজন:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "গুরুত্বপূর্ণ সতর্কতা"

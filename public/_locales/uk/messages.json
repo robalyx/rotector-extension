@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Скасувати"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Параметри перевірки"
+	},
 	"queue_popup_description_analysis": {
 		"message": "Ви збираєтесь подати користувача (ID: $1) для аналізу нашою системою."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Ви збираєтесь подати користувача (ID: $1) для повторного аналізу нашою системою."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Виберіть причину(и) позначення:"
+	"queue_popup_friends_check_description": {
+		"message": "Аналіз списку друзів на наявність позначених або підозрілих користувачів."
 	},
-	"queue_popup_friends_description": {
-		"message": "Цей користувач має недоречних друзів."
+	"queue_popup_friends_check_title": {
+		"message": "Перевірка друзів"
 	},
-	"queue_popup_friends_title": {
-		"message": "Недоречні друзі"
+	"queue_popup_groups_check_description": {
+		"message": "Аналіз членства в групах на наявність недоречних тем або контенту."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Цей користувач буде проаналізований на загальні проблеми безпеки. Конкретні причини позначення не потрібні."
+	"queue_popup_groups_check_title": {
+		"message": "Перевірка груп"
 	},
-	"queue_popup_groups_description": {
-		"message": "Цей користувач перебуває в недоречних групах."
+	"queue_popup_outfit_check_description": {
+		"message": "Аналіз аватарів на наявність відвертого або недоречного одягу."
 	},
-	"queue_popup_groups_title": {
-		"message": "Недоречні групи"
+	"queue_popup_outfit_check_title": {
+		"message": "Перевірка одягу"
 	},
-	"queue_popup_lock_button": {
-		"message": "Зафіксувати мій вибір"
+	"queue_popup_outfit_disabled": {
+		"message": "Вимкнено"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Ви повинні зафіксувати свій вибір перед поданням."
+	"queue_popup_outfit_enabled": {
+		"message": "Увімкнено"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Я не впевнений, але хочу, щоб цей користувач був проаналізований для загальної оцінки безпеки."
+	"queue_popup_profile_check_description": {
+		"message": "Аналіз імені користувача, відображуваного імені та біографії на наявність недоречного контенту."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Загальна перевірка безпеки"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Цей користувач має явний недоречний контент у своєму профілі, аватарі, друзях або групах."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Користувач має недоречний контент"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Цей користувач має недоречний одяг або аватари."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Недоречний одяг"
-	},
-	"queue_popup_profile_description": {
-		"message": "Цей користувач має недоречний контент в імені користувача, відображуваному імені або описі."
-	},
-	"queue_popup_profile_title": {
-		"message": "Недоречний профіль"
+	"queue_popup_profile_check_title": {
+		"message": "Перевірка профілю"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Процес розгляду"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Результати додаються до бази даних з відповідною оцінкою безпеки"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Який це тип подання?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Подати на розгляд"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Подання..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Буде надано пріоритет для недоречних друзів"
+	"queue_popup_threshold_quick": {
+		"message": "Швидка"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Буде надано пріоритет для недоречних груп"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Вибрані параметри:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Буде надано пріоритет для недоречного одягу"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Не вибрано"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Буде надано пріоритет для недоречного контенту профілю"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Не вибрано"
+	"queue_popup_threshold_thorough": {
+		"message": "Ретельна"
 	},
 	"queue_popup_title_queue": {
 		"message": "Додати користувача до черги для розгляду"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Повторно обробити користувача для розгляду"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Розблокувати вибір"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Натисніть, щоб розблокувати та змінити свій вибір."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Будь ласка, виберіть принаймні одну причину позначення перед продовженням."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Вимагається вибір:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Важливе попередження"

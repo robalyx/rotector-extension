@@ -25,6 +25,7 @@
 	actionsLayout="horizontal"
 	confirmText={t('queue_success_modal_close_button')}
 	confirmVariant="primary"
+	icon="success"
 	modalType="queue-success"
 	onConfirm={handleClose}
 	showCancel={false}

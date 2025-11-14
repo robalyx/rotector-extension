@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Annuleren"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Controle-opties"
+	},
 	"queue_popup_description_analysis": {
 		"message": "U staat op het punt om gebruiker (ID: $1) in te dienen voor analyse door ons systeem."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "U staat op het punt om gebruiker (ID: $1) in te dienen voor heranalyse door ons systeem."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Selecteer markeringsreden(en):"
+	"queue_popup_friends_check_description": {
+		"message": "Analyseer vriendenlijst voor gemarkeerde of verdachte gebruikers."
 	},
-	"queue_popup_friends_description": {
-		"message": "Deze gebruiker heeft ongepaste vrienden."
+	"queue_popup_friends_check_title": {
+		"message": "Vriendencontrole"
 	},
-	"queue_popup_friends_title": {
-		"message": "Ongepaste Vrienden"
+	"queue_popup_groups_check_description": {
+		"message": "Analyseer groepslidmaatschappen voor ongepaste thema's of inhoud."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Deze gebruiker zal worden geanalyseerd op algemene veiligheidsproblemen. Geen specifieke markeringsredenen vereist."
+	"queue_popup_groups_check_title": {
+		"message": "Groepencontrole"
 	},
-	"queue_popup_groups_description": {
-		"message": "Deze gebruiker zit in ongepaste groepen."
+	"queue_popup_outfit_check_description": {
+		"message": "Analyseer avataroutfits voor bloot gevende of ongepaste kleding."
 	},
-	"queue_popup_groups_title": {
-		"message": "Ongepaste Groepen"
+	"queue_popup_outfit_check_title": {
+		"message": "Outfitcontrole"
 	},
-	"queue_popup_lock_button": {
-		"message": "Mijn Selectie Vastleggen"
+	"queue_popup_outfit_disabled": {
+		"message": "Uitgeschakeld"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "U moet uw selectie vastleggen voordat u indient."
+	"queue_popup_outfit_enabled": {
+		"message": "Ingeschakeld"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Ik ben onzeker maar wil dat deze gebruiker wordt geanalyseerd voor algemene veiligheidsbeoordeling."
+	"queue_popup_profile_check_description": {
+		"message": "Analyseer gebruikersnaam, weergavenaam en bio voor ongepaste inhoud."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Algemene Veiligheidscontrole"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Deze gebruiker heeft duidelijk ongepaste inhoud in hun profiel, avatar, vrienden of groepen."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Gebruiker Heeft Ongepaste Inhoud"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Deze gebruiker heeft ongepaste outfits of avatars."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Ongepaste Outfits"
-	},
-	"queue_popup_profile_description": {
-		"message": "Deze gebruiker heeft ongepaste inhoud in hun gebruikersnaam, weergavenaam of beschrijving."
-	},
-	"queue_popup_profile_title": {
-		"message": "Ongepast Profiel"
+	"queue_popup_profile_check_title": {
+		"message": "Profielcontrole"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Beoordelingsproces"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Resultaten toegevoegd aan database met passende veiligheidsbeoordeling"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Wat voor soort indiening is dit?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Indienen voor Beoordeling"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Indienen..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Wordt geprioriteerd voor ongepaste vrienden"
+	"queue_popup_threshold_quick": {
+		"message": "Snel"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Niet geselecteerd"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Wordt geprioriteerd voor ongepaste groepen"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Niet geselecteerd"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Geselecteerde Opties:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Wordt geprioriteerd voor ongepaste outfits"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Niet geselecteerd"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Wordt geprioriteerd voor ongepaste profielinhoud"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Niet geselecteerd"
+	"queue_popup_threshold_thorough": {
+		"message": "Grondig"
 	},
 	"queue_popup_title_queue": {
 		"message": "Gebruiker in Wachtrij Plaatsen voor Beoordeling"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Gebruiker Opnieuw Verwerken voor Beoordeling"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Selectie Ontgrendelen"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Klik om te ontgrendelen en uw selectie te wijzigen."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Selecteer ten minste één markeringsreden voordat u doorgaat."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Selectie Vereist:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Belangrijke Waarschuwing"

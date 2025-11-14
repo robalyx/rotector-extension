@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Batal"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Pilihan Pemeriksaan"
+	},
 	"queue_popup_description_analysis": {
 		"message": "Anda akan menghantar pengguna (ID: $1) untuk analisis oleh sistem kami."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Anda akan menghantar pengguna (ID: $1) untuk analisis semula oleh sistem kami."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Pilih sebab pembenderaan:"
+	"queue_popup_friends_check_description": {
+		"message": "Menganalisis senarai rakan untuk pengguna yang dibenderakan atau disyaki."
 	},
-	"queue_popup_friends_description": {
-		"message": "Pengguna ini mempunyai rakan tidak sesuai."
+	"queue_popup_friends_check_title": {
+		"message": "Pemeriksaan Rakan"
 	},
-	"queue_popup_friends_title": {
-		"message": "Rakan Tidak Sesuai"
+	"queue_popup_groups_check_description": {
+		"message": "Menganalisis keahlian kumpulan untuk tema atau kandungan tidak sesuai."
 	},
-	"queue_popup_general_check_message": {
-		"message": "Pengguna ini akan dianalisis untuk kebimbangan keselamatan umum. Tiada sebab pembenderaan khusus diperlukan."
+	"queue_popup_groups_check_title": {
+		"message": "Pemeriksaan Kumpulan"
 	},
-	"queue_popup_groups_description": {
-		"message": "Pengguna ini berada dalam kumpulan tidak sesuai."
+	"queue_popup_outfit_check_description": {
+		"message": "Menganalisis pakaian avatar untuk pakaian yang mendedahkan atau tidak sesuai."
 	},
-	"queue_popup_groups_title": {
-		"message": "Kumpulan Tidak Sesuai"
+	"queue_popup_outfit_check_title": {
+		"message": "Pemeriksaan Pakaian"
 	},
-	"queue_popup_lock_button": {
-		"message": "Kunci Pemilihan Saya"
+	"queue_popup_outfit_disabled": {
+		"message": "Dilumpuhkan"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "Anda mesti mengunci pemilihan anda sebelum menghantar."
+	"queue_popup_outfit_enabled": {
+		"message": "Diaktifkan"
 	},
-	"queue_popup_option_general_description": {
-		"message": "Saya tidak pasti tetapi mahu pengguna ini dianalisis untuk penilaian keselamatan umum."
+	"queue_popup_profile_check_description": {
+		"message": "Menganalisis nama pengguna, nama paparan, dan biografi untuk kandungan tidak sesuai."
 	},
-	"queue_popup_option_general_title": {
-		"message": "Pemeriksaan Keselamatan Umum"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "Pengguna ini mempunyai kandungan tidak sesuai yang jelas dalam profil, avatar, rakan, atau kumpulan mereka."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "Pengguna Mempunyai Kandungan Tidak Sesuai"
-	},
-	"queue_popup_outfit_description": {
-		"message": "Pengguna ini mempunyai pakaian atau avatar tidak sesuai."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Pakaian Tidak Sesuai"
-	},
-	"queue_popup_profile_description": {
-		"message": "Pengguna ini mempunyai kandungan tidak sesuai dalam nama pengguna, nama paparan, atau penerangan mereka."
-	},
-	"queue_popup_profile_title": {
-		"message": "Profil Tidak Sesuai"
+	"queue_popup_profile_check_title": {
+		"message": "Pemeriksaan Profil"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Proses Semakan"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Keputusan ditambah ke pangkalan data dengan penarafan keselamatan yang sesuai"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "Apakah jenis penyerahan ini?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Hantar untuk Semakan"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Menghantar..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Akan diutamakan untuk rakan tidak sesuai"
+	"queue_popup_threshold_quick": {
+		"message": "Pantas"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Akan diutamakan untuk kumpulan tidak sesuai"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Pilihan Dipilih:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Akan diutamakan untuk pakaian tidak sesuai"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Tidak dipilih"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Akan diutamakan untuk kandungan profil tidak sesuai"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Tidak dipilih"
+	"queue_popup_threshold_thorough": {
+		"message": "Menyeluruh"
 	},
 	"queue_popup_title_queue": {
 		"message": "Gilirkan Pengguna untuk Semakan"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Proses Semula Pengguna untuk Semakan"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Buka Kunci Pemilihan"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Klik untuk membuka kunci dan mengubah pemilihan anda."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Sila pilih sekurang-kurangnya satu sebab pembenderaan sebelum meneruskan."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Pemilihan Diperlukan:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Amaran Penting"

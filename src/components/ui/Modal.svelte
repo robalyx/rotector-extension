@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Portal from 'svelte-portal';
-	import { AlertCircle, AlertTriangle, X } from 'lucide-svelte';
+	import { AlertCircle, AlertTriangle, CheckCircle, XCircle, X } from 'lucide-svelte';
 
 	interface ModalProps {
 		isOpen: boolean;
@@ -186,8 +186,10 @@
 								{:else}
 									<AlertCircle class="modal-warning-icon" size={32} />
 								{/if}
-							{:else}
-								<div class="text-2xl">{icon}</div>
+							{:else if icon === 'success'}
+								<CheckCircle class="modal-success-icon" size={32} />
+							{:else if icon === 'error'}
+								<XCircle class="modal-error-icon" size={32} />
 							{/if}
 						</div>
 					{/if}

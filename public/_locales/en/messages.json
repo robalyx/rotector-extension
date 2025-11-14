@@ -659,59 +659,44 @@
 	"queue_popup_cancel_button": {
 		"message": "Cancel"
 	},
+	"queue_popup_check_options_heading": {
+		"message": "Check Options"
+	},
 	"queue_popup_description_analysis": {
 		"message": "You are about to submit user (ID: $1) for analysis by our system."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "You are about to submit user (ID: $1) for reanalysis by our system."
 	},
-	"queue_popup_flagging_reasons_heading": {
-		"message": "Select flagging reason(s):"
+	"queue_popup_friends_check_description": {
+		"message": "Analyze friend list for flagged or suspicious users."
 	},
-	"queue_popup_friends_description": {
-		"message": "This user has inappropriate friends."
+	"queue_popup_friends_check_title": {
+		"message": "Friends Check"
 	},
-	"queue_popup_friends_title": {
-		"message": "Inappropriate Friends"
+	"queue_popup_groups_check_description": {
+		"message": "Analyze group memberships for inappropriate themes or content."
 	},
-	"queue_popup_general_check_message": {
-		"message": "This user will be analyzed for general safety concerns. No specific flagging reasons required."
+	"queue_popup_groups_check_title": {
+		"message": "Groups Check"
 	},
-	"queue_popup_groups_description": {
-		"message": "This user is in inappropriate groups."
+	"queue_popup_outfit_check_description": {
+		"message": "Analyze avatar outfits for revealing or inappropriate clothing."
 	},
-	"queue_popup_groups_title": {
-		"message": "Inappropriate Groups"
+	"queue_popup_outfit_check_title": {
+		"message": "Outfit Check"
 	},
-	"queue_popup_lock_button": {
-		"message": "Lock In My Selection"
+	"queue_popup_outfit_disabled": {
+		"message": "Disabled"
 	},
-	"queue_popup_lock_instruction": {
-		"message": "You must lock in your selection before submitting."
+	"queue_popup_outfit_enabled": {
+		"message": "Enabled"
 	},
-	"queue_popup_option_general_description": {
-		"message": "I'm unsure but want this user analyzed for general safety assessment."
+	"queue_popup_profile_check_description": {
+		"message": "Analyze username, display name, and bio for inappropriate content."
 	},
-	"queue_popup_option_general_title": {
-		"message": "General Safety Check"
-	},
-	"queue_popup_option_inappropriate_description": {
-		"message": "This user has clear inappropriate content in their profile, avatar, friends, or groups."
-	},
-	"queue_popup_option_inappropriate_title": {
-		"message": "User Has Inappropriate Content"
-	},
-	"queue_popup_outfit_description": {
-		"message": "This user has inappropriate outfits or avatars."
-	},
-	"queue_popup_outfit_title": {
-		"message": "Inappropriate Outfits"
-	},
-	"queue_popup_profile_description": {
-		"message": "This user has inappropriate content in their username, display name, or description."
-	},
-	"queue_popup_profile_title": {
-		"message": "Inappropriate Profile"
+	"queue_popup_profile_check_title": {
+		"message": "Profile Check"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "Review Process"
@@ -725,59 +710,23 @@
 	"queue_popup_review_process_step3": {
 		"message": "Results added to database with appropriate safety rating"
 	},
-	"queue_popup_submission_type_heading": {
-		"message": "What type of submission is this?"
-	},
 	"queue_popup_submit_button": {
 		"message": "Submit for Review"
 	},
 	"queue_popup_submitting_button": {
 		"message": "Submitting..."
 	},
-	"queue_popup_summary_friends_selected": {
-		"message": "Will be prioritized for inappropriate friends"
+	"queue_popup_threshold_quick": {
+		"message": "Quick"
 	},
-	"queue_popup_summary_friends_unselected": {
-		"message": "Not selected"
-	},
-	"queue_popup_summary_groups_selected": {
-		"message": "Will be prioritized for inappropriate groups"
-	},
-	"queue_popup_summary_groups_unselected": {
-		"message": "Not selected"
-	},
-	"queue_popup_summary_heading": {
-		"message": "Selected Options:"
-	},
-	"queue_popup_summary_outfit_selected": {
-		"message": "Will be prioritized for inappropriate outfits"
-	},
-	"queue_popup_summary_outfit_unselected": {
-		"message": "Not selected"
-	},
-	"queue_popup_summary_profile_selected": {
-		"message": "Will be prioritized for inappropriate profile content"
-	},
-	"queue_popup_summary_profile_unselected": {
-		"message": "Not selected"
+	"queue_popup_threshold_thorough": {
+		"message": "Thorough"
 	},
 	"queue_popup_title_queue": {
 		"message": "Queue User for Review"
 	},
 	"queue_popup_title_reprocess": {
 		"message": "Reprocess User for Review"
-	},
-	"queue_popup_unlock_button": {
-		"message": "Unlock Selection"
-	},
-	"queue_popup_unlock_instruction": {
-		"message": "Click to unlock and modify your selection."
-	},
-	"queue_popup_validation_error_message": {
-		"message": "Please select at least one flagging reason before proceeding."
-	},
-	"queue_popup_validation_error_prefix": {
-		"message": "Selection Required:"
 	},
 	"queue_popup_warning_heading": {
 		"message": "Important Warning"

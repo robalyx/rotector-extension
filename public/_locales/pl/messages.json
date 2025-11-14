@@ -813,10 +813,10 @@
 		"message": "Jeśli zgłaszasz którekolwiek z tych naruszeń, kontynuuj zgłoszenie i podaj konkretne szczegóły, aby pomóc moderatorom Roblox."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Przejdź do popup rozszerzenia → Zakładka Ustawienia → Włącz 'Zaawansowane Informacje o Naruszeniach', aby użyć tej funkcji."
+		"message": "Przejdź do popup rozszerzenia → Zakładka Ustawienia → Włącz 'Pokaż szczegółowe informacje o naruszeniach', aby użyć tej funkcji."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "Funkcja automatycznego wypełniania Pomocnika Zgłoszeń wymaga włączenia Zaawansowanych Informacji o Naruszeniach w ustawieniach rozszerzenia."
+		"message": "Funkcja automatycznego wypełniania Pomocnika Zgłoszeń wymaga włączenia 'Pokaż szczegółowe informacje o naruszeniach' w ustawieniach rozszerzenia."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Nadal możesz ręcznie zgłosić tego użytkownika używając formularza."

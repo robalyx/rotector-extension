@@ -813,13 +813,13 @@
 		"message": "Si vous signalez l'une de ces violations, veuillez continuer avec votre signalement et fournir des détails spécifiques pour aider les modérateurs de Roblox."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Allez dans le popup de l'extension → onglet Paramètres → Activez 'Informations de Violation Avancées' pour utiliser cette fonctionnalité."
+		"message": "Ouvrez le popup de l'extension → onglet Paramètres → activez 'Afficher les Détails Avancés des Violations' pour utiliser cette fonctionnalité."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "La fonction de remplissage automatique du Report Helper nécessite que les Informations de Violation Avancées soient activées dans vos paramètres d'extension."
+		"message": "La fonction de remplissage automatique de l'Assistant de Signalement nécessite que 'Afficher les Détails Avancés des Violations' soit activée dans vos paramètres d'extension."
 	},
 	"report_helper_setting_disabled_note": {
-		"message": "Vous pouvez toujours signaler cet utilisateur manuellement en utilisant le formulaire."
+		"message": "Vous pouvez toujours signaler cet utilisateur manuellement via le formulaire."
 	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector n'a pas encore détecté de contenu clairement signalable dans la description du profil de cet utilisateur."

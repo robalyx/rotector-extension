@@ -813,10 +813,10 @@
 		"message": "Om du rapporterar någon av dessa överträdelser, vänligen fortsätt med din rapport och ge specifika detaljer för att hjälpa Roblox moderatorer."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Gå till tilläggets popup → Fliken Inställningar → Aktivera 'Avancerad överträdelseinformation' för att använda denna funktion."
+		"message": "Gå till tilläggets popup → Fliken Inställningar → Aktivera 'Visa avancerade överträdelsedetaljer' för att använda denna funktion."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "Funktionen för automatisk ifyllning av rapporthjälparen kräver att Avancerad överträdelseinformation är aktiverad i dina tilläggsinställningar."
+		"message": "Funktionen för automatisk ifyllning av Rapporthjälp kräver att 'Visa avancerade överträdelsedetaljer' är aktiverad i dina tilläggsinställningar."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Du kan fortfarande manuellt rapportera denna användare med formuläret."

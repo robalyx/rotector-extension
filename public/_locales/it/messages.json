@@ -813,10 +813,10 @@
 		"message": "Se stai segnalando una di queste violazioni, continua con la tua segnalazione e fornisci dettagli specifici per aiutare i moderatori di Roblox."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Vai al popup dell'estensione → scheda Impostazioni → Abilita 'Informazioni Avanzate sulle Violazioni' per utilizzare questa funzione."
+		"message": "Vai al popup dell'estensione → scheda Impostazioni → Abilita 'Mostra Dettagli Avanzati delle Violazioni' per utilizzare questa funzione."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "La funzione di compilazione automatica del Report Helper richiede che le Informazioni Avanzate sulle Violazioni siano abilitate nelle impostazioni dell'estensione."
+		"message": "La funzione di compilazione automatica dell'Assistente Segnalazioni richiede che 'Mostra Dettagli Avanzati delle Violazioni' sia abilitata nelle impostazioni dell'estensione."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Puoi comunque segnalare manualmente questo utente utilizzando il modulo."

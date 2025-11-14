@@ -813,10 +813,10 @@
 		"message": "Bu ihlallerden herhangi birini bildiriyorsanız, lütfen raporunuzla devam edin ve Roblox moderatörlerine yardımcı olmak için belirli ayrıntılar sağlayın."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Bu özelliği kullanmak için uzantı açılır penceresi → Ayarlar sekmesi → 'Gelişmiş İhlal Bilgileri'ni etkinleştirin."
+		"message": "Bu özelliği kullanmak için uzantı açılır penceresi → Ayarlar sekmesi → 'Gelişmiş İhlal Ayrıntılarını Göster'i etkinleştirin."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "Rapor Yardımcısı otomatik doldurma özelliği, uzantı ayarlarınızda Gelişmiş İhlal Bilgilerinin etkinleştirilmesini gerektirir."
+		"message": "Raporlama Yardımcısı otomatik doldurma özelliği, uzantı ayarlarınızda 'Gelişmiş İhlal Ayrıntılarını Göster'in etkinleştirilmesini gerektirir."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Formu kullanarak bu kullanıcıyı manuel olarak bildirebilirsiniz."

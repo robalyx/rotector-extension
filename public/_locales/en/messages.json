@@ -813,10 +813,10 @@
 		"message": "If you're reporting any of these violations, please continue with your report and provide specific details to help Roblox moderators."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Go to the extension popup → Settings tab → Enable 'Advanced Violation Information' to use this feature."
+		"message": "Go to the extension popup → Settings tab → Enable 'Show Advanced Violation Details' to use this feature."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "The Report Helper auto-fill feature requires Advanced Violation Information to be enabled in your extension settings."
+		"message": "The Report Helper auto-fill feature requires 'Show Advanced Violation Details' to be enabled in your extension settings."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "You can still manually report this user using the form."

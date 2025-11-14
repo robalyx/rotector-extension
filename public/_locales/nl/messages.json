@@ -813,10 +813,10 @@
 		"message": "Als u een van deze overtredingen rapporteert, ga dan door met uw rapport en geef specifieke details om Roblox-moderators te helpen."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Ga naar de extensie popup → Instellingen-tabblad → Schakel 'Geavanceerde Schendingsinformatie' in om deze functie te gebruiken."
+		"message": "Ga naar de extensie popup → Instellingen-tabblad → Schakel 'Geavanceerde Overtredingsdetails Tonen' in om deze functie te gebruiken."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "De Report Helper automatisch invul-functie vereist dat Geavanceerde Schendingsinformatie is ingeschakeld in uw extensie-instellingen."
+		"message": "De Rapportagehulp automatisch invul-functie vereist dat 'Geavanceerde Overtredingsdetails Tonen' is ingeschakeld in uw extensie-instellingen."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "U kunt deze gebruiker nog steeds handmatig rapporteren met het formulier."

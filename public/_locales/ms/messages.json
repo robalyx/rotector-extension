@@ -813,10 +813,10 @@
 		"message": "Jika anda melaporkan mana-mana pelanggaran ini, sila teruskan dengan laporan anda dan berikan butiran khusus untuk membantu moderator Roblox."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Pergi ke popup sambungan → tab Tetapan → Aktifkan 'Maklumat Pelanggaran Lanjutan' untuk menggunakan ciri ini."
+		"message": "Pergi ke popup sambungan → tab Tetapan → Aktifkan 'Tunjuk Butiran Pelanggaran Lanjutan' untuk menggunakan ciri ini."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "Ciri auto-isi Pembantu Laporan memerlukan Maklumat Pelanggaran Lanjutan diaktifkan dalam tetapan sambungan anda."
+		"message": "Ciri auto-isi Pembantu Laporan memerlukan 'Tunjuk Butiran Pelanggaran Lanjutan' diaktifkan dalam tetapan sambungan anda."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Anda masih boleh melaporkan pengguna ini secara manual menggunakan borang."

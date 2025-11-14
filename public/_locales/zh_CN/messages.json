@@ -813,10 +813,10 @@
 		"message": "如果您要举报任何这些违规行为，请继续您的举报并提供具体详情以帮助 Roblox 审核员。"
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "前往扩展弹窗 → 设置选项卡 → 启用\"高级违规信息\"以使用此功能。"
+		"message": "前往扩展弹窗 → 设置选项卡 → 启用\"显示高级违规详情\"以使用此功能。"
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "举报助手自动填充功能需要在扩展设置中启用\"高级违规信息\"。"
+		"message": "举报助手自动填充功能需要在扩展设置中启用\"显示高级违规详情\"。"
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "您仍可使用表单手动举报此用户。"

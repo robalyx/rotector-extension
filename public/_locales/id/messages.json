@@ -813,10 +813,10 @@
 		"message": "Jika Anda melaporkan salah satu pelanggaran ini, silakan lanjutkan dengan laporan Anda dan berikan detail spesifik untuk membantu moderator Roblox."
 	},
 	"report_helper_setting_disabled_instruction": {
-		"message": "Buka popup ekstensi → tab Pengaturan → Aktifkan 'Advanced Violation Information' untuk menggunakan fitur ini."
+		"message": "Buka popup ekstensi → tab Pengaturan → Aktifkan 'Tampilkan Detail Pelanggaran Lanjutan' untuk menggunakan fitur ini."
 	},
 	"report_helper_setting_disabled_message": {
-		"message": "Fitur pengisian otomatis Report Helper memerlukan Advanced Violation Information untuk diaktifkan di pengaturan ekstensi Anda."
+		"message": "Fitur pengisian otomatis Pembantu Laporan mengharuskan 'Tampilkan Detail Pelanggaran Lanjutan' diaktifkan di pengaturan ekstensi Anda."
 	},
 	"report_helper_setting_disabled_note": {
 		"message": "Anda masih dapat melaporkan pengguna ini secara manual menggunakan formulir."

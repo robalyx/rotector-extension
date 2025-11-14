@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "Kung nag-re-report ka ng alinman sa mga paglabag na ito, mangyaring magpatuloy sa iyong report at magbigay ng tukoy na detalye para matulungan ang mga moderator ng Roblox."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "Pumunta sa extension popup → Settings tab → I-enable ang 'Advanced Violation Information' para magamit ang feature na ito."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "Ang Report Helper auto-fill feature ay nangangailangan na i-enable ang Advanced Violation Information sa iyong extension settings."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "Maaari mo pa ring i-report nang mano-mano ang user na ito gamit ang form."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Hindi pa nakakita ang Rotector ng malinaw na pwedeng i-report na nilalaman sa description ng profile ng user na ito."
 	},

@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "إذا كنت تبلغ عن أي من هذه الانتهاكات، يرجى المتابعة مع بلاغك وتقديم تفاصيل محددة لمساعدة مشرفي Roblox."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "انتقل إلى نافذة الإضافة المنبثقة → علامة تبويب الإعدادات → قم بتمكين 'معلومات الانتهاك المتقدمة' لاستخدام هذه الميزة."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "تتطلب ميزة الملء التلقائي لمساعد البلاغات تمكين معلومات الانتهاك المتقدمة في إعدادات الإضافة الخاصة بك."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "لا يزال بإمكانك الإبلاغ عن هذا المستخدم يدويًا باستخدام النموذج."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "لم يكتشف Rotector أي محتوى قابل للإبلاغ بوضوح في وصف الملف الشخصي لهذا المستخدم حتى الآن."
 	},

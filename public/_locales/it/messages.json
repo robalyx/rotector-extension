@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "Se stai segnalando una di queste violazioni, continua con la tua segnalazione e fornisci dettagli specifici per aiutare i moderatori di Roblox."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "Vai al popup dell'estensione → scheda Impostazioni → Abilita 'Informazioni Avanzate sulle Violazioni' per utilizzare questa funzione."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "La funzione di compilazione automatica del Report Helper richiede che le Informazioni Avanzate sulle Violazioni siano abilitate nelle impostazioni dell'estensione."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "Puoi comunque segnalare manualmente questo utente utilizzando il modulo."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector non ha ancora rilevato contenuti chiaramente segnalabili nella descrizione del profilo di questo utente."
 	},

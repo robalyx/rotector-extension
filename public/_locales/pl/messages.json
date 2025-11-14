@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "Jeśli zgłaszasz którekolwiek z tych naruszeń, kontynuuj zgłoszenie i podaj konkretne szczegóły, aby pomóc moderatorom Roblox."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "Przejdź do popup rozszerzenia → Zakładka Ustawienia → Włącz 'Zaawansowane Informacje o Naruszeniach', aby użyć tej funkcji."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "Funkcja automatycznego wypełniania Pomocnika Zgłoszeń wymaga włączenia Zaawansowanych Informacji o Naruszeniach w ustawieniach rozszerzenia."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "Nadal możesz ręcznie zgłosić tego użytkownika używając formularza."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector nie wykrył jeszcze żadnej wyraźnie zgłaszalnej zawartości w opisie profilu tego użytkownika."
 	},

@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "これらの違反のいずれかを通報する場合は、通報を続けて、Robloxのモデレーターを支援するために具体的な詳細を提供してください。"
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "拡張機能のポップアップ → 設定タブ → 「詳細な違反情報」を有効にしてこの機能を使用してください。"
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "レポートヘルパーの自動入力機能を使用するには、拡張機能の設定で詳細な違反情報を有効にする必要があります。"
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "フォームを使用して手動でこのユーザーを報告することもできます。"
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotectorはこのユーザーのプロフィールの説明に明確に通報可能なコンテンツをまだ検出していません。"
 	},

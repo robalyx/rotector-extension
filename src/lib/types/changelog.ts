@@ -65,6 +65,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Internationalized URL support - Extension now works correctly on non-English Roblox URLs (e.g., roblox.com/es/, roblox.com/de/)'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Report helper setting requirement - Auto-fill feature now checks if Advanced Violation Information is enabled and displays appropriate guidance'
 			}
 		]
 	},

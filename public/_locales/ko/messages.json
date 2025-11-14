@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "이러한 위반 사항을 신고하는 경우 신고를 계속 진행하고 Roblox 검토자를 돕기 위해 구체적인 세부사항을 제공하세요."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "확장 프로그램 팝업 → 설정 탭 → '고급 위반 정보'를 활성화하여 이 기능을 사용하세요."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "보고 도우미 자동 완성 기능을 사용하려면 확장 프로그램 설정에서 고급 위반 정보를 활성화해야 합니다."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "양식을 사용하여 이 사용자를 수동으로 신고할 수 있습니다."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector는 아직 이 사용자의 프로필 설명에서 명백히 신고 가능한 콘텐츠를 감지하지 못했습니다."
 	},

@@ -8,9 +8,10 @@
 	interface Props {
 		status?: UserStatus | null;
 		onFillForm?: () => void | Promise<void>;
+		advancedInfoEnabled: boolean;
 	}
 
-	let { status = null, onFillForm }: Props = $props();
+	let { status = null, onFillForm, advancedInfoEnabled }: Props = $props();
 
 	// Local state
 	let processing = $state(false);
@@ -28,7 +29,7 @@
 			: null
 	);
 
-	const canAutoFill = $derived(isReportable && onFillForm);
+	const canAutoFill = $derived(isReportable && onFillForm && advancedInfoEnabled);
 
 	// Handle fill form button click
 	async function handleFillForm() {
@@ -63,7 +64,7 @@
 
 	<div class="report-helper-content">
 		{#if isReportable}
-			{#if canAutoFill}
+			{#if advancedInfoEnabled}
 				<p class="report-helper-subtitle">
 					{t('report_helper_subtitle_reportable')}
 				</p>
@@ -118,6 +119,23 @@
 					<div class="report-helper-warning-text">
 						<strong>{t('report_helper_warning_label')}</strong>
 						{t('report_helper_warning_message')}
+					</div>
+				</div>
+			{:else}
+				<p class="report-helper-subtitle">
+					{t('report_helper_setting_disabled_message')}
+				</p>
+
+				<p class="report-helper-subtitle">
+					{t('report_helper_setting_disabled_instruction')}
+				</p>
+
+				<div class="report-helper-info-section">
+					<Info class="report-helper-info-icon" color="var(--color-primary)" size={24} />
+					<div class="report-helper-info-text">
+						<p>
+							{t('report_helper_setting_disabled_note')}
+						</p>
 					</div>
 				</div>
 			{/if}

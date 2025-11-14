@@ -812,6 +812,15 @@
 	"report_helper_info_message_part4": {
 		"message": "Jika anda melaporkan mana-mana pelanggaran ini, sila teruskan dengan laporan anda dan berikan butiran khusus untuk membantu moderator Roblox."
 	},
+	"report_helper_setting_disabled_instruction": {
+		"message": "Pergi ke popup sambungan → tab Tetapan → Aktifkan 'Maklumat Pelanggaran Lanjutan' untuk menggunakan ciri ini."
+	},
+	"report_helper_setting_disabled_message": {
+		"message": "Ciri auto-isi Pembantu Laporan memerlukan Maklumat Pelanggaran Lanjutan diaktifkan dalam tetapan sambungan anda."
+	},
+	"report_helper_setting_disabled_note": {
+		"message": "Anda masih boleh melaporkan pengguna ini secara manual menggunakan borang."
+	},
 	"report_helper_subtitle_not_reportable": {
 		"message": "Rotector belum mengesan sebarang kandungan yang jelas boleh dilaporkan dalam penerangan profil pengguna ini lagi."
 	},

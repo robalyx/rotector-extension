@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ"
 	},
+	"queue_loading_modal_title": {
+		"message": "กำลังประมวลผลคำขอ"
+	},
 	"queue_popup_cancel_button": {
 		"message": "ยกเลิก"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(เช่น การส่งแบบสแปม) อาจส่งผลให้มีข้อจำกัดกับบัญชีของคุณ การตรวจจับการใช้งานอัตโนมัติอย่างผิดปกติทำงานอยู่"
-	},
-	"queue_loading_modal_title": {
-		"message": "กำลังประมวลผลคำขอ"
 	},
 	"queue_success_modal_close_button": {
 		"message": "ปิด"

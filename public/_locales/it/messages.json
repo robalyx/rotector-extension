@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Si è verificato un errore sconosciuto"
 	},
+	"queue_loading_modal_title": {
+		"message": "Elaborazione Richiesta"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Annulla"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(come inviare spam) può comportare restrizioni sul tuo account. Il rilevamento automatico degli abusi è attivo."
-	},
-	"queue_loading_modal_title": {
-		"message": "Elaborazione Richiesta"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Chiudi"

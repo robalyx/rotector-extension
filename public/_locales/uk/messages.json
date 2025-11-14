@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Сталася невідома помилка"
 	},
+	"queue_loading_modal_title": {
+		"message": "Обробка запиту"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Скасувати"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(наприклад, спам подань) може призвести до обмежень вашого облікового запису. Автоматичне виявлення зловживань активне."
-	},
-	"queue_loading_modal_title": {
-		"message": "Обробка запиту"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Закрити"

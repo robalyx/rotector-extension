@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Ralat tidak diketahui berlaku"
 	},
+	"queue_loading_modal_title": {
+		"message": "Memproses Permintaan"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Batal"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(seperti menghantar spam) mungkin mengakibatkan sekatan pada akaun anda. Pengesanan penyalahgunaan automatik aktif."
-	},
-	"queue_loading_modal_title": {
-		"message": "Memproses Permintaan"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Tutup"

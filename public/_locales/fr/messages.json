@@ -656,17 +656,20 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Une erreur inconnue s'est produite"
 	},
+	"queue_loading_modal_title": {
+		"message": "Traitement de la demande"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Annuler"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Options de Vérification"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Vous êtes sur le point de soumettre l'utilisateur (ID : $1) pour analyse par notre système."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Vous êtes sur le point de soumettre l'utilisateur (ID : $1) pour une nouvelle analyse par notre système."
-	},
-	"queue_popup_check_options_heading": {
-		"message": "Options de Vérification"
 	},
 	"queue_popup_friends_check_description": {
 		"message": "Analyser la liste d'amis pour les utilisateurs signalés ou suspects."
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(comme le spam de soumissions) peut entraîner des restrictions sur votre compte. La détection automatique des abus est active."
-	},
-	"queue_loading_modal_title": {
-		"message": "Traitement de la demande"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Fermer"

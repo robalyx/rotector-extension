@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Unknown error occurred"
 	},
+	"queue_loading_modal_title": {
+		"message": "Processing Request"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Cancel"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(like spamming submissions) may result in restrictions on your account. Automated abuse detection is active."
-	},
-	"queue_loading_modal_title": {
-		"message": "Processing Request"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Close"

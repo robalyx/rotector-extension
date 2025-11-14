@@ -656,17 +656,20 @@
 	"queue_error_modal_unknown_error": {
 		"message": "May nangyaring hindi kilalang error"
 	},
+	"queue_loading_modal_title": {
+		"message": "Pinoproseso ang Kahilingan"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Kanselahin"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "Mga Opsyon ng Pagsusuri"
 	},
 	"queue_popup_description_analysis": {
 		"message": "Isusumite mo ang user (ID: $1) para sa pagsusuri ng aming sistema."
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "Isusumite mo ang user (ID: $1) para sa muling pagsusuri ng aming sistema."
-	},
-	"queue_popup_check_options_heading": {
-		"message": "Mga Opsyon ng Pagsusuri"
 	},
 	"queue_popup_friends_check_description": {
 		"message": "Suriin ang listahan ng mga kaibigan para sa mga naka-flag o kahina-hinalang user."
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(tulad ng pag-spam ng mga submission) ay maaaring magresulta sa mga paghihigpit sa iyong account. May aktibong automated abuse detection."
-	},
-	"queue_loading_modal_title": {
-		"message": "Pinoproseso ang Kahilingan"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Isara"

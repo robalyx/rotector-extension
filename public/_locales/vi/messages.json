@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Đã xảy ra lỗi không xác định"
 	},
+	"queue_loading_modal_title": {
+		"message": "Đang xử lý yêu cầu"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Hủy"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(như gửi spam) có thể dẫn đến hạn chế trên tài khoản của bạn. Phát hiện lạm dụng tự động đang hoạt động."
-	},
-	"queue_loading_modal_title": {
-		"message": "Đang xử lý yêu cầu"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Đóng"

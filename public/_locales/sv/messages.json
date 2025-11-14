@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Okänt fel uppstod"
 	},
+	"queue_loading_modal_title": {
+		"message": "Bearbetar begäran"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Avbryt"
 	},
@@ -669,10 +672,10 @@
 		"message": "Du är på väg att skicka användare (ID: $1) för omanalys av vårt system."
 	},
 	"queue_popup_friends_check_description": {
-		"message": "Analysera vännlista för flaggade eller misstänkta användare."
+		"message": "Analysera vänlista för flaggade eller misstänkta användare."
 	},
 	"queue_popup_friends_check_title": {
-		"message": "Vännkontroll"
+		"message": "Vänkontroll"
 	},
 	"queue_popup_groups_check_description": {
 		"message": "Analysera gruppmedlemskap för olämpliga teman eller innehåll."
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(som att spamma inlämningar) kan resultera i begränsningar på ditt konto. Automatisk missbruksdetektering är aktiv."
-	},
-	"queue_loading_modal_title": {
-		"message": "Bearbetar begäran"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Stäng"

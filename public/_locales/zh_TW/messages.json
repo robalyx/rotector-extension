@@ -656,17 +656,20 @@
 	"queue_error_modal_unknown_error": {
 		"message": "發生未知錯誤"
 	},
+	"queue_loading_modal_title": {
+		"message": "處理請求中"
+	},
 	"queue_popup_cancel_button": {
 		"message": "取消"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "檢查選項"
 	},
 	"queue_popup_description_analysis": {
 		"message": "您即將提交使用者（ID：$1）供我們的系統分析。"
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "您即將提交使用者（ID：$1）供我們的系統重新分析。"
-	},
-	"queue_popup_check_options_heading": {
-		"message": "檢查選項"
 	},
 	"queue_popup_friends_check_description": {
 		"message": "分析好友列表中的已標記或可疑使用者。"
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "（例如濫發提交）可能會導致您的帳號受到限制。自動濫用偵測已啟用。"
-	},
-	"queue_loading_modal_title": {
-		"message": "處理請求中"
 	},
 	"queue_success_modal_close_button": {
 		"message": "關閉"

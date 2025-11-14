@@ -656,11 +656,14 @@
 	"queue_error_modal_unknown_error": {
 		"message": "অজানা ত্রুটি ঘটেছে"
 	},
+	"queue_loading_modal_title": {
+		"message": "অনুরোধ প্রক্রিয়াকরণ"
+	},
 	"queue_popup_cancel_button": {
 		"message": "বাতিল"
 	},
 	"queue_popup_check_options_heading": {
-		"message": "চেক অপশন"
+		"message": "পরীক্ষার বিকল্প"
 	},
 	"queue_popup_description_analysis": {
 		"message": "আপনি ব্যবহারকারী (ID: $1) আমাদের সিস্টেম দ্বারা বিশ্লেষণের জন্য জমা দিতে চলেছেন।"
@@ -672,31 +675,31 @@
 		"message": "ফ্ল্যাগ করা বা সন্দেহজনক ব্যবহারকারীদের জন্য বন্ধু তালিকা বিশ্লেষণ করুন।"
 	},
 	"queue_popup_friends_check_title": {
-		"message": "বন্ধু চেক"
+		"message": "বন্ধু পরীক্ষা"
 	},
 	"queue_popup_groups_check_description": {
 		"message": "অনুপযুক্ত থিম বা বিষয়বস্তুর জন্য গ্রুপ সদস্যপদ বিশ্লেষণ করুন।"
 	},
 	"queue_popup_groups_check_title": {
-		"message": "গ্রুপ চেক"
+		"message": "গ্রুপ পরীক্ষা"
 	},
 	"queue_popup_outfit_check_description": {
-		"message": "প্রকাশক বা অনুপযুক্ত পোশাকের জন্য অবতার পোশাক বিশ্লেষণ করুন।"
+		"message": "উন্মুক্ত বা অনুপযুক্ত পোশাকের জন্য অবতার পোশাক বিশ্লেষণ করুন।"
 	},
 	"queue_popup_outfit_check_title": {
-		"message": "পোশাক চেক"
+		"message": "পোশাক পরীক্ষা"
 	},
 	"queue_popup_outfit_disabled": {
-		"message": "অক্ষম"
+		"message": "নিষ্ক্রিয়"
 	},
 	"queue_popup_outfit_enabled": {
-		"message": "সক্ষম"
+		"message": "সক্রিয়"
 	},
 	"queue_popup_profile_check_description": {
 		"message": "অনুপযুক্ত বিষয়বস্তুর জন্য ব্যবহারকারীর নাম, প্রদর্শন নাম এবং বায়ো বিশ্লেষণ করুন।"
 	},
 	"queue_popup_profile_check_title": {
-		"message": "প্রোফাইল চেক"
+		"message": "প্রোফাইল পরীক্ষা"
 	},
 	"queue_popup_review_process_heading": {
 		"message": "পর্যালোচনা প্রক্রিয়া"
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(যেমন জমা স্প্যামিং) আপনার অ্যাকাউন্টে সীমাবদ্ধতার কারণ হতে পারে। স্বয়ংক্রিয় অপব্যবহার সনাক্তকরণ সক্রিয়।"
-	},
-	"queue_loading_modal_title": {
-		"message": "অনুরোধ প্রক্রিয়াকরণ"
 	},
 	"queue_success_modal_close_button": {
 		"message": "বন্ধ করুন"

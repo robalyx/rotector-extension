@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Ocorreu um erro desconhecido"
 	},
+	"queue_loading_modal_title": {
+		"message": "Processando Solicitação"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Cancelar"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(como spam de envios) pode resultar em restrições em sua conta. Detecção automática de abuso está ativa."
-	},
-	"queue_loading_modal_title": {
-		"message": "Processando Solicitação"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Fechar"

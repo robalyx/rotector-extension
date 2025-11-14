@@ -656,17 +656,20 @@
 	"queue_error_modal_unknown_error": {
 		"message": "发生未知错误"
 	},
+	"queue_loading_modal_title": {
+		"message": "处理请求中"
+	},
 	"queue_popup_cancel_button": {
 		"message": "取消"
+	},
+	"queue_popup_check_options_heading": {
+		"message": "检查选项"
 	},
 	"queue_popup_description_analysis": {
 		"message": "您即将提交用户（ID：$1）以供我们的系统分析。"
 	},
 	"queue_popup_description_reanalysis": {
 		"message": "您即将提交用户（ID：$1）以供我们的系统重新分析。"
-	},
-	"queue_popup_check_options_heading": {
-		"message": "检查选项"
 	},
 	"queue_popup_friends_check_description": {
 		"message": "分析好友列表中的已标记或可疑用户。"
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "（如垃圾提交）可能导致您的账户受到限制。自动滥用检测已启用。"
-	},
-	"queue_loading_modal_title": {
-		"message": "处理请求中"
 	},
 	"queue_success_modal_close_button": {
 		"message": "关闭"

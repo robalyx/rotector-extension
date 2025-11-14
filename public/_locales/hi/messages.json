@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "अज्ञात त्रुटि हुई"
 	},
+	"queue_loading_modal_title": {
+		"message": "अनुरोध प्रक्रिया में है"
+	},
 	"queue_popup_cancel_button": {
 		"message": "रद्द करें"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(जैसे सबमिशन स्पैम करना) आपके खाते पर प्रतिबंध लग सकता है। स्वचालित दुरुपयोग पहचान सक्रिय है।"
-	},
-	"queue_loading_modal_title": {
-		"message": "अनुरोध प्रक्रिया में है"
 	},
 	"queue_success_modal_close_button": {
 		"message": "बंद करें"

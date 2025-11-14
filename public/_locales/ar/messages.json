@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "حدث خطأ غير معروف"
 	},
+	"queue_loading_modal_title": {
+		"message": "معالجة الطلب"
+	},
 	"queue_popup_cancel_button": {
 		"message": "إلغاء"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(مثل إرسال البلاغات المتكررة) قد يؤدي إلى فرض قيود على حسابك. الكشف التلقائي عن الإساءة نشط."
-	},
-	"queue_loading_modal_title": {
-		"message": "معالجة الطلب"
 	},
 	"queue_success_modal_close_button": {
 		"message": "إغلاق"

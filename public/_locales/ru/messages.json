@@ -656,6 +656,9 @@
 	"queue_error_modal_unknown_error": {
 		"message": "Произошла неизвестная ошибка"
 	},
+	"queue_loading_modal_title": {
+		"message": "Обработка запроса"
+	},
 	"queue_popup_cancel_button": {
 		"message": "Отмена"
 	},
@@ -736,9 +739,6 @@
 	},
 	"queue_popup_warning_message_suffix": {
 		"message": "(например, спам отправками) может привести к ограничениям вашей учётной записи. Активно автоматическое обнаружение злоупотреблений."
-	},
-	"queue_loading_modal_title": {
-		"message": "Обработка запроса"
 	},
 	"queue_success_modal_close_button": {
 		"message": "Закрыть"

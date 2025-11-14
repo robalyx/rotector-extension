@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Đã dùng"
 	},
+	"stats_statistics_banned": {
+		"message": "Đã cấm"
+	},
 	"stats_statistics_community_title": {
 		"message": "Cộng đồng"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Đã gắn cờ"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "nhóm có nội dung hỗn hợp"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Nhóm"
 	},
 	"stats_statistics_loading": {
 		"message": "Đang tải thống kê..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Hỗn hợp"
 	},
 	"stats_statistics_queued": {
 		"message": "Người dùng Trong hàng đợi"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Cập nhật lần cuối:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "người dùng khác bị cấm bởi Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Người dùng"

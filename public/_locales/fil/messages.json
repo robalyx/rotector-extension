@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Paggamit"
 	},
+	"stats_statistics_banned": {
+		"message": "Na-ban"
+	},
 	"stats_statistics_community_title": {
 		"message": "Komunidad"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Na-flag"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "grupo na may halo-halong nilalaman"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Mga Grupo"
 	},
 	"stats_statistics_loading": {
 		"message": "Naglo-load ng estadistika..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Halo-halo"
 	},
 	"stats_statistics_queued": {
 		"message": "Naka-queue na User"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Huling na-update:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "ibang user na na-ban ng Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Mga User"

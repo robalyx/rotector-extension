@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Kullanım"
 	},
+	"stats_statistics_banned": {
+		"message": "Yasaklı"
+	},
 	"stats_statistics_community_title": {
 		"message": "Topluluk"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "İşaretlendi"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "karışık içerikli gruplar"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Gruplar"
 	},
 	"stats_statistics_loading": {
 		"message": "İstatistikler yükleniyor..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Karışık"
 	},
 	"stats_statistics_queued": {
 		"message": "Kuyruktaki Kullanıcılar"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Son güncelleme:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "diğer kullanıcılar Roblox tarafından yasaklandı"
 	},
 	"stats_statistics_users_title": {
 		"message": "Kullanıcılar"

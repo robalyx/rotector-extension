@@ -20,6 +20,7 @@ export interface WeeklyUsage {
 export interface Statistics {
 	totalFlaggedUsers: number;
 	totalConfirmedUsers: number;
+	totalMixedUsers: number;
 	totalBannedUsers: number;
 	totalQueuedUsers: number;
 	totalVotesCast: number;
@@ -28,6 +29,7 @@ export interface Statistics {
 	totalFlaggedGroups: number;
 	totalConfirmedGroups: number;
 	totalMixedGroups: number;
+	totalBannedGroups: number;
 	aiTotalCost: number;
 	totalDonations: number;
 	remainingCosts: number;

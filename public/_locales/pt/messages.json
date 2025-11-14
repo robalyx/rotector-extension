@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Uso"
 	},
+	"stats_statistics_banned": {
+		"message": "Banidos"
+	},
 	"stats_statistics_community_title": {
 		"message": "Comunidade"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Sinalizados"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "grupos com conteúdo misto"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Grupos"
 	},
 	"stats_statistics_loading": {
 		"message": "Carregando estatísticas..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Misto"
 	},
 	"stats_statistics_queued": {
 		"message": "Usuários na Fila"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Última atualização:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "outros usuários banidos pelo Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Usuários"

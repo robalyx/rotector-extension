@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "使用量"
 	},
+	"stats_statistics_banned": {
+		"message": "已封禁"
+	},
 	"stats_statistics_community_title": {
 		"message": "社群"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "已標記"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "含有混合內容的群組"
-	},
 	"stats_statistics_groups_title": {
 		"message": "群組"
 	},
 	"stats_statistics_loading": {
 		"message": "正在載入統計資料..."
+	},
+	"stats_statistics_mixed": {
+		"message": "混合"
 	},
 	"stats_statistics_queued": {
 		"message": "佇列中的使用者"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "最後更新："
-	},
-	"stats_statistics_users_desc": {
-		"message": "其他被 Roblox 封禁的使用者"
 	},
 	"stats_statistics_users_title": {
 		"message": "使用者"

@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Penggunaan"
 	},
+	"stats_statistics_banned": {
+		"message": "Disekat"
+	},
 	"stats_statistics_community_title": {
 		"message": "Komuniti"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Dibenderakan"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "kumpulan dengan kandungan bercampur"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Kumpulan"
 	},
 	"stats_statistics_loading": {
 		"message": "Memuatkan statistik..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Bercampur"
 	},
 	"stats_statistics_queued": {
 		"message": "Pengguna Digilirkan"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Dikemas kini terakhir:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "pengguna lain disekat oleh Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Pengguna"

@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "使用量"
 	},
+	"stats_statistics_banned": {
+		"message": "禁止"
+	},
 	"stats_statistics_community_title": {
 		"message": "コミュニティ"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "フラグ付き"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "混在コンテンツを含むグループ"
-	},
 	"stats_statistics_groups_title": {
 		"message": "グループ"
 	},
 	"stats_statistics_loading": {
 		"message": "統計を読み込み中..."
+	},
+	"stats_statistics_mixed": {
+		"message": "混在"
 	},
 	"stats_statistics_queued": {
 		"message": "キュー中のユーザー"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "最終更新："
-	},
-	"stats_statistics_users_desc": {
-		"message": "Robloxによってバンされた他のユーザー"
 	},
 	"stats_statistics_users_title": {
 		"message": "ユーザー"

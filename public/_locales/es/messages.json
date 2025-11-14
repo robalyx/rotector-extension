@@ -1451,6 +1451,9 @@
 	"stats_queue_usage": {
 		"message": "Uso"
 	},
+	"stats_statistics_banned": {
+		"message": "Baneados"
+	},
 	"stats_statistics_community_title": {
 		"message": "Comunidad"
 	},
@@ -1463,14 +1466,14 @@
 	"stats_statistics_flagged": {
 		"message": "Marcados"
 	},
-	"stats_statistics_groups_desc": {
-		"message": "grupos con contenido mixto"
-	},
 	"stats_statistics_groups_title": {
 		"message": "Grupos"
 	},
 	"stats_statistics_loading": {
 		"message": "Cargando estadísticas..."
+	},
+	"stats_statistics_mixed": {
+		"message": "Mixto"
 	},
 	"stats_statistics_queued": {
 		"message": "Usuarios en Cola"
@@ -1486,9 +1489,6 @@
 	},
 	"stats_statistics_updated": {
 		"message": "Última actualización:"
-	},
-	"stats_statistics_users_desc": {
-		"message": "otros usuarios baneados por Roblox"
 	},
 	"stats_statistics_users_title": {
 		"message": "Usuarios"

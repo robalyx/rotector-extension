@@ -122,19 +122,33 @@
 				<div class="mt-3 text-center">
 					<div
 						class="
-            text-text-subtle flex items-center justify-center gap-1 text-2xs
+            text-text-subtle flex items-center justify-center gap-3 text-2xs
             dark:text-text-subtle-dark
           "
 					>
-						<Ban
-							class="
+						<div class="flex items-center gap-1">
+							<ShieldHalf
+								class="
+                  size-3
+                  text-amber-600
+                  dark:text-amber-400
+                "
+							/>
+							<span class="font-medium">{formatNumber($statistics?.totalMixedUsers)}</span>
+							{t('stats_statistics_mixed')}
+						</div>
+						<span class="text-border dark:text-border-dark">•</span>
+						<div class="flex items-center gap-1">
+							<Ban
+								class="
                   size-3
                   text-orange-600
                   dark:text-orange-400
                 "
-						/>
-						<span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
-						{t('stats_statistics_users_desc')}
+							/>
+							<span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
+							{t('stats_statistics_banned')}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -159,19 +173,33 @@
 				<div class="mt-3 text-center">
 					<div
 						class="
-            text-text-subtle flex items-center justify-center gap-1 text-2xs
+            text-text-subtle flex items-center justify-center gap-3 text-2xs
             dark:text-text-subtle-dark
           "
 					>
-						<ShieldHalf
-							class="
+						<div class="flex items-center gap-1">
+							<ShieldHalf
+								class="
                   size-3
                   text-amber-600
                   dark:text-amber-400
                 "
-						/>
-						<span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
-						{t('stats_statistics_groups_desc')}
+							/>
+							<span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
+							{t('stats_statistics_mixed')}
+						</div>
+						<span class="text-border dark:text-border-dark">•</span>
+						<div class="flex items-center gap-1">
+							<Ban
+								class="
+                  size-3
+                  text-orange-600
+                  dark:text-orange-400
+                "
+							/>
+							<span class="font-medium">{formatNumber($statistics?.totalBannedGroups)}</span>
+							{t('stats_statistics_banned')}
+						</div>
 					</div>
 				</div>
 			</div>

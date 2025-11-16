@@ -405,7 +405,7 @@
 		"message": "Error al eliminar API personalizada"
 	},
 	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Debido al modelo de permisos más estricto de Firefox, la integración de API personalizadas actualmente no es compatible con Firefox. La API del sistema Rotector seguirá funcionando normalmente. Si necesita soporte de API personalizadas, utilice Chrome u otros navegadores basados en Chromium."
+		"message": "Debido al modelo de permisos más estricto de Firefox, la integración de APIs personalizadas actualmente no es compatible en Firefox. La API del sistema de Rotector seguirá funcionando con normalidad. Si necesitas soporte para APIs personalizadas, usa Chrome u otros navegadores basados en Chromium."
 	},
 	"custom_api_mgmt_firefox_incompatible_title": {
 		"message": "API personalizadas no disponibles en Firefox"
@@ -447,19 +447,19 @@
 		"message": "Máximo de $1 APIs personalizadas alcanzado. Elimina una API existente para agregar una nueva."
 	},
 	"custom_api_mgmt_permission_granted_message": {
-		"message": "Sus APIs personalizadas ahora pueden conectarse a sitios web externos. Puede habilitar o deshabilitar APIs individuales usando los interruptores a continuación."
+		"message": "Tus APIs personalizadas ahora pueden conectarse a sitios web externos. Puedes habilitar o deshabilitar APIs individuales usando los interruptores a continuación."
 	},
 	"custom_api_mgmt_permission_granted_title": {
-		"message": "Permisos Concedidos"
+		"message": "Permisos concedidos"
 	},
 	"custom_api_mgmt_permission_notice_button": {
-		"message": "Conceder Permisos"
+		"message": "Conceder permisos"
 	},
 	"custom_api_mgmt_permission_notice_message": {
-		"message": "Las APIs personalizadas necesitan permiso para conectarse a sitios web externos para analizar usuarios de Roblox. Esto permite que la extensión envíe datos de usuario a sus APIs configuradas y muestre sus resultados junto con el análisis de Rotector."
+		"message": "Las APIs personalizadas necesitan permiso para conectarse a sitios web externos y poder analizar usuarios de Roblox. Esto permite que la extensión envíe datos de usuario a tus APIs configuradas y muestre sus resultados junto con el análisis de Rotector."
 	},
 	"custom_api_mgmt_permission_notice_title": {
-		"message": "Permisos Adicionales Requeridos"
+		"message": "Permisos adicionales requeridos"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

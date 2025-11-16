@@ -29,7 +29,11 @@
 		exportApi,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
-	import { requestCustomApiPermissions, hasCustomApiPermissions } from '@/lib/utils/permissions';
+	import {
+		extractOriginPattern,
+		hasPermissionsForOrigins,
+		requestPermissionsForOrigins
+	} from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
@@ -143,10 +147,15 @@
 			});
 		} catch (error) {
 			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
-				const granted = await requestCustomApiPermissions();
-				if (granted) {
-					hasPermissions = true;
+				// Extract origin from this API's URL
+				const origin = extractOriginPattern(api.url);
+				if (!origin) {
+					logger.error('Failed to extract origin from API URL:', { url: api.url });
+					return;
 				}
+
+				// Request permission for this origin
+				await requestPermissionsForOrigins([origin]);
 			} else {
 				logger.error('Failed to toggle custom API:', error);
 			}
@@ -264,7 +273,19 @@
 	async function handleGrantPermissions() {
 		grantingPermissions = true;
 		try {
-			const granted = await requestCustomApiPermissions();
+			// Collect origins from all custom APIs
+			const origins: string[] = [];
+			for (const api of $customApis) {
+				if (api.isSystem) continue;
+
+				const origin = extractOriginPattern(api.url);
+				if (origin && !origins.includes(origin)) {
+					origins.push(origin);
+				}
+			}
+
+			// Request permissions for all custom API origins
+			const granted = origins.length > 0 ? await requestPermissionsForOrigins(origins) : true;
 			if (granted) {
 				hasPermissions = true;
 			}
@@ -278,14 +299,36 @@
 	// Initialize
 	onMount(() => {
 		loadCustomApis()
-			.then(async () => {
+			.then(() => {
 				loading = false;
 				showPermissionNotice = true;
-				hasPermissions = await hasCustomApiPermissions();
 			})
 			.catch((error) => {
 				logger.error('Failed to load custom APIs:', error);
 				loading = false;
+			});
+	});
+
+	// Check and request permissions when custom APIs change
+	$effect(() => {
+		if (loading) return;
+
+		const origins: string[] = [];
+		for (const api of $customApis) {
+			if (api.isSystem) continue;
+			const origin = extractOriginPattern(api.url);
+			if (origin && !origins.includes(origin)) {
+				origins.push(origin);
+			}
+		}
+
+		hasPermissionsForOrigins(origins)
+			.then((result) => {
+				hasPermissions = origins.length > 0 ? result : true;
+			})
+			.catch((error) => {
+				logger.error('Failed to check permissions:', error);
+				hasPermissions = false;
 			});
 	});
 </script>

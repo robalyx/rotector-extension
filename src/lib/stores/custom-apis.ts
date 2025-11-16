@@ -4,7 +4,7 @@ import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
 import { exportCustomApi, importCustomApi } from '../utils/api-export';
-import { hasCustomApiPermissions } from '../utils/permissions';
+import { hasPermissionsForOrigins, extractOriginPattern } from '../utils/permissions';
 
 // Maximum number of custom APIs allowed
 export const MAX_CUSTOM_APIS = 5;
@@ -92,12 +92,20 @@ export async function addCustomApi(
 	// Check permissions before enabling API
 	let finalEnabled = config.enabled;
 	if (config.enabled) {
-		const hasPermissions = await hasCustomApiPermissions();
-		if (!hasPermissions) {
+		// Extract origin from the API URL
+		const origin = extractOriginPattern(config.url);
+		if (!origin) {
+			logger.error('Failed to extract origin from API URL:', { url: config.url });
 			finalEnabled = false;
-			logger.info('Auto-disabled custom API due to missing permissions:', {
-				name: config.name
-			});
+		} else {
+			const hasPermissions = await hasPermissionsForOrigins([origin]);
+			if (!hasPermissions) {
+				finalEnabled = false;
+				logger.info('Auto-disabled custom API due to missing permissions:', {
+					name: config.name,
+					origin
+				});
+			}
 		}
 	}
 
@@ -135,7 +143,14 @@ export async function updateCustomApi(
 
 	// Check permissions when enabling a custom API
 	if (updates.enabled === true && !current[index].isSystem) {
-		const hasPermissions = await hasCustomApiPermissions();
+		// Extract origin from the API's URL
+		const origin = extractOriginPattern(current[index].url);
+		if (!origin) {
+			logger.error('Failed to extract origin from API URL:', { url: current[index].url });
+			throw new Error('INVALID_URL');
+		}
+
+		const hasPermissions = await hasPermissionsForOrigins([origin]);
 		if (!hasPermissions) {
 			throw new Error('PERMISSIONS_REQUIRED');
 		}
@@ -441,10 +456,11 @@ export async function importApi(encodedData: string): Promise<CustomApiConfig> {
 		counter++;
 	}
 
-	// Apply the new name if it was changed
+	// Apply the new name and force disabled for safety
 	const configToAdd = {
 		...decodedConfig,
-		name: newName
+		name: newName,
+		enabled: false
 	};
 
 	// Add the API using existing function

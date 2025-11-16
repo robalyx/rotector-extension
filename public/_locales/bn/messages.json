@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "ভুল URL ফর্ম্যাট"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL পরিবর্তিত হয়েছে। নিরাপত্তার জন্য API নিষ্ক্রিয় করা হয়েছে। অনুগ্রহ করে এটি পুনরায় সক্রিয় করুন এবং নতুন URL-এর জন্য অনুমতি প্রদান করুন।"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "ছবি সরান"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "সংরক্ষণ হচ্ছে..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "এই কাস্টম API সক্রিয় করুন"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "অবৈধ ছবি টাইপ। MIME টাইপ ফাইল এক্সটেনশনের সাথে মেলে না"

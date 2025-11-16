@@ -309,10 +309,8 @@
 			});
 	});
 
-	// Check and request permissions when custom APIs change
-	$effect(() => {
-		if (loading) return;
-
+	// Compute unique origins from custom APIs
+	const uniqueOrigins = $derived(() => {
 		const origins: string[] = [];
 		for (const api of $customApis) {
 			if (api.isSystem) continue;
@@ -321,7 +319,14 @@
 				origins.push(origin);
 			}
 		}
+		return origins;
+	});
 
+	// Request permissions when origins array changes
+	$effect(() => {
+		if (loading) return;
+
+		const origins = uniqueOrigins();
 		hasPermissionsForOrigins(origins)
 			.then((result) => {
 				hasPermissions = origins.length > 0 ? result : true;

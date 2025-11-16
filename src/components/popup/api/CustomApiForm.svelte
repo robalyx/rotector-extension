@@ -192,6 +192,11 @@
 					urlChanged,
 					autoDisabled: urlChanged
 				});
+
+				// Notify user if API was auto-disabled due to URL change
+				if (urlChanged) {
+					alert(t('custom_api_form_alert_url_changed_disabled'));
+				}
 			} else {
 				// Add new API
 				await addCustomApi({

@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Inkorrektes URL-Format"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API-URL wurde geändert. Die API wurde aus Sicherheitsgründen deaktiviert. Bitte aktivieren Sie sie erneut und erteilen Sie Berechtigungen für die neue URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Bild entfernen"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Wird gespeichert..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Diese benutzerdefinierte API aktivieren"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Ungültiger Bildtyp. MIME-Typ stimmt nicht mit Dateierweiterung überein"

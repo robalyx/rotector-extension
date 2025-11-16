@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Неправильний формат URL"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API змінено. API було вимкнено з міркувань безпеки. Будь ласка, увімкніть його знову та надайте дозволи для нового URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Видалити зображення"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Збереження..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Увімкнути цей користувацький API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Неправильний тип зображення. MIME тип не відповідає розширенню файлу"

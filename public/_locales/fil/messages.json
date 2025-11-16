@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Maling Format ng URL"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "Nabago ang API URL. Ang API ay na-disable para sa seguridad. Mangyaring i-enable itong muli at magbigay ng mga pahintulot para sa bagong URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Alisin ang Image"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Nini-save..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "I-enable ang custom API na ito"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Hindi wastong uri ng image. Ang MIME type ay hindi tumutugma sa file extension"

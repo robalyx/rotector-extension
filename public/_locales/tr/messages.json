@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Yanlış URL Formatı"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL değişti. API güvenlik için devre dışı bırakıldı. Lütfen tekrar etkinleştirin ve yeni URL için izinleri verin."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Görseli Kaldır"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Kaydediliyor..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Bu özel API'yi etkinleştir"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Geçersiz görsel türü. MIME türü dosya uzantısıyla eşleşmiyor"

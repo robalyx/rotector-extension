@@ -143,10 +143,13 @@ export async function updateCustomApi(
 
 	// Check permissions when enabling a custom API
 	if (updates.enabled === true && !current[index].isSystem) {
+		// Use the new URL if provided or use the current URL
+		const urlToCheck = updates.url ?? current[index].url;
+
 		// Extract origin from the API's URL
-		const origin = extractOriginPattern(current[index].url);
+		const origin = extractOriginPattern(urlToCheck);
 		if (!origin) {
-			logger.error('Failed to extract origin from API URL:', { url: current[index].url });
+			logger.error('Failed to extract origin from API URL:', { url: urlToCheck });
 			throw new Error('INVALID_URL');
 		}
 

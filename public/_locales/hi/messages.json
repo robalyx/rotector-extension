@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "गलत URL प्रारूप"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL बदल गया है। सुरक्षा के लिए API को अक्षम कर दिया गया है। कृपया इसे फिर से सक्षम करें और नए URL के लिए अनुमतियां दें।"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "छवि हटाएं"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "सहेज रहा है..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "इस कस्टम API को सक्षम करें"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "अमान्य छवि प्रकार। MIME प्रकार फ़ाइल एक्सटेंशन से मेल नहीं खाता"

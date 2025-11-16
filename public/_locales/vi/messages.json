@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Định dạng URL Sai"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API đã thay đổi. API đã bị vô hiệu hóa để bảo mật. Vui lòng bật lại và cấp quyền cho URL mới."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Xóa Hình ảnh"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Đang lưu..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Bật API tùy chỉnh này"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Loại hình ảnh không hợp lệ. Loại MIME không khớp với phần mở rộng tệp"

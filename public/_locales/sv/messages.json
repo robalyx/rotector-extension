@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Inkorrekt URL-format"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API-URL ändrad. API:et har inaktiverats av säkerhetsskäl. Vänligen aktivera det igen och bevilja behörigheter för den nya URL:en."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Ta bort bild"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Sparar..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Aktivera detta anpassade API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Ogiltig bildtyp. MIME-typ matchar inte filtillägg"

@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Incorrect URL Format"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL changed. The API has been disabled for security. Please enable it again and grant permissions for the new URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Remove Image"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Saving..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Enable this custom API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Invalid image type. MIME type does not match file extension"

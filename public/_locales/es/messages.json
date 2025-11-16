@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Formato de URL Incorrecto"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "La URL de la API ha cambiado. La API se ha deshabilitado por seguridad. Por favor, habilítela nuevamente y otorgue permisos para la nueva URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Eliminar Imagen"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Guardando..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Habilitar esta API personalizada"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Tipo de imagen inválido. El tipo MIME no coincide con la extensión del archivo"

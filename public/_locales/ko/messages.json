@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "잘못된 URL 형식"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL이 변경되었습니다. 보안을 위해 API가 비활성화되었습니다. 다시 활성화하고 새 URL에 대한 권한을 부여하세요."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "이미지 제거"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "저장 중..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "이 사용자 정의 API 활성화"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "잘못된 이미지 형식입니다. MIME 유형이 파일 확장자와 일치하지 않습니다"

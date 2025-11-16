@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "錯誤的 URL 格式"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL 已變更。為安全起見,該 API 已被停用。請重新啟用並授予新 URL 的權限。"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "移除圖片"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "儲存中..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "啟用此自訂 API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "無效的圖片類型。MIME 類型與副檔名不符"

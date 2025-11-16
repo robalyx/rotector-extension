@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Onjuist URL-formaat"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API-URL gewijzigd. De API is uit veiligheidsoverwegingen uitgeschakeld. Schakel deze opnieuw in en verleen machtigingen voor de nieuwe URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Afbeelding Verwijderen"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Opslaan..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Deze aangepaste API inschakelen"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Ongeldig afbeeldingstype. MIME-type komt niet overeen met bestandsextensie"

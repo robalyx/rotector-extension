@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "誤ったURL形式"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URLが変更されました。セキュリティのため、APIが無効化されました。再度有効化して、新しいURLのアクセス許可を付与してください。"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "画像を削除"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "保存中..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "このカスタムAPIを有効化"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "無効な画像タイプです。MIMEタイプがファイル拡張子と一致しません"

@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Неправильный формат URL"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API изменён. API был отключён в целях безопасности. Пожалуйста, включите его снова и предоставьте разрешения для нового URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Удалить изображение"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Сохранение..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Включить этот пользовательский API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Неверный тип изображения. MIME-тип не соответствует расширению файла"

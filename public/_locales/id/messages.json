@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Format URL yang Salah"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API telah diubah. API telah dinonaktifkan untuk keamanan. Silakan aktifkan lagi dan berikan izin untuk URL baru."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Hapus Gambar"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Menyimpan..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Aktifkan API kustom ini"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Jenis gambar tidak valid. Jenis MIME tidak cocok dengan ekstensi file"

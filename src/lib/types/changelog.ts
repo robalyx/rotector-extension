@@ -70,6 +70,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Report helper setting requirement - Auto-fill feature now checks if Advanced Violation Information is enabled and displays appropriate guidance'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Pagination status indicators - Status indicators now properly update when navigating between pages on friends, followers, and following lists'
 			}
 		]
 	},

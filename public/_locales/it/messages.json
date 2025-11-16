@@ -456,7 +456,7 @@
 		"message": "Concedi Autorizzazioni"
 	},
 	"custom_api_mgmt_permission_notice_message": {
-		"message": "Le API personalizzate necessitano dell'autorizzazione per connettersi a siti web esterni per poter analizzare gli utenti di Roblox. Questo permette all'estensione di inviare i dati degli utenti alle API configurate e visualizzare i loro risultati insieme all'analisi di Rotector."
+		"message": "Le API personalizzate necessitano delle autorizzazioni per connettersi a siti web esterni per poter analizzare gli utenti di Roblox. Questo permette all'estensione di inviare i dati degli utenti alle API configurate e visualizzare i loro risultati insieme all'analisi di Rotector."
 	},
 	"custom_api_mgmt_permission_notice_title": {
 		"message": "Autorizzazioni Aggiuntive Richieste"

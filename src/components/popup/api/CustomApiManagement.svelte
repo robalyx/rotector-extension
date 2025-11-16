@@ -58,7 +58,6 @@
 	let showPermissionNotice = $state(false);
 	let grantingPermissions = $state(false);
 	let hasPermissions = $state(false);
-	let isFirefox = $state(navigator.userAgent.includes('Firefox'));
 
 	// Computed
 	const canAddMore = $derived($customApis.filter((api) => !api.isSystem).length < MAX_CUSTOM_APIS);
@@ -367,65 +366,47 @@
 		</button>
 	</div>
 
-	<!-- Permission/Firefox Notice Banner -->
+	<!-- Permission Notice Banner -->
 	{#if showPermissionNotice}
-		{#if isFirefox}
-			<!-- Firefox Incompatibility Notice -->
-			<div class="permission-notice-banner">
-				<div class="permission-notice-header">
-					<div class="permission-notice-icon">
+		<div class="permission-notice-banner" class:granted={hasPermissions}>
+			<div class="permission-notice-header">
+				<div class="permission-notice-icon">
+					{#if hasPermissions}
+						<Check size={20} />
+					{:else}
 						<AlertTriangle size={20} />
-					</div>
-					<h4 class="permission-notice-title">
-						{t('custom_api_mgmt_firefox_incompatible_title')}
-					</h4>
+					{/if}
 				</div>
-				<p class="permission-notice-message">
-					{t('custom_api_mgmt_firefox_incompatible_message')}
-				</p>
-			</div>
-		{:else}
-			<!-- Chrome Permission Notice -->
-			<div class="permission-notice-banner" class:granted={hasPermissions}>
-				<div class="permission-notice-header">
-					<div class="permission-notice-icon">
-						{#if hasPermissions}
-							<Check size={20} />
-						{:else}
-							<AlertTriangle size={20} />
-						{/if}
-					</div>
-					<h4 class="permission-notice-title">
-						{t(
-							hasPermissions
-								? 'custom_api_mgmt_permission_granted_title'
-								: 'custom_api_mgmt_permission_notice_title'
-						)}
-					</h4>
-				</div>
-				<p class="permission-notice-message">
+				<h4 class="permission-notice-title">
 					{t(
 						hasPermissions
-							? 'custom_api_mgmt_permission_granted_message'
-							: 'custom_api_mgmt_permission_notice_message'
+							? 'custom_api_mgmt_permission_granted_title'
+							: 'custom_api_mgmt_permission_notice_title'
 					)}
-				</p>
-				{#if !hasPermissions}
-					<button
-						class="permission-notice-button"
-						disabled={grantingPermissions}
-						onclick={handleGrantPermissions}
-						type="button"
-					>
-						{#if grantingPermissions}
-							<LoadingSpinner size="small" />
-						{:else}
-							{t('custom_api_mgmt_permission_notice_button')}
-						{/if}
-					</button>
-				{/if}
+				</h4>
 			</div>
-		{/if}
+			<p class="permission-notice-message">
+				{t(
+					hasPermissions
+						? 'custom_api_mgmt_permission_granted_message'
+						: 'custom_api_mgmt_permission_notice_message'
+				)}
+			</p>
+			{#if !hasPermissions}
+				<button
+					class="permission-notice-button"
+					disabled={grantingPermissions}
+					onclick={handleGrantPermissions}
+					type="button"
+				>
+					{#if grantingPermissions}
+						<LoadingSpinner size="small" />
+					{:else}
+						{t('custom_api_mgmt_permission_notice_button')}
+					{/if}
+				</button>
+			{/if}
+		</div>
 	{/if}
 
 	<!-- API List -->
@@ -613,7 +594,7 @@
 			<!-- Add/Import Buttons -->
 			<div class="api-list-actions">
 				{#if canAddMore}
-					<button class="add-api-card" disabled={isFirefox} onclick={handleAdd} type="button">
+					<button class="add-api-card" onclick={handleAdd} type="button">
 						<Plus size={16} />
 						<span>{t('custom_api_mgmt_button_add')}</span>
 					</button>
@@ -624,7 +605,7 @@
 				{/if}
 				<button
 					class="import-api-button"
-					disabled={isFirefox || !canAddMore}
+					disabled={!canAddMore}
 					onclick={() => (showImportModal = true)}
 					title={t('custom_api_mgmt_title_import')}
 					type="button"

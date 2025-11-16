@@ -8,6 +8,7 @@ const apiDomain = isDev ? 'dev-roscoe.robalyx.com' : 'roscoe.robalyx.com';
 // See https://wxt.dev/api/config.html
 export default defineConfig({
 	srcDir: 'src',
+	manifestVersion: 3,
 	modules: ['@wxt-dev/module-svelte'],
 	vite: () => ({
 		plugins: [tailwindcss()],

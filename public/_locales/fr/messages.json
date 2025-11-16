@@ -405,7 +405,7 @@
 		"message": "Échec de la suppression de l'API personnalisée"
 	},
 	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "En raison du modèle de permissions plus strict de Firefox, l'intégration d'API personnalisées n'est actuellement pas prise en charge sur Firefox. L'API système Rotector continuera à fonctionner normalement. Si vous avez besoin de la prise en charge des API personnalisées, veuillez utiliser Chrome ou d'autres navigateurs basés sur Chromium."
+		"message": "En raison du modèle d'autorisations plus strict de Firefox, l'intégration d'API personnalisées n'est actuellement pas prise en charge sur Firefox. L'API système de Rotector continuera à fonctionner normalement. Si vous avez besoin d'une prise en charge d'API personnalisées, veuillez utiliser Chrome ou d'autres navigateurs basés sur Chromium."
 	},
 	"custom_api_mgmt_firefox_incompatible_title": {
 		"message": "API personnalisées non disponibles sur Firefox"
@@ -456,7 +456,7 @@
 		"message": "Accorder les Autorisations"
 	},
 	"custom_api_mgmt_permission_notice_message": {
-		"message": "Les APIs personnalisées ont besoin d'autorisations pour se connecter à des sites web externes afin d'analyser les utilisateurs Roblox. Cela permet à l'extension d'envoyer des données utilisateur à vos APIs configurées et d'afficher leurs résultats aux côtés de l'analyse de Rotector."
+		"message": "Les API personnalisées nécessitent des autorisations pour se connecter à des sites web externes afin d'analyser les utilisateurs Roblox. Cela permet à l'extension d'envoyer des données utilisateur à vos API configurées et d'afficher leurs résultats aux côtés de l'analyse de Rotector."
 	},
 	"custom_api_mgmt_permission_notice_title": {
 		"message": "Autorisations Supplémentaires Requises"

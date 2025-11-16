@@ -203,13 +203,18 @@
 	color: var(--color-primary);
 	min-width: 0;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		border-color: var(--color-primary);
 		background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);
 	}
 
-	&:active {
+	&:active:not(:disabled) {
 		transform: scale(0.98);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 }
 
@@ -250,6 +255,68 @@
 	border: 1px solid color-mix(in srgb, var(--color-warning) 30%, transparent);
 	border-radius: 0.375rem;
 	line-height: 1.4;
+}
+
+/* =================================
+   PERMISSION NOTICE BANNER
+   ================================= */
+
+@utility permission-notice-banner {
+	@apply flex flex-col rounded-lg p-4;
+	gap: 0.75rem;
+	background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
+	margin-bottom: 0.75rem;
+
+	&.granted {
+		background-color: color-mix(in srgb, var(--color-success) 10%, transparent);
+		border-color: color-mix(in srgb, var(--color-success) 30%, transparent);
+	}
+}
+
+@utility permission-notice-header {
+	@apply flex items-center gap-2;
+}
+
+@utility permission-notice-icon {
+	@apply flex-shrink-0;
+	color: var(--color-error);
+
+	.granted & {
+		color: var(--color-success);
+	}
+}
+
+@utility permission-notice-title {
+	@apply text-sm font-semibold;
+	color: var(--color-error);
+	margin: 0;
+
+	.granted & {
+		color: var(--color-success);
+	}
+}
+
+@utility permission-notice-message {
+	@apply text-xs;
+	color: var(--color-text-secondary);
+	margin: 0;
+	line-height: 1.5;
+}
+
+@utility permission-notice-button {
+	@apply w-full px-4 py-2 text-sm rounded-md transition-all duration-200 cursor-pointer border-none font-medium;
+	background-color: var(--color-error);
+	color: white;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-error-hover);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
 }
 
 /* =================================

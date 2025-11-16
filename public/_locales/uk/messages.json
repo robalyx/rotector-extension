@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Неправильний формат URL"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API змінено. API було вимкнено з міркувань безпеки. Будь ласка, увімкніть його знову та надайте дозволи для нового URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Видалити зображення"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Збереження..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Увімкнути цей користувацький API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Неправильний тип зображення. MIME тип не відповідає розширенню файлу"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Не вдалося видалити користувацький API"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Не вдалося оновити статус API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Через більш суворі вимоги дозволів у Firefox, інтеграція користувацьких API наразі не підтримується у Firefox. Системний API Rotector продовжуватиме працювати нормально. Якщо вам потрібна підтримка користувацьких API, будь ласка, використовуйте Chrome або інші браузери на основі Chromium."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Користувацькі API недоступні у Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Досягнуто максимуму $1 користувацьких API. Видаліть існуючий API, щоб додати новий."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Ваші користувацькі API тепер можуть підключатися до зовнішніх вебсайтів. Ви можете вмикати або вимикати окремі API за допомогою перемикачів нижче."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Дозволи надано"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Надати дозволи"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Користувацькі API потребують дозволу на підключення до зовнішніх вебсайтів, щоб вони могли аналізувати користувачів Roblox. Це дозволяє розширенню надсилати дані користувачів до ваших налаштованих API і відображати їх результати разом з аналізом Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Потрібні додаткові дозволи"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "мс"

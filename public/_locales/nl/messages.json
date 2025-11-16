@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Onjuist URL-formaat"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API-URL gewijzigd. De API is uit veiligheidsoverwegingen uitgeschakeld. Schakel deze opnieuw in en verleen machtigingen voor de nieuwe URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Afbeelding Verwijderen"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Opslaan..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Deze aangepaste API inschakelen"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Ongeldig afbeeldingstype. MIME-type komt niet overeen met bestandsextensie"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Kan aangepaste API niet verwijderen"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Kan API-status niet bijwerken"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Vanwege het strengere permissiemodel van Firefox wordt aangepaste API-integratie momenteel niet ondersteund op Firefox. De Rotector systeem-API blijft normaal werken. Als u aangepaste API-ondersteuning nodig heeft, gebruik dan Chrome of andere Chromium-gebaseerde browsers."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Aangepaste API's niet beschikbaar op Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Maximum van $1 aangepaste API's bereikt. Verwijder een bestaande API om een nieuwe toe te voegen."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Uw aangepaste API's kunnen nu verbinding maken met externe websites. U kunt individuele API's in- of uitschakelen met de schakelaars hieronder."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Machtigingen verleend"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Machtigingen verlenen"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Aangepaste API's hebben toestemming nodig om verbinding te maken met externe websites, zodat ze Roblox-gebruikers kunnen analyseren. Hierdoor kan de extensie gebruikersgegevens verzenden naar uw geconfigureerde API's en hun resultaten weergeven naast Rotectors analyse."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Aanvullende machtigingen vereist"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

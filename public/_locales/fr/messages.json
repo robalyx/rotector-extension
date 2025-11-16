@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Format d'URL Incorrect"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "L'URL de l'API a changé. L'API a été désactivée pour des raisons de sécurité. Veuillez l'activer à nouveau et accorder les autorisations pour la nouvelle URL."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Supprimer l'Image"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Enregistrement..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Activer cette API personnalisée"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Type d'image invalide. Le type MIME ne correspond pas à l'extension du fichier"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Échec de la suppression de l'API personnalisée"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Échec de la mise à jour du statut de l'API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "En raison du modèle d'autorisations plus strict de Firefox, l'intégration d'API personnalisées n'est actuellement pas prise en charge sur Firefox. L'API système de Rotector continuera à fonctionner normalement. Si vous avez besoin d'une prise en charge d'API personnalisées, veuillez utiliser Chrome ou d'autres navigateurs basés sur Chromium."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "API personnalisées non disponibles sur Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Maximum de $1 API personnalisées atteint. Supprimez une API existante pour en ajouter une nouvelle."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Vos API personnalisées peuvent désormais se connecter à des sites web externes. Vous pouvez activer ou désactiver des API individuelles à l'aide des boutons de basculement ci-dessous."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Autorisations Accordées"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Accorder les Autorisations"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Les API personnalisées nécessitent des autorisations pour se connecter à des sites web externes afin d'analyser les utilisateurs Roblox. Cela permet à l'extension d'envoyer des données utilisateur à vos API configurées et d'afficher leurs résultats aux côtés de l'analyse de Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Autorisations Supplémentaires Requises"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

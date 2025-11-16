@@ -16,7 +16,6 @@
 	let name = $state(editingApi?.name || '');
 	let url = $state(editingApi?.url || '');
 	let timeout = $state(editingApi?.timeout || 5000);
-	let enabled = $state(editingApi?.enabled ?? true);
 	let landscapeImageDataUrl = $state(editingApi?.landscapeImageDataUrl || '');
 
 	// Validation state
@@ -175,26 +174,36 @@
 
 		try {
 			if (isEditing() && editingApi) {
+				// Check if URL changed
+				const urlChanged = url.trim() !== editingApi.url;
+
 				// Update existing API
 				await updateCustomApi(editingApi.id, {
 					name: name.trim(),
 					url: url.trim(),
 					timeout,
-					enabled,
+					...(urlChanged ? { enabled: false } : {}),
 					landscapeImageDataUrl: landscapeImageDataUrl || undefined
 				});
 
 				logger.userAction('custom_api_updated', {
 					apiId: editingApi.id,
-					name: name.trim()
+					name: name.trim(),
+					urlChanged,
+					autoDisabled: urlChanged
 				});
+
+				// Notify user if API was auto-disabled due to URL change
+				if (urlChanged) {
+					alert(t('custom_api_form_alert_url_changed_disabled'));
+				}
 			} else {
 				// Add new API
 				await addCustomApi({
 					name: name.trim(),
 					url: url.trim(),
 					timeout,
-					enabled,
+					enabled: false,
 					landscapeImageDataUrl: landscapeImageDataUrl || undefined
 				});
 
@@ -338,14 +347,6 @@
 					</button>
 				</div>
 			{/if}
-		</div>
-
-		<!-- Enabled Toggle -->
-		<div class="form-field">
-			<label class="form-checkbox">
-				<input type="checkbox" bind:checked={enabled} />
-				<span>{t('custom_api_form_checkbox_enable')}</span>
-			</label>
 		</div>
 	</div>
 </Modal>

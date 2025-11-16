@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Inkorrekt URL-format"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API-URL ändrad. API:et har inaktiverats av säkerhetsskäl. Vänligen aktivera det igen och bevilja behörigheter för den nya URL:en."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Ta bort bild"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Sparar..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Aktivera detta anpassade API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Ogiltig bildtyp. MIME-typ matchar inte filtillägg"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Misslyckades med att ta bort anpassat API"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Misslyckades med att uppdatera API-status"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "På grund av Firefox striktare behörighetsmodell stöds för närvarande inte integration av anpassade API:er i Firefox. Rotectors system-API kommer att fortsätta fungera normalt. Om du behöver stöd för anpassade API:er, använd Chrome eller andra Chromium-baserade webbläsare."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Anpassade API:er inte tillgängliga på Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Maximum på $1 anpassade API:er uppnått. Ta bort ett befintligt API för att lägga till ett nytt."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Dina anpassade API:er kan nu ansluta till externa webbplatser. Du kan aktivera eller inaktivera enskilda API:er med hjälp av växlarna nedan."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Behörigheter beviljade"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Bevilja behörigheter"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Anpassade API:er behöver tillstånd att ansluta till externa webbplatser för att analysera Roblox-användare. Detta gör det möjligt för tillägget att skicka användardata till dina konfigurerade API:er och visa deras resultat tillsammans med Rotectors analys."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Ytterligare behörigheter krävs"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

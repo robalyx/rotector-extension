@@ -4,6 +4,7 @@ import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
 import { exportCustomApi, importCustomApi } from '../utils/api-export';
+import { hasPermissionsForOrigins, extractOriginPattern } from '../utils/permissions';
 
 // Maximum number of custom APIs allowed
 export const MAX_CUSTOM_APIS = 5;
@@ -88,8 +89,29 @@ export async function addCustomApi(
 		throw new Error(`Maximum of ${MAX_CUSTOM_APIS} custom APIs allowed`);
 	}
 
+	// Check permissions before enabling API
+	let finalEnabled = config.enabled;
+	if (config.enabled) {
+		// Extract origin from the API URL
+		const origin = extractOriginPattern(config.url);
+		if (!origin) {
+			logger.error('Failed to extract origin from API URL:', { url: config.url });
+			finalEnabled = false;
+		} else {
+			const hasPermissions = await hasPermissionsForOrigins([origin]);
+			if (!hasPermissions) {
+				finalEnabled = false;
+				logger.info('Auto-disabled custom API due to missing permissions:', {
+					name: config.name,
+					origin
+				});
+			}
+		}
+	}
+
 	const newApi: CustomApiConfig = {
 		...config,
+		enabled: finalEnabled,
 		id: generateCustomApiId(),
 		order: current.length,
 		createdAt: Date.now()
@@ -98,7 +120,7 @@ export async function addCustomApi(
 	const updated = [...current, newApi];
 	await saveCustomApis(updated);
 
-	logger.info('Added custom API:', { id: newApi.id, name: newApi.name });
+	logger.info('Added custom API:', { id: newApi.id, name: newApi.name, enabled: finalEnabled });
 	return newApi;
 }
 
@@ -117,6 +139,24 @@ export async function updateCustomApi(
 	// Prevent updating system APIs
 	if (current[index].isSystem) {
 		throw new Error('Cannot modify system APIs');
+	}
+
+	// Check permissions when enabling a custom API
+	if (updates.enabled === true && !current[index].isSystem) {
+		// Use the new URL if provided or use the current URL
+		const urlToCheck = updates.url ?? current[index].url;
+
+		// Extract origin from the API's URL
+		const origin = extractOriginPattern(urlToCheck);
+		if (!origin) {
+			logger.error('Failed to extract origin from API URL:', { url: urlToCheck });
+			throw new Error('INVALID_URL');
+		}
+
+		const hasPermissions = await hasPermissionsForOrigins([origin]);
+		if (!hasPermissions) {
+			throw new Error('PERMISSIONS_REQUIRED');
+		}
 	}
 
 	const updated = [...current];
@@ -419,10 +459,11 @@ export async function importApi(encodedData: string): Promise<CustomApiConfig> {
 		counter++;
 	}
 
-	// Apply the new name if it was changed
+	// Apply the new name and force disabled for safety
 	const configToAdd = {
 		...decodedConfig,
-		name: newName
+		name: newName,
+		enabled: false
 	};
 
 	// Add the API using existing function

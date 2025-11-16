@@ -14,7 +14,8 @@
 		Share2,
 		Copy,
 		Download,
-		Upload
+		Upload,
+		AlertTriangle
 	} from 'lucide-svelte';
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import {
@@ -28,6 +29,11 @@
 		exportApi,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
+	import {
+		extractOriginPattern,
+		hasPermissionsForOrigins,
+		requestPermissionsForOrigins
+	} from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
@@ -49,6 +55,9 @@
 	let testingApiId = $state<string | null>(null);
 	let openExportDropdown = $state<string | null>(null);
 	let loading = $state(true);
+	let showPermissionNotice = $state(false);
+	let grantingPermissions = $state(false);
+	let hasPermissions = $state(false);
 
 	// Computed
 	const canAddMore = $derived($customApis.filter((api) => !api.isSystem).length < MAX_CUSTOM_APIS);
@@ -136,8 +145,19 @@
 				enabled
 			});
 		} catch (error) {
-			logger.error('Failed to toggle custom API:', error);
-			alert(t('custom_api_mgmt_error_update_status'));
+			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
+				// Extract origin from this API's URL
+				const origin = extractOriginPattern(api.url);
+				if (!origin) {
+					logger.error('Failed to extract origin from API URL:', { url: api.url });
+					return;
+				}
+
+				// Request permission for this origin
+				await requestPermissionsForOrigins([origin]);
+			} else {
+				logger.error('Failed to toggle custom API:', error);
+			}
 		}
 	}
 
@@ -248,15 +268,71 @@
 		}
 	}
 
+	// Handle grant permissions button click
+	async function handleGrantPermissions() {
+		grantingPermissions = true;
+		try {
+			// Collect origins from all custom APIs
+			const origins: string[] = [];
+			for (const api of $customApis) {
+				if (api.isSystem) continue;
+
+				const origin = extractOriginPattern(api.url);
+				if (origin && !origins.includes(origin)) {
+					origins.push(origin);
+				}
+			}
+
+			// Request permissions for all custom API origins
+			const granted = origins.length > 0 ? await requestPermissionsForOrigins(origins) : true;
+			if (granted) {
+				hasPermissions = true;
+			}
+		} catch (error) {
+			logger.error('Failed to request permissions:', error);
+		} finally {
+			grantingPermissions = false;
+		}
+	}
+
 	// Initialize
 	onMount(() => {
 		loadCustomApis()
 			.then(() => {
 				loading = false;
+				showPermissionNotice = true;
 			})
 			.catch((error) => {
 				logger.error('Failed to load custom APIs:', error);
 				loading = false;
+			});
+	});
+
+	// Compute unique origins from custom APIs
+	const uniqueOrigins = $derived(() => {
+		const origins: string[] = [];
+		for (const api of $customApis) {
+			if (api.isSystem) continue;
+			const origin = extractOriginPattern(api.url);
+			if (origin && !origins.includes(origin)) {
+				origins.push(origin);
+			}
+		}
+		return origins;
+	});
+
+	// Request permissions when origins array changes
+	$effect(() => {
+		if (loading) return;
+
+		const origins = uniqueOrigins();
+		hasPermissionsForOrigins(origins)
+			.then((result) => {
+				hasPermissions = origins.length > 0 ? result : true;
+			})
+			.catch((error) => {
+				logger.error('Failed to check permissions:', error);
+				hasPermissions = false;
 			});
 	});
 </script>
@@ -289,6 +365,49 @@
 			{t('custom_api_mgmt_button_view_integration_guide')}
 		</button>
 	</div>
+
+	<!-- Permission Notice Banner -->
+	{#if showPermissionNotice}
+		<div class="permission-notice-banner" class:granted={hasPermissions}>
+			<div class="permission-notice-header">
+				<div class="permission-notice-icon">
+					{#if hasPermissions}
+						<Check size={20} />
+					{:else}
+						<AlertTriangle size={20} />
+					{/if}
+				</div>
+				<h4 class="permission-notice-title">
+					{t(
+						hasPermissions
+							? 'custom_api_mgmt_permission_granted_title'
+							: 'custom_api_mgmt_permission_notice_title'
+					)}
+				</h4>
+			</div>
+			<p class="permission-notice-message">
+				{t(
+					hasPermissions
+						? 'custom_api_mgmt_permission_granted_message'
+						: 'custom_api_mgmt_permission_notice_message'
+				)}
+			</p>
+			{#if !hasPermissions}
+				<button
+					class="permission-notice-button"
+					disabled={grantingPermissions}
+					onclick={handleGrantPermissions}
+					type="button"
+				>
+					{#if grantingPermissions}
+						<LoadingSpinner size="small" />
+					{:else}
+						{t('custom_api_mgmt_permission_notice_button')}
+					{/if}
+				</button>
+			{/if}
+		</div>
+	{/if}
 
 	<!-- API List -->
 	<div class="custom-api-list">

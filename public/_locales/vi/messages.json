@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Định dạng URL Sai"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API đã thay đổi. API đã bị vô hiệu hóa để bảo mật. Vui lòng bật lại và cấp quyền cho URL mới."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Xóa Hình ảnh"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Đang lưu..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Bật API tùy chỉnh này"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Loại hình ảnh không hợp lệ. Loại MIME không khớp với phần mở rộng tệp"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Không xóa được API tùy chỉnh"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Không cập nhật được trạng thái API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Do mô hình quyền hạn nghiêm ngặt hơn của Firefox, tích hợp API tùy chỉnh hiện không được hỗ trợ trên Firefox. API hệ thống Rotector sẽ tiếp tục hoạt động bình thường. Nếu bạn cần hỗ trợ API tùy chỉnh, vui lòng sử dụng Chrome hoặc các trình duyệt dựa trên Chromium khác."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "API Tùy Chỉnh Không Khả Dụng Trên Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Đã đạt tối đa $1 API tùy chỉnh. Xóa API hiện có để thêm API mới."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "API tùy chỉnh của bạn giờ đã có thể kết nối với các trang web bên ngoài. Bạn có thể bật hoặc tắt các API riêng lẻ bằng cách sử dụng các công tắc bên dưới."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Đã Cấp Quyền"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Cấp Quyền"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "API tùy chỉnh cần quyền kết nối với các trang web bên ngoài để có thể phân tích người dùng Roblox. Điều này cho phép tiện ích gửi dữ liệu người dùng đến các API đã cấu hình của bạn và hiển thị kết quả của chúng bên cạnh phân tích của Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Yêu cầu Quyền Bổ sung"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

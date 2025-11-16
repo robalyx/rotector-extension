@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "ভুল URL ফর্ম্যাট"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL পরিবর্তিত হয়েছে। নিরাপত্তার জন্য API নিষ্ক্রিয় করা হয়েছে। অনুগ্রহ করে এটি পুনরায় সক্রিয় করুন এবং নতুন URL-এর জন্য অনুমতি প্রদান করুন।"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "ছবি সরান"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "সংরক্ষণ হচ্ছে..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "এই কাস্টম API সক্রিয় করুন"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "অবৈধ ছবি টাইপ। MIME টাইপ ফাইল এক্সটেনশনের সাথে মেলে না"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "কাস্টম API মুছতে ব্যর্থ"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "API অবস্থা আপডেট করতে ব্যর্থ"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Firefox-এর কঠোর অনুমতি মডেলের কারণে, কাস্টম API ইন্টিগ্রেশন বর্তমানে Firefox-এ সমর্থিত নয়। Rotector সিস্টেম API স্বাভাবিকভাবে কাজ করতে থাকবে। যদি আপনার কাস্টম API সমর্থন প্রয়োজন হয়, অনুগ্রহ করে Chrome বা অন্যান্য Chromium-ভিত্তিক ব্রাউজার ব্যবহার করুন।"
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Firefox-এ কাস্টম API উপলব্ধ নয়"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "সর্বোচ্চ $1টি কাস্টম API এ পৌঁছেছে। নতুন একটি যোগ করতে একটি বিদ্যমান API মুছুন।"
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "আপনার কাস্টম API-গুলি এখন বাহ্যিক ওয়েবসাইটগুলিতে সংযোগ করতে পারে। আপনি নিচের টগলগুলি ব্যবহার করে পৃথক API গুলি সক্ষম বা নিষ্ক্রিয় করতে পারেন।"
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "অনুমতি প্রদান করা হয়েছে"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "অনুমতি প্রদান করুন"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "কাস্টম API-গুলির বাহ্যিক ওয়েবসাইটগুলিতে সংযোগ করার জন্য অনুমতি প্রয়োজন যাতে তারা Roblox ব্যবহারকারীদের বিশ্লেষণ করতে পারে। এটি এক্সটেনশনকে আপনার কনফিগার করা API-গুলিতে ব্যবহারকারীর ডেটা পাঠাতে এবং Rotector-এর বিশ্লেষণের পাশাপাশি তাদের ফলাফল প্রদর্শন করতে দেয়।"
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "অতিরিক্ত অনুমতি প্রয়োজন"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

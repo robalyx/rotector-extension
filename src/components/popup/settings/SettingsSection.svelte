@@ -5,6 +5,7 @@
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
+	import { extractOriginPattern, requestPermissionsForOrigins } from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
 		DEVELOPER_SETTING_CATEGORY,
@@ -53,7 +54,26 @@
 			await updateCustomApi(apiId, { enabled });
 			logger.userAction('custom_api_toggled', { apiId, enabled });
 		} catch (error) {
-			logger.error('Failed to toggle custom API:', error);
+			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
+				// Look up the API configuration to get the URL
+				const api = $customApis.find((a) => a.id === apiId);
+				if (!api) {
+					logger.error('Failed to find API for permission request:', { apiId });
+					return;
+				}
+
+				// Extract origin from the API's URL
+				const origin = extractOriginPattern(api.url);
+				if (!origin) {
+					logger.error('Failed to extract origin from API URL:', { url: api.url });
+					return;
+				}
+
+				// Request permission for this origin
+				await requestPermissionsForOrigins([origin]);
+			} else {
+				logger.error('Failed to toggle custom API:', error);
+			}
 		}
 	}
 

@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "Format URL yang Salah"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "URL API telah diubah. API telah dinonaktifkan untuk keamanan. Silakan aktifkan lagi dan berikan izin untuk URL baru."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "Hapus Gambar"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "Menyimpan..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "Aktifkan API kustom ini"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "Jenis gambar tidak valid. Jenis MIME tidak cocok dengan ekstensi file"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Gagal menghapus API kustom"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Gagal memperbarui status API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Karena model izin Firefox yang lebih ketat, integrasi API kustom saat ini tidak didukung di Firefox. API sistem Rotector akan terus bekerja secara normal. Jika Anda memerlukan dukungan API kustom, silakan gunakan Chrome atau browser berbasis Chromium lainnya."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "API Kustom Tidak Tersedia di Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Maksimal $1 API kustom tercapai. Hapus API yang ada untuk menambahkan yang baru."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "API kustom Anda sekarang dapat terhubung ke situs web eksternal. Anda dapat mengaktifkan atau menonaktifkan API individual menggunakan tombol toggle di bawah."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Izin Diberikan"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Berikan Izin"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "API kustom memerlukan izin untuk terhubung ke situs web eksternal agar dapat menganalisis pengguna Roblox. Ini memungkinkan ekstensi untuk mengirim data pengguna ke API yang Anda konfigurasi dan menampilkan hasilnya bersama analisis Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Izin Tambahan Diperlukan"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

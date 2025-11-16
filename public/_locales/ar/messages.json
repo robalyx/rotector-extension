@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "تنسيق URL غير الصحيح"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "تم تغيير عنوان URL للـ API. تم تعطيل الـ API لأسباب أمنية. يرجى تفعيله مرة أخرى ومنح الأذونات لعنوان URL الجديد."
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "إزالة الصورة"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "جارٍ الحفظ..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "تفعيل هذا API المخصص"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "نوع الصورة غير صالح. نوع MIME لا يتطابق مع امتداد الملف"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "فشل حذف API المخصص"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "فشل تحديث حالة API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "بسبب نموذج الأذونات الأكثر صرامة في Firefox، لا يتم دعم تكامل API المخصص حاليًا على Firefox. ستستمر واجهة API الخاصة بنظام Rotector في العمل بشكل طبيعي. إذا كنت بحاجة إلى دعم API المخصص، يرجى استخدام Chrome أو متصفحات أخرى تعتمد على Chromium."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "واجهات API المخصصة غير متاحة على Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "تم الوصول إلى الحد الأقصى وهو $1 APIs مخصصة. احذف API موجودًا لإضافة جديد."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "يمكن لواجهات API المخصصة لديك الآن الاتصال بمواقع الويب الخارجية. يمكنك تمكين أو تعطيل واجهات API الفردية باستخدام أزرار التبديل أدناه."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "تم منح الأذونات"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "منح الأذونات"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "تحتاج واجهات API المخصصة إلى إذن للاتصال بمواقع الويب الخارجية حتى تتمكن من تحليل مستخدمي Roblox. يتيح هذا للإضافة إرسال بيانات المستخدم إلى واجهات API المكوّنة لديك وعرض نتائجها جنبًا إلى جنب مع تحليل Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "أذونات إضافية مطلوبة"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ميلي ثانية"

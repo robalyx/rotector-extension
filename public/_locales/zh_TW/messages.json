@@ -230,6 +230,9 @@
 	"custom_api_docs_url_examples_incorrect_title": {
 		"message": "錯誤的 URL 格式"
 	},
+	"custom_api_form_alert_url_changed_disabled": {
+		"message": "API URL 已變更。為安全起見，該 API 已被停用。請重新啟用並授予新 URL 的權限。"
+	},
 	"custom_api_form_button_remove_image": {
 		"message": "移除圖片"
 	},
@@ -238,9 +241,6 @@
 	},
 	"custom_api_form_button_saving": {
 		"message": "儲存中..."
-	},
-	"custom_api_form_checkbox_enable": {
-		"message": "啟用此自訂 API"
 	},
 	"custom_api_form_error_image_mime": {
 		"message": "無效的圖片類型。MIME 類型與副檔名不符"
@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "無法刪除自訂 API"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "無法更新 API 狀態"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "由於 Firefox 更嚴格的權限模型，目前在 Firefox 上不支援自訂 API 整合。Rotector 系統 API 將繼續正常工作。如果您需要自訂 API 支援，請使用 Chrome 或其他基於 Chromium 的瀏覽器。"
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "自訂 API 在 Firefox 上不可用"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "已達到最多 $1 個自訂 API 的限制。刪除現有 API 以新增新的。"
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "您的自訂 API 現在可以連接到外部網站。您可以使用下面的開關啟用或停用各個 API。"
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "權限已授予"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "授予權限"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "自訂 API 需要權限才能連接到外部網站以分析 Roblox 使用者。這允許擴充功能將使用者資料發送到您配置的 API，並在 Rotector 分析旁邊顯示其結果。"
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "需要額外權限"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "毫秒"

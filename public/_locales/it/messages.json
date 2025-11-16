@@ -231,7 +231,7 @@
 		"message": "Formato URL Errato"
 	},
 	"custom_api_form_alert_url_changed_disabled": {
-		"message": "L'URL dell'API è cambiato. L'API è stata disabilitata per sicurezza. Riabilitala e concedi i permessi per il nuovo URL."
+		"message": "L'URL dell'API è cambiato. L'API è stata disabilitata per sicurezza. Riabilitala e concedi le autorizzazioni per il nuovo URL."
 	},
 	"custom_api_form_button_remove_image": {
 		"message": "Rimuovi Immagine"

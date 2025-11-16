@@ -231,7 +231,7 @@
 		"message": "Format d'URL Incorrect"
 	},
 	"custom_api_form_alert_url_changed_disabled": {
-		"message": "L'URL de l'API a changé. L'API a été désactivée pour des raisons de sécurité. Veuillez l'activer à nouveau et accorder les permissions pour la nouvelle URL."
+		"message": "L'URL de l'API a changé. L'API a été désactivée pour des raisons de sécurité. Veuillez l'activer à nouveau et accorder les autorisations pour la nouvelle URL."
 	},
 	"custom_api_form_button_remove_image": {
 		"message": "Supprimer l'Image"
@@ -408,7 +408,7 @@
 		"message": "En raison du modèle de permissions plus strict de Firefox, l'intégration d'API personnalisées n'est actuellement pas prise en charge sur Firefox. L'API système Rotector continuera à fonctionner normalement. Si vous avez besoin de la prise en charge des API personnalisées, veuillez utiliser Chrome ou d'autres navigateurs basés sur Chromium."
 	},
 	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "APIs personnalisées non disponibles sur Firefox"
+		"message": "API personnalisées non disponibles sur Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -447,7 +447,7 @@
 		"message": "Maximum de $1 API personnalisées atteint. Supprimez une API existante pour en ajouter une nouvelle."
 	},
 	"custom_api_mgmt_permission_granted_message": {
-		"message": "Vos APIs personnalisées peuvent désormais se connecter à des sites web externes. Vous pouvez activer ou désactiver des APIs individuelles à l'aide des boutons de basculement ci-dessous."
+		"message": "Vos API personnalisées peuvent désormais se connecter à des sites web externes. Vous pouvez activer ou désactiver des API individuelles à l'aide des boutons de basculement ci-dessous."
 	},
 	"custom_api_mgmt_permission_granted_title": {
 		"message": "Autorisations Accordées"

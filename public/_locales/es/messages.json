@@ -231,7 +231,7 @@
 		"message": "Formato de URL Incorrecto"
 	},
 	"custom_api_form_alert_url_changed_disabled": {
-		"message": "La URL de la API ha cambiado. La API se ha deshabilitado por seguridad. Por favor, habilítela nuevamente y otorgue permisos para la nueva URL."
+		"message": "La URL de la API ha cambiado. La API se ha deshabilitado por seguridad. Por favor, vuelve a habilitarla y concede permisos para la nueva URL."
 	},
 	"custom_api_form_button_remove_image": {
 		"message": "Eliminar Imagen"

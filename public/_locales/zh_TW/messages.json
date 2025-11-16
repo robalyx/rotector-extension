@@ -231,7 +231,7 @@
 		"message": "錯誤的 URL 格式"
 	},
 	"custom_api_form_alert_url_changed_disabled": {
-		"message": "API URL 已變更。為安全起見,該 API 已被停用。請重新啟用並授予新 URL 的權限。"
+		"message": "API URL 已變更。為安全起見，該 API 已被停用。請重新啟用並授予新 URL 的權限。"
 	},
 	"custom_api_form_button_remove_image": {
 		"message": "移除圖片"

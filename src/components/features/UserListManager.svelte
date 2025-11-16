@@ -129,7 +129,7 @@
 		// Start periodic cleanup for orphaned components
 		const cleanupInterval = setInterval(() => {
 			cleanupOrphanedComponents();
-		}, 5000);
+		}, 30000);
 
 		return () => {
 			clearInterval(cleanupInterval);
@@ -158,8 +158,6 @@
 			}
 
 			logger.debug(`UserListManager observer started for ${pageType}`);
-
-			await warmCacheForVisibleUsers();
 		} catch (error) {
 			logger.error('Failed to initialize UserListManager observer:', error);
 			onError?.('Failed to initialize user list processing');
@@ -249,26 +247,62 @@
 		});
 	}
 
-	// Get container selector based on page type
-	function getContainerSelector(): string {
-		return getPageConfig().containerSelector;
-	}
-
-	// Get user item selector based on page type
-	function getUserItemSelector(): string {
-		return getPageConfig().itemSelector;
-	}
-
 	// Process new users found by the observer
 	async function handleNewUsers(items: Element[]) {
 		try {
-			const userElements = items.filter((item) => !isProcessed(item));
-			if (userElements.length === 0) return;
+			// Figure out which elements are new vs which ones Roblox is reusing
+			const unprocessedElements: Element[] = [];
+			const reusedElements: { element: Element; oldUserId: string; newUserId: string }[] = [];
 
-			logger.debug(`Processing ${userElements.length} new users for ${pageType}`);
+			for (const item of items) {
+				const storedUserId = isProcessed(item);
+
+				if (storedUserId === null) {
+					// Brand new element we haven't seen before
+					unprocessedElements.push(item);
+				} else {
+					// We've seen this element before - check if Roblox changed the user inside it
+					const currentUserDetails = extractUserDetails(item);
+					if (currentUserDetails && currentUserDetails.userId !== storedUserId) {
+						// Yep, Roblox reused this element for a different user (happens during pagination)
+						reusedElements.push({
+							element: item,
+							oldUserId: storedUserId,
+							newUserId: currentUserDetails.userId
+						});
+						unprocessedElements.push(item);
+					}
+					// Same user ID as before, nothing to do
+				}
+			}
+
+			// Clean up the old status indicators from reused elements
+			if (reusedElements.length > 0) {
+				logger.debug(
+					`Detected ${reusedElements.length} reused DOM elements for ${pageType}`,
+					reusedElements.map((r) => ({ old: r.oldUserId, new: r.newUserId }))
+				);
+
+				for (const { oldUserId } of reusedElements) {
+					const oldComponent = mountedComponents.get(oldUserId);
+					if (oldComponent) {
+						try {
+							oldComponent.destroy?.();
+						} catch (error) {
+							logger.error('Failed to destroy old component for reused element:', error);
+						}
+						mountedComponents.delete(oldUserId);
+					}
+				}
+			}
+
+			// Nothing new to process
+			if (unprocessedElements.length === 0) return;
+
+			logger.debug(`Processing ${unprocessedElements.length} new users for ${pageType}`);
 
 			// Extract user details
-			const allUserDetails = userElements
+			const allUserDetails = unprocessedElements
 				.map(extractUserDetails)
 				.filter((user): user is UserDetails => user !== null);
 
@@ -280,17 +314,17 @@
 
 			allUserDetails.forEach((user) => {
 				if (processedUsers.has(user.userId)) {
-					// User was processed before but DOM element is new
+					// We've seen this user before, just need to re-mount their indicator
 					returningUsers.push(user);
 				} else {
-					// Completely new user
+					// First time seeing this user, need to fetch their data
 					newUsers.push(user);
 				}
 			});
 
-			// Mark all as processed (DOM-wise)
+			// Mark elements as processed and store which user they contain
 			allUserDetails.forEach((user) => {
-				markAsProcessed(user.element);
+				markAsProcessed(user.element, user.userId);
 			});
 
 			// Process new users
@@ -355,14 +389,19 @@
 		}
 	}
 
-	// Check if element is already processed
-	function isProcessed(element: Element): boolean {
-		return element.hasAttribute('data-rotector-processed');
+	// Check if element has been processed before
+	// Returns the user ID that was stored on the element, or null if never processed
+	function isProcessed(element: Element): string | null {
+		if (!element.hasAttribute('data-rotector-processed')) {
+			return null;
+		}
+		return element.getAttribute('data-rotector-user-id');
 	}
 
-	// Mark element as processed
-	function markAsProcessed(element: Element): void {
+	// Mark element as processed and remember which user ID it contains
+	function markAsProcessed(element: Element, userId: string): void {
 		element.setAttribute('data-rotector-processed', 'true');
+		element.setAttribute('data-rotector-user-id', userId);
 	}
 
 	// Load user statuses from API with caching
@@ -519,9 +558,9 @@
 
 			orphanedUserIds.forEach((userId) => {
 				const component = mountedComponents.get(userId);
-				if (component) {
+				if (component && component.destroy) {
 					try {
-						component.destroy?.();
+						component.destroy();
 					} catch (error) {
 						logger.error('Failed to unmount orphaned component:', error);
 					}
@@ -561,32 +600,6 @@
 			}
 		} catch (error) {
 			logger.error('Failed to refresh status after queue operation:', error);
-		}
-	}
-
-	// Warm the cache with visible users on page load
-	async function warmCacheForVisibleUsers() {
-		try {
-			const selector = getUserItemSelector();
-			const container = document.querySelector(getContainerSelector());
-			if (!container) return;
-
-			const visibleUsers = container.querySelectorAll(selector);
-			const users: UserDetails[] = [];
-
-			visibleUsers.forEach((element) => {
-				const user = extractUserDetails(element);
-				if (user && !processedUsers.has(user.userId)) {
-					users.push(user);
-				}
-			});
-
-			if (users.length > 0) {
-				logger.debug('Warming cache for visible users', { count: users.length });
-				await loadUserStatuses(users);
-			}
-		} catch (error) {
-			logger.error('Failed to warm cache:', error);
 		}
 	}
 

@@ -5,6 +5,7 @@
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
+	import { requestCustomApiPermissions } from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
 		DEVELOPER_SETTING_CATEGORY,
@@ -53,7 +54,11 @@
 			await updateCustomApi(apiId, { enabled });
 			logger.userAction('custom_api_toggled', { apiId, enabled });
 		} catch (error) {
-			logger.error('Failed to toggle custom API:', error);
+			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
+				await requestCustomApiPermissions();
+			} else {
+				logger.error('Failed to toggle custom API:', error);
+			}
 		}
 	}
 

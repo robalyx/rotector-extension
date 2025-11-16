@@ -14,7 +14,8 @@
 		Share2,
 		Copy,
 		Download,
-		Upload
+		Upload,
+		AlertTriangle
 	} from 'lucide-svelte';
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import {
@@ -28,6 +29,7 @@
 		exportApi,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
+	import { requestCustomApiPermissions, hasCustomApiPermissions } from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
 	import { t } from '@/lib/stores/i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
@@ -49,6 +51,10 @@
 	let testingApiId = $state<string | null>(null);
 	let openExportDropdown = $state<string | null>(null);
 	let loading = $state(true);
+	let showPermissionNotice = $state(false);
+	let grantingPermissions = $state(false);
+	let hasPermissions = $state(false);
+	let isFirefox = $state(navigator.userAgent.includes('Firefox'));
 
 	// Computed
 	const canAddMore = $derived($customApis.filter((api) => !api.isSystem).length < MAX_CUSTOM_APIS);
@@ -136,8 +142,14 @@
 				enabled
 			});
 		} catch (error) {
-			logger.error('Failed to toggle custom API:', error);
-			alert(t('custom_api_mgmt_error_update_status'));
+			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
+				const granted = await requestCustomApiPermissions();
+				if (granted) {
+					hasPermissions = true;
+				}
+			} else {
+				logger.error('Failed to toggle custom API:', error);
+			}
 		}
 	}
 
@@ -248,11 +260,28 @@
 		}
 	}
 
+	// Handle grant permissions button click
+	async function handleGrantPermissions() {
+		grantingPermissions = true;
+		try {
+			const granted = await requestCustomApiPermissions();
+			if (granted) {
+				hasPermissions = true;
+			}
+		} catch (error) {
+			logger.error('Failed to request permissions:', error);
+		} finally {
+			grantingPermissions = false;
+		}
+	}
+
 	// Initialize
 	onMount(() => {
 		loadCustomApis()
-			.then(() => {
+			.then(async () => {
 				loading = false;
+				showPermissionNotice = true;
+				hasPermissions = await hasCustomApiPermissions();
 			})
 			.catch((error) => {
 				logger.error('Failed to load custom APIs:', error);
@@ -289,6 +318,67 @@
 			{t('custom_api_mgmt_button_view_integration_guide')}
 		</button>
 	</div>
+
+	<!-- Permission/Firefox Notice Banner -->
+	{#if showPermissionNotice}
+		{#if isFirefox}
+			<!-- Firefox Incompatibility Notice -->
+			<div class="permission-notice-banner">
+				<div class="permission-notice-header">
+					<div class="permission-notice-icon">
+						<AlertTriangle size={20} />
+					</div>
+					<h4 class="permission-notice-title">
+						{t('custom_api_mgmt_firefox_incompatible_title')}
+					</h4>
+				</div>
+				<p class="permission-notice-message">
+					{t('custom_api_mgmt_firefox_incompatible_message')}
+				</p>
+			</div>
+		{:else}
+			<!-- Chrome Permission Notice -->
+			<div class="permission-notice-banner" class:granted={hasPermissions}>
+				<div class="permission-notice-header">
+					<div class="permission-notice-icon">
+						{#if hasPermissions}
+							<Check size={20} />
+						{:else}
+							<AlertTriangle size={20} />
+						{/if}
+					</div>
+					<h4 class="permission-notice-title">
+						{t(
+							hasPermissions
+								? 'custom_api_mgmt_permission_granted_title'
+								: 'custom_api_mgmt_permission_notice_title'
+						)}
+					</h4>
+				</div>
+				<p class="permission-notice-message">
+					{t(
+						hasPermissions
+							? 'custom_api_mgmt_permission_granted_message'
+							: 'custom_api_mgmt_permission_notice_message'
+					)}
+				</p>
+				{#if !hasPermissions}
+					<button
+						class="permission-notice-button"
+						disabled={grantingPermissions}
+						onclick={handleGrantPermissions}
+						type="button"
+					>
+						{#if grantingPermissions}
+							<LoadingSpinner size="small" />
+						{:else}
+							{t('custom_api_mgmt_permission_notice_button')}
+						{/if}
+					</button>
+				{/if}
+			</div>
+		{/if}
+	{/if}
 
 	<!-- API List -->
 	<div class="custom-api-list">
@@ -475,7 +565,7 @@
 			<!-- Add/Import Buttons -->
 			<div class="api-list-actions">
 				{#if canAddMore}
-					<button class="add-api-card" onclick={handleAdd} type="button">
+					<button class="add-api-card" disabled={isFirefox} onclick={handleAdd} type="button">
 						<Plus size={16} />
 						<span>{t('custom_api_mgmt_button_add')}</span>
 					</button>
@@ -486,7 +576,7 @@
 				{/if}
 				<button
 					class="import-api-button"
-					disabled={!canAddMore}
+					disabled={isFirefox || !canAddMore}
 					onclick={() => (showImportModal = true)}
 					title={t('custom_api_mgmt_title_import')}
 					type="button"

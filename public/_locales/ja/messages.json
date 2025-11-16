@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "カスタムAPIの削除に失敗しました"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "APIステータスの更新に失敗しました"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Firefoxの厳格な権限モデルにより、現在Firefoxではカスタム API統合がサポートされていません。Rotectorシステム APIは引き続き正常に動作します。カスタム APIサポートが必要な場合は、ChromeまたはChromiumベースのブラウザをご利用ください。"
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Firefoxではカスタム APIが利用できません"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "カスタムAPIの最大数$1に達しました。新しいAPIを追加するには既存のAPIを削除してください。"
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "カスタムAPIが外部ウェブサイトに接続できるようになりました。以下のトグルを使用して、個別のAPIを有効化または無効化できます。"
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "権限が付与されました"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "権限を付与"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "カスタムAPIは、Robloxユーザーを分析するために外部ウェブサイトへの接続権限が必要です。これにより、拡張機能は設定されたAPIにユーザーデータを送信し、Rotectorの分析と並べて結果を表示できます。"
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "追加の権限が必要です"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

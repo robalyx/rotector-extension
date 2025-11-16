@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Özel API silinemedi"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "API durumu güncellenemedi"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Firefox'un daha katı izin modeli nedeniyle, özel API entegrasyonu şu anda Firefox'ta desteklenmiyor. Rotector sistem API'si normal şekilde çalışmaya devam edecektir. Özel API desteğine ihtiyacınız varsa, lütfen Chrome veya diğer Chromium tabanlı tarayıcıları kullanın."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Özel API'ler Firefox'ta Kullanılamıyor"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Maksimum $1 özel API'ye ulaşıldı. Yeni bir API eklemek için mevcut bir API'yi silin."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Özel API'leriniz artık harici web sitelerine bağlanabilir. Aşağıdaki geçiş düğmelerini kullanarak bireysel API'leri etkinleştirebilir veya devre dışı bırakabilirsiniz."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "İzinler Verildi"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "İzinleri Ver"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Özel API'ler Roblox kullanıcılarını analiz edebilmeleri için harici web sitelerine bağlanma izni gerektirir. Bu, uzantının yapılandırılmış API'lerinize kullanıcı verilerini göndermesine ve sonuçlarını Rotector'ın analizi ile birlikte göstermesine olanak tanır."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Ek İzinler Gerekli"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

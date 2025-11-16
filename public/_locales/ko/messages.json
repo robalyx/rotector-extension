@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "사용자 정의 API를 삭제하지 못했습니다"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "API 상태를 업데이트하지 못했습니다"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Firefox의 더 엄격한 권한 모델로 인해 현재 Firefox에서는 사용자 정의 API 통합이 지원되지 않습니다. Rotector 시스템 API는 계속 정상적으로 작동합니다. 사용자 정의 API 지원이 필요한 경우 Chrome 또는 다른 Chromium 기반 브라우저를 사용하세요."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Firefox에서는 사용자 정의 API를 사용할 수 없습니다"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "최대 $1개의 사용자 정의 API에 도달했습니다. 새로운 API를 추가하려면 기존 API를 삭제하세요."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "이제 사용자 정의 API가 외부 웹사이트에 연결할 수 있습니다. 아래 토글을 사용하여 개별 API를 활성화하거나 비활성화할 수 있습니다."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "권한 부여됨"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "권한 부여"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "사용자 정의 API가 Roblox 사용자를 분석하려면 외부 웹사이트에 연결할 권한이 필요합니다. 이를 통해 확장 프로그램이 구성된 API에 사용자 데이터를 전송하고 Rotector의 분석과 함께 결과를 표시할 수 있습니다."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "추가 권한 필요"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

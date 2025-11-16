@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Не удалось удалить пользовательский API"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "Не удалось обновить статус API"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "В связи с более строгой моделью разрешений Firefox, интеграция пользовательских API в настоящее время не поддерживается в Firefox. Системный API Rotector будет продолжать работать в обычном режиме. Если вам нужна поддержка пользовательских API, пожалуйста, используйте Chrome или другие браузеры на базе Chromium."
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Пользовательские API недоступны в Firefox"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "Достигнуто максимальное количество пользовательских API ($1). Удалите существующий API, чтобы добавить новый."
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "Ваши пользовательские API теперь могут подключаться к внешним веб-сайтам. Вы можете включать или отключать отдельные API с помощью переключателей ниже."
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "Разрешения предоставлены"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "Предоставить разрешения"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "Пользовательским API требуется разрешение на подключение к внешним веб-сайтам для анализа пользователей Roblox. Это позволяет расширению отправлять данные пользователей в настроенные API и отображать их результаты вместе с анализом Rotector."
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "Требуются дополнительные разрешения"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "мс"

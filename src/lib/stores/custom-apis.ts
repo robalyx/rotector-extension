@@ -4,6 +4,7 @@ import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
 import { exportCustomApi, importCustomApi } from '../utils/api-export';
+import { hasCustomApiPermissions } from '../utils/permissions';
 
 // Maximum number of custom APIs allowed
 export const MAX_CUSTOM_APIS = 5;
@@ -88,8 +89,21 @@ export async function addCustomApi(
 		throw new Error(`Maximum of ${MAX_CUSTOM_APIS} custom APIs allowed`);
 	}
 
+	// Check permissions before enabling API
+	let finalEnabled = config.enabled;
+	if (config.enabled) {
+		const hasPermissions = await hasCustomApiPermissions();
+		if (!hasPermissions) {
+			finalEnabled = false;
+			logger.info('Auto-disabled custom API due to missing permissions:', {
+				name: config.name
+			});
+		}
+	}
+
 	const newApi: CustomApiConfig = {
 		...config,
+		enabled: finalEnabled,
 		id: generateCustomApiId(),
 		order: current.length,
 		createdAt: Date.now()
@@ -98,7 +112,7 @@ export async function addCustomApi(
 	const updated = [...current, newApi];
 	await saveCustomApis(updated);
 
-	logger.info('Added custom API:', { id: newApi.id, name: newApi.name });
+	logger.info('Added custom API:', { id: newApi.id, name: newApi.name, enabled: finalEnabled });
 	return newApi;
 }
 
@@ -117,6 +131,14 @@ export async function updateCustomApi(
 	// Prevent updating system APIs
 	if (current[index].isSystem) {
 		throw new Error('Cannot modify system APIs');
+	}
+
+	// Check permissions when enabling a custom API
+	if (updates.enabled === true && !current[index].isSystem) {
+		const hasPermissions = await hasCustomApiPermissions();
+		if (!hasPermissions) {
+			throw new Error('PERMISSIONS_REQUIRED');
+		}
 	}
 
 	const updated = [...current];

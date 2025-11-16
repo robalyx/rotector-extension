@@ -404,8 +404,11 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "कस्टम API हटाने में विफल"
 	},
-	"custom_api_mgmt_error_update_status": {
-		"message": "API स्थिति अपडेट करने में विफल"
+	"custom_api_mgmt_firefox_incompatible_message": {
+		"message": "Firefox के सख्त अनुमति मॉडल के कारण, Firefox पर कस्टम API एकीकरण वर्तमान में समर्थित नहीं है। Rotector सिस्टम API सामान्य रूप से काम करना जारी रखेगा। यदि आपको कस्टम API समर्थन की आवश्यकता है, तो कृपया Chrome या अन्य Chromium-आधारित ब्राउज़र का उपयोग करें।"
+	},
+	"custom_api_mgmt_firefox_incompatible_title": {
+		"message": "Firefox पर कस्टम API उपलब्ध नहीं हैं"
 	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
@@ -442,6 +445,21 @@
 	},
 	"custom_api_mgmt_notice_max_reached": {
 		"message": "अधिकतम $1 कस्टम APIs तक पहुंच गया। नया जोड़ने के लिए मौजूदा API हटाएं।"
+	},
+	"custom_api_mgmt_permission_granted_message": {
+		"message": "आपके कस्टम API अब बाहरी वेबसाइटों से कनेक्ट हो सकते हैं। आप नीचे दिए गए टॉगल का उपयोग करके व्यक्तिगत API को सक्षम या अक्षम कर सकते हैं।"
+	},
+	"custom_api_mgmt_permission_granted_title": {
+		"message": "अनुमतियां प्रदान की गईं"
+	},
+	"custom_api_mgmt_permission_notice_button": {
+		"message": "अनुमतियां प्रदान करें"
+	},
+	"custom_api_mgmt_permission_notice_message": {
+		"message": "कस्टम API को बाहरी वेबसाइटों से कनेक्ट करने के लिए अनुमति की आवश्यकता होती है ताकि वे Roblox उपयोगकर्ताओं का विश्लेषण कर सकें। यह एक्सटेंशन को आपके कॉन्फ़िगर किए गए API में उपयोगकर्ता डेटा भेजने और Rotector के विश्लेषण के साथ उनके परिणाम प्रदर्शित करने की अनुमति देता है।"
+	},
+	"custom_api_mgmt_permission_notice_title": {
+		"message": "अतिरिक्त अनुमतियां आवश्यक"
 	},
 	"custom_api_mgmt_suffix_ms": {
 		"message": "ms"

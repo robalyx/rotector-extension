@@ -152,10 +152,14 @@ export class ProfilePageController extends PageController {
 			// Refresh user status
 			await this.loadUserStatus();
 
-			// Remount profile page manager with updated status
+			// Cleanup old instance before creating new one
 			if (this.profilePageManager) {
-				this.mountProfilePageManager();
+				this.profilePageManager.cleanup();
+				this.profilePageManager = null;
 			}
+
+			// Remount profile page manager
+			this.mountProfilePageManager();
 		} catch (error) {
 			logger.error('Failed to refresh status after queue operation:', error);
 		}

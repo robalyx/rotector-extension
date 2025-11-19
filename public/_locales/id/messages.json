@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Gagal menghapus API kustom"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Karena model izin Firefox yang lebih ketat, integrasi API kustom saat ini tidak didukung di Firefox. API sistem Rotector akan terus bekerja secara normal. Jika Anda memerlukan dukungan API kustom, silakan gunakan Chrome atau browser berbasis Chromium lainnya."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "API Kustom Tidak Tersedia di Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

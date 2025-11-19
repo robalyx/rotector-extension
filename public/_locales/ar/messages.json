@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "فشل حذف API المخصص"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "بسبب نموذج الأذونات الأكثر صرامة في Firefox، لا يتم دعم تكامل API المخصص حاليًا على Firefox. ستستمر واجهة API الخاصة بنظام Rotector في العمل بشكل طبيعي. إذا كنت بحاجة إلى دعم API المخصص، يرجى استخدام Chrome أو متصفحات أخرى تعتمد على Chromium."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "واجهات API المخصصة غير متاحة على Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

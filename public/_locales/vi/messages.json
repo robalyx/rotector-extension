@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Không xóa được API tùy chỉnh"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Do mô hình quyền hạn nghiêm ngặt hơn của Firefox, tích hợp API tùy chỉnh hiện không được hỗ trợ trên Firefox. API hệ thống Rotector sẽ tiếp tục hoạt động bình thường. Nếu bạn cần hỗ trợ API tùy chỉnh, vui lòng sử dụng Chrome hoặc các trình duyệt dựa trên Chromium khác."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "API Tùy Chỉnh Không Khả Dụng Trên Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

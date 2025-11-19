@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Impossibile eliminare l'API personalizzata"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "A causa del modello di autorizzazioni più rigoroso di Firefox, l'integrazione di API personalizzate non è attualmente supportata su Firefox. L'API di sistema Rotector continuerà a funzionare normalmente. Se hai bisogno del supporto per API personalizzate, utilizza Chrome o altri browser basati su Chromium."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "API Personalizzate Non Disponibili su Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "カスタムAPIの削除に失敗しました"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Firefoxの厳格な権限モデルにより、現在Firefoxではカスタム API統合がサポートされていません。Rotectorシステム APIは引き続き正常に動作します。カスタム APIサポートが必要な場合は、ChromeまたはChromiumベースのブラウザをご利用ください。"
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Firefoxではカスタム APIが利用できません"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

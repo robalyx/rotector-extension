@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "কাস্টম API মুছতে ব্যর্থ"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Firefox-এর কঠোর অনুমতি মডেলের কারণে, কাস্টম API ইন্টিগ্রেশন বর্তমানে Firefox-এ সমর্থিত নয়। Rotector সিস্টেম API স্বাভাবিকভাবে কাজ করতে থাকবে। যদি আপনার কাস্টম API সমর্থন প্রয়োজন হয়, অনুগ্রহ করে Chrome বা অন্যান্য Chromium-ভিত্তিক ব্রাউজার ব্যবহার করুন।"
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Firefox-এ কাস্টম API উপলব্ধ নয়"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

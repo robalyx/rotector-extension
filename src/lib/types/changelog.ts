@@ -16,6 +16,21 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.5.1',
+		version: '2.5.1',
+		date: '2025-11-21',
+		title: 'Stability & Bug Fixes',
+		summary:
+			'This update improves extension stability and fixes several bugs related to groups showcase on profile pages.',
+		changes: [
+			{
+				type: 'fixed',
+				description:
+					'Groups showcase reliability - Fixed duplicate API requests and status indicator display issues when viewing groups on profile pages'
+			}
+		]
+	},
+	{
 		id: 'v2.5.0',
 		version: '2.5.0',
 		date: '2025-11-17',

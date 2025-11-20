@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "删除自定义 API 失败"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "由于 Firefox 更严格的权限模型，目前在 Firefox 上不支持自定义 API 集成。Rotector 系统 API 将继续正常工作。如果您需要自定义 API 支持，请使用 Chrome 或其他基于 Chromium 的浏览器。"
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "自定义 API 在 Firefox 上不可用"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

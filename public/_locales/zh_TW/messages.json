@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "無法刪除自訂 API"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "由於 Firefox 更嚴格的權限模型，目前在 Firefox 上不支援自訂 API 整合。Rotector 系統 API 將繼續正常工作。如果您需要自訂 API 支援，請使用 Chrome 或其他基於 Chromium 的瀏覽器。"
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "自訂 API 在 Firefox 上不可用"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

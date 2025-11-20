@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Özel API silinemedi"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Firefox'un daha katı izin modeli nedeniyle, özel API entegrasyonu şu anda Firefox'ta desteklenmiyor. Rotector sistem API'si normal şekilde çalışmaya devam edecektir. Özel API desteğine ihtiyacınız varsa, lütfen Chrome veya diğer Chromium tabanlı tarayıcıları kullanın."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Özel API'ler Firefox'ta Kullanılamıyor"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

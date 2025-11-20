@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Failed to delete custom API"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Due to Firefox's stricter permission model, custom API integration is currently not supported on Firefox. The Rotector system API will continue to work normally. If you need custom API support, please use Chrome or other Chromium-based browsers."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Custom APIs Not Available on Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

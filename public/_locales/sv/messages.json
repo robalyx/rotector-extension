@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Misslyckades med att ta bort anpassat API"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "På grund av Firefox striktare behörighetsmodell stöds för närvarande inte integration av anpassade API:er i Firefox. Rotectors system-API kommer att fortsätta fungera normalt. Om du behöver stöd för anpassade API:er, använd Chrome eller andra Chromium-baserade webbläsare."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Anpassade API:er inte tillgängliga på Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

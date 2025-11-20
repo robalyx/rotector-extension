@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "사용자 정의 API를 삭제하지 못했습니다"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Firefox의 더 엄격한 권한 모델로 인해 현재 Firefox에서는 사용자 정의 API 통합이 지원되지 않습니다. Rotector 시스템 API는 계속 정상적으로 작동합니다. 사용자 정의 API 지원이 필요한 경우 Chrome 또는 다른 Chromium 기반 브라우저를 사용하세요."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Firefox에서는 사용자 정의 API를 사용할 수 없습니다"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

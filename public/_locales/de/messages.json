@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Löschen der benutzerdefinierten API fehlgeschlagen"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Aufgrund des strengeren Berechtigungsmodells von Firefox wird die Integration benutzerdefinierter APIs derzeit in Firefox nicht unterstützt. Die Rotector-System-API wird weiterhin normal funktionieren. Wenn Sie Unterstützung für benutzerdefinierte APIs benötigen, verwenden Sie bitte Chrome oder andere Chromium-basierte Browser."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Benutzerdefinierte APIs sind in Firefox nicht verfügbar"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

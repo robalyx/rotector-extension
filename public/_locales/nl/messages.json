@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Kan aangepaste API niet verwijderen"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Vanwege het strengere permissiemodel van Firefox wordt aangepaste API-integratie momenteel niet ondersteund op Firefox. De Rotector systeem-API blijft normaal werken. Als u aangepaste API-ondersteuning nodig heeft, gebruik dan Chrome of andere Chromium-gebaseerde browsers."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Aangepaste API's niet beschikbaar op Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

@@ -242,7 +242,7 @@ export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
 	},
 	// Grid mode selectors
 	GRID: {
-		CONTAINER: '.groups-showcase-grid',
+		CONTAINER: 'groups-showcase-grid',
 		ITEMS_CONTAINER: '.hlist.game-cards.group-list',
 		ITEM: '.list-item.group-container',
 		ITEM_UNPROCESSED: `.list-item.group-container:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,

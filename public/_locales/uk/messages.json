@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Не вдалося видалити користувацький API"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Через більш суворі вимоги дозволів у Firefox, інтеграція користувацьких API наразі не підтримується у Firefox. Системний API Rotector продовжуватиме працювати нормально. Якщо вам потрібна підтримка користувацьких API, будь ласка, використовуйте Chrome або інші браузери на основі Chromium."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Користувацькі API недоступні у Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

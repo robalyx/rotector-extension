@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "ไม่สามารถลบ custom API ได้"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "เนื่องจากโมเดลการอนุญาตที่เข้มงวดกว่าของ Firefox การรวม Custom API จึงไม่ได้รับการสนับสนุนบน Firefox ในขณะนี้ API ระบบ Rotector จะยังคงทำงานตามปกติ หากคุณต้องการการสนับสนุน Custom API โปรดใช้ Chrome หรือเบราว์เซอร์ที่ใช้ Chromium อื่นๆ"
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Custom API ไม่สามารถใช้งานได้บน Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

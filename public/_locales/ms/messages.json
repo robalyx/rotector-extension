@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Gagal memadamkan API tersuai"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Disebabkan oleh model kebenaran yang lebih ketat di Firefox, integrasi API tersuai pada masa ini tidak disokong di Firefox. API sistem Rotector akan terus berfungsi seperti biasa. Jika anda memerlukan sokongan API tersuai, sila gunakan Chrome atau pelayar berasaskan Chromium yang lain."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "API Tersuai Tidak Tersedia di Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

@@ -404,12 +404,6 @@
 	"custom_api_mgmt_error_delete": {
 		"message": "Nie udało się usunąć niestandardowego API"
 	},
-	"custom_api_mgmt_firefox_incompatible_message": {
-		"message": "Ze względu na bardziej restrykcyjny model uprawnień Firefox, integracja niestandardowych API nie jest obecnie obsługiwana w Firefox. Systemowe API Rotector będzie nadal działać normalnie. Jeśli potrzebujesz obsługi niestandardowych API, użyj Chrome lub innych przeglądarek opartych na Chromium."
-	},
-	"custom_api_mgmt_firefox_incompatible_title": {
-		"message": "Niestandardowe API niedostępne w Firefox"
-	},
 	"custom_api_mgmt_http_method_get": {
 		"message": "GET"
 	},

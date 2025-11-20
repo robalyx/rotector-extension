@@ -14,6 +14,7 @@
 	import { groupStatusService } from '@/lib/services/entity-status-service';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
+	import { waitForElement } from '@/lib/utils/element-waiter';
 	import type { GroupStatus } from '@/lib/types/api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
@@ -32,8 +33,9 @@
 	let containerWatcher: Observer | null = null;
 	let viewSwitchObserver: MutationObserver | null = null;
 	let groupStatuses = new SvelteMap<string, GroupStatus>();
-	let mountedComponents = new SvelteMap<string, { destroy?: () => void }>();
-	let destroyed = $state(false);
+	let mountedComponents = new SvelteMap<string, { destroy: () => void }>();
+	let isProcessingGroups = false;
+	let observersInitialized = false;
 
 	// Type definitions for group details
 	interface GroupDetails {
@@ -44,10 +46,6 @@
 
 	// Initialize component
 	$effect(() => {
-		if (destroyed) {
-			return;
-		}
-
 		void initialize();
 		onMount?.(cleanup);
 		return cleanup;
@@ -55,10 +53,6 @@
 
 	// Initialize observers for groups showcase
 	async function initialize() {
-		if (destroyed) {
-			return;
-		}
-
 		try {
 			await setupContainerWatcher();
 		} catch (error) {
@@ -74,7 +68,9 @@
 			name: 'groups-showcase-container-watcher',
 			containerSelector: `${PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER}, ${BTROBLOX_GROUPS_SELECTORS.CONTAINER}`,
 			onContainerAdded: () => {
-				void setupGroupsObservers();
+				if (!observersInitialized) {
+					void setupGroupsObservers();
+				}
 			}
 		});
 
@@ -98,6 +94,11 @@
 				}
 			});
 
+			// Reset observers to null
+			slideshowObserver = null;
+			gridObserver = null;
+			btrobloxObserver = null;
+
 			// Detect whether BTRoblox extension is active
 			const btrContainer = document.querySelector(BTROBLOX_GROUPS_SELECTORS.CONTAINER);
 			const standardContainer = document.querySelector(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER);
@@ -105,15 +106,70 @@
 			if (btrContainer) {
 				// Monitor BTRoblox group elements
 				btrobloxObserver = await createBTRobloxObserver();
+				observersInitialized = true;
 			} else if (standardContainer) {
-				// Monitor both slideshow and grid layouts
-				slideshowObserver = await createListObserver(
-					'slideshow',
-					PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
+				// Detect which view is currently active
+				let gridContainer = document.querySelector(
+					PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.CONTAINER
 				);
-				gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
+				let slideshowContainer = document.querySelector(
+					PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.CONTAINER
+				);
 
-				setupViewSwitchObserver();
+				let gridVisible = gridContainer && !gridContainer.classList.contains('ng-hide');
+				let slideshowVisible =
+					slideshowContainer && !slideshowContainer.classList.contains('ng-hide');
+
+				// If switching to grid view but container doesn't exist yet, wait for Angular to create it
+				if (!gridContainer && slideshowContainer?.classList.contains('ng-hide')) {
+					const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.CONTAINER, {
+						maxRetries: 20,
+						baseDelay: 50
+					});
+
+					if (result.success && result.element) {
+						gridContainer = result.element;
+						gridVisible = !gridContainer.classList.contains('ng-hide');
+					}
+				}
+
+				// If switching to slideshow view but container doesn't exist yet, wait for Angular to create it
+				if (!slideshowContainer && gridContainer?.classList.contains('ng-hide')) {
+					const result = await waitForElement(
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.CONTAINER,
+						{
+							maxRetries: 20,
+							baseDelay: 50
+						}
+					);
+
+					if (result.success && result.element) {
+						slideshowContainer = result.element;
+						slideshowVisible = !slideshowContainer.classList.contains('ng-hide');
+					}
+				}
+
+				// Only create observer for the active view
+				if (gridVisible) {
+					gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
+				} else if (slideshowVisible) {
+					slideshowObserver = await createListObserver(
+						'slideshow',
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
+					);
+				} else {
+					logger.warn('No visible container found', {
+						gridExists: !!gridContainer,
+						slideshowExists: !!slideshowContainer
+					});
+				}
+
+				// Set up view switch observer on first initialization
+				if (!observersInitialized) {
+					setupViewSwitchObserver();
+				}
+
+				observersInitialized = true;
 			}
 		} catch (error) {
 			logger.error('Failed to setup groups observers:', error);
@@ -160,27 +216,30 @@
 		viewSwitchObserver?.disconnect();
 
 		const gridContainer = document.querySelector(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.CONTAINER);
-		if (!gridContainer) return;
+		const slideshowContainer = document.querySelector(
+			PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.CONTAINER
+		);
+
+		if (!gridContainer && !slideshowContainer) return;
 
 		viewSwitchObserver = new MutationObserver(() => {
-			if (!gridContainer.classList.contains('ng-hide')) {
-				setTimeout(() => {
-					const gridItems = document.querySelectorAll(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
-					const itemsToProcess = Array.from(gridItems).filter((item) => {
-						const details = extractGroupDetails(item);
-						return details && !hasStatusIndicator(details.nameElement);
-					});
-					if (itemsToProcess.length > 0) {
-						void handleNewGroups(itemsToProcess);
-					}
-				}, 100);
-			}
+			void setupGroupsObservers();
 		});
 
-		viewSwitchObserver.observe(gridContainer, {
-			attributes: true,
-			attributeFilter: ['class']
-		});
+		// Observe both containers for visibility changes
+		if (gridContainer) {
+			viewSwitchObserver.observe(gridContainer, {
+				attributes: true,
+				attributeFilter: ['class']
+			});
+		}
+
+		if (slideshowContainer) {
+			viewSwitchObserver.observe(slideshowContainer, {
+				attributes: true,
+				attributeFilter: ['class']
+			});
+		}
 	}
 
 	// Check if element already has status indicator
@@ -190,6 +249,13 @@
 
 	// Handle new groups detected
 	async function handleNewGroups(items: Element[]) {
+		// Prevent concurrent processing
+		if (isProcessingGroups) {
+			return;
+		}
+
+		isProcessingGroups = true;
+
 		try {
 			const groupsToProcess: GroupDetails[] = [];
 
@@ -208,6 +274,8 @@
 			onError?.(
 				`Failed to process new groups: ${error instanceof Error ? error.message : 'Unknown error'}`
 			);
+		} finally {
+			isProcessingGroups = false;
 		}
 	}
 
@@ -289,16 +357,6 @@
 		nameElement: Element,
 		element?: Element
 	) {
-		// Check and unmount existing component
-		const existingComponent = mountedComponents.get(groupId);
-		if (existingComponent) {
-			existingComponent.destroy?.();
-			mountedComponents.delete(groupId);
-		}
-
-		// Prevent duplicate status indicators
-		if (hasStatusIndicator(nameElement)) return;
-
 		// Configure text display for different layouts
 		const isBTRobloxView = element?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
 		const isGridView = element?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
@@ -352,7 +410,7 @@
 		});
 
 		// Store component reference for cleanup
-		mountedComponents.set(groupId, component);
+		mountedComponents.set(groupId, component as { destroy: () => void });
 	}
 
 	// Handle status indicator click
@@ -362,8 +420,6 @@
 
 	// Clean up resources
 	function cleanup() {
-		destroyed = true;
-
 		// Stop observers
 		[slideshowObserver, gridObserver, btrobloxObserver, containerWatcher].forEach((observer) => {
 			observer?.stop();
@@ -375,7 +431,7 @@
 		viewSwitchObserver = null;
 
 		// Unmount components and clear cache
-		mountedComponents.forEach((component) => component.destroy?.());
+		mountedComponents.forEach((component) => component.destroy());
 		mountedComponents.clear();
 		groupStatuses.clear();
 	}

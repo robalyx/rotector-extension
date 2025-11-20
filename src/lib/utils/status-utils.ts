@@ -1,4 +1,3 @@
-import { STATUS } from '../types/constants';
 import type { UserStatus, GroupStatus } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
 import { ROTECTOR_API_ID } from '../services/unified-query-service';
@@ -38,12 +37,12 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 		};
 	}
 
-	// Detect reportable status - user has description violations
-	const isReportable = !!status.reasons[STATUS.USER_REASON_TYPES.USER_PROFILE.toString()];
+	// Detect reportable status - user has User Profile violations
+	const isReportable = !!status.reasons['User Profile'];
 
 	// Detect outfit-only status - user is flagged only for outfit with no other violations
 	const reasonTypes = Object.keys(status.reasons);
-	const hasOutfitReason = reasonTypes.includes(STATUS.USER_REASON_TYPES.AVATAR_OUTFIT.toString());
+	const hasOutfitReason = reasonTypes.includes('Avatar Outfit');
 	const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;
 
 	return {

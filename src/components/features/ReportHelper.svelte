@@ -17,14 +17,14 @@
 	let processing = $state(false);
 
 	// Computed values
-	const isReportable = $derived(status ? '0' in (status.reasons || {}) : false);
+	const isReportable = $derived(status ? 'User Profile' in (status.reasons || {}) : false);
 
 	const reportableContent = $derived(
 		isReportable && status
 			? {
-					message: status.reasons?.['0']?.message || 'Inappropriate content detected',
-					evidence: status.reasons?.['0']?.evidence || [],
-					confidence: status.reasons?.['0']?.confidence || status.confidence || 0
+					message: status.reasons?.['User Profile']?.message || 'Inappropriate content detected',
+					evidence: status.reasons?.['User Profile']?.evidence || [],
+					confidence: status.reasons?.['User Profile']?.confidence || status.confidence || 0
 				}
 			: null
 	);

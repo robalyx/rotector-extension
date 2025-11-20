@@ -1,4 +1,3 @@
-import { ENTITY_TYPES, STATUS } from '../types/constants';
 import type { ReasonData } from '../types/api';
 
 export interface FormattedReasonEntry {
@@ -59,33 +58,15 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 
 // Formats the reasons from the API response into a structured format for display
 export function formatViolationReasons(
-	reasons: Record<string, ReasonData>,
-	entityType?: string
+	reasons: Record<string, ReasonData>
 ): FormattedReasonEntry[] {
 	if (!reasons || Object.keys(reasons).length === 0) {
 		return [];
 	}
 
 	return Object.entries(reasons).map(([reasonType, reason]) => {
-		let typeName: string;
-		let isOutfitReason = false;
-
-		// Check if the reason key is numeric (Rotector format) or string-based (custom API format)
-		const numericKey = parseInt(reasonType, 10);
-		const isNumericKey = !isNaN(numericKey) && numericKey.toString() === reasonType;
-
-		if (isNumericKey) {
-			if (entityType === ENTITY_TYPES.GROUP) {
-				const reasonTypeKey = numericKey as keyof typeof STATUS.GROUP_REASON_TYPE_NAMES;
-				typeName = STATUS.GROUP_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
-			} else {
-				const reasonTypeKey = numericKey as keyof typeof STATUS.USER_REASON_TYPE_NAMES;
-				typeName = STATUS.USER_REASON_TYPE_NAMES[reasonTypeKey] || 'Other';
-				isOutfitReason = numericKey === STATUS.USER_REASON_TYPES.AVATAR_OUTFIT;
-			}
-		} else {
-			typeName = reasonType;
-		}
+		const typeName = reasonType;
+		const isOutfitReason = reasonType === 'Avatar Outfit';
 
 		const confidence = Math.round(reason.confidence * 100);
 

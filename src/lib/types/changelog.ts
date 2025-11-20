@@ -24,6 +24,11 @@ export const CHANGELOGS: Changelog[] = [
 			'This update improves extension stability and fixes several bugs related to groups showcase on profile pages.',
 		changes: [
 			{
+				type: 'changed',
+				description:
+					'Reason type identifiers - Simplified internal reason handling by using descriptive string keys instead of numeric codes'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Groups showcase reliability - Fixed duplicate API requests and status indicator display issues when viewing groups on profile pages'

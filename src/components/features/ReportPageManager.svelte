@@ -125,12 +125,12 @@
 		}
 	}
 
-	// Check if user has profile violations (reason type 0)
+	// Check if user has User Profile violations
 	function hasUserProfileViolations(): boolean {
 		if (!userStatus || !userStatus.reasons) {
 			return false;
 		}
-		return '0' in userStatus.reasons;
+		return 'User Profile' in userStatus.reasons;
 	}
 
 	// Find and validate required form elements
@@ -251,7 +251,7 @@
 		// Build comment text
 		let commentText = t('report_page_manager_report_intro');
 
-		const profileReason = userStatus?.reasons?.['0'];
+		const profileReason = userStatus?.reasons?.['User Profile'];
 
 		if (profileReason?.message) {
 			commentText += t('report_page_manager_detected_issue_label') + profileReason.message + '\n\n';

@@ -8,42 +8,6 @@ export const STATUS = {
 		INTEGRATION: 4,
 		MIXED: 5,
 		PAST_OFFENDER: 6
-	},
-	USER_REASON_TYPES: {
-		USER_PROFILE: 0,
-		FRIEND_NETWORK: 1,
-		AVATAR_OUTFIT: 2,
-		GROUP_MEMBERSHIP: 3,
-		CONDO_ACTIVITY: 4,
-		CHAT_MESSAGES: 5,
-		GAME_FAVORITES: 6,
-		EARNED_BADGES: 7,
-		USER_CREATIONS: 8,
-		OTHER_REASONS: 9
-	},
-	GROUP_REASON_TYPES: {
-		MEMBER: 0,
-		PURPOSE: 1,
-		DESCRIPTION: 2,
-		SHOUT: 3
-	},
-	USER_REASON_TYPE_NAMES: {
-		0: 'User Profile',
-		1: 'Friend Network',
-		2: 'Avatar Outfit',
-		3: 'Group Membership',
-		4: 'Condo Activity',
-		5: 'Chat Messages',
-		6: 'Game Favorites',
-		7: 'Earned Badges',
-		8: 'User Creations',
-		9: 'Other Reasons'
-	},
-	GROUP_REASON_TYPE_NAMES: {
-		0: 'Member Analysis',
-		1: 'Group Purpose',
-		2: 'Group Description',
-		3: 'Group Shout'
 	}
 } as const;
 

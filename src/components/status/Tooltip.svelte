@@ -343,7 +343,7 @@
 	const reasonEntries = $derived.by((): FormattedReasonEntry[] => {
 		const currentStatus = activeStatus;
 		if (!currentStatus?.reasons || currentStatus.flagType === STATUS.FLAGS.SAFE) return [];
-		return formatViolationReasons(currentStatus.reasons, entityType);
+		return formatViolationReasons(currentStatus.reasons);
 	});
 
 	// Check if auto-translation should be enabled

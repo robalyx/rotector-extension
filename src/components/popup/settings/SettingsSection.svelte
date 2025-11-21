@@ -6,7 +6,12 @@
 	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { setLanguage, getAvailableLocales } from '@/lib/stores/i18n';
-	import { extractOriginPattern, requestPermissionsForOrigins } from '@/lib/utils/permissions';
+	import {
+		extractOriginPattern,
+		hasTranslatePermission,
+		requestPermissionsForOrigins,
+		requestTranslatePermission
+	} from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
 		DEVELOPER_SETTING_CATEGORY,
@@ -35,11 +40,21 @@
 		apiKeyVisible = !apiKeyVisible;
 	}
 
-	// Handle setting changes with special handling for mature content warning
+	// Handle change of settings with special cases
 	async function handleSettingChange(key: SettingsKey, value: boolean | number | string) {
 		if (key === SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED && !$settings[key] && value) {
 			showMatureWarning = true;
 			return;
+		}
+
+		if (key === SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED && value === true) {
+			const hasPermission = await hasTranslatePermission();
+			if (!hasPermission) {
+				const granted = await requestTranslatePermission();
+				if (!granted) {
+					return;
+				}
+			}
 		}
 
 		await updateSetting(key, value);

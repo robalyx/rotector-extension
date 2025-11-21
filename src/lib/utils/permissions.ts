@@ -1,5 +1,17 @@
 import { logger } from './logger';
 
+const TRANSLATE_API_ORIGIN = 'https://translate.googleapis.com/*';
+
+// Check if we have permission to use the Google Translate API
+export async function hasTranslatePermission(): Promise<boolean> {
+	return hasPermissionsForOrigins([TRANSLATE_API_ORIGIN]);
+}
+
+// Request permission to use the Google Translate API
+export async function requestTranslatePermission(): Promise<boolean> {
+	return requestPermissionsForOrigins([TRANSLATE_API_ORIGIN]);
+}
+
 // Convert a full API URL to an origin pattern for permission requests
 export function extractOriginPattern(url: string): string | null {
 	try {

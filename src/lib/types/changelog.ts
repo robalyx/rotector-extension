@@ -42,6 +42,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'changed',
 				description:
 					'Status indicator colors - Pending users now display orange and mixed users display yellow for better visual distinction'
+			},
+			{
+				type: 'changed',
+				description:
+					'Translation permission - Auto-translate feature now requests permission only when enabled instead of requiring it at install'
 			}
 		]
 	},

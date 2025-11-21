@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { STATUS } from '@/lib/types/constants';
@@ -131,22 +131,22 @@
 
 <Modal
 	actionsLayout="horizontal"
-	cancelText={t('queue_popup_cancel_button')}
+	cancelText={$_('queue_popup_cancel_button')}
 	confirmDisabled={!canSubmit()}
-	confirmText={submitting ? t('queue_popup_submitting_button') : t('queue_popup_submit_button')}
+	confirmText={submitting ? $_('queue_popup_submitting_button') : $_('queue_popup_submit_button')}
 	confirmVariant="queue"
 	icon="warning"
 	onCancel={handleCancel}
 	onConfirm={handleConfirm}
-	title={isReanalysis ? t('queue_popup_title_reprocess') : t('queue_popup_title_queue')}
+	title={isReanalysis ? $_('queue_popup_title_reprocess') : $_('queue_popup_title_queue')}
 	bind:isOpen
 >
 	<div>
 		<p style:color="var(--color-text)" class="mb-6!">
 			{#if isReanalysis}
-				{t('queue_popup_description_reanalysis', [sanitizedUserId()])}
+				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId() } })}
 			{:else}
-				{t('queue_popup_description_analysis', [sanitizedUserId()])}
+				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId() } })}
 			{/if}
 		</p>
 
@@ -158,7 +158,7 @@
         mb-4 text-lg font-semibold
       "
 			>
-				{t('queue_popup_check_options_heading')}
+				{$_('queue_popup_check_options_heading')}
 			</h3>
 
 			<div class="mb-6 space-y-4">
@@ -166,10 +166,10 @@
 				<div class="queue-threshold-card queue-threshold-card-profile">
 					<div class="queue-threshold-header">
 						<Clipboard class="profile-icon" size={24} />
-						<div class="queue-threshold-title">{t('queue_popup_profile_check_title')}</div>
+						<div class="queue-threshold-title">{$_('queue_popup_profile_check_title')}</div>
 					</div>
 					<div class="queue-threshold-description">
-						{t('queue_popup_profile_check_description')}
+						{$_('queue_popup_profile_check_description')}
 					</div>
 					<div class="queue-threshold-options">
 						<label class="queue-threshold-option">
@@ -180,7 +180,7 @@
 								type="radio"
 								value="quick"
 							/>
-							<span>{t('queue_popup_threshold_quick')}</span>
+							<span>{$_('queue_popup_threshold_quick')}</span>
 						</label>
 						<label class="queue-threshold-option">
 							<input
@@ -190,7 +190,7 @@
 								type="radio"
 								value="thorough"
 							/>
-							<span>{t('queue_popup_threshold_thorough')}</span>
+							<span>{$_('queue_popup_threshold_thorough')}</span>
 						</label>
 					</div>
 				</div>
@@ -199,10 +199,10 @@
 				<div class="queue-threshold-card queue-threshold-card-friends">
 					<div class="queue-threshold-header">
 						<User class="friends-icon" size={24} />
-						<div class="queue-threshold-title">{t('queue_popup_friends_check_title')}</div>
+						<div class="queue-threshold-title">{$_('queue_popup_friends_check_title')}</div>
 					</div>
 					<div class="queue-threshold-description">
-						{t('queue_popup_friends_check_description')}
+						{$_('queue_popup_friends_check_description')}
 					</div>
 					<div class="queue-threshold-options">
 						<label class="queue-threshold-option">
@@ -213,7 +213,7 @@
 								type="radio"
 								value="quick"
 							/>
-							<span>{t('queue_popup_threshold_quick')}</span>
+							<span>{$_('queue_popup_threshold_quick')}</span>
 						</label>
 						<label class="queue-threshold-option">
 							<input
@@ -223,7 +223,7 @@
 								type="radio"
 								value="thorough"
 							/>
-							<span>{t('queue_popup_threshold_thorough')}</span>
+							<span>{$_('queue_popup_threshold_thorough')}</span>
 						</label>
 					</div>
 				</div>
@@ -232,10 +232,10 @@
 				<div class="queue-threshold-card queue-threshold-card-groups">
 					<div class="queue-threshold-header">
 						<Users class="groups-icon" size={24} />
-						<div class="queue-threshold-title">{t('queue_popup_groups_check_title')}</div>
+						<div class="queue-threshold-title">{$_('queue_popup_groups_check_title')}</div>
 					</div>
 					<div class="queue-threshold-description">
-						{t('queue_popup_groups_check_description')}
+						{$_('queue_popup_groups_check_description')}
 					</div>
 					<div class="queue-threshold-options">
 						<label class="queue-threshold-option">
@@ -246,7 +246,7 @@
 								type="radio"
 								value="quick"
 							/>
-							<span>{t('queue_popup_threshold_quick')}</span>
+							<span>{$_('queue_popup_threshold_quick')}</span>
 						</label>
 						<label class="queue-threshold-option">
 							<input
@@ -256,7 +256,7 @@
 								type="radio"
 								value="thorough"
 							/>
-							<span>{t('queue_popup_threshold_thorough')}</span>
+							<span>{$_('queue_popup_threshold_thorough')}</span>
 						</label>
 					</div>
 				</div>
@@ -265,10 +265,10 @@
 				<div class="queue-toggle-card queue-toggle-card-outfit">
 					<div class="queue-toggle-header">
 						<Shirt class="outfit-icon" size={24} />
-						<div class="queue-toggle-title">{t('queue_popup_outfit_check_title')}</div>
+						<div class="queue-toggle-title">{$_('queue_popup_outfit_check_title')}</div>
 					</div>
 					<div class="queue-toggle-description">
-						{t('queue_popup_outfit_check_description')}
+						{$_('queue_popup_outfit_check_description')}
 					</div>
 					<div class="queue-toggle-container">
 						<label class="queue-toggle-switch">
@@ -280,7 +280,7 @@
 							<span class="queue-toggle-slider"></span>
 						</label>
 						<span class="queue-toggle-label">
-							{outfitCheck ? t('queue_popup_outfit_enabled') : t('queue_popup_outfit_disabled')}
+							{outfitCheck ? $_('queue_popup_outfit_enabled') : $_('queue_popup_outfit_disabled')}
 						</span>
 					</div>
 				</div>
@@ -290,17 +290,17 @@
 		<div class="modal-content-section-info">
 			<h3 class="modal-content-heading">
 				<Check class="mr-2 text-blue-500" size={18} />
-				{t('queue_popup_review_process_heading')}
+				{$_('queue_popup_review_process_heading')}
 			</h3>
 			<ul class="modal-content-list">
 				<li class="modal-content-list-item-info">
-					{t('queue_popup_review_process_step1')}
+					{$_('queue_popup_review_process_step1')}
 				</li>
 				<li class="modal-content-list-item-info">
-					{t('queue_popup_review_process_step2')}
+					{$_('queue_popup_review_process_step2')}
 				</li>
 				<li class="modal-content-list-item-info">
-					{t('queue_popup_review_process_step3')}
+					{$_('queue_popup_review_process_step3')}
 				</li>
 			</ul>
 		</div>
@@ -308,11 +308,11 @@
 		<div class="modal-content-section-warning">
 			<h3 class="modal-content-heading flex items-center">
 				<AlertTriangle class="mr-2 warning-triangle-icon" size={24} />
-				{t('queue_popup_warning_heading')}
+				{$_('queue_popup_warning_heading')}
 			</h3>
 			<p style:color="var(--color-text)" class="text-sm">
-				<strong>{t('queue_popup_warning_message_prefix')}</strong>
-				{t('queue_popup_warning_message_suffix')}
+				<strong>{$_('queue_popup_warning_message_prefix')}</strong>
+				{$_('queue_popup_warning_message_suffix')}
 			</p>
 		</div>
 	</div>

@@ -17,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const LOCALE_DIR = path.join(__dirname, '..', 'public', '_locales');
+const LOCALE_DIR = path.join(__dirname, '..', 'src', '_locales');
 const SRC_DIR = path.join(__dirname, '..', 'src');
 
 /**
@@ -120,23 +120,18 @@ function extractUsedKeys() {
 	for (const file of files) {
 		const content = fs.readFileSync(file, 'utf8');
 
-		// Pattern 1: All string literals within t() calls using proper bracket matching
+		// Pattern 1: All string literals within $_() calls using proper bracket matching
 		// This handles direct calls, ternary operators, multiline calls, and nested structures
+		// svelte-i18n uses $_() instead of t()
 		let pos = 0;
 		while (pos < content.length) {
-			// Find next 't(' occurrence
-			const tIndex = content.indexOf('t(', pos);
-			if (tIndex === -1) break;
+			// Find next '$_(' occurrence
+			const fnIndex = content.indexOf('$_(', pos);
+			if (fnIndex === -1) break;
 
-			// Verify it's the t() function (word boundary before)
-			if (tIndex > 0 && /[a-zA-Z0-9_]/.test(content[tIndex - 1])) {
-				pos = tIndex + 1;
-				continue;
-			}
-
-			// Parse the full t() call with proper bracket/string tracking
+			// Parse the full $_() call with proper bracket/string tracking
 			let depth = 1;
-			let i = tIndex + 2;
+			let i = fnIndex + 3;
 			let callContent = '';
 			let inString = false;
 			let stringChar = null;
@@ -181,7 +176,6 @@ function extractUsedKeys() {
 			}
 
 			// Extract all string literals that look like translation keys
-			// No need for negative lookahead since we're already inside t() call
 			const stringRegex = /['"]([a-z][a-z0-9_]*)['"]/g;
 			let stringMatch;
 

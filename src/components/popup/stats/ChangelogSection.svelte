@@ -6,7 +6,7 @@
 		changelogSectionExpanded,
 		toggleChangelogSection
 	} from '@/lib/stores/changelog';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	// Handle toggle of the changelog section
 	async function handleToggle() {
@@ -28,7 +28,7 @@
 			onclick={handleToggle}
 			type="button"
 		>
-			<span class="flex-1 text-left">{t('stats_changelog_title')}</span>
+			<span class="flex-1 text-left">{$_('stats_changelog_title')}</span>
 			<span
 				class="
             border-t-text-subtle size-0 border-t-[6px] border-r-4 border-l-4
@@ -82,7 +82,7 @@
         dark:text-text-subtle-dark
       "
 			>
-				{t('stats_changelog_empty')}
+				{$_('stats_changelog_empty')}
 			</p>
 		</div>
 	{/if}

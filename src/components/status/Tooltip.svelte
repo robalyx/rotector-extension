@@ -44,7 +44,7 @@
 	import VotingWidget from './VotingWidget.svelte';
 	import EngineVersionIndicator from './EngineVersionIndicator.svelte';
 	import { get } from 'svelte/store';
-	import { t, getCurrentLanguage } from '@/lib/stores/i18n';
+	import { _, locale } from 'svelte-i18n';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 
 	import type { CombinedStatus } from '@/lib/types/custom-api';
@@ -234,42 +234,44 @@
 		confidence = 0,
 		currentStatus?: UserStatus | null
 	): string {
-		const entityType = t(isGroup ? 'tooltip_entity_group' : 'tooltip_entity_user');
+		const entityType = $_(isGroup ? 'tooltip_entity_group' : 'tooltip_entity_user');
 
 		switch (flag) {
 			case STATUS.FLAGS.UNSAFE:
-				return t('tooltip_header_unsafe', [entityType]);
+				return $_('tooltip_header_unsafe', { values: { 0: entityType } });
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
-				return t('tooltip_header_pending', [entityType, confidencePercent.toString()]);
+				return $_('tooltip_header_pending', {
+					values: { 0: entityType, 1: confidencePercent.toString() }
+				});
 			}
 			case STATUS.FLAGS.QUEUED:
 				// Check if processed to determine message
 				if (currentStatus?.processed === true) {
-					return t('tooltip_header_queued_safe', [entityType]);
+					return $_('tooltip_header_queued_safe', { values: { 0: entityType } });
 				} else {
-					return t('tooltip_header_queued_processing', [entityType]);
+					return $_('tooltip_header_queued_processing', { values: { 0: entityType } });
 				}
 			case STATUS.FLAGS.INTEGRATION:
-				return t('tooltip_header_integration', [entityType]);
+				return $_('tooltip_header_integration', { values: { 0: entityType } });
 			case STATUS.FLAGS.MIXED:
 				if (isGroup) {
-					return t('tooltip_header_mixed_group');
+					return $_('tooltip_header_mixed_group');
 				} else {
-					return t('tooltip_header_mixed_user');
+					return $_('tooltip_header_mixed_user');
 				}
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return t('tooltip_header_past_offender', [entityType]);
+				return $_('tooltip_header_past_offender', { values: { 0: entityType } });
 			case STATUS.FLAGS.SAFE:
-				return t('tooltip_header_safe', [entityType]);
+				return $_('tooltip_header_safe', { values: { 0: entityType } });
 			default:
-				return t('tooltip_header_unavailable');
+				return $_('tooltip_header_unavailable');
 		}
 	}
 
 	const headerMessage = $derived.by(() => {
-		if (activeError) return t('tooltip_error_details');
-		if (!activeStatus) return t('tooltip_loading');
+		if (activeError) return $_('tooltip_error_details');
+		if (!activeStatus) return $_('tooltip_loading');
 
 		const currentStatus = activeStatus;
 		const confidence = currentStatus.confidence || 0;
@@ -284,7 +286,7 @@
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, currentStatus);
 			default:
-				return t('tooltip_header_unknown');
+				return $_('tooltip_header_unknown');
 		}
 	});
 
@@ -316,27 +318,27 @@
 
 	const statusBadgeText = $derived.by(() => {
 		const currentStatus = activeStatus;
-		if (!currentStatus) return t('tooltip_status_unknown');
+		if (!currentStatus) return $_('tooltip_status_unknown');
 
 		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
-				return t('tooltip_status_not_flagged');
+				return $_('tooltip_status_not_flagged');
 			case STATUS.FLAGS.UNSAFE:
-				return t('tooltip_status_unsafe');
+				return $_('tooltip_status_unsafe');
 			case STATUS.FLAGS.PENDING:
-				return t('tooltip_status_under_review');
+				return $_('tooltip_status_under_review');
 			case STATUS.FLAGS.QUEUED:
 				return !isGroup && (currentStatus as UserStatus).processed === true
-					? t('tooltip_status_likely_safe')
-					: t('tooltip_status_checking');
+					? $_('tooltip_status_likely_safe')
+					: $_('tooltip_status_checking');
 			case STATUS.FLAGS.INTEGRATION:
-				return t('tooltip_status_integration');
+				return $_('tooltip_status_integration');
 			case STATUS.FLAGS.MIXED:
-				return t('tooltip_status_mixed');
+				return $_('tooltip_status_mixed');
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return t('tooltip_status_past_offender');
+				return $_('tooltip_status_past_offender');
 			default:
-				return t('tooltip_status_unknown');
+				return $_('tooltip_status_unknown');
 		}
 	});
 
@@ -533,7 +535,7 @@
 			isTranslating = true;
 			translationError = null;
 
-			const currentLanguage = getCurrentLanguage();
+			const currentLanguage = $locale ?? 'en';
 			const isEnglishUser = currentLanguage.split('-')[0].toLowerCase() === 'en';
 
 			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
@@ -713,7 +715,7 @@
 			<div class="reviewer-section">
 				<User class="reviewer-icon" size={14} />
 				<span class="reviewer-text">
-					{t('tooltip_reviewer_reviewed_by')}
+					{$_('tooltip_reviewer_reviewed_by')}
 					<span class="reviewer-name">
 						{#if reviewer.displayName && reviewer.username && reviewer.displayName !== reviewer.username}
 							{reviewer.displayName} (@{reviewer.username})
@@ -734,7 +736,7 @@
 			{#if metadata?.queuedTime}
 				<div class="tooltip-metadata-item" title={metadata?.queuedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">{t('tooltip_metadata_queued')}</span>
+					<span class="tooltip-metadata-label">{$_('tooltip_metadata_queued')}</span>
 					<span class="tooltip-metadata-value">{metadata?.queuedTime}</span>
 				</div>
 			{/if}
@@ -743,7 +745,7 @@
 				<div
 					class="tooltip-metadata-item"
 					class:processing={metadata?.isProcessing}
-					title={metadata?.processedExact || t('tooltip_metadata_processing_status')}
+					title={metadata?.processedExact || $_('tooltip_metadata_processing_status')}
 				>
 					{#if metadata?.isProcessing}
 						<Loader2 class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
@@ -751,7 +753,7 @@
 						<Check class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					{/if}
 					<span class="tooltip-metadata-label">
-						{#if metadata?.isProcessing}{t('tooltip_metadata_processing')}{:else}{t(
+						{#if metadata?.isProcessing}{$_('tooltip_metadata_processing')}{:else}{$_(
 								'tooltip_metadata_took'
 							)}{/if}
 					</span>
@@ -762,7 +764,7 @@
 			{#if metadata?.lastUpdatedTime}
 				<div class="tooltip-metadata-item" title={metadata?.lastUpdatedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">{t('tooltip_metadata_last_updated')}</span>
+					<span class="tooltip-metadata-label">{$_('tooltip_metadata_last_updated')}</span>
 					<span class="tooltip-metadata-value">{metadata?.lastUpdatedTime}</span>
 				</div>
 			{/if}
@@ -771,11 +773,11 @@
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}
-					title={t('tooltip_metadata_reprocess_title')}
+					title={$_('tooltip_metadata_reprocess_title')}
 					type="button"
 				>
 					<RefreshCw class="tooltip-metadata-icon" size={10} strokeWidth={2} />
-					<span class="tooltip-metadata-label">{t('tooltip_metadata_reprocess_button')}</span>
+					<span class="tooltip-metadata-label">{$_('tooltip_metadata_reprocess_button')}</span>
 				</button>
 			{/if}
 		</div>
@@ -859,11 +861,11 @@
 		<!-- Loading state -->
 		<div class="flex items-center gap-2 justify-center py-2">
 			<LoadingSpinner size="small" />
-			<span class="text-xs">{t('tooltip_loading_user_info')}</span>
+			<span class="text-xs">{$_('tooltip_loading_user_info')}</span>
 		</div>
 	{:else if !activeStatus}
 		<!-- No data state -->
-		<div class="error-details">{t('tooltip_no_data_available')}</div>
+		<div class="error-details">{$_('tooltip_no_data_available')}</div>
 	{:else}
 		<!-- Status information -->
 		<div>
@@ -878,7 +880,7 @@
 						}}
 						type="button"
 					>
-						{t('tooltip_queue_button')}
+						{$_('tooltip_queue_button')}
 					</button>
 				</div>
 
@@ -895,14 +897,14 @@
 					<div class="flex gap-1.5 mb-2 justify-center flex-wrap">
 						{#if !isGroup && badgeStatus.isReportable}
 							<span class="tooltip-badge tooltip-badge-reportable">
-								{t('tooltip_badge_reportable')}
+								{$_('tooltip_badge_reportable')}
 							</span>
 						{/if}
 						{#if activeStatus?.isQueued}
-							<span class="tooltip-badge tooltip-badge-queued"> {t('tooltip_badge_queued')} </span>
+							<span class="tooltip-badge tooltip-badge-queued"> {$_('tooltip_badge_queued')} </span>
 						{/if}
 						{#if !isGroup && badgeStatus.isOutfitOnly}
-							<span class="tooltip-badge tooltip-badge-outfit"> {t('tooltip_badge_outfit')} </span>
+							<span class="tooltip-badge tooltip-badge-outfit"> {$_('tooltip_badge_outfit')} </span>
 						{/if}
 					</div>
 				{/if}
@@ -923,9 +925,9 @@
 					<div class="reportable-notice">
 						<AlertCircle class="reportable-icon" size={24} />
 						<div class="reportable-text">
-							<strong>{t('tooltip_reportable_title')}</strong>
+							<strong>{$_('tooltip_reportable_title')}</strong>
 							<p>
-								{t('tooltip_reportable_message')}
+								{$_('tooltip_reportable_message')}
 							</p>
 							<a
 								class="report-button"
@@ -934,7 +936,7 @@
 								rel="noopener noreferrer"
 								target="_blank"
 							>
-								{t('tooltip_reportable_report_button')}
+								{$_('tooltip_reportable_report_button')}
 							</a>
 						</div>
 					</div>
@@ -946,9 +948,9 @@
 					<div class="outfit-notice">
 						<Shirt class="outfit-icon" size={24} />
 						<div class="outfit-text">
-							<strong>{t('tooltip_outfit_title')}</strong>
+							<strong>{$_('tooltip_outfit_title')}</strong>
 							<p>
-								{t('tooltip_outfit_message')}
+								{$_('tooltip_outfit_message')}
 							</p>
 						</div>
 					</div>
@@ -967,12 +969,12 @@
 							<!-- Loading state -->
 							<div class="translate-status-container">
 								<LoadingSpinner size="small" />
-								<span class="translate-status-text">{t('tooltip_translation_translating')}</span>
+								<span class="translate-status-text">{$_('tooltip_translation_translating')}</span>
 							</div>
 						{:else if translationError}
 							<!-- Error state -->
 							<div class="translate-status-container">
-								<span class="translate-error">{t('tooltip_translation_failed')}</span>
+								<span class="translate-error">{$_('tooltip_translation_failed')}</span>
 							</div>
 						{:else if hasActualTranslations}
 							<!-- Toggle button -->
@@ -988,10 +990,10 @@
 								>
 									{#if showTranslated}
 										<FileText size={11} />
-										<span>{t('tooltip_translation_view_original')}</span>
+										<span>{$_('tooltip_translation_view_original')}</span>
 									{:else}
 										<Languages size={11} />
-										<span>{t('tooltip_translation_view_translated')}</span>
+										<span>{$_('tooltip_translation_view_translated')}</span>
 									{/if}
 								</button>
 							</div>
@@ -1048,7 +1050,7 @@
 	<div
 		bind:this={overlayRef}
 		class="expanded-tooltip-overlay"
-		aria-label={t('tooltip_aria_close')}
+		aria-label={$_('tooltip_aria_close')}
 		onclick={handleOverlayClick}
 		onkeydown={(e) => {
 			if (e.key === 'Enter' || e.key === ' ') {
@@ -1080,7 +1082,10 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{groupInfo.groupName}</div>
-								<div class="tooltip-user-id">{t('tooltip_profile_group_id')} {sanitizedUserId}</div>
+								<div class="tooltip-user-id">
+									{$_('tooltip_profile_group_id')}
+									{sanitizedUserId}
+								</div>
 								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
 									{statusBadgeText}
@@ -1095,7 +1100,7 @@
 							</div>
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{userInfo.username}</div>
-								<div class="tooltip-user-id">{t('tooltip_profile_id')} {sanitizedUserId}</div>
+								<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
 								<div class="tooltip-status-badge {statusBadgeClass}">
 									<span class="status-indicator"></span>
 									{statusBadgeText}
@@ -1105,10 +1110,10 @@
 					{:else}
 						<!-- Fallback header -->
 						<div class="tooltip-header">
-							<div>{error ? t('tooltip_error_details') : t('tooltip_loading')}</div>
+							<div>{error ? $_('tooltip_error_details') : $_('tooltip_loading')}</div>
 							<div class="tooltip-user-id">
-								{isGroup ? t('tooltip_entity_group') : t('tooltip_profile_user')}
-								{t('tooltip_profile_id')}
+								{isGroup ? $_('tooltip_entity_group') : $_('tooltip_profile_user')}
+								{$_('tooltip_profile_id')}
 								{sanitizedUserId}
 							</div>
 						</div>
@@ -1137,7 +1142,7 @@
 	<div
 		bind:this={tooltipRef}
 		class="rtcr-tooltip-container"
-		aria-label={t('tooltip_aria_expand')}
+		aria-label={$_('tooltip_aria_expand')}
 		aria-labelledby="tooltip-header"
 		onclick={handleExpand}
 		onkeydown={(e) => {

@@ -2,7 +2,7 @@
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import Modal from '../../ui/Modal.svelte';
 
 	interface Props {
@@ -29,7 +29,7 @@
 
 	const isEditing = $derived(() => editingApi !== null);
 	const modalTitle = $derived(() =>
-		isEditing() ? t('custom_api_form_title_edit') : t('custom_api_form_title_add')
+		isEditing() ? $_('custom_api_form_title_edit') : $_('custom_api_form_title_add')
 	);
 
 	// Validate name
@@ -37,12 +37,12 @@
 		nameError = '';
 
 		if (!name.trim()) {
-			nameError = t('custom_api_form_error_name_required');
+			nameError = $_('custom_api_form_error_name_required');
 			return false;
 		}
 
 		if (name.length > 12) {
-			nameError = t('custom_api_form_error_name_length');
+			nameError = $_('custom_api_form_error_name_length');
 			return false;
 		}
 
@@ -54,19 +54,19 @@
 		urlError = '';
 
 		if (!url.trim()) {
-			urlError = t('custom_api_form_error_url_required');
+			urlError = $_('custom_api_form_error_url_required');
 			return false;
 		}
 
 		if (!url.startsWith('https://')) {
-			urlError = t('custom_api_form_error_url_https');
+			urlError = $_('custom_api_form_error_url_https');
 			return false;
 		}
 
 		try {
 			new URL(url);
 		} catch {
-			urlError = t('custom_api_form_error_url_invalid');
+			urlError = $_('custom_api_form_error_url_invalid');
 			return false;
 		}
 
@@ -78,12 +78,12 @@
 		timeoutError = '';
 
 		if (!timeout || timeout < 1000) {
-			timeoutError = t('custom_api_form_error_timeout_min');
+			timeoutError = $_('custom_api_form_error_timeout_min');
 			return false;
 		}
 
 		if (timeout > 60000) {
-			timeoutError = t('custom_api_form_error_timeout_max');
+			timeoutError = $_('custom_api_form_error_timeout_max');
 			return false;
 		}
 
@@ -107,7 +107,7 @@
 		const hasValidExtension = validExtensions.some((ext) => fileName.endsWith(ext));
 
 		if (!hasValidExtension) {
-			imageError = t('custom_api_form_error_image_type');
+			imageError = $_('custom_api_form_error_image_type');
 			landscapeImageDataUrl = '';
 			input.value = '';
 			return;
@@ -116,7 +116,7 @@
 		// Validate MIME type
 		const validMimeTypes = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'];
 		if (!validMimeTypes.includes(file.type)) {
-			imageError = t('custom_api_form_error_image_mime');
+			imageError = $_('custom_api_form_error_image_mime');
 			landscapeImageDataUrl = '';
 			input.value = '';
 			return;
@@ -125,7 +125,9 @@
 		// Warn about large file sizes
 		const fileSizeKB = file.size / 1024;
 		if (fileSizeKB > 100) {
-			imageError = t('custom_api_form_error_image_size', [Math.round(fileSizeKB).toString()]);
+			imageError = $_('custom_api_form_error_image_size', {
+				values: { 0: Math.round(fileSizeKB).toString() }
+			});
 		}
 
 		// Convert to base64 data URL
@@ -135,12 +137,12 @@
 				landscapeImageDataUrl = e.target?.result as string;
 			};
 			reader.onerror = () => {
-				imageError = t('custom_api_form_error_image_read');
+				imageError = $_('custom_api_form_error_image_read');
 				landscapeImageDataUrl = '';
 			};
 			reader.readAsDataURL(file);
 		} catch {
-			imageError = t('custom_api_form_error_image_process');
+			imageError = $_('custom_api_form_error_image_process');
 			landscapeImageDataUrl = '';
 		}
 	}
@@ -195,7 +197,7 @@
 
 				// Notify user if API was auto-disabled due to URL change
 				if (urlChanged) {
-					alert(t('custom_api_form_alert_url_changed_disabled'));
+					alert($_('custom_api_form_alert_url_changed_disabled'));
 				}
 			} else {
 				// Add new API
@@ -216,8 +218,8 @@
 		} catch (error) {
 			logger.error('Failed to save custom API:', error);
 			alert(
-				t('custom_api_form_error_save_prefix') +
-					(error instanceof Error ? error.message : t('custom_api_form_error_unknown'))
+				$_('custom_api_form_error_save_prefix') +
+					(error instanceof Error ? error.message : $_('custom_api_form_error_unknown'))
 			);
 		} finally {
 			saving = false;
@@ -231,7 +233,7 @@
 </script>
 
 <Modal
-	confirmText={saving ? t('custom_api_form_button_saving') : t('custom_api_form_button_save')}
+	confirmText={saving ? $_('custom_api_form_button_saving') : $_('custom_api_form_button_save')}
 	isOpen={true}
 	modalType="modal"
 	onCancel={handleCancel}
@@ -244,8 +246,8 @@
 		<!-- Name Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-name">
-				{t('custom_api_form_label_name')}
-				<span class="required">{t('custom_api_form_label_required')}</span>
+				{$_('custom_api_form_label_name')}
+				<span class="required">{$_('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-name"
@@ -253,12 +255,12 @@
 				class:error={nameError}
 				maxlength="12"
 				oninput={() => validateName()}
-				placeholder={t('custom_api_form_placeholder_name')}
+				placeholder={$_('custom_api_form_placeholder_name')}
 				type="text"
 				bind:value={name}
 			/>
 			<div class="form-hint">
-				{t('custom_api_form_hint_name_length', [name.length.toString()])}
+				{$_('custom_api_form_hint_name_length', { values: { 0: name.length.toString() } })}
 			</div>
 			{#if nameError}
 				<div class="form-error">{nameError}</div>
@@ -268,20 +270,20 @@
 		<!-- URL Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-url">
-				{t('custom_api_form_label_url')}
-				<span class="required">{t('custom_api_form_label_required')}</span>
+				{$_('custom_api_form_label_url')}
+				<span class="required">{$_('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-url"
 				class="form-input"
 				class:error={urlError}
 				oninput={() => validateUrl()}
-				placeholder={t('custom_api_form_placeholder_url')}
+				placeholder={$_('custom_api_form_placeholder_url')}
 				type="url"
 				bind:value={url}
 			/>
 			<div class="form-hint">
-				{t('custom_api_form_hint_url')}
+				{$_('custom_api_form_hint_url')}
 			</div>
 			{#if urlError}
 				<div class="form-error">{urlError}</div>
@@ -291,8 +293,8 @@
 		<!-- Timeout Field -->
 		<div class="form-field">
 			<label class="form-label" for="api-timeout">
-				{t('custom_api_form_label_timeout')}
-				<span class="required">{t('custom_api_form_label_required')}</span>
+				{$_('custom_api_form_label_timeout')}
+				<span class="required">{$_('custom_api_form_label_required')}</span>
 			</label>
 			<input
 				id="api-timeout"
@@ -301,12 +303,12 @@
 				max="60000"
 				min="1000"
 				oninput={() => validateTimeout()}
-				placeholder={t('custom_api_form_placeholder_timeout')}
+				placeholder={$_('custom_api_form_placeholder_timeout')}
 				step="1000"
 				type="number"
 				bind:value={timeout}
 			/>
-			<div class="form-hint">{t('custom_api_form_hint_timeout')}</div>
+			<div class="form-hint">{$_('custom_api_form_hint_timeout')}</div>
 			{#if timeoutError}
 				<div class="form-error">{timeoutError}</div>
 			{/if}
@@ -314,7 +316,7 @@
 
 		<!-- Landscape Image Field -->
 		<div class="form-field">
-			<label class="form-label" for="api-image"> {t('custom_api_form_label_image')} </label>
+			<label class="form-label" for="api-image"> {$_('custom_api_form_label_image')} </label>
 			<input
 				id="api-image"
 				class="form-input"
@@ -324,7 +326,7 @@
 				type="file"
 			/>
 			<div class="form-hint">
-				{t('custom_api_form_hint_image')}
+				{$_('custom_api_form_hint_image')}
 			</div>
 			{#if imageError}
 				<div class="form-error">{imageError}</div>
@@ -343,7 +345,7 @@
 						onclick={removeImage}
 						type="button"
 					>
-						{t('custom_api_form_button_remove_image')}
+						{$_('custom_api_form_button_remove_image')}
 					</button>
 				</div>
 			{/if}

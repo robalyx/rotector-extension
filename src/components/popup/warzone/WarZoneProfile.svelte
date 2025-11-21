@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authStore, updateAnonymous, logout } from '../../../lib/stores/auth';
 	import { apiClient } from '../../../lib/services/api-client';
-	import { t } from '../../../lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { logger } from '../../../lib/utils/logger';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 
@@ -54,7 +54,7 @@
 	}
 
 	async function handleLogout() {
-		const confirmed = confirm(t('warzone_profile_confirm_logout'));
+		const confirmed = confirm($_('warzone_profile_confirm_logout'));
 
 		if (!confirmed) return;
 
@@ -66,7 +66,7 @@
 	}
 
 	async function handleResetUuid() {
-		const confirmed = confirm(t('warzone_profile_confirm_reset_uuid'));
+		const confirmed = confirm($_('warzone_profile_confirm_reset_uuid'));
 
 		if (!confirmed) return;
 
@@ -91,7 +91,7 @@
 			}, 3000);
 		} catch (error) {
 			logger.error('Failed to reset UUID:', error);
-			alert(t('warzone_profile_error_reset_uuid'));
+			alert($_('warzone_profile_error_reset_uuid'));
 		} finally {
 			isResettingUuid = false;
 		}
@@ -102,7 +102,7 @@
 	<div class="war-zone-profile">
 		<div class="war-zone-profile-header">
 			<div class="war-zone-profile-info">
-				<h3 class="war-zone-profile-title">{t('warzone_profile_title')}</h3>
+				<h3 class="war-zone-profile-title">{$_('warzone_profile_title')}</h3>
 			</div>
 
 			<div class="war-zone-profile-stats">
@@ -110,19 +110,19 @@
 					<span class="war-zone-profile-stat-value"
 						>{formatPoints($authStore.profile.totalPoints)}</span
 					>
-					<span class="war-zone-profile-stat-label">{t('warzone_profile_stat_points')}</span>
+					<span class="war-zone-profile-stat-label">{$_('warzone_profile_stat_points')}</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="war-zone-profile-details">
 			<div class="war-zone-detail-item">
-				<span class="war-zone-detail-label">{t('warzone_profile_label_discord')}</span>
+				<span class="war-zone-detail-label">{$_('warzone_profile_label_discord')}</span>
 				<div class="discord-info">
 					{#if $authStore.profile.discordAvatar && $authStore.profile.discordUserId}
 						<img
 							class="discord-avatar"
-							alt={t('warzone_profile_discord_avatar_alt')}
+							alt={$_('warzone_profile_discord_avatar_alt')}
 							src={getDiscordAvatarUrl(
 								$authStore.profile.discordAvatar,
 								$authStore.profile.discordUserId
@@ -135,7 +135,7 @@
 
 			<div class="war-zone-detail-item">
 				<div class="war-zone-detail-row">
-					<span class="war-zone-detail-label-inline">{t('warzone_profile_label_visibility')}</span>
+					<span class="war-zone-detail-label-inline">{$_('warzone_profile_label_visibility')}</span>
 					<div class="war-zone-visibility-toggle">
 						{#if isUpdatingAnonymous}
 							<LoadingSpinner size="small" />
@@ -150,8 +150,8 @@
 								<span class="war-zone-toggle-slider"></span>
 								<span class="war-zone-toggle-label"
 									>{isAnonymousInput
-										? t('warzone_profile_visibility_anonymous')
-										: t('warzone_profile_visibility_public')}</span
+										? $_('warzone_profile_visibility_anonymous')
+										: $_('warzone_profile_visibility_public')}</span
 								>
 							</label>
 						{/if}
@@ -160,12 +160,12 @@
 			</div>
 
 			<div class="war-zone-detail-item">
-				<span class="war-zone-detail-label">{t('warzone_profile_label_joined')}</span>
+				<span class="war-zone-detail-label">{$_('warzone_profile_label_joined')}</span>
 				<span class="war-zone-detail-value">{formatDate($authStore.profile.createdAt)}</span>
 			</div>
 
 			<div class="war-zone-detail-item">
-				<span class="war-zone-detail-label">{t('warzone_profile_label_last_active')}</span>
+				<span class="war-zone-detail-label">{$_('warzone_profile_label_last_active')}</span>
 				<span class="war-zone-detail-value">{formatDate($authStore.profile.lastActive)}</span>
 			</div>
 		</div>
@@ -179,16 +179,16 @@
 			>
 				{#if isResettingUuid}
 					<LoadingSpinner size="small" />
-					{t('warzone_profile_button_reset_uuid_loading')}
+					{$_('warzone_profile_button_reset_uuid_loading')}
 				{:else if resetSuccess}
-					{t('warzone_profile_button_reset_uuid_success')}
+					{$_('warzone_profile_button_reset_uuid_success')}
 				{:else}
-					{t('warzone_profile_button_reset_uuid')}
+					{$_('warzone_profile_button_reset_uuid')}
 				{/if}
 			</button>
 
 			<button class="war-zone-profile-logout-button" onclick={handleLogout} type="button">
-				{t('warzone_profile_button_logout')}
+				{$_('warzone_profile_button_logout')}
 			</button>
 		</div>
 

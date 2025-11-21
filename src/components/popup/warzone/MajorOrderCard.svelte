@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { MajorOrder } from '../../../lib/types/api';
-	import { t } from '../../../lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { Trophy } from 'lucide-svelte';
 
 	interface Props {
@@ -31,9 +31,9 @@
 
 	function getOrderTypeLabel(type: string): string {
 		const labels: Record<string, string> = {
-			ban_count: t('warzone_order_type_ban_count'),
-			zone_liberation: t('warzone_order_type_zone_liberation'),
-			verification: t('warzone_order_type_verification')
+			ban_count: $_('warzone_order_type_ban_count'),
+			zone_liberation: $_('warzone_order_type_zone_liberation'),
+			verification: $_('warzone_order_type_verification')
 		};
 		return labels[type] || type;
 	}
@@ -56,8 +56,8 @@
 		<div class="order-expiry">
 			<span class="expiry-label"
 				>{order.completedAt
-					? t('warzone_order_label_completed')
-					: t('warzone_order_label_expires')}</span
+					? $_('warzone_order_label_completed')
+					: $_('warzone_order_label_expires')}</span
 			>
 			<span class="expiry-date">{formatDate(order.completedAt || order.expiresAt)}</span>
 		</div>
@@ -67,12 +67,11 @@
 
 	<div class="order-progress-section">
 		<div class="progress-header">
-			<span class="progress-label">{t('warzone_order_label_progress')}</span>
+			<span class="progress-label">{$_('warzone_order_label_progress')}</span>
 			<span class="progress-value"
-				>{t('warzone_order_progress_value', [
-					order.currentValue.toLocaleString(),
-					order.targetValue.toLocaleString()
-				])}</span
+				>{$_('warzone_order_progress_value', {
+					values: { 0: order.currentValue.toLocaleString(), 1: order.targetValue.toLocaleString() }
+				})}</span
 			>
 		</div>
 		<div class="progress-bar-container">

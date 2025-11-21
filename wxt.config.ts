@@ -51,7 +51,6 @@ export default defineConfig({
 		description:
 			'Real-time warnings about inappropriate Roblox users before you interact with them.',
 		version: '2.5.1',
-		default_locale: 'en',
 		permissions: ['storage'],
 		host_permissions: [
 			'https://*.roblox.com/*',

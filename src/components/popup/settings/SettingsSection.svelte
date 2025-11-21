@@ -5,6 +5,7 @@
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
+	import { setLanguage, getAvailableLocales } from '@/lib/stores/i18n';
 	import { extractOriginPattern, requestPermissionsForOrigins } from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
@@ -14,7 +15,9 @@
 	} from '@/lib/types/settings';
 	import { ChevronRight } from 'lucide-svelte';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
+
+	const availableLocales = getAvailableLocales();
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
@@ -40,6 +43,12 @@
 		}
 
 		await updateSetting(key, value);
+	}
+
+	// Handle language change with i18n library
+	async function handleLanguageChange(localeCode: string) {
+		await setLanguage(localeCode);
+		await updateSetting(SETTINGS_KEYS.LANGUAGE_OVERRIDE, localeCode);
 	}
 
 	// Handle API key input changes
@@ -124,19 +133,42 @@
 				class="
             text-text-subtle ml-0.5 px-1 text-2xs font-medium
             dark:text-text-subtle-dark
-          ">{t(category.titleKey)}</legend
+          ">{$_(category.titleKey)}</legend
 			>
 			<div class="settings-category">
 				{#each category.settings as setting (setting.key)}
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
 						<NumberInput
-							helpText={setting.helpTextKey ? t(setting.helpTextKey) : undefined}
-							label={t(setting.labelKey)}
+							helpText={setting.helpTextKey ? $_(setting.helpTextKey) : undefined}
+							label={$_(setting.labelKey)}
 							max={10}
 							min={1}
 							onChange={(value: number) => handleSettingChange(setting.key, value)}
 							value={Number($settings[setting.key] ?? 1)}
 						/>
+					{:else if setting.key === SETTINGS_KEYS.LANGUAGE_OVERRIDE}
+						<div
+							class="setting-item"
+							class:setting-highlighted={highlightedSetting === setting.key}
+							data-setting-key={setting.key}
+						>
+							<div class="setting-label">
+								{$_(setting.labelKey)}
+								{#if setting.helpTextKey}
+									<HelpIndicator text={$_(setting.helpTextKey)} />
+								{/if}
+							</div>
+							<select
+								class="theme-selector"
+								onchange={(e) => handleLanguageChange(e.currentTarget.value)}
+								value={$settings[setting.key]}
+							>
+								<option value="auto">{$_('settings_language_auto')}</option>
+								{#each availableLocales as locale (locale.code)}
+									<option value={locale.code}>{locale.name}</option>
+								{/each}
+							</select>
+						</div>
 					{:else if setting.key === SETTINGS_KEYS.THEME}
 						<div
 							class="setting-item"
@@ -144,9 +176,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{t(setting.labelKey)}
+								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
-									<HelpIndicator text={t(setting.helpTextKey)} />
+									<HelpIndicator text={$_(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<select
@@ -154,9 +186,9 @@
 								onchange={(e) => handleSettingChange(setting.key, e.currentTarget.value)}
 								bind:value={$settings[setting.key]}
 							>
-								<option value="light">{t('settings_theme_light')}</option>
-								<option value="dark">{t('settings_theme_dark')}</option>
-								<option value="auto">{t('settings_theme_auto')}</option>
+								<option value="light">{$_('settings_theme_light')}</option>
+								<option value="dark">{$_('settings_theme_dark')}</option>
+								<option value="auto">{$_('settings_theme_auto')}</option>
 							</select>
 						</div>
 					{:else}
@@ -166,9 +198,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{t(setting.labelKey)}
+								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
-									<HelpIndicator text={t(setting.helpTextKey)} />
+									<HelpIndicator text={$_(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<Toggle
@@ -188,7 +220,7 @@
 							<div class="setting-label">
 								{api.name}
 								{#if api.isSystem}
-									<span class="api-system-label">{t('settings_api_system_label')}</span>
+									<span class="api-system-label">{$_('settings_api_system_label')}</span>
 								{/if}
 							</div>
 							<Toggle
@@ -204,13 +236,13 @@
 				{#if category.titleKey === 'settings_category_integrations' && onNavigateToCustomApis && $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 					<button class="manage-custom-apis-button" onclick={onNavigateToCustomApis} type="button">
 						<span class="manage-custom-apis-text">
-							{t('settings_manage_apis_button')}
+							{$_('settings_manage_apis_button')}
 							<span class="custom-api-count">
-								{t(
+								{$_(
 									$customApis.length === 1
 										? 'settings_api_count_singular'
 										: 'settings_api_count_plural',
-									[$customApis.length.toString()]
+									{ values: { 0: $customApis.length.toString() } }
 								)}
 							</span>
 						</span>
@@ -236,7 +268,7 @@
         dark:text-text-subtle-dark
       "
 		>
-			{t(DEVELOPER_SETTING_CATEGORY.titleKey)}
+			{$_(DEVELOPER_SETTING_CATEGORY.titleKey)}
 		</legend>
 		<div class="settings-category">
 			{#each DEVELOPER_SETTING_CATEGORY.settings as setting (setting.key)}
@@ -248,9 +280,9 @@
 						data-setting-key={setting.key}
 					>
 						<div class="setting-label">
-							{t(setting.labelKey)}
+							{$_(setting.labelKey)}
 							{#if setting.helpTextKey}
-								<HelpIndicator text={t(setting.helpTextKey)} />
+								<HelpIndicator text={$_(setting.helpTextKey)} />
 							{/if}
 						</div>
 						<Toggle
@@ -262,8 +294,8 @@
 					<!-- Other developer settings (shown only when developer mode is enabled) -->
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
 						<NumberInput
-							helpText={setting.helpTextKey ? t(setting.helpTextKey) : undefined}
-							label={t(setting.labelKey)}
+							helpText={setting.helpTextKey ? $_(setting.helpTextKey) : undefined}
+							label={$_(setting.labelKey)}
 							max={10}
 							min={1}
 							onChange={(value: number) => handleSettingChange(setting.key, value)}
@@ -276,9 +308,9 @@
 							data-setting-key={setting.key}
 						>
 							<div class="setting-label">
-								{t(setting.labelKey)}
+								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
-									<HelpIndicator text={t(setting.helpTextKey)} />
+									<HelpIndicator text={$_(setting.helpTextKey)} />
 								{/if}
 							</div>
 							<Toggle
@@ -293,23 +325,23 @@
 			<!-- API Key input field (shown only when developer mode is enabled) -->
 			{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 				<div class="api-key-container mt-2.5">
-					<div class="setting-label mb-1.5 w-full">{t('settings_api_key_label')}</div>
+					<div class="setting-label mb-1.5 w-full">{$_('settings_api_key_label')}</div>
 					<div class="flex items-center gap-1">
 						<input
 							class="api-key-input"
 							oninput={handleApiKeyChange}
-							placeholder={t('settings_api_key_placeholder')}
+							placeholder={$_('settings_api_key_placeholder')}
 							type={apiKeyVisible ? 'text' : 'password'}
 							value={$settings[SETTINGS_KEYS.API_KEY]}
 						/>
 						<button
 							class="api-key-toggle"
 							onclick={toggleApiKeyVisibility}
-							title={t('settings_api_key_toggle_title')}
+							title={$_('settings_api_key_toggle_title')}
 							type="button"
 						>
 							<span class="text-xs select-none">
-								{apiKeyVisible ? t('settings_api_key_hide') : t('settings_api_key_show')}
+								{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
 							</span>
 						</button>
 					</div>
@@ -323,7 +355,7 @@
 						type="button"
 					>
 						<span class="manage-custom-apis-text">
-							{t('settings_rotector_api_docs_button')}
+							{$_('settings_rotector_api_docs_button')}
 						</span>
 						<ChevronRight size={16} />
 					</button>
@@ -335,56 +367,56 @@
 
 <!-- Mature Content Warning Modal -->
 <Modal
-	confirmText={t('settings_modal_confirm_button')}
+	confirmText={$_('settings_modal_confirm_button')}
 	onClose={closeMatureWarning}
 	onConfirm={confirmMatureContent}
 	showCancel={false}
 	size="small"
-	title={t('settings_modal_title')}
+	title={$_('settings_modal_title')}
 	bind:isOpen={showMatureWarning}
 >
 	<p class="mb-4 text-sm leading-relaxed">
-		<strong>{t('settings_modal_warning_intro')}</strong>
-		{t('settings_modal_warning_continuation')}
+		<strong>{$_('settings_modal_warning_intro')}</strong>
+		{$_('settings_modal_warning_continuation')}
 	</p>
 
 	<div class="modal-content-section-info">
-		<h4 class="modal-content-heading">{t('settings_modal_enabled_heading')}</h4>
+		<h4 class="modal-content-heading">{$_('settings_modal_enabled_heading')}</h4>
 		<ul class="modal-content-list">
 			<li class="modal-content-list-item-info">
-				{t('settings_modal_enabled_item1')}
+				{$_('settings_modal_enabled_item1')}
 			</li>
 			<li class="modal-content-list-item-info">
-				{t('settings_modal_enabled_item2')}
+				{$_('settings_modal_enabled_item2')}
 			</li>
 			<li class="modal-content-list-item-info">
-				{t('settings_modal_enabled_item3')}
+				{$_('settings_modal_enabled_item3')}
 			</li>
 		</ul>
 	</div>
 
 	<div class="modal-content-section-warning">
-		<h4 class="modal-content-heading">{t('settings_modal_considerations_heading')}</h4>
+		<h4 class="modal-content-heading">{$_('settings_modal_considerations_heading')}</h4>
 		<ul class="modal-content-list">
 			<li class="modal-content-list-item-warning">
-				{t('settings_modal_considerations_item1')}
+				{$_('settings_modal_considerations_item1')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				{t('settings_modal_considerations_item2')}
+				{$_('settings_modal_considerations_item2')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				{t('settings_modal_considerations_item3')}
+				{$_('settings_modal_considerations_item3')}
 			</li>
 			<li class="modal-content-list-item-warning">
-				{t('settings_modal_considerations_item4')}
+				{$_('settings_modal_considerations_item4')}
 			</li>
 		</ul>
 	</div>
 
 	<div class="modal-content-section-recommendation">
 		<p class="m-0 text-sm leading-relaxed">
-			<strong>{t('settings_modal_recommendation_label')}</strong>
-			{t('settings_modal_recommendation_text')}
+			<strong>{$_('settings_modal_recommendation_label')}</strong>
+			{$_('settings_modal_recommendation_text')}
 		</p>
 	</div>
 </Modal>

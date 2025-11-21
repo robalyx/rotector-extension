@@ -2,7 +2,7 @@
 	import { importApi } from '@/lib/stores/custom-apis';
 	import { importCustomApi } from '@/lib/utils/api-export';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { Upload } from 'lucide-svelte';
 	import Modal from '../../ui/Modal.svelte';
 
@@ -28,7 +28,7 @@
 
 		// Check file extension
 		if (!file.name.endsWith('.rotector-api')) {
-			alert(t('custom_api_import_error_invalid_file_extension'));
+			alert($_('custom_api_import_error_invalid_file_extension'));
 			input.value = '';
 			return;
 		}
@@ -41,7 +41,7 @@
 			input.value = '';
 		};
 		reader.onerror = () => {
-			alert(t('custom_api_import_error_file_read_failed'));
+			alert($_('custom_api_import_error_file_read_failed'));
 			input.value = '';
 		};
 		reader.readAsText(file);
@@ -50,7 +50,7 @@
 	// Handle import
 	async function handleImport() {
 		if (!encodedData.trim()) {
-			alert(t('custom_api_import_error_empty_data'));
+			alert($_('custom_api_import_error_empty_data'));
 			return;
 		}
 
@@ -72,8 +72,8 @@
 		} catch (error) {
 			logger.error('Failed to import custom API:', error);
 			const errorMessage =
-				error instanceof Error ? error.message : t('custom_api_import_error_unknown');
-			alert(t('custom_api_mgmt_alert_import_failed', [errorMessage]));
+				error instanceof Error ? error.message : $_('custom_api_import_error_unknown');
+			alert($_('custom_api_mgmt_alert_import_failed', { values: { 0: errorMessage } }));
 		} finally {
 			importing = false;
 		}
@@ -91,29 +91,29 @@
 </script>
 
 <Modal
-	cancelText={t('custom_api_import_button_cancel')}
+	cancelText={$_('custom_api_import_button_cancel')}
 	confirmDisabled={importing || !encodedData.trim()}
 	confirmText={importing
-		? t('custom_api_import_button_importing')
-		: t('custom_api_import_button_import')}
+		? $_('custom_api_import_button_importing')
+		: $_('custom_api_import_button_import')}
 	isOpen={true}
 	modalType="modal"
 	onCancel={onClose}
 	onConfirm={handleImport}
 	showCancel={true}
 	size="normal"
-	title={t('custom_api_import_title')}
+	title={$_('custom_api_import_title')}
 >
 	<div class="custom-api-import-modal">
 		<!-- Paste Area -->
 		<div class="import-form-group">
 			<label class="import-label" for="encoded-data">
-				{t('custom_api_import_label_paste')}
+				{$_('custom_api_import_label_paste')}
 			</label>
 			<textarea
 				id="encoded-data"
 				class="import-textarea"
-				placeholder={t('custom_api_import_placeholder_paste')}
+				placeholder={$_('custom_api_import_placeholder_paste')}
 				rows="6"
 				bind:value={encodedData}
 			></textarea>
@@ -123,7 +123,7 @@
 		<div class="import-form-group">
 			<label class="upload-file-button" for="file-upload">
 				<Upload size={16} />
-				<span>{t('custom_api_import_button_upload_file')}</span>
+				<span>{$_('custom_api_import_button_upload_file')}</span>
 			</label>
 			<input
 				id="file-upload"

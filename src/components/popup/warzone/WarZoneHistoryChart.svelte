@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { ZoneHistoricalStats, GlobalHistoricalStats } from '@/lib/types/api';
 	import { apiClient } from '@/lib/services/api-client';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import ChartTabs from '../../ui/ChartTabs.svelte';
 	import ChartTooltip from '../../ui/ChartTooltip.svelte';
@@ -60,9 +60,9 @@
 
 	// Chart tabs configuration - use derived to make reactive with translations
 	const chartTabs = $derived([
-		{ value: 'liberation' as ChartType, label: t('warzone_chart_tab_liberation') },
-		{ value: 'users' as ChartType, label: t('warzone_chart_tab_users') },
-		{ value: 'banRate' as ChartType, label: t('warzone_chart_tab_ban_rate') }
+		{ value: 'liberation' as ChartType, label: $_('warzone_chart_tab_liberation') },
+		{ value: 'users' as ChartType, label: $_('warzone_chart_tab_users') },
+		{ value: 'banRate' as ChartType, label: $_('warzone_chart_tab_ban_rate') }
 	]);
 
 	onMount(async () => {
@@ -83,8 +83,12 @@
 				historicalData = await apiClient.getWarZoneStatistics(zoneId);
 			}
 		} catch (err) {
-			const translatedMode = mode === 'global' ? t('warzone_mode_global') : t('warzone_mode_zone');
-			error = err instanceof Error ? err.message : t('warzone_chart_error_load', [translatedMode]);
+			const translatedMode =
+				mode === 'global' ? $_('warzone_mode_global') : $_('warzone_mode_zone');
+			error =
+				err instanceof Error
+					? err.message
+					: $_('warzone_chart_error_load', { values: { 0: translatedMode } });
 		} finally {
 			isLoading = false;
 		}
@@ -108,12 +112,12 @@
 				y: CHART_HEIGHT - MARGIN.bottom,
 				color: getProgressColor(stat.liberation),
 				details: [
-					{ label: t('warzone_chart_tooltip_date'), value: stat.date },
+					{ label: $_('warzone_chart_tooltip_date'), value: stat.date },
 					{
-						label: t('warzone_chart_tooltip_total_users'),
+						label: $_('warzone_chart_tooltip_total_users'),
 						value: stat.totalUsers.toLocaleString()
 					},
-					{ label: t('warzone_chart_tooltip_banned'), value: stat.bannedUsers.toLocaleString() }
+					{ label: $_('warzone_chart_tooltip_banned'), value: stat.bannedUsers.toLocaleString() }
 				]
 			}));
 		} else if (selectedChart === 'users') {
@@ -148,11 +152,14 @@
 						confirmed: { height: confirmedHeight, color: 'var(--color-success)' }
 					},
 					details: [
-						{ label: t('warzone_chart_tooltip_date'), value: stat.date },
-						{ label: t('warzone_chart_legend_banned'), value: stat.bannedUsers.toLocaleString() },
-						{ label: t('warzone_chart_legend_flagged'), value: stat.flaggedUsers.toLocaleString() },
+						{ label: $_('warzone_chart_tooltip_date'), value: stat.date },
+						{ label: $_('warzone_chart_legend_banned'), value: stat.bannedUsers.toLocaleString() },
 						{
-							label: t('warzone_chart_legend_confirmed'),
+							label: $_('warzone_chart_legend_flagged'),
+							value: stat.flaggedUsers.toLocaleString()
+						},
+						{
+							label: $_('warzone_chart_legend_confirmed'),
 							value: stat.confirmedUsers.toLocaleString()
 						}
 					]
@@ -172,10 +179,10 @@
 					y: CHART_HEIGHT - MARGIN.bottom,
 					color: 'var(--color-error)',
 					details: [
-						{ label: t('warzone_chart_tooltip_date'), value: stat.date },
-						{ label: t('warzone_chart_tooltip_banned'), value: stat.bannedUsers.toLocaleString() },
+						{ label: $_('warzone_chart_tooltip_date'), value: stat.date },
+						{ label: $_('warzone_chart_tooltip_banned'), value: stat.bannedUsers.toLocaleString() },
 						{
-							label: t('warzone_chart_tooltip_total_users'),
+							label: $_('warzone_chart_tooltip_total_users'),
 							value: stat.totalUsers.toLocaleString()
 						}
 					]
@@ -235,14 +242,14 @@
 		switch (selectedChart) {
 			case 'liberation':
 				return mode === 'global'
-					? t('warzone_chart_label_global_liberation')
-					: t('warzone_chart_label_zone_liberation');
+					? $_('warzone_chart_label_global_liberation')
+					: $_('warzone_chart_label_zone_liberation');
 			case 'users':
-				return t('warzone_chart_label_total_users');
+				return $_('warzone_chart_label_total_users');
 			case 'banRate':
 				return mode === 'global'
-					? t('warzone_chart_label_global_ban_rate')
-					: t('warzone_chart_label_zone_ban_rate');
+					? $_('warzone_chart_label_global_ban_rate')
+					: $_('warzone_chart_label_zone_ban_rate');
 			default:
 				return '';
 		}
@@ -283,7 +290,7 @@
 	<div class="war-zone-chart-error">
 		<p class="error-message">{error}</p>
 		<button class="retry-button" onclick={loadHistoricalData} type="button">
-			{t('warzone_common_button_retry')}
+			{$_('warzone_common_button_retry')}
 		</button>
 	</div>
 {:else if historicalData}
@@ -419,15 +426,15 @@
 				<div class="war-zone-chart-legend">
 					<div class="legend-item">
 						<div style:background-color="var(--color-error)" class="legend-color"></div>
-						<span>{t('warzone_chart_legend_banned')}</span>
+						<span>{$_('warzone_chart_legend_banned')}</span>
 					</div>
 					<div class="legend-item">
 						<div style:background-color="var(--color-warning)" class="legend-color"></div>
-						<span>{t('warzone_chart_legend_flagged')}</span>
+						<span>{$_('warzone_chart_legend_flagged')}</span>
 					</div>
 					<div class="legend-item">
 						<div style:background-color="var(--color-success)" class="legend-color"></div>
-						<span>{t('warzone_chart_legend_confirmed')}</span>
+						<span>{$_('warzone_chart_legend_confirmed')}</span>
 					</div>
 				</div>
 			{/if}

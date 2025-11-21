@@ -10,7 +10,7 @@
 		statisticsState
 	} from '@/lib/stores/statistics';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	let isRefreshing = $state(false);
 
@@ -50,13 +50,13 @@
       dark:text-text-heading-dark
     "
 		>
-			{t('stats_statistics_title')}
+			{$_('stats_statistics_title')}
 		</h2>
 		<button
 			class="refresh-stats-button"
 			disabled={isRefreshing}
 			onclick={handleRefresh}
-			title={t('stats_statistics_refresh')}
+			title={$_('stats_statistics_refresh')}
 			type="button"
 		>
 			<span class="inline-block size-4 transition-transform duration-300">
@@ -81,11 +81,11 @@
     "
 		>
 			<LoadingSpinner size="medium" />
-			<span>{t('stats_statistics_loading')}</span>
+			<span>{$_('stats_statistics_loading')}</span>
 		</div>
 	{:else if $statisticsState === 'error'}
 		<div class="py-8 text-center">
-			<div class="text-error mb-3 text-sm font-medium">{t('stats_statistics_error')}</div>
+			<div class="text-error mb-3 text-sm font-medium">{$_('stats_statistics_error')}</div>
 			<button
 				style:background-color="var(--color-primary)"
 				class="
@@ -97,26 +97,26 @@
 				onclick={handleRefresh}
 				type="button"
 			>
-				{t('stats_statistics_retry')}
+				{$_('stats_statistics_retry')}
 			</button>
 		</div>
 	{:else if $statistics}
 		<div class="stat-grid">
 			<!-- Users -->
 			<div class="stat-category">
-				<h3 class="stat-category-title">{t('stats_statistics_users_title')}</h3>
+				<h3 class="stat-category-title">{$_('stats_statistics_users_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalFlaggedUsers)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_flagged')}</div>
+						<div class="stat-label">{$_('stats_statistics_flagged')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalConfirmedUsers)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_confirmed')}</div>
+						<div class="stat-label">{$_('stats_statistics_confirmed')}</div>
 					</div>
 				</div>
 				<div class="mt-3 text-center">
@@ -135,7 +135,7 @@
                 "
 							/>
 							<span class="font-medium">{formatNumber($statistics?.totalMixedUsers)}</span>
-							{t('stats_statistics_mixed')}
+							{$_('stats_statistics_mixed')}
 						</div>
 						<span class="text-border dark:text-border-dark">•</span>
 						<div class="flex items-center gap-1">
@@ -147,7 +147,7 @@
                 "
 							/>
 							<span class="font-medium">{formatNumber($statistics?.totalBannedUsers)}</span>
-							{t('stats_statistics_banned')}
+							{$_('stats_statistics_banned')}
 						</div>
 					</div>
 				</div>
@@ -155,19 +155,19 @@
 
 			<!-- Groups -->
 			<div class="stat-category">
-				<h3 class="stat-category-title">{t('stats_statistics_groups_title')}</h3>
+				<h3 class="stat-category-title">{$_('stats_statistics_groups_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalFlaggedGroups)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_flagged')}</div>
+						<div class="stat-label">{$_('stats_statistics_flagged')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalConfirmedGroups)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_confirmed')}</div>
+						<div class="stat-label">{$_('stats_statistics_confirmed')}</div>
 					</div>
 				</div>
 				<div class="mt-3 text-center">
@@ -186,7 +186,7 @@
                 "
 							/>
 							<span class="font-medium">{formatNumber($statistics?.totalMixedGroups)}</span>
-							{t('stats_statistics_mixed')}
+							{$_('stats_statistics_mixed')}
 						</div>
 						<span class="text-border dark:text-border-dark">•</span>
 						<div class="flex items-center gap-1">
@@ -198,7 +198,7 @@
                 "
 							/>
 							<span class="font-medium">{formatNumber($statistics?.totalBannedGroups)}</span>
-							{t('stats_statistics_banned')}
+							{$_('stats_statistics_banned')}
 						</div>
 					</div>
 				</div>
@@ -206,26 +206,27 @@
 
 			<!-- Community -->
 			<div class="col-span-full stat-category">
-				<h3 class="stat-category-title">{t('stats_statistics_community_title')}</h3>
+				<h3 class="stat-category-title">{$_('stats_statistics_community_title')}</h3>
 				<div class="grid grid-cols-2 gap-2">
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalVotesCast)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_votes')}</div>
+						<div class="stat-label">{$_('stats_statistics_votes')}</div>
 					</div>
 					<div class="stat-item">
 						<div class="stat-value">
 							{formatNumber($statistics?.totalQueuedUsers)}
 						</div>
-						<div class="stat-label">{t('stats_statistics_queued')}</div>
+						<div class="stat-label">{$_('stats_statistics_queued')}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="statistics-last-updated">
-			{t('stats_statistics_updated')} <span class="last-updated-time">{$lastUpdatedFormatted}</span>
+			{$_('stats_statistics_updated')}
+			<span class="last-updated-time">{$lastUpdatedFormatted}</span>
 		</div>
 	{/if}
 </div>

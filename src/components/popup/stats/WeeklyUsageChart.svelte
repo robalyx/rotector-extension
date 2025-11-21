@@ -5,7 +5,7 @@
 	import ChartTooltip from '../../ui/ChartTooltip.svelte';
 	import { calculateBarTooltipPosition } from '@/lib/utils/chart-tooltip';
 	import type { TooltipDetail } from '../../ui/ChartTooltip.svelte';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	let { weeklyUsage }: { weeklyUsage: WeeklyUsage } = $props();
 
@@ -50,17 +50,17 @@
 
 	// Chart tabs configuration
 	const chartTabs = $derived([
-		{ value: 'cost' as ChartType, label: t('stats_chart_tab_costs') },
-		{ value: 'requests' as ChartType, label: t('stats_chart_tab_requests') },
-		{ value: 'tokens' as ChartType, label: t('stats_chart_tab_tokens') }
+		{ value: 'cost' as ChartType, label: $_('stats_chart_tab_costs') },
+		{ value: 'requests' as ChartType, label: $_('stats_chart_tab_requests') },
+		{ value: 'tokens' as ChartType, label: $_('stats_chart_tab_tokens') }
 	]);
 
 	// Weekly data in chronological order (oldest to newest)
 	const weeksData = $derived([
-		{ key: 'week4', ...weeklyUsage.week4, label: t('stats_chart_week_4') },
-		{ key: 'week3', ...weeklyUsage.week3, label: t('stats_chart_week_3') },
-		{ key: 'week2', ...weeklyUsage.week2, label: t('stats_chart_week_2') },
-		{ key: 'week1', ...weeklyUsage.week1, label: t('stats_chart_week_1') }
+		{ key: 'week4', ...weeklyUsage.week4, label: $_('stats_chart_week_4') },
+		{ key: 'week3', ...weeklyUsage.week3, label: $_('stats_chart_week_3') },
+		{ key: 'week2', ...weeklyUsage.week2, label: $_('stats_chart_week_2') },
+		{ key: 'week1', ...weeklyUsage.week1, label: $_('stats_chart_week_1') }
 	]);
 
 	// Transform data for chart visualization
@@ -80,11 +80,11 @@
 				color: 'var(--color-primary)',
 				details: [
 					{
-						label: t('stats_chart_detail_requests'),
+						label: $_('stats_chart_detail_requests'),
 						value: formatNumber(week.totalRequests)
 					},
 					{
-						label: t('stats_chart_detail_period'),
+						label: $_('stats_chart_detail_period'),
 						value: formatDateRange(week.startDate, week.endDate)
 					}
 				]
@@ -104,11 +104,11 @@
 				color: 'var(--color-success)',
 				details: [
 					{
-						label: t('stats_chart_detail_cost'),
+						label: $_('stats_chart_detail_cost'),
 						value: formatCurrency(week.totalCost)
 					},
 					{
-						label: t('stats_chart_detail_period'),
+						label: $_('stats_chart_detail_period'),
 						value: formatDateRange(week.startDate, week.endDate)
 					}
 				]
@@ -156,23 +156,23 @@
 					},
 					details: [
 						{
-							label: t('stats_chart_detail_prompt'),
+							label: $_('stats_chart_detail_prompt'),
 							value: formatNumber(week.totalPromptTokens)
 						},
 						{
-							label: t('stats_chart_detail_completion'),
+							label: $_('stats_chart_detail_completion'),
 							value: formatNumber(week.totalCompletionTokens)
 						},
 						{
-							label: t('stats_chart_detail_reasoning'),
+							label: $_('stats_chart_detail_reasoning'),
 							value: formatNumber(week.totalReasoningTokens)
 						},
 						{
-							label: t('stats_chart_detail_cost'),
+							label: $_('stats_chart_detail_cost'),
 							value: formatCurrency(week.totalCost)
 						},
 						{
-							label: t('stats_chart_detail_period'),
+							label: $_('stats_chart_detail_period'),
 							value: formatDateRange(week.startDate, week.endDate)
 						}
 					]
@@ -218,11 +218,11 @@
 	function getChartLabel(): string {
 		switch (selectedChart) {
 			case 'cost':
-				return t('stats_chart_label_costs');
+				return $_('stats_chart_label_costs');
 			case 'requests':
-				return t('stats_chart_label_requests');
+				return $_('stats_chart_label_requests');
 			case 'tokens':
-				return t('stats_chart_label_tokens');
+				return $_('stats_chart_label_tokens');
 			default:
 				return '';
 		}
@@ -245,18 +245,18 @@
 		const currentYear = now.getFullYear();
 
 		const monthNames = [
-			t('stats_chart_month_jan'),
-			t('stats_chart_month_feb'),
-			t('stats_chart_month_mar'),
-			t('stats_chart_month_apr'),
-			t('stats_chart_month_may'),
-			t('stats_chart_month_jun'),
-			t('stats_chart_month_jul'),
-			t('stats_chart_month_aug'),
-			t('stats_chart_month_sep'),
-			t('stats_chart_month_oct'),
-			t('stats_chart_month_nov'),
-			t('stats_chart_month_dec')
+			$_('stats_chart_month_jan'),
+			$_('stats_chart_month_feb'),
+			$_('stats_chart_month_mar'),
+			$_('stats_chart_month_apr'),
+			$_('stats_chart_month_may'),
+			$_('stats_chart_month_jun'),
+			$_('stats_chart_month_jul'),
+			$_('stats_chart_month_aug'),
+			$_('stats_chart_month_sep'),
+			$_('stats_chart_month_oct'),
+			$_('stats_chart_month_nov'),
+			$_('stats_chart_month_dec')
 		];
 
 		const formatDate = (date: Date, includeYear: boolean = false) => {
@@ -338,10 +338,9 @@
 						<!-- Stacked bars for tokens -->
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label={t('stats_chart_aria_prompt', [
-								data.week,
-								formatNumber(weeksData[index].totalPromptTokens)
-							])}
+							aria-label={$_('stats_chart_aria_prompt', {
+								values: { 0: data.week, 1: formatNumber(weeksData[index].totalPromptTokens) }
+							})}
 							fill={data.stacked.prompt.color}
 							height={data.stacked.prompt.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -353,10 +352,9 @@
 						/>
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label={t('stats_chart_aria_completion', [
-								data.week,
-								formatNumber(weeksData[index].totalCompletionTokens)
-							])}
+							aria-label={$_('stats_chart_aria_completion', {
+								values: { 0: data.week, 1: formatNumber(weeksData[index].totalCompletionTokens) }
+							})}
 							fill={data.stacked.completion.color}
 							height={data.stacked.completion.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -368,10 +366,9 @@
 						/>
 						<rect
 							class="chart-bar stacked-bar"
-							aria-label={t('stats_chart_aria_reasoning', [
-								data.week,
-								formatNumber(weeksData[index].totalReasoningTokens)
-							])}
+							aria-label={$_('stats_chart_aria_reasoning', {
+								values: { 0: data.week, 1: formatNumber(weeksData[index].totalReasoningTokens) }
+							})}
 							fill={data.stacked.reasoning.color}
 							height={data.stacked.reasoning.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -388,11 +385,9 @@
 						<!-- Regular bars -->
 						<rect
 							class="chart-bar"
-							aria-label={t('stats_chart_aria_general', [
-								getChartLabel(),
-								data.week,
-								data.displayValue
-							])}
+							aria-label={$_('stats_chart_aria_general', {
+								values: { 0: getChartLabel(), 1: data.week, 2: data.displayValue }
+							})}
 							fill={data.color}
 							height={data.height}
 							onmouseenter={(e) => handleBarHover(e, data)}
@@ -451,15 +446,15 @@
 			<div class="chart-legend">
 				<div class="legend-item">
 					<div style:background-color="var(--color-primary)" class="legend-color"></div>
-					<span>{t('stats_chart_legend_prompt')}</span>
+					<span>{$_('stats_chart_legend_prompt')}</span>
 				</div>
 				<div class="legend-item">
 					<div style:background-color="var(--color-success)" class="legend-color"></div>
-					<span>{t('stats_chart_legend_completion')}</span>
+					<span>{$_('stats_chart_legend_completion')}</span>
 				</div>
 				<div class="legend-item">
 					<div style:background-color="var(--color-warning)" class="legend-color"></div>
-					<span>{t('stats_chart_legend_reasoning')}</span>
+					<span>{$_('stats_chart_legend_reasoning')}</span>
 				</div>
 			</div>
 		{/if}

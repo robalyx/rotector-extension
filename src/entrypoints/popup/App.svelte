@@ -8,9 +8,10 @@
 	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import { initializeSettings } from '@/lib/stores/settings';
+	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	type Page =
 		| 'stats'
@@ -29,6 +30,9 @@
 	}
 
 	$effect(() => {
+		loadStoredLanguagePreference().catch((error) => {
+			logger.error('Failed to load language preference:', error);
+		});
 		initializeSettings().catch((error) => {
 			logger.error('Failed to initialize settings:', error);
 		});
@@ -94,7 +98,7 @@
       dark:text-text-subtle-dark
     "
 		>
-			{t('popup_header_description')}
+			{$_('popup_header_description')}
 		</p>
 	</div>
 

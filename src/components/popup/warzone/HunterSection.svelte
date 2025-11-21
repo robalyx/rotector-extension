@@ -8,7 +8,7 @@
 		logout
 	} from '../../../lib/stores/auth';
 	import type { ExtensionUserProfile } from '../../../lib/types/api';
-	import { t } from '../../../lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { logger } from '../../../lib/utils/logger';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 
@@ -53,7 +53,7 @@
 	}
 
 	async function handleLogout() {
-		const confirmed = confirm(t('warzone_hunter_confirm_logout'));
+		const confirmed = confirm($_('warzone_hunter_confirm_logout'));
 
 		if (!confirmed) return;
 
@@ -73,34 +73,34 @@
 </script>
 
 <div class="hunter-section">
-	<h3 class="hunter-title">{t('warzone_hunter_title')}</h3>
+	<h3 class="hunter-title">{$_('warzone_hunter_title')}</h3>
 
 	{#if $authStore.isLoading}
 		<div class="hunter-loading">
 			<LoadingSpinner />
-			<p class="loading-text">{t('warzone_hunter_loading_connecting')}</p>
+			<p class="loading-text">{$_('warzone_hunter_loading_connecting')}</p>
 		</div>
 	{:else if !$authStore.isAuthenticated}
 		<div class="hunter-signup">
 			<p class="hunter-description">
-				{t('warzone_hunter_signup_description')}
+				{$_('warzone_hunter_signup_description')}
 			</p>
 
 			<ul class="hunter-features">
-				<li>{t('warzone_hunter_feature_report')}</li>
-				<li>{t('warzone_hunter_feature_cleanup')}</li>
-				<li>{t('warzone_hunter_feature_community')}</li>
-				<li>{t('warzone_hunter_feature_leaderboard')}</li>
+				<li>{$_('warzone_hunter_feature_report')}</li>
+				<li>{$_('warzone_hunter_feature_cleanup')}</li>
+				<li>{$_('warzone_hunter_feature_community')}</li>
+				<li>{$_('warzone_hunter_feature_leaderboard')}</li>
 			</ul>
 
 			<!-- Beta Notice -->
 			<div class="beta-notice">
-				<strong>{t('warzone_hunter_beta_label')}</strong>
-				{t('warzone_hunter_beta_text_before_link')}
+				<strong>{$_('warzone_hunter_beta_label')}</strong>
+				{$_('warzone_hunter_beta_text_before_link')}
 				<a href="https://discord.gg/2Cn7kXqqhY" rel="noopener noreferrer" target="_blank"
-					>{t('warzone_hunter_beta_discord_link')}</a
+					>{$_('warzone_hunter_beta_discord_link')}</a
 				>
-				{t('warzone_hunter_beta_text_after_link')}
+				{$_('warzone_hunter_beta_text_after_link')}
 			</div>
 
 			<div class="hunter-actions">
@@ -112,9 +112,9 @@
 				>
 					{#if isLoggingIn}
 						<LoadingSpinner size="small" />
-						{t('warzone_hunter_loading_connecting')}
+						{$_('warzone_hunter_loading_connecting')}
 					{:else}
-						{t('warzone_hunter_button_login')}
+						{$_('warzone_hunter_button_login')}
 					{/if}
 				</button>
 			</div>
@@ -130,15 +130,15 @@
 			<div class="hunter-stats">
 				<div class="stat-item">
 					<span class="stat-value">{formatPoints($authStore.profile.totalPoints)}</span>
-					<span class="stat-label">{t('warzone_hunter_stat_points')}</span>
+					<span class="stat-label">{$_('warzone_hunter_stat_points')}</span>
 				</div>
 				<div class="stat-item">
 					<span class="stat-value"
 						>{$authStore.profile.isAnonymous
-							? t('warzone_hunter_status_anonymous')
-							: t('warzone_hunter_status_public')}</span
+							? $_('warzone_hunter_status_anonymous')
+							: $_('warzone_hunter_status_public')}</span
 					>
-					<span class="stat-label">{t('warzone_hunter_stat_status')}</span>
+					<span class="stat-label">{$_('warzone_hunter_stat_status')}</span>
 				</div>
 			</div>
 
@@ -146,7 +146,7 @@
 				{#if $authStore.profile.discordAvatar && $authStore.profile.discordUserId}
 					<img
 						class="discord-avatar"
-						alt={t('warzone_hunter_discord_avatar_alt')}
+						alt={$_('warzone_hunter_discord_avatar_alt')}
 						src={`https://cdn.discordapp.com/avatars/${$authStore.profile.discordUserId}/${$authStore.profile.discordAvatar}.png?size=32`}
 					/>
 				{/if}
@@ -154,11 +154,11 @@
 			</div>
 
 			<p class="hunter-welcome">
-				{t('warzone_hunter_welcome_message')}
+				{$_('warzone_hunter_welcome_message')}
 			</p>
 
 			<button class="hunter-logout-button" onclick={handleLogout} type="button">
-				{t('warzone_hunter_button_logout')}
+				{$_('warzone_hunter_button_logout')}
 			</button>
 		</div>
 	{/if}

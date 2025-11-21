@@ -7,6 +7,7 @@ import {
 	unregisterPortalContainer
 } from '@/lib/utils/theme';
 import { initializeSettings } from '@/lib/stores/settings';
+import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 import { loadCustomApis } from '@/lib/stores/custom-apis';
 
 export default defineContentScript({
@@ -58,6 +59,10 @@ export default defineContentScript({
 	async main() {
 		try {
 			logger.info('Rotector content script initializing...');
+
+			logger.debug('Loading stored language preference...');
+			await loadStoredLanguagePreference();
+			logger.debug('Language preference loaded successfully');
 
 			logger.debug('Initializing settings...');
 			await initializeSettings();

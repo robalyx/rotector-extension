@@ -1,6 +1,7 @@
 import { STATUS } from '../types/constants';
 import { calculateStatusBadges } from './status-utils';
-import { t } from '../stores/i18n';
+import { _ } from 'svelte-i18n';
+import { get } from 'svelte/store';
 import type { GroupStatus, UserStatus } from '../types/api';
 import type { StatusIconName } from './icon-mapping';
 
@@ -14,6 +15,10 @@ interface StatusConfig {
 	isQueued: boolean;
 	isOutfitOnly: boolean;
 }
+
+// Translation helper for non-Svelte contexts where $_() syntax is unavailable
+const t = (key: string, values?: Record<string, string | number>): string =>
+	get(_)(key, { values });
 
 // Get status configuration for display
 export function getStatusConfig(

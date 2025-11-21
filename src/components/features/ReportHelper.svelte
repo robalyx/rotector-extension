@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
 	import type { UserStatus } from '@/lib/types/api';
 	import { AlertTriangle, Info } from 'lucide-svelte';
@@ -57,8 +57,8 @@
 		{/if}
 		<h3 class="report-helper-title">
 			{isReportable
-				? t('report_helper_card_title_reportable')
-				: t('report_helper_card_title_not_reportable')}
+				? $_('report_helper_card_title_reportable')
+				: $_('report_helper_card_title_not_reportable')}
 		</h3>
 	</div>
 
@@ -66,18 +66,18 @@
 		{#if isReportable}
 			{#if advancedInfoEnabled}
 				<p class="report-helper-subtitle">
-					{t('report_helper_subtitle_reportable')}
+					{$_('report_helper_subtitle_reportable')}
 				</p>
 
 				{#if reportableContent}
 					<div class="report-helper-evidence-section">
-						<h4 class="report-helper-evidence-header">{t('report_helper_evidence_header')}</h4>
+						<h4 class="report-helper-evidence-header">{$_('report_helper_evidence_header')}</h4>
 						<div class="report-helper-evidence-details">
-							<strong>{t('report_helper_evidence_reason_label')}</strong>
+							<strong>{$_('report_helper_evidence_reason_label')}</strong>
 							{reportableContent?.message}<br /><br />
 
 							{#if (reportableContent?.evidence?.length ?? 0) > 0}
-								<strong>{t('report_helper_evidence_snippets_label')}</strong>
+								<strong>{$_('report_helper_evidence_snippets_label')}</strong>
 								<ul class="report-helper-evidence-list">
 									{#each reportableContent?.evidence || [] as item, idx (idx)}
 										<li class="report-helper-evidence-item">
@@ -92,7 +92,7 @@
 
 				<div class="report-helper-action-section">
 					<p>
-						{t('report_helper_action_message')}
+						{$_('report_helper_action_message')}
 					</p>
 
 					<button
@@ -103,9 +103,9 @@
 					>
 						{#if processing}
 							<LoadingSpinner size="small" />
-							{t('report_helper_filling_button')}
+							{$_('report_helper_filling_button')}
 						{:else}
-							{t('report_helper_fill_button')}
+							{$_('report_helper_fill_button')}
 						{/if}
 					</button>
 				</div>
@@ -117,54 +117,54 @@
 						size={20}
 					/>
 					<div class="report-helper-warning-text">
-						<strong>{t('report_helper_warning_label')}</strong>
-						{t('report_helper_warning_message')}
+						<strong>{$_('report_helper_warning_label')}</strong>
+						{$_('report_helper_warning_message')}
 					</div>
 				</div>
 			{:else}
 				<p class="report-helper-subtitle">
-					{t('report_helper_setting_disabled_message')}
+					{$_('report_helper_setting_disabled_message')}
 				</p>
 
 				<p class="report-helper-subtitle">
-					{t('report_helper_setting_disabled_instruction')}
+					{$_('report_helper_setting_disabled_instruction')}
 				</p>
 
 				<div class="report-helper-info-section">
 					<Info class="report-helper-info-icon" color="var(--color-primary)" size={24} />
 					<div class="report-helper-info-text">
 						<p>
-							{t('report_helper_setting_disabled_note')}
+							{$_('report_helper_setting_disabled_note')}
 						</p>
 					</div>
 				</div>
 			{/if}
 		{:else}
 			<p class="report-helper-subtitle">
-				{t('report_helper_subtitle_not_reportable')}
+				{$_('report_helper_subtitle_not_reportable')}
 			</p>
 
 			<div class="report-helper-info-section">
 				<Info class="report-helper-info-icon" color="var(--color-primary)" size={24} />
 				<div class="report-helper-info-text">
 					<p>
-						<strong>{t('report_helper_info_message_part1')}</strong>
-						{t('report_helper_info_message_part2')}
+						<strong>{$_('report_helper_info_message_part1')}</strong>
+						{$_('report_helper_info_message_part2')}
 					</p>
 					<p>
-						{t('report_helper_info_message_part3')}
+						{$_('report_helper_info_message_part3')}
 					</p>
 
 					<div class="report-helper-list">
-						<div class="report-helper-list-item">{t('report_helper_category_item1')}</div>
-						<div class="report-helper-list-item">{t('report_helper_category_item2')}</div>
-						<div class="report-helper-list-item">{t('report_helper_category_item3')}</div>
-						<div class="report-helper-list-item">{t('report_helper_category_item4')}</div>
-						<div class="report-helper-list-item">{t('report_helper_category_item5')}</div>
+						<div class="report-helper-list-item">{$_('report_helper_category_item1')}</div>
+						<div class="report-helper-list-item">{$_('report_helper_category_item2')}</div>
+						<div class="report-helper-list-item">{$_('report_helper_category_item3')}</div>
+						<div class="report-helper-list-item">{$_('report_helper_category_item4')}</div>
+						<div class="report-helper-list-item">{$_('report_helper_category_item5')}</div>
 					</div>
 
 					<p>
-						{t('report_helper_info_message_part4')}
+						{$_('report_helper_info_message_part4')}
 					</p>
 				</div>
 			</div>

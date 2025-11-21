@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { ZoneDetails } from '../../../lib/types/api';
 	import { apiClient } from '../../../lib/services/api-client';
-	import { t } from '../../../lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import WarZoneHistoryChart from './WarZoneHistoryChart.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
@@ -29,7 +29,7 @@
 		try {
 			zoneDetails = await apiClient.getWarZone(zoneId);
 		} catch (err) {
-			error = err instanceof Error ? err.message : t('warzone_zone_error_load');
+			error = err instanceof Error ? err.message : $_('warzone_zone_error_load');
 		} finally {
 			isLoading = false;
 		}
@@ -46,17 +46,17 @@
 {#if isLoading}
 	<div class="war-zone-loading">
 		<LoadingSpinner />
-		<p class="war-zone-loading-text">{t('warzone_zone_loading')}</p>
+		<p class="war-zone-loading-text">{$_('warzone_zone_loading')}</p>
 	</div>
 {:else if error}
 	<div class="war-zone-error-container">
 		<p class="error-message">{error}</p>
 		<div class="error-actions">
 			<button class="retry-button" onclick={loadZoneDetails} type="button">
-				{t('warzone_common_button_retry')}
+				{$_('warzone_common_button_retry')}
 			</button>
 			<button class="back-button" onclick={onBack} type="button">
-				{t('warzone_zone_button_back')}
+				{$_('warzone_zone_button_back')}
 			</button>
 		</div>
 	</div>
@@ -66,12 +66,12 @@
 		<div class="zone-view-header">
 			<button class="back-button" onclick={onBack} type="button">
 				<ArrowLeft size={16} />
-				{t('warzone_zone_button_back')}
+				{$_('warzone_zone_button_back')}
 			</button>
 			<div class="zone-title-section">
 				<h4 class="zone-title">{zoneDetails.zone.name}</h4>
 				<span class="zone-status">
-					{zoneDetails.zone.liberation.toFixed(1)}{t('warzone_zone_status_liberated_suffix')}
+					{zoneDetails.zone.liberation.toFixed(1)}{$_('warzone_zone_status_liberated_suffix')}
 				</span>
 			</div>
 		</div>
@@ -91,25 +91,25 @@
 		<div class="zone-statistics-grid">
 			<div class="zone-stat-card">
 				<span class="stat-value">{zoneDetails.zone.totalUsers.toLocaleString()}</span>
-				<span class="stat-label">{t('warzone_zone_stat_total_users')}</span>
+				<span class="stat-label">{$_('warzone_zone_stat_total_users')}</span>
 			</div>
 			<div class="zone-stat-card">
 				<span class="stat-value">{zoneDetails.zone.bannedUsers}</span>
-				<span class="stat-label">{t('warzone_zone_stat_banned')}</span>
+				<span class="stat-label">{$_('warzone_zone_stat_banned')}</span>
 			</div>
 			<div class="zone-stat-card">
 				<span class="stat-value">{zoneDetails.zone.flaggedUsers}</span>
-				<span class="stat-label">{t('warzone_zone_stat_flagged')}</span>
+				<span class="stat-label">{$_('warzone_zone_stat_flagged')}</span>
 			</div>
 			<div class="zone-stat-card">
 				<span class="stat-value">{zoneDetails.zone.confirmedUsers}</span>
-				<span class="stat-label">{t('warzone_zone_stat_confirmed')}</span>
+				<span class="stat-label">{$_('warzone_zone_stat_confirmed')}</span>
 			</div>
 		</div>
 
 		<!-- Zone Historical Trends -->
 		<div class="war-zone-stats-card">
-			<h4 class="war-zone-stats-title">{t('warzone_zone_section_trends')}</h4>
+			<h4 class="war-zone-stats-title">{$_('warzone_zone_section_trends')}</h4>
 			<WarZoneHistoryChart mode="zone" {zoneId} />
 		</div>
 	</div>

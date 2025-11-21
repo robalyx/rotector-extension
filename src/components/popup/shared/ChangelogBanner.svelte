@@ -8,12 +8,14 @@
 	} from '@/lib/stores/changelog';
 	import { logger } from '@/lib/utils/logger';
 	import { formatTimeAgo } from '@/lib/utils/time';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	let isClosing = $state(false);
 
 	const releaseTimeText = $derived(
-		$latestChangelog ? t('banner_changelog_message', [formatTimeAgo($latestChangelog.date)]) : ''
+		$latestChangelog
+			? $_('banner_changelog_message', { values: { 0: formatTimeAgo($latestChangelog.date) } })
+			: ''
 	);
 
 	// Dismisses the banner with animation
@@ -77,17 +79,17 @@
 				<button
 					class="changelog-banner-view-details"
 					onclick={handleViewDetails}
-					title={t('banner_changelog_title_view_details')}
+					title={$_('banner_changelog_title_view_details')}
 					type="button"
 				>
-					{t('banner_changelog_button_view_details')}
+					{$_('banner_changelog_button_view_details')}
 				</button>
 				<!-- Close button -->
 				<button
 					class="changelog-banner-dismiss"
-					aria-label={t('banner_changelog_aria_dismiss')}
+					aria-label={$_('banner_changelog_aria_dismiss')}
 					onclick={handleDismiss}
-					title={t('banner_changelog_title_dismiss')}
+					title={$_('banner_changelog_title_dismiss')}
 					type="button"
 				>
 					<svg

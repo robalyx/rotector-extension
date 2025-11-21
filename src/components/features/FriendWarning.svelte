@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { PROFILE_SELECTORS } from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
@@ -151,9 +151,9 @@
 
 <Modal
 	actionsLayout="horizontal"
-	blockText={t('friend_warning_block_button')}
-	cancelText={t('friend_warning_cancel_button')}
-	confirmText={t('friend_warning_proceed_button')}
+	blockText={$_('friend_warning_block_button')}
+	cancelText={$_('friend_warning_cancel_button')}
+	confirmText={$_('friend_warning_proceed_button')}
 	confirmVariant="danger"
 	icon="warning"
 	modalType="friend-warning"
@@ -161,7 +161,7 @@
 	onCancel={handleCancel}
 	onConfirm={handleProceed}
 	showBlock={true}
-	title={t('friend_warning_title')}
+	title={$_('friend_warning_title')}
 	bind:isOpen
 >
 	<div>
@@ -169,7 +169,10 @@
 		<div class="friend-warning-user-info">
 			<div class="friend-warning-user-info-avatar">
 				{#if userInfo?.avatarUrl}
-					<img alt={t('friend_warning_avatar_alt', [userInfo.username])} src={userInfo.avatarUrl} />
+					<img
+						alt={$_('friend_warning_avatar_alt', { values: { 0: userInfo.username } })}
+						src={userInfo.avatarUrl}
+					/>
 				{/if}
 			</div>
 			<div class="friend-warning-user-info-details">
@@ -177,7 +180,7 @@
 					{userInfo?.username || displayName()}
 				</div>
 				<div class="friend-warning-user-info-id">
-					{t('friend_warning_user_id_label', [sanitizedUserId()])}
+					{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId() } })}
 				</div>
 			</div>
 		</div>
@@ -185,14 +188,16 @@
 		<!-- Risk assessment -->
 		<div class="friend-warning-risk-assessment">
 			<div class="friend-warning-risk-title">
-				{t('friend_warning_risk_title')}
+				{$_('friend_warning_risk_title')}
 			</div>
 			<div class="friend-warning-risk-message">
-				{t('friend_warning_risk_message')}
+				{$_('friend_warning_risk_message')}
 			</div>
 			{#if warningConfig().confidence > 0}
 				<div class="friend-warning-risk-confidence">
-					{t('friend_warning_confidence_label', [String(warningConfig().confidence)])}
+					{$_('friend_warning_confidence_label', {
+						values: { 0: String(warningConfig().confidence) }
+					})}
 				</div>
 			{/if}
 		</div>
@@ -201,20 +206,20 @@
 		<div class="friend-warning-why-matters">
 			<h3 class="friend-warning-why-matters-heading">
 				<AlertTriangle class="friend-warning-why-matters-icon" size={20} />
-				{t('friend_warning_why_matters_heading')}
+				{$_('friend_warning_why_matters_heading')}
 			</h3>
 			<ul class="friend-warning-why-matters-list">
 				<li class="friend-warning-why-matters-item">
-					{t('friend_warning_why_matters_item1')}
+					{$_('friend_warning_why_matters_item1')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					{t('friend_warning_why_matters_item2')}
+					{$_('friend_warning_why_matters_item2')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					{t('friend_warning_why_matters_item3')}
+					{$_('friend_warning_why_matters_item3')}
 				</li>
 				<li class="friend-warning-why-matters-item">
-					{t('friend_warning_why_matters_item4')}
+					{$_('friend_warning_why_matters_item4')}
 				</li>
 			</ul>
 		</div>
@@ -223,17 +228,17 @@
 		<div class="friend-warning-recommendations">
 			<h3 class="friend-warning-recommendations-heading">
 				<Lightbulb class="friend-warning-recommendations-icon" size={20} />
-				{t('friend_warning_recommendations_heading')}
+				{$_('friend_warning_recommendations_heading')}
 			</h3>
 			<ul class="friend-warning-recommendations-list">
 				<li class="friend-warning-recommendations-item">
-					{t('friend_warning_recommendations_item1')}
+					{$_('friend_warning_recommendations_item1')}
 				</li>
 				<li class="friend-warning-recommendations-item">
-					{t('friend_warning_recommendations_item2')}
+					{$_('friend_warning_recommendations_item2')}
 				</li>
 				<li class="friend-warning-recommendations-item">
-					{t('friend_warning_recommendations_item3')}
+					{$_('friend_warning_recommendations_item3')}
 				</li>
 			</ul>
 		</div>
@@ -241,7 +246,7 @@
 		<!-- Warning message -->
 		<div class="friend-warning-high-risk-warning">
 			<div class="friend-warning-high-risk-text">
-				{t('friend_warning_high_risk_message')}
+				{$_('friend_warning_high_risk_message')}
 			</div>
 		</div>
 	</div>

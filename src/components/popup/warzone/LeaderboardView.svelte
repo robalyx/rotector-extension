@@ -3,7 +3,7 @@
 	import type { LeaderboardResponse } from '../../../lib/types/api';
 	import { apiClient } from '../../../lib/services/api-client';
 	import { authStore } from '../../../lib/stores/auth';
-	import { t } from '../../../lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import { Award, Medal } from 'lucide-svelte';
 
@@ -23,7 +23,7 @@
 		try {
 			leaderboard = await apiClient.getLeaderboard(50, includeAnonymous);
 		} catch (err) {
-			error = err instanceof Error ? err.message : t('warzone_leaderboard_error_load');
+			error = err instanceof Error ? err.message : $_('warzone_leaderboard_error_load');
 		} finally {
 			isLoading = false;
 		}
@@ -49,13 +49,13 @@
 {#if isLoading}
 	<div class="war-zone-loading">
 		<LoadingSpinner />
-		<p class="war-zone-loading-text">{t('warzone_leaderboard_loading')}</p>
+		<p class="war-zone-loading-text">{$_('warzone_leaderboard_loading')}</p>
 	</div>
 {:else if error}
 	<div class="war-zone-error-container">
 		<p class="error-message">{error}</p>
 		<button class="retry-button" onclick={loadLeaderboard} type="button">
-			{t('warzone_common_button_retry')}
+			{$_('warzone_common_button_retry')}
 		</button>
 	</div>
 {:else if leaderboard}
@@ -64,18 +64,20 @@
 		<div class="leaderboard-controls">
 			<label class="anonymous-filter-toggle">
 				<input checked={includeAnonymous} onchange={toggleAnonymousFilter} type="checkbox" />
-				{t('warzone_leaderboard_filter_anonymous')}
+				{$_('warzone_leaderboard_filter_anonymous')}
 			</label>
 		</div>
 
 		<!-- Total Users Count -->
 		<div class="leaderboard-stats">
 			<span class="total-users">
-				{t('warzone_leaderboard_total_hunters', [leaderboard.totalUsers.toLocaleString()])}
+				{$_('warzone_leaderboard_total_hunters', {
+					values: { 0: leaderboard.totalUsers.toLocaleString() }
+				})}
 			</span>
 			{#if leaderboard.userRank !== null}
 				<span class="user-rank">
-					{t('warzone_leaderboard_your_rank', [leaderboard.userRank.toString()])}
+					{$_('warzone_leaderboard_your_rank', { values: { 0: leaderboard.userRank.toString() } })}
 				</span>
 			{/if}
 		</div>
@@ -83,7 +85,7 @@
 		<!-- Top 3 Podium -->
 		{#if leaderboard.leaderboard.length >= 3}
 			<div class="podium-section">
-				<h4 class="section-title">{t('warzone_leaderboard_section_top')}</h4>
+				<h4 class="section-title">{$_('warzone_leaderboard_section_top')}</h4>
 				<div class="podium">
 					<!-- 2nd Place -->
 					<div class="podium-position podium-second">
@@ -112,7 +114,7 @@
 
 		<!-- Full Leaderboard List -->
 		<div class="leaderboard-list-section">
-			<h4 class="section-title">{t('warzone_leaderboard_section_rankings')}</h4>
+			<h4 class="section-title">{$_('warzone_leaderboard_section_rankings')}</h4>
 			<div class="leaderboard-list">
 				{#each leaderboard.leaderboard as entry (entry.uuid)}
 					<div
@@ -135,15 +137,19 @@
 							<div class="entry-name">
 								{entry.displayName}
 								{#if isCurrentUser(entry.uuid)}
-									<span class="you-badge">{t('warzone_leaderboard_badge_you')}</span>
+									<span class="you-badge">{$_('warzone_leaderboard_badge_you')}</span>
 								{/if}
 							</div>
 							<div class="entry-stats">
 								<span class="entry-stat">
-									{t('warzone_leaderboard_stat_reports', [entry.totalReports.toString()])}
+									{$_('warzone_leaderboard_stat_reports', {
+										values: { 0: entry.totalReports.toString() }
+									})}
 								</span>
 								<span class="entry-stat">
-									{t('warzone_leaderboard_stat_success', [entry.successRate.toFixed(1)])}
+									{$_('warzone_leaderboard_stat_success', {
+										values: { 0: entry.successRate.toFixed(1) }
+									})}
 								</span>
 							</div>
 						</div>

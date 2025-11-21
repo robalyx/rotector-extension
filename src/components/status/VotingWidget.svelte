@@ -2,7 +2,7 @@
 	import { VOTE_TYPES } from '@/lib/types/constants';
 	import type { VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { ArrowUp, ArrowDown } from 'lucide-svelte';
 
 	interface Props {
@@ -61,14 +61,14 @@
 <div class="voting-container" class:voting-loading={loading}>
 	<!-- Header -->
 	<div class="voting-header">
-		<span class="voting-title">{t('voting_header_title')}</span>
+		<span class="voting-title">{$_('voting_header_title')}</span>
 		<span class="voting-count">
 			{#if loading}
-				{t('voting_loading')}
+				{$_('voting_loading')}
 			{:else}
-				{t(voteStats().totalVotes === 1 ? 'voting_count_singular' : 'voting_count_plural', [
-					voteStats().totalVotes.toString()
-				])}
+				{$_(voteStats().totalVotes === 1 ? 'voting_count_singular' : 'voting_count_plural', {
+					values: { 0: voteStats().totalVotes.toString() }
+				})}
 			{/if}
 		</span>
 	</div>
@@ -93,7 +93,7 @@
 		<button
 			class="voting-upvote voting-button"
 			class:voting-button-upvote-active={voteStats().currentVote === VOTE_TYPES.UPVOTE}
-			aria-label={t('voting_aria_agree')}
+			aria-label={$_('voting_aria_agree')}
 			disabled={loading}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -102,13 +102,13 @@
 			type="button"
 		>
 			<ArrowUp class="voting-icon-upvote" size={14} strokeWidth={2.5} />
-			<span class="voting-label">{t('voting_button_agree')}</span>
+			<span class="voting-label">{$_('voting_button_agree')}</span>
 		</button>
 
 		<button
 			class="voting-downvote voting-button"
 			class:voting-button-downvote-active={voteStats().currentVote === VOTE_TYPES.DOWNVOTE}
-			aria-label={t('voting_aria_disagree')}
+			aria-label={$_('voting_aria_disagree')}
 			disabled={loading}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -117,12 +117,12 @@
 			type="button"
 		>
 			<ArrowDown class="voting-icon-downvote" size={14} strokeWidth={2.5} />
-			<span class="voting-label">{t('voting_button_disagree')}</span>
+			<span class="voting-label">{$_('voting_button_disagree')}</span>
 		</button>
 	</div>
 
 	<!-- Description -->
-	<p class="voting-description">{t('voting_description')}</p>
+	<p class="voting-description">{$_('voting_description')}</p>
 
 	<!-- Error display -->
 	{#if error}

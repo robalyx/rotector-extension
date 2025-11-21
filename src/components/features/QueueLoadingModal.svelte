@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 
@@ -16,7 +16,7 @@
 	showCancel={false}
 	showClose={false}
 	showConfirm={false}
-	title={t('queue_loading_modal_title')}
+	title={$_('queue_loading_modal_title')}
 	bind:isOpen
 >
 	<LoadingSpinner size="large" />

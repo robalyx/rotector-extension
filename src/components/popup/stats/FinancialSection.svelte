@@ -2,7 +2,7 @@
 	import { calculateFundingPercentage, formatCurrency, statistics } from '@/lib/stores/statistics';
 	import WeeklyUsageChart from './WeeklyUsageChart.svelte';
 	import { ChevronDown } from 'lucide-svelte';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	// Reactive values derived from statistics
 	const donations = $derived($statistics?.totalDonations ?? 0);
@@ -45,22 +45,22 @@
 </script>
 
 <div class="financial-section">
-	<h3 class="financial-section-title">{t('stats_financial_title')}</h3>
+	<h3 class="financial-section-title">{$_('stats_financial_title')}</h3>
 
 	<div class="financial-compact">
 		<!-- Progress section -->
 		<div class="progress-section">
 			<div class="progress-labels">
 				<div class="progress-label-left">
-					<span class="progress-label">{t('stats_financial_raised')}</span>
+					<span class="progress-label">{$_('stats_financial_raised')}</span>
 					<span class="progress-amount-raised">{formatCurrency(donations)}</span>
 				</div>
 				<div class="progress-label-right">
 					{#if isFullyFunded}
-						<span class="progress-label">{t('stats_financial_surplus')}</span>
+						<span class="progress-label">{$_('stats_financial_surplus')}</span>
 						<span class="progress-amount-surplus">+{formatCurrency(surplus)}</span>
 					{:else}
-						<span class="progress-label">{t('stats_financial_remaining')}</span>
+						<span class="progress-label">{$_('stats_financial_remaining')}</span>
 						<span class="progress-amount-remaining">{formatCurrency(remaining)}</span>
 					{/if}
 				</div>
@@ -70,12 +70,14 @@
 			<div
 				class="funding-progress-bar"
 				aria-label={isFullyFunded
-					? t('stats_financial_aria_funded', [formatCurrency(surplus)])
-					: t('stats_financial_aria_progress', [
-							formatCurrency(donations),
-							formatCurrency(remaining),
-							formatCurrency(totalGoal)
-						])}
+					? $_('stats_financial_aria_funded', { values: { 0: formatCurrency(surplus) } })
+					: $_('stats_financial_aria_progress', {
+							values: {
+								0: formatCurrency(donations),
+								1: formatCurrency(remaining),
+								2: formatCurrency(totalGoal)
+							}
+						})}
 				aria-valuemax="100"
 				aria-valuemin="0"
 				aria-valuenow={fundingPercentage}
@@ -95,11 +97,11 @@
 			class="kofi-support-button"
 			onclick={handleKofiClick}
 			onkeydown={handleKofiKeydown}
-			title={t('stats_financial_kofi_title')}
+			title={$_('stats_financial_kofi_title')}
 			type="button"
 		>
 			<span class="kofi-button-icon" aria-hidden="true"></span>
-			{isFullyFunded ? t('stats_financial_button_funded') : t('stats_financial_button_support')}
+			{isFullyFunded ? $_('stats_financial_button_funded') : $_('stats_financial_button_support')}
 		</button>
 	</div>
 
@@ -114,13 +116,15 @@
 				aria-expanded={chartsExpanded}
 				onclick={toggleCharts}
 				onkeydown={handleChartsToggleKeydown}
-				title={chartsExpanded ? t('stats_financial_charts_hide') : t('stats_financial_charts_show')}
+				title={chartsExpanded
+					? $_('stats_financial_charts_hide')
+					: $_('stats_financial_charts_show')}
 				type="button"
 			>
 				<span class="charts-toggle-icon">
 					<ChevronDown class="chevron-icon" size={18} />
 				</span>
-				<span class="charts-toggle-text">{t('stats_financial_charts_toggle')}</span>
+				<span class="charts-toggle-text">{$_('stats_financial_charts_toggle')}</span>
 			</button>
 
 			<!-- Expandable Charts Content -->

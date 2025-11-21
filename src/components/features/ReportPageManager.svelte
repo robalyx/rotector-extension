@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { settings } from '@/lib/stores/settings';
 	import { authStore } from '@/lib/stores/auth';
 	import { logger } from '@/lib/utils/logger';
@@ -91,7 +91,7 @@
 			// Extract category from the dropdown
 			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
 			const category =
-				categoryElement?.textContent?.trim() || t('report_page_manager_unknown_category');
+				categoryElement?.textContent?.trim() || $_('report_page_manager_unknown_category');
 
 			// Extract comment from the textarea
 			const commentTextarea = document.querySelector(
@@ -100,9 +100,9 @@
 			const comment = commentTextarea?.value?.trim() || '';
 
 			// Build report reason
-			let reportReason = t('report_page_manager_category_prefix', [category]);
+			let reportReason = $_('report_page_manager_category_prefix', { values: { 0: category } });
 			if (comment) {
-				reportReason += t('report_page_manager_comment_prefix', [comment]);
+				reportReason += $_('report_page_manager_comment_prefix', { values: { 0: comment } });
 			}
 
 			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
@@ -249,18 +249,19 @@
 	// Handle fill form button click
 	async function handleFillForm(): Promise<void> {
 		// Build comment text
-		let commentText = t('report_page_manager_report_intro');
+		let commentText = $_('report_page_manager_report_intro');
 
 		const profileReason = userStatus?.reasons?.['User Profile'];
 
 		if (profileReason?.message) {
-			commentText += t('report_page_manager_detected_issue_label') + profileReason.message + '\n\n';
+			commentText +=
+				$_('report_page_manager_detected_issue_label') + profileReason.message + '\n\n';
 		}
 
 		// Add evidence if advanced info is enabled
 		const currentSettings = get(settings);
 		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
-			commentText += t('report_page_manager_evidence_label');
+			commentText += $_('report_page_manager_evidence_label');
 			profileReason.evidence.forEach((snippet: string, index: number) => {
 				commentText += `${index + 1}. ${snippet}\n`;
 			});
@@ -310,7 +311,7 @@
 			});
 
 			// Show success message
-			showMessage('success', t('report_page_manager_success_message'));
+			showMessage('success', $_('report_page_manager_success_message'));
 
 			logger.debug('Report form filled successfully');
 		} catch (error) {
@@ -324,10 +325,10 @@
 			// Copy to clipboard as fallback
 			try {
 				await navigator.clipboard.writeText(commentText);
-				showMessage('error', t('report_page_manager_autofill_failed_clipboard'));
+				showMessage('error', $_('report_page_manager_autofill_failed_clipboard'));
 			} catch (clipboardError) {
 				logger.error('Clipboard copy failed:', clipboardError);
-				showMessage('error', t('report_page_manager_autofill_failed'));
+				showMessage('error', $_('report_page_manager_autofill_failed'));
 			}
 		}
 	}

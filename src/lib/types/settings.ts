@@ -12,6 +12,7 @@ export const SETTINGS_KEYS = {
 	CACHE_DURATION_MINUTES: 'cacheDurationMinutes',
 	DEVELOPER_MODE_UNLOCKED: 'developerModeUnlocked',
 	THEME: 'theme',
+	LANGUAGE_OVERRIDE: 'languageOverride',
 	CHANGELOG_DISMISSED_VERSION: 'changelogDismissedVersion',
 	CHANGELOG_SECTION_EXPANDED: 'changelogSectionExpanded',
 	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed',
@@ -38,6 +39,7 @@ export interface Settings {
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: number;
 	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: boolean;
 	[SETTINGS_KEYS.THEME]: Theme;
+	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: string;
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: string;
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: boolean;
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: boolean;
@@ -60,6 +62,7 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: 5,
 	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: false,
 	[SETTINGS_KEYS.THEME]: 'auto',
+	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: 'auto',
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: '',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false,
@@ -84,6 +87,11 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 				key: SETTINGS_KEYS.THEME,
 				labelKey: 'settings_label_theme',
 				helpTextKey: 'settings_help_theme'
+			},
+			{
+				key: SETTINGS_KEYS.LANGUAGE_OVERRIDE,
+				labelKey: 'settings_label_language',
+				helpTextKey: 'settings_help_language'
 			},
 			{
 				key: SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED,

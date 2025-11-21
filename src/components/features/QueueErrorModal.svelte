@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueErrorData } from '@/lib/types/api';
 	import { AlertTriangle, Info } from 'lucide-svelte';
@@ -21,7 +21,7 @@
 	});
 
 	const errorMessage = $derived(() => {
-		return errorData.error || t('queue_error_modal_unknown_error');
+		return errorData.error || $_('queue_error_modal_unknown_error');
 	});
 
 	const requestId = $derived(() => {
@@ -43,24 +43,24 @@
 
 <Modal
 	actionsLayout="horizontal"
-	confirmText={t('queue_error_modal_close_button')}
+	confirmText={$_('queue_error_modal_close_button')}
 	confirmVariant="danger"
 	icon="error"
 	modalType="queue-error"
 	onConfirm={handleClose}
 	showCancel={false}
-	title={t('queue_error_modal_title')}
+	title={$_('queue_error_modal_title')}
 	bind:isOpen
 >
 	<div>
 		<p style:color="var(--color-text)" class="mb-4!">
-			{t('queue_error_modal_failed_message', [sanitizedUserId()])}
+			{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId() } })}
 		</p>
 
 		<div class="modal-content-section-warning">
 			<h3 class="modal-content-heading">
 				<AlertTriangle class="mr-2 text-orange-500" size={18} />
-				{t('queue_error_modal_details_heading')}
+				{$_('queue_error_modal_details_heading')}
 			</h3>
 			<div>
 				<p style:color="var(--color-text)">
@@ -68,11 +68,11 @@
 				</p>
 				<br />
 				<p style:color="var(--color-text-subtle)" class="text-sm">
-					<strong>{t('queue_error_modal_error_code_label')}</strong>
+					<strong>{$_('queue_error_modal_error_code_label')}</strong>
 					{errorCode()}
 				</p>
 				<p style:color="var(--color-text-subtle)" class="text-sm">
-					<strong>{t('queue_error_modal_request_id_label')}</strong>
+					<strong>{$_('queue_error_modal_request_id_label')}</strong>
 					{requestId()}
 				</p>
 			</div>
@@ -81,17 +81,17 @@
 		<div class="modal-content-section-info">
 			<h3 class="modal-content-heading">
 				<Info class="mr-2 text-blue-500" size={18} />
-				{t('queue_error_modal_next_steps_heading')}
+				{$_('queue_error_modal_next_steps_heading')}
 			</h3>
 			<ul class="modal-content-list">
 				<li class="modal-content-list-item-info">
-					{t('queue_error_modal_step1')}
+					{$_('queue_error_modal_step1')}
 				</li>
 				<li class="modal-content-list-item-info">
-					{t('queue_error_modal_step2')}
+					{$_('queue_error_modal_step2')}
 				</li>
 				<li class="modal-content-list-item-info">
-					{t('queue_error_modal_step3')}
+					{$_('queue_error_modal_step3')}
 				</li>
 			</ul>
 		</div>

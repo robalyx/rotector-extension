@@ -35,7 +35,7 @@
 		requestPermissionsForOrigins
 	} from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
 	import CustomApiImport from './CustomApiImport.svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
@@ -76,7 +76,7 @@
 
 	// Handle delete API
 	async function handleDelete(api: CustomApiConfig) {
-		if (!confirm(t('custom_api_mgmt_confirm_delete', [api.name]))) {
+		if (!confirm($_('custom_api_mgmt_confirm_delete', { values: { 0: api.name } }))) {
 			return;
 		}
 
@@ -85,7 +85,7 @@
 			logger.userAction('custom_api_deleted', { apiId: api.id, apiName: api.name });
 		} catch (error) {
 			logger.error('Failed to delete custom API:', error);
-			alert(t('custom_api_mgmt_error_delete'));
+			alert($_('custom_api_mgmt_error_delete'));
 		}
 	}
 
@@ -111,9 +111,9 @@
 			await updateTestResult(api.id, success);
 
 			if (success) {
-				alert(t('custom_api_mgmt_test_success', [api.name]));
+				alert($_('custom_api_mgmt_test_success', { values: { 0: api.name } }));
 			} else {
-				alert(t('custom_api_mgmt_test_failed', [api.name]));
+				alert($_('custom_api_mgmt_test_failed', { values: { 0: api.name } }));
 			}
 
 			logger.userAction('custom_api_tested', {
@@ -125,10 +125,9 @@
 			logger.error('Failed to test custom API:', error);
 			await updateTestResult(api.id, false);
 			alert(
-				t('custom_api_mgmt_test_error', [
-					api.name,
-					error instanceof Error ? error.message : 'Unknown error'
-				])
+				$_('custom_api_mgmt_test_error', {
+					values: { 0: api.name, 1: error instanceof Error ? error.message : 'Unknown error' }
+				})
 			);
 		} finally {
 			testingApiId = null;
@@ -182,14 +181,14 @@
 		try {
 			const exported = exportApi(api.id);
 			await navigator.clipboard.writeText(exported);
-			alert(t('custom_api_mgmt_alert_export_clipboard_success'));
+			alert($_('custom_api_mgmt_alert_export_clipboard_success'));
 			logger.userAction('custom_api_exported_clipboard', { apiId: api.id, apiName: api.name });
 		} catch (error) {
 			logger.error('Failed to export API to clipboard:', error);
 			alert(
-				t('custom_api_mgmt_alert_export_failed', [
-					error instanceof Error ? error.message : 'Unknown error'
-				])
+				$_('custom_api_mgmt_alert_export_failed', {
+					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+				})
 			);
 		} finally {
 			closeExportDropdown();
@@ -213,14 +212,14 @@
 			document.body.removeChild(a);
 			URL.revokeObjectURL(url);
 
-			alert(t('custom_api_mgmt_alert_export_file_success'));
+			alert($_('custom_api_mgmt_alert_export_file_success'));
 			logger.userAction('custom_api_exported_file', { apiId: api.id, apiName: api.name });
 		} catch (error) {
 			logger.error('Failed to export API to file:', error);
 			alert(
-				t('custom_api_mgmt_alert_export_failed', [
-					error instanceof Error ? error.message : 'Unknown error'
-				])
+				$_('custom_api_mgmt_alert_export_failed', {
+					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+				})
 			);
 		} finally {
 			closeExportDropdown();
@@ -230,9 +229,11 @@
 	// Handle import success
 	function handleImportSuccess(apiName: string, wasRenamed: boolean, originalName?: string) {
 		if (wasRenamed && originalName) {
-			alert(t('custom_api_mgmt_alert_import_renamed', [apiName, originalName]));
+			alert(
+				$_('custom_api_mgmt_alert_import_renamed', { values: { 0: apiName, 1: originalName } })
+			);
 		} else {
-			alert(t('custom_api_mgmt_alert_import_success', [apiName]));
+			alert($_('custom_api_mgmt_alert_import_success', { values: { 0: apiName } }));
 		}
 	}
 
@@ -342,27 +343,27 @@
 	<div class="custom-api-header">
 		<button class="back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
-			<span>{t('custom_api_mgmt_button_back')}</span>
+			<span>{$_('custom_api_mgmt_button_back')}</span>
 		</button>
-		<h2 class="custom-api-title">{t('custom_api_mgmt_title')}</h2>
+		<h2 class="custom-api-title">{$_('custom_api_mgmt_title')}</h2>
 	</div>
 
 	<!-- Introduction Section -->
 	<div class="custom-api-intro">
 		<p class="custom-api-intro-text">
-			{t('custom_api_mgmt_intro')}
+			{$_('custom_api_mgmt_intro')}
 		</p>
 	</div>
 
 	<!-- Integration Guide Section -->
 	<div class="custom-api-integration-section">
-		<h3 class="integration-section-title">{t('custom_api_mgmt_integration_section_title')}</h3>
+		<h3 class="integration-section-title">{$_('custom_api_mgmt_integration_section_title')}</h3>
 		<p class="integration-section-description">
-			{t('custom_api_mgmt_integration_section_description')}
+			{$_('custom_api_mgmt_integration_section_description')}
 		</p>
 		<button class="docs-button" onclick={onNavigateToDocumentation} type="button">
 			<BookOpen size={16} />
-			{t('custom_api_mgmt_button_view_integration_guide')}
+			{$_('custom_api_mgmt_button_view_integration_guide')}
 		</button>
 	</div>
 
@@ -378,7 +379,7 @@
 					{/if}
 				</div>
 				<h4 class="permission-notice-title">
-					{t(
+					{$_(
 						hasPermissions
 							? 'custom_api_mgmt_permission_granted_title'
 							: 'custom_api_mgmt_permission_notice_title'
@@ -386,7 +387,7 @@
 				</h4>
 			</div>
 			<p class="permission-notice-message">
-				{t(
+				{$_(
 					hasPermissions
 						? 'custom_api_mgmt_permission_granted_message'
 						: 'custom_api_mgmt_permission_notice_message'
@@ -402,7 +403,7 @@
 					{#if grantingPermissions}
 						<LoadingSpinner size="small" />
 					{:else}
-						{t('custom_api_mgmt_permission_notice_button')}
+						{$_('custom_api_mgmt_permission_notice_button')}
 					{/if}
 				</button>
 			{/if}
@@ -414,7 +415,7 @@
 		{#if loading}
 			<div class="loading-container">
 				<LoadingSpinner size="medium" />
-				<span>{t('custom_api_mgmt_loading')}</span>
+				<span>{$_('custom_api_mgmt_loading')}</span>
 			</div>
 		{:else}
 			<!-- API Cards -->
@@ -434,7 +435,8 @@
 							<div class="api-card-header-left">
 								<h3 class="api-card-name">{api.name}</h3>
 								{#if api.isSystem}
-									<span class="status-badge status-system">{t('custom_api_mgmt_badge_system')}</span
+									<span class="status-badge status-system"
+										>{$_('custom_api_mgmt_badge_system')}</span
 									>
 								{/if}
 							</div>
@@ -453,28 +455,28 @@
 									<span
 										class="http-method"
 										class:http-method-get={endpoints.single.method === 'GET'}
-										>{t(
+										>{$_(
 											endpoints.single.method === 'GET'
 												? 'custom_api_mgmt_http_method_get'
 												: 'custom_api_mgmt_http_method_post'
 										)}</span
 									>
 									<span class="endpoint-separator">-</span>
-									<span class="endpoint-label">{t('custom_api_mgmt_label_single')}</span>
+									<span class="endpoint-label">{$_('custom_api_mgmt_label_single')}</span>
 								</div>
 								<span class="endpoint-value">{endpoints.single.url}</span>
 							</div>
 							<div class="api-card-endpoint">
 								<div class="endpoint-header">
 									<span class="http-method" class:http-method-get={endpoints.batch.method === 'GET'}
-										>{t(
+										>{$_(
 											endpoints.batch.method === 'GET'
 												? 'custom_api_mgmt_http_method_get'
 												: 'custom_api_mgmt_http_method_post'
 										)}</span
 									>
 									<span class="endpoint-separator">-</span>
-									<span class="endpoint-label">{t('custom_api_mgmt_label_batch')}</span>
+									<span class="endpoint-label">{$_('custom_api_mgmt_label_batch')}</span>
 								</div>
 								<span class="endpoint-value">{endpoints.batch.url}</span>
 							</div>
@@ -483,16 +485,16 @@
 						<!-- Details -->
 						<div class="api-card-details">
 							<div class="api-detail-line">
-								<span class="api-detail-label">{t('custom_api_mgmt_label_timeout')}</span>
-								<span class="api-detail-value">{api.timeout}{t('custom_api_mgmt_suffix_ms')}</span>
+								<span class="api-detail-label">{$_('custom_api_mgmt_label_timeout')}</span>
+								<span class="api-detail-value">{api.timeout}{$_('custom_api_mgmt_suffix_ms')}</span>
 							</div>
 							<div class="api-detail-line">
-								<span class="api-detail-label">{t('custom_api_mgmt_label_created')}</span>
+								<span class="api-detail-label">{$_('custom_api_mgmt_label_created')}</span>
 								<span class="api-detail-value">{formatTimestamp(api.createdAt)}</span>
 							</div>
 							{#if api.lastTested}
 								<div class="api-detail-line">
-									<span class="api-detail-label">{t('custom_api_mgmt_label_last_tested')}</span>
+									<span class="api-detail-label">{$_('custom_api_mgmt_label_last_tested')}</span>
 									<span class="api-detail-value">
 										{formatTimestamp(api.lastTested)}
 										{#if api.lastTestSuccess}
@@ -512,7 +514,7 @@
 									class="reorder-button"
 									disabled={index === 0 || (index > 0 && $customApis[index - 1].isSystem)}
 									onclick={() => handleReorder(api, 'up')}
-									title={t('custom_api_mgmt_title_move_up')}
+									title={$_('custom_api_mgmt_title_move_up')}
 									type="button"
 								>
 									<ChevronUp size={14} />
@@ -521,7 +523,7 @@
 									class="reorder-button"
 									disabled={index === $customApis.length - 1}
 									onclick={() => handleReorder(api, 'down')}
-									title={t('custom_api_mgmt_title_move_down')}
+									title={$_('custom_api_mgmt_title_move_down')}
 									type="button"
 								>
 									<ChevronDown size={14} />
@@ -530,7 +532,7 @@
 									class="action-button test-button"
 									disabled={testingApiId === api.id}
 									onclick={() => handleTest(api)}
-									title={t('custom_api_mgmt_title_test')}
+									title={$_('custom_api_mgmt_title_test')}
 									type="button"
 								>
 									{#if testingApiId === api.id}
@@ -543,7 +545,7 @@
 									<button
 										class="action-button export-button"
 										onclick={() => toggleExportDropdown(api.id)}
-										title={t('custom_api_mgmt_title_export')}
+										title={$_('custom_api_mgmt_title_export')}
 										type="button"
 									>
 										<Share2 size={14} />
@@ -556,7 +558,7 @@
 												type="button"
 											>
 												<Copy size={14} />
-												<span>{t('custom_api_mgmt_button_export_clipboard')}</span>
+												<span>{$_('custom_api_mgmt_button_export_clipboard')}</span>
 											</button>
 											<button
 												class="dropdown-item"
@@ -564,7 +566,7 @@
 												type="button"
 											>
 												<Download size={14} />
-												<span>{t('custom_api_mgmt_button_export_file')}</span>
+												<span>{$_('custom_api_mgmt_button_export_file')}</span>
 											</button>
 										</div>
 									{/if}
@@ -572,7 +574,7 @@
 								<button
 									class="action-button edit-button"
 									onclick={() => handleEdit(api)}
-									title={t('custom_api_mgmt_title_edit')}
+									title={$_('custom_api_mgmt_title_edit')}
 									type="button"
 								>
 									<Edit2 size={14} />
@@ -580,7 +582,7 @@
 								<button
 									class="action-button delete-button"
 									onclick={() => handleDelete(api)}
-									title={t('custom_api_mgmt_title_delete')}
+									title={$_('custom_api_mgmt_title_delete')}
 									type="button"
 								>
 									<Trash2 size={14} />
@@ -596,22 +598,24 @@
 				{#if canAddMore}
 					<button class="add-api-card" onclick={handleAdd} type="button">
 						<Plus size={16} />
-						<span>{t('custom_api_mgmt_button_add')}</span>
+						<span>{$_('custom_api_mgmt_button_add')}</span>
 					</button>
 				{:else}
 					<div class="max-apis-notice">
-						{t('custom_api_mgmt_notice_max_reached', [MAX_CUSTOM_APIS.toString()])}
+						{$_('custom_api_mgmt_notice_max_reached', {
+							values: { 0: MAX_CUSTOM_APIS.toString() }
+						})}
 					</div>
 				{/if}
 				<button
 					class="import-api-button"
 					disabled={!canAddMore}
 					onclick={() => (showImportModal = true)}
-					title={t('custom_api_mgmt_title_import')}
+					title={$_('custom_api_mgmt_title_import')}
 					type="button"
 				>
 					<Upload size={16} />
-					<span>{t('custom_api_mgmt_button_import')}</span>
+					<span>{$_('custom_api_mgmt_button_import')}</span>
 				</button>
 			</div>
 		{/if}

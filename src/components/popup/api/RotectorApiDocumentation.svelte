@@ -9,7 +9,7 @@
 	import lua from 'svelte-highlight/languages/lua';
 	import 'svelte-highlight/styles/github-dark.css';
 	import TurndownService from 'turndown';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
 
 	interface Props {
@@ -79,12 +79,12 @@
 		<div class="header-actions">
 			<button class="back-button" onclick={onBack} type="button">
 				<ArrowLeft size={16} />
-				<span>{t('rotector_api_docs_button_back')}</span>
+				<span>{$_('rotector_api_docs_button_back')}</span>
 			</button>
 			<button
 				class="copy-button"
 				onclick={copyDocumentation}
-				title={t('custom_api_docs_button_copy')}
+				title={$_('custom_api_docs_button_copy')}
 				type="button"
 			>
 				{#if copySuccess}
@@ -94,52 +94,52 @@
 				{/if}
 			</button>
 		</div>
-		<h2 class="custom-api-title">{t('rotector_api_docs_title')}</h2>
+		<h2 class="custom-api-title">{$_('rotector_api_docs_title')}</h2>
 	</div>
 
 	<p class="docs-intro">
-		{t('rotector_api_docs_intro')}
+		{$_('rotector_api_docs_intro')}
 	</p>
 
 	<!-- Authentication Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_authentication')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_authentication')}</h4>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_no_auth')}
+			{$_('rotector_api_docs_note_no_auth')}
 		</p>
 	</div>
 
 	<!-- HTTP Status Codes Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_http_status')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_http_status')}</h4>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_http_status')}
+			{$_('rotector_api_docs_note_http_status')}
 		</p>
 	</div>
 
 	<!-- CORS Support Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_cors')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_cors')}</h4>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_cors')}
+			{$_('rotector_api_docs_note_cors')}
 		</p>
 	</div>
 
 	<!-- Single User Lookup Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_single_lookup')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
-			<span class="http-method http-method-get">{t('custom_api_mgmt_http_method_get')}</span>
+			<span class="http-method http-method-get">{$_('custom_api_mgmt_http_method_get')}</span>
 			<code class="endpoint-url">https://roscoe.robalyx.com/v1/lookup/roblox/user/{'{userId}'}</code
 			>
 		</div>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_example_request')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_example_request')}</h5>
 		<pre class="code-block"><code
 				>GET https://roscoe.robalyx.com/v1/lookup/roblox/user/1234567890</code
 			></pre>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_code_examples')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_code_examples')}</h5>
 
 		<!-- Language Tabs -->
 		<div class="code-tabs">
@@ -399,7 +399,7 @@ end`}
 			{/if}
 		</div>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_success_response')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_success_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -436,9 +436,9 @@ end`}
 			language={json}
 		/>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_error_response')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_error_response')}</h5>
 		<p class="docs-note mb-3">
-			{t('rotector_api_docs_note_http_status')}
+			{$_('rotector_api_docs_note_http_status')}
 		</p>
 		<Highlight
 			code={JSON.stringify(
@@ -455,20 +455,20 @@ end`}
 
 	<!-- Batch User Lookup Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_batch_lookup')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_batch_lookup')}</h4>
 		<div class="docs-endpoint">
-			<span class="http-method">{t('custom_api_mgmt_http_method_post')}</span>
+			<span class="http-method">{$_('custom_api_mgmt_http_method_post')}</span>
 			<code class="endpoint-url">https://roscoe.robalyx.com/v1/lookup/roblox/user</code>
 		</div>
 
 		<p class="docs-note mb-3">
-			{t('rotector_api_docs_batch_intro')}
+			{$_('rotector_api_docs_batch_intro')}
 		</p>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_batch_limit')}
+			{$_('rotector_api_docs_note_batch_limit')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_request_body')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_request_body')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -480,7 +480,7 @@ end`}
 			language={json}
 		/>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_code_examples')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_code_examples')}</h5>
 
 		<!-- Language Tabs for Batch -->
 		<div class="code-tabs">
@@ -785,7 +785,7 @@ end`}
 			{/if}
 		</div>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_success_response')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_success_response')}</h5>
 		<Highlight
 			code={JSON.stringify(
 				{
@@ -824,66 +824,66 @@ end`}
 		/>
 
 		<p class="docs-note mb-3">
-			{t('rotector_api_docs_batch_note')}
+			{$_('rotector_api_docs_batch_note')}
 		</p>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_batch_all_users')}
+			{$_('rotector_api_docs_note_batch_all_users')}
 		</p>
 	</div>
 
 	<!-- Response Schema Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_response_schema')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_response_schema')}</h4>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_required_fields')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_required_fields')}</h5>
 		<ul class="docs-list">
-			<li><code>id</code> - {t('rotector_api_docs_field_id')}</li>
-			<li><code>flagType</code> - {t('rotector_api_docs_field_flag_type')}</li>
+			<li><code>id</code> - {$_('rotector_api_docs_field_id')}</li>
+			<li><code>flagType</code> - {$_('rotector_api_docs_field_flag_type')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_optional_fields')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_optional_fields')}</h5>
 		<ul class="docs-list">
-			<li><code>confidence</code> - {t('rotector_api_docs_field_confidence')}</li>
+			<li><code>confidence</code> - {$_('rotector_api_docs_field_confidence')}</li>
 			<li>
-				<code>reasons</code> - {t('rotector_api_docs_field_reasons')}
+				<code>reasons</code> - {$_('rotector_api_docs_field_reasons')}
 				<ul class="docs-list ml-6 mt-2">
-					<li><code>message</code> - {t('rotector_api_docs_field_message')}</li>
-					<li><code>confidence</code> - {t('rotector_api_docs_field_confidence_reason')}</li>
-					<li><code>evidence</code> - {t('rotector_api_docs_field_evidence')}</li>
+					<li><code>message</code> - {$_('rotector_api_docs_field_message')}</li>
+					<li><code>confidence</code> - {$_('rotector_api_docs_field_confidence_reason')}</li>
+					<li><code>evidence</code> - {$_('rotector_api_docs_field_evidence')}</li>
 				</ul>
 			</li>
 			<li>
-				<code>reviewer</code> - {t('rotector_api_docs_field_reviewer')}
+				<code>reviewer</code> - {$_('rotector_api_docs_field_reviewer')}
 				<ul class="docs-list ml-6 mt-2">
-					<li><code>username</code> - {t('rotector_api_docs_field_username')}</li>
-					<li><code>displayName</code> - {t('rotector_api_docs_field_display_name')}</li>
+					<li><code>username</code> - {$_('rotector_api_docs_field_username')}</li>
+					<li><code>displayName</code> - {$_('rotector_api_docs_field_display_name')}</li>
 				</ul>
 			</li>
-			<li><code>engineVersion</code> - {t('rotector_api_docs_field_engine_version')}</li>
+			<li><code>engineVersion</code> - {$_('rotector_api_docs_field_engine_version')}</li>
 			<li>
-				<code>versionCompatibility</code> - {t('rotector_api_docs_field_version_compatibility')}
+				<code>versionCompatibility</code> - {$_('rotector_api_docs_field_version_compatibility')}
 			</li>
-			<li><code>lastUpdated</code> - {t('rotector_api_docs_field_last_updated')}</li>
+			<li><code>lastUpdated</code> - {$_('rotector_api_docs_field_last_updated')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_flag_types')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_flag_types')}</h5>
 		<ul class="docs-list">
-			<li><code>0</code> - {t('rotector_api_docs_flag_type_0')}</li>
-			<li><code>1</code> - {t('rotector_api_docs_flag_type_1')}</li>
-			<li><code>2</code> - {t('rotector_api_docs_flag_type_2')}</li>
-			<li><code>3</code> - {t('rotector_api_docs_flag_type_3')}</li>
-			<li><code>4</code> - {t('rotector_api_docs_flag_type_4')}</li>
-			<li><code>5</code> - {t('rotector_api_docs_flag_type_5')}</li>
-			<li><code>6</code> - {t('rotector_api_docs_flag_type_6')}</li>
+			<li><code>0</code> - {$_('rotector_api_docs_flag_type_0')}</li>
+			<li><code>1</code> - {$_('rotector_api_docs_flag_type_1')}</li>
+			<li><code>2</code> - {$_('rotector_api_docs_flag_type_2')}</li>
+			<li><code>3</code> - {$_('rotector_api_docs_flag_type_3')}</li>
+			<li><code>4</code> - {$_('rotector_api_docs_flag_type_4')}</li>
+			<li><code>5</code> - {$_('rotector_api_docs_flag_type_5')}</li>
+			<li><code>6</code> - {$_('rotector_api_docs_flag_type_6')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_field_presence')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_field_presence')}</h5>
 		<ul class="docs-list">
-			<li><code>confidence</code> - {t('rotector_api_docs_note_field_confidence')}</li>
-			<li><code>reasons</code> - {t('rotector_api_docs_note_field_reasons')}</li>
-			<li><code>reviewer</code> - {t('rotector_api_docs_note_field_reviewer')}</li>
+			<li><code>confidence</code> - {$_('rotector_api_docs_note_field_confidence')}</li>
+			<li><code>reasons</code> - {$_('rotector_api_docs_note_field_reasons')}</li>
+			<li><code>reviewer</code> - {$_('rotector_api_docs_note_field_reviewer')}</li>
 			<li>
-				<code>versionCompatibility</code> - {t(
+				<code>versionCompatibility</code> - {$_(
 					'rotector_api_docs_note_field_version_compatibility'
 				)}
 			</li>
@@ -892,77 +892,77 @@ end`}
 
 	<!-- Rate Limiting & Best Practices -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_best_practices')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_best_practices')}</h4>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_rate_limiting')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_rate_limiting')}</h5>
 		<ul class="docs-list">
-			<li>{t('rotector_api_docs_rate_limit_1')}</li>
-			<li>{t('rotector_api_docs_rate_limit_2')}</li>
+			<li>{$_('rotector_api_docs_rate_limit_1')}</li>
+			<li>{$_('rotector_api_docs_rate_limit_2')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_batch_recommendations')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_batch_recommendations')}</h5>
 		<ul class="docs-list">
-			<li>{t('rotector_api_docs_batch_rec_1')}</li>
-			<li>{t('rotector_api_docs_batch_rec_2')}</li>
-			<li>{t('rotector_api_docs_batch_rec_3')}</li>
+			<li>{$_('rotector_api_docs_batch_rec_1')}</li>
+			<li>{$_('rotector_api_docs_batch_rec_2')}</li>
+			<li>{$_('rotector_api_docs_batch_rec_3')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_error_handling')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_error_handling')}</h5>
 		<ul class="docs-list">
-			<li>{t('rotector_api_docs_error_handling_1')}</li>
-			<li>{t('rotector_api_docs_error_handling_2')}</li>
-			<li>{t('rotector_api_docs_error_handling_3')}</li>
+			<li>{$_('rotector_api_docs_error_handling_1')}</li>
+			<li>{$_('rotector_api_docs_error_handling_2')}</li>
+			<li>{$_('rotector_api_docs_error_handling_3')}</li>
 		</ul>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_response_time')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_response_time')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_response_time')}
+			{$_('rotector_api_docs_note_response_time')}
 		</p>
 	</div>
 
 	<!-- Additional Notes Section -->
 	<div class="docs-section">
-		<h4 class="docs-section-title">{t('rotector_api_docs_section_notes')}</h4>
+		<h4 class="docs-section-title">{$_('rotector_api_docs_section_notes')}</h4>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_https')}</h5>
-		<p class="docs-note">{t('rotector_api_docs_note_https')}</p>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_https')}</h5>
+		<p class="docs-note">{$_('rotector_api_docs_note_https')}</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_wrapper_format')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_wrapper_format')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_wrapper_format')}
+			{$_('rotector_api_docs_note_wrapper_format')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_caching')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_caching')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_caching')}
+			{$_('rotector_api_docs_note_caching')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_safe_users')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_safe_users')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_safe_users')}
+			{$_('rotector_api_docs_note_safe_users')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_support')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_support')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_support')}
+			{$_('rotector_api_docs_note_support')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_timestamp_format')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_timestamp_format')}</h5>
 		<p class="docs-note">
-			{t('rotector_api_docs_note_timestamp_format')}
+			{$_('rotector_api_docs_note_timestamp_format')}
 		</p>
 
-		<h5 class="docs-subtitle">{t('rotector_api_docs_subtitle_version_compatibility_values')}</h5>
+		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_version_compatibility_values')}</h5>
 		<ul class="docs-list">
-			<li><code>current</code> - {t('rotector_api_docs_note_version_compatibility_current')}</li>
+			<li><code>current</code> - {$_('rotector_api_docs_note_version_compatibility_current')}</li>
 			<li>
-				<code>compatible</code> - {t('rotector_api_docs_note_version_compatibility_compatible')}
+				<code>compatible</code> - {$_('rotector_api_docs_note_version_compatibility_compatible')}
 			</li>
 			<li>
-				<code>outdated</code> - {t('rotector_api_docs_note_version_compatibility_outdated')}
+				<code>outdated</code> - {$_('rotector_api_docs_note_version_compatibility_outdated')}
 			</li>
 			<li>
-				<code>deprecated</code> - {t('rotector_api_docs_note_version_compatibility_deprecated')}
+				<code>deprecated</code> - {$_('rotector_api_docs_note_version_compatibility_deprecated')}
 			</li>
 		</ul>
 	</div>

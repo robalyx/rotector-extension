@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { UserStatus } from '@/lib/types/api';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	interface Props {
 		status: UserStatus;
@@ -13,9 +13,9 @@
 		if (!status.engineVersion) {
 			return {
 				status: 'unknown',
-				statusText: t('engine_status_unknown'),
-				description: t('engine_desc_unknown'),
-				impact: t('engine_desc_unknown_impact')
+				statusText: $_('engine_status_unknown'),
+				description: $_('engine_desc_unknown'),
+				impact: $_('engine_desc_unknown_impact')
 			};
 		}
 
@@ -24,38 +24,38 @@
 		if (compatibility === 'current') {
 			return {
 				status: 'latest',
-				statusText: t('engine_status_latest'),
-				description: t('engine_desc_latest'),
-				impact: t('engine_desc_latest_impact')
+				statusText: $_('engine_status_latest'),
+				description: $_('engine_desc_latest'),
+				impact: $_('engine_desc_latest_impact')
 			};
 		} else if (compatibility === 'compatible') {
 			return {
 				status: 'behind-minor',
-				statusText: t('engine_status_compatible'),
-				description: t('engine_desc_compatible'),
-				impact: t('engine_desc_compatible_impact')
+				statusText: $_('engine_status_compatible'),
+				description: $_('engine_desc_compatible'),
+				impact: $_('engine_desc_compatible_impact')
 			};
 		} else if (compatibility === 'outdated') {
 			return {
 				status: 'behind-major',
-				statusText: t('engine_status_outdated'),
-				description: t('engine_desc_outdated'),
-				impact: t('engine_desc_outdated_impact')
+				statusText: $_('engine_status_outdated'),
+				description: $_('engine_desc_outdated'),
+				impact: $_('engine_desc_outdated_impact')
 			};
 		} else if (compatibility === 'deprecated') {
 			return {
 				status: 'deprecated',
-				statusText: t('engine_status_deprecated'),
-				description: t('engine_desc_deprecated'),
-				impact: t('engine_desc_deprecated_impact')
+				statusText: $_('engine_status_deprecated'),
+				description: $_('engine_desc_deprecated'),
+				impact: $_('engine_desc_deprecated_impact')
 			};
 		} else {
 			// Fallback for unknown compatibility status
 			return {
 				status: 'unknown',
-				statusText: t('engine_status_unknown'),
-				description: t('engine_desc_unknown'),
-				impact: t('engine_desc_unknown_impact')
+				statusText: $_('engine_status_unknown'),
+				description: $_('engine_desc_unknown'),
+				impact: $_('engine_desc_unknown_impact')
 			};
 		}
 	});
@@ -73,7 +73,7 @@
 
 <div
 	class="engine-version-container-{position}"
-	aria-label={t('engine_aria_info')}
+	aria-label={$_('engine_aria_info')}
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 	role="tooltip"
@@ -88,7 +88,9 @@
 				class="engine-version-tooltip-header"
 				class:centered={position === 'below-header' || position === 'footer'}
 			>
-				{t('engine_header_version', [status.engineVersion ?? t('engine_version_unknown')])}
+				{$_('engine_header_version', {
+					values: { 0: status.engineVersion ?? $_('engine_version_unknown') }
+				})}
 				<div class="engine-version-status {versionStatus().status}">
 					{versionStatus().statusText}
 				</div>

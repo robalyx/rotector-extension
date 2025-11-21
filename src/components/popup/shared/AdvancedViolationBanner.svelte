@@ -7,7 +7,7 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { SettingsSectionInstance } from '@/lib/types/components';
 	import { logger } from '@/lib/utils/logger';
-	import { t } from '@/lib/stores/i18n';
+	import { _ } from 'svelte-i18n';
 
 	interface Props {
 		settingsSection?: SettingsSectionInstance;
@@ -67,9 +67,9 @@
 				<!-- Close button -->
 				<button
 					class="advanced-violation-banner-dismiss"
-					aria-label={t('banner_advanced_violation_aria_dismiss')}
+					aria-label={$_('banner_advanced_violation_aria_dismiss')}
 					onclick={handleDismiss}
-					title={t('banner_advanced_violation_title_dismiss')}
+					title={$_('banner_advanced_violation_title_dismiss')}
 					type="button"
 				>
 					<svg
@@ -83,15 +83,15 @@
 					</svg>
 				</button>
 				<p class="advanced-violation-banner-message">
-					{t('banner_advanced_violation_message')}
+					{$_('banner_advanced_violation_message')}
 				</p>
 				<button
 					class="advanced-violation-banner-enable"
 					onclick={handleGoToSetting}
-					title={t('banner_advanced_violation_title_go_to_setting')}
+					title={$_('banner_advanced_violation_title_go_to_setting')}
 					type="button"
 				>
-					{t('banner_advanced_violation_button_go_to_setting')}
+					{$_('banner_advanced_violation_button_go_to_setting')}
 				</button>
 			</div>
 		</div>

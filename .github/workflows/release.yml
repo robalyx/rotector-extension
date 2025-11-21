@@ -12,6 +12,8 @@ on:
 permissions:
   contents: write
   actions: read
+  id-token: write
+  attestations: write
 
 jobs:
   build-and-release:
@@ -63,6 +65,27 @@ jobs:
           echo "Generated files in .output directory:"
           ls -lh .output/*.zip
 
+      - name: Generate checksums
+        run: |
+          cd .output
+          echo "SHA256:" > checksums.txt
+          sha256sum *.zip >> checksums.txt
+          echo "" >> checksums.txt
+          echo "SHA512:" >> checksums.txt
+          sha512sum *.zip >> checksums.txt
+          echo "" >> checksums.txt
+          echo "MD5:" >> checksums.txt
+          md5sum *.zip >> checksums.txt
+          echo "Generated checksums:"
+          cat checksums.txt
+
+      - name: Generate artifact attestations
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: |
+            .output/*.zip
+            .output/checksums.txt
+
       - name: Create and push git tag
         run: |
           git config user.name "github-actions[bot]"
@@ -83,4 +106,5 @@ jobs:
           draft: true
           files: |
             .output/*.zip
+            .output/checksums.txt
           token: ${{ secrets.GITHUB_TOKEN }}

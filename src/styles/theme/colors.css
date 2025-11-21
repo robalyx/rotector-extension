@@ -38,6 +38,8 @@
 	--primitive-orange-tailwind-500: #f59e0b;
 	--primitive-orange-tailwind-600: #e68a00;
 	--primitive-orange-tailwind-700: #f97316;
+	--primitive-yellow-tailwind-400: #facc15;
+	--primitive-yellow-tailwind-500: #eab308;
 	--primitive-green-tailwind-400: #4ade80;
 	--primitive-blue-tailwind-500: #3b82f6;
 	--primitive-red-tailwind-500: #ef4444;
@@ -147,7 +149,7 @@
 	/* Status system */
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-bright);
-	--color-status-pending: var(--primitive-orange-500);
+	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-gray-400);
 	--color-status-queued: var(--primitive-indigo-500);
 	--color-status-likely-safe: var(--primitive-green-600);
@@ -159,7 +161,7 @@
 	--color-status-deprecated: var(--primitive-brown-500);
 	--color-status-integration: var(--primitive-teal-500);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
-	--color-status-mixed: var(--primitive-orange-tailwind-700);
+	--color-status-mixed: var(--primitive-yellow-tailwind-500);
 
 	/* Form controls */
 	--color-switch-bg-inactive: var(--primitive-gray-700);
@@ -238,7 +240,7 @@
 		/* Status adjustments */
 		--color-status-safe: var(--primitive-gray-500);
 		--color-status-unsafe: var(--primitive-red-400);
-		--color-status-pending: var(--primitive-orange-400);
+		--color-status-pending: var(--primitive-orange-tailwind-700);
 		--color-status-error: var(--primitive-gray-400);
 		--color-status-queued: var(--primitive-indigo-400);
 		--color-status-likely-safe: var(--primitive-green-400);
@@ -250,7 +252,7 @@
 		--color-status-deprecated: var(--primitive-brown-600);
 		--color-status-integration: var(--primitive-teal-400);
 		--color-status-past-offender: var(--primitive-blue-past-offender);
-		--color-status-mixed: var(--primitive-orange-tailwind-700);
+		--color-status-mixed: var(--primitive-yellow-tailwind-400);
 
 		/* Form adjustments */
 		--color-switch-bg-active: var(--primitive-switch-active-dark);
@@ -314,7 +316,7 @@
 	--color-link-hover-text: var(--primitive-white);
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-400);
-	--color-status-pending: var(--primitive-orange-400);
+	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-gray-400);
 	--color-status-queued: var(--primitive-indigo-400);
 	--color-status-likely-safe: var(--primitive-green-400);
@@ -326,7 +328,7 @@
 	--color-status-deprecated: var(--primitive-brown-600);
 	--color-status-integration: var(--primitive-teal-400);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
-	--color-status-mixed: var(--primitive-orange-tailwind-700);
+	--color-status-mixed: var(--primitive-yellow-tailwind-400);
 	--color-switch-bg-active: var(--primitive-switch-active-dark);
 	--color-switch-handle: var(--primitive-dark-text);
 	--color-switch-handle-disabled: var(--primitive-gray-600);
@@ -383,7 +385,7 @@
 	--color-link-hover-text: var(--primitive-white);
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-700);
-	--color-status-pending: var(--primitive-orange-500);
+	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-gray-400);
 	--color-status-queued: var(--primitive-indigo-500);
 	--color-status-likely-safe: var(--primitive-green-600);
@@ -394,7 +396,7 @@
 	--color-status-deprecated: var(--primitive-brown-500);
 	--color-status-integration: var(--primitive-teal-500);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
-	--color-status-mixed: var(--primitive-orange-tailwind-700);
+	--color-status-mixed: var(--primitive-yellow-tailwind-500);
 	--color-switch-bg-active: var(--primitive-blue-400);
 	--color-switch-handle: var(--primitive-gray-200);
 	--color-switch-handle-disabled: var(--primitive-gray-600);

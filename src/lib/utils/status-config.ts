@@ -88,7 +88,7 @@ export function getStatusConfig(
 			return {
 				...baseConfig,
 				iconName: 'pending',
-				iconColor: '#ff9800',
+				iconColor: '#f97316',
 				textContent: `${t('tooltip_status_under_review')} (${confidence}%)`,
 				textClass: 'status-text-pending'
 			};
@@ -125,12 +125,12 @@ export function getStatusConfig(
 				textClass: 'status-text-integration'
 			};
 		case STATUS.FLAGS.MIXED:
-			// Users show orange question mark, groups show red X
+			// Users show yellow question mark, groups show orange X
 			if (entityType === 'user') {
 				return {
 					...baseConfig,
 					iconName: 'mixed',
-					iconColor: '#f97316',
+					iconColor: '#eab308',
 					textContent: t('tooltip_status_mixed'),
 					textClass: 'status-text-mixed'
 				};
@@ -138,9 +138,9 @@ export function getStatusConfig(
 				return {
 					...baseConfig,
 					iconName: 'unsafe',
-					iconColor: '#ff4444',
+					iconColor: '#f97316',
 					textContent: t('tooltip_status_mixed'),
-					textClass: 'status-text-unsafe',
+					textClass: 'status-text-pending',
 					isOutfitOnly: false
 				};
 			}

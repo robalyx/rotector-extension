@@ -17,8 +17,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const LOCALE_DIR = path.join(__dirname, '..', 'src', '_locales');
+const LOCALE_DIR = path.join(__dirname, '..', 'public', 'locales');
 const SRC_DIR = path.join(__dirname, '..', 'src');
+
+// ANSI color codes for terminal output
+const colors = {
+	reset: '\x1b[0m',
+	red: '\x1b[31m',
+	green: '\x1b[32m',
+	yellow: '\x1b[33m',
+	blue: '\x1b[34m',
+	cyan: '\x1b[36m',
+	bold: '\x1b[1m'
+};
 
 /**
  * Dynamically discover all available locales from the _locales directory
@@ -50,17 +61,6 @@ function discoverLocales() {
 }
 
 const LOCALES = discoverLocales();
-
-// ANSI color codes for terminal output
-const colors = {
-	reset: '\x1b[0m',
-	red: '\x1b[31m',
-	green: '\x1b[32m',
-	yellow: '\x1b[33m',
-	blue: '\x1b[34m',
-	cyan: '\x1b[36m',
-	bold: '\x1b[1m'
-};
 
 /**
  * Load translation keys from a locale file

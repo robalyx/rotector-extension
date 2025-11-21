@@ -2,30 +2,6 @@ import { addMessages, init, locale, getLocaleFromNavigator } from 'svelte-i18n';
 import { browser } from 'wxt/browser';
 import { SETTINGS_KEYS } from '../types/settings';
 import { logger } from '../utils/logger';
-import en from '../../_locales/en/messages.json';
-import ar from '../../_locales/ar/messages.json';
-import bn from '../../_locales/bn/messages.json';
-import de from '../../_locales/de/messages.json';
-import es from '../../_locales/es/messages.json';
-import fil from '../../_locales/fil/messages.json';
-import fr from '../../_locales/fr/messages.json';
-import hi from '../../_locales/hi/messages.json';
-import id from '../../_locales/id/messages.json';
-import it from '../../_locales/it/messages.json';
-import ja from '../../_locales/ja/messages.json';
-import ko from '../../_locales/ko/messages.json';
-import ms from '../../_locales/ms/messages.json';
-import nl from '../../_locales/nl/messages.json';
-import pl from '../../_locales/pl/messages.json';
-import pt from '../../_locales/pt/messages.json';
-import ru from '../../_locales/ru/messages.json';
-import sv from '../../_locales/sv/messages.json';
-import th from '../../_locales/th/messages.json';
-import tr from '../../_locales/tr/messages.json';
-import uk from '../../_locales/uk/messages.json';
-import vi from '../../_locales/vi/messages.json';
-import zh_CN from '../../_locales/zh_CN/messages.json';
-import zh_TW from '../../_locales/zh_TW/messages.json';
 
 // Supported locales with their display names
 const SUPPORTED_LOCALES = {
@@ -55,56 +31,55 @@ const SUPPORTED_LOCALES = {
 	zh_TW: '繁體中文'
 } as const;
 
-// Map locale codes to imported messages
-const localeMessages: Record<string, Record<string, string>> = {
-	en,
-	ar,
-	bn,
-	de,
-	es,
-	fil,
-	fr,
-	hi,
-	id,
-	it,
-	ja,
-	ko,
-	ms,
-	nl,
-	pl,
-	pt,
-	ru,
-	sv,
-	th,
-	tr,
-	uk,
-	vi,
-	zh_CN,
-	zh_TW
-};
+// Track loaded locales to avoid re-fetching
+const loadedLocales = new Set<string>();
 
-// Register all messages
-for (const [localeCode, messages] of Object.entries(localeMessages)) {
-	addMessages(localeCode, messages);
-}
-
-// Initialize synchronously with browser locale detection
-const detectedLocale = getLocaleFromNavigator() ?? 'en';
+// Initialize svelte-i18n
 void init({
 	fallbackLocale: 'en',
-	initialLocale: normalizeLocale(detectedLocale)
+	initialLocale: 'en'
 });
+
+/**
+ * Fetch locale messages from extension's public directory
+ */
+async function loadLocale(localeCode: string): Promise<void> {
+	if (loadedLocales.has(localeCode)) {
+		return;
+	}
+
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+		const url = browser.runtime.getURL(`locales/${localeCode}/messages.json` as any);
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(`HTTP ${response.status}`);
+		}
+		const messages = (await response.json()) as Record<string, string>;
+		addMessages(localeCode, messages);
+		loadedLocales.add(localeCode);
+	} catch (error) {
+		logger.warn(`Failed to load locale: ${localeCode}`, error);
+	}
+}
 
 /**
  * Apply a locale setting, handling 'auto' to use browser locale
  */
-function applyLocale(localeCode: string): void {
+async function applyLocale(localeCode: string): Promise<void> {
+	let targetLocale: string;
+
 	if (localeCode === 'auto') {
 		const browserLocale = getLocaleFromNavigator() ?? 'en';
-		void locale.set(normalizeLocale(browserLocale));
+		targetLocale = normalizeLocale(browserLocale);
 	} else if (localeCode in SUPPORTED_LOCALES) {
-		void locale.set(localeCode);
+		targetLocale = localeCode;
+	} else {
+		targetLocale = 'en';
 	}
+
+	await loadLocale(targetLocale);
+	void locale.set(targetLocale);
 }
 
 /**
@@ -115,8 +90,11 @@ export async function loadStoredLanguagePreference(): Promise<void> {
 		const stored = await browser.storage.sync.get(SETTINGS_KEYS.LANGUAGE_OVERRIDE);
 		const storedLocale = stored[SETTINGS_KEYS.LANGUAGE_OVERRIDE] as string | undefined;
 
-		if (storedLocale && storedLocale !== 'auto' && storedLocale in SUPPORTED_LOCALES) {
-			void locale.set(storedLocale);
+		if (storedLocale) {
+			await applyLocale(storedLocale);
+		} else {
+			const browserLocale = getLocaleFromNavigator() ?? 'en';
+			await applyLocale(normalizeLocale(browserLocale));
 		}
 	} catch (error) {
 		logger.warn('Failed to load language preference from storage', error);
@@ -127,12 +105,10 @@ export async function loadStoredLanguagePreference(): Promise<void> {
  * Normalize browser locale to our supported format
  */
 function normalizeLocale(browserLocale: string): string {
-	// Direct match
 	if (browserLocale in SUPPORTED_LOCALES) {
 		return browserLocale;
 	}
 
-	// Handle Chinese variants
 	const lowerLocale = browserLocale.toLowerCase();
 	if (lowerLocale.startsWith('zh')) {
 		if (lowerLocale.includes('tw') || lowerLocale.includes('hant') || lowerLocale.includes('hk')) {
@@ -141,13 +117,11 @@ function normalizeLocale(browserLocale: string): string {
 		return 'zh_CN';
 	}
 
-	// Try base language code (e.g., 'en-US' -> 'en')
 	const baseLocale = browserLocale.split(/[-_]/)[0];
 	if (baseLocale in SUPPORTED_LOCALES) {
 		return baseLocale;
 	}
 
-	// Default to English
 	return 'en';
 }
 
@@ -156,7 +130,7 @@ function normalizeLocale(browserLocale: string): string {
  */
 export async function setLanguage(localeCode: string): Promise<void> {
 	await browser.storage.sync.set({ [SETTINGS_KEYS.LANGUAGE_OVERRIDE]: localeCode });
-	applyLocale(localeCode);
+	await applyLocale(localeCode);
 }
 
 /**
@@ -172,6 +146,6 @@ export function getAvailableLocales(): Array<{ code: string; name: string }> {
 // Sync language across contexts when storage changes
 browser.storage.onChanged.addListener((changes, namespace) => {
 	if (namespace === 'sync' && changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE]) {
-		applyLocale(changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE].newValue as string);
+		void applyLocale(changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE].newValue as string);
 	}
 });

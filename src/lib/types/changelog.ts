@@ -26,6 +26,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Queue limits in modal - View your remaining queue quota directly in the queue submission modal before submitting'
+			},
+			{
+				type: 'added',
+				description:
 					'Language selection - Choose your preferred language in settings instead of relying on browser detection'
 			},
 			{

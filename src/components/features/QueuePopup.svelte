@@ -5,7 +5,18 @@
 	import { STATUS } from '@/lib/types/constants';
 	import { Shirt, Clipboard, User, Users, AlertTriangle, Check } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
-	import type { UserStatus } from '@/lib/types/api';
+	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
+	import type { UserStatus, QueueLimitsData } from '@/lib/types/api';
+
+	interface QueueLimitsRef {
+		getState: () => {
+			queueLimits: QueueLimitsData | null;
+			isLoading: boolean;
+			error: string | null;
+		};
+		refresh: () => Promise<void>;
+		reset: () => void;
+	}
 
 	interface Props {
 		isOpen: boolean;
@@ -40,6 +51,9 @@
 	// UI state
 	let submitting = $state(false);
 
+	// Queue limits component
+	let queueLimitsRef: QueueLimitsRef | undefined = $state();
+
 	// Computed values
 	const sanitizedUserId = $derived(() => {
 		const id = sanitizeEntityId(userId);
@@ -55,7 +69,11 @@
 	);
 
 	const canSubmit = $derived(() => {
-		return !submitting;
+		if (submitting) return false;
+		if (!queueLimitsRef) return false;
+
+		const state = queueLimitsRef.getState();
+		return !state.isLoading && state.queueLimits !== null && state.queueLimits.remaining > 0;
 	});
 
 	// Handle form submission
@@ -119,11 +137,16 @@
 		groupsCheck = 'quick';
 		outfitCheck = false;
 		submitting = false;
+		queueLimitsRef?.reset();
 	}
 
-	// Reset state when modal closes
+	// Fetch queue limits when modal opens, reset state when it closes
 	$effect(() => {
-		if (!isOpen) {
+		if (isOpen && queueLimitsRef) {
+			queueLimitsRef.refresh().catch((err: unknown) => {
+				logger.error('Failed to load queue limits:', err);
+			});
+		} else if (!isOpen) {
 			resetAllState();
 		}
 	});
@@ -142,13 +165,18 @@
 	bind:isOpen
 >
 	<div>
-		<p style:color="var(--color-text)" class="mb-6!">
+		<p style:color="var(--color-text)" class="mb-4!">
 			{#if isReanalysis}
 				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId() } })}
 			{:else}
 				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId() } })}
 			{/if}
 		</p>
+
+		<!-- Queue Limits Section -->
+		<div class="mb-6">
+			<QueueLimitsDisplay bind:this={queueLimitsRef} autoLoad={false} variant="modal" />
+		</div>
 
 		<!-- Check Options Section -->
 		<div class="queue-selection-section">

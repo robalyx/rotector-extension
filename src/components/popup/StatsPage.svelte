@@ -1,6 +1,6 @@
 <script lang="ts">
 	import StatisticsSection from './stats/StatisticsSection.svelte';
-	import QueueLimitsSection from './stats/QueueLimitsSection.svelte';
+	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
 	import FinancialSection from './stats/FinancialSection.svelte';
 	import ChangelogSection from './stats/ChangelogSection.svelte';
 	import ChangelogBanner from './shared/ChangelogBanner.svelte';
@@ -14,7 +14,7 @@
 	<StatisticsSection />
 
 	<!-- Queue Limits Section -->
-	<QueueLimitsSection />
+	<QueueLimitsDisplay variant="popup" />
 
 	<!-- Financial Section -->
 	<FinancialSection />

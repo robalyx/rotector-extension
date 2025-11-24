@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Użytkownik",
 	"tooltip_queue_button": "Dodaj do kolejki do przeglądu",
+	"tooltip_queue_cooldown": "Dodaj ponownie do kolejki za {0} dni",
 	"tooltip_reportable_message": "Ten użytkownik ma wyraźne dowody nieodpowiedniej zawartości, która jest widoczna dla moderatorów Roblox.",
 	"tooltip_reportable_report_button": "Zgłoś do Roblox",
 	"tooltip_reportable_title": "Do zgłoszenia do Roblox",

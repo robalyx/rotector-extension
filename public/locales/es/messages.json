@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Usuario",
 	"tooltip_queue_button": "Poner en Cola para Revisión",
+	"tooltip_queue_cooldown": "Volver a poner en cola en {0} día(s)",
 	"tooltip_reportable_message": "Este usuario tiene evidencia clara de contenido inapropiado que es visible para los moderadores de Roblox.",
 	"tooltip_reportable_report_button": "Reportar a Roblox",
 	"tooltip_reportable_title": "Reportable a Roblox",

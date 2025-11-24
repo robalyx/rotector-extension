@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Gebruiker",
 	"tooltip_queue_button": "In Wachtrij Plaatsen voor Beoordeling",
+	"tooltip_queue_cooldown": "Opnieuw in wachtrij over {0} dag(en)",
 	"tooltip_reportable_message": "Deze gebruiker heeft duidelijk bewijs van ongepaste inhoud die zichtbaar is voor Roblox-moderators.",
 	"tooltip_reportable_report_button": "Rapporteren aan Roblox",
 	"tooltip_reportable_title": "Rapporteerbaar aan Roblox",

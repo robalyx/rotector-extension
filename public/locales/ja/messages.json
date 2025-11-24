@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID：",
 	"tooltip_profile_user": "ユーザー",
 	"tooltip_queue_button": "レビューキューに追加",
+	"tooltip_queue_cooldown": "{0}日後に再度キューに追加",
 	"tooltip_reportable_message": "このユーザーには、Robloxのモデレーターに表示される不適切なコンテンツの明確な証拠があります。",
 	"tooltip_reportable_report_button": "Robloxに通報",
 	"tooltip_reportable_title": "Robloxに通報可能",

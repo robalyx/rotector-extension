@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID：",
 	"tooltip_profile_user": "使用者",
 	"tooltip_queue_button": "加入佇列以供審核",
+	"tooltip_queue_cooldown": "{0}天後可重新排隊",
 	"tooltip_reportable_message": "此使用者有明確的不當內容證據，且 Roblox 審核員可以看到。",
 	"tooltip_reportable_report_button": "向 Roblox 檢舉",
 	"tooltip_reportable_title": "可向 Roblox 檢舉",

@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "ব্যবহারকারী",
 	"tooltip_queue_button": "পর্যালোচনার জন্য কিউতে রাখুন",
+	"tooltip_queue_cooldown": "{0} দিনের মধ্যে আবার সারিতে যোগ করুন",
 	"tooltip_reportable_message": "এই ব্যবহারকারীর অনুপযুক্ত বিষয়বস্তুর স্পষ্ট প্রমাণ রয়েছে যা Roblox মডারেটরদের কাছে দৃশ্যমান।",
 	"tooltip_reportable_report_button": "Roblox এ রিপোর্ট করুন",
 	"tooltip_reportable_title": "Roblox এ রিপোর্টযোগ্য",

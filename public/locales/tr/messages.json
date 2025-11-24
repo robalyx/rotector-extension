@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Kullanıcı",
 	"tooltip_queue_button": "İnceleme İçin Kuyruğa Al",
+	"tooltip_queue_cooldown": "{0} gün içinde tekrar sıraya al",
 	"tooltip_reportable_message": "Bu kullanıcı, Roblox moderatörlerine görünen açık uygunsuz içerik kanıtına sahip.",
 	"tooltip_reportable_report_button": "Roblox'a Bildir",
 	"tooltip_reportable_title": "Roblox'a Raporlanabilir",

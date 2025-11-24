@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Användare",
 	"tooltip_queue_button": "Köa för granskning",
+	"tooltip_queue_cooldown": "Köa igen om {0} dag(ar)",
 	"tooltip_reportable_message": "Denna användare har tydliga bevis för olämpligt innehåll som är synligt för Roblox moderatorer.",
 	"tooltip_reportable_report_button": "Rapportera till Roblox",
 	"tooltip_reportable_title": "Rapporterbar till Roblox",

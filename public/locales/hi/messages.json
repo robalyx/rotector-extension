@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "उपयोगकर्ता",
 	"tooltip_queue_button": "समीक्षा के लिए कतार में रखें",
+	"tooltip_queue_cooldown": "{0} दिन में फिर से कतार में जोड़ें",
 	"tooltip_reportable_message": "इस उपयोगकर्ता के पास अनुपयुक्त सामग्री के स्पष्ट सबूत हैं जो Roblox मॉडरेटर को दिखाई देते हैं।",
 	"tooltip_reportable_report_button": "Roblox को रिपोर्ट करें",
 	"tooltip_reportable_title": "Roblox को रिपोर्ट योग्य",

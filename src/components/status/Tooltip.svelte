@@ -218,6 +218,17 @@
 				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
 
+	// Queue cooldown check for recently processed users (3-day cooldown)
+	const queueCooldownInfo = $derived.by(() => {
+		if (!activeUserStatus?.processedAt) return { isInCooldown: false, daysRemaining: 0 };
+		const daysSinceProcessed = getDaysSinceTimestamp(activeUserStatus.processedAt);
+		const daysRemaining = 3 - daysSinceProcessed;
+		return {
+			isInCooldown: daysRemaining > 0,
+			daysRemaining: Math.max(0, daysRemaining)
+		};
+	});
+
 	const isExpanded = $derived(mode === 'expanded');
 
 	// Get custom API badges for active tab
@@ -872,16 +883,24 @@
 			{#if isSafeUserWithQueueOnly}
 				<!-- Safe users: Only show queue button -->
 				<div class="flex gap-2">
-					<button
-						class="queue-button w-full"
-						onclick={(e) => {
-							e.stopPropagation();
-							handleQueueSubmit();
-						}}
-						type="button"
-					>
-						{$_('tooltip_queue_button')}
-					</button>
+					{#if queueCooldownInfo.isInCooldown}
+						<button class="queue-button w-full queue-button-disabled" disabled type="button">
+							{$_('tooltip_queue_cooldown', {
+								values: { 0: queueCooldownInfo.daysRemaining.toString() }
+							})}
+						</button>
+					{:else}
+						<button
+							class="queue-button w-full"
+							onclick={(e) => {
+								e.stopPropagation();
+								handleQueueSubmit();
+							}}
+							type="button"
+						>
+							{$_('tooltip_queue_button')}
+						</button>
+					{/if}
 				</div>
 
 				<!-- Queue timing information -->

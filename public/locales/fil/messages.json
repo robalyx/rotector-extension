@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "User",
 	"tooltip_queue_button": "I-queue para sa Review",
+	"tooltip_queue_cooldown": "Mag-queue ulit sa {0} araw",
 	"tooltip_reportable_message": "Ang user na ito ay may malinaw na ebidensya ng hindi angkop na nilalaman na nakikita ng mga moderator ng Roblox.",
 	"tooltip_reportable_report_button": "I-report sa Roblox",
 	"tooltip_reportable_title": "Pwedeng I-report sa Roblox",

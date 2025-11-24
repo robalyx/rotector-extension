@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Utente",
 	"tooltip_queue_button": "Metti in Coda per Revisione",
+	"tooltip_queue_cooldown": "Rimetti in coda tra {0} giorno/i",
 	"tooltip_reportable_message": "Questo utente ha prove chiare di contenuti inappropriati visibili ai moderatori di Roblox.",
 	"tooltip_reportable_report_button": "Segnala a Roblox",
 	"tooltip_reportable_title": "Segnalabile a Roblox",

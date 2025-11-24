@@ -234,6 +234,20 @@
 	}
 }
 
+@utility queue-button-disabled {
+	@apply cursor-not-allowed;
+	background: linear-gradient(135deg, #6b7280, #4b5563);
+	border-color: #6b7280;
+	opacity: 0.7;
+
+	&:hover {
+		@apply translate-y-0;
+		background: linear-gradient(135deg, #6b7280, #4b5563);
+		border-color: #6b7280;
+		box-shadow: none;
+	}
+}
+
 @utility report-button {
 	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
 	background-color: var(--color-status-unsafe) !important;

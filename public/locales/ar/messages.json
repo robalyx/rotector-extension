@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "المعرّف:",
 	"tooltip_profile_user": "مستخدم",
 	"tooltip_queue_button": "إضافة إلى قائمة الانتظار للمراجعة",
+	"tooltip_queue_cooldown": "إعادة الإضافة للقائمة خلال {0} يوم/أيام",
 	"tooltip_reportable_message": "هذا المستخدم لديه دليل واضح على محتوى غير مناسب مرئي لمشرفي Roblox.",
 	"tooltip_reportable_report_button": "الإبلاغ إلى Roblox",
 	"tooltip_reportable_title": "قابل للإبلاغ إلى Roblox",

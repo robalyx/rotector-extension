@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Pengguna",
 	"tooltip_queue_button": "Antrikan untuk Ditinjau",
+	"tooltip_queue_cooldown": "Antrikan lagi dalam {0} hari",
 	"tooltip_reportable_message": "Pengguna ini memiliki bukti jelas konten tidak pantas yang terlihat oleh moderator Roblox.",
 	"tooltip_reportable_report_button": "Laporkan ke Roblox",
 	"tooltip_reportable_title": "Dapat Dilaporkan ke Roblox",

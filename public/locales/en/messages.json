@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "User",
 	"tooltip_queue_button": "Queue for Review",
+	"tooltip_queue_cooldown": "Queue again in {0} day(s)",
 	"tooltip_reportable_message": "This user has clear evidence of inappropriate content that is visible to Roblox moderators.",
 	"tooltip_reportable_report_button": "Report to Roblox",
 	"tooltip_reportable_title": "Reportable to Roblox",

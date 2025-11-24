@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID :",
 	"tooltip_profile_user": "Utilisateur",
 	"tooltip_queue_button": "Mettre en File d'Attente pour Révision",
+	"tooltip_queue_cooldown": "Remettre en file dans {0} jour(s)",
 	"tooltip_reportable_message": "Cet utilisateur a des preuves claires de contenu inapproprié visible pour les modérateurs de Roblox.",
 	"tooltip_reportable_report_button": "Signaler à Roblox",
 	"tooltip_reportable_title": "Signalable à Roblox",

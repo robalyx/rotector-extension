@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Benutzer",
 	"tooltip_queue_button": "Zur Überprüfung einreihen",
+	"tooltip_queue_cooldown": "Erneut einreihen in {0} Tag(en)",
 	"tooltip_reportable_message": "Dieser Benutzer hat eindeutige Beweise für unangemessene Inhalte, die für Roblox-Moderatoren sichtbar sind.",
 	"tooltip_reportable_report_button": "An Roblox melden",
 	"tooltip_reportable_title": "An Roblox meldbar",

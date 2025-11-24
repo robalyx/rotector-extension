@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "사용자",
 	"tooltip_queue_button": "검토 대기열 추가",
+	"tooltip_queue_cooldown": "{0}일 후에 다시 대기열에 추가",
 	"tooltip_reportable_message": "이 사용자는 Roblox 검토자에게 보이는 부적절한 콘텐츠의 명백한 증거가 있습니다.",
 	"tooltip_reportable_report_button": "Roblox에 신고",
 	"tooltip_reportable_title": "Roblox에 신고 가능",

@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Пользователь",
 	"tooltip_queue_button": "Поставить в очередь на проверку",
+	"tooltip_queue_cooldown": "Повторно добавить в очередь через {0} дн.",
 	"tooltip_reportable_message": "У этого пользователя есть явные доказательства неподходящего контента, видимого модераторам Roblox.",
 	"tooltip_reportable_report_button": "Пожаловаться в Roblox",
 	"tooltip_reportable_title": "Можно пожаловаться в Roblox",

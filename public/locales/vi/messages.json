@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Người dùng",
 	"tooltip_queue_button": "Xếp hàng để Xem xét",
+	"tooltip_queue_cooldown": "Xếp hàng lại sau {0} ngày",
 	"tooltip_reportable_message": "Người dùng này có bằng chứng rõ ràng về nội dung không phù hợp mà người kiểm duyệt Roblox có thể thấy.",
 	"tooltip_reportable_report_button": "Báo cáo cho Roblox",
 	"tooltip_reportable_title": "Có thể Báo cáo cho Roblox",

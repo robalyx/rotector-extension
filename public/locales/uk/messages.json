@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "Користувач",
 	"tooltip_queue_button": "Додати до черги для розгляду",
+	"tooltip_queue_cooldown": "Додати в чергу знову через {0} дн.",
 	"tooltip_reportable_message": "Цей користувач має явні докази недоречного контенту, який видно модераторам Roblox.",
 	"tooltip_reportable_report_button": "Повідомити Roblox",
 	"tooltip_reportable_title": "Можна подати скаргу в Roblox",

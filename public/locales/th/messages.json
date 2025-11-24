@@ -543,6 +543,7 @@
 	"tooltip_profile_id": "ID:",
 	"tooltip_profile_user": "ผู้ใช้",
 	"tooltip_queue_button": "เพิ่มเข้าคิวเพื่อตรวจสอบ",
+	"tooltip_queue_cooldown": "เข้าคิวอีกครั้งใน {0} วัน",
 	"tooltip_reportable_message": "ผู้ใช้นี้มีหลักฐานที่ชัดเจนของเนื้อหาที่ไม่เหมาะสมซึ่งผู้ดูแล Roblox มองเห็นได้",
 	"tooltip_reportable_report_button": "รายงานไปยัง Roblox",
 	"tooltip_reportable_title": "สามารถรายงานไปยัง Roblox ได้",

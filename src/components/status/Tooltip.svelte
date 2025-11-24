@@ -222,10 +222,11 @@
 	const queueCooldownInfo = $derived.by(() => {
 		if (!activeUserStatus?.processedAt) return { isInCooldown: false, daysRemaining: 0 };
 		const daysSinceProcessed = getDaysSinceTimestamp(activeUserStatus.processedAt);
-		const daysRemaining = 3 - daysSinceProcessed;
+		const rawRemaining = 3 - daysSinceProcessed;
+		const daysRemaining = Math.max(0, Math.ceil(rawRemaining));
 		return {
-			isInCooldown: daysRemaining > 0,
-			daysRemaining: Math.max(0, daysRemaining)
+			isInCooldown: rawRemaining > 0,
+			daysRemaining
 		};
 	});
 

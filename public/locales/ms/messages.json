@@ -548,6 +548,15 @@
 	"tooltip_reportable_report_button": "Laporkan kepada Roblox",
 	"tooltip_reportable_title": "Boleh Dilaporkan kepada Roblox",
 	"tooltip_reviewer_reviewed_by": "Disemak oleh",
+	"tooltip_restricted_header": {
+		"message": "Tidak dapat mendapatkan status"
+	},
+	"tooltip_restricted_message": {
+		"message": "Akses sambungan telah dibatalkan."
+	},
+	"tooltip_restricted_title": {
+		"message": "Isu Akses"
+	},
 	"tooltip_status_checking": "Memeriksa...",
 	"tooltip_status_integration": "Integrasi",
 	"tooltip_status_likely_safe": "Mungkin Selamat",

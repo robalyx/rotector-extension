@@ -41,22 +41,22 @@ export const actionHandlers = {
 		if (request.apiConfig) {
 			return customApiCheckUser(request.apiConfig, request.userId);
 		}
-		return checkUserStatus(request.userId);
+		return checkUserStatus(request.userId, request.clientId);
 	},
 	[API_ACTIONS.CHECK_GROUP_STATUS]: async (request: ContentMessage) => {
 		if (!request.groupId) throw new Error('Group ID is required for check group status');
-		return checkGroupStatus(request.groupId);
+		return checkGroupStatus(request.groupId, request.clientId);
 	},
 	[API_ACTIONS.CHECK_MULTIPLE_USERS]: async (request: ContentMessage) => {
 		if (!request.userIds) throw new Error('User IDs are required for check multiple users');
 		if (request.apiConfig) {
 			return customApiCheckMultipleUsers(request.apiConfig, request.userIds);
 		}
-		return checkMultipleUsers(request.userIds);
+		return checkMultipleUsers(request.userIds, request.clientId);
 	},
 	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
 		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');
-		return checkMultipleGroups(request.groupIds);
+		return checkMultipleGroups(request.groupIds, request.clientId);
 	},
 	[API_ACTIONS.QUEUE_USER]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for queue user');
@@ -65,10 +65,12 @@ export const actionHandlers = {
 			request.inappropriateOutfit,
 			request.inappropriateProfile,
 			request.inappropriateFriends,
-			request.inappropriateGroups
+			request.inappropriateGroups,
+			request.clientId
 		);
 	},
-	[API_ACTIONS.GET_QUEUE_LIMITS]: async () => getQueueLimits(),
+	[API_ACTIONS.GET_QUEUE_LIMITS]: async (request: ContentMessage) =>
+		getQueueLimits(request.clientId),
 	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
 		if (!request.userId || request.voteType === undefined || request.voteType === null)
 			throw new Error('User ID and vote type are required for submit vote');

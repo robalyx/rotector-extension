@@ -7,6 +7,8 @@
 	import { getStatusConfig } from '@/lib/utils/status-config';
 	import { groupStatusService, userStatusService } from '@/lib/services/entity-status-service';
 	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { Flag, Hourglass, Shirt } from 'lucide-svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
@@ -57,7 +59,23 @@
 		return sanitizeEntityId(entityId) || '';
 	});
 
+	// Check if access is restricted
+	const isRestricted = $derived($restrictedAccessStore.isRestricted);
+
+	// Check if this is a self-lookup
+	const isSelfLookup = $derived.by(() => {
+		if (entityType !== ENTITY_TYPES.USER) return false;
+		const clientId = getLoggedInUserId();
+		const targetId = sanitizeEntityId(entityId);
+		return clientId !== null && targetId !== null && clientId === targetId;
+	});
+
 	const statusConfig = $derived(() => {
+		// Check if access is restricted and NOT a self-lookup
+		if (isRestricted && !isSelfLookup) {
+			return getStatusConfig(null, null, false, 'restricted_access', entityType);
+		}
+
 		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
 		const rotectorStatus = rotector?.data ?? cachedStatus;
 		const rotectorLoading = rotector?.loading ?? false;
@@ -100,7 +118,7 @@
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasData = rotector?.data || cachedStatus;
 
-		if (rotectorLoading || !hasData) return;
+		if (rotectorLoading || (!hasData && !isRestricted && !isSelfLookup)) return;
 
 		logger.userAction('status_indicator_clicked', { entityId: sanitizedEntityId(), entityType });
 
@@ -138,7 +156,12 @@
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasData = rotector?.data || cachedStatus;
 
-		if (rotectorLoading || (!hasData && !error) || showExpandedTooltip) return;
+		if (
+			rotectorLoading ||
+			(!hasData && !error && !isRestricted && !isSelfLookup) ||
+			showExpandedTooltip
+		)
+			return;
 
 		clearHoverTimeout();
 
@@ -200,6 +223,9 @@
 	$effect(() => {
 		const id = sanitizedEntityId();
 		if (!id) return;
+
+		// Skip fetching if access is restricted
+		if (isRestricted && !isSelfLookup) return;
 
 		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
 		const rotectorLoading = rotector?.loading ?? false;

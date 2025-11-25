@@ -3,6 +3,19 @@ import { SETTINGS_KEYS } from '@/lib/types/settings';
 import type { CustomApiConfig } from '@/lib/types/custom-api';
 import { logger } from '@/lib/utils/logger';
 
+const ACCESS_STATE_KEY = '_session_cache';
+
+// Mark access state in storage
+async function markAccessRestricted(): Promise<void> {
+	await browser.storage.local.set({
+		[ACCESS_STATE_KEY]: {
+			_v: 1,
+			_t: Date.now()
+		}
+	});
+	logger.warn('Access state updated due to 403 response');
+}
+
 // Get API key from settings
 async function getApiKey(): Promise<string | null> {
 	try {
@@ -75,6 +88,7 @@ interface HttpRequestOptions extends RequestInit {
 	retryDelay?: number;
 	customApi?: CustomApiConfig;
 	requireAuth?: boolean;
+	clientId?: string;
 }
 
 // Unified HTTP client for both Rotector and Custom APIs
@@ -89,6 +103,7 @@ export async function makeHttpRequest(
 		retryDelay = API_CONFIG.RETRY_DELAY,
 		customApi,
 		requireAuth = false,
+		clientId,
 		...fetchOptions
 	} = options;
 
@@ -120,6 +135,11 @@ export async function makeHttpRequest(
 				throw new Error('Extension not authenticated. Please login with Discord.');
 			}
 			headers.set('X-Extension-UUID', uuid);
+		}
+
+		// Add client ID header for integrity verification
+		if (clientId) {
+			headers.set('X-Client-ID', clientId);
 		}
 	}
 
@@ -227,12 +247,19 @@ export async function makeHttpRequest(
 				continue;
 			}
 
-			// Clear stored UUID if backend invalidated it
-			if (!isCustomApi && requireAuth) {
+			if (!isCustomApi) {
 				const err = lastError as Error & { status?: number };
-				if (err.status === 403 && err.message.includes('UUID invalidated')) {
-					await browser.storage.local.remove(['extension_uuid']);
-					logger.info('Stored UUID cleared due to invalidation');
+
+				// Handle 403 responses
+				if (err.status === 403) {
+					if (requireAuth && err.message.includes('UUID invalidated')) {
+						await browser.storage.local.remove(['extension_uuid']);
+						logger.info('Stored UUID cleared due to invalidation');
+					}
+
+					if (err.message.includes('Access denied')) {
+						await markAccessRestricted();
+					}
 				}
 			}
 
@@ -241,11 +268,6 @@ export async function makeHttpRequest(
 			clearTimeout(timeoutId);
 		}
 	}
-
-	logger.error(`HTTP request failed after ${maxRetries} attempts`, {
-		url,
-		error: lastError?.message
-	});
 
 	throw lastError ?? new Error('API error. Please try again later.');
 }

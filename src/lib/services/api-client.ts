@@ -23,6 +23,7 @@ import type {
 	ZoneHistoricalStats
 } from '../types/api';
 import type { Statistics } from '../types/statistics';
+import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
 
 // Send message to background script with retry logic
@@ -37,7 +38,8 @@ async function sendMessage<T>(
 
 	while (attempt <= maxRetries) {
 		try {
-			const message: ContentMessage = { action, ...data };
+			const clientId = getLoggedInUserId();
+			const message: ContentMessage = { action, ...(clientId && { clientId }), ...data };
 			const response: ApiResponse<T> = await browser.runtime.sendMessage(message);
 
 			if (response?.success) {
@@ -67,8 +69,15 @@ async function sendMessage<T>(
 		} catch (error) {
 			attempt++;
 
-			// Check if we should retry (rate limits, server errors, timeouts)
-			const status = (error as Error & { status?: number }).status;
+			// Check if we should retry
+			const structuredError = error as Error & { status?: number; type?: string };
+			const status = structuredError.status;
+			const errorType = structuredError.type;
+
+			if (errorType === 'AbuseDetectionError') {
+				throw error;
+			}
+
 			const isRetryable =
 				status === 429 || status === 408 || (status !== undefined && status >= 500 && status < 600);
 

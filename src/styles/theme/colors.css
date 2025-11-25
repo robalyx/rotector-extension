@@ -150,7 +150,7 @@
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-bright);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
-	--color-status-error: var(--primitive-gray-400);
+	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-500);
 	--color-status-likely-safe: var(--primitive-green-600);
 	--color-status-checking: var(--primitive-black);
@@ -241,7 +241,7 @@
 		--color-status-safe: var(--primitive-gray-500);
 		--color-status-unsafe: var(--primitive-red-400);
 		--color-status-pending: var(--primitive-orange-tailwind-700);
-		--color-status-error: var(--primitive-gray-400);
+		--color-status-error: var(--primitive-red-bright);
 		--color-status-queued: var(--primitive-indigo-400);
 		--color-status-likely-safe: var(--primitive-green-400);
 		--color-status-checking: var(--primitive-gray-400);
@@ -317,7 +317,7 @@
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-400);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
-	--color-status-error: var(--primitive-gray-400);
+	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-400);
 	--color-status-likely-safe: var(--primitive-green-400);
 	--color-status-checking: var(--primitive-gray-400);
@@ -386,7 +386,7 @@
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-700);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
-	--color-status-error: var(--primitive-gray-400);
+	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-500);
 	--color-status-likely-safe: var(--primitive-green-600);
 	--color-status-checking: var(--primitive-black);

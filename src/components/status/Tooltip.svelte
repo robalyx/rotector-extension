@@ -6,6 +6,8 @@
 	import { calculateStatusBadges } from '@/lib/utils/status-utils';
 	import { apiClient } from '@/lib/services/api-client';
 	import { voteDataService } from '@/lib/services/vote-data-service';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {
 		type FormattedReasonEntry,
 		formatViolationReasons
@@ -38,7 +40,8 @@
 		Check,
 		RefreshCw,
 		Languages,
-		FileText
+		FileText,
+		Ban
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
@@ -214,7 +217,6 @@
 			activeTab === ROTECTOR_API_ID && // Only show queue on Rotector tab
 			activeUserStatus &&
 			(activeUserStatus.flagType === STATUS.FLAGS.SAFE ||
-				activeUserStatus.flagType === STATUS.FLAGS.PAST_OFFENDER ||
 				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
 
@@ -231,6 +233,19 @@
 	});
 
 	const isExpanded = $derived(mode === 'expanded');
+
+	// Check if access is restricted
+	const isRestricted = $derived($restrictedAccessStore.isRestricted);
+
+	// Check if this is a self-lookup
+	const isSelfLookup = $derived.by(() => {
+		if (isGroup) return false;
+		const clientId = getLoggedInUserId();
+		return clientId !== null && clientId === sanitizedUserId;
+	});
+
+	// Effective restricted state
+	const effectivelyRestricted = $derived(isRestricted && !isSelfLookup);
 
 	// Get custom API badges for active tab
 	const customApiBadges = $derived.by(() => {
@@ -282,6 +297,7 @@
 	}
 
 	const headerMessage = $derived.by(() => {
+		if (effectivelyRestricted) return $_('tooltip_restricted_header');
 		if (activeError) return $_('tooltip_error_details');
 		if (!activeStatus) return $_('tooltip_loading');
 
@@ -329,6 +345,7 @@
 	});
 
 	const statusBadgeText = $derived.by(() => {
+		if (effectivelyRestricted) return $_('tooltip_restricted_title');
 		const currentStatus = activeStatus;
 		if (!currentStatus) return $_('tooltip_status_unknown');
 
@@ -864,7 +881,16 @@
 {/snippet}
 
 {#snippet tooltipContent()}
-	{#if activeError}
+	{#if effectivelyRestricted}
+		<!-- Restricted access state -->
+		<div class="restricted-access-notice">
+			<Ban class="restricted-access-icon" size={24} />
+			<div class="restricted-access-text">
+				<strong>{$_('tooltip_restricted_title')}</strong>
+				<p>{$_('tooltip_restricted_message')}</p>
+			</div>
+		</div>
+	{:else if activeError}
 		<!-- Error state -->
 		<div class="error-details">
 			{extractErrorMessage(activeError)}
@@ -1106,10 +1132,12 @@
 									{$_('tooltip_profile_group_id')}
 									{sanitizedUserId}
 								</div>
-								<div class="tooltip-status-badge {statusBadgeClass}">
-									<span class="status-indicator"></span>
-									{statusBadgeText}
-								</div>
+								{#if !effectivelyRestricted && !activeError}
+									<div class="tooltip-status-badge {statusBadgeClass}">
+										<span class="status-indicator"></span>
+										{statusBadgeText}
+									</div>
+								{/if}
 							</div>
 						</div>
 					{:else if !isGroup && userInfo}
@@ -1121,10 +1149,12 @@
 							<div class="tooltip-user-info">
 								<div class="tooltip-username">{userInfo.username}</div>
 								<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
-								<div class="tooltip-status-badge {statusBadgeClass}">
-									<span class="status-indicator"></span>
-									{statusBadgeText}
-								</div>
+								{#if !effectivelyRestricted && !activeError}
+									<div class="tooltip-status-badge {statusBadgeClass}">
+										<span class="status-indicator"></span>
+										{statusBadgeText}
+									</div>
+								{/if}
 							</div>
 						</div>
 					{:else}

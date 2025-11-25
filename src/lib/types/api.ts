@@ -132,6 +132,7 @@ export interface TranslationResult {
 // Content script message data
 export interface ContentMessage {
 	action: string;
+	clientId?: string;
 	userId?: string | number;
 	userIds?: Array<string | number>;
 	groupId?: string | number;

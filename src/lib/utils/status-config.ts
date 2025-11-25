@@ -31,8 +31,9 @@ export function getStatusConfig(
 	if (error) {
 		return {
 			iconName: 'error',
-			iconColor: '#999',
-			textContent: t('tooltip_status_unknown'),
+			iconColor: '#ff4444',
+			textContent:
+				error === 'restricted_access' ? t('tooltip_restricted_title') : t('tooltip_status_unknown'),
 			textClass: 'status-text-error',
 			confidence: null,
 			isReportable: false,
@@ -156,7 +157,7 @@ export function getStatusConfig(
 			return {
 				...baseConfig,
 				iconName: 'error',
-				iconColor: '#999',
+				iconColor: '#ff4444',
 				textContent: t('tooltip_status_unknown'),
 				textClass: 'status-text-error',
 				isReportable: false,

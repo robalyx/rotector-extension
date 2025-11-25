@@ -190,7 +190,7 @@
 		try {
 			// Show report helper if user is reportable
 			if (!userStatus?.isReportable) {
-				logger.debug('User has no profile violations, not showing report helper');
+				logger.debug('User is not reportable, not showing report helper');
 				return;
 			}
 

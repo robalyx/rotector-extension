@@ -29,16 +29,16 @@ export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus
 
 // Calculate status badges based on user status
 export function calculateStatusBadges(status: UserStatus | null | undefined): StatusBadges {
+	// Detect reportable status
+	const isReportable = status?.isReportable ?? false;
+
 	// Default return for null/undefined status or missing reasons
 	if (!status?.reasons) {
 		return {
-			isReportable: false,
+			isReportable,
 			isOutfitOnly: false
 		};
 	}
-
-	// Detect reportable status
-	const isReportable = status.isReportable ?? false;
 
 	// Detect outfit-only status
 	const reasonTypes = Object.keys(status.reasons);

@@ -29,18 +29,18 @@ export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus
 
 // Calculate status badges based on user status
 export function calculateStatusBadges(status: UserStatus | null | undefined): StatusBadges {
+	// Detect reportable status
+	const isReportable = status?.isReportable ?? false;
+
 	// Default return for null/undefined status or missing reasons
 	if (!status?.reasons) {
 		return {
-			isReportable: false,
+			isReportable,
 			isOutfitOnly: false
 		};
 	}
 
-	// Detect reportable status - user has User Profile violations
-	const isReportable = !!status.reasons['User Profile'];
-
-	// Detect outfit-only status - user is flagged only for outfit with no other violations
+	// Detect outfit-only status
 	const reasonTypes = Object.keys(status.reasons);
 	const hasOutfitReason = reasonTypes.includes('Avatar Outfit');
 	const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;

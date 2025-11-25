@@ -125,14 +125,6 @@
 		}
 	}
 
-	// Check if user has User Profile violations
-	function hasUserProfileViolations(): boolean {
-		if (!userStatus || !userStatus.reasons) {
-			return false;
-		}
-		return 'User Profile' in userStatus.reasons;
-	}
-
 	// Find and validate required form elements
 	function findFormElements(): {
 		categoryButton: HTMLButtonElement;
@@ -196,9 +188,9 @@
 	// Mount report helper card on the page
 	async function mountReportHelper(): Promise<void> {
 		try {
-			// Only show report helper if user has profile violations
-			if (!userStatus || !hasUserProfileViolations()) {
-				logger.debug('User has no profile violations, not showing report helper');
+			// Show report helper if user is reportable
+			if (!userStatus?.isReportable) {
+				logger.debug('User is not reportable, not showing report helper');
 				return;
 			}
 

@@ -6,7 +6,8 @@
 		Loader2,
 		Workflow,
 		History,
-		CircleHelp
+		CircleHelp,
+		Ban
 	} from 'lucide-svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
 
@@ -35,4 +36,6 @@
 	<History class={className} {color} {size} {strokeWidth} />
 {:else if name === 'mixed'}
 	<CircleHelp class={className} {color} {size} {strokeWidth} />
+{:else if name === 'restricted'}
+	<Ban class={className} {color} {size} {strokeWidth} />
 {/if}

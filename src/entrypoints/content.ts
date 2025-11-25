@@ -9,6 +9,10 @@ import {
 import { initializeSettings } from '@/lib/stores/settings';
 import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 import { loadCustomApis } from '@/lib/stores/custom-apis';
+import {
+	initializeRestrictedAccess,
+	setupRestrictedAccessListener
+} from '@/lib/stores/restricted-access';
 
 export default defineContentScript({
 	matches: [
@@ -71,6 +75,11 @@ export default defineContentScript({
 			logger.debug('Loading custom APIs configuration...');
 			await loadCustomApis();
 			logger.debug('Custom APIs loaded successfully');
+
+			logger.debug('Initializing access state...');
+			await initializeRestrictedAccess();
+			setupRestrictedAccessListener();
+			logger.debug('Access state initialized');
 
 			// Create portal container for tooltips
 			const portalContainer = document.createElement('div');

@@ -336,12 +336,10 @@
 			// Mount status indicators
 			for (const groupDetail of groupDetails) {
 				const { groupId, element, nameElement } = groupDetail;
-				const status = groupStatuses.get(groupId);
+				const status = groupStatuses.get(groupId) ?? null;
 
-				if (status) {
-					element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
-					mountStatusIndicator(groupId, status, nameElement, element);
-				}
+				element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
+				mountStatusIndicator(groupId, status, nameElement, element);
 			}
 		} catch (error) {
 			onError?.(
@@ -353,7 +351,7 @@
 	// Mount status indicator for a group
 	function mountStatusIndicator(
 		groupId: string,
-		status: GroupStatus,
+		status: GroupStatus | null,
 		nameElement: Element,
 		element?: Element
 	) {

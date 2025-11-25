@@ -2,6 +2,8 @@
 	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { STATUS } from '@/lib/types/constants';
 	import { Shirt, Clipboard, User, Users, AlertTriangle, Check } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
@@ -54,12 +56,13 @@
 	// Queue limits component
 	let queueLimitsRef: QueueLimitsRef | undefined = $state();
 
-	// Computed values
+	// Sanitize user ID for display and API calls
 	const sanitizedUserId = $derived(() => {
 		const id = sanitizeEntityId(userId);
 		return id ? id.toString() : '';
 	});
 
+	// Check if this is a reanalysis of an existing flagged user
 	const isReanalysis = $derived(
 		isReprocess ||
 			(userStatus &&
@@ -68,8 +71,23 @@
 					userStatus.flagType === STATUS.FLAGS.MIXED))
 	);
 
+	// Check if access is restricted
+	const isRestricted = $derived($restrictedAccessStore.isRestricted);
+
+	// Check if this is a self-lookup
+	const isSelfLookup = $derived.by(() => {
+		const clientId = getLoggedInUserId();
+		const id = sanitizedUserId();
+		return clientId !== null && id !== '' && clientId === id;
+	});
+
+	// Hide queue limits for restricted self-lookups
+	const hideQueueLimits = $derived(isRestricted && isSelfLookup);
+
+	// Determine if submission is allowed
 	const canSubmit = $derived(() => {
 		if (submitting) return false;
+		if (hideQueueLimits) return true;
 		if (!queueLimitsRef) return false;
 
 		const state = queueLimitsRef.getState();
@@ -142,7 +160,7 @@
 
 	// Fetch queue limits when modal opens, reset state when it closes
 	$effect(() => {
-		if (isOpen && queueLimitsRef) {
+		if (isOpen && queueLimitsRef && !hideQueueLimits) {
 			queueLimitsRef.refresh().catch((err: unknown) => {
 				logger.error('Failed to load queue limits:', err);
 			});
@@ -174,9 +192,11 @@
 		</p>
 
 		<!-- Queue Limits Section -->
-		<div class="mb-6">
-			<QueueLimitsDisplay bind:this={queueLimitsRef} autoLoad={false} variant="modal" />
-		</div>
+		{#if !hideQueueLimits}
+			<div class="mb-6">
+				<QueueLimitsDisplay bind:this={queueLimitsRef} autoLoad={false} variant="modal" />
+			</div>
+		{/if}
 
 		<!-- Check Options Section -->
 		<div class="queue-selection-section">

@@ -135,6 +135,30 @@
 	background-color: rgba(156, 39, 176, 0.1);
 }
 
+@utility restricted-access-notice {
+	@apply flex gap-2.5 p-3 rounded mt-1.5;
+	background-color: rgba(127, 29, 29, 0.15);
+}
+
+@utility restricted-access-icon {
+	@apply flex-shrink-0;
+	color: var(--color-status-unsafe);
+}
+
+@utility restricted-access-text {
+	@apply flex-1 text-left;
+
+	strong {
+		@apply block mb-1 text-left text-base;
+		color: var(--color-status-unsafe);
+	}
+
+	p {
+		@apply m-0 text-sm leading-normal text-left;
+		color: var(--color-text) !important;
+	}
+}
+
 /* =================================
    METADATA DISPLAY
    ================================= */

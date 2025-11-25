@@ -1,12 +1,10 @@
 import { get } from 'svelte/store';
 import { PageController } from './PageController';
 import { SETTINGS_KEYS } from '../types/settings';
-import { queryUser, ROTECTOR_API_ID } from '../services/unified-query-service';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
 import { settings } from '../stores/settings';
 import ProfilePageManager from '../../components/features/ProfilePageManager.svelte';
-import type { CombinedStatus } from '../types/custom-api';
 import { logger } from '../utils/logger';
 
 /**
@@ -14,7 +12,6 @@ import { logger } from '../utils/logger';
  */
 export class ProfilePageController extends PageController {
 	private userId: string | null = null;
-	private userStatus: CombinedStatus | null = null;
 	private profilePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
 	protected override async initializePage(): Promise<void> {
@@ -42,10 +39,7 @@ export class ProfilePageController extends PageController {
 			// Wait for profile elements to load
 			await this.waitForProfileElements();
 
-			// Load user status
-			await this.loadUserStatus();
-
-			// Mount profile page manager to handle all UI components
+			// Mount profile page manager
 			this.mountProfilePageManager();
 
 			logger.debug('ProfilePageController initialized successfully');
@@ -58,15 +52,12 @@ export class ProfilePageController extends PageController {
 	// Page cleanup
 	protected override async cleanupPage(): Promise<void> {
 		try {
-			// Cleanup profile page manager
 			if (this.profilePageManager) {
 				this.profilePageManager.cleanup();
 				this.profilePageManager = null;
 			}
 
-			// Reset state
 			this.userId = null;
-			this.userStatus = null;
 
 			logger.debug('ProfilePageController cleanup completed');
 		} catch (error) {
@@ -91,32 +82,12 @@ export class ProfilePageController extends PageController {
 
 	// Wait for profile elements to be available
 	private async waitForProfileElements(): Promise<void> {
-		// Wait for the profile header username element
 		const result = await waitForElement('.profile-header-username', {
 			baseDelay: 200
 		});
 
 		if (!result.success) {
 			throw new Error('Profile username element not found');
-		}
-	}
-
-	// Load user status from APIs
-	private async loadUserStatus(): Promise<void> {
-		if (!this.userId) return;
-
-		try {
-			logger.debug('Loading user status', { userId: this.userId });
-			this.userStatus = await queryUser(this.userId);
-
-			const rotector = this.userStatus.customApis.get(ROTECTOR_API_ID);
-			logger.debug('User status loaded', {
-				userId: this.userId,
-				rotectorFlagType: rotector?.data?.flagType,
-				customApiCount: this.userStatus.customApis.size
-			});
-		} catch (error) {
-			logger.error('Failed to load user status:', error);
 		}
 	}
 
@@ -127,41 +98,18 @@ export class ProfilePageController extends PageController {
 				throw new Error('Cannot mount ProfilePageManager without userId');
 			}
 
-			// Create container for profile page manager
 			const container = this.createComponentContainer();
 			container.style.display = 'none';
 			document.body.appendChild(container);
 
-			// Mount ProfilePageManager component
 			this.profilePageManager = this.mountComponent(ProfilePageManager, container, {
-				userId: this.userId,
-				userStatus: this.userStatus,
-				onStatusRefresh: this.handleStatusRefresh.bind(this)
+				userId: this.userId
 			});
 
 			logger.debug('ProfilePageManager mounted successfully');
 		} catch (error) {
 			this.handleError(error, 'mountProfilePageManager');
 			throw error;
-		}
-	}
-
-	// Handle status refresh after successful queue operation
-	private async handleStatusRefresh(): Promise<void> {
-		try {
-			// Refresh user status
-			await this.loadUserStatus();
-
-			// Cleanup old instance before creating new one
-			if (this.profilePageManager) {
-				this.profilePageManager.cleanup();
-				this.profilePageManager = null;
-			}
-
-			// Remount profile page manager
-			this.mountProfilePageManager();
-		} catch (error) {
-			logger.error('Failed to refresh status after queue operation:', error);
 		}
 	}
 }

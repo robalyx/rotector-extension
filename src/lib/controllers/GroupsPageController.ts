@@ -6,9 +6,7 @@ import { settings } from '../stores/settings';
 import { logger } from '../utils/logger';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
-import { groupStatusService } from '../services/entity-status-service';
 import GroupPageManager from '../../components/features/GroupPageManager.svelte';
-import type { GroupStatus } from '../types/api';
 
 /**
  * Handles group pages with member lists
@@ -16,7 +14,6 @@ import type { GroupStatus } from '../types/api';
 export class GroupsPageController extends PageController {
 	private groupPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 	private groupId: string | null = null;
-	private groupStatus: GroupStatus | null = null;
 
 	protected override async initializePage(): Promise<void> {
 		try {
@@ -35,16 +32,15 @@ export class GroupsPageController extends PageController {
 			// Extract group ID from URL
 			this.groupId = this.extractGroupIdFromUrl();
 
-			// Wait for group elements and load
+			// Wait for group elements if we have a group ID
 			if (this.groupId) {
 				logger.debug('Group ID extracted', { groupId: this.groupId });
 				await this.waitForGroupElements();
-				await this.loadGroupStatus();
 			} else {
 				logger.debug('No group ID found in URL, proceeding with groups page manager only');
 			}
 
-			// Mount unified group page manager
+			// Mount group page manager
 			this.mountGroupPageManager();
 
 			logger.debug('GroupsPageController initialized successfully');
@@ -63,7 +59,6 @@ export class GroupsPageController extends PageController {
 			}
 
 			this.groupId = null;
-			this.groupStatus = null;
 
 			logger.debug('GroupsPageController cleanup completed');
 		} catch (error) {
@@ -81,7 +76,6 @@ export class GroupsPageController extends PageController {
 			// Mount GroupPageManager
 			this.groupPageManager = this.mountComponent(GroupPageManager, container, {
 				groupId: this.groupId,
-				groupStatus: this.groupStatus,
 				pageType: this.pageType
 			});
 
@@ -112,22 +106,6 @@ export class GroupsPageController extends PageController {
 
 		if (!result.success) {
 			logger.warn('Group header element not found after timeout');
-		}
-	}
-
-	// Load group status from API with caching
-	private async loadGroupStatus(): Promise<void> {
-		if (!this.groupId) return;
-
-		try {
-			logger.debug('Loading group status', { groupId: this.groupId });
-			this.groupStatus = await groupStatusService.getStatus(this.groupId);
-			logger.debug('Group status loaded', {
-				groupId: this.groupId,
-				flagType: this.groupStatus?.flagType
-			});
-		} catch (error) {
-			logger.error('Failed to load group status:', error);
 		}
 	}
 }

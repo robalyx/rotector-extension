@@ -17,6 +17,7 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { queryUserProgressive } from '@/lib/services/unified-query-service';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -26,12 +27,12 @@
 
 	interface Props {
 		userId: string;
-		userStatus: CombinedStatus | null;
-		onStatusRefresh: () => Promise<void>;
-		onMount?: (cleanup: () => void) => void;
 	}
 
-	let { userId, userStatus, onStatusRefresh, onMount }: Props = $props();
+	let { userId }: Props = $props();
+
+	// Status state owned by this component
+	let userStatus = $state<CombinedStatus | null>(null);
 
 	// Check if user is flagged by any API
 	const isFlagged = $derived(() => {
@@ -55,18 +56,20 @@
 	let statusContainer: HTMLElement | null = null;
 	let friendButtonHandler: ((event: Event) => void) | null = null;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
+	let cancelQuery: (() => void) | null = null;
 
-	// Update status indicator when userStatus changes
+	// Fetch status progressively
 	$effect(() => {
-		if (statusContainer) {
-			mountStatusIndicator();
-		}
+		cancelQuery = queryUserProgressive(userId, (status) => {
+			userStatus = status;
+		});
+
+		return () => cancelQuery?.();
 	});
 
 	// Initialize components when mounted
 	$effect(() => {
 		void initialize();
-		onMount?.(cleanup);
 
 		return cleanup;
 	});
@@ -173,7 +176,10 @@
 				props: {
 					entityId: userId,
 					entityType: ENTITY_TYPES.USER,
-					entityStatus: userStatus,
+					get entityStatus() {
+						return userStatus;
+					},
+					skipAutoFetch: true,
 					onClick: handleStatusClick,
 					onQueue: handleQueueUser
 				}
@@ -284,6 +290,14 @@
 	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
 		queueModalManager?.showQueue(clickedUserId, isReprocess, status);
+	}
+
+	// Refresh status after queue completion
+	function handleStatusRefresh() {
+		cancelQuery?.();
+		cancelQuery = queryUserProgressive(userId, (status) => {
+			userStatus = status;
+		});
 	}
 
 	// Handle friend request proceed
@@ -494,7 +508,7 @@
 {/if}
 
 <!-- Queue Modal Manager -->
-<QueueModalManager bind:this={queueModalManager} {onStatusRefresh} />
+<QueueModalManager bind:this={queueModalManager} onStatusRefresh={handleStatusRefresh} />
 
 <!-- Carousel Manager -->
 {#if showCarousel}

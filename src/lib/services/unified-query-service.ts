@@ -64,6 +64,67 @@ export async function queryUser(userId: string): Promise<CombinedStatus> {
 	return { customApis: customApiResults };
 }
 
+// Query a single user with progressive updates as each API completes
+export function queryUserProgressive(
+	userId: string,
+	onUpdate: (status: CombinedStatus) => void
+): () => void {
+	const enabledApis = getEnabledCustomApis();
+	let cancelled = false;
+
+	// Initialize with loading state for all APIs
+	const customApis = new Map<string, CustomApiResult>(
+		enabledApis.map((api) => [
+			api.id,
+			{
+				apiId: api.id,
+				apiName: api.name,
+				loading: true,
+				landscapeImageDataUrl: api.landscapeImageDataUrl
+			}
+		])
+	);
+	onUpdate({ customApis: new Map(customApis) });
+
+	// Fire all requests in parallel then update on each completion
+	enabledApis.forEach(async (api) => {
+		try {
+			const result =
+				api.isSystem && api.id === ROTECTOR_API_ID
+					? await apiClient.checkUser(userId)
+					: await apiClient.checkUser(userId, { apiConfig: api });
+
+			if (cancelled) return;
+
+			customApis.set(api.id, {
+				apiId: api.id,
+				apiName: api.name,
+				data: result,
+				loading: false,
+				timestamp: Date.now(),
+				landscapeImageDataUrl: api.landscapeImageDataUrl
+			});
+			onUpdate({ customApis: new Map(customApis) });
+		} catch (error) {
+			if (cancelled) return;
+
+			customApis.set(api.id, {
+				apiId: api.id,
+				apiName: api.name,
+				error: error instanceof Error ? error.message : 'Unknown error',
+				loading: false,
+				timestamp: Date.now(),
+				landscapeImageDataUrl: api.landscapeImageDataUrl
+			});
+			onUpdate({ customApis: new Map(customApis) });
+		}
+	});
+
+	return () => {
+		cancelled = true;
+	};
+}
+
 // Query multiple users with batch optimization
 export async function queryMultipleUsers(userIds: string[]): Promise<Map<string, CombinedStatus>> {
 	const enabledApis = getEnabledCustomApis();

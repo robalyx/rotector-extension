@@ -319,6 +319,13 @@
 	// Process groups with batch status fetching
 	async function processGroups(groupDetails: GroupDetails[]) {
 		try {
+			// Show loading indicators
+			for (const groupDetail of groupDetails) {
+				const { groupId, element, nameElement } = groupDetail;
+				element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
+				updateStatusIndicator(groupId, null, nameElement, element, true);
+			}
+
 			// Fetch statuses for groups we haven't cached yet
 			const groupsToFetch = groupDetails.filter(({ groupId }) => !groupStatuses.has(groupId));
 
@@ -333,13 +340,11 @@
 				}
 			}
 
-			// Mount status indicators
+			// Update indicators with fetched status
 			for (const groupDetail of groupDetails) {
 				const { groupId, element, nameElement } = groupDetail;
 				const status = groupStatuses.get(groupId) ?? null;
-
-				element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
-				mountStatusIndicator(groupId, status, nameElement, element);
+				updateStatusIndicator(groupId, status, nameElement, element, false);
 			}
 		} catch (error) {
 			onError?.(
@@ -348,18 +353,33 @@
 		}
 	}
 
-	// Mount status indicator for a group
-	function mountStatusIndicator(
+	// Update status indicator for a group
+	function updateStatusIndicator(
 		groupId: string,
 		status: GroupStatus | null,
 		nameElement: Element,
-		element?: Element
+		element: Element | undefined,
+		isLoading: boolean
 	) {
-		// Configure text display for different layouts
+		// Clean up existing component
+		const existingComponent = mountedComponents.get(groupId);
+		if (existingComponent) {
+			existingComponent.destroy?.();
+			mountedComponents.delete(groupId);
+		}
+
+		// Determine layout type
 		const isBTRobloxView = element?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
 		const isGridView = element?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
 
-		// Wrapper element for status indicator component
+		// Remove existing container
+		const existingContainer =
+			isBTRobloxView || isGridView
+				? element?.querySelector(`.${COMPONENT_CLASSES.GROUP_STATUS_CONTAINER}`)
+				: nameElement.parentNode?.querySelector(`.${COMPONENT_CLASSES.GROUP_STATUS_CONTAINER}`);
+		existingContainer?.remove();
+
+		// Create container element
 		const container = document.createElement('span');
 		container.className =
 			COMPONENT_CLASSES.GROUP_STATUS_CONTAINER + ' ' + COMPONENT_CLASSES.STATUS_CONTAINER;
@@ -401,7 +421,8 @@
 			props: {
 				entityId: groupId,
 				entityType: ENTITY_TYPES.GROUP,
-				entityStatus: wrapGroupStatus(status),
+				entityStatus: isLoading ? null : wrapGroupStatus(status),
+				skipAutoFetch: true,
 				showText: !isGridView && !isBTRobloxView,
 				onClick: handleStatusClick
 			}

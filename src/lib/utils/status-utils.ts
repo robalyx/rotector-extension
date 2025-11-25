@@ -8,7 +8,26 @@ interface StatusBadges {
 }
 
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
-export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus | null {
+export function wrapGroupStatus(
+	groupStatus: GroupStatus | null,
+	isLoading = false
+): CombinedStatus | null {
+	// Show loading state while fetching
+	if (isLoading) {
+		return {
+			customApis: new Map([
+				[
+					ROTECTOR_API_ID,
+					{
+						apiId: ROTECTOR_API_ID,
+						apiName: 'Rotector',
+						loading: true
+					}
+				]
+			])
+		};
+	}
+
 	if (!groupStatus) return null;
 
 	return {

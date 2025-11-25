@@ -118,7 +118,7 @@
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasData = rotector?.data || cachedStatus;
 
-		if (rotectorLoading || (!hasData && !isRestricted && !isSelfLookup)) return;
+		if (rotectorLoading || (!hasData && !error && !isRestricted && !isSelfLookup)) return;
 
 		logger.userAction('status_indicator_clicked', { entityId: sanitizedEntityId(), entityType });
 

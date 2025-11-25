@@ -37,10 +37,10 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 		};
 	}
 
-	// Detect reportable status - user has User Profile violations
-	const isReportable = !!status.reasons['User Profile'];
+	// Detect reportable status
+	const isReportable = status.isReportable ?? false;
 
-	// Detect outfit-only status - user is flagged only for outfit with no other violations
+	// Detect outfit-only status
 	const reasonTypes = Object.keys(status.reasons);
 	const hasOutfitReason = reasonTypes.includes('Avatar Outfit');
 	const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;

@@ -17,7 +17,7 @@
 	let processing = $state(false);
 
 	// Computed values
-	const isReportable = $derived(status ? 'User Profile' in (status.reasons || {}) : false);
+	const isReportable = $derived(status?.isReportable ?? false);
 
 	const reportableContent = $derived(
 		isReportable && status

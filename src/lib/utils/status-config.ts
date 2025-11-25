@@ -29,11 +29,22 @@ export function getStatusConfig(
 	entityType: 'user' | 'group' = 'user'
 ): StatusConfig {
 	if (error) {
+		if (error === 'restricted_access') {
+			return {
+				iconName: 'restricted',
+				iconColor: '#888888',
+				textContent: t('tooltip_restricted_title'),
+				textClass: 'status-text-safe',
+				confidence: null,
+				isReportable: false,
+				isQueued: false,
+				isOutfitOnly: false
+			};
+		}
 		return {
 			iconName: 'error',
 			iconColor: '#ff4444',
-			textContent:
-				error === 'restricted_access' ? t('tooltip_restricted_title') : t('tooltip_status_unknown'),
+			textContent: t('tooltip_status_unknown'),
 			textClass: 'status-text-error',
 			confidence: null,
 			isReportable: false,

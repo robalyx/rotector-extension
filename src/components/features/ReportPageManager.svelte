@@ -100,9 +100,9 @@
 			const comment = commentTextarea?.value?.trim() || '';
 
 			// Build report reason
-			let reportReason = $_('report_page_manager_category_prefix', { values: { 0: category } });
+			let reportReason = `Category: ${category}`;
 			if (comment) {
-				reportReason += $_('report_page_manager_comment_prefix', { values: { 0: comment } });
+				reportReason += `\n\nComment: ${comment}`;
 			}
 
 			logger.userAction(USER_ACTIONS.REPORT_HELPER_AUTOFILL, {
@@ -249,19 +249,19 @@
 	// Handle fill form button click
 	async function handleFillForm(): Promise<void> {
 		// Build comment text
-		let commentText = $_('report_page_manager_report_intro');
+		let commentText =
+			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
 
 		const profileReason = userStatus?.reasons?.['User Profile'];
 
 		if (profileReason?.message) {
-			commentText +=
-				$_('report_page_manager_detected_issue_label') + profileReason.message + '\n\n';
+			commentText += 'Detected Issue:\n' + profileReason.message + '\n\n';
 		}
 
 		// Add evidence if advanced info is enabled
 		const currentSettings = get(settings);
 		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
-			commentText += $_('report_page_manager_evidence_label');
+			commentText += 'Evidence Snippets:\n';
 			profileReason.evidence.forEach((snippet: string, index: number) => {
 				commentText += `${index + 1}. ${snippet}\n`;
 			});

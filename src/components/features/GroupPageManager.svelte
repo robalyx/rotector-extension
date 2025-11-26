@@ -11,24 +11,55 @@
 	import type { GroupStatus, PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
+	import { groupStatusService } from '@/lib/services/entity-status-service';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
 
 	interface Props {
 		groupId: string | null;
-		groupStatus: GroupStatus | null;
 		pageType: PageType;
-		onMount?: (cleanup: () => void) => void;
 	}
 
-	let { groupId, groupStatus, pageType, onMount }: Props = $props();
+	let { groupId, pageType }: Props = $props();
+
+	// Status state owned by this component
+	let groupStatus = $state<GroupStatus | null>(null);
+	let isLoading = $state(true);
 
 	let showGroups = $state(false);
 	let mountedComponents = $state(new Map<string, { destroy?: () => void }>());
 
+	// Fetch group status
+	$effect(() => {
+		if (!groupId) {
+			isLoading = false;
+			return;
+		}
+
+		let cancelled = false;
+		isLoading = true;
+
+		groupStatusService
+			.getStatus(groupId)
+			.then((status) => {
+				if (cancelled) return;
+				groupStatus = status;
+				isLoading = false;
+			})
+			.catch((error) => {
+				if (cancelled) return;
+				logger.error('Failed to load group status:', error);
+				isLoading = false;
+			});
+
+		return () => {
+			cancelled = true;
+		};
+	});
+
+	// Initialize components when mounted
 	$effect(() => {
 		void initialize();
-		onMount?.(cleanup);
 		return cleanup;
 	});
 
@@ -90,7 +121,10 @@
 			props: {
 				entityId: groupId!,
 				entityType: ENTITY_TYPES.GROUP,
-				entityStatus: wrapGroupStatus(groupStatus),
+				get entityStatus() {
+					return wrapGroupStatus(groupStatus, isLoading);
+				},
+				skipAutoFetch: true,
 				showText: true
 			}
 		});
@@ -102,6 +136,7 @@
 	// Wait for groups container and enable groups functionality
 	async function setupGroups() {
 		const result = await waitForElement(GROUPS_SELECTORS.CONTAINER);
+
 		if (result.success) {
 			showGroups = true;
 			logger.debug('Groups container detected');

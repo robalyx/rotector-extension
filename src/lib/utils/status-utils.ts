@@ -8,7 +8,27 @@ interface StatusBadges {
 }
 
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
-export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus | null {
+export function wrapGroupStatus(
+	groupStatus: GroupStatus | null,
+	isLoading = false
+): CombinedStatus | null {
+	// Show loading state while fetching
+	if (isLoading) {
+		return {
+			customApis: new Map([
+				[
+					ROTECTOR_API_ID,
+					{
+						apiId: ROTECTOR_API_ID,
+						apiName: 'Rotector',
+						loading: true,
+						landscapeImageDataUrl: browser.runtime.getURL('/assets/rotector-tab.png')
+					}
+				]
+			])
+		};
+	}
+
 	if (!groupStatus) return null;
 
 	return {
@@ -20,7 +40,8 @@ export function wrapGroupStatus(groupStatus: GroupStatus | null): CombinedStatus
 					apiName: 'Rotector',
 					data: groupStatus,
 					loading: false,
-					timestamp: Date.now()
+					timestamp: Date.now(),
+					landscapeImageDataUrl: browser.runtime.getURL('/assets/rotector-tab.png')
 				}
 			]
 		])

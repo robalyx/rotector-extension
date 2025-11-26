@@ -40,17 +40,14 @@
 
 	// Initialize modal visibility on mount
 	$effect(() => {
-		if (isOpen) {
+		if (isOpen && overlayElement && popupElement) {
+			const overlay = overlayElement;
+			const popup = popupElement;
 			requestAnimationFrame(() => {
-				if (overlayElement) {
-					overlayElement.classList.add('visible');
-				}
-				if (popupElement) {
-					popupElement.focus();
-				}
+				overlay.classList.add('visible');
+				popup.focus();
 			});
 		}
-		return () => {};
 	});
 </script>
 

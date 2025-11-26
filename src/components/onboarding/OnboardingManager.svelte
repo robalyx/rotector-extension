@@ -44,11 +44,7 @@
 
 	// Mark onboarding as fully completed
 	async function handleFinish() {
-		const isReplay = isOnboardingReplay();
 		await completeOnboarding();
-		if (!isReplay) {
-			location.reload();
-		}
 	}
 </script>
 

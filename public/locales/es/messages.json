@@ -228,7 +228,7 @@
 	"onboarding_feature_queue_desc": "Envía usuarios sospechosos para análisis con IA.",
 	"onboarding_feature_queue_title": "Cola para Análisis",
 	"onboarding_feature_tooltips_desc": "Obtén información detallada pasando el cursor sobre los indicadores de estado.",
-	"onboarding_feature_tooltips_title": "Información sobre Herramientas",
+	"onboarding_feature_tooltips_title": "Tooltips al pasar el cursor",
 	"onboarding_feature_voting_desc": "Ayuda a mejorar la detección votando sobre usuarios marcados.",
 	"onboarding_feature_voting_title": "Votación Comunitaria",
 	"onboarding_features_description": "Herramientas para ayudarte a mantenerte seguro:",

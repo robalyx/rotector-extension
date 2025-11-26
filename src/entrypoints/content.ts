@@ -113,11 +113,13 @@ export default defineContentScript({
 			registerPortalContainer(portalContainer);
 			logger.debug('Portal container created and registered with theme manager');
 
-			// Initialize page handling
-			const currentSettings = get(settings);
-			const onboardingCompleted = currentSettings[SETTINGS_KEYS.ONBOARDING_COMPLETED];
+			// Track initialization state
+			let pageManagerInitialized = false;
 
-			if (onboardingCompleted) {
+			function initializePageHandling() {
+				if (pageManagerInitialized) return;
+				pageManagerInitialized = true;
+
 				// Initialize page controller manager
 				const pageManager = new PageControllerManager();
 				pageManager.initialize();
@@ -149,14 +151,30 @@ export default defineContentScript({
 				});
 
 				// Initial page detection and setup
-				await pageManager.handleNavigation(currentUrl);
+				void pageManager.handleNavigation(currentUrl);
+			}
+
+			// Initialize page handling based on onboarding status
+			const currentSettings = get(settings);
+			if (currentSettings[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+				initializePageHandling();
 			} else {
-				logger.debug('Skipping page controller initialization - onboarding not completed');
+				// Subscribe to settings changes to initialize after onboarding completes
+				const unsubscribe = settings.subscribe((s) => {
+					if (s[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+						initializePageHandling();
+						unsubscribe();
+					}
+				});
+				logger.debug('Waiting for onboarding completion to initialize page controllers');
 			}
 
 			// Set up cleanup on page unload
 			window.addEventListener('beforeunload', () => {
 				logger.debug('Content script cleanup on page unload');
+				if (onboardingContainer) {
+					unregisterPortalContainer(onboardingContainer);
+				}
 				if (portalContainer) {
 					unregisterPortalContainer(portalContainer);
 				}

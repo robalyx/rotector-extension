@@ -1,5 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import { BookOpen } from 'lucide-svelte';
+
+	async function handleViewGuide() {
+		await browser.storage.local.set({ onboardingReplayRequested: true });
+		await browser.tabs.create({ url: 'https://www.roblox.com/home' });
+	}
 </script>
 
 <div class="footer-container">
@@ -62,6 +68,10 @@
 
 	<!-- Help Link -->
 	<div class="footer-help-section">
+		<button class="footer-view-guide-button" onclick={handleViewGuide} type="button">
+			<BookOpen class="footer-view-guide-icon" />
+			{$_('footer_view_guide')}
+		</button>
 		<a
 			class="footer-help-link"
 			href="https://rotector.com"

@@ -5,6 +5,7 @@ import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
 import { exportCustomApi, importCustomApi } from '../utils/api-export';
 import { hasPermissionsForOrigins, extractOriginPattern } from '../utils/permissions';
+import { getAssetUrl } from '../utils/assets';
 
 // Maximum number of custom APIs allowed
 export const MAX_CUSTOM_APIS = 5;
@@ -12,6 +13,7 @@ export const MAX_CUSTOM_APIS = 5;
 // Rotector system API configuration
 export const ROTECTOR_API_ID = 'system-rotector';
 
+// Create Rotector system API configuration
 function createRotectorApiConfig(): CustomApiConfig {
 	return {
 		id: ROTECTOR_API_ID,
@@ -23,7 +25,7 @@ function createRotectorApiConfig(): CustomApiConfig {
 		createdAt: 0,
 		isSystem: true,
 		reasonFormat: 'numeric',
-		landscapeImageDataUrl: browser.runtime.getURL('/assets/rotector-tab.png')
+		landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.png')
 	};
 }
 

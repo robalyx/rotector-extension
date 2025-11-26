@@ -18,7 +18,8 @@ export const SETTINGS_KEYS = {
 	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed',
 	CUSTOM_APIS: 'customApis',
 	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab',
-	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled'
+	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled',
+	ONBOARDING_COMPLETED: 'onboardingCompleted'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -46,6 +47,7 @@ export interface Settings {
 	[SETTINGS_KEYS.CUSTOM_APIS]?: string;
 	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: boolean;
+	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: boolean;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -66,7 +68,8 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: '',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false,
-	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false
+	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false,
+	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: false
 };
 
 interface SettingCategory {

@@ -1,0 +1,349 @@
+/* =================================
+   ONBOARDING OVERLAY & STRUCTURE
+   ================================= */
+
+@utility onboarding-overlay {
+	@apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
+
+	&.visible {
+		@apply opacity-100 visible;
+	}
+
+	&.closing {
+		@apply opacity-0;
+	}
+}
+
+@utility onboarding-popup {
+	@apply max-w-[95%] w-[520px] rounded-xl shadow-2xl border border-white/5 flex flex-col;
+	background-color: var(--color-bg-content);
+	transform: scale(0.95) translateY(20px);
+	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
+	max-height: 90vh;
+
+	.onboarding-overlay.visible & {
+		transform: scale(1) translateY(0);
+	}
+}
+
+@utility onboarding-header {
+	@apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl gap-3;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility onboarding-header-logo {
+	@apply flex-shrink-0 pr-3 border-r-2 border-white/20;
+
+	& img {
+		@apply h-10 w-auto;
+	}
+}
+
+@utility onboarding-title {
+	@apply text-lg font-semibold m-0 flex-1;
+	color: var(--color-text-heading);
+}
+
+@utility onboarding-progress {
+	@apply flex gap-2 ml-auto mr-2;
+}
+
+@utility onboarding-progress-dot {
+	@apply w-2 h-2 rounded-full transition-all duration-200;
+	background-color: var(--color-bg-content);
+
+	&.active {
+		background-color: var(--color-primary);
+		@apply w-4;
+	}
+
+	&.completed {
+		background-color: var(--color-success);
+	}
+}
+
+@utility onboarding-close {
+	@apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200;
+	color: var(--color-text);
+
+	&:hover {
+		@apply bg-white/10;
+	}
+}
+
+@utility onboarding-content {
+	@apply p-5 overflow-y-auto flex-1;
+	min-height: 300px;
+	max-height: calc(90vh - 180px);
+	background-color: var(--color-bg-content);
+}
+
+@utility onboarding-actions {
+	@apply flex justify-center gap-3 p-5 pt-4 border-t border-white/10 rounded-b-xl;
+	background-color: var(--color-bg-content);
+}
+
+@utility onboarding-button-primary {
+	@apply px-5 py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm min-w-[100px];
+	background-color: var(--color-primary);
+	color: white;
+
+	&:hover {
+		background-color: var(--color-primary-hover);
+		@apply shadow-md -translate-y-px;
+	}
+}
+
+@utility onboarding-button-secondary {
+	@apply px-5 py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm min-w-[100px];
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+
+	&:hover {
+		background-color: var(--color-card-hover);
+		@apply shadow-md -translate-y-px;
+	}
+}
+
+/* =================================
+   WELCOME MODAL CONTENT
+   ================================= */
+
+@utility onboarding-welcome-logo {
+	@apply flex justify-center mb-2;
+
+	& img {
+		@apply h-24 w-auto;
+	}
+}
+
+@utility onboarding-welcome-content {
+	@apply flex flex-col gap-4;
+}
+
+@utility onboarding-welcome-description {
+	@apply text-base leading-relaxed m-0;
+	color: var(--color-text);
+}
+
+@utility onboarding-welcome-tos {
+	@apply bg-black/15 rounded-lg p-4;
+
+	& p {
+		@apply text-sm leading-relaxed m-0;
+		color: var(--color-text-subtle);
+	}
+
+	& a {
+		color: var(--color-primary) !important;
+	}
+}
+
+@utility onboarding-welcome-link {
+	color: var(--color-primary) !important;
+	@apply underline font-medium;
+
+	&:hover {
+		@apply decoration-2;
+	}
+}
+
+@utility onboarding-finish-title {
+	@apply text-xl font-semibold m-0 text-center;
+	color: var(--color-text-heading);
+}
+
+/* =================================
+   GUIDE STEP CONTENT
+   ================================= */
+
+@utility guide-step {
+	@apply flex flex-col gap-4;
+}
+
+@utility guide-step-title {
+	@apply text-base font-semibold m-0;
+	color: var(--color-text-heading);
+}
+
+@utility guide-step-description {
+	@apply text-sm leading-relaxed m-0;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   STATUS GRID
+   ================================= */
+
+@utility guide-status-grid {
+	@apply grid gap-3;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+@utility guide-status-item {
+	@apply flex items-start gap-3 p-3 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility guide-status-icon {
+	@apply flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg;
+	background-color: var(--color-bg-content);
+}
+
+@utility guide-status-info {
+	@apply flex flex-col gap-0.5 min-w-0;
+}
+
+@utility guide-status-name {
+	@apply text-sm font-medium;
+	color: var(--color-text-heading);
+}
+
+@utility guide-status-desc {
+	@apply text-xs leading-relaxed;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   BADGES GRID
+   ================================= */
+
+@utility guide-badges-grid {
+	@apply grid gap-3;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+@utility guide-badge-item {
+	@apply flex items-start gap-3 p-3 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility guide-badge-icon {
+	@apply flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-md;
+}
+
+@utility guide-badge-info {
+	@apply flex flex-col gap-0.5 min-w-0;
+}
+
+@utility guide-badge-name {
+	@apply text-sm font-medium;
+	color: var(--color-text-heading);
+}
+
+@utility guide-badge-desc {
+	@apply text-xs leading-relaxed;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   FEATURES LIST
+   ================================= */
+
+@utility guide-features-list {
+	@apply flex flex-col gap-3;
+}
+
+@utility guide-feature-card {
+	@apply flex flex-col rounded-lg overflow-hidden border border-white/10;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility guide-feature-header {
+	@apply flex items-center gap-4 p-4 w-full text-left cursor-pointer transition-colors duration-200 border-none;
+	background-color: transparent;
+
+	&:hover {
+		background-color: var(--color-bg-content);
+	}
+}
+
+@utility guide-feature-images {
+	@apply w-full flex flex-col;
+
+	& img {
+		@apply w-full h-auto block;
+	}
+}
+
+@utility guide-feature-icon {
+	@apply flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg;
+}
+
+@utility guide-feature-info {
+	@apply flex flex-col gap-1 min-w-0 flex-1;
+}
+
+@utility guide-feature-title {
+	@apply text-sm font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility guide-feature-desc {
+	@apply text-sm leading-relaxed;
+	color: var(--color-text-subtle);
+}
+
+@utility guide-feature-chevron {
+	@apply ml-auto flex-shrink-0 transition-transform duration-200;
+	color: var(--color-text-subtle);
+
+	&.expanded {
+		transform: rotate(180deg);
+	}
+}
+
+/* =================================
+   FOOTER VIEW GUIDE BUTTON
+   ================================= */
+
+@utility footer-view-guide-button {
+	@apply flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium cursor-pointer transition-all duration-200 border-none;
+	background-color: var(--color-primary);
+	color: white;
+
+	&:hover {
+		background-color: var(--color-primary-hover);
+	}
+}
+
+@utility footer-view-guide-icon {
+	@apply w-3.5 h-3.5;
+}
+
+/* =================================
+   CLOSE CONFIRMATION DIALOG
+   ================================= */
+
+@utility onboarding-confirm-overlay {
+	@apply fixed inset-0 bg-black/85 flex items-center justify-center z-[10001] opacity-0 invisible transition-all duration-200;
+
+	&.visible {
+		@apply opacity-100 visible;
+	}
+}
+
+@utility onboarding-confirm-popup {
+	@apply max-w-[95%] w-[380px] rounded-xl shadow-2xl border border-white/5 p-5 flex flex-col gap-4;
+	background-color: var(--color-bg-content);
+	transform: scale(0.95);
+	transition: transform 200ms cubic-bezier(0.19, 1, 0.22, 1);
+
+	.onboarding-confirm-overlay.visible & {
+		transform: scale(1);
+	}
+}
+
+@utility onboarding-confirm-title {
+	@apply text-base font-semibold m-0;
+	color: var(--color-text-heading);
+}
+
+@utility onboarding-confirm-message {
+	@apply text-sm leading-relaxed m-0;
+	color: var(--color-text-subtle);
+}
+
+@utility onboarding-confirm-actions {
+	@apply flex justify-end gap-3 mt-2;
+}

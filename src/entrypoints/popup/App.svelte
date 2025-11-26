@@ -78,7 +78,7 @@
 
 	const theme = themeManager.effectiveTheme;
 	const logoSrc = $derived(
-		$theme === 'dark' ? '/assets/rotector-logo-dark.png' : '/assets/rotector-logo-light.png'
+		$theme === 'dark' ? '/assets/rotector-logo-dark.webp' : '/assets/rotector-logo-light.webp'
 	);
 </script>
 

@@ -421,7 +421,7 @@
 			props: {
 				entityId: groupId,
 				entityType: ENTITY_TYPES.GROUP,
-				entityStatus: isLoading ? null : wrapGroupStatus(status),
+				entityStatus: wrapGroupStatus(status, isLoading),
 				skipAutoFetch: true,
 				showText: !isGridView && !isBTRobloxView,
 				onClick: handleStatusClick

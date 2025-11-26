@@ -47,9 +47,9 @@ export default defineConfig({
 		}
 	}),
 	manifest: {
-		name: 'Rotector - Roblox Safety Warnings',
-		description:
-			'Real-time warnings about inappropriate Roblox users before you interact with them.',
+		name: '__MSG_extensionName__',
+		description: '__MSG_extensionDescription__',
+		default_locale: 'en',
 		version: '2.5.1',
 		permissions: ['storage'],
 		host_permissions: [`https://${apiDomain}/*`],

@@ -65,8 +65,7 @@ export const CHANGELOGS: Changelog[] = [
 			},
 			{
 				type: 'fixed',
-				description:
-					'Badge spinning - Status badges no longer rotate with the loading indicator'
+				description: 'Badge spinning - Status badges no longer rotate with the loading indicator'
 			}
 		]
 	},

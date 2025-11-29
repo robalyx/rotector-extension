@@ -73,7 +73,7 @@
 
 @utility onboarding-content {
 	@apply p-5 overflow-y-auto flex-1;
-	min-height: 300px;
+	min-height: min(300px, 50vh);
 	max-height: calc(90vh - 180px);
 	background-color: var(--color-bg-content);
 }
@@ -310,11 +310,13 @@
 }
 
 @utility guide-scope-heading-detect {
-	@apply bg-green-500/15 text-green-400;
+	background-color: var(--color-success-bg);
+	color: var(--color-success);
 }
 
 @utility guide-scope-heading-not-detect {
-	@apply bg-red-500/15 text-red-400;
+	background-color: var(--color-error-bg);
+	color: var(--color-error);
 }
 
 @utility guide-scope-list {
@@ -331,11 +333,13 @@
 }
 
 @utility guide-scope-item-icon-detect {
-	@apply bg-green-500/15 text-green-400;
+	background-color: var(--color-success-bg);
+	color: var(--color-success);
 }
 
 @utility guide-scope-item-icon-not-detect {
-	@apply bg-red-500/15 text-red-400;
+	background-color: var(--color-error-bg);
+	color: var(--color-error);
 }
 
 @utility guide-scope-item-text {

@@ -126,6 +126,7 @@
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
 	--color-success: var(--primitive-green-500);
+	--color-success-bg: rgba(76, 175, 80, 0.15);
 	--color-warning: var(--primitive-orange-500);
 	--color-warning-hover: var(--primitive-orange-tailwind-600);
 	--color-war-zone: var(--primitive-orange-tailwind-500);
@@ -134,6 +135,7 @@
 	--color-liberation-medium: var(--primitive-blue-tailwind-500);
 	--color-liberation-low: var(--primitive-red-tailwind-500);
 	--color-error: var(--primitive-red-600);
+	--color-error-bg: rgba(244, 67, 54, 0.15);
 	--color-error-hover: var(--primitive-red-700);
 
 	/* Link system */
@@ -226,6 +228,8 @@
 		--color-primary-alpha: rgba(88, 166, 255, 0.1);
 		--color-accent: var(--primitive-blue-400);
 		--color-accent-hover: var(--primitive-blue-500);
+		--color-success-bg: rgba(102, 187, 106, 0.15);
+		--color-error-bg: rgba(255, 82, 82, 0.15);
 
 		/* Link adjustments */
 		--color-link: var(--primitive-blue-400);
@@ -306,6 +310,8 @@
 	--color-primary-alpha: rgba(88, 166, 255, 0.1);
 	--color-accent: var(--primitive-blue-400);
 	--color-accent-hover: var(--primitive-blue-500);
+	--color-success-bg: rgba(102, 187, 106, 0.15);
+	--color-error-bg: rgba(255, 82, 82, 0.15);
 	--color-link: var(--primitive-blue-400);
 	--color-link-hover: #80bfff;
 	--color-link-bg: var(--primitive-link-bg-dark);

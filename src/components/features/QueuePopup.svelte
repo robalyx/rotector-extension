@@ -5,7 +5,7 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { STATUS } from '@/lib/types/constants';
-	import { Shirt, Clipboard, User, Users, AlertTriangle, Check } from 'lucide-svelte';
+	import { Shirt, Clipboard, User, Users, AlertTriangle, Check, Info } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
 	import type { UserStatus, QueueLimitsData } from '@/lib/types/api';
@@ -190,6 +190,12 @@
 				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId() } })}
 			{/if}
 		</p>
+
+		<!-- Scope Note -->
+		<div class="queue-scope-note">
+			<Info class="queue-scope-note-icon" size={16} />
+			<p class="queue-scope-note-text">{$_('queue_popup_scope_note')}</p>
+		</div>
 
 		<!-- Queue Limits Section -->
 		{#if !hideQueueLimits}

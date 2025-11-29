@@ -1,6 +1,6 @@
 import { addMessages, init, locale, getLocaleFromNavigator } from 'svelte-i18n';
-import { browser } from 'wxt/browser';
 import { SETTINGS_KEYS } from '../types/settings';
+import { getAssetUrl } from '../utils/assets';
 import { logger } from '../utils/logger';
 
 // Supported locales with their display names
@@ -49,8 +49,7 @@ async function loadLocale(localeCode: string): Promise<void> {
 	}
 
 	try {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-		const url = browser.runtime.getURL(`locales/${localeCode}/messages.json` as any);
+		const url = getAssetUrl(`locales/${localeCode}/messages.json`);
 		const response = await fetch(url);
 		if (!response.ok) {
 			throw new Error(`HTTP ${response.status}`);

@@ -1,6 +1,7 @@
 import type { UserStatus, GroupStatus } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
 import { ROTECTOR_API_ID } from '../services/unified-query-service';
+import { getAssetUrl } from './assets';
 
 interface StatusBadges {
 	isReportable: boolean;
@@ -22,7 +23,7 @@ export function wrapGroupStatus(
 						apiId: ROTECTOR_API_ID,
 						apiName: 'Rotector',
 						loading: true,
-						landscapeImageDataUrl: browser.runtime.getURL('/assets/rotector-tab.png')
+						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 					}
 				]
 			])
@@ -41,7 +42,7 @@ export function wrapGroupStatus(
 					data: groupStatus,
 					loading: false,
 					timestamp: Date.now(),
-					landscapeImageDataUrl: browser.runtime.getURL('/assets/rotector-tab.png')
+					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 				}
 			]
 		])

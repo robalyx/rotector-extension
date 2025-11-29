@@ -89,3 +89,6 @@
 
 /* Report Helper */
 @import './features/report-helper/report-helper.css';
+
+/* Onboarding */
+@import './features/onboarding/onboarding.css';

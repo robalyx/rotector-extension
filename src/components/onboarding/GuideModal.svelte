@@ -1,0 +1,214 @@
+<script lang="ts">
+	import { _ } from 'svelte-i18n';
+	import Portal from 'svelte-portal';
+	import { X } from 'lucide-svelte';
+	import { getAssetUrl } from '@/lib/utils/assets';
+	import { themeManager } from '@/lib/utils/theme';
+	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
+	import GuideStepStatus from './steps/GuideStepStatus.svelte';
+	import GuideStepBadges from './steps/GuideStepBadges.svelte';
+	import GuideStepFeatures from './steps/GuideStepFeatures.svelte';
+	import GuideStepScope from './steps/GuideStepScope.svelte';
+
+	const lightLogoUrl = getAssetUrl('/assets/rotector-logo-light.webp');
+	const darkLogoUrl = getAssetUrl('/assets/rotector-logo-dark.webp');
+
+	let currentTheme = $state<'light' | 'dark'>('light');
+
+	// Subscribe to theme changes for logo switching
+	$effect(() => {
+		const unsubscribe = themeManager.effectiveTheme.subscribe((theme) => {
+			currentTheme = theme;
+		});
+		return unsubscribe;
+	});
+
+	interface GuideModalProps {
+		onDismiss: () => void;
+		onFinish: () => void;
+	}
+
+	let { onDismiss, onFinish }: GuideModalProps = $props();
+
+	const TOTAL_STEPS = 4;
+	let currentStepIndex = $state(0);
+	let isOpen = $state(true);
+	let isClosing = $state(false);
+	let showConfirmDialog = $state(false);
+	let overlayElement = $state<HTMLDivElement>();
+	let popupElement = $state<HTMLDivElement>();
+	let closeButtonEl = $state<HTMLButtonElement>();
+	let previouslyFocusedElement = $state<HTMLElement | null>(null);
+	const headingId = `guide-modal-title-${Math.random().toString(36).slice(2)}`;
+
+	// Show close confirmation dialog
+	function requestClose() {
+		showConfirmDialog = true;
+	}
+
+	// Close modal and trigger dismiss callback
+	function confirmClose() {
+		showConfirmDialog = false;
+		isClosing = true;
+		setTimeout(() => {
+			isOpen = false;
+			isClosing = false;
+			onDismiss();
+			previouslyFocusedElement?.focus();
+		}, 300);
+	}
+
+	// Hide close confirmation dialog
+	function cancelClose() {
+		showConfirmDialog = false;
+	}
+
+	// Close modal and trigger callback
+	function closeModal(callback: () => void) {
+		isClosing = true;
+		setTimeout(() => {
+			isOpen = false;
+			isClosing = false;
+			callback();
+			previouslyFocusedElement?.focus();
+		}, 300);
+	}
+
+	// Handle escape key to close or cancel confirmation
+	function handleEscape(e: KeyboardEvent) {
+		if (e.key === 'Escape' && isOpen) {
+			if (showConfirmDialog) {
+				cancelClose();
+			} else {
+				requestClose();
+			}
+		}
+	}
+
+	// Handle clicks on overlay to trigger close
+	function handleOverlayClick(e: MouseEvent) {
+		if (e.target === overlayElement) {
+			requestClose();
+		}
+	}
+
+	// Navigate to previous step
+	function handleBack() {
+		if (currentStepIndex > 0) {
+			currentStepIndex--;
+		}
+	}
+
+	// Navigate to next step or finish guide
+	function handleNext() {
+		if (currentStepIndex < TOTAL_STEPS - 1) {
+			currentStepIndex++;
+		} else {
+			closeModal(onFinish);
+		}
+	}
+
+	// Initialize modal and set up keyboard listeners
+	$effect(() => {
+		if (isOpen) {
+			previouslyFocusedElement = document.activeElement as HTMLElement | null;
+			document.addEventListener('keydown', handleEscape);
+			requestAnimationFrame(() => {
+				if (overlayElement) {
+					overlayElement.classList.add('visible');
+				}
+				if (closeButtonEl) {
+					closeButtonEl.focus();
+				} else if (popupElement) {
+					popupElement.focus();
+				}
+			});
+			return () => document.removeEventListener('keydown', handleEscape);
+		}
+		return () => {};
+	});
+</script>
+
+{#if isOpen}
+	<Portal target="body">
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div
+			bind:this={overlayElement}
+			class="onboarding-overlay"
+			class:closing={isClosing}
+			onclick={handleOverlayClick}
+		>
+			<div
+				bind:this={popupElement}
+				class="onboarding-popup"
+				aria-labelledby={headingId}
+				aria-modal="true"
+				role="dialog"
+				tabindex="-1"
+			>
+				<div class="onboarding-header">
+					<div class="onboarding-header-logo">
+						{#if currentTheme === 'dark'}
+							<img alt="Rotector" src={darkLogoUrl} />
+						{:else}
+							<img alt="Rotector" src={lightLogoUrl} />
+						{/if}
+					</div>
+					<h3 id={headingId} class="onboarding-title">
+						{$_('onboarding_guide_title')}
+					</h3>
+					<div class="onboarding-progress">
+						{#each Array.from({ length: TOTAL_STEPS }, (_, i) => i) as stepIndex (stepIndex)}
+							<div
+								class="onboarding-progress-dot"
+								class:active={stepIndex === currentStepIndex}
+								class:completed={stepIndex < currentStepIndex}
+							></div>
+						{/each}
+					</div>
+					<button
+						bind:this={closeButtonEl}
+						class="onboarding-close"
+						aria-label="Close dialog"
+						onclick={requestClose}
+						type="button"
+					>
+						<X aria-hidden="true" color="var(--color-error)" size={24} />
+					</button>
+				</div>
+
+				<div class="onboarding-content">
+					{#if currentStepIndex === 0}
+						<GuideStepStatus />
+					{:else if currentStepIndex === 1}
+						<GuideStepBadges />
+					{:else if currentStepIndex === 2}
+						<GuideStepFeatures />
+					{:else if currentStepIndex === 3}
+						<GuideStepScope />
+					{/if}
+				</div>
+
+				<div class="onboarding-actions">
+					{#if currentStepIndex > 0}
+						<button class="onboarding-button-secondary" onclick={handleBack} type="button">
+							{$_('onboarding_guide_back')}
+						</button>
+					{/if}
+					<button class="onboarding-button-primary" onclick={handleNext} type="button">
+						{#if currentStepIndex === TOTAL_STEPS - 1}
+							{$_('onboarding_guide_finish')}
+						{:else}
+							{$_('onboarding_guide_next')}
+						{/if}
+					</button>
+				</div>
+			</div>
+		</div>
+
+		{#if showConfirmDialog}
+			<CloseConfirmDialog onCancel={cancelClose} onConfirm={confirmClose} />
+		{/if}
+	</Portal>
+{/if}

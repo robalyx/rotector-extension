@@ -1,4 +1,6 @@
 import '../styles/index.css';
+import { mount } from 'svelte';
+import { get } from 'svelte/store';
 import { logger } from '@/lib/utils/logger';
 import { PageControllerManager } from '@/lib/controllers/PageControllerManager';
 import {
@@ -6,13 +8,16 @@ import {
 	themeManager,
 	unregisterPortalContainer
 } from '@/lib/utils/theme';
-import { initializeSettings } from '@/lib/stores/settings';
+import { initializeSettings, settings } from '@/lib/stores/settings';
+import { SETTINGS_KEYS } from '@/lib/types/settings';
 import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 import { loadCustomApis } from '@/lib/stores/custom-apis';
 import {
 	initializeRestrictedAccess,
 	setupRestrictedAccessListener
 } from '@/lib/stores/restricted-access';
+import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
+import OnboardingManager from '@/components/onboarding/OnboardingManager.svelte';
 
 export default defineContentScript({
 	matches: [
@@ -81,6 +86,22 @@ export default defineContentScript({
 			setupRestrictedAccessListener();
 			logger.debug('Access state initialized');
 
+			// Create container for onboarding and mount component
+			const onboardingContainer = document.createElement('div');
+			onboardingContainer.id = 'rotector-onboarding';
+			document.body.appendChild(onboardingContainer);
+			registerPortalContainer(onboardingContainer);
+			mount(OnboardingManager, { target: onboardingContainer });
+			logger.debug('Onboarding manager mounted');
+
+			// Check for replay request from popup
+			const replayResult = await browser.storage.local.get('onboardingReplayRequested');
+			if (replayResult.onboardingReplayRequested) {
+				await browser.storage.local.remove('onboardingReplayRequested');
+				triggerOnboardingReplay();
+				logger.debug('Onboarding replay triggered from popup');
+			}
+
 			// Create portal container for tooltips
 			const portalContainer = document.createElement('div');
 			portalContainer.id = 'rotector-tooltip-portal';
@@ -92,42 +113,68 @@ export default defineContentScript({
 			registerPortalContainer(portalContainer);
 			logger.debug('Portal container created and registered with theme manager');
 
-			// Initialize page controller manager
-			const pageManager = new PageControllerManager();
-			pageManager.initialize();
-			logger.debug('Page controller manager initialized');
+			// Track initialization state
+			let pageManagerInitialized = false;
 
-			// Handle page navigation changes
-			let currentUrl = window.location.href;
-			const checkForNavigation = () => {
-				if (window.location.href !== currentUrl) {
-					currentUrl = window.location.href;
-					logger.debug('Navigation detected', {
-						newUrl: currentUrl,
-						pathname: window.location.pathname,
-						hash: window.location.hash
-					});
-					void pageManager.handleNavigation(currentUrl);
-				}
-			};
+			function initializePageHandling() {
+				if (pageManagerInitialized) return;
+				pageManagerInitialized = true;
 
-			// Listen for browser navigation events
-			window.addEventListener('popstate', () => {
-				logger.debug('Popstate event detected');
-				checkForNavigation();
-			});
+				// Initialize page controller manager
+				const pageManager = new PageControllerManager();
+				pageManager.initialize();
+				logger.debug('Page controller manager initialized');
 
-			window.addEventListener('hashchange', () => {
-				logger.debug('Hash change detected', { hash: window.location.hash });
-				checkForNavigation();
-			});
+				// Handle page navigation changes
+				let currentUrl = window.location.href;
+				const checkForNavigation = () => {
+					if (window.location.href !== currentUrl) {
+						currentUrl = window.location.href;
+						logger.debug('Navigation detected', {
+							newUrl: currentUrl,
+							pathname: window.location.pathname,
+							hash: window.location.hash
+						});
+						void pageManager.handleNavigation(currentUrl);
+					}
+				};
 
-			// Initial page detection and setup
-			await pageManager.handleNavigation(currentUrl);
+				// Listen for browser navigation events
+				window.addEventListener('popstate', () => {
+					logger.debug('Popstate event detected');
+					checkForNavigation();
+				});
+
+				window.addEventListener('hashchange', () => {
+					logger.debug('Hash change detected', { hash: window.location.hash });
+					checkForNavigation();
+				});
+
+				// Initial page detection and setup
+				void pageManager.handleNavigation(currentUrl);
+			}
+
+			// Initialize page handling based on onboarding status
+			const currentSettings = get(settings);
+			if (currentSettings[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+				initializePageHandling();
+			} else {
+				// Subscribe to settings changes to initialize after onboarding completes
+				const unsubscribe = settings.subscribe((s) => {
+					if (s[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+						initializePageHandling();
+						unsubscribe();
+					}
+				});
+				logger.debug('Waiting for onboarding completion to initialize page controllers');
+			}
 
 			// Set up cleanup on page unload
 			window.addEventListener('beforeunload', () => {
 				logger.debug('Content script cleanup on page unload');
+				if (onboardingContainer) {
+					unregisterPortalContainer(onboardingContainer);
+				}
 				if (portalContainer) {
 					unregisterPortalContainer(portalContainer);
 				}

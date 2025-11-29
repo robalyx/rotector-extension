@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "이전에 신고되었지만 이후 해제되었습니다.",
 	"onboarding_status_pending": "검토 중",
 	"onboarding_status_pending_desc": "현재 검토 팀에서 검토 중입니다.",
-	"onboarding_status_queued": "대기 중",
+	"onboarding_status_queued": "확인 중...",
 	"onboarding_status_queued_desc": "분석 대기열에 추가되었습니다.",
 	"onboarding_status_safe": "안전",
 	"onboarding_status_safe_desc": "우려되는 활동이 발견되지 않았습니다.",

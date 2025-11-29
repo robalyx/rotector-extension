@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Tidigare flaggad men sedan rensad.",
 	"onboarding_status_pending": "Under granskning",
 	"onboarding_status_pending_desc": "Granskas för närvarande av vårt modereringsteam.",
-	"onboarding_status_queued": "Köad",
+	"onboarding_status_queued": "Kontrollerar...",
 	"onboarding_status_queued_desc": "Tillagd i analyskön.",
 	"onboarding_status_safe": "Säker",
 	"onboarding_status_safe_desc": "Ingen oroande aktivitet hittades.",

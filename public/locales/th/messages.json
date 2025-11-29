@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "เคยถูกตั้งค่าสถานะแต่ถูกล้างข้อมูลแล้ว",
 	"onboarding_status_pending": "อยู่ระหว่างการตรวจสอบ",
 	"onboarding_status_pending_desc": "กำลังได้รับการตรวจสอบโดยทีมผู้ดูแลของเรา",
-	"onboarding_status_queued": "อยู่ในคิว",
+	"onboarding_status_queued": "กำลังตรวจสอบ...",
 	"onboarding_status_queued_desc": "ถูกเพิ่มเข้าคิววิเคราะห์",
 	"onboarding_status_safe": "ปลอดภัย",
 	"onboarding_status_safe_desc": "ไม่พบกิจกรรมที่น่ากังวล",

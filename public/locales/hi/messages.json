@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "पहले फ्लैग किया गया था लेकिन बाद में साफ हो गया।",
 	"onboarding_status_pending": "समीक्षा के तहत",
 	"onboarding_status_pending_desc": "वर्तमान में हमारी मॉडरेशन टीम द्वारा समीक्षाधीन।",
-	"onboarding_status_queued": "कतारबद्ध",
+	"onboarding_status_queued": "जांच हो रही है...",
 	"onboarding_status_queued_desc": "विश्लेषण कतार में जोड़ा गया।",
 	"onboarding_status_safe": "सुरक्षित",
 	"onboarding_status_safe_desc": "कोई चिंताजनक गतिविधि नहीं मिली।",

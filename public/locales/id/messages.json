@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Sebelumnya ditandai tetapi kemudian dibersihkan.",
 	"onboarding_status_pending": "Dalam Peninjauan",
 	"onboarding_status_pending_desc": "Saat ini sedang ditinjau oleh tim moderasi kami.",
-	"onboarding_status_queued": "Dalam Antrian",
+	"onboarding_status_queued": "Memeriksa...",
 	"onboarding_status_queued_desc": "Ditambahkan ke antrian analisis.",
 	"onboarding_status_safe": "Aman",
 	"onboarding_status_safe_desc": "Tidak ada aktivitas yang mengkhawatirkan ditemukan.",

@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "تم الإبلاغ عنه سابقاً لكن تم التطهير منذ ذلك الحين.",
 	"onboarding_status_pending": "قيد المراجعة",
 	"onboarding_status_pending_desc": "يتم مراجعته حالياً من قبل فريق الإشراف لدينا.",
-	"onboarding_status_queued": "في قائمة الانتظار",
+	"onboarding_status_queued": "جارٍ الفحص...",
 	"onboarding_status_queued_desc": "تمت إضافته إلى قائمة الانتظار للتحليل.",
 	"onboarding_status_safe": "آمن",
 	"onboarding_status_safe_desc": "لم يتم العثور على نشاط مقلق.",

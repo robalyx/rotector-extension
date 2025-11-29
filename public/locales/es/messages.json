@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Marcado previamente pero desde entonces limpiado.",
 	"onboarding_status_pending": "En Revisión",
 	"onboarding_status_pending_desc": "Actualmente siendo revisado por nuestro equipo de moderación.",
-	"onboarding_status_queued": "En Cola",
+	"onboarding_status_queued": "Verificando...",
 	"onboarding_status_queued_desc": "Agregado a la cola de análisis.",
 	"onboarding_status_safe": "Seguro",
 	"onboarding_status_safe_desc": "No se encontró actividad preocupante.",

@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Раніше було позначено, але з тих пір очищено.",
 	"onboarding_status_pending": "На розгляді",
 	"onboarding_status_pending_desc": "Зараз перевіряється нашою командою модерації.",
-	"onboarding_status_queued": "У черзі",
+	"onboarding_status_queued": "Перевірка...",
 	"onboarding_status_queued_desc": "Додано до черги аналізу.",
 	"onboarding_status_safe": "Безпечний",
 	"onboarding_status_safe_desc": "Не знайдено тривожної активності.",

@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "之前被标记但已清除。",
 	"onboarding_status_pending": "审核中",
 	"onboarding_status_pending_desc": "目前正在由我们的审核团队审查。",
-	"onboarding_status_queued": "已排队",
+	"onboarding_status_queued": "检查中...",
 	"onboarding_status_queued_desc": "已添加到分析队列。",
 	"onboarding_status_safe": "安全",
 	"onboarding_status_safe_desc": "未发现令人担忧的活动。",

@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "以前にフラグが立てられましたが、その後クリアされました。",
 	"onboarding_status_pending": "レビュー中",
 	"onboarding_status_pending_desc": "現在、モデレーションチームによってレビューされています。",
-	"onboarding_status_queued": "キュー中",
+	"onboarding_status_queued": "チェック中...",
 	"onboarding_status_queued_desc": "分析キューに追加されました。",
 	"onboarding_status_safe": "安全",
 	"onboarding_status_safe_desc": "懸念すべき活動は見つかりませんでした。",

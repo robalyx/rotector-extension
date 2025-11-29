@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Đã bị gắn cờ trước đây nhưng đã được xóa kể từ đó.",
 	"onboarding_status_pending": "Đang Xem xét",
 	"onboarding_status_pending_desc": "Hiện đang được xem xét bởi đội ngũ kiểm duyệt của chúng tôi.",
-	"onboarding_status_queued": "Đã xếp hàng",
+	"onboarding_status_queued": "Đang kiểm tra...",
 	"onboarding_status_queued_desc": "Đã thêm vào hàng đợi phân tích.",
 	"onboarding_status_safe": "An toàn",
 	"onboarding_status_safe_desc": "Không tìm thấy hoạt động đáng lo ngại.",

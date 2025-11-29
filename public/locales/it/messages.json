@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Precedentemente segnalato ma poi ripulito.",
 	"onboarding_status_pending": "In Revisione",
 	"onboarding_status_pending_desc": "Attualmente in fase di revisione dal nostro team di moderazione.",
-	"onboarding_status_queued": "In Coda",
+	"onboarding_status_queued": "Controllo...",
 	"onboarding_status_queued_desc": "Aggiunto alla coda di analisi.",
 	"onboarding_status_safe": "Sicuro",
 	"onboarding_status_safe_desc": "Nessuna attività preoccupante trovata.",

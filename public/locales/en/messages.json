@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Previously flagged but since cleared.",
 	"onboarding_status_pending": "Under Review",
 	"onboarding_status_pending_desc": "Currently being reviewed by our moderation team.",
-	"onboarding_status_queued": "Queued",
+	"onboarding_status_queued": "Checking...",
 	"onboarding_status_queued_desc": "Added to the analysis queue.",
 	"onboarding_status_safe": "Safe",
 	"onboarding_status_safe_desc": "No concerning activity found.",

@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Wcześniej oznaczony, ale od tego czasu oczyszczony.",
 	"onboarding_status_pending": "W Trakcie Przeglądu",
 	"onboarding_status_pending_desc": "Obecnie sprawdzany przez nasz zespół moderacji.",
-	"onboarding_status_queued": "W Kolejce",
+	"onboarding_status_queued": "Sprawdzanie...",
 	"onboarding_status_queued_desc": "Dodany do kolejki analizy.",
 	"onboarding_status_safe": "Bezpieczny",
 	"onboarding_status_safe_desc": "Nie znaleziono niepokojącej aktywności.",

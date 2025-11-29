@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Zuvor markiert, aber seitdem bereinigt.",
 	"onboarding_status_pending": "Wird überprüft",
 	"onboarding_status_pending_desc": "Wird derzeit von unserem Moderationsteam überprüft.",
-	"onboarding_status_queued": "Eingereiht",
+	"onboarding_status_queued": "Überprüfe...",
 	"onboarding_status_queued_desc": "Zur Analyse-Warteschlange hinzugefügt.",
 	"onboarding_status_safe": "Sicher",
 	"onboarding_status_safe_desc": "Keine bedenkliche Aktivität gefunden.",

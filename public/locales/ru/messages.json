@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Ранее отмечен, но с тех пор очищен.",
 	"onboarding_status_pending": "На рассмотрении",
 	"onboarding_status_pending_desc": "В данный момент проверяется нашей командой модераторов.",
-	"onboarding_status_queued": "В очереди",
+	"onboarding_status_queued": "Проверка...",
 	"onboarding_status_queued_desc": "Добавлен в очередь на анализ.",
 	"onboarding_status_safe": "Безопасный",
 	"onboarding_status_safe_desc": "Беспокоящей активности не обнаружено.",

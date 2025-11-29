@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "先前被標記但已清除。",
 	"onboarding_status_pending": "審核中",
 	"onboarding_status_pending_desc": "目前正在由我們的審核團隊審查。",
-	"onboarding_status_queued": "已加入佇列",
+	"onboarding_status_queued": "檢查中...",
 	"onboarding_status_queued_desc": "已加入分析佇列。",
 	"onboarding_status_safe": "安全",
 	"onboarding_status_safe_desc": "未發現令人擔憂的活動。",

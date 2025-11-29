@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Önceden işaretlenmiş ancak temizlenmiş.",
 	"onboarding_status_pending": "İnceleme Altında",
 	"onboarding_status_pending_desc": "Şu anda moderasyon ekibimiz tarafından inceleniyor.",
-	"onboarding_status_queued": "Kuyrukta",
+	"onboarding_status_queued": "Kontrol ediliyor...",
 	"onboarding_status_queued_desc": "Analiz kuyruğuna eklendi.",
 	"onboarding_status_safe": "Güvenli",
 	"onboarding_status_safe_desc": "Endişe verici aktivite bulunamadı.",

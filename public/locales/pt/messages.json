@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Anteriormente sinalizado mas desde então limpo.",
 	"onboarding_status_pending": "Em Análise",
 	"onboarding_status_pending_desc": "Atualmente sendo analisado por nossa equipe de moderação.",
-	"onboarding_status_queued": "Na Fila",
+	"onboarding_status_queued": "Verificando...",
 	"onboarding_status_queued_desc": "Adicionado à fila de análise.",
 	"onboarding_status_safe": "Seguro",
 	"onboarding_status_safe_desc": "Nenhuma atividade preocupante encontrada.",

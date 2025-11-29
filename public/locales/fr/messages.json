@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Précédemment signalé mais depuis nettoyé.",
 	"onboarding_status_pending": "En Cours de Révision",
 	"onboarding_status_pending_desc": "Actuellement examiné par notre équipe de modération.",
-	"onboarding_status_queued": "En File d'Attente",
+	"onboarding_status_queued": "Vérification...",
 	"onboarding_status_queued_desc": "Ajouté à la file d'attente d'analyse.",
 	"onboarding_status_safe": "Sûr",
 	"onboarding_status_safe_desc": "Aucune activité préoccupante trouvée.",

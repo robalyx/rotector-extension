@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "পূর্বে ফ্ল্যাগ করা হয়েছিল কিন্তু পরে সাফ করা হয়েছে।",
 	"onboarding_status_pending": "পর্যালোচনাধীন",
 	"onboarding_status_pending_desc": "বর্তমানে আমাদের মডারেশন টিম দ্বারা পর্যালোচনা করা হচ্ছে।",
-	"onboarding_status_queued": "সারিবদ্ধ",
+	"onboarding_status_queued": "পরীক্ষা করা হচ্ছে...",
 	"onboarding_status_queued_desc": "বিশ্লেষণ সারিতে যোগ করা হয়েছে।",
 	"onboarding_status_safe": "নিরাপদ",
 	"onboarding_status_safe_desc": "কোনো উদ্বেগজনক কার্যকলাপ পাওয়া যায়নি।",

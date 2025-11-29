@@ -270,7 +270,7 @@
 	"onboarding_status_past_offender_desc": "Eerder gemarkeerd maar sindsdien vrijgegeven.",
 	"onboarding_status_pending": "In Beoordeling",
 	"onboarding_status_pending_desc": "Wordt momenteel beoordeeld door ons moderatieteam.",
-	"onboarding_status_queued": "In Wachtrij",
+	"onboarding_status_queued": "Controleren...",
 	"onboarding_status_queued_desc": "Toegevoegd aan de analyse wachtrij.",
 	"onboarding_status_safe": "Veilig",
 	"onboarding_status_safe_desc": "Geen zorgwekkende activiteit gevonden.",

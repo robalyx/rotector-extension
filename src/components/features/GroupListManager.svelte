@@ -14,7 +14,7 @@
 	import { groupStatusService } from '@/lib/services/entity-status-service';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
-	import { waitForElement } from '@/lib/utils/element-waiter';
+	import { waitForElement, waitForAllItems } from '@/lib/utils/element-waiter';
 	import type { GroupStatus } from '@/lib/types/api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
@@ -151,39 +151,32 @@
 
 				// Create observer for the active view
 				if (gridVisible) {
-					const itemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEMS_CONTAINER} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_LINK}[href*="/communities/"])`;
-					const itemsResult = await waitForElement(itemSelector, {
-						maxRetries: 30,
-						baseDelay: 100
-					});
+					const readyItemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_LINK}[href*="/communities/"])`;
+					const itemsResult = await waitForAllItems(
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEMS_CONTAINER,
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM,
+						readyItemSelector,
+						{ maxRetries: 30, baseDelay: 100 }
+					);
 
 					if (itemsResult.success) {
-						gridObserver = await createListObserver(
-							'grid',
-							PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID,
-							{
-								observeAttributes: true,
-								attributeFilter: ['href']
-							}
-						);
+						gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
 					} else {
 						logger.warn('No grid items with valid href found, skipping observer setup');
 					}
 				} else if (slideshowVisible) {
-					const itemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEMS_CONTAINER} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_LINK}[href*="/communities/"])`;
-					const itemsResult = await waitForElement(itemSelector, {
-						maxRetries: 30,
-						baseDelay: 100
-					});
+					const readyItemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_LINK}[href*="/communities/"])`;
+					const itemsResult = await waitForAllItems(
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEMS_CONTAINER,
+						PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM,
+						readyItemSelector,
+						{ maxRetries: 30, baseDelay: 100 }
+					);
 
 					if (itemsResult.success) {
 						slideshowObserver = await createListObserver(
 							'slideshow',
-							PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW,
-							{
-								observeAttributes: true,
-								attributeFilter: ['href']
-							}
+							PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
 						);
 					} else {
 						logger.warn('No slideshow items with valid href found, skipping observer setup');
@@ -212,8 +205,7 @@
 		type: string,
 		selectors:
 			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
-			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID,
-		options?: { observeAttributes?: boolean; attributeFilter?: string[] }
+			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID
 	) {
 		const observer = observerFactory.createListObserver({
 			name: `profile-groups-${type}-observer`,
@@ -221,9 +213,7 @@
 			unprocessedItemSelector: selectors.ITEM_UNPROCESSED,
 			processItems: handleNewGroups,
 			processExistingItems: true,
-			restartDelay: 1000,
-			observeAttributes: options?.observeAttributes,
-			attributeFilter: options?.attributeFilter
+			restartDelay: 1000
 		});
 
 		await observer.start();

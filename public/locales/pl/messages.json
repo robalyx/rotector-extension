@@ -264,7 +264,7 @@
 	"onboarding_status_description": "Każdy użytkownik wyświetla wskaźnik statusu pokazujący poziom bezpieczeństwa:",
 	"onboarding_status_mixed": "Mieszany",
 	"onboarding_status_mixed_desc": "Ma nieodpowiednią zawartość, ale niewystarczające dowody.",
-	"onboarding_status_not_flagged": "Nie Oznaczony",
+	"onboarding_status_not_flagged": "Nie oznaczony",
 	"onboarding_status_not_flagged_desc": "Jeszcze nie w naszym systemie.",
 	"onboarding_status_past_offender": "Poprzedni Naruszyciel",
 	"onboarding_status_past_offender_desc": "Wcześniej oznaczony, ale od tego czasu oczyszczony.",

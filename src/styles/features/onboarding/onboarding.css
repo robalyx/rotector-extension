@@ -456,7 +456,7 @@
 
 	&:focus {
 		@apply outline-none ring-2;
-		ring-color: var(--color-primary);
+		--tw-ring-color: var(--color-primary);
 	}
 }
 
@@ -486,10 +486,9 @@
 	}
 
 	&:focus + .onboarding-toggle-slider {
-		@apply ring-2;
-		ring-color: var(--color-primary);
-		ring-offset-color: var(--color-bg-tertiary);
-		ring-offset-width: 2px;
+		@apply ring-2 ring-offset-2;
+		--tw-ring-color: var(--color-primary);
+		--tw-ring-offset-color: var(--color-bg-tertiary);
 	}
 }
 

@@ -149,14 +149,45 @@
 					}
 				}
 
-				// Only create observer for the active view
+				// Create observer for the active view
 				if (gridVisible) {
-					gridObserver = await createListObserver('grid', PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID);
+					const itemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEMS_CONTAINER} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_LINK}[href*="/communities/"])`;
+					const itemsResult = await waitForElement(itemSelector, {
+						maxRetries: 30,
+						baseDelay: 100
+					});
+
+					if (itemsResult.success) {
+						gridObserver = await createListObserver(
+							'grid',
+							PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID,
+							{
+								observeAttributes: true,
+								attributeFilter: ['href']
+							}
+						);
+					} else {
+						logger.warn('No grid items with valid href found, skipping observer setup');
+					}
 				} else if (slideshowVisible) {
-					slideshowObserver = await createListObserver(
-						'slideshow',
-						PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
-					);
+					const itemSelector = `${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEMS_CONTAINER} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM}:has(${PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_LINK}[href*="/communities/"])`;
+					const itemsResult = await waitForElement(itemSelector, {
+						maxRetries: 30,
+						baseDelay: 100
+					});
+
+					if (itemsResult.success) {
+						slideshowObserver = await createListObserver(
+							'slideshow',
+							PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW,
+							{
+								observeAttributes: true,
+								attributeFilter: ['href']
+							}
+						);
+					} else {
+						logger.warn('No slideshow items with valid href found, skipping observer setup');
+					}
 				} else {
 					logger.warn('No visible container found', {
 						gridExists: !!gridContainer,
@@ -181,7 +212,8 @@
 		type: string,
 		selectors:
 			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW
-			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID
+			| typeof PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID,
+		options?: { observeAttributes?: boolean; attributeFilter?: string[] }
 	) {
 		const observer = observerFactory.createListObserver({
 			name: `profile-groups-${type}-observer`,
@@ -189,7 +221,9 @@
 			unprocessedItemSelector: selectors.ITEM_UNPROCESSED,
 			processItems: handleNewGroups,
 			processExistingItems: true,
-			restartDelay: 1000
+			restartDelay: 1000,
+			observeAttributes: options?.observeAttributes,
+			attributeFilter: options?.attributeFilter
 		});
 
 		await observer.start();

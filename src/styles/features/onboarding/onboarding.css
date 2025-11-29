@@ -88,9 +88,13 @@
 	background-color: var(--color-primary);
 	color: white;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		background-color: var(--color-primary-hover);
 		@apply shadow-md -translate-y-px;
+	}
+
+	&:disabled {
+		@apply opacity-50 cursor-not-allowed;
 	}
 }
 
@@ -126,25 +130,52 @@
 	color: var(--color-text);
 }
 
-@utility onboarding-welcome-tos {
-	@apply bg-black/15 rounded-lg p-4;
+@utility onboarding-welcome-agreements {
+	@apply flex flex-col gap-3;
+}
 
-	& p {
-		@apply text-sm leading-relaxed m-0;
-		color: var(--color-text-subtle);
-	}
+@utility onboarding-agreement-item {
+	@apply flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200;
+	background-color: var(--color-bg-tertiary);
 
-	& a {
-		color: var(--color-primary) !important;
+	&:hover {
+		background-color: var(--color-card-hover);
 	}
 }
 
-@utility onboarding-welcome-link {
-	color: var(--color-primary) !important;
-	@apply underline font-medium;
+@utility onboarding-agreement-checkbox {
+	@apply sr-only;
 
-	&:hover {
-		@apply decoration-2;
+	&:focus + .onboarding-agreement-checkmark {
+		@apply ring-2 ring-offset-2;
+		--tw-ring-color: var(--color-primary);
+		--tw-ring-offset-color: var(--color-bg-tertiary);
+	}
+}
+
+@utility onboarding-agreement-checkmark {
+	@apply flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-0.5;
+	border-color: var(--color-text-subtle);
+	background-color: transparent;
+	color: white;
+
+	&.checked {
+		background-color: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+}
+
+@utility onboarding-agreement-text {
+	@apply text-sm leading-relaxed;
+	color: var(--color-text);
+
+	& a {
+		color: var(--color-primary) !important;
+		@apply underline font-medium;
+
+		&:hover {
+			@apply decoration-2;
+		}
 	}
 }
 

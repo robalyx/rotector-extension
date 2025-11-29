@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Portal from 'svelte-portal';
-	import { X } from 'lucide-svelte';
+	import { Check, X } from 'lucide-svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
 	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
@@ -19,6 +19,9 @@
 	let isOpen = $state(true);
 	let isClosing = $state(false);
 	let showConfirmDialog = $state(false);
+	let tosAccepted = $state(false);
+	let responsibleUseAccepted = $state(false);
+	const canProceed = $derived(tosAccepted && responsibleUseAccepted);
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
@@ -152,33 +155,56 @@
 							{$_('onboarding_welcome_description')}
 						</p>
 
-						<div class="onboarding-welcome-tos">
-							<p>
-								{$_('onboarding_welcome_tos')}
-								<a
-									class="onboarding-welcome-link"
-									href="https://rotector.com/terms"
-									rel="noopener noreferrer"
-									target="_blank"
-								>
-									{$_('onboarding_welcome_terms')}
-								</a>
-								{$_('onboarding_welcome_and')}
-								<a
-									class="onboarding-welcome-link"
-									href="https://rotector.com/privacy"
-									rel="noopener noreferrer"
-									target="_blank"
-								>
-									{$_('onboarding_welcome_privacy')}
-								</a>.
-							</p>
+						<div class="onboarding-welcome-agreements">
+							<label class="onboarding-agreement-item">
+								<input
+									class="onboarding-agreement-checkbox"
+									type="checkbox"
+									bind:checked={tosAccepted}
+								/>
+								<span class="onboarding-agreement-checkmark" class:checked={tosAccepted}>
+									{#if tosAccepted}
+										<Check aria-hidden="true" size={14} strokeWidth={3} />
+									{/if}
+								</span>
+								<span class="onboarding-agreement-text">
+									{$_('onboarding_welcome_agree_tos')}
+									<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
+										{$_('onboarding_welcome_terms')}
+									</a>
+									{$_('onboarding_welcome_and')}
+									<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
+										{$_('onboarding_welcome_privacy')}
+									</a>
+								</span>
+							</label>
+
+							<label class="onboarding-agreement-item">
+								<input
+									class="onboarding-agreement-checkbox"
+									type="checkbox"
+									bind:checked={responsibleUseAccepted}
+								/>
+								<span class="onboarding-agreement-checkmark" class:checked={responsibleUseAccepted}>
+									{#if responsibleUseAccepted}
+										<Check aria-hidden="true" size={14} strokeWidth={3} />
+									{/if}
+								</span>
+								<span class="onboarding-agreement-text">
+									{$_('onboarding_welcome_agree_responsible_use')}
+								</span>
+							</label>
 						</div>
 					</div>
 				</div>
 
 				<div class="onboarding-actions">
-					<button class="onboarding-button-primary" onclick={handleContinue} type="button">
+					<button
+						class="onboarding-button-primary"
+						disabled={!canProceed}
+						onclick={handleContinue}
+						type="button"
+					>
 						{$_('onboarding_welcome_continue')}
 					</button>
 				</div>

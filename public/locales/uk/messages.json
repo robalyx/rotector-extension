@@ -277,7 +277,7 @@
 	"onboarding_status_title": "Індикатори статусу",
 	"onboarding_status_unsafe": "Небезпечний",
 	"onboarding_status_unsafe_desc": "Позначено за недоречний контент або поведінку.",
-	"onboarding_translate_description": "Автоматично перекладати деталі та причини порушень на вибрану мову за допомогою Google Перекладач.",
+	"onboarding_translate_description": "Автоматично перекладати деталі та причини порушень на вибрану мову за допомогою Google Перекладача.",
 	"onboarding_translate_disabled": "Вимкнено",
 	"onboarding_translate_enabled": "Увімкнено",
 	"onboarding_translate_label": "Автопереклад порушень",

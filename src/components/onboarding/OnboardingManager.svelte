@@ -6,10 +6,11 @@
 		isOnboardingReplay
 	} from '@/lib/stores/onboarding';
 	import WelcomeModal from './WelcomeModal.svelte';
+	import LanguageModal from './LanguageModal.svelte';
 	import GuideModal from './GuideModal.svelte';
 	import FinishModal from './FinishModal.svelte';
 
-	type OnboardingStep = 'welcome' | 'guide' | 'finish';
+	type OnboardingStep = 'welcome' | 'language' | 'guide' | 'finish';
 
 	let currentStep = $state<OnboardingStep>('welcome');
 	let showOnboarding = $state(false);
@@ -27,8 +28,13 @@
 		return unsubscribe;
 	});
 
-	// Proceed from welcome screen to feature guide
+	// Proceed from welcome screen to language settings
 	function handleWelcomeContinue() {
+		currentStep = 'language';
+	}
+
+	// Proceed from language settings to feature guide
+	function handleLanguageContinue() {
 		currentStep = 'guide';
 	}
 
@@ -51,6 +57,8 @@
 {#if showOnboarding}
 	{#if currentStep === 'welcome'}
 		<WelcomeModal onContinue={handleWelcomeContinue} onDismiss={handleDismiss} />
+	{:else if currentStep === 'language'}
+		<LanguageModal onContinue={handleLanguageContinue} onDismiss={handleDismiss} />
 	{:else if currentStep === 'guide'}
 		<GuideModal onDismiss={handleDismiss} onFinish={handleGuideComplete} />
 	{:else if currentStep === 'finish'}

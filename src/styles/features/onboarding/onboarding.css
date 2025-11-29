@@ -407,3 +407,104 @@
 @utility onboarding-confirm-actions {
 	@apply flex justify-end gap-3 mt-2;
 }
+
+/* =================================
+   LANGUAGE MODAL CONTENT
+   ================================= */
+
+@utility onboarding-language-intro {
+	@apply mb-5;
+
+	& p {
+		@apply text-sm leading-relaxed m-0;
+		color: var(--color-text);
+	}
+}
+
+@utility onboarding-language-sections {
+	@apply flex flex-col gap-5;
+}
+
+@utility onboarding-language-section {
+	@apply flex flex-col gap-3 p-4 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility onboarding-language-section-header {
+	@apply flex items-center gap-3;
+}
+
+@utility onboarding-language-icon {
+	@apply flex items-center justify-center w-9 h-9 rounded-lg flex-shrink-0;
+	background-color: var(--color-bg-content);
+	color: var(--color-primary);
+}
+
+@utility onboarding-language-label {
+	@apply text-sm font-semibold m-0;
+	color: var(--color-text-heading);
+}
+
+@utility onboarding-select-wrapper {
+	@apply relative;
+}
+
+@utility onboarding-language-select {
+	@apply w-full px-3 py-2.5 pr-10 rounded-md text-sm border-none cursor-pointer appearance-none;
+	background-color: var(--color-bg-content);
+	color: var(--color-text);
+
+	&:focus {
+		@apply outline-none ring-2;
+		ring-color: var(--color-primary);
+	}
+}
+
+@utility onboarding-select-chevron {
+	@apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none;
+	color: var(--color-text-subtle);
+}
+
+@utility onboarding-translate-description {
+	@apply text-xs leading-relaxed m-0;
+	color: var(--color-text-subtle);
+}
+
+@utility onboarding-toggle-wrapper {
+	@apply flex items-center gap-3 cursor-pointer;
+}
+
+@utility onboarding-toggle-input {
+	@apply sr-only;
+
+	&:checked + .onboarding-toggle-slider {
+		background-color: var(--color-primary);
+	}
+
+	&:checked + .onboarding-toggle-slider::before {
+		transform: translateX(16px);
+	}
+
+	&:focus + .onboarding-toggle-slider {
+		@apply ring-2;
+		ring-color: var(--color-primary);
+		ring-offset-color: var(--color-bg-tertiary);
+		ring-offset-width: 2px;
+	}
+}
+
+@utility onboarding-toggle-slider {
+	@apply relative inline-block w-10 h-6 rounded-full transition-colors duration-200 flex-shrink-0;
+	background-color: var(--color-bg-content);
+
+	&::before {
+		content: '';
+		@apply absolute top-1 left-1 w-4 h-4 rounded-full transition-transform duration-200;
+		background-color: white;
+	}
+}
+
+@utility onboarding-toggle-label {
+	@apply text-sm;
+	color: var(--color-text);
+}

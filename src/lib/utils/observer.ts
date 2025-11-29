@@ -25,6 +25,8 @@ interface ListObserverConfig {
 	restartDelay?: number;
 	enablePostResizeProcessing?: boolean;
 	onResizeComplete?: () => void | Promise<void>;
+	observeAttributes?: boolean;
+	attributeFilter?: string[];
 }
 
 interface UrlChangeObserverConfig {
@@ -417,7 +419,9 @@ export const observerFactory = {
 			processExistingItems = true,
 			restartDelay = OBSERVER_CONFIG.DEFAULT_RESTART_DELAY,
 			enablePostResizeProcessing = false,
-			onResizeComplete
+			onResizeComplete,
+			observeAttributes = false,
+			attributeFilter
 		} = config;
 
 		const processItemsInContainer = async () => {
@@ -436,7 +440,9 @@ export const observerFactory = {
 			targetSelector: containerSelector,
 			observerOptions: {
 				childList: true,
-				subtree: true
+				subtree: true,
+				attributes: observeAttributes,
+				attributeFilter: observeAttributes ? attributeFilter : undefined
 			},
 			callback: () => {
 				processItemsInContainer().catch((error) => {

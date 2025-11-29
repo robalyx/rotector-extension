@@ -96,3 +96,80 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
 		success: false
 	};
 }
+
+// Wait for all items in a container to be ready (e.g., have href attributes populated)
+export async function waitForAllItems<T extends HTMLElement = HTMLElement>(
+	containerSelector: string,
+	itemSelector: string,
+	readyItemSelector: string,
+	options: WaitForElementOptions = {}
+): Promise<ElementWaiterResult<T>> {
+	const {
+		maxRetries = RETRY_CONFIG.MAX_RETRIES,
+		baseDelay = RETRY_CONFIG.BASE_DELAY,
+		backoffMultiplier = RETRY_CONFIG.BACKOFF_MULTIPLIER,
+		maxDelay = RETRY_CONFIG.MAX_DELAY,
+		onRetry
+	} = options;
+
+	const startTime = Date.now();
+	let attempt = 0;
+	let currentDelay = baseDelay;
+
+	logger.debug(`Waiting for all items ready: ${containerSelector}`, {
+		itemSelector,
+		readyItemSelector,
+		maxRetries,
+		baseDelay
+	});
+
+	while (attempt < maxRetries) {
+		attempt++;
+
+		const container = document.querySelector<T>(containerSelector);
+		if (container) {
+			const totalItems = container.querySelectorAll(itemSelector);
+			const readyItems = container.querySelectorAll(readyItemSelector);
+
+			if (totalItems.length > 0 && totalItems.length === readyItems.length) {
+				const totalTime = Date.now() - startTime;
+				logger.debug(`All items ready: ${containerSelector}`, {
+					attempt,
+					totalTime,
+					itemCount: totalItems.length
+				});
+
+				return {
+					element: container,
+					attempts: attempt,
+					totalTime,
+					success: true
+				};
+			}
+
+			logger.debug(`Items not ready, retrying: ${containerSelector}`, {
+				attempt,
+				totalItems: totalItems.length,
+				readyItems: readyItems.length,
+				nextDelay: currentDelay
+			});
+		}
+
+		onRetry?.(attempt, currentDelay);
+		await new Promise((resolve) => setTimeout(resolve, currentDelay));
+		currentDelay = Math.min(currentDelay * backoffMultiplier, maxDelay);
+	}
+
+	const totalTime = Date.now() - startTime;
+	logger.warn(`waitForAllItems failed after max retries: ${containerSelector}`, {
+		maxRetries,
+		totalTime
+	});
+
+	return {
+		element: null,
+		attempts: attempt,
+		totalTime,
+		success: false
+	};
+}

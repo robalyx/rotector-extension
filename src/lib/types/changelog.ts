@@ -16,6 +16,60 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.6.0',
+		version: '2.6.0',
+		date: '2025-12-02',
+		title: 'Onboarding & Improvements',
+		summary:
+			'This update introduces a guided onboarding experience for new users, along with performance improvements and bug fixes.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'Onboarding experience - New users are guided through the extension features with an interactive walkthrough covering status indicators, tooltips, voting, and the queue system'
+			},
+			{
+				type: 'added',
+				description:
+					'Queue resubmission cooldown - Shows remaining days until a user can be resubmitted to the queue'
+			},
+			{
+				type: 'added',
+				description:
+					'Anti-abuse measures - Added client identification to help prevent misuse of the extension'
+			},
+			{
+				type: 'changed',
+				description:
+					'Faster status loading - Status indicators now load more smoothly with progressive updates'
+			},
+			{
+				type: 'changed',
+				description:
+					'Chrome Web Store listing - Extension now displays all 24 supported languages in the store'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Report form language - Content submitted to Roblox reports now stays in English regardless of your language setting'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile page groups - Status indicators for groups now load correctly on the first page visit'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Restricted access handling - Users with revoked access now see a clear notice instead of broken status indicators'
+			},
+			{
+				type: 'fixed',
+				description: 'Badge spinning - Status badges no longer rotate with the loading indicator'
+			}
+		]
+	},
+	{
 		id: 'v2.5.1',
 		version: '2.5.1',
 		date: '2025-11-21',

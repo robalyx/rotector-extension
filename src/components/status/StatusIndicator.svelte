@@ -320,32 +320,33 @@
 			class="status-icon-base"
 			color={statusConfig().iconColor}
 		/>
-		<!-- Badge Container -->
-		<span class="badge-container">
-			{#if !isGroup() && statusConfig().isReportable}
-				<span class="reportable-badge {badgeStackClasses().reportable}">
-					<Flag size={10} strokeWidth={2.5} />
-				</span>
-			{/if}
+	</span>
 
-			{#if statusConfig().isQueued}
-				<span class="queue-badge {badgeStackClasses().queue}">
-					<Hourglass size={8} strokeWidth={2.5} />
-				</span>
-			{/if}
+	<!-- Badge Container -->
+	<span class="badge-container">
+		{#if !isGroup() && statusConfig().isReportable}
+			<span class="reportable-badge {badgeStackClasses().reportable}">
+				<Flag size={10} strokeWidth={2.5} />
+			</span>
+		{/if}
 
-			{#if !isGroup() && statusConfig().isOutfitOnly}
-				<span class="outfit-badge {badgeStackClasses().outfit}">
-					<Shirt size={9} strokeWidth={2.5} />
-				</span>
-			{/if}
+		{#if statusConfig().isQueued}
+			<span class="queue-badge {badgeStackClasses().queue}">
+				<Hourglass size={8} strokeWidth={2.5} />
+			</span>
+		{/if}
 
-			{#if customApiFlagCount() > 0}
-				<span class="integration-badge {badgeStackClasses().integration}">
-					{customApiFlagCount()}
-				</span>
-			{/if}
-		</span>
+		{#if !isGroup() && statusConfig().isOutfitOnly}
+			<span class="outfit-badge {badgeStackClasses().outfit}">
+				<Shirt size={9} strokeWidth={2.5} />
+			</span>
+		{/if}
+
+		{#if customApiFlagCount() > 0}
+			<span class="integration-badge {badgeStackClasses().integration}">
+				{customApiFlagCount()}
+			</span>
+		{/if}
 	</span>
 
 	<!-- Status Text -->

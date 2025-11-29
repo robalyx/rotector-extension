@@ -184,6 +184,15 @@
 	color: var(--color-text-heading);
 }
 
+@utility onboarding-welcome-link {
+	color: var(--color-primary) !important;
+	@apply underline font-medium;
+
+	&:hover {
+		@apply decoration-2;
+	}
+}
+
 /* =================================
    GUIDE STEP CONTENT
    ================================= */

@@ -199,7 +199,7 @@
    BADGE CLASSES
    ================================= */
 @utility badge-container {
-	@apply absolute -bottom-1 -right-1 w-[15px] h-[15px] pointer-events-none;
+	@apply absolute -bottom-1 left-4 w-[15px] h-[15px] pointer-events-none;
 }
 
 @utility reportable-badge {

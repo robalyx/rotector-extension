@@ -25,7 +25,7 @@ function createRotectorApiConfig(): CustomApiConfig {
 		createdAt: 0,
 		isSystem: true,
 		reasonFormat: 'numeric',
-		landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.png')
+		landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 	};
 }
 

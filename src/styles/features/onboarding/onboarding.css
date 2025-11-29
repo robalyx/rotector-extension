@@ -294,6 +294,66 @@
 }
 
 /* =================================
+   SCOPE SECTIONS
+   ================================= */
+
+@utility guide-scope-sections {
+	@apply flex flex-col gap-4;
+}
+
+@utility guide-scope-section {
+	@apply flex flex-col gap-2;
+}
+
+@utility guide-scope-heading {
+	@apply flex items-center gap-2 text-sm font-semibold px-3 py-2 rounded-md;
+}
+
+@utility guide-scope-heading-detect {
+	@apply bg-green-500/15 text-green-400;
+}
+
+@utility guide-scope-heading-not-detect {
+	@apply bg-red-500/15 text-red-400;
+}
+
+@utility guide-scope-list {
+	@apply flex flex-col gap-2 pl-2;
+}
+
+@utility guide-scope-item {
+	@apply flex items-center gap-3 p-3 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility guide-scope-item-icon {
+	@apply flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-md;
+}
+
+@utility guide-scope-item-icon-detect {
+	@apply bg-green-500/15 text-green-400;
+}
+
+@utility guide-scope-item-icon-not-detect {
+	@apply bg-red-500/15 text-red-400;
+}
+
+@utility guide-scope-item-text {
+	@apply text-sm;
+	color: var(--color-text);
+}
+
+@utility guide-scope-explanation {
+	@apply p-3 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility guide-scope-explanation-text {
+	@apply text-sm leading-relaxed m-0;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
    FOOTER VIEW GUIDE BUTTON
    ================================= */
 

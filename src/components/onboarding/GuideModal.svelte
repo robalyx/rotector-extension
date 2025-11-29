@@ -8,6 +8,7 @@
 	import GuideStepStatus from './steps/GuideStepStatus.svelte';
 	import GuideStepBadges from './steps/GuideStepBadges.svelte';
 	import GuideStepFeatures from './steps/GuideStepFeatures.svelte';
+	import GuideStepScope from './steps/GuideStepScope.svelte';
 
 	const lightLogoUrl = getAssetUrl('/assets/rotector-logo-light.webp');
 	const darkLogoUrl = getAssetUrl('/assets/rotector-logo-dark.webp');
@@ -29,7 +30,7 @@
 
 	let { onDismiss, onFinish }: GuideModalProps = $props();
 
-	const TOTAL_STEPS = 3;
+	const TOTAL_STEPS = 4;
 	let currentStepIndex = $state(0);
 	let isOpen = $state(true);
 	let isClosing = $state(false);
@@ -184,6 +185,8 @@
 						<GuideStepBadges />
 					{:else if currentStepIndex === 2}
 						<GuideStepFeatures />
+					{:else if currentStepIndex === 3}
+						<GuideStepScope />
 					{/if}
 				</div>
 

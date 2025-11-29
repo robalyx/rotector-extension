@@ -40,6 +40,22 @@
 	@apply modal-actions-horizontal;
 }
 
+@utility queue-scope-note {
+	@apply flex items-center gap-2.5 p-3 mb-4 rounded-lg;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility queue-scope-note-icon {
+	@apply flex-shrink-0;
+	color: var(--color-primary);
+}
+
+@utility queue-scope-note-text {
+	@apply text-sm leading-relaxed m-0;
+	color: var(--color-text-subtle);
+}
+
 /* =================================
    QUEUE ERROR MODAL
    ================================= */

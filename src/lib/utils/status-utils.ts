@@ -23,7 +23,7 @@ export function wrapGroupStatus(
 						apiId: ROTECTOR_API_ID,
 						apiName: 'Rotector',
 						loading: true,
-						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.png')
+						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 					}
 				]
 			])
@@ -42,7 +42,7 @@ export function wrapGroupStatus(
 					data: groupStatus,
 					loading: false,
 					timestamp: Date.now(),
-					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.png')
+					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 				}
 			]
 		])

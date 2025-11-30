@@ -5,6 +5,7 @@
 	import { getAvailableLocales, setLanguage } from '@/lib/stores/i18n';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
+	import { hasTranslatePermission, requestTranslatePermission } from '@/lib/utils/permissions';
 	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
 
 	interface LanguageModalProps {
@@ -24,6 +25,7 @@
 	const headingId = `language-modal-title-${Math.random().toString(36).slice(2)}`;
 
 	const availableLocales = getAvailableLocales();
+	let translateEnabled = $state($settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]);
 
 	// Show close confirmation dialog
 	function requestClose() {
@@ -63,9 +65,23 @@
 	}
 
 	// Handle translate toggle change
-	async function handleTranslateChange(e: Event) {
+	function handleTranslateChange(e: Event) {
 		const target = e.target as HTMLInputElement;
-		await updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, target.checked);
+		const newValue = target.checked;
+
+		// Update UI and save setting
+		translateEnabled = newValue;
+		void updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, newValue);
+
+		// Request permission when enabling
+		if (newValue) {
+			void (async () => {
+				const alreadyHasPermission = await hasTranslatePermission();
+				if (!alreadyHasPermission) {
+					await requestTranslatePermission();
+				}
+			})();
+		}
 	}
 
 	// Handle escape key to close or cancel confirmation
@@ -187,13 +203,13 @@
 								<input
 									id="translate-toggle"
 									class="onboarding-toggle-input"
-									checked={$settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]}
+									checked={translateEnabled}
 									onchange={handleTranslateChange}
 									type="checkbox"
 								/>
 								<span class="onboarding-toggle-slider"></span>
 								<span class="onboarding-toggle-label">
-									{$settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]
+									{translateEnabled
 										? $_('onboarding_translate_enabled')
 										: $_('onboarding_translate_disabled')}
 								</span>

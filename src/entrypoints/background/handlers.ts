@@ -148,5 +148,17 @@ export const actionHandlers = {
 			throw new Error('Target language is required for translation');
 		}
 		return translateTexts(request.texts, request.targetLanguage, request.sourceLanguage);
+	},
+	[API_ACTIONS.HAS_TRANSLATE_PERMISSION]: async () => {
+		const result = await browser.permissions.contains({
+			origins: ['https://translate.googleapis.com/*']
+		});
+		return { hasPermission: result };
+	},
+	[API_ACTIONS.REQUEST_TRANSLATE_PERMISSION]: async () => {
+		const granted = await browser.permissions.request({
+			origins: ['https://translate.googleapis.com/*']
+		});
+		return { granted };
 	}
 } as const;

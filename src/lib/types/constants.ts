@@ -83,7 +83,9 @@ export const API_ACTIONS = {
 	WAR_GET_ORDER: 'warGetOrder',
 	WAR_GET_STATS_HISTORY: 'warGetStatsHistory',
 	INITIATE_DISCORD_LOGIN: 'initiateDiscordLogin',
-	TRANSLATE_TEXT: 'translateText'
+	TRANSLATE_TEXT: 'translateText',
+	HAS_TRANSLATE_PERMISSION: 'hasTranslatePermission',
+	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission'
 } as const;
 
 // Discord OAuth external message types

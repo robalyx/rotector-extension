@@ -139,8 +139,7 @@
 				{$_('stats_queue_error')}
 			</div>
 			<button
-				style:background-color="var(--color-primary)"
-				class="
+				class="bg-primary
 					rounded-md px-{variant === 'modal' ? '3' : '4'} py-{variant === 'modal'
 					? '1.5'
 					: '2'} text-sm font-medium text-white

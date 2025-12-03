@@ -183,7 +183,7 @@
 	bind:isOpen
 >
 	<div>
-		<p style:color="var(--color-text)" class="mb-4!">
+		<p class="text-text mb-4!">
 			{#if isReanalysis}
 				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId() } })}
 			{:else}
@@ -206,12 +206,7 @@
 
 		<!-- Check Options Section -->
 		<div class="queue-selection-section">
-			<h3
-				style:color="var(--color-text)"
-				class="
-        mb-4 text-lg font-semibold
-      "
-			>
+			<h3 class="text-text mb-4 text-lg font-semibold">
 				{$_('queue_popup_check_options_heading')}
 			</h3>
 
@@ -364,7 +359,7 @@
 				<AlertTriangle class="mr-2 warning-triangle-icon" size={24} />
 				{$_('queue_popup_warning_heading')}
 			</h3>
-			<p style:color="var(--color-text)" class="text-sm">
+			<p class="text-text text-sm">
 				<strong>{$_('queue_popup_warning_message_prefix')}</strong>
 				{$_('queue_popup_warning_message_suffix')}
 			</p>

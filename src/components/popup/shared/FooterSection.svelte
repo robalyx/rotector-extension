@@ -12,9 +12,6 @@
 	<!-- Social Media / Community Links -->
 	<div class="footer-social-section">
 		<a
-			style:background-color="#5865F2"
-			style:border-color="#5865F2"
-			style:color="white"
 			class="footer-social-link footer-social-link-discord"
 			href="https://discord.gg/2Cn7kXqqhY"
 			rel="noopener noreferrer"
@@ -29,9 +26,6 @@
 		</a>
 
 		<a
-			style:background-color="#24292f"
-			style:border-color="#24292f"
-			style:color="white"
 			class="footer-social-link footer-social-link-github"
 			href="https://github.com/robalyx"
 			rel="noopener noreferrer"
@@ -49,9 +43,6 @@
 	<!-- Source Code Link -->
 	<div class="footer-social-section">
 		<a
-			style:background-color="#24292f"
-			style:border-color="#24292f"
-			style:color="white"
 			class="footer-social-link footer-social-link-github"
 			href="https://github.com/robalyx/rotector-extension"
 			rel="noopener noreferrer"

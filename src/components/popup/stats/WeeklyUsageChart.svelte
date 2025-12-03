@@ -445,15 +445,15 @@
 			<!-- Legend for tokens -->
 			<div class="chart-legend">
 				<div class="legend-item">
-					<div style:background-color="var(--color-primary)" class="legend-color"></div>
+					<div class="bg-primary legend-color"></div>
 					<span>{$_('stats_chart_legend_prompt')}</span>
 				</div>
 				<div class="legend-item">
-					<div style:background-color="var(--color-success)" class="legend-color"></div>
+					<div class="bg-success legend-color"></div>
 					<span>{$_('stats_chart_legend_completion')}</span>
 				</div>
 				<div class="legend-item">
-					<div style:background-color="var(--color-warning)" class="legend-color"></div>
+					<div class="bg-warning legend-color"></div>
 					<span>{$_('stats_chart_legend_reasoning')}</span>
 				</div>
 			</div>

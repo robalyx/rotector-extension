@@ -34,6 +34,10 @@
 }
 
 @utility footer-social-link-discord {
+	background-color: #5865f2;
+	border-color: #5865f2;
+	color: white;
+
 	&:hover {
 		background-color: #4752c4 !important;
 		border-color: #4752c4 !important;
@@ -43,6 +47,10 @@
 }
 
 @utility footer-social-link-github {
+	background-color: #24292f;
+	border-color: #24292f;
+	color: white;
+
 	&:hover {
 		background-color: #1b1f23 !important;
 		border-color: #1b1f23 !important;

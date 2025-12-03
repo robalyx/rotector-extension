@@ -129,18 +129,13 @@
 </script>
 
 <div
-	style:border-color="var(--color-border-subtle)"
-	style:box-shadow="0 1px 3px var(--shadow-soft)"
-	class="
-      bg-bg-content rounded-lg border shadow-soft p-2
+	class="border-(--color-border-subtle) bg-bg-content rounded-lg border shadow-soft p-2
       dark:bg-bg-content-dark
     "
 >
 	{#each SETTING_CATEGORIES as category (category.titleKey)}
 		<fieldset
-			style:border-color="var(--color-border-subtle)"
-			class="
-                m-0 mb-2 rounded-sm border p-1.5 px-2 pb-2
+			class="border-(--color-border-subtle) m-0 mb-2 rounded-sm border p-1.5 px-2 pb-2
                 last:mb-0
               "
 		>
@@ -270,11 +265,8 @@
 
 	<!-- Developer settings (always visible) -->
 	<fieldset
-		style:border-color="var(--color-border-subtle)"
-		class="
-                m-0 mb-2 rounded-sm border bg-yellow-50 p-1.5 px-2 pb-2
-                last:mb-0
-                dark:bg-yellow-900/20
+		class="border-(--color-border-subtle) m-0 mb-2 rounded-sm border bg-yellow-50 p-1.5 px-2 pb-2
+                last:mb-0 dark:bg-yellow-900/20
               "
 	>
 		<legend

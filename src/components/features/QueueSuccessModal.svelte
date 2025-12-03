@@ -33,7 +33,7 @@
 	bind:isOpen
 >
 	<div>
-		<p style:color="var(--color-text)" class="mb-4!">
+		<p class="text-text mb-4!">
 			{$_('queue_success_modal_success_message', { values: { 0: String(successData.queued) } })}
 		</p>
 

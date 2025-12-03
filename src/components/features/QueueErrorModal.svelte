@@ -53,7 +53,7 @@
 	bind:isOpen
 >
 	<div>
-		<p style:color="var(--color-text)" class="mb-4!">
+		<p class="text-text mb-4!">
 			{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId() } })}
 		</p>
 
@@ -63,15 +63,15 @@
 				{$_('queue_error_modal_details_heading')}
 			</h3>
 			<div>
-				<p style:color="var(--color-text)">
+				<p class="text-text">
 					{errorMessage()}
 				</p>
 				<br />
-				<p style:color="var(--color-text-subtle)" class="text-sm">
+				<p class="text-text-subtle text-sm">
 					<strong>{$_('queue_error_modal_error_code_label')}</strong>
 					{errorCode()}
 				</p>
-				<p style:color="var(--color-text-subtle)" class="text-sm">
+				<p class="text-text-subtle text-sm">
 					<strong>{$_('queue_error_modal_request_id_label')}</strong>
 					{requestId()}
 				</p>

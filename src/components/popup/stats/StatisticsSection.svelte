@@ -87,8 +87,7 @@
 		<div class="py-8 text-center">
 			<div class="text-error mb-3 text-sm font-medium">{$_('stats_statistics_error')}</div>
 			<button
-				style:background-color="var(--color-primary)"
-				class="
+				class="bg-primary
             rounded-md px-4 py-2 text-sm font-medium text-white
             btn-focus
             transition-colors duration-200

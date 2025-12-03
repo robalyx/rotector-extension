@@ -44,10 +44,7 @@
 
 <div
 	id="changelog-section-content"
-	style:border-color="var(--color-border-subtle)"
-	style:box-shadow="0 1px 3px var(--shadow-soft)"
-	class="
-      bg-bg-content overflow-hidden rounded-lg border shadow-soft transition-all
+	class="border-(--color-border-subtle) bg-bg-content overflow-hidden rounded-lg border shadow-soft transition-all
       duration-300 ease-in-out
       dark:bg-bg-content-dark
     "

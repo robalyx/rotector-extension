@@ -71,14 +71,14 @@
 	});
 
 	const statusConfig = $derived(() => {
-		// Check if access is restricted and NOT a self-lookup
-		if (isRestricted && !isSelfLookup) {
-			return getStatusConfig(null, null, false, 'restricted_access', entityType);
-		}
-
 		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
 		const rotectorStatus = rotector?.data ?? cachedStatus;
 		const rotectorLoading = rotector?.loading ?? false;
+
+		if (isRestricted && !isSelfLookup && !rotectorStatus && !rotectorLoading) {
+			return getStatusConfig(null, null, false, 'restricted_access', entityType);
+		}
+
 		return getStatusConfig(rotectorStatus, cachedStatus, rotectorLoading, error, entityType);
 	});
 

@@ -245,7 +245,9 @@
 	});
 
 	// Effective restricted state
-	const effectivelyRestricted = $derived(isRestricted && !isSelfLookup);
+	const effectivelyRestricted = $derived(
+		isRestricted && !isSelfLookup && !activeStatus && !activeLoading
+	);
 
 	// Get custom API badges for active tab
 	const customApiBadges = $derived.by(() => {

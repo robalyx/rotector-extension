@@ -9,12 +9,14 @@
 		FRIENDS_CAROUSEL_SELECTORS,
 		FRIENDS_SELECTORS,
 		GROUPS_SELECTORS,
+		LOOKUP_CONTEXT,
 		PAGE_TYPES,
 		SEARCH_SELECTORS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import type { PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryMultipleUsers, queryUser } from '@/lib/services/unified-query-service';
@@ -24,12 +26,13 @@
 
 	interface Props {
 		pageType: PageType;
+		profileOwnerId?: string;
 		onUserProcessed?: (userId: string, status: CombinedStatus) => void;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
 
-	let { pageType, onUserProcessed, onError, onMount }: Props = $props();
+	let { pageType, profileOwnerId, onUserProcessed, onError, onMount }: Props = $props();
 
 	// Local state
 	let observer: Observer | null = null;
@@ -404,6 +407,34 @@
 		element.setAttribute('data-rotector-user-id', userId);
 	}
 
+	// Determine if current lookup is for user's own friends
+	function isOwnFriendsLookup(): boolean {
+		const loggedInUserId = getLoggedInUserId();
+		if (!loggedInUserId) return false;
+
+		// Home page always shows own friends
+		if (pageType === PAGE_TYPES.HOME) return true;
+
+		// Friends list page: check URL
+		if (pageType === PAGE_TYPES.FRIENDS_LIST) {
+			const pathname = window.location.pathname;
+			// /users/friends = own friends list (no user ID in URL)
+			// /users/{userId}/friends = specific user's friends list
+			if (pathname === '/users/friends' || pathname === '/users/friends/') {
+				return true;
+			}
+			const match = pathname.match(/\/users\/(\d+)\/friends/);
+			return match?.[1] === loggedInUserId;
+		}
+
+		// Profile carousel: check if viewing own profile
+		if (pageType === PAGE_TYPES.FRIENDS_CAROUSEL || pageType === PAGE_TYPES.PROFILE) {
+			return profileOwnerId === loggedInUserId;
+		}
+
+		return false;
+	}
+
 	// Load user statuses from API with caching
 	async function loadUserStatuses(users: UserDetails[]) {
 		try {
@@ -413,7 +444,8 @@
 			userIds.forEach((id) => loadingUsers.add(id));
 
 			// Query all APIs
-			const customApiResults = await queryMultipleUsers(userIds);
+			const lookupContext = isOwnFriendsLookup() ? LOOKUP_CONTEXT.FRIENDS : undefined;
+			const customApiResults = await queryMultipleUsers(userIds, lookupContext);
 
 			// Store combined statuses
 			customApiResults.forEach((combinedStatus, userId) => {

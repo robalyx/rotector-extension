@@ -324,3 +324,8 @@ export const USER_ACTIONS = {
 	REPORT_HELPER_OPEN_PAGE: 'report_helper_open_page',
 	REPORT_HELPER_COPY_EVIDENCE: 'report_helper_copy_evidence'
 } as const;
+
+// Lookup context for request headers
+export const LOOKUP_CONTEXT = {
+	FRIENDS: 'friends'
+} as const;

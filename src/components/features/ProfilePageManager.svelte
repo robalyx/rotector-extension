@@ -516,6 +516,7 @@
 		onError={handleCarouselError}
 		onUserProcessed={handleCarouselUserProcessed}
 		pageType={PAGE_TYPES.FRIENDS_CAROUSEL}
+		profileOwnerId={userId}
 	/>
 {/if}
 

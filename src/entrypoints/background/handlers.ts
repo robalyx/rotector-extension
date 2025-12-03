@@ -52,7 +52,7 @@ export const actionHandlers = {
 		if (request.apiConfig) {
 			return customApiCheckMultipleUsers(request.apiConfig, request.userIds);
 		}
-		return checkMultipleUsers(request.userIds, request.clientId);
+		return checkMultipleUsers(request.userIds, request.clientId, request.lookupContext);
 	},
 	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
 		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');

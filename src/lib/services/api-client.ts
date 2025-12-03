@@ -118,7 +118,11 @@ class RotectorApiClient {
 	): Promise<UserStatus[]> {
 		return sendMessage<UserStatus[]>(
 			API_ACTIONS.CHECK_MULTIPLE_USERS,
-			{ userIds, ...(options.apiConfig && { apiConfig: options.apiConfig }) },
+			{
+				userIds,
+				...(options.apiConfig && { apiConfig: options.apiConfig }),
+				...(options.lookupContext && { lookupContext: options.lookupContext })
+			},
 			options
 		);
 	}

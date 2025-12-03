@@ -126,14 +126,17 @@ export function queryUserProgressive(
 }
 
 // Query multiple users with batch optimization
-export async function queryMultipleUsers(userIds: string[]): Promise<Map<string, CombinedStatus>> {
+export async function queryMultipleUsers(
+	userIds: string[],
+	lookupContext?: string
+): Promise<Map<string, CombinedStatus>> {
 	const enabledApis = getEnabledCustomApis();
 
 	// Query all APIs in parallel
 	const apiResults = await Promise.allSettled(
 		enabledApis.map(async (api) =>
 			api.isSystem && api.id === ROTECTOR_API_ID
-				? apiClient.checkMultipleUsers(userIds)
+				? apiClient.checkMultipleUsers(userIds, { lookupContext })
 				: apiClient.checkMultipleUsers(userIds, { apiConfig: api })
 		)
 	);

@@ -112,6 +112,7 @@ export interface RequestOptions {
 	retryDelay?: number;
 	timeout?: number;
 	apiConfig?: CustomApiConfig;
+	lookupContext?: string;
 }
 
 // Page types for content script controllers
@@ -144,6 +145,7 @@ export interface ContentMessage {
 	inappropriateGroups?: boolean;
 	options?: BatchOptions;
 	apiConfig?: CustomApiConfig;
+	lookupContext?: string;
 
 	uuid?: string;
 	isAnonymous?: boolean;

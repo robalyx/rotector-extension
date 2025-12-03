@@ -72,6 +72,6 @@
 	<UserListManager
 		onError={handleError}
 		onUserProcessed={handleUserProcessed}
-		pageType={PAGE_TYPES.FRIENDS_CAROUSEL}
+		pageType={PAGE_TYPES.HOME}
 	/>
 {/if}

@@ -89,6 +89,7 @@ interface HttpRequestOptions extends RequestInit {
 	customApi?: CustomApiConfig;
 	requireAuth?: boolean;
 	clientId?: string;
+	lookupContext?: string;
 }
 
 // Unified HTTP client for both Rotector and Custom APIs
@@ -104,6 +105,7 @@ export async function makeHttpRequest(
 		customApi,
 		requireAuth = false,
 		clientId,
+		lookupContext,
 		...fetchOptions
 	} = options;
 
@@ -140,6 +142,11 @@ export async function makeHttpRequest(
 		// Add client ID header for integrity verification
 		if (clientId) {
 			headers.set('X-Client-ID', clientId);
+		}
+
+		// Add lookup context header for friend lookups
+		if (lookupContext) {
+			headers.set('X-Lookup-Context', lookupContext);
 		}
 	}
 

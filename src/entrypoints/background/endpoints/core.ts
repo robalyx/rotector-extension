@@ -61,7 +61,8 @@ export async function checkGroupStatus(
 // Check the status of multiple users in a batch request
 export async function checkMultipleUsers(
 	userIds: Array<string | number>,
-	clientId?: string
+	clientId?: string,
+	lookupContext?: string
 ): Promise<UserStatus[]> {
 	const sanitizedUserIds = processBatchEntityIds(userIds);
 	const excludeInfo = await getExcludeAdvancedInfoSetting();
@@ -74,7 +75,8 @@ export async function checkMultipleUsers(
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.MULTIPLE_USER_CHECK, {
 		method: 'POST',
 		body: JSON.stringify(requestBody),
-		clientId
+		clientId,
+		lookupContext
 	});
 
 	const responseData = extractResponseData<Record<string, UserStatus>>(response);

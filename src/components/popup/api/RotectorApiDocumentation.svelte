@@ -130,13 +130,14 @@
 		<h4 class="docs-section-title">{$_('rotector_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method http-method-get">{$_('custom_api_mgmt_http_method_get')}</span>
-			<code class="endpoint-url">https://roscoe.robalyx.com/v1/lookup/roblox/user/{'{userId}'}</code
+			<code class="endpoint-url"
+				>https://roscoe.rotector.com/v1/lookup/roblox/user/{'{userId}'}</code
 			>
 		</div>
 
 		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_example_request')}</h5>
 		<pre class="code-block"><code
-				>GET https://roscoe.robalyx.com/v1/lookup/roblox/user/1234567890</code
+				>GET https://roscoe.rotector.com/v1/lookup/roblox/user/1234567890</code
 			></pre>
 
 		<h5 class="docs-subtitle">{$_('rotector_api_docs_subtitle_code_examples')}</h5>
@@ -191,7 +192,7 @@
 				<Highlight
 					code={`async function checkUser(userId) {
   const response = await fetch(
-    \`https://roscoe.robalyx.com/v1/lookup/roblox/user/\${userId}\`
+    \`https://roscoe.rotector.com/v1/lookup/roblox/user/\${userId}\`
   );
 
   if (!response.ok) {
@@ -244,7 +245,7 @@ interface ApiResponse {
 
 async function checkUser(userId: number): Promise<UserStatus> {
   const response = await fetch(
-    \`https://roscoe.robalyx.com/v1/lookup/roblox/user/\${userId}\`
+    \`https://roscoe.rotector.com/v1/lookup/roblox/user/\${userId}\`
   );
 
   if (!response.ok) {
@@ -275,7 +276,7 @@ try {
 					code={`import requests
 
 def check_user(user_id):
-    url = f"https://roscoe.robalyx.com/v1/lookup/roblox/user/{user_id}"
+    url = f"https://roscoe.rotector.com/v1/lookup/roblox/user/{user_id}"
 
     response = requests.get(url)
     response.raise_for_status()
@@ -322,7 +323,7 @@ type Response struct {
 }
 
 func checkUser(userID int64) (*UserStatus, error) {
-    url := fmt.Sprintf("https://roscoe.robalyx.com/v1/lookup/roblox/user/%d", userID)
+    url := fmt.Sprintf("https://roscoe.rotector.com/v1/lookup/roblox/user/%d", userID)
 
     resp, err := http.Get(url)
     if err != nil {
@@ -361,7 +362,7 @@ func main() {
 
 local function checkUser(userId)
     local url = string.format(
-        "https://roscoe.robalyx.com/v1/lookup/roblox/user/%d",
+        "https://roscoe.rotector.com/v1/lookup/roblox/user/%d",
         userId
     )
 
@@ -458,7 +459,7 @@ end`}
 		<h4 class="docs-section-title">{$_('rotector_api_docs_section_batch_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method">{$_('custom_api_mgmt_http_method_post')}</span>
-			<code class="endpoint-url">https://roscoe.robalyx.com/v1/lookup/roblox/user</code>
+			<code class="endpoint-url">https://roscoe.rotector.com/v1/lookup/roblox/user</code>
 		</div>
 
 		<p class="docs-note mb-3">
@@ -532,7 +533,7 @@ end`}
 				<Highlight
 					code={`async function checkMultipleUsers(userIds) {
   const response = await fetch(
-    'https://roscoe.robalyx.com/v1/lookup/roblox/user',
+    'https://roscoe.rotector.com/v1/lookup/roblox/user',
     {
       method: 'POST',
       headers: {
@@ -598,7 +599,7 @@ interface BatchApiResponse {
 
 async function checkMultipleUsers(userIds: number[]): Promise<Record<string, UserStatus>> {
   const response = await fetch(
-    'https://roscoe.robalyx.com/v1/lookup/roblox/user',
+    'https://roscoe.rotector.com/v1/lookup/roblox/user',
     {
       method: 'POST',
       headers: {
@@ -638,7 +639,7 @@ try {
 					code={`import requests
 
 def check_multiple_users(user_ids):
-    url = "https://roscoe.robalyx.com/v1/lookup/roblox/user"
+    url = "https://roscoe.rotector.com/v1/lookup/roblox/user"
     headers = {
         "Content-Type": "application/json"
     }
@@ -684,7 +685,7 @@ type BatchResponse struct {
 }
 
 func checkMultipleUsers(userIDs []int64) (map[string]UserStatus, error) {
-    url := "https://roscoe.robalyx.com/v1/lookup/roblox/user"
+    url := "https://roscoe.rotector.com/v1/lookup/roblox/user"
 
     payload := BatchRequest{
         IDs: userIDs,
@@ -740,7 +741,7 @@ func main() {
 					code={`local HttpService = game:GetService("HttpService")
 
 local function checkMultipleUsers(userIds)
-    local url = "https://roscoe.robalyx.com/v1/lookup/roblox/user"
+    local url = "https://roscoe.rotector.com/v1/lookup/roblox/user"
 
     local payload = {
         ids = userIds

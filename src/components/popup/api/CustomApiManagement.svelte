@@ -256,8 +256,8 @@
 		if (api.isSystem) {
 			// Hardcoded endpoints for Rotector system API
 			return {
-				single: { method: 'GET', url: 'roscoe.robalyx.com/v1/lookup/roblox/user/{userId}' },
-				batch: { method: 'POST', url: 'roscoe.robalyx.com/v1/lookup/roblox/users' }
+				single: { method: 'GET', url: 'roscoe.rotector.com/v1/lookup/roblox/user/{userId}' },
+				batch: { method: 'POST', url: 'roscoe.rotector.com/v1/lookup/roblox/users' }
 			};
 		} else {
 			// Derive endpoints from custom API URL (remove https:// if present)

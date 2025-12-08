@@ -348,6 +348,8 @@ function revealUser(userId: string): void {
 		if (el instanceof HTMLElement) {
 			el.style.setProperty('filter', 'none', 'important');
 			el.style.setProperty('user-select', 'auto', 'important');
+			el.classList.remove('blur-clickable');
+			el.removeAttribute('title');
 		}
 	});
 }

@@ -457,7 +457,7 @@
 	"settings_category_content_blur": "Pag-blur ng Nilalaman",
 	"settings_category_content_display": "Pagpapakita ng Nilalaman",
 	"settings_category_developer": "Developer",
-	"settings_category_experimental": "Eksperimentalng mga Feature",
+	"settings_category_experimental": "Eksperimentalang mga Feature",
 	"settings_category_page_settings": "Mga Setting ng Pahina",
 	"settings_help_advanced_violations": "Ipakita ang detalyadong mensahe ng paglabag at ebidensya. Maaaring maglaman ng mature na nilalaman.",
 	"settings_help_cache_duration": "Gaano katagal i-cache ang datos ng status ng user (1-10 minuto). Mas mataas na halaga ay nagpapababa ng API calls ngunit maaaring magpakita ng luma na impormasyon.",

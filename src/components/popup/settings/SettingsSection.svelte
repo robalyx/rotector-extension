@@ -14,7 +14,8 @@
 	} from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
-		DEVELOPER_SETTING_CATEGORY,
+		EXPERIMENTAL_BLUR_CATEGORY,
+		EXPERIMENTAL_DEVELOPER_CATEGORY,
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
 	} from '@/lib/types/settings';
@@ -121,6 +122,21 @@
 		}, 4000);
 	}
 
+	// Check if all settings in a category are enabled
+	function areAllCategorySettingsEnabled(categorySettings: Array<{ key: SettingsKey }>): boolean {
+		return categorySettings.every((setting) => Boolean($settings[setting.key]));
+	}
+
+	// Toggle all settings in a category
+	async function toggleAllCategorySettings(categorySettings: Array<{ key: SettingsKey }>) {
+		const allEnabled = areAllCategorySettingsEnabled(categorySettings);
+		const newValue = !allEnabled;
+
+		for (const setting of categorySettings) {
+			await updateSetting(setting.key, newValue);
+		}
+	}
+
 	$effect(() => {
 		Promise.all([initializeSettings(), loadCustomApis()]).catch((error) => {
 			logger.error('Failed to initialize settings or custom APIs:', error);
@@ -140,11 +156,27 @@
               "
 		>
 			<legend
-				class="
-            text-text-subtle ml-0.5 px-1 text-2xs font-medium
-            dark:text-text-subtle-dark
-          ">{$_(category.titleKey)}</legend
+				class="text-text-subtle ml-0.5 px-1 text-2xs font-medium dark:text-text-subtle-dark
+					flex items-center w-[calc(100%-0.5rem)]"
 			>
+				<span>{$_(category.titleKey)}</span>
+				{#if category.hasToggleAll && category.settings.length > 0}
+					<span class="legend-line"></span>
+					<button
+						class="toggle-all-button"
+						class:toggle-all-active={areAllCategorySettingsEnabled(category.settings)}
+						onclick={() => toggleAllCategorySettings(category.settings)}
+						title={areAllCategorySettingsEnabled(category.settings)
+							? $_('settings_toggle_all_disable')
+							: $_('settings_toggle_all_enable')}
+						type="button"
+					>
+						{areAllCategorySettingsEnabled(category.settings)
+							? $_('settings_toggle_all_on')
+							: $_('settings_toggle_all_off')}
+					</button>
+				{/if}
+			</legend>
 			<div class="settings-category">
 				{#each category.settings as setting (setting.key)}
 					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
@@ -222,151 +254,241 @@
 						</div>
 					{/if}
 				{/each}
-
-				<!-- API Integrations Quick Toggles -->
-				{#if category.titleKey === 'settings_category_integrations'}
-					{#each $customApis as api (api.id)}
-						<div class="setting-item" data-setting-key="api-integration-{api.id}">
-							<div class="setting-label">
-								{api.name}
-								{#if api.isSystem}
-									<span class="api-system-label">{$_('settings_api_system_label')}</span>
-								{/if}
-							</div>
-							<Toggle
-								checked={api.enabled}
-								disabled={api.isSystem}
-								onchange={(value: boolean) => handleApiToggle(api.id, value)}
-							/>
-						</div>
-					{/each}
-				{/if}
-
-				<!-- API Integrations Management Button -->
-				{#if category.titleKey === 'settings_category_integrations' && onNavigateToCustomApis && $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-					<button class="manage-custom-apis-button" onclick={onNavigateToCustomApis} type="button">
-						<span class="manage-custom-apis-text">
-							{$_('settings_manage_apis_button')}
-							<span class="custom-api-count">
-								{$_(
-									$customApis.length === 1
-										? 'settings_api_count_singular'
-										: 'settings_api_count_plural',
-									{ values: { 0: $customApis.length.toString() } }
-								)}
-							</span>
-						</span>
-						<ChevronRight size={16} />
-					</button>
-				{/if}
 			</div>
 		</fieldset>
 	{/each}
 
-	<!-- Developer settings (always visible) -->
+	<!-- Experimental Features -->
 	<fieldset
-		class="border-(--color-border-subtle) m-0 mb-2 rounded-sm border bg-yellow-50 p-1.5 px-2 pb-2
-                last:mb-0 dark:bg-yellow-900/20
-              "
+		class="border-(--color-border-subtle) m-0 mb-2 rounded-sm border bg-purple-50 p-1.5 px-2 pb-2
+                last:mb-0 dark:bg-purple-900/20"
 	>
-		<legend
-			class="
-        text-text-subtle ml-0.5 px-1 text-2xs font-medium
-        dark:text-text-subtle-dark
-      "
-		>
-			{$_(DEVELOPER_SETTING_CATEGORY.titleKey)}
+		<legend class="text-text-subtle ml-0.5 px-1 text-2xs font-medium dark:text-text-subtle-dark">
+			{$_('settings_category_experimental')}
 		</legend>
 		<div class="settings-category">
-			{#each DEVELOPER_SETTING_CATEGORY.settings as setting (setting.key)}
-				{#if setting.key === SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
-					<!-- Developer Mode Toggle (always shown) -->
-					<div
-						class="setting-item"
-						class:setting-highlighted={highlightedSetting === setting.key}
-						data-setting-key={setting.key}
-					>
-						<div class="setting-label">
-							{$_(setting.labelKey)}
-							{#if setting.helpTextKey}
-								<HelpIndicator text={$_(setting.helpTextKey)} />
-							{/if}
-						</div>
-						<Toggle
-							checked={Boolean($settings[setting.key] ?? false)}
-							onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-						/>
-					</div>
-				{:else if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-					<!-- Other developer settings (shown only when developer mode is enabled) -->
-					{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
-						<NumberInput
-							helpText={setting.helpTextKey ? $_(setting.helpTextKey) : undefined}
-							label={$_(setting.labelKey)}
-							max={10}
-							min={1}
-							onChange={(value: number) => handleSettingChange(setting.key, value)}
-							value={Number($settings[setting.key] ?? 1)}
-						/>
-					{:else}
-						<div
-							class="setting-item"
-							class:setting-highlighted={highlightedSetting === setting.key}
-							data-setting-key={setting.key}
-						>
-							<div class="setting-label">
-								{$_(setting.labelKey)}
-								{#if setting.helpTextKey}
-									<HelpIndicator text={$_(setting.helpTextKey)} />
-								{/if}
-							</div>
-							<Toggle
-								checked={Boolean($settings[setting.key] ?? false)}
-								onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-							/>
-						</div>
-					{/if}
-				{/if}
-			{/each}
+			<!-- Content Blur Master Toggle -->
+			<div
+				class="setting-item"
+				class:setting-highlighted={highlightedSetting === SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}
+				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}
+			>
+				<div class="setting-label">
+					{$_('settings_label_experimental_blur')}
+					<HelpIndicator text={$_('settings_help_experimental_blur')} />
+				</div>
+				<Toggle
+					checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED] ?? false)}
+					onchange={(value: boolean) =>
+						handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED, value)}
+				/>
+			</div>
 
-			<!-- API Key input field (shown only when developer mode is enabled) -->
-			{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-				<div class="api-key-container mt-2.5">
-					<div class="setting-label mb-1.5 w-full">{$_('settings_api_key_label')}</div>
-					<div class="flex items-center gap-1">
-						<input
-							class="api-key-input"
-							oninput={handleApiKeyChange}
-							placeholder={$_('settings_api_key_placeholder')}
-							type={apiKeyVisible ? 'text' : 'password'}
-							value={$settings[SETTINGS_KEYS.API_KEY]}
-						/>
+			<!-- Blur Settings -->
+			{#if $settings[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]}
+				<div class="experimental-nested-container">
+					<div class="nested-legend">
 						<button
-							class="api-key-toggle"
-							onclick={toggleApiKeyVisibility}
-							title={$_('settings_api_key_toggle_title')}
+							class="toggle-all-button"
+							class:toggle-all-active={areAllCategorySettingsEnabled(
+								EXPERIMENTAL_BLUR_CATEGORY.settings
+							)}
+							onclick={() => toggleAllCategorySettings(EXPERIMENTAL_BLUR_CATEGORY.settings)}
+							title={areAllCategorySettingsEnabled(EXPERIMENTAL_BLUR_CATEGORY.settings)
+								? $_('settings_toggle_all_disable')
+								: $_('settings_toggle_all_enable')}
 							type="button"
 						>
-							<span class="text-xs select-none">
-								{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
-							</span>
+							{areAllCategorySettingsEnabled(EXPERIMENTAL_BLUR_CATEGORY.settings)
+								? $_('settings_toggle_all_on')
+								: $_('settings_toggle_all_off')}
 						</button>
 					</div>
+					<div class="settings-category">
+						{#each EXPERIMENTAL_BLUR_CATEGORY.settings as setting (setting.key)}
+							<div
+								class="setting-item"
+								class:setting-highlighted={highlightedSetting === setting.key}
+								data-setting-key={setting.key}
+							>
+								<div class="setting-label">
+									{$_(setting.labelKey)}
+								</div>
+								<Toggle
+									checked={Boolean($settings[setting.key] ?? false)}
+									onchange={(value: boolean) => handleSettingChange(setting.key, value)}
+								/>
+							</div>
+						{/each}
+					</div>
 				</div>
+			{/if}
 
-				<!-- Rotector API Documentation Button -->
-				{#if onNavigateToRotectorDocs}
-					<button
-						class="manage-custom-apis-button"
-						onclick={onNavigateToRotectorDocs}
-						type="button"
-					>
-						<span class="manage-custom-apis-text">
-							{$_('settings_rotector_api_docs_button')}
-						</span>
-						<ChevronRight size={16} />
-					</button>
-				{/if}
+			<!-- Custom API Integration Master Toggle -->
+			<div
+				class="setting-item"
+				class:setting-highlighted={highlightedSetting ===
+					SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}
+				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}
+			>
+				<div class="setting-label">
+					{$_('settings_label_experimental_custom_apis')}
+					<HelpIndicator text={$_('settings_help_experimental_custom_apis')} />
+				</div>
+				<Toggle
+					checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED] ?? false)}
+					onchange={(value: boolean) =>
+						handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED, value)}
+				/>
+			</div>
+
+			<!-- Custom APIs Settings -->
+			{#if $settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]}
+				<div class="experimental-nested-container">
+					<div class="settings-category">
+						{#each $customApis.filter((api) => !api.isSystem) as api (api.id)}
+							<div class="setting-item" data-setting-key="api-integration-{api.id}">
+								<div class="setting-label">
+									{api.name}
+								</div>
+								<Toggle
+									checked={api.enabled}
+									onchange={(value: boolean) => handleApiToggle(api.id, value)}
+								/>
+							</div>
+						{/each}
+
+						<!-- Manage Custom APIs Button -->
+						{#if onNavigateToCustomApis}
+							<button
+								class="manage-custom-apis-button"
+								onclick={onNavigateToCustomApis}
+								type="button"
+							>
+								<span class="manage-custom-apis-text">
+									{$_('settings_manage_apis_button')}
+									<span class="custom-api-count">
+										{$_(
+											$customApis.filter((api) => !api.isSystem).length === 1
+												? 'settings_api_count_singular'
+												: 'settings_api_count_plural',
+											{
+												values: { 0: $customApis.filter((api) => !api.isSystem).length.toString() }
+											}
+										)}
+									</span>
+								</span>
+								<ChevronRight size={16} />
+							</button>
+						{/if}
+					</div>
+				</div>
+			{/if}
+
+			<!-- War Zone Master Toggle -->
+			<div
+				class="setting-item"
+				class:setting-highlighted={highlightedSetting ===
+					SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}
+				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}
+			>
+				<div class="setting-label">
+					{$_('settings_label_experimental_warzone')}
+					<HelpIndicator text={$_('settings_help_experimental_warzone')} />
+				</div>
+				<Toggle
+					checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED] ?? false)}
+					onchange={(value: boolean) =>
+						handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED, value)}
+				/>
+			</div>
+
+			<!-- Developer Mode Master Toggle -->
+			<div
+				class="setting-item"
+				class:setting-highlighted={highlightedSetting === SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
+				data-setting-key={SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
+			>
+				<div class="setting-label">
+					{$_('settings_label_developer_mode')}
+					<HelpIndicator text={$_('settings_help_developer_mode')} />
+				</div>
+				<Toggle
+					checked={Boolean($settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED] ?? false)}
+					onchange={(value: boolean) =>
+						handleSettingChange(SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED, value)}
+				/>
+			</div>
+
+			<!-- Developer Settings -->
+			{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
+				<div class="experimental-nested-container">
+					<div class="settings-category">
+						{#each EXPERIMENTAL_DEVELOPER_CATEGORY.settings as setting (setting.key)}
+							{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
+								<NumberInput
+									helpText={setting.helpTextKey ? $_(setting.helpTextKey) : undefined}
+									label={$_(setting.labelKey)}
+									max={10}
+									min={1}
+									onChange={(value: number) => handleSettingChange(setting.key, value)}
+									value={Number($settings[setting.key] ?? 5)}
+								/>
+							{:else}
+								<div
+									class="setting-item"
+									class:setting-highlighted={highlightedSetting === setting.key}
+									data-setting-key={setting.key}
+								>
+									<div class="setting-label">
+										{$_(setting.labelKey)}
+										{#if setting.helpTextKey}
+											<HelpIndicator text={$_(setting.helpTextKey)} />
+										{/if}
+									</div>
+									<Toggle
+										checked={Boolean($settings[setting.key] ?? false)}
+										onchange={(value: boolean) => handleSettingChange(setting.key, value)}
+									/>
+								</div>
+							{/if}
+						{/each}
+
+						<!-- API Key input field -->
+						<div class="api-key-container mt-2.5">
+							<div class="setting-label mb-1.5 w-full">{$_('settings_api_key_label')}</div>
+							<div class="flex items-center gap-1">
+								<input
+									class="api-key-input"
+									oninput={handleApiKeyChange}
+									placeholder={$_('settings_api_key_placeholder')}
+									type={apiKeyVisible ? 'text' : 'password'}
+									value={$settings[SETTINGS_KEYS.API_KEY]}
+								/>
+								<button
+									class="api-key-toggle"
+									onclick={toggleApiKeyVisibility}
+									title={$_('settings_api_key_toggle_title')}
+									type="button"
+								>
+									<span class="text-xs select-none">
+										{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
+									</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Rotector API Documentation Button -->
+			{#if onNavigateToRotectorDocs}
+				<button class="manage-custom-apis-button" onclick={onNavigateToRotectorDocs} type="button">
+					<span class="manage-custom-apis-text">
+						{$_('settings_rotector_api_docs_button')}
+					</span>
+					<ChevronRight size={16} />
+				</button>
 			{/if}
 		</div>
 	</fieldset>

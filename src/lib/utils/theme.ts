@@ -37,9 +37,14 @@ class ThemeManager {
 
 	constructor() {
 		this.initializeSystemThemeDetection();
-		this.initializeRobloxThemeDetection();
 		this.setupThemeApplication();
 		this.setupThemePersistence();
+	}
+
+	// Initializes Roblox theme detection
+	initializeRobloxTheme(): void {
+		if (!this.isRobloxPage()) return;
+		this.setupRobloxThemeObserver();
 	}
 
 	// Sets the theme preference
@@ -210,10 +215,8 @@ class ThemeManager {
 		}
 	}
 
-	// Initializes Roblox theme detection by observing body class changes
-	private initializeRobloxThemeDetection(): void {
-		if (!this.isRobloxPage()) return;
-
+	// Sets up the MutationObserver for Roblox body class changes
+	private setupRobloxThemeObserver(): void {
 		try {
 			// Initial detection
 			this.updateRobloxTheme();

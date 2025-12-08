@@ -12,6 +12,8 @@
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { groupStatusService } from '@/lib/services/entity-status-service';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement, waitForAllItems } from '@/lib/utils/element-waiter';
@@ -20,11 +22,19 @@
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 
 	interface Props {
+		profileOwnerId?: string;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
 
-	let { onError, onMount }: Props = $props();
+	let { profileOwnerId, onError, onMount }: Props = $props();
+
+	// Check if viewing own profile's groups
+	function isOwnProfileGroups(): boolean {
+		if (!profileOwnerId) return false;
+		const loggedInUserId = getLoggedInUserId();
+		return loggedInUserId === profileOwnerId;
+	}
 
 	// Local state
 	let slideshowObserver: Observer | null = null;
@@ -343,6 +353,16 @@
 	// Process groups with batch status fetching
 	async function processGroups(groupDetails: GroupDetails[]) {
 		try {
+			// Block group lookups when restricted unless viewing own profile
+			if ($restrictedAccessStore.isRestricted && !isOwnProfileGroups()) {
+				for (const groupDetail of groupDetails) {
+					const { groupId, element, nameElement } = groupDetail;
+					element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
+					updateStatusIndicator(groupId, null, nameElement, element, false, 'restricted_access');
+				}
+				return;
+			}
+
 			// Show loading indicators
 			for (const groupDetail of groupDetails) {
 				const { groupId, element, nameElement } = groupDetail;
@@ -383,7 +403,8 @@
 		status: GroupStatus | null,
 		nameElement: Element,
 		element: Element | undefined,
-		isLoading: boolean
+		isLoading: boolean,
+		error?: string
 	) {
 		// Clean up existing component
 		const existingComponent = mountedComponents.get(groupId);
@@ -445,7 +466,7 @@
 			props: {
 				entityId: groupId,
 				entityType: ENTITY_TYPES.GROUP,
-				entityStatus: wrapGroupStatus(status, isLoading),
+				entityStatus: wrapGroupStatus(status, isLoading, error),
 				skipAutoFetch: true,
 				showText: !isGridView && !isBTRobloxView,
 				onClick: handleStatusClick

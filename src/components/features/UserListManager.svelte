@@ -20,6 +20,11 @@
 	import type { PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryMultipleUsers, queryUser } from '@/lib/services/unified-query-service';
+	import {
+		markUserElementForBlur,
+		resetElementBlur,
+		revealUserElement
+	} from '@/lib/services/blur-service';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -178,9 +183,7 @@
 			name: `${pageConfig.pageName}-container-watcher`,
 			containerSelector: pageConfig.containerSelector,
 			onContainerAdded: (container: Element) => {
-				logger.debug(`${pageConfig.pageName} container detected/replaced, processing new items`);
-
-				// Process all items in the new container immediately
+				// Process all items in the new container
 				const items = Array.from(container.querySelectorAll(pageConfig.itemSelector));
 				if (items.length > 0) {
 					void handleNewUsers(items);
@@ -275,7 +278,6 @@
 						});
 						unprocessedElements.push(item);
 					}
-					// Same user ID as before, nothing to do
 				}
 			}
 
@@ -286,7 +288,9 @@
 					reusedElements.map((r) => ({ old: r.oldUserId, new: r.newUserId }))
 				);
 
-				for (const { oldUserId } of reusedElements) {
+				for (const { element, oldUserId } of reusedElements) {
+					resetElementBlur(element);
+
 					const oldComponent = mountedComponents.get(oldUserId);
 					if (oldComponent) {
 						try {
@@ -336,6 +340,11 @@
 					processedUsers.add(user.userId);
 				});
 
+				// Mark elements for blur tracking
+				newUsers.forEach((user) => {
+					markUserElementForBlur(user.element, user.userId, pageType);
+				});
+
 				// Mount status indicators immediately with loading state
 				newUsers.forEach((user) => {
 					mountStatusIndicator(user, true);
@@ -344,14 +353,23 @@
 				// Load user statuses in batches
 				await loadUserStatuses(newUsers);
 
-				// Remount status indicators with actual data
+				// Reveal safe content and remount status indicators with data
 				newUsers.forEach((user) => {
+					const status = userStatuses.get(user.userId);
+					if (status) {
+						revealUserElement(user.element, status);
+					}
 					mountStatusIndicator(user, false);
 				});
 			}
 
-			// Re-mount status indicators for returning users
+			// Process returning users
 			returningUsers.forEach((user) => {
+				const status = userStatuses.get(user.userId);
+				markUserElementForBlur(user.element, user.userId, pageType);
+				if (status) {
+					revealUserElement(user.element, status);
+				}
 				mountStatusIndicator(user, false);
 			});
 		} catch (error) {

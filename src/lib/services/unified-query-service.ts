@@ -2,17 +2,57 @@ import type { CombinedStatus, CustomApiConfig, CustomApiResult } from '../types/
 import type { UserStatus } from '../types/api';
 import { apiClient } from './api-client';
 import { customApis, ROTECTOR_API_ID } from '../stores/custom-apis';
+import { restrictedAccessStore } from '../stores/restricted-access';
+import { settings } from '../stores/settings';
+import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
 import { STATUS } from '../types/constants';
+import { SETTINGS_KEYS } from '../types/settings';
 import { get } from 'svelte/store';
 
 // Re-export for components
 export { ROTECTOR_API_ID };
 
+// Check if lookup should be blocked due to restricted access
+function shouldBlockLookup(userId: string): boolean {
+	const { isRestricted } = get(restrictedAccessStore);
+	if (!isRestricted) return false;
+
+	const loggedInUserId = getLoggedInUserId();
+	return loggedInUserId !== userId;
+}
+
+// Create a restricted access result for blocked lookups
+function createRestrictedResult(): CombinedStatus {
+	const enabledApis = getEnabledCustomApis();
+	return {
+		customApis: new Map(
+			enabledApis.map((api) => [
+				api.id,
+				{
+					apiId: api.id,
+					apiName: api.name,
+					error: 'restricted_access',
+					loading: false,
+					timestamp: Date.now(),
+					landscapeImageDataUrl: api.landscapeImageDataUrl
+				}
+			])
+		)
+	};
+}
+
 // Get enabled custom APIs sorted by order
 function getEnabledCustomApis(): CustomApiConfig[] {
+	const s = get(settings);
+	const experimentalCustomApisEnabled = s[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED];
+
 	return get(customApis)
-		.filter((api) => api.enabled)
+		.filter((api) => {
+			if (!api.enabled) return false;
+			if (api.isSystem) return true;
+			return experimentalCustomApisEnabled;
+		})
 		.sort((a, b) => a.order - b.order);
 }
 
@@ -39,6 +79,10 @@ function formatApiResult(
 
 // Query a single user from all enabled APIs
 export async function queryUser(userId: string): Promise<CombinedStatus> {
+	if (shouldBlockLookup(userId)) {
+		return createRestrictedResult();
+	}
+
 	const enabledApis = getEnabledCustomApis();
 
 	// Query all APIs in parallel
@@ -69,6 +113,11 @@ export function queryUserProgressive(
 	userId: string,
 	onUpdate: (status: CombinedStatus) => void
 ): () => void {
+	if (shouldBlockLookup(userId)) {
+		onUpdate(createRestrictedResult());
+		return () => {};
+	}
+
 	const enabledApis = getEnabledCustomApis();
 	let cancelled = false;
 
@@ -130,6 +179,13 @@ export async function queryMultipleUsers(
 	userIds: string[],
 	lookupContext?: string
 ): Promise<Map<string, CombinedStatus>> {
+	// Block batch lookups when restricted unless it's own friends lookup
+	const { isRestricted } = get(restrictedAccessStore);
+	if (isRestricted && lookupContext !== 'friends') {
+		const restrictedResult = createRestrictedResult();
+		return new Map(userIds.map((userId) => [userId, restrictedResult]));
+	}
+
 	const enabledApis = getEnabledCustomApis();
 
 	// Query all APIs in parallel

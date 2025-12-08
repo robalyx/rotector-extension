@@ -7,9 +7,10 @@
 	interface NavbarProps {
 		currentPage: string | null;
 		onPageChange: (page: NavPage) => void;
+		showWarzone?: boolean;
 	}
 
-	let { currentPage, onPageChange }: NavbarProps = $props();
+	let { currentPage, onPageChange, showWarzone = false }: NavbarProps = $props();
 </script>
 
 <nav class="navbar">
@@ -26,18 +27,20 @@
 		<span class="navbar-label">{$_('navbar_tab_stats')}</span>
 	</button>
 
-	<button
-		class="navbar-tab"
-		class:active={currentPage === 'warzone'}
-		aria-current={currentPage === 'warzone' ? 'page' : undefined}
-		onclick={() => onPageChange('warzone')}
-		type="button"
-	>
-		<span class="navbar-icon">
-			<Swords size={18} strokeWidth={2.5} />
-		</span>
-		<span class="navbar-label">{$_('navbar_tab_warzone')}</span>
-	</button>
+	{#if showWarzone}
+		<button
+			class="navbar-tab"
+			class:active={currentPage === 'warzone'}
+			aria-current={currentPage === 'warzone' ? 'page' : undefined}
+			onclick={() => onPageChange('warzone')}
+			type="button"
+		>
+			<span class="navbar-icon">
+				<Swords size={18} strokeWidth={2.5} />
+			</span>
+			<span class="navbar-label">{$_('navbar_tab_warzone')}</span>
+		</button>
+	{/if}
 
 	<button
 		class="navbar-tab"

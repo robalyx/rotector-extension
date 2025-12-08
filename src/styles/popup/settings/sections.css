@@ -54,3 +54,41 @@
 		box-shadow: none;
 	}
 }
+
+@utility toggle-all-button {
+	@apply px-1.5 py-0.5 text-2xs rounded-sm cursor-pointer transition-colors;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-secondary);
+	border: 1px solid var(--color-border);
+
+	&:hover {
+		background-color: var(--color-bg-secondary);
+		color: var(--color-text);
+	}
+}
+
+@utility toggle-all-active {
+	background-color: var(--color-primary);
+	color: white;
+	border-color: var(--color-primary);
+
+	&:hover {
+		background-color: var(--color-primary-hover);
+		border-color: var(--color-primary-hover);
+	}
+}
+
+@utility experimental-nested-container {
+	@apply mt-2 ml-2 rounded-sm border p-1.5 px-2 pb-2;
+	border-color: var(--color-border-subtle);
+	background-color: color-mix(in srgb, var(--color-bg-content) 60%, transparent);
+}
+
+@utility legend-line {
+	@apply flex-1 mx-2 h-px;
+	background-color: var(--color-border-subtle);
+}
+
+@utility nested-legend {
+	@apply flex items-center justify-end -mt-3.5 mb-1 px-1;
+}

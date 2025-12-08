@@ -1,0 +1,25 @@
+/* =================================
+   CONTENT BLUR UTILITIES
+   ================================= */
+
+@utility blur-content {
+	filter: blur(4px);
+	transition: filter 0.2s ease-out;
+	user-select: none;
+}
+
+@utility blur-content-avatar {
+	filter: blur(6px);
+	transition: filter 0.2s ease-out;
+}
+
+@utility blur-revealed {
+	filter: none !important;
+	user-select: auto;
+}
+
+@utility blur-clickable {
+	position: relative;
+	z-index: 10;
+	cursor: pointer;
+}

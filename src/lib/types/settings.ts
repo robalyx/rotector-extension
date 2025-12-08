@@ -19,7 +19,14 @@ export const SETTINGS_KEYS = {
 	CUSTOM_APIS: 'customApis',
 	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab',
 	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled',
-	ONBOARDING_COMPLETED: 'onboardingCompleted'
+	ONBOARDING_COMPLETED: 'onboardingCompleted',
+	BLUR_DISPLAY_NAMES: 'blurDisplayNames',
+	BLUR_USERNAMES: 'blurUsernames',
+	BLUR_DESCRIPTIONS: 'blurDescriptions',
+	BLUR_AVATARS: 'blurAvatars',
+	EXPERIMENTAL_BLUR_ENABLED: 'experimentalBlurEnabled',
+	EXPERIMENTAL_CUSTOM_APIS_ENABLED: 'experimentalCustomApisEnabled',
+	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -48,6 +55,13 @@ export interface Settings {
 	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: boolean;
 	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: boolean;
+	[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: boolean;
+	[SETTINGS_KEYS.BLUR_USERNAMES]: boolean;
+	[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: boolean;
+	[SETTINGS_KEYS.BLUR_AVATARS]: boolean;
+	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: boolean;
+	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: boolean;
+	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: boolean;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -69,11 +83,19 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false,
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false,
-	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: false
+	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: false,
+	[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: false,
+	[SETTINGS_KEYS.BLUR_USERNAMES]: false,
+	[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: false,
+	[SETTINGS_KEYS.BLUR_AVATARS]: false,
+	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: false,
+	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false,
+	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: false
 };
 
 interface SettingCategory {
 	titleKey: string;
+	hasToggleAll?: boolean;
 	settings: Array<{
 		key: SettingsKey;
 		labelKey: string;
@@ -110,11 +132,8 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 		]
 	},
 	{
-		titleKey: 'settings_category_integrations',
-		settings: []
-	},
-	{
 		titleKey: 'settings_category_page_settings',
+		hasToggleAll: true,
 		settings: [
 			{
 				key: SETTINGS_KEYS.HOME_CHECK_ENABLED,
@@ -144,15 +163,34 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 	}
 ];
 
-// Hidden developer settings category
-export const DEVELOPER_SETTING_CATEGORY: SettingCategory = {
-	titleKey: 'settings_category_developer',
+// Experimental blur settings
+export const EXPERIMENTAL_BLUR_CATEGORY: SettingCategory = {
+	titleKey: 'settings_category_content_blur',
+	hasToggleAll: true,
 	settings: [
 		{
-			key: SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED,
-			labelKey: 'settings_label_developer_mode',
-			helpTextKey: 'settings_help_developer_mode'
+			key: SETTINGS_KEYS.BLUR_DISPLAY_NAMES,
+			labelKey: 'settings_label_blur_display_names'
 		},
+		{
+			key: SETTINGS_KEYS.BLUR_USERNAMES,
+			labelKey: 'settings_label_blur_usernames'
+		},
+		{
+			key: SETTINGS_KEYS.BLUR_DESCRIPTIONS,
+			labelKey: 'settings_label_blur_descriptions'
+		},
+		{
+			key: SETTINGS_KEYS.BLUR_AVATARS,
+			labelKey: 'settings_label_blur_avatars'
+		}
+	]
+};
+
+// Experimental developer settings
+export const EXPERIMENTAL_DEVELOPER_CATEGORY: SettingCategory = {
+	titleKey: 'settings_category_developer',
+	settings: [
 		{
 			key: SETTINGS_KEYS.DEBUG_MODE_ENABLED,
 			labelKey: 'settings_label_debug_logging',

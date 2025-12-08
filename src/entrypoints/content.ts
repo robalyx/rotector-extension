@@ -17,7 +17,27 @@ import {
 	setupRestrictedAccessListener
 } from '@/lib/stores/restricted-access';
 import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
+import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur-service';
 import OnboardingManager from '@/components/onboarding/OnboardingManager.svelte';
+
+/**
+ * Wait for document.body to exist.
+ */
+async function waitForBody(): Promise<HTMLElement> {
+	return new Promise((resolve) => {
+		if (document.body) {
+			resolve(document.body);
+			return;
+		}
+		const observer = new MutationObserver(() => {
+			if (document.body) {
+				observer.disconnect();
+				resolve(document.body);
+			}
+		});
+		observer.observe(document.documentElement, { childList: true });
+	});
+}
 
 export default defineContentScript({
 	matches: [
@@ -64,9 +84,12 @@ export default defineContentScript({
 		'https://*.roblox.com/*/report-abuse*',
 		'https://*.roblox.com/*/report-abuse/*'
 	],
+	runAt: 'document_start',
 
 	async main() {
 		try {
+			injectDefaultBlurStyles();
+
 			logger.info('Rotector content script initializing...');
 
 			logger.debug('Loading stored language preference...');
@@ -77,6 +100,10 @@ export default defineContentScript({
 			await initializeSettings();
 			logger.debug('Settings loaded successfully');
 
+			// Inject blur styles based on settings
+			injectBlurStyles();
+			logger.debug('Blur styles injected');
+
 			logger.debug('Loading custom APIs configuration...');
 			await loadCustomApis();
 			logger.debug('Custom APIs loaded successfully');
@@ -86,10 +113,16 @@ export default defineContentScript({
 			setupRestrictedAccessListener();
 			logger.debug('Access state initialized');
 
+			// Wait for body to exist before DOM operations
+			const body = await waitForBody();
+
+			// Initialize Roblox theme detection
+			themeManager.initializeRobloxTheme();
+
 			// Create container for onboarding and mount component
 			const onboardingContainer = document.createElement('div');
 			onboardingContainer.id = 'rotector-onboarding';
-			document.body.appendChild(onboardingContainer);
+			body.appendChild(onboardingContainer);
 			registerPortalContainer(onboardingContainer);
 			mount(OnboardingManager, { target: onboardingContainer });
 			logger.debug('Onboarding manager mounted');
@@ -107,7 +140,7 @@ export default defineContentScript({
 			portalContainer.id = 'rotector-tooltip-portal';
 			portalContainer.style.cssText =
 				'position: fixed; top: 0; left: 0; width: 0; height: 0; z-index: 10000;';
-			document.body.appendChild(portalContainer);
+			body.appendChild(portalContainer);
 
 			// Register portal container with theme manager for theme updates
 			registerPortalContainer(portalContainer);

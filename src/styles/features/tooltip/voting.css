@@ -135,7 +135,7 @@
 }
 
 @utility engine-version-tag {
-	@apply inline-flex items-center justify-center px-1 py-0.5 rounded-md text-[6px] font-medium cursor-help transition-all duration-200 select-none border leading-none whitespace-nowrap;
+	@apply inline-flex items-center justify-center px-2 py-1 rounded-md text-base font-medium cursor-help transition-all duration-200 select-none border leading-none whitespace-nowrap;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
 	&.latest {
@@ -165,7 +165,7 @@
 }
 
 @utility engine-version-tooltip {
-	@apply absolute w-60 border rounded-lg p-3 text-xs leading-normal opacity-0 invisible transition-all duration-300 z-[10005] pointer-events-none translate-y-1;
+	@apply absolute w-64 border rounded-lg p-3 text-sm leading-normal opacity-0 invisible transition-all duration-300 z-[10005] pointer-events-none translate-y-1;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
 	color: var(--color-text);
@@ -241,7 +241,7 @@
 }
 
 @utility engine-version-status {
-	@apply text-2xs px-1.5 py-0.5 rounded-lg font-semibold;
+	@apply text-xs px-1.5 py-0.5 rounded-lg font-semibold;
 
 	&.latest {
 		@apply bg-emerald-500/20;
@@ -270,11 +270,11 @@
 }
 
 @utility engine-version-description {
-	@apply mt-2 text-sm leading-tight;
+	@apply mt-2 text-base leading-tight;
 	color: var(--color-text-subtle);
 }
 
 @utility engine-version-impact {
-	@apply mt-1.5 text-sm italic;
+	@apply mt-1.5 text-base italic leading-tight;
 	color: var(--color-text-subtle);
 }

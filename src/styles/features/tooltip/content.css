@@ -3,7 +3,7 @@
    ================================= */
 
 @utility tooltip-status-badge {
-	@apply inline-flex items-center mt-2 px-2 py-1 rounded-xl text-xs font-medium;
+	@apply inline-flex items-center mt-2 px-2 py-0.5 text-base font-medium rounded-xl;
 
 	.status-indicator {
 		@apply inline-block w-2 h-2 rounded-full mr-1.5;
@@ -335,7 +335,7 @@
 @utility reason-header {
 	@apply font-semibold mb-1 flex justify-between items-center;
 	color: var(--color-reason-header);
-	font-size: 12px;
+	font-size: 17px;
 
 	&.integration {
 		color: var(--color-status-integration);
@@ -343,7 +343,7 @@
 }
 
 @utility reason-message {
-	@apply text-xs-plus leading-normal mb-2 whitespace-pre-wrap;
+	@apply text-base leading-normal mb-2 whitespace-pre-wrap;
 	color: var(--color-reason-message);
 }
 
@@ -352,7 +352,7 @@
 }
 
 @utility evidence-item {
-	@apply text-2xs px-2 py-1 rounded;
+	@apply text-sm px-2 py-1 rounded;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
 	border: 1px solid var(--color-evidence-border);
@@ -369,18 +369,18 @@
 }
 
 @utility outfit-name {
-	@apply font-semibold text-2xs;
+	@apply font-semibold text-xs-plus;
 	color: var(--color-text);
 }
 
 @utility outfit-confidence-badge {
-	@apply px-1.5 py-0.5 rounded text-3xs font-bold;
+	@apply px-1.5 py-0.5 rounded text-2xs font-bold;
 	background-color: var(--color-status-outfit);
 	color: white;
 }
 
 @utility outfit-reason {
-	@apply text-2xs leading-tight;
+	@apply text-xs-plus leading-tight;
 	color: var(--color-evidence-text);
 }
 

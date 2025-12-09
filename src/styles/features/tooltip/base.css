@@ -4,6 +4,7 @@
 
 @utility rtcr-tooltip-container {
 	@apply fixed rounded p-0 border max-h-[520px] text-sm-plus whitespace-normal break-words text-center flex flex-col cursor-pointer opacity-100 visible z-[9999];
+	font-family: var(--font-system);
 	background-color: var(--color-bg-content);
 	color: var(--color-text);
 	border-color: var(--color-border);
@@ -55,6 +56,7 @@
 
 @utility expanded-tooltip {
 	@apply fixed border rounded-lg p-0 max-w-2xl w-[90%] max-h-[80vh] overflow-hidden flex flex-col cursor-auto;
+	font-family: var(--font-system);
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
 	color: var(--color-text);
@@ -93,7 +95,7 @@
 }
 
 @utility tooltip-profile-header {
-	@apply flex items-center p-5 rounded-t-lg relative overflow-visible mb-0 border-b-0;
+	@apply flex items-center pt-5 px-5 pb-0 rounded-t-lg relative overflow-visible mb-0 border-b-0;
 	background: linear-gradient(
 		to bottom,
 		var(--color-bg-content) 0%,
@@ -122,17 +124,17 @@
 }
 
 @utility tooltip-username {
-	@apply text-lg font-semibold mb-1 whitespace-nowrap overflow-hidden text-ellipsis;
+	@apply text-lg font-semibold mb-0 whitespace-nowrap overflow-hidden text-ellipsis;
 	color: var(--color-text-heading);
 }
 
 @utility tooltip-user-id {
-	@apply text-xs opacity-90 font-medium;
+	@apply text-base opacity-90 font-medium;
 	color: var(--color-text-subtle);
 }
 
 @utility tooltip-header {
-	@apply flex flex-col items-center text-center px-3 pt-2 pb-1;
+	@apply flex flex-col items-center text-center px-3 pt-2 pb-1 text-base;
 	border-bottom: none !important; /* workaround: not sure what's causing the border */
 	margin: 8px 0;
 	gap: 8px;

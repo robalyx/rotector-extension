@@ -50,7 +50,7 @@ export default defineConfig({
 		name: '__MSG_extensionName__',
 		description: '__MSG_extensionDescription__',
 		default_locale: 'en',
-		version: '2.6.0',
+		version: '2.7.0',
 		permissions: ['storage'],
 		host_permissions: [`https://${apiDomain}/*`],
 		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],

@@ -16,17 +16,22 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.6.0',
-		version: '2.6.0',
+		id: 'v2.7.0',
+		version: '2.7.0',
 		date: '2025-12-02',
 		title: 'Onboarding & Improvements',
 		summary:
-			'This update introduces a guided onboarding experience for new users, along with performance improvements and bug fixes.',
+			'This update introduces a guided onboarding experience for new users, an experimental content blur feature, and various improvements.',
 		changes: [
 			{
 				type: 'added',
 				description:
 					'Onboarding experience - New users are guided through the extension features with an interactive walkthrough covering status indicators, tooltips, voting, and the queue system'
+			},
+			{
+				type: 'added',
+				description:
+					'Content blur - Optionally blur display names, usernames, descriptions, and avatars for flagged users'
 			},
 			{
 				type: 'added',
@@ -41,12 +46,22 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description:
+					'Settings reorganization - Experimental features now grouped in dedicated section'
+			},
+			{
+				type: 'changed',
+				description:
 					'Faster status loading - Status indicators now load more smoothly with progressive updates'
 			},
 			{
 				type: 'changed',
 				description:
 					'Chrome Web Store listing - Extension now displays all 24 supported languages in the store'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Tooltip typography - Resolved broken font sizes and spacing for better readability'
 			},
 			{
 				type: 'fixed',

@@ -551,3 +551,62 @@
 	@apply text-sm;
 	color: var(--color-text);
 }
+
+/* =================================
+   PRESET MODAL CONTENT
+   ================================= */
+
+@utility onboarding-preset-intro {
+	@apply mb-5;
+
+	& p {
+		@apply text-sm leading-relaxed m-0;
+		color: var(--color-text);
+	}
+}
+
+@utility onboarding-preset-cards {
+	@apply grid grid-cols-2 gap-4;
+}
+
+@utility onboarding-preset-card {
+	@apply flex flex-col items-center gap-3 p-5 rounded-xl cursor-pointer transition-all duration-200 border-2;
+	background-color: var(--color-bg-tertiary);
+	border-color: transparent;
+
+	&:hover {
+		background-color: var(--color-card-hover);
+		border-color: var(--color-border-subtle);
+	}
+
+	&:focus {
+		@apply outline-none;
+		border-color: var(--color-primary);
+	}
+
+	&.selected {
+		border-color: var(--color-primary);
+		background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-bg-tertiary));
+	}
+}
+
+@utility onboarding-preset-icon {
+	@apply mb-2;
+	color: var(--color-text-subtle);
+}
+
+@utility onboarding-preset-title {
+	@apply text-base font-semibold text-center;
+	color: var(--color-text-heading);
+}
+
+@utility onboarding-preset-description {
+	@apply text-xs text-center leading-relaxed;
+	color: var(--color-text-subtle);
+}
+
+@utility onboarding-preset-notice {
+	@apply flex items-center gap-2 mt-5 p-3 rounded-lg text-xs;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-subtle);
+}

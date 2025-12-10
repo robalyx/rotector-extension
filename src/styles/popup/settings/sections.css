@@ -92,3 +92,35 @@
 @utility nested-legend {
 	@apply flex items-center justify-end -mt-3.5 mb-1 px-1;
 }
+
+@utility preset-selector-row {
+	@apply flex items-center justify-between px-2 py-2 mb-2;
+}
+
+@utility preset-selector-label {
+	@apply text-xs font-medium;
+	color: var(--color-text);
+}
+
+@utility preset-selector-controls {
+	@apply flex items-center gap-1.5;
+}
+
+@utility preset-selector-dropdown {
+	@apply px-2.5 py-1.5 text-xs rounded-md border cursor-pointer appearance-none pr-7;
+	background-color: var(--color-bg-tertiary);
+	border-color: var(--color-border-subtle);
+	color: var(--color-text);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+
+	&:hover {
+		background-color: var(--color-card-hover);
+	}
+
+	&:focus {
+		@apply outline-none ring-1;
+		--tw-ring-color: var(--color-primary);
+	}
+}

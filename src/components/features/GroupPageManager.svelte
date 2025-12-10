@@ -12,6 +12,7 @@
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import { groupStatusService } from '@/lib/services/entity-status-service';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
 
@@ -25,6 +26,7 @@
 	// Status state owned by this component
 	let groupStatus = $state<GroupStatus | null>(null);
 	let isLoading = $state(true);
+	let error = $state<string | undefined>(undefined);
 
 	let showGroups = $state(false);
 	let mountedComponents = $state(new Map<string, { destroy?: () => void }>());
@@ -36,8 +38,16 @@
 			return;
 		}
 
+		// Block group lookups when restricted
+		if ($restrictedAccessStore.isRestricted) {
+			error = 'restricted_access';
+			isLoading = false;
+			return;
+		}
+
 		let cancelled = false;
 		isLoading = true;
+		error = undefined;
 
 		groupStatusService
 			.getStatus(groupId)
@@ -46,9 +56,9 @@
 				groupStatus = status;
 				isLoading = false;
 			})
-			.catch((error) => {
+			.catch((err) => {
 				if (cancelled) return;
-				logger.error('Failed to load group status:', error);
+				logger.error('Failed to load group status:', err);
 				isLoading = false;
 			});
 
@@ -122,7 +132,7 @@
 				entityId: groupId!,
 				entityType: ENTITY_TYPES.GROUP,
 				get entityStatus() {
-					return wrapGroupStatus(groupStatus, isLoading);
+					return wrapGroupStatus(groupStatus, isLoading, error);
 				},
 				skipAutoFetch: true,
 				showText: true

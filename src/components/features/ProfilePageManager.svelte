@@ -18,6 +18,7 @@
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryUserProgressive } from '@/lib/services/unified-query-service';
+	import { markProfileElementsForBlur, revealProfileElements } from '@/lib/services/blur-service';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -50,6 +51,7 @@
 	let friendWarningOpen = $state(false);
 	let showCarousel = $state(false);
 	let showGroupsShowcase = $state(false);
+	let profileElementsReady = $state(false);
 
 	// Component references
 	let queueModalManager: QueueModalManagerInstance | undefined;
@@ -62,9 +64,16 @@
 	$effect(() => {
 		cancelQuery = queryUserProgressive(userId, (status) => {
 			userStatus = status;
+			revealProfileElements(status);
 		});
 
 		return () => cancelQuery?.();
+	});
+
+	// Mark profile elements for blur tracking
+	$effect(() => {
+		if (!profileElementsReady) return;
+		markProfileElementsForBlur(userId);
 	});
 
 	// Initialize components when mounted
@@ -83,6 +92,8 @@
 				setupCarousel(),
 				setupGroupsShowcase()
 			]);
+
+			profileElementsReady = true;
 
 			logger.debug('ProfilePageManager initialized successfully');
 		} catch (error) {
@@ -297,6 +308,7 @@
 		cancelQuery?.();
 		cancelQuery = queryUserProgressive(userId, (status) => {
 			userStatus = status;
+			revealProfileElements(status);
 		});
 	}
 
@@ -522,5 +534,5 @@
 
 <!-- Groups Showcase Manager -->
 {#if showGroupsShowcase}
-	<GroupListManager onError={handleGroupsShowcaseError} />
+	<GroupListManager onError={handleGroupsShowcaseError} profileOwnerId={userId} />
 {/if}

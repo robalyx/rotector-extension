@@ -71,15 +71,23 @@
 	});
 
 	const statusConfig = $derived(() => {
-		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
-		const rotectorStatus = rotector?.data ?? cachedStatus;
-		const rotectorLoading = rotector?.loading ?? false;
-
-		if (isRestricted && !isSelfLookup && !rotectorStatus && !rotectorLoading) {
-			return getStatusConfig(null, null, false, 'restricted_access', entityType);
+		if (!entityStatus) {
+			return getStatusConfig(cachedStatus, cachedStatus, true, null, entityType);
 		}
 
-		return getStatusConfig(rotectorStatus, cachedStatus, rotectorLoading, error, entityType);
+		const rotector = entityStatus.customApis.get(ROTECTOR_API_ID);
+		const rotectorStatus = rotector?.data ?? cachedStatus;
+		const rotectorLoading = rotector?.loading ?? false;
+		const rotectorError = rotector?.error ?? null;
+		const effectiveError = rotectorError || error;
+
+		return getStatusConfig(
+			rotectorStatus,
+			cachedStatus,
+			rotectorLoading,
+			effectiveError,
+			entityType
+		);
 	});
 
 	const isGroup = $derived(() => entityType === 'group');

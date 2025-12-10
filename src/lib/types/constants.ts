@@ -21,7 +21,7 @@ export const ENTITY_TYPES = {
 
 // API Configuration
 const API_DOMAIN =
-	import.meta.env.USE_DEV_API === 'true' ? 'dev-roscoe.robalyx.com' : 'roscoe.robalyx.com';
+	import.meta.env.USE_DEV_API === 'true' ? 'roscoe-dev.rotector.com' : 'roscoe.rotector.com';
 
 export const API_CONFIG = {
 	BASE_URL: `https://${API_DOMAIN}`,
@@ -247,6 +247,44 @@ export const REPORT_PAGE_SELECTORS = {
 	COMMENT_TEXTAREA: 'textarea.foundation-web-text-area',
 	DROPDOWN_OPTION: '[role="option"]',
 	SUBMIT_BUTTON: '.single-step-footer button[type="button"]'
+} as const;
+
+// DOM selectors for blur feature
+export const BLUR_SELECTORS = {
+	// Friend carousel tiles
+	CAROUSEL_DISPLAY_NAME: '.friends-carousel-display-name',
+
+	// Avatar cards
+	CARD_DISPLAY_NAME: '.avatar-name',
+	CARD_USERNAME: '.avatar-card-label',
+
+	// Profile page
+	PROFILE_DISPLAY_NAME: '.profile-header-title-container [class*="Typography-h1"]',
+	PROFILE_USERNAME: '.profile-header-username',
+	PROFILE_DESCRIPTION: '.profile-about-text',
+	PROFILE_AVATAR: '.profile-avatar-thumb',
+	PROFILE_OUTFIT_RENDERER: '.thumbnail-holder .thumbnail-2d-container',
+	PROFILE_CURRENTLY_WEARING: '.profile-item-card .thumbnail-2d-container',
+
+	// Avatar selectors
+	CAROUSEL_AVATAR: '.friends-carousel-tile .avatar-card-image',
+	FRIENDS_LIST_AVATAR: '.list-item.avatar-card .thumbnail-2d-container',
+	SEARCH_AVATAR: 'li.player-item.avatar-card .thumbnail-2d-container',
+	MEMBERS_AVATAR: '.list-item.member .thumbnail-2d-container',
+
+	// Relative selectors
+	TILE_CAROUSEL_AVATAR: '.avatar-card-image',
+	TILE_THUMBNAIL: '.thumbnail-2d-container',
+
+	// Member tiles
+	MEMBER_USERNAME: '.member-name',
+
+	// Search results
+	SEARCH_DISPLAY_NAME: '.avatar-name-container .avatar-name',
+
+	// Data attributes for blur state tracking
+	BLUR_USER_ID: 'data-blur-user-id',
+	BLUR_TYPE: 'data-blur-type'
 } as const;
 
 // Vote types

@@ -23,8 +23,10 @@ import type {
 	ZoneHistoricalStats
 } from '../types/api';
 import type { Statistics } from '../types/statistics';
+import { restrictedAccessStore } from '../stores/restricted-access';
 import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
+import { get } from 'svelte/store';
 
 // Send message to background script with retry logic
 async function sendMessage<T>(
@@ -138,6 +140,15 @@ class RotectorApiClient {
 		inappropriateFriends = false,
 		inappropriateGroups = false
 	): Promise<QueueResult> {
+		// Block queueing other users when restricted
+		const { isRestricted } = get(restrictedAccessStore);
+		if (isRestricted) {
+			const loggedInUserId = getLoggedInUserId();
+			if (loggedInUserId !== userId.toString()) {
+				throw new Error('Cannot queue users while access is restricted');
+			}
+		}
+
 		return sendMessage<QueueResult>(
 			API_ACTIONS.QUEUE_USER,
 			{

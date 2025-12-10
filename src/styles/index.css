@@ -92,3 +92,6 @@
 
 /* Onboarding */
 @import './features/onboarding/onboarding.css';
+
+/* Content Blur */
+@import './features/blur.css';

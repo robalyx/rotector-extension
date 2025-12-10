@@ -246,7 +246,8 @@
 
 	// Effective restricted state
 	const effectivelyRestricted = $derived(
-		isRestricted && !isSelfLookup && !activeStatus && !activeLoading
+		activeError === 'restricted_access' ||
+			(isRestricted && !isSelfLookup && !activeStatus && !activeLoading && !activeError)
 	);
 
 	// Get custom API badges for active tab

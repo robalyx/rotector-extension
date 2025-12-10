@@ -7,7 +7,8 @@
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
 	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
-	import { initializeSettings } from '@/lib/stores/settings';
+	import { initializeSettings, settings } from '@/lib/stores/settings';
+	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
@@ -24,6 +25,7 @@
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
 	let currentPage = $state<Page | null>(null);
+	const showWarzone = $derived($settings[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED] ?? false);
 
 	function handlePageChange(page: Page) {
 		currentPage = page;
@@ -103,7 +105,7 @@
 	</div>
 
 	<!-- Navigation -->
-	<Navbar {currentPage} onPageChange={handlePageChange} />
+	<Navbar {currentPage} onPageChange={handlePageChange} {showWarzone} />
 
 	<!-- Page Content -->
 	<div class="page-content">

@@ -11,8 +11,28 @@ interface StatusBadges {
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
 export function wrapGroupStatus(
 	groupStatus: GroupStatus | null,
-	isLoading = false
+	isLoading = false,
+	error?: string
 ): CombinedStatus | null {
+	// Show error state
+	if (error) {
+		return {
+			customApis: new Map([
+				[
+					ROTECTOR_API_ID,
+					{
+						apiId: ROTECTOR_API_ID,
+						apiName: 'Rotector',
+						error,
+						loading: false,
+						timestamp: Date.now(),
+						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
+					}
+				]
+			])
+		};
+	}
+
 	// Show loading state while fetching
 	if (isLoading) {
 		return {

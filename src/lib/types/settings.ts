@@ -25,8 +25,7 @@ export const SETTINGS_KEYS = {
 	BLUR_AVATARS: 'blurAvatars',
 	EXPERIMENTAL_BLUR_ENABLED: 'experimentalBlurEnabled',
 	EXPERIMENTAL_CUSTOM_APIS_ENABLED: 'experimentalCustomApisEnabled',
-	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled',
-	AGE_PRESET: 'agePreset'
+	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -69,7 +68,6 @@ export interface Settings {
 	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: boolean;
-	[SETTINGS_KEYS.AGE_PRESET]: AgePreset;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -97,8 +95,7 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.BLUR_AVATARS]: false,
 	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: false,
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false,
-	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: false,
-	[SETTINGS_KEYS.AGE_PRESET]: 'custom'
+	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: false
 };
 
 interface SettingCategory {

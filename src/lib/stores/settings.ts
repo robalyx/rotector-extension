@@ -98,10 +98,8 @@ export const currentPreset = derived(settings, ($settings) => detectAgePreset($s
 export async function applyAgePreset(
 	preset: typeof AGE_PRESETS.MINOR | typeof AGE_PRESETS.ADULT
 ): Promise<void> {
-	const presetSettings: Partial<Settings> = {
-		...(preset === AGE_PRESETS.MINOR ? MINOR_PRESET_SETTINGS : ADULT_PRESET_SETTINGS),
-		[SETTINGS_KEYS.AGE_PRESET]: preset
-	};
+	const presetSettings: Partial<Settings> =
+		preset === AGE_PRESETS.MINOR ? MINOR_PRESET_SETTINGS : ADULT_PRESET_SETTINGS;
 
 	try {
 		// Update all preset settings in storage

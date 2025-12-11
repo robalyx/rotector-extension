@@ -15,7 +15,6 @@ export const SETTINGS_KEYS = {
 	LANGUAGE_OVERRIDE: 'languageOverride',
 	CHANGELOG_DISMISSED_VERSION: 'changelogDismissedVersion',
 	CHANGELOG_SECTION_EXPANDED: 'changelogSectionExpanded',
-	ADVANCED_VIOLATION_BANNER_DISMISSED: 'advancedViolationBannerDismissed',
 	CUSTOM_APIS: 'customApis',
 	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab',
 	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled',
@@ -32,6 +31,14 @@ export const SETTINGS_KEYS = {
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
 
 export type Theme = 'light' | 'dark' | 'auto';
+
+export const AGE_PRESETS = {
+	MINOR: 'minor',
+	ADULT: 'adult',
+	CUSTOM: 'custom'
+} as const;
+
+export type AgePreset = (typeof AGE_PRESETS)[keyof typeof AGE_PRESETS];
 
 export interface Settings {
 	[SETTINGS_KEYS.HOME_CHECK_ENABLED]: boolean;
@@ -50,7 +57,6 @@ export interface Settings {
 	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: string;
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: string;
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: boolean;
-	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: boolean;
 	[SETTINGS_KEYS.CUSTOM_APIS]?: string;
 	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: boolean;
@@ -81,7 +87,6 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: 'auto',
 	[SETTINGS_KEYS.CHANGELOG_DISMISSED_VERSION]: '',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
-	[SETTINGS_KEYS.ADVANCED_VIOLATION_BANNER_DISMISSED]: false,
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false,
 	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: false,
 	[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: false,

@@ -7,10 +7,11 @@
 	} from '@/lib/stores/onboarding';
 	import WelcomeModal from './WelcomeModal.svelte';
 	import LanguageModal from './LanguageModal.svelte';
+	import PresetModal from './PresetModal.svelte';
 	import GuideModal from './GuideModal.svelte';
 	import FinishModal from './FinishModal.svelte';
 
-	type OnboardingStep = 'welcome' | 'language' | 'guide' | 'finish';
+	type OnboardingStep = 'welcome' | 'language' | 'preset' | 'guide' | 'finish';
 
 	let currentStep = $state<OnboardingStep>('welcome');
 	let showOnboarding = $state(false);
@@ -33,8 +34,13 @@
 		currentStep = 'language';
 	}
 
-	// Proceed from language settings to feature guide
+	// Proceed from language settings to preset selection
 	function handleLanguageContinue() {
+		currentStep = 'preset';
+	}
+
+	// Proceed from preset selection to feature guide
+	function handlePresetContinue() {
 		currentStep = 'guide';
 	}
 
@@ -59,6 +65,8 @@
 		<WelcomeModal onContinue={handleWelcomeContinue} onDismiss={handleDismiss} />
 	{:else if currentStep === 'language'}
 		<LanguageModal onContinue={handleLanguageContinue} onDismiss={handleDismiss} />
+	{:else if currentStep === 'preset'}
+		<PresetModal onContinue={handlePresetContinue} onDismiss={handleDismiss} />
 	{:else if currentStep === 'guide'}
 		<GuideModal onDismiss={handleDismiss} onFinish={handleGuideComplete} />
 	{:else if currentStep === 'finish'}

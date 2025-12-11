@@ -136,7 +136,7 @@
 }
 
 @utility modal-content-list {
-	@apply mt-2 mb-0 pl-6 list-none;
+	@apply mt-2 mb-0 pl-4 list-none;
 }
 
 @utility modal-content-list-item {

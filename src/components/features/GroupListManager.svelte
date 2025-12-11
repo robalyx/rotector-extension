@@ -13,7 +13,6 @@
 	} from '@/lib/types/constants';
 	import { groupStatusService } from '@/lib/services/entity-status-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
-	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement, waitForAllItems } from '@/lib/utils/element-waiter';
@@ -22,19 +21,11 @@
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 
 	interface Props {
-		profileOwnerId?: string;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
 
-	let { profileOwnerId, onError, onMount }: Props = $props();
-
-	// Check if viewing own profile's groups
-	function isOwnProfileGroups(): boolean {
-		if (!profileOwnerId) return false;
-		const loggedInUserId = getLoggedInUserId();
-		return loggedInUserId === profileOwnerId;
-	}
+	let { onError, onMount }: Props = $props();
 
 	// Local state
 	let slideshowObserver: Observer | null = null;
@@ -353,8 +344,8 @@
 	// Process groups with batch status fetching
 	async function processGroups(groupDetails: GroupDetails[]) {
 		try {
-			// Block group lookups when restricted unless viewing own profile
-			if ($restrictedAccessStore.isRestricted && !isOwnProfileGroups()) {
+			// Block group lookups when restricted
+			if ($restrictedAccessStore.isRestricted) {
 				for (const groupDetail of groupDetails) {
 					const { groupId, element, nameElement } = groupDetail;
 					element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);

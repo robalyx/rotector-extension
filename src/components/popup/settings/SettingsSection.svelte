@@ -3,7 +3,13 @@
 	import HelpIndicator from '../../ui/HelpIndicator.svelte';
 	import Modal from '../../ui/Modal.svelte';
 	import NumberInput from '../../ui/NumberInput.svelte';
-	import { initializeSettings, settings, updateSetting } from '@/lib/stores/settings';
+	import {
+		initializeSettings,
+		settings,
+		updateSetting,
+		currentPreset,
+		applyAgePreset
+	} from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { setLanguage, getAvailableLocales } from '@/lib/stores/i18n';
 	import {
@@ -14,6 +20,7 @@
 	} from '@/lib/utils/permissions';
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
+		AGE_PRESETS,
 		EXPERIMENTAL_BLUR_CATEGORY,
 		EXPERIMENTAL_DEVELOPER_CATEGORY,
 		SETTING_CATEGORIES,
@@ -34,7 +41,6 @@
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
-	let highlightedSetting = $state<string | null>(null);
 
 	// Toggle API key input field visibility between text and password
 	function toggleApiKeyVisibility() {
@@ -65,6 +71,13 @@
 	async function handleLanguageChange(localeCode: string) {
 		await setLanguage(localeCode);
 		await updateSetting(SETTINGS_KEYS.LANGUAGE_OVERRIDE, localeCode);
+	}
+
+	// Handle preset change
+	async function handlePresetChange(preset: string) {
+		if (preset === AGE_PRESETS.MINOR || preset === AGE_PRESETS.ADULT) {
+			await applyAgePreset(preset);
+		}
 	}
 
 	// Handle API key input changes
@@ -113,15 +126,6 @@
 		showMatureWarning = false;
 	}
 
-	// Highlight a specific setting temporarily
-	export function highlightSetting(settingKey: string) {
-		highlightedSetting = settingKey;
-
-		setTimeout(() => {
-			highlightedSetting = null;
-		}, 4000);
-	}
-
 	// Check if all settings in a category are enabled
 	function areAllCategorySettingsEnabled(categorySettings: Array<{ key: SettingsKey }>): boolean {
 		return categorySettings.every((setting) => Boolean($settings[setting.key]));
@@ -149,6 +153,23 @@
       dark:bg-bg-content-dark
     "
 >
+	<!-- Preset Selector -->
+	<div class="preset-selector-row">
+		<span class="preset-selector-label">{$_('settings_label_preset')}</span>
+		<div class="preset-selector-controls">
+			<select
+				class="preset-selector-dropdown"
+				onchange={(e) => handlePresetChange(e.currentTarget.value)}
+				value={$currentPreset}
+			>
+				<option value={AGE_PRESETS.MINOR}>{$_('settings_preset_minor')}</option>
+				<option value={AGE_PRESETS.ADULT}>{$_('settings_preset_adult')}</option>
+				<option disabled value={AGE_PRESETS.CUSTOM}>{$_('settings_preset_custom')}</option>
+			</select>
+			<HelpIndicator text={$_('settings_help_preset')} />
+		</div>
+	</div>
+
 	{#each SETTING_CATEGORIES as category (category.titleKey)}
 		<fieldset
 			class="border-(--color-border-subtle) m-0 mb-2 rounded-sm border p-1.5 px-2 pb-2
@@ -157,9 +178,9 @@
 		>
 			<legend
 				class="text-text-subtle ml-0.5 px-1 text-2xs font-medium dark:text-text-subtle-dark
-					flex items-center w-[calc(100%-0.5rem)]"
+					{category.hasToggleAll ? 'flex items-center w-[calc(100%-0.5rem)]' : ''}"
 			>
-				<span>{$_(category.titleKey)}</span>
+				{$_(category.titleKey)}
 				{#if category.hasToggleAll && category.settings.length > 0}
 					<span class="legend-line"></span>
 					<button
@@ -189,11 +210,7 @@
 							value={Number($settings[setting.key] ?? 1)}
 						/>
 					{:else if setting.key === SETTINGS_KEYS.LANGUAGE_OVERRIDE}
-						<div
-							class="setting-item"
-							class:setting-highlighted={highlightedSetting === setting.key}
-							data-setting-key={setting.key}
-						>
+						<div class="setting-item" data-setting-key={setting.key}>
 							<div class="setting-label">
 								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
@@ -212,11 +229,7 @@
 							</select>
 						</div>
 					{:else if setting.key === SETTINGS_KEYS.THEME}
-						<div
-							class="setting-item"
-							class:setting-highlighted={highlightedSetting === setting.key}
-							data-setting-key={setting.key}
-						>
+						<div class="setting-item" data-setting-key={setting.key}>
 							<div class="setting-label">
 								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
@@ -234,11 +247,7 @@
 							</select>
 						</div>
 					{:else}
-						<div
-							class="setting-item"
-							class:setting-highlighted={highlightedSetting === setting.key}
-							data-setting-key={setting.key}
-						>
+						<div class="setting-item" data-setting-key={setting.key}>
 							<div class="setting-label">
 								{$_(setting.labelKey)}
 								{#if setting.helpTextKey}
@@ -268,11 +277,7 @@
 		</legend>
 		<div class="settings-category">
 			<!-- Content Blur Master Toggle -->
-			<div
-				class="setting-item"
-				class:setting-highlighted={highlightedSetting === SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}
-				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}
-			>
+			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}>
 				<div class="setting-label">
 					{$_('settings_label_experimental_blur')}
 					<HelpIndicator text={$_('settings_help_experimental_blur')} />
@@ -306,11 +311,7 @@
 					</div>
 					<div class="settings-category">
 						{#each EXPERIMENTAL_BLUR_CATEGORY.settings as setting (setting.key)}
-							<div
-								class="setting-item"
-								class:setting-highlighted={highlightedSetting === setting.key}
-								data-setting-key={setting.key}
-							>
+							<div class="setting-item" data-setting-key={setting.key}>
 								<div class="setting-label">
 									{$_(setting.labelKey)}
 								</div>
@@ -325,12 +326,7 @@
 			{/if}
 
 			<!-- Custom API Integration Master Toggle -->
-			<div
-				class="setting-item"
-				class:setting-highlighted={highlightedSetting ===
-					SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}
-				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}
-			>
+			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}>
 				<div class="setting-label">
 					{$_('settings_label_experimental_custom_apis')}
 					<HelpIndicator text={$_('settings_help_experimental_custom_apis')} />
@@ -386,12 +382,7 @@
 			{/if}
 
 			<!-- War Zone Master Toggle -->
-			<div
-				class="setting-item"
-				class:setting-highlighted={highlightedSetting ===
-					SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}
-				data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}
-			>
+			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}>
 				<div class="setting-label">
 					{$_('settings_label_experimental_warzone')}
 					<HelpIndicator text={$_('settings_help_experimental_warzone')} />
@@ -404,11 +395,7 @@
 			</div>
 
 			<!-- Developer Mode Master Toggle -->
-			<div
-				class="setting-item"
-				class:setting-highlighted={highlightedSetting === SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
-				data-setting-key={SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}
-			>
+			<div class="setting-item" data-setting-key={SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}>
 				<div class="setting-label">
 					{$_('settings_label_developer_mode')}
 					<HelpIndicator text={$_('settings_help_developer_mode')} />
@@ -435,11 +422,7 @@
 									value={Number($settings[setting.key] ?? 5)}
 								/>
 							{:else}
-								<div
-									class="setting-item"
-									class:setting-highlighted={highlightedSetting === setting.key}
-									data-setting-key={setting.key}
-								>
+								<div class="setting-item" data-setting-key={setting.key}>
 									<div class="setting-label">
 										{$_(setting.labelKey)}
 										{#if setting.helpTextKey}
@@ -494,7 +477,7 @@
 	</fieldset>
 </div>
 
-<!-- Mature Content Warning Modal -->
+<!-- Content Warning Modal -->
 <Modal
 	confirmText={$_('settings_modal_confirm_button')}
 	onClose={closeMatureWarning}
@@ -505,24 +488,8 @@
 	bind:isOpen={showMatureWarning}
 >
 	<p class="mb-4 text-sm leading-relaxed">
-		<strong>{$_('settings_modal_warning_intro')}</strong>
-		{$_('settings_modal_warning_continuation')}
+		{$_('settings_modal_warning_text')}
 	</p>
-
-	<div class="modal-content-section-info">
-		<h4 class="modal-content-heading">{$_('settings_modal_enabled_heading')}</h4>
-		<ul class="modal-content-list">
-			<li class="modal-content-list-item-info">
-				{$_('settings_modal_enabled_item1')}
-			</li>
-			<li class="modal-content-list-item-info">
-				{$_('settings_modal_enabled_item2')}
-			</li>
-			<li class="modal-content-list-item-info">
-				{$_('settings_modal_enabled_item3')}
-			</li>
-		</ul>
-	</div>
 
 	<div class="modal-content-section-warning">
 		<h4 class="modal-content-heading">{$_('settings_modal_considerations_heading')}</h4>
@@ -533,19 +500,6 @@
 			<li class="modal-content-list-item-warning">
 				{$_('settings_modal_considerations_item2')}
 			</li>
-			<li class="modal-content-list-item-warning">
-				{$_('settings_modal_considerations_item3')}
-			</li>
-			<li class="modal-content-list-item-warning">
-				{$_('settings_modal_considerations_item4')}
-			</li>
 		</ul>
-	</div>
-
-	<div class="modal-content-section-recommendation">
-		<p class="m-0 text-sm leading-relaxed">
-			<strong>{$_('settings_modal_recommendation_label')}</strong>
-			{$_('settings_modal_recommendation_text')}
-		</p>
 	</div>
 </Modal>

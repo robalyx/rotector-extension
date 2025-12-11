@@ -83,7 +83,7 @@
 }
 
 @utility tooltip-badge {
-	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
+	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-xs font-semibold uppercase tracking-wider;
 }
 
 @utility tooltip-badge-reportable {
@@ -111,7 +111,7 @@
 }
 
 @utility custom-api-badge {
-	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-2xs font-semibold uppercase tracking-wider;
+	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-xs font-semibold uppercase tracking-wider;
 	background-color: var(--color-status-integration);
 	color: white;
 }
@@ -352,7 +352,7 @@
 }
 
 @utility evidence-item {
-	@apply text-sm px-2 py-1 rounded;
+	@apply text-base px-2 py-1 rounded;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
 	border: 1px solid var(--color-evidence-border);
@@ -369,18 +369,18 @@
 }
 
 @utility outfit-name {
-	@apply font-semibold text-xs-plus;
+	@apply font-semibold text-base;
 	color: var(--color-text);
 }
 
 @utility outfit-confidence-badge {
-	@apply px-1.5 py-0.5 rounded text-2xs font-bold;
+	@apply px-1.5 py-0.5 rounded text-xs font-bold;
 	background-color: var(--color-status-outfit);
 	color: white;
 }
 
 @utility outfit-reason {
-	@apply text-xs-plus leading-tight;
+	@apply text-base leading-tight;
 	color: var(--color-evidence-text);
 }
 

@@ -98,26 +98,10 @@ export const currentPreset = derived(settings, ($settings) => detectAgePreset($s
 export async function applyAgePreset(
 	preset: typeof AGE_PRESETS.MINOR | typeof AGE_PRESETS.ADULT
 ): Promise<void> {
-	const presetSettings: Partial<Settings> =
-		preset === AGE_PRESETS.MINOR
-			? {
-					[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
-					[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: true,
-					[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: true,
-					[SETTINGS_KEYS.BLUR_USERNAMES]: true,
-					[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: true,
-					[SETTINGS_KEYS.BLUR_AVATARS]: true,
-					[SETTINGS_KEYS.AGE_PRESET]: AGE_PRESETS.MINOR
-				}
-			: {
-					[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: true,
-					[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: false,
-					[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: false,
-					[SETTINGS_KEYS.BLUR_USERNAMES]: false,
-					[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: false,
-					[SETTINGS_KEYS.BLUR_AVATARS]: false,
-					[SETTINGS_KEYS.AGE_PRESET]: AGE_PRESETS.ADULT
-				};
+	const presetSettings: Partial<Settings> = {
+		...(preset === AGE_PRESETS.MINOR ? MINOR_PRESET_SETTINGS : ADULT_PRESET_SETTINGS),
+		[SETTINGS_KEYS.AGE_PRESET]: preset
+	};
 
 	try {
 		// Update all preset settings in storage

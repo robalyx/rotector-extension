@@ -185,6 +185,9 @@ function buildBlurCSS(allEnabled = false): string {
 			],
 			'filter: blur(6px) !important; clip-path: inset(0); user-select: none;'
 		);
+		rules.push(
+			`.friends-carousel-display-name:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
+		);
 	}
 
 	// Username/description blur
@@ -403,7 +406,9 @@ export function markUserElementForBlur(element: Element, userId: string, pageTyp
 	if (!isBlurEnabled() || isUserRevealed(userId)) return;
 	const { displayNames, usernames, avatars } = getBlurSettings();
 	const sel = PAGE_SELECTORS[pageType];
-	if (displayNames) markElement(element, sel.displayName, userId, 'displayName');
+	if (displayNames) {
+		markElement(element, sel.displayName, userId, 'displayName');
+	}
 	if (usernames) markElement(element, sel.username, userId, 'username');
 	if (avatars) markElement(element, sel.avatar, userId, 'avatar');
 }
@@ -415,11 +420,15 @@ export function markProfileElementsForBlur(userId: string): void {
 	if (!isBlurEnabled() || isUserRevealed(userId)) return;
 	const { displayNames, usernames, descriptions, avatars } = getBlurSettings();
 
-	if (displayNames)
+	if (displayNames) {
 		markElement(document, BLUR_SELECTORS.PROFILE_DISPLAY_NAME, userId, 'displayName');
-	if (usernames) markElement(document, BLUR_SELECTORS.PROFILE_USERNAME, userId, 'username');
-	if (descriptions)
+	}
+	if (usernames) {
+		markElement(document, BLUR_SELECTORS.PROFILE_USERNAME, userId, 'username');
+	}
+	if (descriptions) {
 		markElement(document, BLUR_SELECTORS.PROFILE_DESCRIPTION, userId, 'description');
+	}
 	if (avatars) {
 		markElement(document, BLUR_SELECTORS.PROFILE_AVATAR, userId, 'avatar');
 		markElement(document, BLUR_SELECTORS.PROFILE_OUTFIT_RENDERER, userId, 'avatar');

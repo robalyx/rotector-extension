@@ -1,12 +1,19 @@
 <script lang="ts">
+	import { Bell, BellOff } from 'lucide-svelte';
 	import { logger } from '@/lib/utils/logger';
 	import ChangelogContent from './ChangelogContent.svelte';
 	import {
 		changelogs,
 		changelogSectionExpanded,
-		toggleChangelogSection
+		toggleChangelogSection,
+		enableChangelogModal,
+		disableChangelogModal
 	} from '@/lib/stores/changelog';
+	import { settings } from '@/lib/stores/settings';
+	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { _ } from 'svelte-i18n';
+
+	const isModalDisabled = $derived($settings[SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED]);
 
 	// Handle toggle of the changelog section
 	async function handleToggle() {
@@ -14,6 +21,19 @@
 			await toggleChangelogSection();
 		} catch (error) {
 			logger.error('Failed to toggle changelog section:', error);
+		}
+	}
+
+	// Toggle changelog modal notifications
+	async function handleToggleNotifications() {
+		try {
+			if (isModalDisabled) {
+				await enableChangelogModal();
+			} else {
+				await disableChangelogModal();
+			}
+		} catch (error) {
+			logger.error('Failed to toggle changelog notifications:', error);
 		}
 	}
 </script>
@@ -38,6 +58,21 @@
           "
 				class:rotate-180={$changelogSectionExpanded}
 			></span>
+		</button>
+		<button
+			class="changelog-notification-toggle"
+			class:disabled={isModalDisabled}
+			onclick={handleToggleNotifications}
+			title={isModalDisabled
+				? $_('changelog_notifications_enable_tooltip')
+				: $_('changelog_notifications_disable_tooltip')}
+			type="button"
+		>
+			{#if isModalDisabled}
+				<BellOff size={14} />
+			{:else}
+				<Bell size={14} />
+			{/if}
 		</button>
 	</div>
 </div>

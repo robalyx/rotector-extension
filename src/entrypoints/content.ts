@@ -18,7 +18,9 @@ import {
 } from '@/lib/stores/restricted-access';
 import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
 import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur-service';
+import { shouldShowChangelogModal } from '@/lib/stores/changelog';
 import OnboardingManager from '@/components/onboarding/OnboardingManager.svelte';
+import ChangelogModal from '@/components/changelog/ChangelogModal.svelte';
 
 /**
  * Wait for document.body to exist.
@@ -135,6 +137,25 @@ export default defineContentScript({
 				logger.debug('Onboarding replay triggered from popup');
 			}
 
+			// Create container for changelog modal and mount if needed
+			const changelogContainer = document.createElement('div');
+			changelogContainer.id = 'rotector-changelog';
+			body.appendChild(changelogContainer);
+			registerPortalContainer(changelogContainer);
+
+			// Mount changelog modal if there are unread changelogs
+			if (get(shouldShowChangelogModal)) {
+				mount(ChangelogModal, {
+					target: changelogContainer,
+					props: {
+						onClose: () => {
+							logger.debug('Changelog modal closed');
+						}
+					}
+				});
+				logger.debug('Changelog modal mounted');
+			}
+
 			// Create portal container for tooltips
 			const portalContainer = document.createElement('div');
 			portalContainer.id = 'rotector-tooltip-portal';
@@ -207,6 +228,9 @@ export default defineContentScript({
 				logger.debug('Content script cleanup on page unload');
 				if (onboardingContainer) {
 					unregisterPortalContainer(onboardingContainer);
+				}
+				if (changelogContainer) {
+					unregisterPortalContainer(changelogContainer);
 				}
 				if (portalContainer) {
 					unregisterPortalContainer(portalContainer);

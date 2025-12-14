@@ -119,7 +119,7 @@
    CHANGE LIST STYLES
    ================================= */
 @utility changelog-type-list {
-	@apply list-none m-0 pl-6 space-y-1;
+	@apply list-none m-0 pl-8 space-y-1;
 }
 
 @utility changelog-change-item {
@@ -127,7 +127,7 @@
 	color: var(--color-text);
 
 	&::before {
-		@apply absolute left-[-16px] top-[6px] w-1.5 h-1.5 rounded-full;
+		@apply absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full;
 		content: '';
 		background-color: var(--color-border);
 	}

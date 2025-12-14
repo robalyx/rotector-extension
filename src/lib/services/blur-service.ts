@@ -230,6 +230,9 @@ function buildBlurCSS(allEnabled = false): string {
 	// Reveal override
 	rules.push(`.blur-revealed { filter: none !important; user-select: auto; }`);
 
+	// Disable link overlays
+	rules.push(`.avatar-container:has(.blur-clickable) > a { pointer-events: none; }`);
+
 	// Tile-level text reveal
 	const allTextSelectors: string[] = [];
 	if (bs.displayNames) {

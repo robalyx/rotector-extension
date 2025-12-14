@@ -1,0 +1,102 @@
+/* =================================
+   CHANGELOG MODAL OVERLAY & STRUCTURE
+   ================================= */
+
+@utility changelog-modal-overlay {
+	@apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
+
+	&.visible {
+		@apply opacity-100 visible;
+	}
+
+	&.closing {
+		@apply opacity-0;
+	}
+}
+
+@utility changelog-modal-popup {
+	@apply max-w-[95%] w-[520px] rounded-xl shadow-2xl border border-white/5 flex flex-col;
+	background-color: var(--color-bg-content);
+	transform: scale(0.95) translateY(20px);
+	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
+	max-height: 90vh;
+
+	.changelog-modal-overlay.visible & {
+		transform: scale(1) translateY(0);
+	}
+}
+
+@utility changelog-modal-header {
+	@apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl;
+	background-color: var(--color-bg-tertiary);
+
+	& h2 {
+		@apply text-lg font-semibold m-0;
+		color: var(--color-text-heading);
+	}
+}
+
+@utility changelog-modal-content {
+	@apply p-5 overflow-y-auto flex-1 flex flex-col gap-6;
+	min-height: min(200px, 40vh);
+	max-height: calc(90vh - 180px);
+	background-color: var(--color-bg-content);
+}
+
+@utility changelog-modal-logo {
+	@apply flex justify-center;
+
+	& img {
+		@apply h-20 w-auto;
+	}
+}
+
+@utility changelog-modal-footer {
+	@apply flex items-center justify-between gap-3 p-4 border-t border-white/10 rounded-b-xl;
+	background-color: var(--color-bg-content);
+}
+
+@utility changelog-modal-checkbox {
+	@apply flex items-center gap-2 cursor-pointer select-none;
+
+	& input[type='checkbox'] {
+		@apply w-4 h-4 rounded border-2 cursor-pointer appearance-none transition-all duration-200;
+		border-color: var(--color-text-subtle);
+		background-color: transparent;
+
+		&:checked {
+			background-color: var(--color-primary);
+			border-color: var(--color-primary);
+			background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+			background-size: 100% 100%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		&:focus {
+			@apply outline-none ring-2 ring-offset-2;
+			--tw-ring-color: var(--color-primary);
+			--tw-ring-offset-color: var(--color-bg-content);
+		}
+	}
+
+	& span {
+		@apply text-sm;
+		color: var(--color-text-subtle);
+	}
+}
+
+@utility changelog-modal-close-button {
+	@apply px-5 py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm min-w-[100px];
+	background-color: var(--color-primary);
+	color: white;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-primary-hover);
+		@apply shadow-md -translate-y-px;
+	}
+
+	&:disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
+}

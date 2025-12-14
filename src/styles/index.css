@@ -42,7 +42,6 @@
 @import './popup/stats/financial.css';
 @import './popup/stats/queue-limits.css';
 @import './popup/stats/charts.css';
-@import './popup/stats/banner.css';
 @import './popup/stats/section.css';
 @import './popup/stats/content.css';
 
@@ -92,6 +91,9 @@
 
 /* Onboarding */
 @import './features/onboarding/onboarding.css';
+
+/* Changelog Modal */
+@import './features/changelog/modal.css';
 
 /* Content Blur */
 @import './features/blur.css';

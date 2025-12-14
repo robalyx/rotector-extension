@@ -14,6 +14,18 @@ export const settings = writable<Settings>(SETTINGS_DEFAULTS);
 // Initialize settings from storage
 export async function initializeSettings(): Promise<void> {
 	try {
+		// Get all stored settings to check for obsolete keys
+		const allStored = await browser.storage.sync.get(null);
+
+		// Find and remove obsolete keys
+		const validKeys = new Set(Object.keys(SETTINGS_DEFAULTS));
+		const obsoleteKeys = Object.keys(allStored).filter((key) => !validKeys.has(key));
+		if (obsoleteKeys.length > 0) {
+			await browser.storage.sync.remove(obsoleteKeys);
+			logger.debug('Removed obsolete settings:', obsoleteKeys);
+		}
+
+		// Load settings with defaults
 		const storedSettings = await browser.storage.sync.get(SETTINGS_DEFAULTS);
 		settings.set(storedSettings as Settings);
 	} catch (error) {

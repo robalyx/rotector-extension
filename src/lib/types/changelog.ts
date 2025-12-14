@@ -26,6 +26,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Changelog popup - After extension updates, a modal displays new changes on the Roblox homepage with option to disable future notifications'
+			},
+			{
+				type: 'added',
+				description:
 					'Onboarding experience - New users are guided through the extension features with an interactive walkthrough covering status indicators, tooltips, voting, and the queue system'
 			},
 			{

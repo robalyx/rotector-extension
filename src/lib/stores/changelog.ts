@@ -29,8 +29,7 @@ export const changelogSectionExpanded = derived(
 
 // Get all unread changelogs where versions newer than last seen
 export const unreadChangelogs = derived(settings, ($settings) => {
-	const lastSeen = $settings[SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION];
-	if (!lastSeen) return [];
+	const lastSeen = $settings[SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION] || '0.0.0';
 	return CHANGELOGS.filter((cl) => compareVersions(cl.version, lastSeen) > 0);
 });
 

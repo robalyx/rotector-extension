@@ -16,9 +16,9 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.7.0',
-		version: '2.7.0',
-		date: '2025-12-15',
+		id: 'v2.8.0',
+		version: '2.8.0',
+		date: '2025-12-19',
 		title: 'Onboarding & Improvements',
 		summary:
 			'This update introduces a guided onboarding experience for new users, an experimental content blur feature, and various improvements.',

@@ -46,11 +46,11 @@ export default defineConfig({
 			}
 		}
 	}),
-	manifest: {
+	manifest: ({ browser }) => ({
 		name: '__MSG_extensionName__',
 		description: '__MSG_extensionDescription__',
 		default_locale: 'en',
-		version: '2.7.0',
+		version: '2.8.0',
 		permissions: ['storage'],
 		host_permissions: [`https://${apiDomain}/*`],
 		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],
@@ -63,10 +63,12 @@ export default defineConfig({
 				matches: ['https://*.roblox.com/*']
 			}
 		],
-		browser_specific_settings: {
-			gecko: {
-				id: 'rotector@jaxron.me'
+		...(browser === 'firefox' && {
+			browser_specific_settings: {
+				gecko: {
+					id: 'rotector@jaxron.me'
+				}
 			}
-		}
-	}
+		})
+	})
 });

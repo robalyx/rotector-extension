@@ -24,12 +24,14 @@
 }
 
 @utility voting-title {
-	@apply text-sm font-semibold;
+	@apply font-semibold;
+	font-size: 15px;
 	color: var(--color-text-heading);
 }
 
 @utility voting-count {
-	@apply text-xs font-medium;
+	@apply font-medium;
+	font-size: 13px;
 	color: var(--color-text-subtle);
 }
 
@@ -50,7 +52,7 @@
 }
 
 @utility voting-stats {
-	@apply flex justify-between text-xs-plus px-0.5;
+	@apply flex justify-between text-xs px-0.5;
 	color: var(--color-text-subtle);
 }
 
@@ -94,7 +96,7 @@
 }
 
 @utility voting-description {
-	@apply text-center !text-xs-plus pt-2.5 mt-3 leading-normal italic opacity-90;
+	@apply text-center !text-xs pt-2.5 mt-3 leading-normal italic opacity-90;
 	color: var(--color-text) !important;
 	margin: 12px 0 0 0;
 }

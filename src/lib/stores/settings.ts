@@ -25,9 +25,12 @@ export async function initializeSettings(): Promise<void> {
 			logger.debug('Removed obsolete settings:', obsoleteKeys);
 		}
 
-		// Load settings with defaults
-		const storedSettings = await browser.storage.sync.get(SETTINGS_DEFAULTS);
-		settings.set(storedSettings as Settings);
+		// Load stored settings and merge with defaults
+		const storedSettings = await browser.storage.sync.get(Object.keys(SETTINGS_DEFAULTS));
+		const definedSettings = Object.fromEntries(
+			Object.entries(storedSettings).filter(([, v]) => v !== undefined)
+		);
+		settings.set({ ...SETTINGS_DEFAULTS, ...definedSettings } as Settings);
 	} catch (error) {
 		logger.error('Failed to load settings:', error);
 		settings.set(SETTINGS_DEFAULTS);

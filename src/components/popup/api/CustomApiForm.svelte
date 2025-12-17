@@ -2,6 +2,7 @@
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { logger } from '@/lib/utils/logger';
+	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import Modal from '../../ui/Modal.svelte';
 
@@ -13,10 +14,10 @@
 	let { editingApi, onClose }: Props = $props();
 
 	// Form state
-	let name = $state(editingApi?.name || '');
-	let url = $state(editingApi?.url || '');
-	let timeout = $state(editingApi?.timeout || 5000);
-	let landscapeImageDataUrl = $state(editingApi?.landscapeImageDataUrl || '');
+	let name = $state(untrack(() => editingApi?.name || ''));
+	let url = $state(untrack(() => editingApi?.url || ''));
+	let timeout = $state(untrack(() => editingApi?.timeout || 5000));
+	let landscapeImageDataUrl = $state(untrack(() => editingApi?.landscapeImageDataUrl || ''));
 
 	// Validation state
 	let nameError = $state('');

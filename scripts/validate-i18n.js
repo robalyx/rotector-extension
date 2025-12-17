@@ -323,9 +323,7 @@ function validateI18n() {
 		console.log(`${colors.red}${colors.bold}✗ Validation failed${colors.reset}\n`);
 		process.exit(1);
 	} else if (unusedKeys.size > 0) {
-		console.log(
-			`${colors.yellow}${colors.bold}⚠ Validation passed with warnings${colors.reset}\n`
-		);
+		console.log(`${colors.yellow}${colors.bold}⚠ Validation passed with warnings${colors.reset}\n`);
 		process.exit(0);
 	} else {
 		console.log(`${colors.green}${colors.bold}✓ Validation passed${colors.reset}\n`);

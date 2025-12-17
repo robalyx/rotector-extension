@@ -43,6 +43,10 @@
 	background-color: var(--color-bg-content);
 }
 
+@utility changelog-modal-item {
+	@apply pl-2;
+}
+
 @utility changelog-modal-logo {
 	@apply flex justify-center;
 

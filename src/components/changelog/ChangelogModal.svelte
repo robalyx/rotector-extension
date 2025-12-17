@@ -96,7 +96,9 @@
 						{/if}
 					</div>
 					{#each $unreadChangelogs as changelog (changelog.id)}
-						<ChangelogContent {changelog} />
+						<div class="changelog-modal-item">
+							<ChangelogContent {changelog} />
+						</div>
 					{/each}
 				</div>
 

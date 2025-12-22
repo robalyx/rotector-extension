@@ -2,6 +2,7 @@
 	import { calculateFundingPercentage, formatCurrency, statistics } from '@/lib/stores/statistics';
 	import WeeklyUsageChart from './WeeklyUsageChart.svelte';
 	import { ChevronDown } from 'lucide-svelte';
+	import SiKofi from '@icons-pack/svelte-simple-icons/icons/SiKofi';
 	import { _ } from 'svelte-i18n';
 
 	// Reactive values derived from statistics
@@ -100,7 +101,7 @@
 			title={$_('stats_financial_kofi_title')}
 			type="button"
 		>
-			<span class="kofi-button-icon" aria-hidden="true"></span>
+			<SiKofi size={16} />
 			{isFullyFunded ? $_('stats_financial_button_funded') : $_('stats_financial_button_support')}
 		</button>
 	</div>

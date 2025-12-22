@@ -54,6 +54,7 @@
 		"wxt": "^0.20.13"
 	},
 	"dependencies": {
+		"@icons-pack/svelte-simple-icons": "^6.5.0",
 		"lucide-svelte": "^0.561.0",
 		"lz-string": "^1.5.0",
 		"svelte-highlight": "^7.9.0",

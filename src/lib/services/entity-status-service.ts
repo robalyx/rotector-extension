@@ -1,5 +1,6 @@
 import { derived, get, writable } from 'svelte/store';
 import type { GroupStatus, UserStatus } from '../types/api';
+import { API_CONFIG } from '../types/constants';
 import { settings } from '../stores/settings';
 import { SETTINGS_KEYS } from '../types/settings';
 import { logger } from '../utils/logger';
@@ -30,6 +31,15 @@ class EntityStatusService<T extends EntityStatus> {
 		private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
 	) {}
 
+	// Splits array into chunks of specified size
+	private chunkArray<U>(array: U[], size: number): U[][] {
+		const chunks: U[][] = [];
+		for (let i = 0; i < array.length; i += size) {
+			chunks.push(array.slice(i, i + size));
+		}
+		return chunks;
+	}
+
 	// Gets entity status from cache or fetches from API
 	public async getStatus(entityId: string): Promise<T | null> {
 		const cached = this.getCachedStatus(entityId);
@@ -48,7 +58,9 @@ class EntityStatusService<T extends EntityStatus> {
 			});
 		}
 
-		logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', { entityId });
+		logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', {
+			entityId
+		});
 		return this.fetchStatus(entityId);
 	}
 
@@ -94,42 +106,51 @@ class EntityStatusService<T extends EntityStatus> {
 		}
 
 		if (toFetch.length > 0) {
+			const chunks = this.chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
+
 			logger.info(`${this.entityType}StatusService`, 'Batch fetching statuses', {
-				count: toFetch.length
+				count: toFetch.length,
+				chunks: chunks.length
 			});
 
-			try {
-				const batchStatuses = await this.fetchMultiple(toFetch);
+			for (let i = 0; i < chunks.length; i++) {
+				const chunk = chunks[i];
 
-				batchStatuses.forEach((status) => {
-					if (status && status.id) {
-						const entityId = status.id.toString();
-						this.cache.set(entityId, {
-							data: status,
-							timestamp: Date.now()
-						});
-						results.set(entityId, status);
-					}
-				});
+				// Delay between batches
+				if (i > 0) {
+					await new Promise((resolve) => setTimeout(resolve, API_CONFIG.BATCH_DELAY));
+				}
 
-				toFetch.forEach((entityId) => {
-					if (!results.has(entityId)) {
-						results.set(entityId, null);
-					}
-				});
+				try {
+					const batchStatuses = await this.fetchMultiple(chunk);
 
-				this.updateStore();
-			} catch (error) {
-				logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
-					error,
-					entityCount: toFetch.length,
-					entityIds: toFetch.slice(0, 5)
-				});
-
-				toFetch.forEach((entityId) => {
-					results.set(entityId, null);
-				});
+					batchStatuses.forEach((status) => {
+						if (status && status.id) {
+							const entityId = status.id.toString();
+							this.cache.set(entityId, {
+								data: status,
+								timestamp: Date.now()
+							});
+							results.set(entityId, status);
+						}
+					});
+				} catch (error) {
+					logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
+						error,
+						chunkIndex: i,
+						chunkSize: chunk.length
+					});
+				}
 			}
+
+			// Set null for any IDs that weren't returned
+			toFetch.forEach((entityId) => {
+				if (!results.has(entityId)) {
+					results.set(entityId, null);
+				}
+			});
+
+			this.updateStore();
 		}
 
 		return results;
@@ -142,12 +163,16 @@ class EntityStatusService<T extends EntityStatus> {
 			timestamp: Date.now()
 		});
 		this.updateStore();
-		logger.info(`${this.entityType}StatusService`, 'Status manually updated', { entityId });
+		logger.info(`${this.entityType}StatusService`, 'Status manually updated', {
+			entityId
+		});
 	}
 
 	// Preloads cache with entity statuses
 	public async warmCache(entityIds: string[]): Promise<void> {
-		logger.info(`${this.entityType}StatusService`, 'Warming cache', { count: entityIds.length });
+		logger.info(`${this.entityType}StatusService`, 'Warming cache', {
+			count: entityIds.length
+		});
 		await this.getStatuses(entityIds);
 	}
 
@@ -162,11 +187,16 @@ class EntityStatusService<T extends EntityStatus> {
 	public clearEntityCache(entityId: string): void {
 		this.cache.delete(entityId);
 		this.updateStore();
-		logger.info(`${this.entityType}StatusService`, 'Cache cleared for entity', { entityId });
+		logger.info(`${this.entityType}StatusService`, 'Cache cleared for entity', {
+			entityId
+		});
 	}
 
 	// Returns cache size and entry age statistics
-	public getCacheStats(): { size: number; entries: Array<{ entityId: string; age: number }> } {
+	public getCacheStats(): {
+		size: number;
+		entries: Array<{ entityId: string; age: number }>;
+	} {
 		const entries = Array.from(this.cache.entries()).map(([entityId, entry]) => ({
 			entityId,
 			age: Date.now() - entry.timestamp

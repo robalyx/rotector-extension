@@ -171,6 +171,7 @@ export const SEARCH_SELECTORS = {
 		AVATAR_IMG: '.thumbnail-2d-container img',
 		FULLBODY: '.avatar-card-fullbody'
 	},
+	FRIEND_BUTTON: '.btn-control-md, .mobile-card-btn',
 	NO_RESULTS: '.section-content-off.no-results',
 	PROFILE_LINK: 'a.avatar-card-link'
 } as const;

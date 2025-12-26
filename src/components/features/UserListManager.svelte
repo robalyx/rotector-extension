@@ -25,6 +25,7 @@
 		resetElementBlur,
 		revealUserElement
 	} from '@/lib/services/blur-service';
+	import { isFlagged } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -353,11 +354,14 @@
 				// Load user statuses in batches
 				await loadUserStatuses(newUsers);
 
-				// Reveal safe content and remount status indicators with data
+				// Reveal safe content, mark flagged users, and remount status indicators
 				newUsers.forEach((user) => {
 					const status = userStatuses.get(user.userId);
 					if (status) {
 						revealUserElement(user.element, status);
+						if (isFlagged(status)) {
+							user.element.setAttribute('data-rotector-flagged', 'true');
+						}
 					}
 					mountStatusIndicator(user, false);
 				});
@@ -369,6 +373,9 @@
 				markUserElementForBlur(user.element, user.userId, pageType);
 				if (status) {
 					revealUserElement(user.element, status);
+					if (isFlagged(status)) {
+						user.element.setAttribute('data-rotector-flagged', 'true');
+					}
 				}
 				mountStatusIndicator(user, false);
 			});

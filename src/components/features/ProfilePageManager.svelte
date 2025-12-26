@@ -11,7 +11,6 @@
 		PAGE_TYPES,
 		PROFILE_GROUPS_SHOWCASE_SELECTORS,
 		PROFILE_SELECTORS,
-		STATUS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
@@ -19,6 +18,7 @@
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryUserProgressive } from '@/lib/services/unified-query-service';
 	import { markProfileElementsForBlur, revealProfileElements } from '@/lib/services/blur-service';
+	import { isFlagged } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -36,16 +36,7 @@
 	let userStatus = $state<CombinedStatus | null>(null);
 
 	// Check if user is flagged by any API
-	const isFlagged = $derived(() => {
-		if (!userStatus) return false;
-		return Array.from(userStatus.customApis.values()).some(
-			(result) =>
-				result.data &&
-				(result.data.flagType === STATUS.FLAGS.UNSAFE ||
-					result.data.flagType === STATUS.FLAGS.PENDING ||
-					result.data.flagType === STATUS.FLAGS.MIXED)
-		);
-	});
+	const userIsFlagged = $derived(() => isFlagged(userStatus));
 
 	// Component state
 	let friendWarningOpen = $state(false);
@@ -208,7 +199,7 @@
 	// Set up friend warning if applicable
 	async function setupFriendWarning() {
 		try {
-			if (!isFlagged()) return;
+			if (!userIsFlagged()) return;
 
 			// Get the active friend button based on header version
 			const friendButton = await getActiveFriendButton();
@@ -508,7 +499,7 @@
 </script>
 
 <!-- Friend Warning Modal -->
-{#if isFlagged()}
+{#if userIsFlagged()}
 	<FriendWarning
 		isOpen={friendWarningOpen}
 		onBlock={handleFriendBlock}

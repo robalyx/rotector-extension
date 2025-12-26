@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { PROFILE_SELECTORS } from '@/lib/types/constants';
+	import { PROFILE_SELECTORS, SEARCH_SELECTORS } from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
@@ -132,6 +132,25 @@
 
 				// Get avatar image
 				const avatarImg = profileHeader.querySelector(`${PROFILE_SELECTORS.AVATAR_IMG}`);
+				if (avatarImg instanceof HTMLImageElement && avatarImg.src) {
+					avatarUrl = avatarImg.src;
+				}
+			}
+		} else {
+			// Try to find user info from search card
+			const searchCard = document.querySelector(
+				`${SEARCH_SELECTORS.CARD.CONTAINER}[data-rotector-user-id="${userId}"]`
+			);
+			if (searchCard) {
+				// Get username from search card
+				const usernameElement = searchCard.querySelector(SEARCH_SELECTORS.CARD.USERNAME);
+				if (usernameElement) {
+					const text = usernameElement.textContent?.trim() || '';
+					if (text) username = text;
+				}
+
+				// Get avatar image from search card
+				const avatarImg = searchCard.querySelector(SEARCH_SELECTORS.CARD.AVATAR_IMG);
 				if (avatarImg instanceof HTMLImageElement && avatarImg.src) {
 					avatarUrl = avatarImg.src;
 				}

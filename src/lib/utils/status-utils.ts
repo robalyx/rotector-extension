@@ -2,6 +2,7 @@ import type { UserStatus, GroupStatus } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
 import { ROTECTOR_API_ID } from '../services/unified-query-service';
 import { getAssetUrl } from './assets';
+import { STATUS } from '../types/constants';
 
 interface StatusBadges {
 	isReportable: boolean;
@@ -91,4 +92,19 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 		isReportable,
 		isOutfitOnly
 	};
+}
+
+/**
+ * Check if a user is flagged by any API with an actionable status
+ * (UNSAFE, PENDING, or MIXED).
+ */
+export function isFlagged(status: CombinedStatus | null): boolean {
+	if (!status) return false;
+	return Array.from(status.customApis.values()).some(
+		(result) =>
+			result.data &&
+			(result.data.flagType === STATUS.FLAGS.UNSAFE ||
+				result.data.flagType === STATUS.FLAGS.PENDING ||
+				result.data.flagType === STATUS.FLAGS.MIXED)
+	);
 }

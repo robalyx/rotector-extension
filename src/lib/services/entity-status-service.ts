@@ -4,6 +4,7 @@ import { API_CONFIG } from '../types/constants';
 import { settings } from '../stores/settings';
 import { SETTINGS_KEYS } from '../types/settings';
 import { logger } from '../utils/logger';
+import { chunkArray } from '../utils/array';
 import { apiClient } from './api-client';
 
 interface CacheEntry<T> {
@@ -30,15 +31,6 @@ class EntityStatusService<T extends EntityStatus> {
 		private readonly fetchSingle: (id: string) => Promise<T>,
 		private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
 	) {}
-
-	// Splits array into chunks of specified size
-	private chunkArray<U>(array: U[], size: number): U[][] {
-		const chunks: U[][] = [];
-		for (let i = 0; i < array.length; i += size) {
-			chunks.push(array.slice(i, i + size));
-		}
-		return chunks;
-	}
 
 	// Gets entity status from cache or fetches from API
 	public async getStatus(entityId: string): Promise<T | null> {
@@ -106,7 +98,7 @@ class EntityStatusService<T extends EntityStatus> {
 		}
 
 		if (toFetch.length > 0) {
-			const chunks = this.chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
+			const chunks = chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
 
 			logger.info(`${this.entityType}StatusService`, 'Batch fetching statuses', {
 				count: toFetch.length,

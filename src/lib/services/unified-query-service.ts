@@ -6,7 +6,8 @@ import { restrictedAccessStore } from '../stores/restricted-access';
 import { settings } from '../stores/settings';
 import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
-import { STATUS } from '../types/constants';
+import { chunkArray } from '../utils/array';
+import { API_CONFIG, STATUS } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { get } from 'svelte/store';
 
@@ -174,7 +175,7 @@ export function queryUserProgressive(
 	};
 }
 
-// Query multiple users with batch optimization
+// Query multiple users with batch chunking
 export async function queryMultipleUsers(
 	userIds: string[],
 	lookupContext?: string
@@ -188,84 +189,104 @@ export async function queryMultipleUsers(
 
 	const enabledApis = getEnabledCustomApis();
 
-	// Query all APIs in parallel
-	const apiResults = await Promise.allSettled(
-		enabledApis.map(async (api) =>
-			api.isSystem && api.id === ROTECTOR_API_ID
-				? apiClient.checkMultipleUsers(userIds, { lookupContext })
-				: apiClient.checkMultipleUsers(userIds, { apiConfig: api })
-		)
-	);
-
 	// Initialize results map
 	const results = new Map<string, CombinedStatus>();
 	userIds.forEach((userId) => {
 		results.set(userId, { customApis: new Map() });
 	});
 
-	// Process each API's results
-	enabledApis.forEach((api, apiIndex) => {
-		const result = apiResults[apiIndex];
+	// Split user IDs into chunks
+	const chunks = chunkArray(userIds, API_CONFIG.BATCH_SIZE);
 
-		if (result.status === 'fulfilled') {
-			// Map successful responses by user ID
-			const userMap = new Map(result.value.map((status) => [status.id.toString(), status]));
+	logger.debug('Unified batch query starting:', {
+		userCount: userIds.length,
+		chunks: chunks.length,
+		totalApis: enabledApis.length
+	});
 
-			userIds.forEach((userId) => {
-				const combined = results.get(userId);
-				if (!combined) return;
+	// Process each chunk
+	let isFirstChunk = true;
+	for (const chunk of chunks) {
+		if (!isFirstChunk) {
+			await new Promise((resolve) => setTimeout(resolve, API_CONFIG.BATCH_DELAY));
+		}
+		isFirstChunk = false;
 
-				const userStatus = userMap.get(userId);
+		// Query APIs in parallel
+		const apiResults = await Promise.allSettled(
+			enabledApis.map(async (api) =>
+				api.isSystem && api.id === ROTECTOR_API_ID
+					? apiClient.checkMultipleUsers(chunk, { lookupContext })
+					: apiClient.checkMultipleUsers(chunk, { apiConfig: api })
+			)
+		);
 
-				combined.customApis.set(
-					api.id,
-					userStatus
-						? {
-								apiId: api.id,
-								apiName: api.name,
-								data: userStatus,
-								loading: false,
-								timestamp: Date.now(),
-								landscapeImageDataUrl: api.landscapeImageDataUrl
-							}
-						: {
-								apiId: api.id,
-								apiName: api.name,
-								error: 'User not found in response',
-								loading: false,
-								timestamp: Date.now(),
-								landscapeImageDataUrl: api.landscapeImageDataUrl
-							}
-				);
-			});
-		} else {
-			const errorMessage = result.reason instanceof Error ? result.reason.message : 'Unknown error';
+		// Process each API's results
+		enabledApis.forEach((api, apiIndex) => {
+			const result = apiResults[apiIndex];
 
-			userIds.forEach((userId) => {
-				const combined = results.get(userId);
-				if (!combined) return;
+			if (result.status === 'fulfilled') {
+				// Map successful responses by user ID
+				const userMap = new Map(result.value.map((status) => [status.id.toString(), status]));
 
-				combined.customApis.set(api.id, {
+				chunk.forEach((userId) => {
+					const combined = results.get(userId);
+					if (!combined) return;
+
+					const userStatus = userMap.get(userId);
+
+					combined.customApis.set(
+						api.id,
+						userStatus
+							? {
+									apiId: api.id,
+									apiName: api.name,
+									data: userStatus,
+									loading: false,
+									timestamp: Date.now(),
+									landscapeImageDataUrl: api.landscapeImageDataUrl
+								}
+							: {
+									apiId: api.id,
+									apiName: api.name,
+									error: 'User not found in response',
+									loading: false,
+									timestamp: Date.now(),
+									landscapeImageDataUrl: api.landscapeImageDataUrl
+								}
+					);
+				});
+			} else {
+				const errorMessage =
+					result.reason instanceof Error ? result.reason.message : 'Unknown error';
+
+				chunk.forEach((userId) => {
+					const combined = results.get(userId);
+					if (!combined) return;
+
+					combined.customApis.set(api.id, {
+						apiId: api.id,
+						apiName: api.name,
+						error: errorMessage,
+						loading: false,
+						timestamp: Date.now(),
+						landscapeImageDataUrl: api.landscapeImageDataUrl
+					});
+				});
+
+				logger.error('API batch error:', {
+					chunkSize: chunk.length,
 					apiId: api.id,
 					apiName: api.name,
-					error: errorMessage,
-					loading: false,
-					timestamp: Date.now(),
-					landscapeImageDataUrl: api.landscapeImageDataUrl
+					error: result.reason as Error
 				});
-			});
-
-			logger.error('API batch error:', {
-				userCount: userIds.length,
-				apiId: api.id,
-				apiName: api.name,
-				error: result.reason as Error
-			});
-		}
-	});
+			}
+		});
+	}
 
 	logger.debug('Unified batch query completed:', {
 		userCount: userIds.length,
+		chunks: chunks.length,
 		totalApis: enabledApis.length
 	});
 

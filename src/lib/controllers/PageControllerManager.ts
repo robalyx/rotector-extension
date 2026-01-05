@@ -149,7 +149,8 @@ export class PageControllerManager {
 				},
 				{ pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE },
 				{ pattern: /\/search\/users/, type: PAGE_TYPES.SEARCH_USER },
-				{ pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT }
+				{ pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT },
+				{ pattern: /\/(groups|communities)\/\d+/, type: PAGE_TYPES.MEMBERS }
 			];
 
 			// Check standard patterns
@@ -157,14 +158,6 @@ export class PageControllerManager {
 				if (pattern.test(pathname)) {
 					return type;
 				}
-			}
-
-			// Special case: Groups/Communities with hash
-			if (
-				(pathname.includes('/groups') || pathname.includes('/communities')) &&
-				urlObj.hash.includes('#!/about')
-			) {
-				return PAGE_TYPES.MEMBERS;
 			}
 
 			return null;

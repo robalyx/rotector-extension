@@ -333,9 +333,7 @@
 			case STATUS.FLAGS.PENDING:
 				return 'pending';
 			case STATUS.FLAGS.QUEUED:
-				return !isGroup && (currentStatus as UserStatus).processed === true
-					? 'likely-safe'
-					: 'pending';
+				return !isGroup && (currentStatus as UserStatus).processed === true ? 'safe' : 'pending';
 			case STATUS.FLAGS.INTEGRATION:
 				return 'integration';
 			case STATUS.FLAGS.MIXED:
@@ -361,7 +359,7 @@
 				return $_('tooltip_status_under_review');
 			case STATUS.FLAGS.QUEUED:
 				return !isGroup && (currentStatus as UserStatus).processed === true
-					? $_('tooltip_status_likely_safe')
+					? $_('tooltip_status_not_flagged')
 					: $_('tooltip_status_checking');
 			case STATUS.FLAGS.INTEGRATION:
 				return $_('tooltip_status_integration');

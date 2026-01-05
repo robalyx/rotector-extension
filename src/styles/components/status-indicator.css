@@ -28,10 +28,6 @@
 	@apply block w-5 h-5;
 }
 
-@utility icon-bg-likely-safe {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2344cc44' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
-}
-
 @utility icon-bg-checking {
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z'/%3E%3Cpath fill='%23999' d='M12,7a1,1,0,0,0-1,1v4a1,1,0,0,0,.29.71l3,3a1,1,0,0,0,1.42-1.42L13,11.59V8A1,1,0,0,0,12,7Z'/%3E%3C/svg%3E");
 }
@@ -66,10 +62,6 @@
 
 @utility text-status-integration {
 	color: var(--color-status-integration);
-}
-
-@utility text-status-likely-safe {
-	color: var(--color-status-likely-safe);
 }
 
 @utility text-status-checking {
@@ -109,10 +101,6 @@
 
 @utility status-text-integration {
 	@apply status-text-base text-status-integration;
-}
-
-@utility status-text-likely-safe {
-	@apply status-text-base text-status-likely-safe;
 }
 
 @utility status-text-checking {

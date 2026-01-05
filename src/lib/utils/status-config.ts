@@ -110,10 +110,10 @@ export function getStatusConfig(
 				// User was queued and processed but not flagged
 				return {
 					...baseConfig,
-					iconName: 'likely-safe',
-					iconColor: '#44cc44',
-					textContent: t('tooltip_status_likely_safe'),
-					textClass: 'status-text-likely-safe',
+					iconName: 'safe',
+					iconColor: '#888888',
+					textContent: t('tooltip_status_not_flagged'),
+					textClass: 'status-text-safe',
 					isQueued: false
 				};
 			} else {

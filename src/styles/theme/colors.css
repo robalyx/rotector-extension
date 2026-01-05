@@ -154,7 +154,6 @@
 	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-500);
-	--color-status-likely-safe: var(--primitive-green-600);
 	--color-status-checking: var(--primitive-black);
 	--color-status-outfit: var(--primitive-purple-500);
 	--color-status-profile: var(--primitive-blue-600);
@@ -247,7 +246,6 @@
 		--color-status-pending: var(--primitive-orange-tailwind-700);
 		--color-status-error: var(--primitive-red-bright);
 		--color-status-queued: var(--primitive-indigo-400);
-		--color-status-likely-safe: var(--primitive-green-400);
 		--color-status-checking: var(--primitive-gray-400);
 		--color-status-outfit: var(--primitive-purple-400);
 		--color-status-profile: var(--primitive-blue-400);
@@ -325,7 +323,6 @@
 	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-400);
-	--color-status-likely-safe: var(--primitive-green-400);
 	--color-status-checking: var(--primitive-gray-400);
 	--color-status-outfit: var(--primitive-purple-400);
 	--color-status-profile: var(--primitive-blue-400);
@@ -394,7 +391,6 @@
 	--color-status-pending: var(--primitive-orange-tailwind-700);
 	--color-status-error: var(--primitive-red-bright);
 	--color-status-queued: var(--primitive-indigo-500);
-	--color-status-likely-safe: var(--primitive-green-600);
 	--color-status-checking: var(--primitive-black);
 	--color-status-outfit: var(--primitive-purple-500);
 	--color-status-friends: var(--primitive-indigo-500);

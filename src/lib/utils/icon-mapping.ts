@@ -9,7 +9,6 @@ export type StatusIconName =
 	| 'error'
 	| 'loading'
 	| 'integration'
-	| 'likely-safe'
 	| 'checking'
 	| 'past-offender'
 	| 'mixed'

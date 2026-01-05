@@ -10,12 +10,6 @@
 			descKey: 'onboarding_status_not_flagged_desc'
 		},
 		{
-			icon: CircleCheck,
-			color: '#44cc44',
-			nameKey: 'onboarding_status_safe',
-			descKey: 'onboarding_status_safe_desc'
-		},
-		{
 			icon: Clock,
 			color: '#f97316',
 			nameKey: 'onboarding_status_pending',

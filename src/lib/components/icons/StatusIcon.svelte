@@ -22,7 +22,7 @@
 	let { name, size = 20, class: className = '', color, strokeWidth = 2 }: Props = $props();
 </script>
 
-{#if name === 'safe' || name === 'likely-safe'}
+{#if name === 'safe'}
 	<CircleCheck class={className} {color} {size} {strokeWidth} />
 {:else if name === 'unsafe' || name === 'error'}
 	<AlertCircle class={className} {color} {size} {strokeWidth} />

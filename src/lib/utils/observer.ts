@@ -436,7 +436,9 @@ export const observerFactory = {
 			targetSelector: containerSelector,
 			observerOptions: {
 				childList: true,
-				subtree: true
+				subtree: true,
+				attributes: true,
+				attributeFilter: ['href']
 			},
 			callback: () => {
 				processItemsInContainer().catch((error) => {

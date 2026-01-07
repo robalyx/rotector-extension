@@ -150,6 +150,20 @@
 	}
 }
 
+@utility restricted-appeal-link {
+	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
+	background-color: var(--color-status-unsafe) !important;
+
+	&:hover {
+		@apply no-underline;
+		background-color: #ff2222;
+	}
+
+	&:active {
+		background-color: #e03333;
+	}
+}
+
 /* =================================
    METADATA DISPLAY
    ================================= */

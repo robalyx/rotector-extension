@@ -889,6 +889,14 @@
 			<div class="restricted-access-text">
 				<strong>{$_('tooltip_restricted_title')}</strong>
 				<p>{$_('tooltip_restricted_message')}</p>
+				<a
+					class="restricted-appeal-link"
+					href="https://rotector.com"
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					{$_('tooltip_restricted_appeal')}
+				</a>
 			</div>
 		</div>
 	{:else if activeError}

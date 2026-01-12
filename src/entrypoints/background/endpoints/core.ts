@@ -119,7 +119,7 @@ export async function checkMultipleGroups(
 // Queue a user for review by the moderation system
 export async function queueUser(
 	userId: string | number,
-	inappropriateOutfit: boolean = false,
+	outfitNames: string[] = [],
 	inappropriateProfile: boolean = false,
 	inappropriateFriends: boolean = false,
 	inappropriateGroups: boolean = false,
@@ -127,13 +127,17 @@ export async function queueUser(
 ): Promise<QueueResult> {
 	const sanitizedUserId = validateEntityId(userId);
 
-	const requestBody = {
+	const requestBody: Record<string, unknown> = {
 		id: parseInt(sanitizedUserId, 10),
-		inappropriate_outfit: inappropriateOutfit,
 		inappropriate_profile: inappropriateProfile,
 		inappropriate_friends: inappropriateFriends,
 		inappropriate_groups: inappropriateGroups
 	};
+
+	// Only include outfit_names if there are selections
+	if (outfitNames.length > 0) {
+		requestBody.outfit_names = outfitNames;
+	}
 
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {
 		method: 'POST',

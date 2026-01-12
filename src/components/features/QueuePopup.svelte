@@ -5,9 +5,10 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { STATUS } from '@/lib/types/constants';
-	import { Shirt, Clipboard, User, Users, AlertTriangle, Check, Info } from 'lucide-svelte';
+	import { Clipboard, User, Users, AlertTriangle, Check, Info } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
+	import OutfitPicker from './OutfitPicker.svelte';
 	import type { UserStatus, QueueLimitsData } from '@/lib/types/api';
 
 	interface QueueLimitsRef {
@@ -26,7 +27,7 @@
 		isReprocess?: boolean;
 		userStatus?: UserStatus | null;
 		onConfirm?: (
-			inappropriateOutfit?: boolean,
+			outfitNames?: string[],
 			inappropriateProfile?: boolean,
 			inappropriateFriends?: boolean,
 			inappropriateGroups?: boolean
@@ -48,7 +49,7 @@
 	let profileCheck = $state<CheckThreshold>('quick');
 	let friendsCheck = $state<CheckThreshold>('quick');
 	let groupsCheck = $state<CheckThreshold>('quick');
-	let outfitCheck = $state(false);
+	let selectedOutfitNames = $state<string[]>([]);
 
 	// UI state
 	let submitting = $state(false);
@@ -84,6 +85,13 @@
 	// Hide queue limits for restricted self-lookups
 	const hideQueueLimits = $derived(isRestricted && isSelfLookup);
 
+	// Get outfit limit from queue limits
+	const outfitLimit = $derived(() => {
+		if (!queueLimitsRef) return 0;
+		const state = queueLimitsRef.getState();
+		return state.queueLimits?.outfit.remaining ?? 0;
+	});
+
 	// Determine if submission is allowed
 	const canSubmit = $derived(() => {
 		if (submitting) return false;
@@ -107,7 +115,7 @@
 				profileCheck,
 				friendsCheck,
 				groupsCheck,
-				outfitCheck
+				selectedOutfitNames
 			});
 
 			if (onConfirm) {
@@ -116,10 +124,9 @@
 				const inappropriateProfile = profileCheck === 'thorough';
 				const inappropriateFriends = friendsCheck === 'thorough';
 				const inappropriateGroups = groupsCheck === 'thorough';
-				const inappropriateOutfit = outfitCheck;
 
 				await onConfirm(
-					inappropriateOutfit,
+					selectedOutfitNames.length > 0 ? selectedOutfitNames : undefined,
 					inappropriateProfile,
 					inappropriateFriends,
 					inappropriateGroups
@@ -153,7 +160,7 @@
 		profileCheck = 'quick';
 		friendsCheck = 'quick';
 		groupsCheck = 'quick';
-		outfitCheck = false;
+		selectedOutfitNames = [];
 		submitting = false;
 		queueLimitsRef?.reset();
 	}
@@ -310,29 +317,14 @@
 					</div>
 				</div>
 
-				<!-- Outfit Check Card -->
-				<div class="queue-toggle-card queue-toggle-card-outfit">
-					<div class="queue-toggle-header">
-						<Shirt class="outfit-icon" size={24} />
-						<div class="queue-toggle-title">{$_('queue_popup_outfit_check_title')}</div>
-					</div>
-					<div class="queue-toggle-description">
-						{$_('queue_popup_outfit_check_description')}
-					</div>
-					<div class="queue-toggle-container">
-						<label class="queue-toggle-switch">
-							<input
-								checked={outfitCheck}
-								onchange={() => (outfitCheck = !outfitCheck)}
-								type="checkbox"
-							/>
-							<span class="queue-toggle-slider"></span>
-						</label>
-						<span class="queue-toggle-label">
-							{outfitCheck ? $_('queue_popup_outfit_enabled') : $_('queue_popup_outfit_disabled')}
-						</span>
-					</div>
-				</div>
+				<!-- Outfit Picker -->
+				<OutfitPicker
+					disabled={outfitLimit() === 0}
+					maxSelections={outfitLimit()}
+					onSelectionChange={(names: string[]) => (selectedOutfitNames = names)}
+					userId={sanitizedUserId()}
+					bind:selectedOutfits={selectedOutfitNames}
+				/>
 			</div>
 		</div>
 

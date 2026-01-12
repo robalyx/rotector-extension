@@ -45,6 +45,20 @@
 		return Math.max(0, Math.min(100, pct));
 	});
 
+	// Calculate outfit usage percentage
+	const outfitUsagePercentage = $derived(() => {
+		if (!queueLimits || queueLimits.outfit.limit === 0) return 0;
+		const pct = Math.round((queueLimits.outfit.current_usage / queueLimits.outfit.limit) * 100);
+		return Math.max(0, Math.min(100, pct));
+	});
+
+	// Determine usage class based on percentage
+	function getUsageClass(percentage: number): string {
+		if (percentage < 50) return classes.lowUsage;
+		if (percentage < 80) return classes.mediumUsage;
+		return classes.highUsage;
+	}
+
 	// Load queue limits
 	async function loadQueueLimits() {
 		isLoading = true;
@@ -189,10 +203,49 @@
 				>
 					<div
 						style:width="{usagePercentage()}%"
-						class="{classes.progressFill}
-							{usagePercentage() < 50 ? classes.lowUsage : ''}
-							{usagePercentage() >= 50 && usagePercentage() < 80 ? classes.mediumUsage : ''}
-							{usagePercentage() >= 80 ? classes.highUsage : ''}"
+						class="{classes.progressFill} {getUsageClass(usagePercentage())}"
+					></div>
+				</div>
+			</div>
+
+			<!-- Outfit Usage Display -->
+			<div class={classes.usageDisplay}>
+				<div class={classes.usageLabels}>
+					<div class={classes.usageLabelLeft}>
+						<span class={classes.usageLabel}>{$_('stats_outfit_usage')}</span>
+						<span class={classes.usageAmount}>
+							{queueLimits.outfit.current_usage} / {queueLimits.outfit.limit}
+						</span>
+					</div>
+					<div class={classes.usageLabelRight}>
+						<span class={classes.usageLabel}>{$_('stats_outfit_remaining')}</span>
+						<span
+							class={classes.remainingAmount}
+							class:text-error={queueLimits.outfit.remaining === 0}
+						>
+							{queueLimits.outfit.remaining}
+						</span>
+					</div>
+				</div>
+
+				<!-- Outfit Progress Bar -->
+				<div
+					class={classes.progressBar}
+					aria-label={$_('stats_outfit_aria_progress', {
+						values: {
+							0: queueLimits.outfit.current_usage.toString(),
+							1: queueLimits.outfit.limit.toString(),
+							2: queueLimits.outfit.remaining.toString()
+						}
+					})}
+					aria-valuemax="100"
+					aria-valuemin="0"
+					aria-valuenow={outfitUsagePercentage()}
+					role="progressbar"
+				>
+					<div
+						style:width="{outfitUsagePercentage()}%"
+						class="{classes.progressFill} {getUsageClass(outfitUsagePercentage())}"
 					></div>
 				</div>
 			</div>

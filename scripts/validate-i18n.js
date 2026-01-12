@@ -7,6 +7,7 @@
  * 1. No unused translation keys exist in locale files
  * 2. All translation keys used in code are defined
  * 3. All locales have matching keys (no missing translations)
+ * 4. All placeholders ({0}, {1}, etc.) match between locales
  */
 
 import fs from 'fs';
@@ -63,26 +64,36 @@ function discoverLocales() {
 const LOCALES = discoverLocales();
 
 /**
- * Load translation keys from a locale file
+ * Load translation keys and values from a locale file
  */
-function loadLocaleKeys(locale) {
+function loadLocaleData(locale) {
 	const filePath = path.join(LOCALE_DIR, locale, 'messages.json');
 
 	if (!fs.existsSync(filePath)) {
 		console.error(`${colors.red}Error: Locale file not found: ${filePath}${colors.reset}`);
-		return new Set();
+		return { keys: new Set(), values: {} };
 	}
 
 	try {
 		const content = fs.readFileSync(filePath, 'utf8');
 		const data = JSON.parse(content);
-		return new Set(Object.keys(data));
+		return { keys: new Set(Object.keys(data)), values: data };
 	} catch (error) {
 		console.error(
 			`${colors.red}Error parsing ${locale}/messages.json: ${error.message}${colors.reset}`
 		);
-		return new Set();
+		return { keys: new Set(), values: {} };
 	}
+}
+
+/**
+ * Extract placeholders from a translation string
+ * Matches patterns like {0}, {1}, {name}, etc.
+ */
+function extractPlaceholders(str) {
+	if (typeof str !== 'string') return [];
+	const matches = str.match(/\{[^}]+\}/g);
+	return matches ? matches.sort() : [];
 }
 
 /**
@@ -219,12 +230,12 @@ function extractUsedKeys() {
 function validateI18n() {
 	console.log(`\n${colors.bold}${colors.cyan}=== i18n Validation ===${colors.reset}\n`);
 
-	// Load all locale keys
-	const localeKeys = {};
+	// Load all locale keys and values
+	const localeData = {};
 	for (const locale of LOCALES) {
-		localeKeys[locale] = loadLocaleKeys(locale);
+		localeData[locale] = loadLocaleData(locale);
 		console.log(
-			`${colors.blue}Loaded ${localeKeys[locale].size} keys from ${locale}/messages.json${colors.reset}`
+			`${colors.blue}Loaded ${localeData[locale].keys.size} keys from ${locale}/messages.json${colors.reset}`
 		);
 	}
 
@@ -241,7 +252,9 @@ function validateI18n() {
 		`${colors.bold}${colors.yellow}Checking for unused translation keys...${colors.reset}`
 	);
 	const baseLocale = LOCALES[0]; // Use 'en' as base
-	const unusedKeys = new Set([...localeKeys[baseLocale]].filter((key) => !usedKeys.has(key)));
+	const baseKeys = localeData[baseLocale].keys;
+	const baseValues = localeData[baseLocale].values;
+	const unusedKeys = new Set([...baseKeys].filter((key) => !usedKeys.has(key)));
 
 	if (unusedKeys.size > 0) {
 		console.log(
@@ -259,7 +272,7 @@ function validateI18n() {
 	console.log(
 		`${colors.bold}${colors.yellow}Checking for missing translation keys...${colors.reset}`
 	);
-	const missingKeys = new Set([...usedKeys].filter((key) => !localeKeys[baseLocale].has(key)));
+	const missingKeys = new Set([...usedKeys].filter((key) => !baseKeys.has(key)));
 
 	if (missingKeys.size > 0) {
 		console.log(
@@ -280,12 +293,9 @@ function validateI18n() {
 
 	for (let i = 1; i < LOCALES.length; i++) {
 		const locale = LOCALES[i];
-		const missingInLocale = new Set(
-			[...localeKeys[baseLocale]].filter((key) => !localeKeys[locale].has(key))
-		);
-		const extraInLocale = new Set(
-			[...localeKeys[locale]].filter((key) => !localeKeys[baseLocale].has(key))
-		);
+		const localeKeys = localeData[locale].keys;
+		const missingInLocale = new Set([...baseKeys].filter((key) => !localeKeys.has(key)));
+		const extraInLocale = new Set([...localeKeys].filter((key) => !baseKeys.has(key)));
 
 		if (missingInLocale.size > 0) {
 			console.log(`${colors.red}✗ Keys in ${baseLocale} but missing in ${locale}:${colors.reset}`);
@@ -311,9 +321,56 @@ function validateI18n() {
 		console.log(`${colors.green}✓ All locales have matching keys${colors.reset}\n`);
 	}
 
+	// Check 4: Find placeholder mismatches
+	console.log(
+		`${colors.bold}${colors.yellow}Checking for placeholder mismatches...${colors.reset}`
+	);
+	let hasPlaceholderMismatches = false;
+	const placeholderIssues = [];
+
+	for (let i = 1; i < LOCALES.length; i++) {
+		const locale = LOCALES[i];
+		const localeValues = localeData[locale].values;
+
+		for (const key of baseKeys) {
+			const baseValue = baseValues[key];
+			const localeValue = localeValues[key];
+
+			if (!localeValue) continue;
+
+			const basePlaceholders = extractPlaceholders(baseValue);
+			const localePlaceholders = extractPlaceholders(localeValue);
+
+			if (basePlaceholders.join(',') !== localePlaceholders.join(',')) {
+				hasPlaceholderMismatches = true;
+				placeholderIssues.push({
+					locale,
+					key,
+					expected: basePlaceholders,
+					actual: localePlaceholders
+				});
+			}
+		}
+	}
+
+	if (hasPlaceholderMismatches) {
+		console.log(
+			`${colors.red}✗ Found ${placeholderIssues.length} placeholder mismatch(es):${colors.reset}`
+		);
+		for (const issue of placeholderIssues) {
+			console.log(`  - ${issue.locale}/${issue.key}:`);
+			console.log(`      expected: ${issue.expected.join(', ') || '(none)'}`);
+			console.log(`      actual:   ${issue.actual.join(', ') || '(none)'}`);
+		}
+		console.log('');
+		hasErrors = true;
+	} else {
+		console.log(`${colors.green}✓ All placeholders match${colors.reset}\n`);
+	}
+
 	// Summary
 	console.log(`${colors.bold}${colors.cyan}=== Summary ===${colors.reset}`);
-	console.log(`Total keys defined (${baseLocale}): ${localeKeys[baseLocale].size}`);
+	console.log(`Total keys defined (${baseLocale}): ${baseKeys.size}`);
 	console.log(`Total keys used in code: ${usedKeys.size}`);
 	console.log(`Unused keys: ${unusedKeys.size}`);
 	console.log(`Missing keys: ${missingKeys.size}`);

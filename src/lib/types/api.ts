@@ -1,20 +1,17 @@
 import type { StatusFlag, VoteType } from './constants';
 import type { CustomApiConfig } from './custom-api';
 
-// Reviewer information interface
 export interface ReviewerInfo {
 	username?: string;
 	displayName?: string;
 }
 
-// Custom API badge interface
 interface Badge {
 	text: string;
 	color?: string;
 	textColor?: string;
 }
 
-// User status interface
 export interface UserStatus {
 	id: number;
 	flagType: StatusFlag;
@@ -34,7 +31,6 @@ export interface UserStatus {
 	badges?: Badge[];
 }
 
-// Group status interface
 export interface GroupStatus {
 	id: number;
 	flagType: StatusFlag;
@@ -44,14 +40,12 @@ export interface GroupStatus {
 	timestamp?: number;
 }
 
-// Reason data structure
 export interface ReasonData {
 	confidence: number;
 	message?: string;
 	evidence?: string[];
 }
 
-// Vote data structure
 export interface VoteData {
 	userId: number;
 	upvotes: number;
@@ -61,7 +55,6 @@ export interface VoteData {
 	totalVotes: number;
 }
 
-// Vote submission result
 export interface VoteResult {
 	success: boolean;
 	userId: number;
@@ -69,7 +62,6 @@ export interface VoteResult {
 	newVoteData: VoteData;
 }
 
-// Queue submission result
 export interface QueueSuccessData {
 	queued: number;
 }
@@ -98,7 +90,6 @@ export interface ApiResponse<T = unknown> {
 	status?: number;
 }
 
-// Batch processing options
 interface BatchOptions {
 	batchSize?: number;
 	batchDelay?: number;
@@ -125,7 +116,6 @@ export type PageType =
 	| 'report'
 	| 'search-user';
 
-// Translation result
 export interface TranslationResult {
 	translations: Record<string, string>;
 }
@@ -139,7 +129,7 @@ export interface ContentMessage {
 	groupId?: string | number;
 	groupIds?: Array<string | number>;
 	voteType?: VoteType;
-	inappropriateOutfit?: boolean;
+	outfitNames?: string[];
 	inappropriateProfile?: boolean;
 	inappropriateFriends?: boolean;
 	inappropriateGroups?: boolean;
@@ -166,7 +156,6 @@ export interface ContentMessage {
 	sourceLanguage?: string;
 }
 
-// Extension User Profile
 export interface ExtensionUserProfile {
 	uuid: string;
 	discordUserId: string;
@@ -178,7 +167,6 @@ export interface ExtensionUserProfile {
 	lastActive: string;
 }
 
-// Extension User Report
 export interface ExtensionUserReport {
 	id: number;
 	extensionUserUuid: string;
@@ -190,25 +178,21 @@ export interface ExtensionUserReport {
 	processedAt: string | null;
 }
 
-// Extension Reports Response
 export interface ExtensionReportsResponse {
 	reports: ExtensionUserReport[];
 	totalCount: number;
 	hasMore: boolean;
 }
 
-// Reportable User Response
 export interface ReportableUserResponse {
 	userId: number;
 }
 
-// Discord OAuth Authorization URL Response
 export interface DiscordAuthUrlResponse {
 	authUrl: string;
 	state: string;
 }
 
-// Extension Statistics
 export interface ExtensionStatistics {
 	totalUsers: number;
 	totalReports: number;
@@ -220,7 +204,6 @@ export interface ExtensionStatistics {
 	topUserPoints: number;
 }
 
-// Major Order
 export interface MajorOrder {
 	id: number;
 	title: string;
@@ -295,7 +278,6 @@ export interface Zone {
 	updatedAt: string;
 }
 
-// War Map Global Stats
 interface WarMapGlobalStats {
 	totalZones: number;
 	totalTargets: number;
@@ -306,7 +288,6 @@ interface WarMapGlobalStats {
 	activeMajorOrders: number;
 }
 
-// Complete War Map State
 export interface WarMapState {
 	zones: Zone[];
 	activeTargets: Target[];
@@ -324,7 +305,6 @@ export interface ZoneDetails {
 	}>;
 }
 
-// Leaderboard Entry
 interface LeaderboardEntry {
 	rank: number;
 	uuid: string;
@@ -335,18 +315,64 @@ interface LeaderboardEntry {
 	isAnonymous: boolean;
 }
 
-// Leaderboard Response
 export interface LeaderboardResponse {
 	leaderboard: LeaderboardEntry[];
 	totalUsers: number;
 	userRank: number | null;
 }
 
-// Queue Limits Data
+interface OutfitLimitsData {
+	current_usage: number;
+	limit: number;
+	remaining: number;
+}
+
 export interface QueueLimitsData {
 	current_usage: number;
 	limit: number;
 	remaining: number;
 	has_api_key: boolean;
 	reset_time: number;
+	outfit: OutfitLimitsData;
+}
+
+// Roblox Outfit from avatar API
+interface RobloxOutfit {
+	id: number;
+	name: string;
+	isEditable: boolean;
+	outfitType: string;
+}
+
+export interface OutfitWithThumbnail extends RobloxOutfit {
+	thumbnailUrl: string | null;
+	thumbnailState: 'pending' | 'completed' | 'error';
+}
+
+export interface RobloxOutfitsResponse {
+	data: RobloxOutfit[];
+	paginationToken: string | null;
+}
+
+export interface PaginatedOutfitsResult {
+	outfits: OutfitWithThumbnail[];
+	currentPage: number;
+	hasNextPage: boolean;
+	nextCursor: string | null;
+}
+
+// Current avatar info for display in outfit picker
+export interface CurrentAvatarInfo {
+	username: string;
+	thumbnailUrl: string | null;
+}
+
+interface RobloxThumbnailItem {
+	targetId: number;
+	state: 'Completed' | 'Pending' | 'Blocked' | 'Error';
+	imageUrl: string | null;
+}
+
+export interface RobloxThumbnailResponse {
+	data: RobloxThumbnailItem[];
 }

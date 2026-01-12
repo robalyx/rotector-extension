@@ -62,7 +62,7 @@ export const actionHandlers = {
 		if (!request.userId) throw new Error('User ID is required for queue user');
 		return queueUser(
 			request.userId,
-			request.inappropriateOutfit,
+			request.outfitNames ?? [],
 			request.inappropriateProfile,
 			request.inappropriateFriends,
 			request.inappropriateGroups,

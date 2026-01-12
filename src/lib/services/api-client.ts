@@ -135,7 +135,7 @@ class RotectorApiClient {
 
 	async queueUser(
 		userId: string | number,
-		inappropriateOutfit = false,
+		outfitNames: string[] = [],
 		inappropriateProfile = false,
 		inappropriateFriends = false,
 		inappropriateGroups = false
@@ -153,7 +153,7 @@ class RotectorApiClient {
 			API_ACTIONS.QUEUE_USER,
 			{
 				userId,
-				inappropriateOutfit,
+				outfitNames,
 				inappropriateProfile,
 				inappropriateFriends,
 				inappropriateGroups

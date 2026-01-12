@@ -1,0 +1,198 @@
+/* =================================
+   OUTFIT PICKER
+   ================================= */
+
+@utility outfit-picker-card {
+	@apply rounded-[10px] transition-all duration-200 w-full overflow-hidden box-border;
+	background-color: var(--color-bg-content);
+	border: 2px solid var(--color-border);
+
+	&.outfit-picker-disabled {
+		opacity: 0.6;
+	}
+
+	&.outfit-picker-has-selections {
+		border-color: var(--color-status-outfit);
+	}
+}
+
+@utility outfit-picker-header {
+	@apply flex items-center justify-between w-full p-4 cursor-pointer border-none;
+	background: transparent;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-bg-tertiary);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+}
+
+@utility outfit-picker-header-content {
+	@apply flex items-center gap-3;
+}
+
+@utility outfit-picker-icon {
+	color: var(--color-status-outfit);
+}
+
+@utility outfit-picker-title-section {
+	@apply flex flex-col items-start gap-0.5;
+}
+
+@utility outfit-picker-title {
+	@apply text-base font-semibold;
+	color: var(--color-text);
+}
+
+@utility outfit-picker-subtitle {
+	@apply text-xs;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-picker-chevron {
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-picker-content {
+	@apply px-4 pb-4 box-border;
+	border-top: 1px solid var(--color-border-subtle);
+	max-width: 100%;
+}
+
+@utility outfit-picker-loading {
+	@apply flex items-center justify-center gap-2 py-6 text-sm;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-picker-error {
+	@apply flex flex-col items-center gap-2 py-4 text-center text-sm;
+	color: var(--color-error);
+}
+
+@utility outfit-picker-retry {
+	@apply px-3 py-1.5 text-sm font-medium rounded-md transition-colors cursor-pointer;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+
+	&:hover {
+		background-color: var(--color-bg-secondary);
+	}
+}
+
+@utility outfit-picker-empty {
+	@apply flex flex-col items-center gap-2 py-6 text-center text-sm;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-picker-grid {
+	@apply grid gap-2 py-3 w-full box-border;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@utility outfit-picker-item {
+	@apply flex flex-col items-center gap-1 p-2 rounded-lg cursor-pointer transition-all duration-150 border-2 border-transparent;
+	background-color: var(--color-bg-tertiary);
+
+	&:hover:not(.outfit-picker-item-disabled):not(.outfit-picker-item-selected) {
+		background-color: var(--color-bg-secondary);
+		border-color: var(--color-border);
+	}
+
+	&.outfit-picker-item-selected {
+		border-color: var(--color-status-outfit);
+		background-color: color-mix(in srgb, var(--color-status-outfit) 10%, transparent);
+	}
+
+	&.outfit-picker-item-disabled:not(.outfit-picker-item-selected) {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+@utility outfit-thumbnail-container {
+	@apply relative w-full aspect-square;
+}
+
+@utility outfit-thumbnail {
+	@apply w-full h-full object-cover rounded-md;
+}
+
+@utility outfit-thumbnail-pending {
+	@apply w-full h-full flex items-center justify-center rounded-md;
+	background-color: var(--color-bg-secondary);
+}
+
+@utility outfit-thumbnail-placeholder {
+	@apply w-full h-full flex items-center justify-center rounded-md;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-selected-badge {
+	@apply absolute flex items-center justify-center rounded-full text-xs font-bold;
+	top: -4px;
+	right: -4px;
+	width: 18px;
+	height: 18px;
+	background-color: var(--color-status-outfit);
+	color: white;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+@utility outfit-name {
+	@apply text-xs text-center truncate w-full;
+	color: var(--color-text);
+}
+
+@utility outfit-name-container {
+	@apply flex flex-col items-center gap-0 w-full;
+}
+
+@utility outfit-current-label {
+	@apply text-[10px] font-medium uppercase tracking-wide;
+	color: var(--color-status-outfit);
+	opacity: 0.8;
+}
+
+@utility outfit-picker-limit-hint {
+	@apply text-xs text-center py-2;
+	color: var(--color-warning);
+}
+
+/* Pagination Controls */
+@utility outfit-picker-pagination {
+	@apply flex items-center justify-center gap-3 pt-3 pb-1;
+	border-top: 1px solid var(--color-border-subtle);
+}
+
+@utility outfit-pagination-btn {
+	@apply flex items-center justify-center w-8 h-8 rounded-md cursor-pointer transition-all duration-150;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border);
+	color: var(--color-text);
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-bg-secondary);
+		border-color: var(--color-status-outfit);
+		color: var(--color-status-outfit);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	&.outfit-pagination-btn-disabled {
+		opacity: 0.4;
+		color: var(--color-text-subtle);
+	}
+}
+
+@utility outfit-pagination-info {
+	@apply text-sm font-medium tabular-nums;
+	color: var(--color-text-subtle);
+	min-width: 80px;
+	text-align: center;
+}

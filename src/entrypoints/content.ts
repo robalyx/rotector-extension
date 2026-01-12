@@ -43,7 +43,7 @@ async function waitForBody(): Promise<HTMLElement> {
 
 export default defineContentScript({
 	matches: [
-		// Standard URLs (no language prefix)
+		// Standard URLs
 		'https://*.roblox.com/users/*/profile*',
 		'https://*.roblox.com/users/*/profile/*',
 		'https://*.roblox.com/home*',
@@ -64,7 +64,7 @@ export default defineContentScript({
 		'https://*.roblox.com/search/users/*',
 		'https://*.roblox.com/report-abuse*',
 		'https://*.roblox.com/report-abuse/*',
-		// Internationalized URLs (with language prefix like /es/, /de/)
+		// Internationalized URLs
 		'https://*.roblox.com/*/users/*/profile*',
 		'https://*.roblox.com/*/users/*/profile/*',
 		'https://*.roblox.com/*/home*',

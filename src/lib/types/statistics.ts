@@ -1,4 +1,3 @@
-// Individual week usage metrics
 interface WeekUsage {
 	startDate: string;
 	endDate: string;
@@ -16,7 +15,6 @@ export interface WeeklyUsage {
 	week4: WeekUsage;
 }
 
-// Main statistics interface
 export interface Statistics {
 	totalFlaggedUsers: number;
 	totalConfirmedUsers: number;
@@ -37,16 +35,13 @@ export interface Statistics {
 	lastUpdated: string;
 }
 
-// Statistics cache structure
 export interface StatisticsCache {
 	data: Statistics;
 	timestamp: number;
 }
 
-// Statistics loading states
 export type StatisticsState = 'loading' | 'loaded' | 'error';
 
-// Statistics configuration
 export const STATISTICS_CONFIG = {
 	CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
 	ANIMATION_DURATION: 1500,

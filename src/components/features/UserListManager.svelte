@@ -46,7 +46,7 @@
 	let processedUsers = new SvelteSet<string>();
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let loadingUsers = new SvelteSet<string>();
-	let mountedComponents = new SvelteMap<string, { destroy?: () => void }>();
+	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
 	let destroyed = $state(false);
 
 	// Queue modal manager reference
@@ -295,9 +295,9 @@
 					const oldComponent = mountedComponents.get(oldUserId);
 					if (oldComponent) {
 						try {
-							oldComponent.destroy?.();
+							oldComponent.unmount?.();
 						} catch (error) {
-							logger.error('Failed to destroy old component for reused element:', error);
+							logger.error('Failed to unmount old component for reused element:', error);
 						}
 						mountedComponents.delete(oldUserId);
 					}
@@ -503,7 +503,7 @@
 
 			const existingComponent = mountedComponents.get(user.userId);
 			if (existingComponent) {
-				existingComponent.destroy?.();
+				existingComponent.unmount?.();
 				mountedComponents.delete(user.userId);
 			}
 
@@ -616,9 +616,9 @@
 
 			orphanedUserIds.forEach((userId) => {
 				const component = mountedComponents.get(userId);
-				if (component && component.destroy) {
+				if (component) {
 					try {
-						component.destroy();
+						component.unmount?.();
 					} catch (error) {
 						logger.error('Failed to unmount orphaned component:', error);
 					}
@@ -680,7 +680,7 @@
 		// Cleanup mounted components
 		for (const component of mountedComponents.values()) {
 			try {
-				component.destroy?.();
+				component.unmount?.();
 			} catch (error) {
 				logger.error('Failed to unmount component:', error);
 			}

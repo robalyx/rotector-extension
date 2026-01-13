@@ -40,10 +40,7 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	const isFriendsCard = anchorElement.closest(FRIENDS_SELECTORS.CARD.CONTAINER);
 	const isMembersTile = anchorElement.closest(GROUPS_SELECTORS.TILE);
 	const isSearchCard = anchorElement.closest(SEARCH_SELECTORS.CARD.CONTAINER);
-	const isGroupCardGrid = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.ITEM);
-	const isGroupCardSlideshow = anchorElement.closest(
-		PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM
-	);
+	const isGroupCard = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM);
 	const isBTRobloxGroupCard = anchorElement.closest(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
 	// Check for URL-based page
@@ -64,10 +61,10 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	if (isSearchCard) {
 		return { pageType: 'search', container: isSearchCard };
 	}
-	if (isGroupCardGrid || isGroupCardSlideshow || isBTRobloxGroupCard) {
+	if (isGroupCard || isBTRobloxGroupCard) {
 		return {
 			pageType: 'profile',
-			container: isGroupCardGrid ?? isGroupCardSlideshow ?? isBTRobloxGroupCard
+			container: isGroupCard ?? isBTRobloxGroupCard
 		};
 	}
 
@@ -153,24 +150,19 @@ export function extractGroupInfo(
 	let groupImageUrl: string | undefined;
 
 	// Check what type of groups container we're working with
-	const isSlideshowContainer = container?.matches(PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.ITEM);
 	const isBTRobloxContainer = container?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
 	const groupNameSelectors = {
 		profile: isBTRobloxContainer
 			? BTROBLOX_GROUPS_SELECTORS.GROUP_NAME
-			: isSlideshowContainer
-				? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.GROUP_NAME
-				: PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.GROUP_NAME,
+			: PROFILE_GROUPS_SHOWCASE_SELECTORS.GROUP_NAME,
 		group: GROUP_HEADER_SELECTORS.GROUP_NAME
 	};
 
 	const groupImageSelectors = {
 		profile: isBTRobloxContainer
 			? BTROBLOX_GROUPS_SELECTORS.THUMBNAIL
-			: isSlideshowContainer
-				? PROFILE_GROUPS_SHOWCASE_SELECTORS.SLIDESHOW.THUMBNAIL
-				: PROFILE_GROUPS_SHOWCASE_SELECTORS.GRID.THUMBNAIL,
+			: PROFILE_GROUPS_SHOWCASE_SELECTORS.THUMBNAIL,
 		group: GROUP_HEADER_SELECTORS.GROUP_IMAGE
 	};
 

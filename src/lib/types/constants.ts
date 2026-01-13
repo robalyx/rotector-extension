@@ -189,38 +189,16 @@ export const GROUP_HEADER_SELECTORS = {
 
 // DOM selectors for profile groups showcase
 export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
-	CONTAINER: '.groups-showcase',
-	SECTION: '.section, .container-list',
-	SECTION_CONTENT: '.profile-slide-container.section-content',
-	VIEW_BUTTONS: '.container-buttons',
-	SLIDESHOW_BUTTON: '.btn-generic-slideshow-xs',
-	GRID_BUTTON: '.btn-generic-grid-xs',
-	// Slideshow mode selectors
-	SLIDESHOW: {
-		CONTAINER: '#groups-switcher.slide-switcher.groups',
-		ITEMS_CONTAINER: '.slide-items-container.switcher-items.hlist',
-		ITEM: '.switcher-item.slide-item-container',
-		ITEM_UNPROCESSED: `.switcher-item.slide-item-container:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
-		GROUP_LINK: '.slide-item-container-left a',
-		GROUP_NAME: '.slide-item-name.text-overflow.groups.font-title',
-		GROUP_DESCRIPTION: '.text-description.slide-item-description.groups',
-		THUMBNAIL: '.thumbnail-2d-container img',
-		STATS: '.slide-item-stats'
-	},
-	// Grid mode selectors
-	GRID: {
-		CONTAINER: 'groups-showcase-grid',
-		ITEMS_CONTAINER: '.hlist.game-cards.group-list',
-		ITEM: '.list-item.group-container',
-		ITEM_UNPROCESSED: `.list-item.group-container:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
-		CARD: '.game-card',
-		GROUP_LINK: '.card-item.game-card-container',
-		GROUP_NAME: '.text-overflow.game-card-name',
-		IMAGE_CONTAINER: '.game-card-thumb-container',
-		THUMBNAIL: '.thumbnail-2d-container img',
-		THUMBNAIL_CONTAINER: '.thumbnail-2d-container',
-		LOAD_MORE: '#groups-load-more'
-	}
+	// Parent container for groups section (distinguishes from other carousels on page)
+	SECTION: '.profile-communities',
+	ITEMS_CONTAINER: '[data-rotector-carousel-container]',
+	ITEM: '#collection-carousel-item',
+	ITEM_UNPROCESSED: `#collection-carousel-item:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+	TILE: '.base-tile',
+	GROUP_LINK: 'a[href*="/communities/"]',
+	GROUP_NAME: '.base-tile-title',
+	IMAGE_CONTAINER: '.base-tile-thumbnail',
+	THUMBNAIL: '.base-tile-thumbnail img'
 } as const;
 
 // DOM selectors for BTRoblox extension modified groups view

@@ -269,8 +269,10 @@
 				return;
 			}
 
-			// Wait for groups showcase container
-			const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.CONTAINER);
+			// Wait for groups section
+			const result = await waitForElement(
+				`${PROFILE_GROUPS_SHOWCASE_SELECTORS.SECTION} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM}`
+			);
 
 			if (result.success) {
 				showGroupsShowcase = true;

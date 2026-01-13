@@ -29,7 +29,7 @@
 	let error = $state<string | undefined>(undefined);
 
 	let showGroups = $state(false);
-	let mountedComponents = $state(new Map<string, { destroy?: () => void }>());
+	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
 	// Fetch group status
 	$effect(() => {
@@ -108,7 +108,7 @@
 		// Check and unmount existing component
 		const existingComponent = mountedComponents.get('group-owner');
 		if (existingComponent) {
-			existingComponent.destroy?.();
+			existingComponent.unmount?.();
 			mountedComponents.delete('group-owner');
 		}
 
@@ -168,7 +168,7 @@
 
 	// Clean up mounted components and resources
 	function cleanup() {
-		mountedComponents.forEach((component) => component.destroy?.());
+		mountedComponents.forEach((component) => component.unmount?.());
 		mountedComponents.clear();
 		logger.debug('GroupPageManager cleanup completed');
 	}

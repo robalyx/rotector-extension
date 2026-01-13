@@ -25,13 +25,15 @@ class RobloxApiService {
 		const cacheKey = `${userId}:${page}`;
 
 		// Return cached data if available
-		if (this.pageCache.has(cacheKey)) {
-			return this.pageCache.get(cacheKey)!;
+		const cached = this.pageCache.get(cacheKey);
+		if (cached) {
+			return cached;
 		}
 
 		// Deduplicate concurrent requests
-		if (this.pendingRequests.has(cacheKey)) {
-			return this.pendingRequests.get(cacheKey)!;
+		const pending = this.pendingRequests.get(cacheKey);
+		if (pending) {
+			return pending;
 		}
 
 		// For page 1, fetch without cursor

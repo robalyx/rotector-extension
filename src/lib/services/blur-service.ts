@@ -478,6 +478,16 @@ export function resetElementBlur(element: Element): void {
 }
 
 /**
+ * Clean up blur-related attributes and classes from an element.
+ */
+function cleanupBlurElement(el: Element): void {
+	el.classList.remove('blur-clickable');
+	el.removeAttribute(BLUR_SELECTORS.BLUR_USER_ID);
+	el.removeAttribute(BLUR_SELECTORS.BLUR_TYPE);
+	el.removeAttribute('title');
+}
+
+/**
  * Reveal (unblur) user content based on reason types.
  */
 export function revealUserElement(element: Element, status: CombinedStatus): void {
@@ -486,6 +496,7 @@ export function revealUserElement(element: Element, status: CombinedStatus): voi
 
 	if (!blurNames && !blurAvatars) {
 		element.classList.add('blur-revealed');
+		element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach(cleanupBlurElement);
 		return;
 	}
 
@@ -493,6 +504,7 @@ export function revealUserElement(element: Element, status: CombinedStatus): voi
 		const type = el.getAttribute(BLUR_SELECTORS.BLUR_TYPE);
 		if (type === 'avatar' ? !blurAvatars : !blurNames) {
 			el.classList.add('blur-revealed');
+			cleanupBlurElement(el);
 		}
 	});
 }

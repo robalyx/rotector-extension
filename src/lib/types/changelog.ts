@@ -16,6 +16,61 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.9.0',
+		version: '2.9.0',
+		date: '2026-01-16',
+		title: 'Bug Fixes & Improvements',
+		summary:
+			'This update introduces new outfit viewing capabilities, expands friend warning protection, and fixes several bugs.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'Search page friend warnings - Prevents accidentally adding flagged users as friends from search results'
+			},
+			{
+				type: 'added',
+				description:
+					'Outfit picker for queue - Select specific outfits to check when submitting users to the analysis queue'
+			},
+			{
+				type: 'added',
+				description:
+					'Outfit viewer - View all user outfits in a modal from the profile dropdown, with flagged outfits highlighted and sorted first'
+			},
+			{
+				type: 'changed',
+				description:
+					'Simplified queued user status - Removed separate "Likely Safe" indicator, now shows standard "Not Flagged" status'
+			},
+			{
+				type: 'changed',
+				description:
+					'Faster status indicator loading - Status indicators now appear faster on slow-loading pages'
+			},
+			{
+				type: 'changed',
+				description:
+					'Restricted access notice - Clarifies that access was revoked due to being flagged and adds link to appeal via live chat'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Groups page detection - Fixed extension not working when navigating to other pages for a group'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group member list reliability - Fixed status indicators not loading for some users in large group member lists'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile page groups layout - Updated to support new Roblox carousel-based group display'
+			}
+		]
+	},
+	{
 		id: 'v2.8.0',
 		version: '2.8.0',
 		date: '2025-12-19',

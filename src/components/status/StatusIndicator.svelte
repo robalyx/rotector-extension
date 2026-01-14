@@ -9,7 +9,7 @@
 	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
-	import { Flag, Hourglass, Shirt } from 'lucide-svelte';
+	import { Flag, Hourglass } from 'lucide-svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
 	import Tooltip from './Tooltip.svelte';
@@ -103,7 +103,6 @@
 		const badges: string[] = [];
 		if (!isGroup() && statusConfig().isReportable) badges.push('reportable');
 		if (statusConfig().isQueued) badges.push('queue');
-		if (!isGroup() && statusConfig().isOutfitOnly) badges.push('outfit');
 		if (customApiFlagCount() > 0) badges.push('integration');
 		return badges;
 	});
@@ -341,12 +340,6 @@
 		{#if statusConfig().isQueued}
 			<span class="queue-badge {badgeStackClasses().queue}">
 				<Hourglass size={8} strokeWidth={2.5} />
-			</span>
-		{/if}
-
-		{#if !isGroup() && statusConfig().isOutfitOnly}
-			<span class="outfit-badge {badgeStackClasses().outfit}">
-				<Shirt size={9} strokeWidth={2.5} />
 			</span>
 		{/if}
 

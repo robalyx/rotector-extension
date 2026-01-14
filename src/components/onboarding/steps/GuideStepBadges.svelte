@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { Flag, Hourglass, Shirt, Hash } from 'lucide-svelte';
+	import { Flag, Hourglass, Hash } from 'lucide-svelte';
 
 	const badgeTypes = [
 		{
@@ -14,12 +14,6 @@
 			color: '#4f46e5',
 			nameKey: 'onboarding_badge_queue',
 			descKey: 'onboarding_badge_queue_desc'
-		},
-		{
-			icon: Shirt,
-			color: '#a855f7',
-			nameKey: 'onboarding_badge_outfit',
-			descKey: 'onboarding_badge_outfit_desc'
 		},
 		{
 			icon: Hash,

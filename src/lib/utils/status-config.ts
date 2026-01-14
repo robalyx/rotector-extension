@@ -79,6 +79,17 @@ export function getStatusConfig(
 		isOutfitOnly
 	};
 
+	// Outfit-only users show distinct dashed indicator
+	if (isOutfitOnly) {
+		return {
+			...baseConfig,
+			iconName: 'outfit',
+			iconColor: '#888888',
+			textContent: t('tooltip_status_outfit_detected'),
+			textClass: 'status-text-safe'
+		};
+	}
+
 	switch (activeStatus.flagType) {
 		case STATUS.FLAGS.SAFE:
 			return {

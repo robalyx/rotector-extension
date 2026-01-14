@@ -12,4 +12,5 @@ export type StatusIconName =
 	| 'checking'
 	| 'past-offender'
 	| 'mixed'
-	| 'restricted';
+	| 'restricted'
+	| 'outfit';

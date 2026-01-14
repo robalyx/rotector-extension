@@ -38,4 +38,21 @@
 	<CircleHelp class={className} {color} {size} {strokeWidth} />
 {:else if name === 'restricted'}
 	<Ban class={className} {color} {size} {strokeWidth} />
+{:else if name === 'outfit'}
+	<!-- Dashed circle with checkmark -->
+	<svg
+		class={className}
+		fill="none"
+		height={size}
+		stroke={color}
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width={strokeWidth}
+		viewBox="0 0 24 24"
+		width={size}
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<circle cx="12" cy="12" r="10" stroke-dasharray="4 3" />
+		<path d="m9 12 2 2 4-4" />
+	</svg>
 {/if}

@@ -173,11 +173,6 @@
 	@apply flex items-center justify-center;
 }
 
-@utility badge-bg-outfit {
-	background-color: var(--color-status-outfit);
-	@apply flex items-center justify-center;
-}
-
 @utility badge-bg-integration {
 	@apply text-2xs font-bold text-white leading-none;
 	background-color: var(--color-status-integration);
@@ -200,10 +195,6 @@
 
 @utility integration-badge {
 	@apply badge-base badge-bg-integration;
-}
-
-@utility outfit-badge {
-	@apply badge-base badge-bg-outfit;
 }
 
 /* =================================

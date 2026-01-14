@@ -87,11 +87,6 @@
 	background-color: var(--color-status-queued);
 }
 
-@utility tooltip-badge-outfit {
-	@apply tooltip-badge text-white;
-	background-color: var(--color-status-outfit);
-}
-
 @utility tooltip-badge-integration {
 	@apply tooltip-badge text-white;
 	background-color: var(--color-status-integration);

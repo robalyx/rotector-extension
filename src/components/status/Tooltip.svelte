@@ -958,9 +958,6 @@
 						{#if activeStatus?.isQueued}
 							<span class="tooltip-badge tooltip-badge-queued"> {$_('tooltip_badge_queued')} </span>
 						{/if}
-						{#if !isGroup && badgeStatus.isOutfitOnly}
-							<span class="tooltip-badge tooltip-badge-outfit"> {$_('tooltip_badge_outfit')} </span>
-						{/if}
 					</div>
 				{/if}
 

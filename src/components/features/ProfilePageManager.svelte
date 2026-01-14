@@ -5,6 +5,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import {
+		BTROBLOX_GROUPS_SELECTORS,
 		COMPONENT_CLASSES,
 		ENTITY_TYPES,
 		FRIENDS_CAROUSEL_SELECTORS,
@@ -269,7 +270,15 @@
 				return;
 			}
 
-			// Wait for groups section
+			// Check for BTRoblox groups container
+			const btrContainer = document.querySelector(BTROBLOX_GROUPS_SELECTORS.CONTAINER);
+			if (btrContainer) {
+				showGroupsShowcase = true;
+				logger.debug('BTRoblox groups showcase detected and will be managed');
+				return;
+			}
+
+			// Wait for default Roblox groups section
 			const result = await waitForElement(
 				`${PROFILE_GROUPS_SHOWCASE_SELECTORS.SECTION} ${PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM}`
 			);

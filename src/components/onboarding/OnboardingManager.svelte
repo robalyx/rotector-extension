@@ -5,6 +5,8 @@
 		dismissOnboarding,
 		isOnboardingReplay
 	} from '@/lib/stores/onboarding';
+	import { applyAgePreset } from '@/lib/stores/settings';
+	import { AGE_PRESETS } from '@/lib/types/settings';
 	import WelcomeModal from './WelcomeModal.svelte';
 	import LanguageModal from './LanguageModal.svelte';
 	import PresetModal from './PresetModal.svelte';
@@ -32,6 +34,12 @@
 	// Proceed from welcome screen to language settings
 	function handleWelcomeContinue() {
 		currentStep = 'language';
+	}
+
+	// Skip onboarding with default Adult preset
+	async function handleSkip() {
+		await applyAgePreset(AGE_PRESETS.ADULT);
+		await completeOnboarding();
 	}
 
 	// Proceed from language settings to preset selection
@@ -62,13 +70,17 @@
 
 {#if showOnboarding}
 	{#if currentStep === 'welcome'}
-		<WelcomeModal onContinue={handleWelcomeContinue} onDismiss={handleDismiss} />
+		<WelcomeModal
+			onContinue={handleWelcomeContinue}
+			onDismiss={handleDismiss}
+			onSkip={handleSkip}
+		/>
 	{:else if currentStep === 'language'}
-		<LanguageModal onContinue={handleLanguageContinue} onDismiss={handleDismiss} />
+		<LanguageModal onContinue={handleLanguageContinue} onDismiss={handleSkip} />
 	{:else if currentStep === 'preset'}
-		<PresetModal onContinue={handlePresetContinue} onDismiss={handleDismiss} />
+		<PresetModal onContinue={handlePresetContinue} onDismiss={handleSkip} />
 	{:else if currentStep === 'guide'}
-		<GuideModal onDismiss={handleDismiss} onFinish={handleGuideComplete} />
+		<GuideModal onDismiss={handleSkip} onFinish={handleGuideComplete} />
 	{:else if currentStep === 'finish'}
 		<FinishModal onFinish={handleFinish} />
 	{/if}

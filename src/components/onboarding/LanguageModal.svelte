@@ -6,7 +6,6 @@
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { hasTranslatePermission, requestTranslatePermission } from '@/lib/utils/permissions';
-	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
 
 	interface LanguageModalProps {
 		onContinue: () => void;
@@ -17,45 +16,21 @@
 
 	let isOpen = $state(true);
 	let isClosing = $state(false);
-	let showConfirmDialog = $state(false);
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
-	let previouslyFocusedElement = $state<HTMLElement | null>(null);
 	const headingId = `language-modal-title-${Math.random().toString(36).slice(2)}`;
 
 	const availableLocales = getAvailableLocales();
 	let translateEnabled = $state($settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]);
 
-	// Show close confirmation dialog
-	function requestClose() {
-		showConfirmDialog = true;
-	}
-
-	// Close modal and trigger dismiss callback
-	function confirmClose() {
-		showConfirmDialog = false;
+	// Animate modal close and execute callback
+	function closeModal(callback: () => void) {
 		isClosing = true;
 		setTimeout(() => {
 			isOpen = false;
 			isClosing = false;
-			onDismiss();
-			previouslyFocusedElement?.focus();
-		}, 300);
-	}
-
-	// Hide close confirmation dialog
-	function cancelClose() {
-		showConfirmDialog = false;
-	}
-
-	// Close modal and proceed to next step
-	function handleContinue() {
-		isClosing = true;
-		setTimeout(() => {
-			isOpen = false;
-			isClosing = false;
-			onContinue();
+			callback();
 		}, 300);
 	}
 
@@ -64,48 +39,44 @@
 		await setLanguage(value);
 	}
 
+	// Request translate permission if not already granted
+	async function ensureTranslatePermission(): Promise<void> {
+		const hasPermission = await hasTranslatePermission();
+		if (!hasPermission) {
+			await requestTranslatePermission();
+		}
+	}
+
 	// Handle translate toggle change
 	function handleTranslateChange(e: Event) {
 		const target = e.target as HTMLInputElement;
 		const newValue = target.checked;
 
-		// Update UI and save setting
 		translateEnabled = newValue;
 		void updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, newValue);
 
-		// Request permission when enabling
 		if (newValue) {
-			void (async () => {
-				const alreadyHasPermission = await hasTranslatePermission();
-				if (!alreadyHasPermission) {
-					await requestTranslatePermission();
-				}
-			})();
+			void ensureTranslatePermission();
 		}
 	}
 
-	// Handle escape key to close or cancel confirmation
+	// Handle escape key to close
 	function handleEscape(e: KeyboardEvent) {
 		if (e.key === 'Escape' && isOpen) {
-			if (showConfirmDialog) {
-				cancelClose();
-			} else {
-				requestClose();
-			}
+			closeModal(onDismiss);
 		}
 	}
 
 	// Handle clicks on overlay to trigger close
 	function handleOverlayClick(e: MouseEvent) {
 		if (e.target === overlayElement) {
-			requestClose();
+			closeModal(onDismiss);
 		}
 	}
 
 	// Initialize modal and set up keyboard listeners
 	$effect(() => {
 		if (isOpen) {
-			previouslyFocusedElement = document.activeElement as HTMLElement | null;
 			document.addEventListener('keydown', handleEscape);
 			requestAnimationFrame(() => {
 				if (overlayElement) {
@@ -149,7 +120,7 @@
 						bind:this={closeButtonEl}
 						class="onboarding-close"
 						aria-label="Close dialog"
-						onclick={requestClose}
+						onclick={() => closeModal(onDismiss)}
 						type="button"
 					>
 						<X aria-hidden="true" color="var(--color-error)" size={24} />
@@ -219,15 +190,15 @@
 				</div>
 
 				<div class="onboarding-actions">
-					<button class="onboarding-button-primary" onclick={handleContinue} type="button">
+					<button
+						class="onboarding-button-primary"
+						onclick={() => closeModal(onContinue)}
+						type="button"
+					>
 						{$_('onboarding_language_continue')}
 					</button>
 				</div>
 			</div>
 		</div>
-
-		{#if showConfirmDialog}
-			<CloseConfirmDialog onCancel={cancelClose} onConfirm={confirmClose} />
-		{/if}
 	</Portal>
 {/if}

@@ -4,7 +4,6 @@
 	import { X } from 'lucide-svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
-	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
 	import GuideStepStatus from './steps/GuideStepStatus.svelte';
 	import GuideStepBadges from './steps/GuideStepBadges.svelte';
 	import GuideStepFeatures from './steps/GuideStepFeatures.svelte';
@@ -34,61 +33,32 @@
 	let currentStepIndex = $state(0);
 	let isOpen = $state(true);
 	let isClosing = $state(false);
-	let showConfirmDialog = $state(false);
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
-	let previouslyFocusedElement = $state<HTMLElement | null>(null);
 	const headingId = `guide-modal-title-${Math.random().toString(36).slice(2)}`;
 
-	// Show close confirmation dialog
-	function requestClose() {
-		showConfirmDialog = true;
-	}
-
-	// Close modal and trigger dismiss callback
-	function confirmClose() {
-		showConfirmDialog = false;
-		isClosing = true;
-		setTimeout(() => {
-			isOpen = false;
-			isClosing = false;
-			onDismiss();
-			previouslyFocusedElement?.focus();
-		}, 300);
-	}
-
-	// Hide close confirmation dialog
-	function cancelClose() {
-		showConfirmDialog = false;
-	}
-
-	// Close modal and trigger callback
+	// Animate modal close and execute callback
 	function closeModal(callback: () => void) {
 		isClosing = true;
 		setTimeout(() => {
 			isOpen = false;
 			isClosing = false;
 			callback();
-			previouslyFocusedElement?.focus();
 		}, 300);
 	}
 
-	// Handle escape key to close or cancel confirmation
+	// Handle escape key to close
 	function handleEscape(e: KeyboardEvent) {
 		if (e.key === 'Escape' && isOpen) {
-			if (showConfirmDialog) {
-				cancelClose();
-			} else {
-				requestClose();
-			}
+			closeModal(onDismiss);
 		}
 	}
 
 	// Handle clicks on overlay to trigger close
 	function handleOverlayClick(e: MouseEvent) {
 		if (e.target === overlayElement) {
-			requestClose();
+			closeModal(onDismiss);
 		}
 	}
 
@@ -111,7 +81,6 @@
 	// Initialize modal and set up keyboard listeners
 	$effect(() => {
 		if (isOpen) {
-			previouslyFocusedElement = document.activeElement as HTMLElement | null;
 			document.addEventListener('keydown', handleEscape);
 			requestAnimationFrame(() => {
 				if (overlayElement) {
@@ -171,7 +140,7 @@
 						bind:this={closeButtonEl}
 						class="onboarding-close"
 						aria-label="Close dialog"
-						onclick={requestClose}
+						onclick={() => closeModal(onDismiss)}
 						type="button"
 					>
 						<X aria-hidden="true" color="var(--color-error)" size={24} />
@@ -206,9 +175,5 @@
 				</div>
 			</div>
 		</div>
-
-		{#if showConfirmDialog}
-			<CloseConfirmDialog onCancel={cancelClose} onConfirm={confirmClose} />
-		{/if}
 	</Portal>
 {/if}

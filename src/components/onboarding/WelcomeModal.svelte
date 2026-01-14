@@ -11,10 +11,11 @@
 
 	interface WelcomeModalProps {
 		onContinue: () => void;
+		onSkip: () => void;
 		onDismiss: () => void;
 	}
 
-	let { onContinue, onDismiss }: WelcomeModalProps = $props();
+	let { onContinue, onSkip, onDismiss }: WelcomeModalProps = $props();
 
 	let isOpen = $state(true);
 	let isClosing = $state(false);
@@ -42,31 +43,28 @@
 		showConfirmDialog = true;
 	}
 
-	// Close modal and trigger dismiss callback
-	function confirmClose() {
-		showConfirmDialog = false;
+	// Animate modal close and execute callback
+	function closeModal(callback: () => void) {
 		isClosing = true;
 		setTimeout(() => {
 			isOpen = false;
 			isClosing = false;
+			callback();
+		}, 300);
+	}
+
+	// Close modal and trigger dismiss callback
+	function confirmClose() {
+		showConfirmDialog = false;
+		closeModal(() => {
 			onDismiss();
 			previouslyFocusedElement?.focus();
-		}, 300);
+		});
 	}
 
 	// Hide close confirmation dialog
 	function cancelClose() {
 		showConfirmDialog = false;
-	}
-
-	// Close modal and proceed to next step
-	function handleContinue() {
-		isClosing = true;
-		setTimeout(() => {
-			isOpen = false;
-			isClosing = false;
-			onContinue();
-		}, 300);
 	}
 
 	// Handle escape key to close or cancel confirmation
@@ -200,9 +198,17 @@
 
 				<div class="onboarding-actions">
 					<button
+						class="onboarding-button-secondary"
+						disabled={!canProceed}
+						onclick={() => closeModal(onSkip)}
+						type="button"
+					>
+						{$_('onboarding_welcome_skip')}
+					</button>
+					<button
 						class="onboarding-button-primary"
 						disabled={!canProceed}
-						onclick={handleContinue}
+						onclick={() => closeModal(onContinue)}
 						type="button"
 					>
 						{$_('onboarding_welcome_continue')}

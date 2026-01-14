@@ -103,9 +103,13 @@
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-primary);
 
-	&:hover {
+	&:hover:not(:disabled) {
 		background-color: var(--color-card-hover);
 		@apply shadow-md -translate-y-px;
+	}
+
+	&:disabled {
+		@apply opacity-50 cursor-not-allowed;
 	}
 }
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
+	import { _ } from 'svelte-i18n';
 	import { mount } from 'svelte';
 	import { settings } from '@/lib/stores/settings';
 	import { logger } from '@/lib/utils/logger';
@@ -10,6 +11,7 @@
 		ENTITY_TYPES,
 		FRIENDS_CAROUSEL_SELECTORS,
 		PAGE_TYPES,
+		PROFILE_DROPDOWN_SELECTORS,
 		PROFILE_GROUPS_SHOWCASE_SELECTORS,
 		PROFILE_SELECTORS,
 		USER_ACTIONS
@@ -17,12 +19,17 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import { queryUserProgressive } from '@/lib/services/unified-query-service';
+	import { queryUserProgressive, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { markProfileElementsForBlur, revealProfileElements } from '@/lib/services/blur-service';
 	import { isFlagged } from '@/lib/utils/status-utils';
+	import {
+		extractFlaggedOutfitNames,
+		type FlaggedOutfitInfo
+	} from '@/lib/utils/violation-formatter';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
+	import OutfitViewerModal from './OutfitViewerModal.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import UserListManager from './UserListManager.svelte';
 	import GroupListManager from './GroupListManager.svelte';
@@ -41,6 +48,7 @@
 
 	// Component state
 	let friendWarningOpen = $state(false);
+	let outfitViewerOpen = $state(false);
 	let showCarousel = $state(false);
 	let showGroupsShowcase = $state(false);
 	let profileElementsReady = $state(false);
@@ -49,8 +57,21 @@
 	let queueModalManager: QueueModalManagerInstance | undefined;
 	let statusContainer: HTMLElement | null = null;
 	let friendButtonHandler: ((event: Event) => void) | null = null;
+	let dropdownObserver: MutationObserver | null = null;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 	let cancelQuery: (() => void) | null = null;
+
+	// Extract flagged outfit names from user status
+	const flaggedOutfits = $derived.by(() => {
+		if (!userStatus) return new Map<string, FlaggedOutfitInfo>();
+
+		const rotectorStatus = userStatus.customApis.get(ROTECTOR_API_ID)?.data;
+		if (!rotectorStatus?.reasons?.['Avatar Outfit']?.evidence) {
+			return new Map<string, FlaggedOutfitInfo>();
+		}
+
+		return extractFlaggedOutfitNames(rotectorStatus.reasons['Avatar Outfit'].evidence);
+	});
 
 	// Fetch status progressively
 	$effect(() => {
@@ -85,6 +106,7 @@
 				setupGroupsShowcase()
 			]);
 
+			setupDropdownObserver();
 			profileElementsReady = true;
 
 			logger.debug('ProfilePageManager initialized successfully');
@@ -294,6 +316,64 @@
 		}
 	}
 
+	// Set up dropdown observer to inject outfit viewer button
+	function setupDropdownObserver() {
+		dropdownObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				for (const node of mutation.addedNodes) {
+					if (node instanceof HTMLElement) {
+						const menu =
+							node.querySelector(PROFILE_DROPDOWN_SELECTORS.MENU) ||
+							(node.classList.contains('foundation-web-menu') ? node : null);
+						if (menu) {
+							injectOutfitViewerButton(menu);
+						}
+					}
+				}
+			}
+		});
+
+		dropdownObserver.observe(document.body, { childList: true, subtree: true });
+		logger.debug('Dropdown observer set up');
+	}
+
+	// Inject outfit viewer button into profile dropdown menu
+	function injectOutfitViewerButton(menu: Element) {
+		if (menu.querySelector('[data-rotector-outfit-btn]')) return;
+
+		const menuContent = menu.querySelector('.padding-small');
+		if (!menuContent) return;
+
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.dataset.rotectorOutfitBtn = 'true';
+		button.className =
+			'relative clip group/interactable focus-visible:outline-focus disabled:outline-none foundation-web-menu-item flex items-center content-default text-truncate-split focus-visible:hover:outline-none cursor-pointer stroke-none bg-none text-align-x-left width-full text-body-medium padding-x-medium padding-y-small gap-x-medium radius-medium';
+		button.style.cssText = 'outline-offset: 0px;';
+		button.innerHTML = `
+			<div role="presentation" class="absolute inset-[0] transition-colors group-hover/interactable:bg-[var(--color-state-hover)] group-active/interactable:bg-[var(--color-state-press)] group-disabled/interactable:bg-none"></div>
+			<div class="grow-1 text-truncate-split flex flex-col gap-y-xsmall">
+				<span class="foundation-web-menu-item-title text-no-wrap text-truncate-split content-emphasis">${get(_)('outfit_viewer_button')}</span>
+			</div>
+		`;
+
+		button.addEventListener('click', (e) => {
+			e.stopPropagation();
+			outfitViewerOpen = true;
+			document.body.click();
+		});
+
+		const items = menuContent.querySelectorAll(PROFILE_DROPDOWN_SELECTORS.MENU_ITEM);
+		const lastItem = items[items.length - 1];
+		if (lastItem) {
+			menuContent.insertBefore(button, lastItem);
+		} else {
+			menuContent.appendChild(button);
+		}
+
+		logger.debug('Outfit viewer button injected into dropdown');
+	}
+
 	// Handle status indicator click
 	function handleStatusClick(clickedUserId: string) {
 		logger.userAction(USER_ACTIONS.STATUS_CLICKED, { userId: clickedUserId });
@@ -411,6 +491,12 @@
 				friendButtonHandler = null;
 			}
 
+			// Clean up dropdown observer
+			if (dropdownObserver) {
+				dropdownObserver.disconnect();
+				dropdownObserver = null;
+			}
+
 			// Clean up mounted components
 			mountedComponents.forEach((component) => component.unmount?.());
 			mountedComponents.clear();
@@ -523,6 +609,14 @@
 
 <!-- Queue Modal Manager -->
 <QueueModalManager bind:this={queueModalManager} onStatusRefresh={handleStatusRefresh} />
+
+<!-- Outfit Viewer Modal -->
+<OutfitViewerModal
+	{flaggedOutfits}
+	onClose={() => (outfitViewerOpen = false)}
+	{userId}
+	bind:isOpen={outfitViewerOpen}
+/>
 
 <!-- Carousel Manager -->
 {#if showCarousel}

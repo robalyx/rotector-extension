@@ -80,6 +80,7 @@
 @import './features/modal/friend-warning.css';
 @import './features/modal/queue-modal.css';
 @import './features/modal/outfit-picker.css';
+@import './features/modal/outfit-viewer.css';
 
 /* Tooltip System */
 @import './features/tooltip/base.css';

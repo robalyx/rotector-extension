@@ -23,6 +23,8 @@
 		size?: 'normal' | 'small';
 		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error' | 'queue-loading';
 		children: import('svelte').Snippet;
+		actions?: import('svelte').Snippet;
+		headerContent?: import('svelte').Snippet;
 	}
 
 	let {
@@ -45,7 +47,9 @@
 		actionsLayout = 'vertical',
 		size = 'normal',
 		modalType = 'modal',
-		children
+		children,
+		actions,
+		headerContent
 	}: ModalProps = $props();
 
 	let isClosing = $state(false);
@@ -194,6 +198,9 @@
 									? 'queue-loading-header'
 									: 'modal-header'}
 				>
+					{#if headerContent}
+						{@render headerContent()}
+					{/if}
 					{#if icon}
 						<div class="mr-2 flex items-center">
 							{#if icon === 'warning'}
@@ -260,62 +267,68 @@
 					{@render children()}
 				</div>
 
-				<div
-					class={actionsLayout === 'horizontal'
-						? modalType === 'friend-warning'
-							? 'friend-warning-actions-horizontal'
-							: modalType === 'queue-success'
-								? 'queue-success-actions-horizontal'
-								: modalType === 'queue-error'
-									? 'queue-error-actions-horizontal'
-									: modalType === 'queue-loading'
-										? 'queue-loading-actions-horizontal'
-										: 'modal-actions-horizontal'
-						: modalType === 'friend-warning'
-							? 'friend-warning-actions'
-							: modalType === 'queue-success'
-								? 'queue-success-actions'
-								: modalType === 'queue-error'
-									? 'queue-error-actions'
-									: modalType === 'queue-loading'
-										? 'queue-loading-actions'
-										: 'modal-actions'}
-				>
-					{#if showBlock}
-						<button
-							class={modalType === 'friend-warning' ? 'friend-warning-block' : 'modal-cancel'}
-							onclick={() => closeModal('block')}
-							type="button"
-						>
-							{blockText}
-						</button>
-					{/if}
-					{#if showCancel}
-						<button
-							class={modalType === 'friend-warning' ? 'friend-warning-cancel' : 'modal-cancel'}
-							onclick={() => closeModal(false)}
-							type="button"
-						>
-							{cancelText}
-						</button>
-					{/if}
-					{#if showConfirm}
-						<button
-							class={modalType === 'friend-warning' ? 'friend-warning-confirm' : 'modal-confirm'}
-							class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
-								confirmVariant === 'danger'}
-							class:modal-confirm-danger={modalType !== 'friend-warning' &&
-								confirmVariant === 'danger'}
-							class:modal-confirm-queue={modalType !== 'friend-warning' &&
-								confirmVariant === 'queue'}
-							disabled={confirmDisabled}
-							onclick={() => closeModal(true)}
-							type="button"
-						>
-							{confirmText}
-						</button>
-					{/if}
-				</div>
+				{#if actions}
+					<div class="modal-actions-horizontal">
+						{@render actions()}
+					</div>
+				{:else if showBlock || showCancel || showConfirm}
+					<div
+						class={actionsLayout === 'horizontal'
+							? modalType === 'friend-warning'
+								? 'friend-warning-actions-horizontal'
+								: modalType === 'queue-success'
+									? 'queue-success-actions-horizontal'
+									: modalType === 'queue-error'
+										? 'queue-error-actions-horizontal'
+										: modalType === 'queue-loading'
+											? 'queue-loading-actions-horizontal'
+											: 'modal-actions-horizontal'
+							: modalType === 'friend-warning'
+								? 'friend-warning-actions'
+								: modalType === 'queue-success'
+									? 'queue-success-actions'
+									: modalType === 'queue-error'
+										? 'queue-error-actions'
+										: modalType === 'queue-loading'
+											? 'queue-loading-actions'
+											: 'modal-actions'}
+					>
+						{#if showBlock}
+							<button
+								class={modalType === 'friend-warning' ? 'friend-warning-block' : 'modal-cancel'}
+								onclick={() => closeModal('block')}
+								type="button"
+							>
+								{blockText}
+							</button>
+						{/if}
+						{#if showCancel}
+							<button
+								class={modalType === 'friend-warning' ? 'friend-warning-cancel' : 'modal-cancel'}
+								onclick={() => closeModal(false)}
+								type="button"
+							>
+								{cancelText}
+							</button>
+						{/if}
+						{#if showConfirm}
+							<button
+								class={modalType === 'friend-warning' ? 'friend-warning-confirm' : 'modal-confirm'}
+								class:friend-warning-confirm-danger={modalType === 'friend-warning' &&
+									confirmVariant === 'danger'}
+								class:modal-confirm-danger={modalType !== 'friend-warning' &&
+									confirmVariant === 'danger'}
+								class:modal-confirm-queue={modalType !== 'friend-warning' &&
+									confirmVariant === 'queue'}
+								disabled={confirmDisabled}
+								onclick={() => closeModal(true)}
+								type="button"
+							>
+								{confirmText}
+							</button>
+						{/if}
+					</div>
+				{/if}
 			</div>
 		</div>
 	</Portal>

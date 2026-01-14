@@ -1072,7 +1072,9 @@
 											{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
 												<div class="evidence-item outfit-evidence-item">
 													<div class="outfit-evidence-header">
-														<div class="outfit-name">{getDisplayText(evidence.outfitName)}</div>
+														<div class="outfit-evidence-name">
+															{getDisplayText(evidence.outfitName)}
+														</div>
 														{#if evidence.outfitConfidence !== null}
 															<div class="outfit-confidence-badge">
 																{evidence.outfitConfidence}

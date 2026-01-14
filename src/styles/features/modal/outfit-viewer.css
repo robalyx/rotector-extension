@@ -1,0 +1,138 @@
+/* =================================
+   OUTFIT VIEWER MODAL
+   ================================= */
+
+@utility outfit-viewer-header-logo {
+	@apply flex-shrink-0 pr-3 mr-3 border-r-2 border-white/20;
+
+	& img {
+		@apply h-8 w-auto;
+	}
+}
+
+@utility outfit-viewer-disclaimer {
+	@apply flex items-center gap-2.5 p-3 rounded-lg mb-4 text-sm;
+	background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
+	color: var(--color-warning);
+}
+
+@utility outfit-viewer-disclaimer-icon {
+	@apply shrink-0;
+	color: var(--color-warning);
+}
+
+@utility outfit-viewer-loading {
+	@apply flex flex-col items-center justify-center gap-3 py-12;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-error {
+	@apply flex flex-col items-center gap-3 py-8 text-center text-sm;
+	color: var(--color-error);
+}
+
+@utility outfit-viewer-retry {
+	@apply px-3 py-1.5 text-sm font-medium rounded-md transition-colors cursor-pointer;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+
+	&:hover {
+		background-color: var(--color-bg-secondary);
+	}
+}
+
+@utility outfit-viewer-empty {
+	@apply flex flex-col items-center gap-2 py-12 text-center text-sm;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-grid {
+	@apply grid gap-4 py-2;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* =================================
+   OUTFIT STACK
+   ================================= */
+
+@utility outfit-stack-container {
+	@apply flex flex-col items-center;
+}
+
+@utility outfit-stack-primary {
+	@apply relative rounded-lg overflow-hidden;
+	width: 120px;
+	height: 120px;
+	background-color: var(--color-bg-tertiary);
+	border: 2px solid transparent;
+	padding: 0;
+	cursor: default;
+}
+
+@utility outfit-stack-primary-clickable {
+	cursor: pointer;
+	transition: transform 0.15s ease;
+
+	&:hover {
+		transform: scale(1.02);
+	}
+}
+
+@utility outfit-stack-item-flagged {
+	border-color: var(--color-warning);
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-warning) 25%, transparent);
+}
+
+@utility outfit-stack-thumbnail {
+	@apply w-full h-full object-cover;
+}
+
+@utility outfit-stack-thumbnail-pending {
+	@apply w-full h-full flex items-center justify-center;
+	background-color: var(--color-bg-secondary);
+}
+
+@utility outfit-stack-thumbnail-placeholder {
+	@apply w-full h-full flex items-center justify-center;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-stack-flagged-indicator {
+	@apply absolute flex items-center justify-center rounded-full;
+	top: 4px;
+	right: 4px;
+	width: 18px;
+	height: 18px;
+	background-color: var(--color-warning);
+	color: white;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+@utility outfit-stack-count-badge {
+	@apply absolute flex items-center gap-0.5 text-xs font-bold rounded-full;
+	bottom: 4px;
+	right: 4px;
+	padding: 2px 6px;
+	background-color: var(--color-primary);
+	color: white;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@utility outfit-stack-name {
+	@apply text-sm text-center truncate w-full mt-2;
+	color: var(--color-text);
+	max-width: 120px;
+}
+
+@utility outfit-stack-expanded {
+	@apply grid gap-2 mt-2 w-full;
+	grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+}
+
+@utility outfit-stack-expanded-item {
+	@apply rounded overflow-hidden aspect-square;
+	background-color: var(--color-bg-tertiary);
+}

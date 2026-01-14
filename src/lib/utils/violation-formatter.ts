@@ -15,30 +15,46 @@ interface FormattedEvidence {
 	outfitConfidence?: number | null;
 }
 
-// Formats a single outfit evidence item with the pattern: "outfit name|reason|confidence"
-function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
-	// Check if the evidence matches the outfit pattern: "name|reason|confidence"
+interface ParsedOutfitEvidence {
+	name: string;
+	reason: string;
+	confidence: number | null;
+}
+
+export interface FlaggedOutfitInfo {
+	reason: string;
+	confidence: number;
+}
+
+// Parses outfit evidence in format "name|reason|confidence"
+function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null {
 	const parts = evidenceText.split('|');
-	if (parts.length !== 3) {
-		// Not the expected format, return as regular evidence
-		return {
-			type: 'regular',
-			content: evidenceText
-		};
-	}
+	if (parts.length !== 3) return null;
 
-	const [outfitName, reason, confidenceStr] = parts.map((part) => part.trim());
+	const [name, reason, confidenceStr] = parts.map((part) => part.trim());
+	if (!name) return null;
 
-	// Parse confidence (should be a decimal like 0.70)
 	const confidence = parseFloat(confidenceStr);
-	const confidencePercent = isNaN(confidence) ? null : Math.round(confidence * 100);
+	return {
+		name,
+		reason,
+		confidence: isNaN(confidence) ? null : Math.round(confidence * 100)
+	};
+}
+
+// Formats a single outfit evidence item with the pattern "outfit name|reason|confidence"
+function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
+	const parsed = parseOutfitEvidence(evidenceText);
+	if (!parsed) {
+		return { type: 'regular', content: evidenceText };
+	}
 
 	return {
 		type: 'outfit',
 		content: evidenceText,
-		outfitName,
-		outfitReason: reason,
-		outfitConfidence: confidencePercent
+		outfitName: parsed.name,
+		outfitReason: parsed.reason,
+		outfitConfidence: parsed.confidence
 	};
 }
 
@@ -87,4 +103,21 @@ export function formatViolationReasons(
 
 		return formattedEntry;
 	});
+}
+
+// Extracts flagged outfit names with their reasons and confidence from evidence array
+export function extractFlaggedOutfitNames(evidence: string[]): Map<string, FlaggedOutfitInfo> {
+	const flaggedOutfits = new Map<string, FlaggedOutfitInfo>();
+
+	for (const item of evidence) {
+		const parsed = parseOutfitEvidence(item);
+		if (!parsed) continue;
+
+		flaggedOutfits.set(parsed.name, {
+			reason: parsed.reason,
+			confidence: parsed.confidence ?? 0
+		});
+	}
+
+	return flaggedOutfits;
 }

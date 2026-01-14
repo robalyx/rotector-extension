@@ -134,6 +134,13 @@ export const PROFILE_SELECTORS = {
 	REDESIGNED_FRIEND_BUTTON: 'button.foundation-web-button'
 } as const;
 
+// DOM selectors for profile dropdown menu
+export const PROFILE_DROPDOWN_SELECTORS = {
+	MENU: '.foundation-web-menu',
+	MENU_ITEM: '.foundation-web-menu-item',
+	MENU_ITEM_TITLE: '.foundation-web-menu-item-title'
+} as const;
+
 // DOM selectors for friends list pages
 export const FRIENDS_SELECTORS = {
 	CONTAINER: '.hlist.avatar-cards',

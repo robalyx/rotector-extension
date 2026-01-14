@@ -11,18 +11,25 @@ const ROBLOX_AVATAR_API = 'https://avatar.roblox.com';
 const ROBLOX_THUMBNAILS_API = 'https://thumbnails.roblox.com';
 const ROBLOX_USERS_API = 'https://users.roblox.com';
 export const THUMBNAIL_RETRY_DELAY = 2000;
-const ITEMS_PAGE_ONE = 8;
-const ITEMS_OTHER_PAGES = 9;
+
+// Page sizes for outfit picker (accounts for current avatar on page 1)
+const PICKER_ITEMS_PAGE_ONE = 8;
+const PICKER_ITEMS_OTHER_PAGES = 9;
+
+// Default page size for outfit viewer grid
+export const VIEWER_ITEMS_PER_PAGE = 9;
 
 class RobloxApiService {
 	private readonly pageCache: Map<string, PaginatedOutfitsResult> = new Map();
 	private readonly pendingRequests: Map<string, Promise<PaginatedOutfitsResult>> = new Map();
 
-	/**
-	 * Fetch user outfits with thumbnails for a specific page
-	 */
-	async getUserOutfits(userId: string | number, page: number = 1): Promise<PaginatedOutfitsResult> {
-		const cacheKey = `${userId}:${page}`;
+	// Fetch user outfits with thumbnails for a specific page
+	async getUserOutfits(
+		userId: string | number,
+		page: number = 1,
+		itemsPerPage?: number
+	): Promise<PaginatedOutfitsResult> {
+		const cacheKey = itemsPerPage ? `${userId}:${page}:${itemsPerPage}` : `${userId}:${page}`;
 
 		// Return cached data if available
 		const cached = this.pageCache.get(cacheKey);
@@ -40,10 +47,12 @@ class RobloxApiService {
 		// For subsequent pages, we need the cursor from the previous page
 		let cursor: string | null = null;
 		if (page > 1) {
-			const prevCacheKey = `${userId}:${page - 1}`;
+			const prevCacheKey = itemsPerPage
+				? `${userId}:${page - 1}:${itemsPerPage}`
+				: `${userId}:${page - 1}`;
 			const prevPage = this.pageCache.get(prevCacheKey);
 			if (!prevPage) {
-				await this.getUserOutfits(userId, page - 1);
+				await this.getUserOutfits(userId, page - 1, itemsPerPage);
 				const prevPageResult = this.pageCache.get(prevCacheKey);
 				cursor = prevPageResult?.nextCursor ?? null;
 			} else {
@@ -60,7 +69,7 @@ class RobloxApiService {
 			}
 		}
 
-		const promise = this.fetchOutfitsWithThumbnails(userId, page, cursor);
+		const promise = this.fetchOutfitsWithThumbnails(userId, page, cursor, itemsPerPage);
 		this.pendingRequests.set(cacheKey, promise);
 
 		try {
@@ -78,9 +87,11 @@ class RobloxApiService {
 	private async fetchOutfitsWithThumbnails(
 		userId: string | number,
 		page: number,
-		cursor: string | null
+		cursor: string | null,
+		fixedItemsPerPage?: number
 	): Promise<PaginatedOutfitsResult> {
-		const itemsPerPage = page === 1 ? ITEMS_PAGE_ONE : ITEMS_OTHER_PAGES;
+		const itemsPerPage =
+			fixedItemsPerPage ?? (page === 1 ? PICKER_ITEMS_PAGE_ONE : PICKER_ITEMS_OTHER_PAGES);
 		let outfitsUrl = `${ROBLOX_AVATAR_API}/v2/avatar/users/${userId}/outfits?itemsPerPage=${itemsPerPage}&isEditable=true`;
 		if (cursor) {
 			outfitsUrl += `&paginationToken=${encodeURIComponent(cursor)}`;

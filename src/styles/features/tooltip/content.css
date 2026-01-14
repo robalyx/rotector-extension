@@ -373,8 +373,8 @@
 	@apply flex justify-between items-center mb-1;
 }
 
-@utility outfit-name {
-	@apply font-semibold text-base;
+@utility outfit-evidence-name {
+	@apply font-semibold text-base text-left;
 	color: var(--color-text);
 }
 

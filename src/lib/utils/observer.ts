@@ -88,7 +88,7 @@ export abstract class Observer {
 /**
  * A mutation observer manager with health checking and auto-recovery
  */
-export class ObserverManager extends Observer {
+class ObserverManager extends Observer {
 	private readonly config: Required<ObserverConfig>;
 	private observer: MutationObserver | null = null;
 	private reconnectTimer: number | null = null;
@@ -344,7 +344,7 @@ export class ObserverManager extends Observer {
 /**
  * Observer for URL changes in single-page applications
  */
-export class UrlChangeObserver extends Observer {
+class UrlChangeObserver extends Observer {
 	private readonly config: Required<UrlChangeObserverConfig>;
 	private currentUrl: string;
 	private timer: number | null = null;

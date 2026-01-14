@@ -487,19 +487,10 @@
 	title={$_('settings_modal_title')}
 	bind:isOpen={showMatureWarning}
 >
-	<p class="mb-4 text-sm leading-relaxed">
-		{$_('settings_modal_warning_text')}
+	<p class="mb-3 text-sm leading-relaxed">
+		{$_('settings_modal_paragraph1')}
 	</p>
-
-	<div class="modal-content-section-warning">
-		<h4 class="modal-content-heading">{$_('settings_modal_considerations_heading')}</h4>
-		<ul class="modal-content-list">
-			<li class="modal-content-list-item-warning">
-				{$_('settings_modal_considerations_item1')}
-			</li>
-			<li class="modal-content-list-item-warning">
-				{$_('settings_modal_considerations_item2')}
-			</li>
-		</ul>
-	</div>
+	<p class="text-sm leading-relaxed text-color-text-muted">
+		{$_('settings_modal_paragraph2')}
+	</p>
 </Modal>

@@ -8,6 +8,7 @@
 		ENTITY_TYPES,
 		FRIENDS_CAROUSEL_SELECTORS,
 		FRIENDS_SELECTORS,
+		GROUPS_MODAL_SELECTORS,
 		GROUPS_SELECTORS,
 		LOOKUP_CONTEXT,
 		PAGE_TYPES,
@@ -43,6 +44,10 @@
 	// Local state
 	let observer: Observer | null = null;
 	let containerWatcher: Observer | null = null;
+	let modalObserver: Observer | null = null;
+	let modalContainerWatcher: Observer | null = null;
+	let modalCloseObserver: MutationObserver | null = null;
+	let vlistWaitObserver: MutationObserver | null = null;
 	let processedUsers = new SvelteSet<string>();
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let loadingUsers = new SvelteSet<string>();
@@ -236,12 +241,17 @@
 
 	// Initialize observer for groups page
 	async function initializeGroupsPageObserver() {
-		await initializePaginatedPageObserver({
-			pageName: 'Groups',
-			containerSelector: GROUPS_SELECTORS.CONTAINER,
-			itemSelector: GROUPS_SELECTORS.TILE,
-			observerName: 'groups-list-observer'
-		});
+		await Promise.all([
+			// Legacy observer for inline tile-based list
+			initializePaginatedPageObserver({
+				pageName: 'Groups',
+				containerSelector: GROUPS_SELECTORS.CONTAINER,
+				itemSelector: GROUPS_SELECTORS.TILE,
+				observerName: 'groups-list-observer'
+			}),
+			// Modal observer for A/B test variant
+			initializeGroupsModalObserver()
+		]);
 	}
 
 	// Initialize observer for search page
@@ -252,6 +262,144 @@
 			itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
 			observerName: 'search-list-observer'
 		});
+	}
+
+	// Initialize observer for modal-based member list
+	async function initializeGroupsModalObserver() {
+		logger.debug('Initializing groups modal observer');
+
+		modalContainerWatcher = observerFactory.createContainerWatcher({
+			name: 'groups-modal-watcher',
+			containerSelector: GROUPS_MODAL_SELECTORS.MODAL,
+			onContainerAdded: (modal: Element) => {
+				logger.debug('Groups modal opened via watcher, setting up observer');
+				void setupModalListObserver(modal);
+			}
+		});
+
+		await modalContainerWatcher.start();
+		logger.debug('Groups modal container watcher started');
+
+		const existingModal = document.querySelector(GROUPS_MODAL_SELECTORS.MODAL);
+		if (existingModal) {
+			logger.debug('Existing modal found on init');
+			void setupModalListObserver(existingModal);
+		}
+	}
+
+	// Set up list observer for items in modal
+	async function setupModalListObserver(modal: Element) {
+		logger.debug('Setting up modal list observer');
+
+		// Clean up existing modal observer
+		if (modalObserver) {
+			modalObserver.stop();
+			modalObserver.cleanup();
+			modalObserver = null;
+		}
+
+		// Wait for virtual list container if not present
+		const vlist = modal.querySelector(GROUPS_MODAL_SELECTORS.VLIST);
+		logger.debug('Modal vlist search result', {
+			found: !!vlist,
+			selector: GROUPS_MODAL_SELECTORS.VLIST
+		});
+
+		if (!vlist) {
+			logger.debug('Waiting for vlist to appear in modal');
+			if (vlistWaitObserver) {
+				vlistWaitObserver.disconnect();
+				vlistWaitObserver = null;
+			}
+			vlistWaitObserver = new MutationObserver((_, obs) => {
+				if (destroyed) {
+					obs.disconnect();
+					return;
+				}
+				const foundVlist = modal.querySelector(GROUPS_MODAL_SELECTORS.VLIST);
+				if (foundVlist) {
+					logger.debug('Vlist appeared in modal');
+					obs.disconnect();
+					vlistWaitObserver = null;
+					void createModalListObserver(modal);
+				}
+			});
+			vlistWaitObserver.observe(modal, { childList: true, subtree: true });
+			return;
+		}
+
+		await createModalListObserver(modal);
+	}
+
+	async function createModalListObserver(modal: Element) {
+		logger.debug('Creating modal list observer');
+
+		modalObserver = observerFactory.createListObserver({
+			name: 'groups-modal-list-observer',
+			containerSelector: GROUPS_MODAL_SELECTORS.VLIST,
+			unprocessedItemSelector: GROUPS_MODAL_SELECTORS.ITEM,
+			processItems: handleNewUsers,
+			processExistingItems: true,
+			restartDelay: 500
+		});
+
+		await modalObserver.start();
+
+		setupModalCloseWatcher(modal);
+
+		logger.debug('Groups modal list observer started');
+	}
+
+	// Watch for modal removal from DOM
+	function setupModalCloseWatcher(modal: Element) {
+		if (modalCloseObserver) {
+			modalCloseObserver.disconnect();
+			modalCloseObserver = null;
+		}
+
+		modalCloseObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				for (const node of Array.from(mutation.removedNodes)) {
+					if (node === modal || (node instanceof Element && node.contains(modal))) {
+						logger.debug('Groups modal closed, cleaning up observer');
+						cleanupActiveModal();
+						return;
+					}
+				}
+			}
+		});
+
+		modalCloseObserver.observe(document.body, { childList: true, subtree: true });
+	}
+
+	// Clean up active modal session observers
+	function cleanupActiveModal() {
+		if (modalObserver) {
+			modalObserver.stop();
+			modalObserver.cleanup();
+			modalObserver = null;
+		}
+
+		if (modalCloseObserver) {
+			modalCloseObserver.disconnect();
+			modalCloseObserver = null;
+		}
+
+		if (vlistWaitObserver) {
+			vlistWaitObserver.disconnect();
+			vlistWaitObserver = null;
+		}
+	}
+
+	// Clean up all modal observers including container watcher
+	function cleanupModalObserver() {
+		cleanupActiveModal();
+
+		if (modalContainerWatcher) {
+			modalContainerWatcher.stop();
+			modalContainerWatcher.cleanup();
+			modalContainerWatcher = null;
+		}
 	}
 
 	// Process new users found by the observer
@@ -390,8 +538,14 @@
 		try {
 			let profileLink: Element | null = null;
 
-			// Get the appropriate profile link selector based on page type
-			profileLink = element.querySelector(getPageConfig().profileLinkSelector);
+			// Check if this is a modal item
+			const isModalItem = element.closest(GROUPS_MODAL_SELECTORS.MODAL) !== null;
+
+			if (isModalItem) {
+				profileLink = element.querySelector(GROUPS_MODAL_SELECTORS.PROFILE_LINK);
+			} else {
+				profileLink = element.querySelector(getPageConfig().profileLinkSelector);
+			}
 
 			if (!profileLink) {
 				return null;
@@ -514,24 +668,37 @@
 
 			const tileElement = user.element;
 
-			const targetSelectors: Record<string, string> = {
-				[PAGE_TYPES.FRIENDS_LIST]: FRIENDS_SELECTORS.CARD.FULLBODY,
-				[PAGE_TYPES.SEARCH_USER]: SEARCH_SELECTORS.CARD.FULLBODY,
-				[PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
-				[PAGE_TYPES.MEMBERS]: '',
-				[PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
-				[PAGE_TYPES.PROFILE]: '',
-				[PAGE_TYPES.REPORT]: ''
-			};
+			// Check if this is a modal item
+			const isModalItem = tileElement.closest(GROUPS_MODAL_SELECTORS.MODAL) !== null;
 
-			const targetSelector = targetSelectors[pageType];
-			if (targetSelector === undefined) {
-				throw new Error(`No target selector defined for page type: ${pageType}`);
+			let targetElement: HTMLElement;
+			let showText = false;
+
+			if (isModalItem) {
+				targetElement = tileElement.querySelector(
+					GROUPS_MODAL_SELECTORS.TEXT_CONTAINER
+				) as HTMLElement;
+				showText = true;
+			} else {
+				const targetSelectors: Record<string, string> = {
+					[PAGE_TYPES.FRIENDS_LIST]: FRIENDS_SELECTORS.CARD.FULLBODY,
+					[PAGE_TYPES.SEARCH_USER]: SEARCH_SELECTORS.CARD.FULLBODY,
+					[PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
+					[PAGE_TYPES.MEMBERS]: '',
+					[PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
+					[PAGE_TYPES.PROFILE]: '',
+					[PAGE_TYPES.REPORT]: ''
+				};
+
+				const targetSelector = targetSelectors[pageType];
+				if (targetSelector === undefined) {
+					throw new Error(`No target selector defined for page type: ${pageType}`);
+				}
+
+				targetElement = targetSelector
+					? (tileElement.querySelector(targetSelector) as HTMLElement)
+					: tileElement;
 			}
-
-			const targetElement = targetSelector
-				? (tileElement.querySelector(targetSelector) as HTMLElement) || tileElement
-				: tileElement;
 
 			let container = targetElement.querySelector(
 				`.${COMPONENT_CLASSES.STATUS_CONTAINER}`
@@ -541,11 +708,12 @@
 				container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
 
 				const needsAbsolutePosition =
-					pageType === PAGE_TYPES.FRIENDS_CAROUSEL ||
-					pageType === PAGE_TYPES.HOME ||
-					pageType === PAGE_TYPES.MEMBERS ||
-					pageType === PAGE_TYPES.FRIENDS_LIST ||
-					pageType === PAGE_TYPES.SEARCH_USER;
+					!isModalItem &&
+					(pageType === PAGE_TYPES.FRIENDS_CAROUSEL ||
+						pageType === PAGE_TYPES.HOME ||
+						pageType === PAGE_TYPES.MEMBERS ||
+						pageType === PAGE_TYPES.FRIENDS_LIST ||
+						pageType === PAGE_TYPES.SEARCH_USER);
 
 				if (needsAbsolutePosition) {
 					container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
@@ -567,7 +735,7 @@
 					entityId: user.userId,
 					entityType: ENTITY_TYPES.USER,
 					entityStatus: isLoading ? null : status,
-					showText: false,
+					showText,
 					skipAutoFetch: true,
 					onClick: handleStatusClick,
 					onQueue: handleQueueUser
@@ -578,7 +746,7 @@
 
 			logger.debug(`Status indicator mounted for user ${user.userId} on ${pageType}`, {
 				isLoading,
-				targetElement: targetSelector ? 'fullbody' : 'tile'
+				isModalItem
 			});
 		} catch (error) {
 			logger.error('Failed to mount status indicator:', error, {
@@ -676,6 +844,9 @@
 			containerWatcher.cleanup();
 			containerWatcher = null;
 		}
+
+		// Cleanup modal observers
+		cleanupModalObserver();
 
 		// Cleanup mounted components
 		for (const component of mountedComponents.values()) {

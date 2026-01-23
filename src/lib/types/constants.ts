@@ -167,6 +167,20 @@ export const GROUPS_SELECTORS = {
 	NO_RESULTS: '.section-content-off'
 } as const;
 
+// DOM selectors for groups modal member list
+export const GROUPS_MODAL_SELECTORS = {
+	MODAL: 'div[role="dialog"].user-list-modal-content',
+	LIST_CONTAINER: '.user-list-container',
+	VLIST: '.user-list-container ul.vlist',
+	ITEM: 'li.w-auto',
+	ITEM_UNPROCESSED: `li.w-auto:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+	PROFILE_LINK: 'a.user-item-clickable',
+	TEXT_CONTAINER: '.grow-1.clip.text-truncate-split.text-no-wrap',
+	AVATAR: '.avatar-card-fullbody .thumbnail-2d-container',
+	DISPLAY_NAME: '.text-title-medium',
+	USERNAME: '.text-body-medium'
+} as const;
+
 // DOM selectors for search users page
 export const SEARCH_SELECTORS = {
 	CONTAINER: 'ul.search-result.avatar-cards',

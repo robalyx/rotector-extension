@@ -2,12 +2,7 @@
 	import { mount } from 'svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
-	import {
-		COMPONENT_CLASSES,
-		ENTITY_TYPES,
-		GROUP_HEADER_SELECTORS,
-		GROUPS_SELECTORS
-	} from '@/lib/types/constants';
+	import { COMPONENT_CLASSES, ENTITY_TYPES, GROUP_HEADER_SELECTORS } from '@/lib/types/constants';
 	import type { GroupStatus, PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
@@ -28,7 +23,6 @@
 	let isLoading = $state(true);
 	let error = $state<string | undefined>(undefined);
 
-	let showGroups = $state(false);
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
 	// Fetch group status
@@ -69,19 +63,9 @@
 
 	// Initialize components when mounted
 	$effect(() => {
-		void initialize();
+		void setupStatusIndicator();
 		return cleanup;
 	});
-
-	// Initialize group page components and features
-	async function initialize() {
-		try {
-			await Promise.all([setupStatusIndicator(), setupGroups()]);
-			logger.debug('GroupPageManager initialized successfully');
-		} catch (error) {
-			logger.error('Failed to initialize GroupPageManager:', error);
-		}
-	}
 
 	// Setup status indicator for group owner
 	async function setupStatusIndicator() {
@@ -143,16 +127,6 @@
 		mountedComponents.set('group-owner', component);
 	}
 
-	// Wait for groups container and enable groups functionality
-	async function setupGroups() {
-		const result = await waitForElement(GROUPS_SELECTORS.CONTAINER);
-
-		if (result.success) {
-			showGroups = true;
-			logger.debug('Groups container detected');
-		}
-	}
-
 	// Handle user processing completion from UserListManager
 	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
 		logger.debug('Groups page user processed', {
@@ -174,7 +148,4 @@
 	}
 </script>
 
-<!-- Groups Manager -->
-{#if showGroups}
-	<UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />
-{/if}
+<UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />

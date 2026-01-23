@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { _ } from 'svelte-i18n';
 import { settings } from '../stores/settings';
 import { SETTINGS_KEYS } from '../types/settings';
-import { BLUR_SELECTORS, PAGE_TYPES } from '../types/constants';
+import { BLUR_SELECTORS, GROUPS_MODAL_SELECTORS, PAGE_TYPES } from '../types/constants';
 import type { CombinedStatus } from '../types/custom-api';
 import type { PageType } from '../types/api';
 import { waitForElement } from '../utils/element-waiter';
@@ -408,12 +408,27 @@ function markElement(
 export function markUserElementForBlur(element: Element, userId: string, pageType: PageType): void {
 	if (!isBlurEnabled() || isUserRevealed(userId)) return;
 	const { displayNames, usernames, avatars } = getBlurSettings();
-	const sel = PAGE_SELECTORS[pageType];
-	if (displayNames) {
-		markElement(element, sel.displayName, userId, 'displayName');
+
+	const isModalItem = element.closest(GROUPS_MODAL_SELECTORS.MODAL) !== null;
+
+	if (isModalItem) {
+		if (displayNames) {
+			markElement(element, GROUPS_MODAL_SELECTORS.DISPLAY_NAME, userId, 'displayName');
+		}
+		if (usernames) {
+			markElement(element, GROUPS_MODAL_SELECTORS.USERNAME, userId, 'username');
+		}
+		if (avatars) {
+			markElement(element, BLUR_SELECTORS.TILE_THUMBNAIL, userId, 'avatar');
+		}
+	} else {
+		const sel = PAGE_SELECTORS[pageType];
+		if (displayNames) {
+			markElement(element, sel.displayName, userId, 'displayName');
+		}
+		if (usernames) markElement(element, sel.username, userId, 'username');
+		if (avatars) markElement(element, sel.avatar, userId, 'avatar');
 	}
-	if (usernames) markElement(element, sel.username, userId, 'username');
-	if (avatars) markElement(element, sel.avatar, userId, 'avatar');
 }
 
 /**

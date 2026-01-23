@@ -41,11 +41,12 @@
 		RefreshCw,
 		Languages,
 		FileText,
-		Ban
+		Ban,
+		Ellipsis,
+		Link
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
-	import EngineVersionIndicator from './EngineVersionIndicator.svelte';
 	import { get } from 'svelte/store';
 	import { _, locale } from 'svelte-i18n';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
@@ -100,6 +101,22 @@
 	let translationError = $state<string | null>(null);
 	let showTranslated = $state(true); // Toggle between original and translated text
 	let translationAttempted = $state(false); // Track if we've tried translating
+
+	// Options menu state
+	let optionsMenuRef = $state<HTMLElement>();
+	let showOptionsMenu = $state(false);
+	let copySuccess = $state(false);
+
+	// Engine version status for options menu display
+	const engineVersionStatus = $derived.by(() => {
+		if (!activeUserStatus?.versionCompatibility) return 'unknown';
+		const compatibility = activeUserStatus.versionCompatibility;
+		if (compatibility === 'current') return 'latest';
+		if (compatibility === 'compatible') return 'behind-minor';
+		if (compatibility === 'outdated') return 'behind-major';
+		if (compatibility === 'deprecated') return 'deprecated';
+		return 'unknown';
+	});
 
 	// Check if any translations actually differ from originals
 	const hasActualTranslations = $derived.by(() => {
@@ -533,6 +550,41 @@
 		}
 	}
 
+	// Toggle options menu
+	function toggleOptionsMenu(event: MouseEvent) {
+		event.stopPropagation();
+		showOptionsMenu = !showOptionsMenu;
+	}
+
+	// Copy Discord link to clipboard
+	async function handleCopyDiscordLink(event: MouseEvent) {
+		event.stopPropagation();
+		try {
+			const link = `https://rotector.com/u/${sanitizedUserId}`;
+			await navigator.clipboard.writeText(link);
+			copySuccess = true;
+			logger.userAction('discord_link_copied', { userId: sanitizedUserId });
+
+			setTimeout(() => {
+				copySuccess = false;
+			}, 2000);
+		} catch (err) {
+			logger.error('Failed to copy Discord link:', err);
+		}
+	}
+
+	// Handle click outside options menu
+	function handleOptionsMenuClickOutside(event: MouseEvent) {
+		if (
+			showOptionsMenu &&
+			optionsMenuRef &&
+			event.target instanceof Node &&
+			!optionsMenuRef.contains(event.target)
+		) {
+			showOptionsMenu = false;
+		}
+	}
+
 	// Handle expand tooltip click
 	function handleExpand() {
 		if (!isExpanded && onExpand) {
@@ -540,7 +592,7 @@
 		}
 	}
 
-	// Reset translation state when switching tabs or data changes
+	// Reset states when switching tabs or data changes
 	$effect(() => {
 		void activeTab;
 		void reasonEntries;
@@ -548,6 +600,8 @@
 		translationError = null;
 		translationAttempted = false;
 		showTranslated = true;
+		showOptionsMenu = false;
+		copySuccess = false;
 	});
 
 	// Trigger automatic translation
@@ -704,6 +758,7 @@
 			}
 
 			document.addEventListener('keydown', handleKeydown);
+			document.addEventListener('click', handleOptionsMenuClickOutside);
 
 			// Animate to expanded state
 			requestAnimationFrame(() => {
@@ -718,6 +773,7 @@
 
 			return () => {
 				document.removeEventListener('keydown', handleKeydown);
+				document.removeEventListener('click', handleOptionsMenuClickOutside);
 			};
 		} else {
 			// Preview tooltip setup
@@ -1122,9 +1178,53 @@
 			<!-- Tooltip content -->
 			<div class="expanded-tooltip-content">
 				<div class="tooltip-sticky-header">
-					<!-- Engine Version -->
-					{#if activeUserStatus?.engineVersion}
-						<EngineVersionIndicator position="inline" status={activeUserStatus} />
+					<!-- Options Menu -->
+					{#if activeTab === ROTECTOR_API_ID && !isGroup}
+						<div bind:this={optionsMenuRef} class="tooltip-options-container">
+							<button
+								class="tooltip-options-button"
+								aria-label={$_('tooltip_options_menu_aria')}
+								onclick={toggleOptionsMenu}
+								type="button"
+							>
+								<Ellipsis size={16} />
+							</button>
+							{#if showOptionsMenu}
+								<div class="tooltip-options-menu">
+									<button
+										class="tooltip-options-item"
+										onclick={handleCopyDiscordLink}
+										type="button"
+									>
+										{#if copySuccess}
+											<Check class="tooltip-options-icon success" size={14} />
+										{:else}
+											<Link class="tooltip-options-icon" size={14} />
+										{/if}
+										<span>{$_('tooltip_copy_link')}</span>
+									</button>
+									{#if activeUserStatus?.engineVersion}
+										<div class="tooltip-options-divider"></div>
+										<div class="tooltip-options-engine">
+											<span class="tooltip-options-engine-tag {engineVersionStatus}">
+												{activeUserStatus.engineVersion} ·
+												{#if engineVersionStatus === 'latest'}
+													{$_('engine_status_latest')}
+												{:else if engineVersionStatus === 'behind-minor'}
+													{$_('engine_status_compatible')}
+												{:else if engineVersionStatus === 'behind-major'}
+													{$_('engine_status_outdated')}
+												{:else if engineVersionStatus === 'deprecated'}
+													{$_('engine_status_deprecated')}
+												{:else}
+													{$_('engine_status_unknown')}
+												{/if}
+											</span>
+										</div>
+									{/if}
+								</div>
+							{/if}
+						</div>
 					{/if}
 
 					<!-- Profile Header -->

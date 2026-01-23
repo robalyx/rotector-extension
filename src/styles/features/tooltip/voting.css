@@ -363,27 +363,22 @@
 	@apply inline-flex items-center justify-center gap-1 px-1.5 py-1 rounded text-xs font-medium leading-none;
 
 	&.latest {
-		@apply bg-emerald-500/20;
-		color: var(--color-status-safe);
+		@apply bg-emerald-500/25 text-emerald-400;
 	}
 
 	&.behind-minor {
-		@apply bg-blue-500/20;
-		color: var(--color-primary);
+		@apply bg-blue-500/25 text-blue-400;
 	}
 
 	&.behind-major {
-		@apply bg-orange-500/20;
-		color: var(--color-status-pending);
+		@apply bg-orange-500/25 text-orange-400;
 	}
 
 	&.deprecated {
-		@apply bg-red-500/20;
-		color: var(--color-status-unsafe);
+		@apply bg-red-500/25 text-red-400;
 	}
 
 	&.unknown {
-		@apply bg-gray-500/20;
-		color: var(--color-text-subtle);
+		@apply bg-gray-500/25 text-gray-400;
 	}
 }

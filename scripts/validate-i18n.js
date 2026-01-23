@@ -131,20 +131,36 @@ function extractUsedKeys() {
 	for (const file of files) {
 		const content = fs.readFileSync(file, 'utf8');
 
-		// Pattern 1: All string literals within $_() and get(_)() calls using proper bracket matching
+		// Pattern 1: All string literals within $_(), get(_)(), and t() calls using proper bracket matching
 		// This handles direct calls, ternary operators, multiline calls, and nested structures
-		// svelte-i18n uses $_() in components and get(_)() in non-reactive contexts
-		const callPatterns = ['$_(', 'get(_)('];
+		// svelte-i18n uses $_() in components, get(_)() in non-reactive contexts, and t() is a common local alias
+		const callPatterns = ['$_(', 'get(_)(', 't('];
 		let pos = 0;
 		while (pos < content.length) {
 			// Find next translation function call
 			let fnIndex = -1;
 			let patternLen = 0;
 			for (const pattern of callPatterns) {
-				const idx = content.indexOf(pattern, pos);
-				if (idx !== -1 && (fnIndex === -1 || idx < fnIndex)) {
-					fnIndex = idx;
-					patternLen = pattern.length;
+				let searchPos = pos;
+				while (true) {
+					const idx = content.indexOf(pattern, searchPos);
+					if (idx === -1) break;
+
+					// For 't(' pattern, ensure it's a standalone function call (word boundary)
+					// Skip if preceded by a letter (e.g., 'get(' should not match 't(')
+					if (pattern === 't(' && idx > 0) {
+						const prevChar = content[idx - 1];
+						if (/[a-zA-Z_]/.test(prevChar)) {
+							searchPos = idx + 1;
+							continue;
+						}
+					}
+
+					if (fnIndex === -1 || idx < fnIndex) {
+						fnIndex = idx;
+						patternLen = pattern.length;
+					}
+					break;
 				}
 			}
 			if (fnIndex === -1) break;

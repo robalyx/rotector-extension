@@ -16,7 +16,7 @@ interface StatusConfig {
 	isOutfitOnly: boolean;
 }
 
-// Translation helper for non-Svelte contexts where $_() syntax is unavailable
+// Translation helper for non-Svelte contexts
 const t = (key: string, values?: Record<string, string | number>): string =>
 	get(_)(key, { values });
 

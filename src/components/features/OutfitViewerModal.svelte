@@ -10,8 +10,8 @@
 	import { themeManager } from '@/lib/utils/theme';
 	import { AlertTriangle, AlertCircle, Shirt, ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
-	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import OutfitStack from './OutfitStack.svelte';
+	import Outfit3DPanel from './Outfit3DPanel.svelte';
 	import type { OutfitWithThumbnail } from '@/lib/types/api';
 	import type { FlaggedOutfitInfo } from '@/lib/utils/violation-formatter';
 
@@ -34,9 +34,28 @@
 	let hasLoadedOnce = $state(false);
 	let retryTimeoutId: ReturnType<typeof setTimeout> | null = null;
 	let currentTheme = $state<'light' | 'dark'>('light');
+	let selectedOutfit = $state<OutfitWithThumbnail | null>(null);
+	let loadedCount = $state(0);
 
 	const hasFlaggedOutfits = $derived(flaggedOutfits.size > 0);
 	const logoUrl = $derived(currentTheme === 'dark' ? darkLogoUrl : lightLogoUrl);
+
+	// Case-insensitive lookup for flagged outfits
+	function getFlagInfo(name: string): FlaggedOutfitInfo | null {
+		const lowerName = name.toLowerCase();
+		for (const [key, value] of flaggedOutfits) {
+			if (key.toLowerCase() === lowerName) {
+				return value;
+			}
+		}
+		return null;
+	}
+
+	function isFlaggedOutfit(name: string): boolean {
+		return getFlagInfo(name) !== null;
+	}
+
+	const selectedFlagInfo = $derived(selectedOutfit ? getFlagInfo(selectedOutfit.name) : null);
 
 	// Group all outfits by name and sort with flagged first
 	const groupedOutfits = $derived.by(() => {
@@ -50,8 +69,8 @@
 
 		const entries = Object.entries(groups);
 		entries.sort(([nameA], [nameB]) => {
-			const aFlagged = flaggedOutfits.has(nameA);
-			const bFlagged = flaggedOutfits.has(nameB);
+			const aFlagged = isFlaggedOutfit(nameA);
+			const bFlagged = isFlaggedOutfit(nameB);
 
 			if (aFlagged && !bFlagged) return -1;
 			if (!aFlagged && bFlagged) return 1;
@@ -89,6 +108,21 @@
 		}
 	});
 
+	// Auto-select first outfit when data loads
+	$effect(() => {
+		if (groupedOutfits.length > 0 && selectedOutfit === null) {
+			const [, firstGroup] = groupedOutfits[0];
+			selectedOutfit = firstGroup[0];
+		}
+	});
+
+	// Reset selection when modal closes
+	$effect(() => {
+		if (!isOpen) {
+			selectedOutfit = null;
+		}
+	});
+
 	// Auto-retry pending thumbnails
 	$effect(() => {
 		if (!isOpen) return;
@@ -113,6 +147,7 @@
 	async function loadAllOutfits() {
 		isLoading = true;
 		error = null;
+		loadedCount = 0;
 
 		try {
 			const collected: OutfitWithThumbnail[] = [];
@@ -122,6 +157,7 @@
 			while (hasMore) {
 				const result = await robloxApiService.getUserOutfits(userId, page, VIEWER_ITEMS_PER_PAGE);
 				collected.push(...result.outfits);
+				loadedCount = collected.length;
 				hasMore = result.hasNextPage;
 				page++;
 			}
@@ -142,6 +178,10 @@
 	function goToPage(page: number) {
 		if (page < 1 || page > totalPages) return;
 		currentPage = page;
+	}
+
+	function selectOutfit(outfit: OutfitWithThumbnail) {
+		selectedOutfit = outfit;
 	}
 
 	async function retryPendingThumbnails() {
@@ -166,49 +206,67 @@
 	}
 </script>
 
-<Modal {onClose} title={$_('outfit_viewer_title')} bind:isOpen>
+<Modal {onClose} size="wide" title={$_('outfit_viewer_title')} bind:isOpen>
 	{#snippet headerContent()}
 		<div class="outfit-viewer-header-logo">
 			<img alt="Rotector" src={logoUrl} />
 		</div>
 	{/snippet}
 
-	<div class="outfit-viewer-disclaimer">
-		<AlertTriangle class="outfit-viewer-disclaimer-icon" size={16} />
-		<span>{$_('outfit_viewer_disclaimer')}</span>
+	<div class="outfit-viewer-two-panel">
+		<!-- Left panel: outfit grid -->
+		<div class="outfit-viewer-left-panel">
+			<div class="outfit-viewer-disclaimer">
+				<AlertTriangle class="outfit-viewer-disclaimer-icon" size={16} />
+				<span>{$_('outfit_viewer_disclaimer')}</span>
+			</div>
+
+			{#if isLoading && allOutfits.length === 0}
+				<div class="outfit-viewer-loading">
+					<div class="outfit-viewer-progress">
+						<div class="outfit-viewer-progress-bar">
+							<div class="outfit-viewer-progress-fill"></div>
+						</div>
+						<span class="outfit-viewer-progress-text">
+							{$_('outfit_viewer_loading_count', { values: { 0: loadedCount.toString() } })}
+						</span>
+					</div>
+				</div>
+			{:else if error}
+				<div class="outfit-viewer-error">
+					<AlertCircle size={24} />
+					<span>{$_('outfit_viewer_error')}</span>
+					<button class="outfit-viewer-retry" onclick={loadAllOutfits} type="button">
+						{$_('outfit_viewer_retry')}
+					</button>
+				</div>
+			{:else if groupedOutfits.length === 0}
+				<div class="outfit-viewer-empty">
+					<Shirt size={32} />
+					<span>{$_('outfit_viewer_empty')}</span>
+				</div>
+			{:else}
+				{#if hasFlaggedOutfits}
+					<p class="mb-3 text-xs text-text-subtle">
+						{$_('outfit_viewer_flagged_count', { values: { 0: flaggedOutfits.size.toString() } })}
+					</p>
+				{/if}
+
+				<div class="outfit-viewer-grid">
+					{#each paginatedGroups as [name, outfitGroup] (name)}
+						<OutfitStack
+							flagInfo={getFlagInfo(name)}
+							onSelect={selectOutfit}
+							outfits={outfitGroup}
+						/>
+					{/each}
+				</div>
+			{/if}
+		</div>
+
+		<!-- Right panel: 3D viewer -->
+		<Outfit3DPanel flagInfo={selectedFlagInfo} outfit={selectedOutfit} />
 	</div>
-
-	{#if isLoading && allOutfits.length === 0}
-		<div class="outfit-viewer-loading">
-			<LoadingSpinner size="medium" />
-			<span>{$_('outfit_viewer_loading')}</span>
-		</div>
-	{:else if error}
-		<div class="outfit-viewer-error">
-			<AlertCircle size={24} />
-			<span>{$_('outfit_viewer_error')}</span>
-			<button class="outfit-viewer-retry" onclick={loadAllOutfits} type="button">
-				{$_('outfit_viewer_retry')}
-			</button>
-		</div>
-	{:else if groupedOutfits.length === 0}
-		<div class="outfit-viewer-empty">
-			<Shirt size={32} />
-			<span>{$_('outfit_viewer_empty')}</span>
-		</div>
-	{:else}
-		{#if hasFlaggedOutfits}
-			<p class="mb-3 text-xs text-text-subtle">
-				{$_('outfit_viewer_flagged_count', { values: { 0: flaggedOutfits.size.toString() } })}
-			</p>
-		{/if}
-
-		<div class="outfit-viewer-grid">
-			{#each paginatedGroups as [name, outfitGroup] (name)}
-				<OutfitStack flagInfo={flaggedOutfits.get(name) ?? null} outfits={outfitGroup} />
-			{/each}
-		</div>
-	{/if}
 
 	{#snippet actions()}
 		{#if showPagination}

@@ -187,6 +187,11 @@
 	@apply modal-popup-base-small;
 }
 
+@utility modal-popup-wide {
+	@apply modal-popup-base;
+	width: 920px;
+}
+
 @utility modal-header {
 	@apply modal-header-base;
 }

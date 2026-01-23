@@ -58,6 +58,8 @@
 	let statusContainer: HTMLElement | null = null;
 	let friendButtonHandler: ((event: Event) => void) | null = null;
 	let dropdownObserver: MutationObserver | null = null;
+	let headerCheckInterval: ReturnType<typeof setInterval> | null = null;
+	let isReinjecting = false;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 	let cancelQuery: (() => void) | null = null;
 
@@ -99,12 +101,10 @@
 	// Initialize profile components
 	async function initialize() {
 		try {
-			await Promise.all([
-				setupStatusIndicator(),
-				setupFriendWarning(),
-				setupCarousel(),
-				setupGroupsShowcase()
-			]);
+			await setupStatusIndicator();
+			setupHeaderCheck();
+
+			await Promise.all([setupFriendWarning(), setupCarousel(), setupGroupsShowcase()]);
 
 			setupDropdownObserver();
 			profileElementsReady = true;
@@ -337,6 +337,62 @@
 		logger.debug('Dropdown observer set up');
 	}
 
+	// Get the currently visible header element
+	function getActiveHeader(): HTMLElement | null {
+		const legacyHeader = document.querySelector(PROFILE_SELECTORS.LEGACY_HEADER);
+		const redesignedHeader = document.querySelector(PROFILE_SELECTORS.REDESIGNED_HEADER);
+
+		// Check redesigned header
+		if (redesignedHeader instanceof HTMLElement && redesignedHeader.offsetParent !== null) {
+			return redesignedHeader;
+		}
+
+		// Fall back to legacy header
+		if (legacyHeader instanceof HTMLElement && legacyHeader.offsetParent !== null) {
+			return legacyHeader;
+		}
+
+		return null;
+	}
+
+	// Check if status indicator needs re-injection
+	async function checkAndReinject(): Promise<boolean> {
+		if (isReinjecting) return false;
+
+		const activeHeader = getActiveHeader();
+		if (!activeHeader) return false;
+
+		const containerInActiveHeader = activeHeader.querySelector(
+			`.${COMPONENT_CLASSES.PROFILE_STATUS}`
+		);
+
+		if (!containerInActiveHeader) {
+			logger.debug('Status indicator needs re-injection - not in active header');
+
+			isReinjecting = true;
+			try {
+				await setupStatusIndicator();
+			} finally {
+				isReinjecting = false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	// NOTE: This is temporary.
+	// Roblox may re-render the profile header shortly after page load, removing our injected elements.
+	// Poll to detect when this happens and re-inject the status indicator.
+	function setupHeaderCheck() {
+		if (headerCheckInterval) {
+			clearInterval(headerCheckInterval);
+		}
+
+		headerCheckInterval = setInterval(() => void checkAndReinject(), 500);
+
+		logger.debug('Header check interval set up');
+	}
+
 	// Inject outfit viewer button into profile dropdown menu
 	function injectOutfitViewerButton(menu: Element) {
 		if (menu.querySelector('[data-rotector-outfit-btn]')) return;
@@ -495,6 +551,12 @@
 			if (dropdownObserver) {
 				dropdownObserver.disconnect();
 				dropdownObserver = null;
+			}
+
+			// Clean up header check interval
+			if (headerCheckInterval) {
+				clearInterval(headerCheckInterval);
+				headerCheckInterval = null;
 			}
 
 			// Clean up mounted components

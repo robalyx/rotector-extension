@@ -81,6 +81,7 @@
 @import './features/modal/queue-modal.css';
 @import './features/modal/outfit-picker.css';
 @import './features/modal/outfit-viewer.css';
+@import './features/modal/outfit-3d.css';
 
 /* Tooltip System */
 @import './features/tooltip/base.css';

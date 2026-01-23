@@ -1,15 +1,17 @@
 <script lang="ts">
-	import { Shirt, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { AlertTriangle, ChevronDown, ChevronUp, ImageOff } from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
+	import View3DButton from '../ui/View3DButton.svelte';
 	import type { OutfitWithThumbnail } from '@/lib/types/api';
 	import type { FlaggedOutfitInfo } from '@/lib/utils/violation-formatter';
 
 	interface Props {
 		outfits: OutfitWithThumbnail[];
 		flagInfo: FlaggedOutfitInfo | null;
+		onSelect: (outfit: OutfitWithThumbnail) => void;
 	}
 
-	let { outfits, flagInfo }: Props = $props();
+	let { outfits, flagInfo, onSelect }: Props = $props();
 
 	let isExpanded = $state(false);
 
@@ -21,6 +23,11 @@
 		if (isStacked) {
 			isExpanded = !isExpanded;
 		}
+	}
+
+	function handleSelect(outfit: OutfitWithThumbnail, event: MouseEvent) {
+		event.stopPropagation();
+		onSelect(outfit);
 	}
 </script>
 
@@ -41,14 +48,16 @@
 				loading="lazy"
 				src={primaryOutfit.thumbnailUrl}
 			/>
+			<View3DButton onclick={(e: MouseEvent) => handleSelect(primaryOutfit, e)} />
 		{:else if primaryOutfit.thumbnailState === 'pending'}
 			<div class="outfit-stack-thumbnail-pending">
 				<LoadingSpinner size="small" />
 			</div>
 		{:else}
 			<div class="outfit-stack-thumbnail-placeholder">
-				<Shirt size={24} />
+				<ImageOff size={24} />
 			</div>
+			<View3DButton onclick={(e: MouseEvent) => handleSelect(primaryOutfit, e)} />
 		{/if}
 
 		{#if isFlagged}
@@ -75,7 +84,12 @@
 	{#if isExpanded && isStacked}
 		<div class="outfit-stack-expanded">
 			{#each outfits.slice(1) as outfit (outfit.id)}
-				<div class="outfit-stack-expanded-item">
+				<button
+					class="outfit-stack-expanded-item"
+					onclick={(e) => handleSelect(outfit, e)}
+					title={outfit.name}
+					type="button"
+				>
 					{#if outfit.thumbnailUrl}
 						<img
 							class="outfit-stack-thumbnail"
@@ -89,10 +103,10 @@
 						</div>
 					{:else}
 						<div class="outfit-stack-thumbnail-placeholder">
-							<Shirt size={16} />
+							<ImageOff size={16} />
 						</div>
 					{/if}
-				</div>
+				</button>
 			{/each}
 		</div>
 	{/if}

@@ -20,7 +20,7 @@
 		onBlock?: () => void;
 		icon?: string;
 		actionsLayout?: 'horizontal' | 'vertical';
-		size?: 'normal' | 'small';
+		size?: 'normal' | 'small' | 'wide';
 		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error' | 'queue-loading';
 		children: import('svelte').Snippet;
 		actions?: import('svelte').Snippet;
@@ -58,6 +58,80 @@
 	let closeButtonEl = $state<HTMLButtonElement>();
 	let previouslyFocusedElement = $state<HTMLElement | null>(null);
 	const headingId = `modal-title-${Math.random().toString(36).slice(2)}`;
+
+	const MODAL_CLASSES = {
+		modal: {
+			overlay: 'modal-overlay',
+			popup: { normal: 'modal-popup', small: 'modal-popup-small', wide: 'modal-popup-wide' },
+			header: 'modal-header',
+			title: 'modal-title',
+			content: { normal: 'modal-content', small: 'modal-content-small' },
+			actions: { vertical: 'modal-actions', horizontal: 'modal-actions-horizontal' }
+		},
+		'friend-warning': {
+			overlay: 'friend-warning-overlay',
+			popup: {
+				normal: 'friend-warning-popup',
+				small: 'friend-warning-popup-small',
+				wide: 'modal-popup-wide'
+			},
+			header: 'friend-warning-header',
+			title: 'friend-warning-title',
+			content: { normal: 'friend-warning-content', small: 'friend-warning-content-small' },
+			actions: {
+				vertical: 'friend-warning-actions',
+				horizontal: 'friend-warning-actions-horizontal'
+			}
+		},
+		'queue-success': {
+			overlay: 'queue-success-overlay',
+			popup: {
+				normal: 'queue-success-popup',
+				small: 'queue-success-popup-small',
+				wide: 'modal-popup-wide'
+			},
+			header: 'queue-success-header',
+			title: 'queue-success-title',
+			content: { normal: 'queue-success-content', small: 'queue-success-content-small' },
+			actions: { vertical: 'queue-success-actions', horizontal: 'queue-success-actions-horizontal' }
+		},
+		'queue-error': {
+			overlay: 'queue-error-overlay',
+			popup: {
+				normal: 'queue-error-popup',
+				small: 'queue-error-popup-small',
+				wide: 'modal-popup-wide'
+			},
+			header: 'queue-error-header',
+			title: 'queue-error-title',
+			content: { normal: 'queue-error-content', small: 'queue-error-content-small' },
+			actions: { vertical: 'queue-error-actions', horizontal: 'queue-error-actions-horizontal' }
+		},
+		'queue-loading': {
+			overlay: 'queue-loading-overlay',
+			popup: {
+				normal: 'queue-loading-popup',
+				small: 'queue-loading-popup-small',
+				wide: 'modal-popup-wide'
+			},
+			header: 'queue-loading-header',
+			title: 'queue-loading-title',
+			content: { normal: 'queue-loading-content', small: 'queue-loading-content-small' },
+			actions: { vertical: 'queue-loading-actions', horizontal: 'queue-loading-actions-horizontal' }
+		}
+	} as const;
+
+	const classes = $derived({
+		overlay: MODAL_CLASSES[modalType].overlay,
+		popup:
+			MODAL_CLASSES[modalType].popup[
+				size === 'wide' ? 'wide' : size === 'small' ? 'small' : 'normal'
+			],
+		header: MODAL_CLASSES[modalType].header,
+		title: MODAL_CLASSES[modalType].title,
+		content: MODAL_CLASSES[modalType].content[size === 'small' ? 'small' : 'normal'],
+		actions: MODAL_CLASSES[modalType].actions[actionsLayout]
+	});
 
 	function closeModal(result?: boolean | 'block') {
 		isClosing = true;
@@ -148,56 +222,20 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			bind:this={overlayElement}
-			class={modalType === 'friend-warning'
-				? 'friend-warning-overlay'
-				: modalType === 'queue-success'
-					? 'queue-success-overlay'
-					: modalType === 'queue-error'
-						? 'queue-error-overlay'
-						: modalType === 'queue-loading'
-							? 'queue-loading-overlay'
-							: 'modal-overlay'}
+			class={classes.overlay}
 			class:closing={isClosing}
 			onclick={handleOverlayClick}
 		>
 			<div
 				bind:this={popupElement}
-				class={size === 'small'
-					? modalType === 'friend-warning'
-						? 'friend-warning-popup-small'
-						: modalType === 'queue-success'
-							? 'queue-success-popup-small'
-							: modalType === 'queue-error'
-								? 'queue-error-popup-small'
-								: modalType === 'queue-loading'
-									? 'queue-loading-popup-small'
-									: 'modal-popup-small'
-					: modalType === 'friend-warning'
-						? 'friend-warning-popup'
-						: modalType === 'queue-success'
-							? 'queue-success-popup'
-							: modalType === 'queue-error'
-								? 'queue-error-popup'
-								: modalType === 'queue-loading'
-									? 'queue-loading-popup'
-									: 'modal-popup'}
+				class={classes.popup}
 				aria-labelledby={headingId}
 				aria-modal="true"
 				onkeydown={trapFocus}
 				role="dialog"
 				tabindex="-1"
 			>
-				<div
-					class={modalType === 'friend-warning'
-						? 'friend-warning-header'
-						: modalType === 'queue-success'
-							? 'queue-success-header'
-							: modalType === 'queue-error'
-								? 'queue-error-header'
-								: modalType === 'queue-loading'
-									? 'queue-loading-header'
-									: 'modal-header'}
-				>
+				<div class={classes.header}>
 					{#if headerContent}
 						{@render headerContent()}
 					{/if}
@@ -216,18 +254,7 @@
 							{/if}
 						</div>
 					{/if}
-					<h3
-						id={headingId}
-						class={modalType === 'friend-warning'
-							? 'friend-warning-title'
-							: modalType === 'queue-success'
-								? 'queue-success-title'
-								: modalType === 'queue-error'
-									? 'queue-error-title'
-									: modalType === 'queue-loading'
-										? 'queue-loading-title'
-										: 'modal-title'}
-					>
+					<h3 id={headingId} class={classes.title}>
 						{title}
 					</h3>
 					{#if showClose}
@@ -243,27 +270,7 @@
 					{/if}
 				</div>
 
-				<div
-					class={size === 'small'
-						? modalType === 'friend-warning'
-							? 'friend-warning-content-small'
-							: modalType === 'queue-success'
-								? 'queue-success-content-small'
-								: modalType === 'queue-error'
-									? 'queue-error-content-small'
-									: modalType === 'queue-loading'
-										? 'queue-loading-content-small'
-										: 'modal-content-small'
-						: modalType === 'friend-warning'
-							? 'friend-warning-content'
-							: modalType === 'queue-success'
-								? 'queue-success-content'
-								: modalType === 'queue-error'
-									? 'queue-error-content'
-									: modalType === 'queue-loading'
-										? 'queue-loading-content'
-										: 'modal-content'}
-				>
+				<div class={classes.content}>
 					{@render children()}
 				</div>
 
@@ -272,27 +279,7 @@
 						{@render actions()}
 					</div>
 				{:else if showBlock || showCancel || showConfirm}
-					<div
-						class={actionsLayout === 'horizontal'
-							? modalType === 'friend-warning'
-								? 'friend-warning-actions-horizontal'
-								: modalType === 'queue-success'
-									? 'queue-success-actions-horizontal'
-									: modalType === 'queue-error'
-										? 'queue-error-actions-horizontal'
-										: modalType === 'queue-loading'
-											? 'queue-loading-actions-horizontal'
-											: 'modal-actions-horizontal'
-							: modalType === 'friend-warning'
-								? 'friend-warning-actions'
-								: modalType === 'queue-success'
-									? 'queue-success-actions'
-									: modalType === 'queue-error'
-										? 'queue-error-actions'
-										: modalType === 'queue-loading'
-											? 'queue-loading-actions'
-											: 'modal-actions'}
-					>
+					<div class={classes.actions}>
 						{#if showBlock}
 							<button
 								class={modalType === 'friend-warning' ? 'friend-warning-block' : 'modal-cancel'}

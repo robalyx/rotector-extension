@@ -1,0 +1,63 @@
+/* =================================
+   3D OUTFIT VIEWER
+   ================================= */
+
+@utility outfit-3d-viewer {
+	@apply relative overflow-hidden;
+	background-color: var(--color-bg-tertiary);
+
+	canvas {
+		@apply block;
+	}
+}
+
+@utility outfit-3d-loading {
+	@apply absolute inset-0 flex items-center justify-center;
+	background-color: var(--color-bg-secondary);
+}
+
+@utility outfit-3d-error {
+	@apply absolute inset-0 flex items-center justify-center;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-3d-blocked {
+	@apply absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-2 text-sm;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   3D MODAL
+   ================================= */
+
+@utility outfit-3d-modal-content {
+	@apply flex flex-col items-center gap-3;
+}
+
+@utility outfit-3d-modal-hint {
+	@apply text-xs text-center;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   VIEW 3D BUTTON
+   ================================= */
+
+@utility view-3d-button {
+	@apply absolute flex items-center justify-center rounded-md transition-all cursor-pointer border-none p-0;
+	bottom: 4px;
+	left: 4px;
+	width: 22px;
+	height: 22px;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+	opacity: 0;
+	transform: scale(0.9);
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.8);
+		transform: scale(1);
+	}
+}

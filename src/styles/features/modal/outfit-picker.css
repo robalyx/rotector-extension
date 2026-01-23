@@ -101,6 +101,11 @@
 		border-color: var(--color-border);
 	}
 
+	&:hover .view-3d-button {
+		opacity: 1;
+		transform: scale(1);
+	}
+
 	&.outfit-picker-item-selected {
 		border-color: var(--color-status-outfit);
 		background-color: color-mix(in srgb, var(--color-status-outfit) 10%, transparent);
@@ -114,6 +119,11 @@
 
 @utility outfit-thumbnail-container {
 	@apply relative w-full aspect-square;
+
+	&:hover .view-3d-button {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 @utility outfit-thumbnail {

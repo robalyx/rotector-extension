@@ -9,9 +9,12 @@
 		ChevronRight,
 		AlertCircle,
 		Shirt,
-		Check
+		Check,
+		ImageOff
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
+	import View3DButton from '../ui/View3DButton.svelte';
+	import Outfit3DModal from './Outfit3DModal.svelte';
 	import type { OutfitWithThumbnail, CurrentAvatarInfo } from '@/lib/types/api';
 
 	interface Props {
@@ -37,6 +40,10 @@
 	let outfits = $state<OutfitWithThumbnail[]>([]);
 	let currentAvatar = $state<CurrentAvatarInfo | null>(null);
 	let retryTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
+	// 3D modal state
+	let modal3DOutfit = $state<{ outfitId?: number; userId?: number; name: string } | null>(null);
+	let isModal3DOpen = $state(false);
 
 	// Pagination state
 	let currentPage = $state(1);
@@ -73,6 +80,21 @@
 	// Get selection index for badge display
 	function getSelectionIndex(outfitName: string): number {
 		return selectedOutfits.indexOf(outfitName) + 1;
+	}
+
+	// Open 3D modal for an outfit or current avatar
+	function open3DModal(
+		data: { outfitId?: number; userId?: number; name: string },
+		event: MouseEvent
+	): void {
+		event.stopPropagation();
+		modal3DOutfit = data;
+		isModal3DOpen = true;
+	}
+
+	function close3DModal(): void {
+		isModal3DOpen = false;
+		modal3DOutfit = null;
 	}
 
 	// Toggle expanded state and load outfits if needed
@@ -254,9 +276,13 @@
 									/>
 								{:else}
 									<div class="outfit-thumbnail-placeholder">
-										<Shirt size={24} />
+										<ImageOff size={24} />
 									</div>
 								{/if}
+								<View3DButton
+									onclick={(e: MouseEvent) =>
+										open3DModal({ userId: Number(userId), name: currentAvatarName }, e)}
+								/>
 								{#if isCurrentAvatarSelected}
 									<div class="outfit-selected-badge">
 										{#if maxSelections === 1}
@@ -299,9 +325,13 @@
 									</div>
 								{:else}
 									<div class="outfit-thumbnail-placeholder">
-										<Shirt size={24} />
+										<ImageOff size={24} />
 									</div>
 								{/if}
+								<View3DButton
+									onclick={(e: MouseEvent) =>
+										open3DModal({ outfitId: outfit.id, name: outfit.name }, e)}
+								/>
 								{#if selected}
 									<div class="outfit-selected-badge">
 										{#if maxSelections === 1}
@@ -360,3 +390,14 @@
 		</div>
 	{/if}
 </div>
+
+<!-- 3D Modal -->
+{#if modal3DOutfit}
+	<Outfit3DModal
+		onClose={close3DModal}
+		outfitId={modal3DOutfit.outfitId}
+		outfitName={modal3DOutfit.name}
+		userId={modal3DOutfit.userId}
+		bind:isOpen={isModal3DOpen}
+	/>
+{/if}

@@ -2,6 +2,88 @@
    OUTFIT VIEWER MODAL
    ================================= */
 
+@utility outfit-viewer-two-panel {
+	@apply flex gap-5;
+}
+
+@utility outfit-viewer-left-panel {
+	width: 460px;
+	flex-shrink: 0;
+}
+
+@utility outfit-viewer-right-panel {
+	width: 400px;
+	flex-shrink: 0;
+	@apply flex flex-col gap-3;
+}
+
+@utility outfit-viewer-3d-container {
+	@apply rounded-lg overflow-hidden;
+}
+
+@utility outfit-viewer-3d-name {
+	@apply text-base font-semibold text-center;
+	color: var(--color-text);
+}
+
+@utility outfit-viewer-flagged-box {
+	@apply p-3 rounded-lg text-sm;
+	background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
+}
+
+@utility outfit-viewer-flagged-reason {
+	@apply font-medium;
+	color: var(--color-warning);
+}
+
+@utility outfit-viewer-flagged-confidence {
+	@apply text-xs mt-1;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-3d-empty {
+	@apply flex flex-col items-center justify-center gap-3 rounded-lg;
+	height: 400px;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-3d-hint {
+	@apply text-xs text-center;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-brightness {
+	@apply flex items-center gap-2 px-2;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-brightness-slider {
+	@apply flex-1 h-1 rounded-full cursor-pointer appearance-none;
+	background: var(--color-bg-tertiary);
+
+	&::-webkit-slider-thumb {
+		@apply appearance-none w-3 h-3 rounded-full cursor-pointer;
+		background: var(--color-text-subtle);
+		transition: background-color 0.15s ease;
+	}
+
+	&::-moz-range-thumb {
+		@apply w-3 h-3 rounded-full cursor-pointer border-none;
+		background: var(--color-text-subtle);
+		transition: background-color 0.15s ease;
+	}
+
+	&:hover::-webkit-slider-thumb {
+		background: var(--color-text);
+	}
+
+	&:hover::-moz-range-thumb {
+		background: var(--color-text);
+	}
+}
+
 @utility outfit-viewer-header-logo {
 	@apply flex-shrink-0 pr-3 mr-3 border-r-2 border-white/20;
 
@@ -24,6 +106,42 @@
 
 @utility outfit-viewer-loading {
 	@apply flex flex-col items-center justify-center gap-3 py-12;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-progress {
+	@apply flex flex-col items-center gap-3 w-full max-w-xs;
+}
+
+@utility outfit-viewer-progress-bar {
+	@apply w-full h-1.5 rounded-full overflow-hidden;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility outfit-viewer-progress-fill {
+	@apply h-full rounded-full;
+	width: 30%;
+	background-color: var(--color-primary);
+	animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+	0% {
+		transform: translateX(-100%);
+		width: 30%;
+	}
+	50% {
+		transform: translateX(100%);
+		width: 60%;
+	}
+	100% {
+		transform: translateX(300%);
+		width: 30%;
+	}
+}
+
+@utility outfit-viewer-progress-text {
+	@apply text-sm;
 	color: var(--color-text-subtle);
 }
 
@@ -69,6 +187,11 @@
 	border: 2px solid transparent;
 	padding: 0;
 	cursor: default;
+
+	&:hover .view-3d-button {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 @utility outfit-stack-primary-clickable {
@@ -133,6 +256,10 @@
 }
 
 @utility outfit-stack-expanded-item {
-	@apply rounded overflow-hidden aspect-square;
+	@apply rounded overflow-hidden aspect-square cursor-pointer border-none p-0 transition-transform;
 	background-color: var(--color-bg-tertiary);
+
+	&:hover {
+		transform: scale(1.05);
+	}
 }

@@ -16,6 +16,36 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.10.0',
+		version: '2.10.0',
+		date: '2026-01-26',
+		title: '3D Viewer & Sharing',
+		summary:
+			'This update adds interactive 3D outfit viewing, a shareable profile link button, and fixes for profile page stability.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'3D outfit viewer - View outfits in an interactive 3D view with drag-to-rotate controls and adjustable brightness'
+			},
+			{
+				type: 'added',
+				description:
+					'Groups modal member list support - Status indicators now work with the new modal-based member list on group pages'
+			},
+			{
+				type: 'added',
+				description:
+					'Copy link button - Share user profiles via a copyable link from the tooltip options menu'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile status indicator persistence - Status indicator no longer disappears when Roblox re-renders the profile header'
+			}
+		]
+	},
+	{
 		id: 'v2.9.0',
 		version: '2.9.0',
 		date: '2026-01-16',

@@ -4,7 +4,6 @@ import {
 	FRIENDS_SELECTORS,
 	GROUP_HEADER_SELECTORS,
 	GROUPS_MODAL_SELECTORS,
-	GROUPS_SELECTORS,
 	PROFILE_GROUPS_SHOWCASE_SELECTORS,
 	PROFILE_SELECTORS,
 	SEARCH_SELECTORS
@@ -23,15 +22,7 @@ export interface GroupInfo {
 }
 
 interface PageDetectionResult {
-	pageType:
-		| 'carousel'
-		| 'friends'
-		| 'members'
-		| 'modal-members'
-		| 'profile'
-		| 'group'
-		| 'search'
-		| 'unknown';
+	pageType: 'carousel' | 'friends' | 'modal-members' | 'profile' | 'group' | 'search' | 'unknown';
 	container: Element | null;
 }
 
@@ -47,7 +38,6 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	// Check for specific element containers
 	const isCarouselTile = anchorElement.closest(FRIENDS_CAROUSEL_SELECTORS.TILE);
 	const isFriendsCard = anchorElement.closest(FRIENDS_SELECTORS.CARD.CONTAINER);
-	const isMembersTile = anchorElement.closest(GROUPS_SELECTORS.TILE);
 	const isModalMembersItem = anchorElement.closest(GROUPS_MODAL_SELECTORS.ITEM);
 	const isSearchCard = anchorElement.closest(SEARCH_SELECTORS.CARD.CONTAINER);
 	const isGroupCard = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM);
@@ -64,9 +54,6 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	}
 	if (isFriendsCard) {
 		return { pageType: 'friends', container: isFriendsCard };
-	}
-	if (isMembersTile) {
-		return { pageType: 'members', container: isMembersTile };
 	}
 	if (isModalMembersItem) {
 		return { pageType: 'modal-members', container: isModalMembersItem };
@@ -113,7 +100,6 @@ export function extractUserInfo(
 	const usernameSelectors = {
 		carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
 		friends: FRIENDS_SELECTORS.CARD.USERNAME,
-		members: GROUPS_SELECTORS.USERNAME,
 		'modal-members': GROUPS_MODAL_SELECTORS.DISPLAY_NAME,
 		search: SEARCH_SELECTORS.CARD.USERNAME,
 		profile: PROFILE_SELECTORS.USERNAME
@@ -122,7 +108,6 @@ export function extractUserInfo(
 	const avatarSelectors = {
 		carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
 		friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
-		members: GROUPS_SELECTORS.AVATAR_IMG,
 		'modal-members': `${GROUPS_MODAL_SELECTORS.AVATAR} img`,
 		search: SEARCH_SELECTORS.CARD.AVATAR_IMG,
 		profile: PROFILE_SELECTORS.AVATAR_IMG

@@ -43,10 +43,7 @@ const PAGE_SELECTORS: Record<
 		username: BLUR_SELECTORS.CARD_USERNAME,
 		avatar: BLUR_SELECTORS.TILE_THUMBNAIL
 	},
-	[PAGE_TYPES.MEMBERS]: {
-		username: BLUR_SELECTORS.MEMBER_USERNAME,
-		avatar: BLUR_SELECTORS.TILE_THUMBNAIL
-	},
+	[PAGE_TYPES.MEMBERS]: {},
 	[PAGE_TYPES.REPORT]: {}
 };
 
@@ -76,7 +73,6 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.PROFILE_DISPLAY_NAME]: ['profile'],
 	// Usernames
 	[BLUR_SELECTORS.CARD_USERNAME]: ['friends', 'search'],
-	[BLUR_SELECTORS.MEMBER_USERNAME]: ['groups'],
 	[BLUR_SELECTORS.PROFILE_USERNAME]: ['profile'],
 	// Descriptions
 	[BLUR_SELECTORS.PROFILE_DESCRIPTION]: ['profile'],
@@ -84,7 +80,6 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.CAROUSEL_AVATAR]: ['home', 'profile'],
 	[BLUR_SELECTORS.FRIENDS_LIST_AVATAR]: ['friends'],
 	[BLUR_SELECTORS.SEARCH_AVATAR]: ['search'],
-	[BLUR_SELECTORS.MEMBERS_AVATAR]: ['groups'],
 	[BLUR_SELECTORS.PROFILE_AVATAR]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_RENDERER]: ['profile'],
@@ -92,8 +87,7 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[`${BLUR_SELECTORS.PROFILE_OUTFIT_RENDERER}.blur-revealed`]: ['profile'],
 	[`${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING}.blur-revealed`]: ['profile'],
 	[`${BLUR_SELECTORS.FRIENDS_LIST_AVATAR}.blur-revealed`]: ['friends'],
-	[`${BLUR_SELECTORS.SEARCH_AVATAR}.blur-revealed`]: ['search'],
-	[`${BLUR_SELECTORS.MEMBERS_AVATAR}.blur-revealed`]: ['groups']
+	[`${BLUR_SELECTORS.SEARCH_AVATAR}.blur-revealed`]: ['search']
 };
 
 /**
@@ -193,11 +187,7 @@ function buildBlurCSS(allEnabled = false): string {
 	// Username/description blur
 	const otherTextSelectors: string[] = [];
 	if (bs.usernames) {
-		otherTextSelectors.push(
-			BLUR_SELECTORS.CARD_USERNAME,
-			BLUR_SELECTORS.MEMBER_USERNAME,
-			BLUR_SELECTORS.PROFILE_USERNAME
-		);
+		otherTextSelectors.push(BLUR_SELECTORS.CARD_USERNAME, BLUR_SELECTORS.PROFILE_USERNAME);
 	}
 	if (bs.descriptions) {
 		otherTextSelectors.push(BLUR_SELECTORS.PROFILE_DESCRIPTION);
@@ -214,7 +204,6 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.CAROUSEL_AVATAR,
 				BLUR_SELECTORS.FRIENDS_LIST_AVATAR,
 				BLUR_SELECTORS.SEARCH_AVATAR,
-				BLUR_SELECTORS.MEMBERS_AVATAR,
 				BLUR_SELECTORS.PROFILE_AVATAR
 			],
 			'filter: blur(6px) !important; clip-path: circle(50%);'
@@ -256,8 +245,7 @@ function buildBlurCSS(allEnabled = false): string {
 			[
 				BLUR_SELECTORS.CAROUSEL_AVATAR,
 				BLUR_SELECTORS.FRIENDS_LIST_AVATAR,
-				BLUR_SELECTORS.SEARCH_AVATAR,
-				BLUR_SELECTORS.MEMBERS_AVATAR
+				BLUR_SELECTORS.SEARCH_AVATAR
 			],
 			ps
 		).map(toRevealSelector);
@@ -278,8 +266,7 @@ function buildBlurCSS(allEnabled = false): string {
 		const thumbnailRevealSelectors = filterByPage(
 			[
 				'.list-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				'.list-item.member .thumbnail-2d-container.blur-revealed'
+				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed'
 			],
 			ps
 		);

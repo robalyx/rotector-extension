@@ -9,7 +9,6 @@
 		FRIENDS_CAROUSEL_SELECTORS,
 		FRIENDS_SELECTORS,
 		GROUPS_MODAL_SELECTORS,
-		GROUPS_SELECTORS,
 		LOOKUP_CONTEXT,
 		PAGE_TYPES,
 		SEARCH_SELECTORS,
@@ -76,11 +75,6 @@
 			containerSelector: FRIENDS_SELECTORS.CONTAINER,
 			itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
 			profileLinkSelector: FRIENDS_SELECTORS.PROFILE_LINK
-		},
-		[PAGE_TYPES.MEMBERS]: {
-			containerSelector: GROUPS_SELECTORS.CONTAINER,
-			itemSelector: GROUPS_SELECTORS.TILE,
-			profileLinkSelector: GROUPS_SELECTORS.PROFILE_LINK
 		},
 		[PAGE_TYPES.SEARCH_USER]: {
 			containerSelector: SEARCH_SELECTORS.CONTAINER,
@@ -161,7 +155,7 @@
 			if (pageType === PAGE_TYPES.FRIENDS_LIST) {
 				await initializeFriendsPageObserver();
 			} else if (pageType === PAGE_TYPES.MEMBERS) {
-				await initializeGroupsPageObserver();
+				await initializeGroupsModalObserver();
 			} else if (pageType === PAGE_TYPES.SEARCH_USER) {
 				await initializeSearchPageObserver();
 			} else {
@@ -237,21 +231,6 @@
 			itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
 			observerName: 'friends-list-observer'
 		});
-	}
-
-	// Initialize observer for groups page
-	async function initializeGroupsPageObserver() {
-		await Promise.all([
-			// Legacy observer for inline tile-based list
-			initializePaginatedPageObserver({
-				pageName: 'Groups',
-				containerSelector: GROUPS_SELECTORS.CONTAINER,
-				itemSelector: GROUPS_SELECTORS.TILE,
-				observerName: 'groups-list-observer'
-			}),
-			// Modal observer for A/B test variant
-			initializeGroupsModalObserver()
-		]);
 	}
 
 	// Initialize observer for search page
@@ -684,7 +663,6 @@
 					[PAGE_TYPES.FRIENDS_LIST]: FRIENDS_SELECTORS.CARD.FULLBODY,
 					[PAGE_TYPES.SEARCH_USER]: SEARCH_SELECTORS.CARD.FULLBODY,
 					[PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
-					[PAGE_TYPES.MEMBERS]: '',
 					[PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_SELECTORS.TILE_CONTENT,
 					[PAGE_TYPES.PROFILE]: '',
 					[PAGE_TYPES.REPORT]: ''
@@ -711,7 +689,6 @@
 					!isModalItem &&
 					(pageType === PAGE_TYPES.FRIENDS_CAROUSEL ||
 						pageType === PAGE_TYPES.HOME ||
-						pageType === PAGE_TYPES.MEMBERS ||
 						pageType === PAGE_TYPES.FRIENDS_LIST ||
 						pageType === PAGE_TYPES.SEARCH_USER);
 

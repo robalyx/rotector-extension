@@ -158,17 +158,6 @@ export const FRIENDS_SELECTORS = {
 	PROFILE_LINK: '.avatar-card-link, .avatar-container > a'
 } as const;
 
-// DOM selectors for groups page
-export const GROUPS_SELECTORS = {
-	CONTAINER: '.group-section-content-transparent.group-members-list',
-	TILE: '.list-item.member',
-	TILE_UNPROCESSED: `.list-item.member:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
-	PROFILE_LINK: '.avatar-container > a',
-	USERNAME: '.text-overflow.font-caption-header.member-name',
-	AVATAR_IMG: '.thumbnail-2d-container img',
-	NO_RESULTS: '.section-content-off'
-} as const;
-
 // DOM selectors for groups modal member list
 export const GROUPS_MODAL_SELECTORS = {
 	MODAL: 'div[role="dialog"].user-list-modal-content',
@@ -272,14 +261,10 @@ export const BLUR_SELECTORS = {
 	CAROUSEL_AVATAR: '.friends-carousel-tile .avatar-card-image',
 	FRIENDS_LIST_AVATAR: '.list-item.avatar-card .thumbnail-2d-container',
 	SEARCH_AVATAR: 'li.player-item.avatar-card .thumbnail-2d-container',
-	MEMBERS_AVATAR: '.list-item.member .thumbnail-2d-container',
 
 	// Relative selectors
 	TILE_CAROUSEL_AVATAR: '.avatar-card-image',
 	TILE_THUMBNAIL: '.thumbnail-2d-container',
-
-	// Member tiles
-	MEMBER_USERNAME: '.member-name',
 
 	// Search results
 	SEARCH_DISPLAY_NAME: '.avatar-name-container .avatar-name',

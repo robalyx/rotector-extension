@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { apiClient } from '@/lib/services/api-client';
+	import { addQueueEntry } from '@/lib/stores/queue-history';
 	import { logger } from '@/lib/utils/logger';
 	import type { QueueErrorData, QueueSuccessData, UserStatus } from '@/lib/types/api';
 	import QueuePopup from './QueuePopup.svelte';
@@ -71,6 +72,9 @@
 			if (result.success && result.data) {
 				successData = result.data;
 				showSuccessModal = true;
+
+				// Add to queue history for tracking
+				await addQueueEntry(parseInt(queueUserId, 10));
 
 				// Refresh user status in parent component
 				if (onStatusRefresh) {

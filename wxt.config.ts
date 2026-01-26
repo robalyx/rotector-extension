@@ -51,7 +51,7 @@ export default defineConfig({
 		description: '__MSG_extensionDescription__',
 		default_locale: 'en',
 		version: '2.10.0',
-		permissions: ['storage'],
+		permissions: ['storage', 'notifications'],
 		host_permissions: [`https://${apiDomain}/*`],
 		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],
 		externally_connectable: {

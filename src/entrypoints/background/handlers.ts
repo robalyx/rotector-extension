@@ -1,5 +1,6 @@
 import type { ContentMessage } from '@/lib/types/api';
 import { API_ACTIONS } from '@/lib/types/constants';
+import { isUserBeingProcessed, getUnprocessedUserIds } from '@/lib/stores/queue-history';
 import {
 	checkGroupStatus,
 	checkMultipleGroups,
@@ -7,6 +8,7 @@ import {
 	checkUserStatus,
 	getMultipleVotes,
 	getQueueLimits,
+	getQueueStatus,
 	getStatistics,
 	getVotes,
 	queueUser,
@@ -41,7 +43,11 @@ export const actionHandlers = {
 		if (request.apiConfig) {
 			return customApiCheckUser(request.apiConfig, request.userId);
 		}
-		return checkUserStatus(request.userId, request.clientId);
+		// Use primary database if user is queued but not yet processed
+		const userId =
+			typeof request.userId === 'string' ? parseInt(request.userId, 10) : request.userId;
+		const readPrimary = isUserBeingProcessed(userId);
+		return checkUserStatus(request.userId, request.clientId, readPrimary);
 	},
 	[API_ACTIONS.CHECK_GROUP_STATUS]: async (request: ContentMessage) => {
 		if (!request.groupId) throw new Error('Group ID is required for check group status');
@@ -52,7 +58,15 @@ export const actionHandlers = {
 		if (request.apiConfig) {
 			return customApiCheckMultipleUsers(request.apiConfig, request.userIds);
 		}
-		return checkMultipleUsers(request.userIds, request.clientId, request.lookupContext);
+		// Use primary database if any user is queued but not yet processed
+		const userIds = request.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id));
+		const readPrimary = getUnprocessedUserIds(userIds).length > 0;
+		return checkMultipleUsers(
+			request.userIds,
+			request.clientId,
+			request.lookupContext,
+			readPrimary
+		);
 	},
 	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
 		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');
@@ -71,6 +85,15 @@ export const actionHandlers = {
 	},
 	[API_ACTIONS.GET_QUEUE_LIMITS]: async (request: ContentMessage) =>
 		getQueueLimits(request.clientId),
+	[API_ACTIONS.GET_QUEUE_STATUS]: async (request: ContentMessage) => {
+		if (!request.userIds || request.userIds.length === 0) {
+			throw new Error('User IDs are required for queue status check');
+		}
+		return getQueueStatus(
+			request.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id)),
+			request.clientId
+		);
+	},
 	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
 		if (!request.userId || request.voteType === undefined || request.voteType === null)
 			throw new Error('User ID and vote type are required for submit vote');

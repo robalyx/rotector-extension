@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { BarChart3, Settings, Swords } from 'lucide-svelte';
+	import { BarChart3, Settings, Swords, ListTodo } from 'lucide-svelte';
 	import { _ } from 'svelte-i18n';
+	import { unprocessedCount } from '@/lib/stores/queue-history';
 
-	type NavPage = 'stats' | 'settings' | 'warzone';
+	type NavPage = 'stats' | 'settings' | 'warzone' | 'queue';
 
 	interface NavbarProps {
 		currentPage: string | null;
@@ -25,6 +26,22 @@
 			<BarChart3 size={18} strokeWidth={2.5} />
 		</span>
 		<span class="navbar-label">{$_('navbar_tab_stats')}</span>
+	</button>
+
+	<button
+		class="navbar-tab"
+		class:active={currentPage === 'queue'}
+		aria-current={currentPage === 'queue' ? 'page' : undefined}
+		onclick={() => onPageChange('queue')}
+		type="button"
+	>
+		<span class="navbar-icon relative">
+			<ListTodo size={18} strokeWidth={2.5} />
+			{#if $unprocessedCount > 0}
+				<span class="navbar-badge">{$unprocessedCount > 9 ? '9+' : $unprocessedCount}</span>
+			{/if}
+		</span>
+		<span class="navbar-label">{$_('navbar_tab_queue')}</span>
 	</button>
 
 	{#if showWarzone}

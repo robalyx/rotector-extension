@@ -90,6 +90,7 @@ interface HttpRequestOptions extends RequestInit {
 	requireAuth?: boolean;
 	clientId?: string;
 	lookupContext?: string;
+	readPrimary?: boolean;
 }
 
 // Unified HTTP client for both Rotector and Custom APIs
@@ -106,6 +107,7 @@ export async function makeHttpRequest(
 		requireAuth = false,
 		clientId,
 		lookupContext,
+		readPrimary,
 		...fetchOptions
 	} = options;
 
@@ -147,6 +149,11 @@ export async function makeHttpRequest(
 		// Add lookup context header for friend lookups
 		if (lookupContext) {
 			headers.set('X-Lookup-Context', lookupContext);
+		}
+
+		// Force read from primary database to avoid replication lag
+		if (readPrimary) {
+			headers.set('X-Read-Primary', 'true');
 		}
 	}
 

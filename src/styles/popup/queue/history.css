@@ -1,0 +1,171 @@
+/* =================================
+   QUEUE HISTORY STYLES
+   ================================= */
+
+@utility queue-history-container {
+	@apply rounded-lg p-2 mb-1.5 border transition-all duration-300 shadow-soft;
+	border-color: var(--color-border);
+	background-color: var(--color-bg);
+}
+
+@utility queue-history-clear-button {
+	@apply flex items-center gap-1 px-2 py-1 text-2xs font-medium rounded border cursor-pointer transition-all duration-200;
+	border-color: var(--color-border);
+	background-color: var(--color-bg-content);
+	color: var(--color-text-subtle);
+
+	&:hover {
+		background-color: var(--color-error);
+		border-color: var(--color-error);
+		color: white;
+	}
+
+	&:focus {
+		@apply outline-none shadow-[0_0_0_2px_var(--color-primary)] border-transparent;
+	}
+}
+
+@utility queue-history-empty {
+	@apply flex flex-col items-center gap-1 py-6 text-center;
+}
+
+@utility queue-history-empty-icon {
+	@apply mb-1;
+	color: var(--color-text-subtle);
+	opacity: 0.4;
+}
+
+@utility queue-history-empty-title {
+	@apply m-0 text-sm font-medium;
+	color: var(--color-text);
+}
+
+@utility queue-history-empty-hint {
+	@apply m-0 text-2xs;
+	color: var(--color-text-subtle);
+}
+
+@utility queue-history-list {
+	@apply flex flex-col gap-1.5 max-h-[280px] overflow-y-auto pr-0.5;
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border) transparent;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--color-border);
+		border-radius: 2px;
+	}
+}
+
+@utility queue-history-item {
+	@apply flex items-center gap-2 p-2 rounded-lg border transition-all duration-200;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border-subtle);
+
+	&:hover {
+		border-color: var(--color-border);
+		@apply shadow-soft;
+	}
+
+	&.processing {
+		border-color: var(--color-primary);
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--color-primary) 8%, transparent) 0%,
+			var(--color-bg-content) 100%
+		);
+	}
+
+	&.flagged {
+		border-color: var(--color-error);
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--color-error) 8%, transparent) 0%,
+			var(--color-bg-content) 100%
+		);
+	}
+}
+
+@utility queue-history-item-status {
+	@apply flex items-center justify-center w-5 shrink-0;
+}
+
+@utility queue-history-icon-processing {
+	@apply animate-spin;
+	color: var(--color-primary);
+}
+
+@utility queue-history-icon-flagged {
+	color: var(--color-error);
+}
+
+@utility queue-history-icon-complete {
+	color: var(--color-success);
+}
+
+@utility queue-history-icon-pending {
+	color: var(--color-text-subtle);
+}
+
+@utility queue-history-item-info {
+	@apply flex-1 flex flex-col gap-0.5 min-w-0;
+}
+
+@utility queue-history-item-user-id {
+	@apply text-xs font-semibold truncate;
+	color: var(--color-text-heading);
+}
+
+@utility queue-history-item-time {
+	@apply text-2xs truncate;
+	color: var(--color-text-subtle);
+}
+
+@utility queue-history-item-result {
+	@apply flex items-center shrink-0;
+}
+
+@utility queue-history-result-badge {
+	@apply px-1.5 py-0.5 rounded text-3xs font-semibold uppercase tracking-wide;
+	background-color: color-mix(in srgb, var(--color-success) 15%, transparent);
+	color: var(--color-success);
+
+	&.flagged {
+		background-color: color-mix(in srgb, var(--color-error) 15%, transparent);
+		color: var(--color-error);
+	}
+}
+
+@utility queue-history-item-actions {
+	@apply flex items-center gap-1 shrink-0;
+}
+
+@utility queue-history-action-button {
+	@apply w-6 h-6 flex items-center justify-center rounded border transition-all duration-200 cursor-pointer;
+	border-color: var(--color-border-subtle);
+	background-color: transparent;
+	color: var(--color-text-subtle);
+
+	&:hover {
+		background-color: var(--color-hover);
+		border-color: var(--color-text-subtle);
+		color: var(--color-text);
+	}
+
+	&:focus {
+		@apply outline-none shadow-[0_0_0_2px_var(--color-primary)] border-transparent;
+	}
+
+	&.queue-history-action-remove:hover {
+		background-color: var(--color-error);
+		border-color: var(--color-error);
+		color: white;
+	}
+}

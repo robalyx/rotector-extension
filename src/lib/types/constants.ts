@@ -47,7 +47,8 @@ export const API_CONFIG = {
 		WAR_MAP: '/v1/war/map',
 		WAR_ZONES: '/v1/war/zones',
 		WAR_ORDERS: '/v1/war/orders',
-		WAR_STATS_HISTORY: '/v1/war/stats/history'
+		WAR_STATS_HISTORY: '/v1/war/stats/history',
+		QUEUE_STATUS: '/v1/queue/roblox/user/status'
 	},
 	BATCH_SIZE: 100,
 	BATCH_DELAY: 250, // ms between batches
@@ -64,6 +65,7 @@ export const API_ACTIONS = {
 	CHECK_MULTIPLE_GROUPS: 'checkMultipleGroups',
 	QUEUE_USER: 'queueUser',
 	GET_QUEUE_LIMITS: 'getQueueLimits',
+	GET_QUEUE_STATUS: 'getQueueStatus',
 	SUBMIT_VOTE: 'submitVote',
 	GET_VOTES: 'getVotes',
 	GET_MULTIPLE_VOTES: 'getMultipleVotes',

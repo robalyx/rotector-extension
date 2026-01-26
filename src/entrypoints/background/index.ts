@@ -1,8 +1,119 @@
 import type { ApiResponse, ContentMessage, ExtensionUserProfile } from '@/lib/types/api';
-import { DISCORD_OAUTH_MESSAGES } from '@/lib/types/constants';
+import type { QueueHistoryEntry } from '@/lib/types/queue-history';
+import { API_ACTIONS, DISCORD_OAUTH_MESSAGES } from '@/lib/types/constants';
+import { getAssetUrl } from '@/lib/utils/assets';
 import { logger } from '@/lib/utils/logger';
+import {
+	loadQueueHistory,
+	unprocessedEntries,
+	updateEntryStatus,
+	markAsNotified
+} from '@/lib/stores/queue-history';
+import { get } from 'svelte/store';
 import { actionHandlers } from './handlers';
 import { createErrorResponse, initializeSettings } from './utils';
+import { t } from '@/lib/utils/i18n';
+
+const POLL_INTERVAL = 30000; // 30 seconds
+let pollIntervalId: ReturnType<typeof setInterval> | null = null;
+let isPolling = false;
+
+// Send notification when queue processing completes
+async function sendQueueNotification(entry: QueueHistoryEntry): Promise<void> {
+	const notificationId = `queue-${entry.userId}-${Date.now()}`;
+
+	try {
+		const titleKey = entry.flagged
+			? 'queue_notification_flagged_title'
+			: 'queue_notification_safe_title';
+		const messageKey = entry.flagged
+			? 'queue_notification_flagged_message'
+			: 'queue_notification_safe_message';
+
+		const [title, message] = await Promise.all([t(titleKey), t(messageKey, { 0: entry.userId })]);
+
+		await browser.notifications.create(notificationId, {
+			type: 'basic',
+			iconUrl: getAssetUrl('/icon/48.png'),
+			title,
+			message,
+			priority: entry.flagged ? 2 : 0
+		});
+		logger.debug('Queue notification sent:', { userId: entry.userId, flagged: entry.flagged });
+	} catch (error) {
+		logger.error('Failed to create notification:', error);
+	}
+}
+
+// Poll queue status for unprocessed entries
+async function pollQueueStatus(): Promise<void> {
+	if (isPolling) return;
+	isPolling = true;
+
+	try {
+		const unprocessed = get(unprocessedEntries);
+
+		if (unprocessed.length === 0) {
+			stopPolling();
+			return;
+		}
+
+		const userIds = unprocessed.map((e) => e.userId);
+
+		const handler = actionHandlers[API_ACTIONS.GET_QUEUE_STATUS];
+		const response = await handler({ action: API_ACTIONS.GET_QUEUE_STATUS, userIds });
+
+		for (const [userIdStr, status] of Object.entries(response)) {
+			if (!status.queued) continue;
+
+			const completedEntry = await updateEntryStatus(parseInt(userIdStr, 10), status);
+
+			if (completedEntry && !completedEntry.notified) {
+				await sendQueueNotification(completedEntry);
+				await markAsNotified(completedEntry.userId);
+			}
+		}
+	} catch (error) {
+		logger.error('Queue status poll failed:', error);
+	} finally {
+		isPolling = false;
+	}
+}
+
+// Start polling if needed
+function startPollingIfNeeded(): void {
+	const unprocessed = get(unprocessedEntries);
+
+	if (unprocessed.length === 0 || pollIntervalId) return;
+
+	logger.debug('Starting queue status polling');
+	void pollQueueStatus(); // Immediate first poll
+	pollIntervalId = setInterval(() => void pollQueueStatus(), POLL_INTERVAL);
+}
+
+// Stop polling
+function stopPolling(): void {
+	if (pollIntervalId) {
+		clearInterval(pollIntervalId);
+		pollIntervalId = null;
+		logger.debug('Stopped queue status polling');
+	}
+}
+
+// Initialize queue polling
+async function initializeQueuePolling(): Promise<void> {
+	await loadQueueHistory();
+	startPollingIfNeeded();
+
+	// Subscribe to changes to start/stop polling
+	unprocessedEntries.subscribe((entries) => {
+		if (entries.length > 0 && !pollIntervalId) {
+			startPollingIfNeeded();
+		} else if (entries.length === 0 && pollIntervalId) {
+			stopPolling();
+		}
+	});
+}
 
 export default defineBackground(() => {
 	logger.info('Rotector Background Script: Starting...', {
@@ -11,6 +122,10 @@ export default defineBackground(() => {
 
 	initializeSettings().catch((err) => {
 		logger.error('Failed to initialize settings:', err);
+	});
+
+	initializeQueuePolling().catch((err) => {
+		logger.error('Failed to initialize queue polling:', err);
 	});
 
 	// Handle runtime messages from content scripts and popup

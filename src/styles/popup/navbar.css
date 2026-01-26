@@ -76,6 +76,32 @@
 		align-items: center;
 		justify-content: center;
 		line-height: 1;
+		position: relative;
+	}
+
+	/* Navbar badge for notifications */
+	.navbar-badge {
+		position: absolute;
+		top: -6px;
+		right: -8px;
+		min-width: 14px;
+		height: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 3px;
+		border-radius: 9999px;
+		font-size: 0.5625rem;
+		font-weight: 700;
+		line-height: 1;
+		background-color: var(--color-primary);
+		color: white;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	}
+
+	.navbar-tab.active .navbar-badge {
+		background-color: white;
+		color: var(--color-primary);
 	}
 
 	/* Navbar labels */
@@ -95,7 +121,8 @@
 	/* Page wrappers */
 	.stats-page,
 	.settings-page,
-	.warzone-page {
+	.warzone-page,
+	.queue-page {
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;

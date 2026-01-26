@@ -3,6 +3,7 @@
 	import StatsPage from '../../components/popup/StatsPage.svelte';
 	import SettingsPage from '../../components/popup/SettingsPage.svelte';
 	import WarzonePage from '../../components/popup/WarzonePage.svelte';
+	import QueuePage from '../../components/popup/QueuePage.svelte';
 	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
 	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
@@ -10,6 +11,7 @@
 	import { initializeSettings, settings } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
+	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
@@ -18,6 +20,7 @@
 		| 'stats'
 		| 'settings'
 		| 'warzone'
+		| 'queue'
 		| 'custom-apis'
 		| 'custom-api-docs'
 		| 'rotector-api-docs';
@@ -41,6 +44,9 @@
 		themeManager.initializePopupThemeSync().catch((error) => {
 			logger.error('Failed to initialize popup theme sync:', error);
 		});
+		loadQueueHistory().catch((error) => {
+			logger.error('Failed to load queue history:', error);
+		});
 	});
 
 	// Load last visited page from storage on mount
@@ -54,6 +60,7 @@
 					(savedPage === 'stats' ||
 						savedPage === 'settings' ||
 						savedPage === 'warzone' ||
+						savedPage === 'queue' ||
 						savedPage === 'custom-apis' ||
 						savedPage === 'custom-api-docs' ||
 						savedPage === 'rotector-api-docs')
@@ -119,6 +126,8 @@
 				/>
 			{:else if currentPage === 'warzone'}
 				<WarzonePage />
+			{:else if currentPage === 'queue'}
+				<QueuePage />
 			{:else if currentPage === 'custom-apis'}
 				<CustomApiManagement
 					onBack={() => handlePageChange('settings')}

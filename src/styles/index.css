@@ -50,6 +50,9 @@
 @import './popup/settings/inputs.css';
 @import './popup/settings/warnings.css';
 
+/* Queue Page */
+@import './popup/queue/history.css';
+
 /* Custom API Management */
 @import './popup/api/management.css';
 @import './popup/api/form.css';

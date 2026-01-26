@@ -6,6 +6,7 @@ import type {
 	VoteData,
 	VoteResult
 } from '@/lib/types/api';
+import type { QueueStatusResponse } from '@/lib/types/queue-history';
 import type { Statistics } from '@/lib/types/statistics';
 import { API_CONFIG, STATUS, VOTE_TYPES, type VoteType } from '@/lib/types/constants';
 import { makeHttpRequest } from '../http-client';
@@ -19,7 +20,8 @@ import {
 // Check the status of a single user by ID
 export async function checkUserStatus(
 	userId: string | number,
-	clientId?: string
+	clientId?: string,
+	readPrimary?: boolean
 ): Promise<UserStatus> {
 	const sanitizedUserId = validateEntityId(userId);
 	const excludeInfo = await getExcludeAdvancedInfoSetting();
@@ -28,7 +30,7 @@ export async function checkUserStatus(
 	params.set('excludeInfo', excludeInfo.toString());
 
 	const url = `${API_CONFIG.ENDPOINTS.USER_CHECK}/${sanitizedUserId}?${params.toString()}`;
-	const response = await makeHttpRequest(url, { method: 'GET', clientId });
+	const response = await makeHttpRequest(url, { method: 'GET', clientId, readPrimary });
 
 	const data = extractResponseData<UserStatus>(response);
 
@@ -62,7 +64,8 @@ export async function checkGroupStatus(
 export async function checkMultipleUsers(
 	userIds: Array<string | number>,
 	clientId?: string,
-	lookupContext?: string
+	lookupContext?: string,
+	readPrimary?: boolean
 ): Promise<UserStatus[]> {
 	const sanitizedUserIds = processBatchEntityIds(userIds);
 	const excludeInfo = await getExcludeAdvancedInfoSetting();
@@ -76,7 +79,8 @@ export async function checkMultipleUsers(
 		method: 'POST',
 		body: JSON.stringify(requestBody),
 		clientId,
-		lookupContext
+		lookupContext,
+		readPrimary
 	});
 
 	const responseData = extractResponseData<Record<string, UserStatus>>(response);
@@ -214,4 +218,18 @@ export async function getQueueLimits(clientId?: string): Promise<QueueLimitsData
 	});
 
 	return extractResponseData<QueueLimitsData>(response);
+}
+
+// Check queue status for multiple users
+export async function getQueueStatus(
+	userIds: number[],
+	clientId?: string
+): Promise<QueueStatusResponse> {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_STATUS, {
+		method: 'POST',
+		body: JSON.stringify({ ids: userIds }),
+		clientId
+	});
+
+	return extractResponseData<QueueStatusResponse>(response);
 }

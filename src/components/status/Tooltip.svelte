@@ -68,6 +68,9 @@
 		element?: HTMLElement;
 		onMouseEnter?: () => void;
 		onMouseLeave?: () => void;
+		userUsername?: string;
+		userDisplayName?: string;
+		userAvatarUrl?: string;
 	}
 
 	let {
@@ -82,7 +85,10 @@
 		onExpand,
 		element = $bindable(),
 		onMouseEnter,
-		onMouseLeave
+		onMouseLeave,
+		userUsername,
+		userDisplayName,
+		userAvatarUrl
 	}: Props = $props();
 
 	// Local state
@@ -455,15 +461,22 @@
 		};
 	});
 
-	// Extract user info from the page DOM
+	// Get user info from props or extract from page DOM
 	function getPageUserInfo(): UserInfo | null {
+		const id = sanitizedUserId;
+		if (!id) return null;
+
+		if (userUsername || userDisplayName || userAvatarUrl) {
+			return {
+				userId: id,
+				username: userUsername || userDisplayName || 'Unknown User',
+				avatarUrl: userAvatarUrl
+			};
+		}
+
 		if (!anchorElement) return null;
-
-		const userId = sanitizedUserId;
-		if (!userId) return null;
-
 		const { pageType, container } = detectPageContext(anchorElement);
-		return extractUserInfo(userId, pageType, container);
+		return extractUserInfo(id, pageType, container);
 	}
 
 	// Extract group info from the page DOM

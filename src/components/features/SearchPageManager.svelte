@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
-	import { SEARCH_SELECTORS, PAGE_TYPES, USER_ACTIONS } from '@/lib/types/constants';
+	import {
+		PAGE_TYPES,
+		SEARCH_SELECTORS,
+		STATUS_SELECTORS,
+		USER_ACTIONS
+	} from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 	import FriendWarning from './FriendWarning.svelte';
@@ -79,10 +84,10 @@
 			if (!userCard) return;
 
 			// Check if user is flagged
-			if (!userCard.hasAttribute('data-rotector-flagged')) return;
+			if (!userCard.hasAttribute(STATUS_SELECTORS.DATA_FLAGGED)) return;
 
 			// Get user ID from the card
-			const userId = userCard.getAttribute('data-rotector-user-id');
+			const userId = userCard.getAttribute(STATUS_SELECTORS.DATA_USER_ID);
 			if (!userId) return;
 
 			// Prevent friend request and show warning
@@ -117,7 +122,7 @@
 
 		// Find the friend button for this user and trigger click
 		const userCard = document.querySelector(
-			`${SEARCH_SELECTORS.CARD.CONTAINER}[data-rotector-user-id="${friendWarningUserId}"]`
+			`${SEARCH_SELECTORS.CARD.CONTAINER}[${STATUS_SELECTORS.DATA_USER_ID}="${friendWarningUserId}"]`
 		);
 		const friendButton = userCard?.querySelector(
 			SEARCH_SELECTORS.FRIEND_BUTTON

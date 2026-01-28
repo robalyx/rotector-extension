@@ -26,6 +26,9 @@
 		skipAutoFetch?: boolean;
 		onClick?: (entityId: string) => void;
 		onQueue?: (entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void;
+		userUsername?: string;
+		userDisplayName?: string;
+		userAvatarUrl?: string;
 	}
 
 	let {
@@ -36,7 +39,10 @@
 		showText = true,
 		skipAutoFetch = false,
 		onClick,
-		onQueue
+		onQueue,
+		userUsername,
+		userDisplayName,
+		userAvatarUrl
 	}: Props = $props();
 
 	// Local state
@@ -374,8 +380,11 @@
 			onMouseEnter={handleTooltipMouseEnter}
 			onMouseLeave={handleTooltipMouseLeave}
 			onQueue={handleQueue}
+			{userAvatarUrl}
+			{userDisplayName}
 			userId={entityId}
 			userStatus={entityStatus}
+			{userUsername}
 		/>
 	</Portal>
 {/if}
@@ -390,8 +399,11 @@
 			mode="expanded"
 			onClose={closeExpandedTooltip}
 			onQueue={handleExpandedQueue}
+			{userAvatarUrl}
+			{userDisplayName}
 			userId={entityId}
 			userStatus={entityStatus}
+			{userUsername}
 		/>
 	</Portal>
 {/if}

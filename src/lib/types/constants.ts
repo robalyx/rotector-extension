@@ -96,9 +96,12 @@ export const DISCORD_OAUTH_MESSAGES = {
 	AUTH_ERROR: 'DISCORD_AUTH_ERROR'
 } as const;
 
-// DOM selectors for status elements
+// DOM selectors and data attributes for status/processing tracking
 export const STATUS_SELECTORS = {
-	PROCESSED_CLASS: 'status-processed'
+	PROCESSED_CLASS: 'status-processed',
+	DATA_USER_ID: 'data-rotector-user-id',
+	DATA_PROCESSED: 'data-rotector-processed',
+	DATA_FLAGGED: 'data-rotector-flagged'
 } as const;
 
 // DOM selectors for friends carousel
@@ -170,6 +173,18 @@ export const GROUPS_MODAL_SELECTORS = {
 	AVATAR: '.avatar-card-fullbody .thumbnail-2d-container',
 	DISPLAY_NAME: '.text-title-medium',
 	USERNAME: '.text-body-medium'
+} as const;
+
+// DOM selectors for group members carousel
+export const GROUP_MEMBERS_CAROUSEL_SELECTORS = {
+	TAB_CONTENT: '.tab-content.rbx-tab-content.col-xs-12',
+	SECTION: '.rotector-group-members-section',
+	CONTAINER: '.rotector-group-members-carousel',
+	MEMBER_TILE: '.rotector-member-tile',
+	MEMBER_TILE_UNPROCESSED: `.rotector-member-tile:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+	PROFILE_LINK: '.rotector-member-link',
+	AVATAR_CONTAINER: '.rotector-member-avatar',
+	DISPLAY_NAME: '.rotector-member-display-name'
 } as const;
 
 // DOM selectors for search users page
@@ -250,11 +265,18 @@ export const BLUR_SELECTORS = {
 	CARD_USERNAME: '.avatar-card-label',
 
 	// Profile page
-	PROFILE_DISPLAY_NAME: '.profile-header-title-container [class*="Typography-h1"]',
-	PROFILE_USERNAME: '.profile-header-username',
-	PROFILE_DESCRIPTION: '.profile-about-text',
-	PROFILE_AVATAR: '.profile-avatar-thumb',
-	PROFILE_OUTFIT_RENDERER: '.thumbnail-holder .thumbnail-2d-container',
+	PROFILE_DISPLAY_NAME_LEGACY: '.profile-header-title-container [class*="Typography-h1"]',
+	PROFILE_USERNAME_LEGACY: '.profile-header-username',
+	PROFILE_DESCRIPTION_LEGACY: '.profile-about-text',
+	PROFILE_AVATAR_LEGACY: '.profile-avatar-thumb',
+
+	PROFILE_DISPLAY_NAME_NEW: '#profile-header-title-container-name',
+	PROFILE_USERNAME_NEW: '.stylistic-alts-username',
+	PROFILE_DESCRIPTION_NEW: '.description-content',
+	PROFILE_AVATAR_NEW: '.user-profile-header-details-avatar-container .thumbnail-2d-container',
+
+	PROFILE_OUTFIT_2D: '.thumbnail-holder .thumbnail-2d-container',
+	PROFILE_OUTFIT_3D: '.thumbnail-holder .thumbnail-3d-container',
 	PROFILE_CURRENTLY_WEARING: '.profile-item-card .thumbnail-2d-container',
 
 	// Avatar selectors
@@ -269,9 +291,21 @@ export const BLUR_SELECTORS = {
 	// Search results
 	SEARCH_DISPLAY_NAME: '.avatar-name-container .avatar-name',
 
+	// Group members carousel
+	MEMBER_CAROUSEL_DISPLAY_NAME: '.rotector-member-display-name',
+	MEMBER_CAROUSEL_AVATAR: '.rotector-member-avatar',
+
 	// Data attributes for blur state tracking
 	BLUR_USER_ID: 'data-blur-user-id',
-	BLUR_TYPE: 'data-blur-type'
+	BLUR_TYPE: 'data-blur-type',
+	BLUR_GROUP: 'data-blur-group',
+	BLUR_TITLE: 'title'
+} as const;
+
+// Profile blur group identifiers
+export const PROFILE_BLUR_GROUPS = {
+	HEADER: 'profile-header',
+	OUTFIT: 'profile-outfit'
 } as const;
 
 // Vote types
@@ -305,7 +339,8 @@ export const PAGE_TYPES = {
 	PROFILE: 'profile',
 	MEMBERS: 'members',
 	REPORT: 'report',
-	SEARCH_USER: 'search-user'
+	SEARCH_USER: 'search-user',
+	GROUP_MEMBERS_CAROUSEL: 'group-members-carousel'
 } as const;
 
 // Component Classes

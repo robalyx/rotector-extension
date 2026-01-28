@@ -12,6 +12,7 @@
 		LOOKUP_CONTEXT,
 		PAGE_TYPES,
 		SEARCH_SELECTORS,
+		STATUS_SELECTORS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
@@ -487,7 +488,7 @@
 					if (status) {
 						revealUserElement(user.element, status);
 						if (isFlagged(status)) {
-							user.element.setAttribute('data-rotector-flagged', 'true');
+							user.element.setAttribute(STATUS_SELECTORS.DATA_FLAGGED, 'true');
 						}
 					}
 					mountStatusIndicator(user, false);
@@ -501,7 +502,7 @@
 				if (status) {
 					revealUserElement(user.element, status);
 					if (isFlagged(status)) {
-						user.element.setAttribute('data-rotector-flagged', 'true');
+						user.element.setAttribute(STATUS_SELECTORS.DATA_FLAGGED, 'true');
 					}
 				}
 				mountStatusIndicator(user, false);
@@ -553,16 +554,16 @@
 	// Check if element has been processed before
 	// Returns the user ID that was stored on the element, or null if never processed
 	function isProcessed(element: Element): string | null {
-		if (!element.hasAttribute('data-rotector-processed')) {
+		if (!element.hasAttribute(STATUS_SELECTORS.DATA_PROCESSED)) {
 			return null;
 		}
-		return element.getAttribute('data-rotector-user-id');
+		return element.getAttribute(STATUS_SELECTORS.DATA_USER_ID);
 	}
 
 	// Mark element as processed and remember which user ID it contains
 	function markAsProcessed(element: Element, userId: string): void {
-		element.setAttribute('data-rotector-processed', 'true');
-		element.setAttribute('data-rotector-user-id', userId);
+		element.setAttribute(STATUS_SELECTORS.DATA_PROCESSED, 'true');
+		element.setAttribute(STATUS_SELECTORS.DATA_USER_ID, userId);
 	}
 
 	// Determine if current lookup is for user's own friends
@@ -746,8 +747,10 @@
 		// Check each mounted component to see if its DOM element still exists
 		for (const [userId] of mountedComponents.entries()) {
 			// Try to find the user's element in the current DOM
-			const selector = `[data-rotector-processed] [href*="/users/${userId}"]`;
-			const element = document.querySelector(selector)?.closest('[data-rotector-processed]');
+			const selector = `[${STATUS_SELECTORS.DATA_PROCESSED}] [href*="/users/${userId}"]`;
+			const element = document
+				.querySelector(selector)
+				?.closest(`[${STATUS_SELECTORS.DATA_PROCESSED}]`);
 
 			if (!element || !document.contains(element)) {
 				// Element no longer exists in DOM, mark for cleanup
@@ -788,8 +791,8 @@
 
 			// Re-mount status indicator with updated status
 			const userElement = document
-				.querySelector(`[data-rotector-processed] [href*="/users/${userId}"]`)
-				?.closest('[data-rotector-processed]');
+				.querySelector(`[${STATUS_SELECTORS.DATA_PROCESSED}] [href*="/users/${userId}"]`)
+				?.closest(`[${STATUS_SELECTORS.DATA_PROCESSED}]`);
 			if (userElement) {
 				// Find and update existing status indicator
 				const statusContainer = userElement.querySelector(`.${COMPONENT_CLASSES.STATUS_CONTAINER}`);

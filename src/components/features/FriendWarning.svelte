@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { PROFILE_SELECTORS, SEARCH_SELECTORS } from '@/lib/types/constants';
+	import { PROFILE_SELECTORS, SEARCH_SELECTORS, STATUS_SELECTORS } from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
@@ -139,7 +139,7 @@
 		} else {
 			// Try to find user info from search card
 			const searchCard = document.querySelector(
-				`${SEARCH_SELECTORS.CARD.CONTAINER}[data-rotector-user-id="${userId}"]`
+				`${SEARCH_SELECTORS.CARD.CONTAINER}[${STATUS_SELECTORS.DATA_USER_ID}="${userId}"]`
 			);
 			if (searchCard) {
 				// Get username from search card

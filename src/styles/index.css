@@ -103,3 +103,6 @@
 
 /* Content Blur */
 @import './features/blur.css';
+
+/* Group Members Carousel */
+@import './features/group-members-carousel.css';

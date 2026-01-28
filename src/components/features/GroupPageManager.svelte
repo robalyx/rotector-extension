@@ -10,6 +10,7 @@
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
+	import GroupMembersCarousel from './GroupMembersCarousel.svelte';
 
 	interface Props {
 		groupId: string | null;
@@ -149,3 +150,8 @@
 </script>
 
 <UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />
+
+<!-- Group Members Carousel -->
+{#if groupId}
+	<GroupMembersCarousel {groupId} onError={handleError} onUserProcessed={handleUserProcessed} />
+{/if}

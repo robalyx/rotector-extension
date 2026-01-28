@@ -22,6 +22,7 @@ export class PageControllerManager {
 	>();
 	private isInitialized = false;
 	private currentUrl: string | null = null;
+	private isNavigating = false;
 
 	constructor() {
 		// Register page controllers
@@ -47,6 +48,12 @@ export class PageControllerManager {
 
 	// Handle navigation to a new URL
 	async handleNavigation(url: string): Promise<void> {
+		if (this.isNavigating) {
+			logger.debug('Navigation already in progress, skipping');
+			return;
+		}
+
+		this.isNavigating = true;
 		try {
 			const sanitizedUrl = sanitizeUrl(url);
 			if (!sanitizedUrl) {
@@ -65,6 +72,8 @@ export class PageControllerManager {
 			}
 		} catch (error) {
 			logger.error('Failed to handle navigation:', error, { url });
+		} finally {
+			this.isNavigating = false;
 		}
 	}
 

@@ -20,7 +20,15 @@
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryUserProgressive, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
-	import { markProfileElementsForBlur, revealProfileElements } from '@/lib/services/blur-service';
+	import {
+		markProfileElementsForBlur,
+		revealProfileElements,
+		setProfileBlurState,
+		clearProfileBlurState,
+		observeProfileOutfitSwitch,
+		observeProfileDescriptions,
+		observeProfileHeader
+	} from '@/lib/services/blur-service';
 	import { isFlagged } from '@/lib/utils/status-utils';
 	import {
 		extractFlaggedOutfitNames,
@@ -62,6 +70,9 @@
 	let isReinjecting = false;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 	let cancelQuery: (() => void) | null = null;
+	let outfitObserverCleanup: (() => void) | null = null;
+	let descriptionObserverCleanup: (() => void) | null = null;
+	let headerObserverCleanup: (() => void) | null = null;
 
 	// Extract flagged outfit names from user status
 	const flaggedOutfits = $derived.by(() => {
@@ -75,10 +86,24 @@
 		return extractFlaggedOutfitNames(rotectorStatus.reasons['Avatar Outfit'].evidence);
 	});
 
+	// Returns true if outfit should be blurred
+	function shouldBlurOutfit(status: CombinedStatus): boolean {
+		for (const result of status.customApis.values()) {
+			if (result.loading) return true;
+			if (result.data?.reasons && 'Avatar Outfit' in result.data.reasons) return true;
+		}
+		return false;
+	}
+
 	// Fetch status progressively
 	$effect(() => {
 		cancelQuery = queryUserProgressive(userId, (status) => {
 			userStatus = status;
+
+			// Set profile blur state based on outfit reason
+			const shouldBlur = shouldBlurOutfit(status);
+			setProfileBlurState(shouldBlur ? 'flagged' : 'safe');
+
 			revealProfileElements(status);
 		});
 
@@ -89,6 +114,17 @@
 	$effect(() => {
 		if (!profileElementsReady) return;
 		markProfileElementsForBlur(userId);
+
+		// Set up observers for dynamic elements
+		outfitObserverCleanup = observeProfileOutfitSwitch(userId);
+		descriptionObserverCleanup = observeProfileDescriptions(userId);
+		headerObserverCleanup = observeProfileHeader(userId);
+
+		return () => {
+			outfitObserverCleanup?.();
+			descriptionObserverCleanup?.();
+			headerObserverCleanup?.();
+		};
 	});
 
 	// Initialize components when mounted
@@ -103,11 +139,12 @@
 		try {
 			await setupStatusIndicator();
 			setupHeaderCheck();
+			setupDropdownObserver();
+
+			// NOTE: We mark profile elements ready early so blur marking and observers start immediately
+			profileElementsReady = true;
 
 			await Promise.all([setupFriendWarning(), setupCarousel(), setupGroupsShowcase()]);
-
-			setupDropdownObserver();
-			profileElementsReady = true;
 
 			logger.debug('ProfilePageManager initialized successfully');
 		} catch (error) {
@@ -539,6 +576,9 @@
 	// Cleanup resources
 	function cleanup() {
 		try {
+			// Clear profile blur state when leaving page
+			clearProfileBlurState();
+
 			// Clean up friend button event listener
 			const friendButton = getActiveFriendButtonSync();
 

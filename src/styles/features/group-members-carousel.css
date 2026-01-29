@@ -32,6 +32,66 @@
 }
 
 /* =================================
+   TABS
+   ================================= */
+
+@utility group-members-tabs {
+	display: flex;
+	gap: 4px;
+	padding: 2px;
+	background: rgb(25, 26, 31);
+	border-radius: 6px;
+	border: 1px solid rgb(57, 59, 66);
+}
+
+@utility group-members-tab {
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	background: transparent;
+	color: rgb(163, 163, 172);
+	border: none;
+	transition:
+		background-color 0.15s,
+		color 0.15s;
+	white-space: nowrap;
+
+	&:hover:not(.active) {
+		background: rgb(39, 40, 46);
+		color: rgb(200, 200, 206);
+	}
+
+	&.active {
+		background: rgb(57, 59, 66);
+		color: rgb(247, 247, 248);
+	}
+}
+
+/* =================================
+   TRACKED VIEW
+   ================================= */
+
+@utility group-members-tracked-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 4px 12px;
+}
+
+@utility group-members-tracked-desc {
+	font-size: 13px;
+	color: rgb(163, 163, 172);
+}
+
+@utility group-members-tracked-count {
+	font-size: 13px;
+	font-weight: 500;
+	color: rgb(200, 200, 206);
+}
+
+/* =================================
    ROLE SELECTOR
    ================================= */
 

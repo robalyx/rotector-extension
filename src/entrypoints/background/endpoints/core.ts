@@ -1,5 +1,6 @@
 import type {
 	GroupStatus,
+	GroupTrackedUsersResponse,
 	QueueLimitsData,
 	QueueResult,
 	UserStatus,
@@ -232,4 +233,24 @@ export async function getQueueStatus(
 	});
 
 	return extractResponseData<QueueStatusResponse>(response);
+}
+
+// Get tracked users for a grou
+export async function getGroupTrackedUsers(
+	groupId: string | number,
+	cursor?: string,
+	limit: number = 24
+): Promise<GroupTrackedUsersResponse> {
+	const sanitizedGroupId = validateEntityId(groupId);
+
+	const params = new URLSearchParams();
+	params.set('limit', String(Math.min(limit, 100)));
+	if (cursor) {
+		params.set('cursor', cursor);
+	}
+
+	const url = `${API_CONFIG.ENDPOINTS.GROUP_CHECK}/${sanitizedGroupId}/tracked-users?${params.toString()}`;
+	const response = await makeHttpRequest(url, { method: 'GET' });
+
+	return extractResponseData<GroupTrackedUsersResponse>(response);
 }

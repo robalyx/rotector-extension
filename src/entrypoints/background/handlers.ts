@@ -6,6 +6,7 @@ import {
 	checkMultipleGroups,
 	checkMultipleUsers,
 	checkUserStatus,
+	getGroupTrackedUsers,
 	getMultipleVotes,
 	getQueueLimits,
 	getQueueStatus,
@@ -71,6 +72,10 @@ export const actionHandlers = {
 	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
 		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');
 		return checkMultipleGroups(request.groupIds, request.clientId);
+	},
+	[API_ACTIONS.GET_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
+		if (!request.groupId) throw new Error('Group ID is required for get group tracked users');
+		return getGroupTrackedUsers(request.groupId, request.cursor, request.limit);
 	},
 	[API_ACTIONS.QUEUE_USER]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for queue user');

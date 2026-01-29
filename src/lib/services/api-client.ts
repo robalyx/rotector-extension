@@ -8,6 +8,7 @@ import type {
 	ExtensionUserReport,
 	GlobalHistoricalStats,
 	GroupStatus,
+	GroupTrackedUsersResponse,
 	LeaderboardResponse,
 	MajorOrder,
 	QueueLimitsData,
@@ -131,6 +132,18 @@ class RotectorApiClient {
 
 	async checkMultipleGroups(groupIds: Array<string | number>): Promise<GroupStatus[]> {
 		return sendMessage<GroupStatus[]>(API_ACTIONS.CHECK_MULTIPLE_GROUPS, { groupIds });
+	}
+
+	async getGroupTrackedUsers(
+		groupId: string | number,
+		cursor?: string,
+		limit: number = 24
+	): Promise<GroupTrackedUsersResponse> {
+		return sendMessage<GroupTrackedUsersResponse>(API_ACTIONS.GET_GROUP_TRACKED_USERS, {
+			groupId,
+			cursor,
+			limit
+		});
 	}
 
 	async queueUser(

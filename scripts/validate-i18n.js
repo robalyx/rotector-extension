@@ -235,6 +235,21 @@ function extractUsedKeys() {
 		while ((match = keyPropertyRegex.exec(content)) !== null) {
 			usedKeys.add(match[1]);
 		}
+
+		// Pattern 3: Keys assigned to variables ending with Key (for indirect t() calls)
+		// Matches: const titleKey = 'key', let messageKey = condition ? 'key1' : 'key2'
+		const keyVariableRegex = /\b(?:const|let)\s+(\w+Key)\s*=\s*[^;]+/g;
+		while ((match = keyVariableRegex.exec(content)) !== null) {
+			const assignment = match[0];
+			const keyStringRegex = /['"]([a-z][a-z0-9_]*)['"](?=\s*[;,:\?\)]|\s*$)/g;
+			let keyMatch;
+			while ((keyMatch = keyStringRegex.exec(assignment)) !== null) {
+				const key = keyMatch[1];
+				if (key.includes('_')) {
+					usedKeys.add(key);
+				}
+			}
+		}
 	}
 
 	return usedKeys;

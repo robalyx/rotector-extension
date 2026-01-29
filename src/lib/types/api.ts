@@ -144,6 +144,7 @@ export interface ContentMessage {
 	reportReason?: string;
 	limit?: number;
 	offset?: number;
+	cursor?: string;
 	status?: 'pending' | 'confirmed' | 'rejected';
 	includeAnonymous?: boolean;
 
@@ -376,4 +377,18 @@ interface RobloxThumbnailItem {
 
 export interface RobloxThumbnailResponse {
 	data: RobloxThumbnailItem[];
+}
+
+export interface TrackedUser {
+	id: number;
+	name: string;
+	displayName: string;
+	thumbnailUrl: string;
+}
+
+export interface GroupTrackedUsersResponse {
+	users: TrackedUser[];
+	totalCount: number;
+	nextCursor: string | null;
+	hasMore: boolean;
 }

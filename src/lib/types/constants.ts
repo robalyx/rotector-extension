@@ -87,7 +87,8 @@ export const API_ACTIONS = {
 	INITIATE_DISCORD_LOGIN: 'initiateDiscordLogin',
 	TRANSLATE_TEXT: 'translateText',
 	HAS_TRANSLATE_PERMISSION: 'hasTranslatePermission',
-	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission'
+	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission',
+	GET_GROUP_TRACKED_USERS: 'getGroupTrackedUsers'
 } as const;
 
 // Discord OAuth external message types

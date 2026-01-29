@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { mount, onMount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
+	import { _ } from 'svelte-i18n';
+	import { get } from 'svelte/store';
 	import {
 		getGroupRoles,
 		getGroupMembers,
@@ -8,6 +10,7 @@
 		type GroupRole,
 		type GroupMember
 	} from '@/lib/services/roblox-groups-api';
+	import { apiClient } from '@/lib/services/api-client';
 	import { queryMultipleUsers } from '@/lib/services/unified-query-service';
 	import {
 		COMPONENT_CLASSES,
@@ -19,9 +22,12 @@
 	import { markUserElementForBlur, revealUserElement } from '@/lib/services/blur-service';
 	import { logger } from '@/lib/utils/logger';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import type { TrackedUser } from '@/lib/types/api';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
+
+	type ViewTab = 'by-role' | 'tracked';
 
 	interface Props {
 		groupId: string;
@@ -34,37 +40,53 @@
 	const API_LIMIT = 25;
 	const DISPLAY_LIMIT = 24;
 
-	// State
+	// Shared state
+	let activeTab = $state<ViewTab>('by-role');
+	let userStatuses = new SvelteMap<string, CombinedStatus>();
+	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
+
+	// By-role state
 	let roles = $state<GroupRole[]>([]);
 	let selectedRoleId = $state<number | null>(null);
 	let members = $state<GroupMember[]>([]);
 	let thumbnails = $state(new Map<number, string>());
-	let userStatuses = new SvelteMap<string, CombinedStatus>();
-	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
-
 	let isLoadingRoles = $state(true);
 	let isLoadingMembers = $state(false);
 	let errorMessage = $state<string | null>(null);
 
-	// Pagination
+	// By-role pagination
 	let nextCursor = $state<string | null>(null);
 	let previousCursors = $state<(string | null)[]>([]);
 	let currentPage = $state(1);
-
-	// Carryover logic cuz the 25th member doesn't fit in the 24-member grid
 	let pendingCarryover = $state<GroupMember | null>(null);
 	let carryoverHistory = $state<(GroupMember | null)[]>([]);
 
-	// Page navigation
-	// NOTE:
-	// cursorCache[i] = cursor to use for page i+1 (index 0 = null for page 1)
-	// carryoverCache[i] = carryover member to use for page i+1 (index 0 = null for page 1)
+	// By-role page navigation
+	// NOTE: cursorCache[i] = cursor for page i+1, carryoverCache[i] = carryover for page i+1
 	let cursorCache = $state<(string | null)[]>([null]);
 	let carryoverCache = $state<(GroupMember | null)[]>([null]);
 	let isFetchingCursors = $state(false);
 	let showPageInput = $state(false);
 	let pageInputValue = $state('');
 	let pageInputElement = $state<HTMLInputElement | null>(null);
+
+	// Tracked users state
+	let trackedUsers = $state<TrackedUser[]>([]);
+	let trackedTotalCount = $state<number | null>(null);
+	let trackedNextCursor = $state<string | null>(null);
+	let trackedCurrentPage = $state(1);
+	let trackedPreviousCursors = $state<(string | null)[]>([]);
+	let isLoadingTracked = $state(false);
+	let trackedError = $state<string | null>(null);
+	let hasLoadedTracked = $state(false);
+	let trackedRequestId = $state(0);
+
+	// Tracked users page navigation
+	let trackedCursorCache = $state<(string | null)[]>([null]);
+	let isFetchingTrackedCursors = $state(false);
+	let trackedShowPageInput = $state(false);
+	let trackedPageInputValue = $state('');
+	let trackedPageInputElement = $state<HTMLInputElement | null>(null);
 
 	// DOM references
 	let portalTarget: HTMLDivElement | null = null;
@@ -110,7 +132,18 @@
 	});
 
 	$effect(() => {
+		if (activeTab !== 'by-role') return;
 		if (members.length === 0 || isLoadingMembers) return;
+
+		requestAnimationFrame(() => {
+			mountAllStatusIndicators();
+			markAllElementsForBlur();
+		});
+	});
+
+	$effect(() => {
+		if (activeTab !== 'tracked') return;
+		if (trackedUsers.length === 0 || isLoadingTracked) return;
 
 		requestAnimationFrame(() => {
 			mountAllStatusIndicators();
@@ -123,6 +156,14 @@
 		if (showPageInput && pageInputElement) {
 			pageInputElement.focus();
 			pageInputElement.select();
+		}
+	});
+
+	// Focus tracked page input when shown
+	$effect(() => {
+		if (trackedShowPageInput && trackedPageInputElement) {
+			trackedPageInputElement.focus();
+			trackedPageInputElement.select();
 		}
 	});
 
@@ -140,8 +181,8 @@
 			}
 		} catch (error) {
 			logger.error('Failed to load group roles:', error);
-			errorMessage = 'Failed to load group roles';
-			onError?.('Failed to load group roles');
+			errorMessage = get(_)('group_members_error_roles');
+			onError?.(get(_)('group_members_error_roles'));
 		} finally {
 			isLoadingRoles = false;
 		}
@@ -182,8 +223,8 @@
 			await loadStatuses(userIds.map(String));
 		} catch (error) {
 			logger.error('Failed to load group members:', error);
-			errorMessage = 'Failed to load members';
-			onError?.('Failed to load group members');
+			errorMessage = get(_)('group_members_error_members');
+			onError?.(get(_)('group_members_error_members'));
 
 			currentPage = 1;
 			previousCursors = [];
@@ -205,6 +246,169 @@
 		} catch (error) {
 			logger.error('Failed to load user statuses:', error);
 		}
+	}
+
+	// Handle tab change
+	function handleTabChange(tab: ViewTab) {
+		if (tab === activeTab) return;
+		cleanupMountedComponents();
+		activeTab = tab;
+
+		if (tab === 'tracked' && !hasLoadedTracked) {
+			void loadTrackedUsers();
+		}
+	}
+
+	// Load tracked users from API
+	async function loadTrackedUsers(cursor?: string | null) {
+		const requestId = ++trackedRequestId;
+
+		try {
+			isLoadingTracked = true;
+			trackedError = null;
+			cleanupMountedComponents();
+
+			const response = await apiClient.getGroupTrackedUsers(
+				groupId,
+				cursor ?? undefined,
+				DISPLAY_LIMIT
+			);
+
+			if (requestId !== trackedRequestId) return;
+
+			trackedUsers = response.users;
+			trackedTotalCount = response.totalCount;
+			trackedNextCursor = response.nextCursor;
+			hasLoadedTracked = true;
+
+			if (trackedUsers.length > 0) {
+				await loadStatuses(trackedUsers.map((u) => String(u.id)));
+			}
+		} catch (error) {
+			if (requestId !== trackedRequestId) return;
+			logger.error('Failed to load tracked users:', error);
+			trackedError = get(_)('group_members_error_tracked');
+		} finally {
+			if (requestId === trackedRequestId) {
+				isLoadingTracked = false;
+			}
+		}
+	}
+
+	// Retry loading tracked users from page 1
+	function retryTrackedUsers() {
+		trackedCurrentPage = 1;
+		trackedPreviousCursors = [];
+		trackedCursorCache = [null];
+		void loadTrackedUsers();
+	}
+
+	function goToNextTrackedPage() {
+		if (!trackedNextCursor) return;
+
+		trackedPreviousCursors = [...trackedPreviousCursors, trackedNextCursor];
+		trackedCurrentPage++;
+		void loadTrackedUsers(trackedNextCursor);
+	}
+
+	function goToPreviousTrackedPage() {
+		if (trackedCurrentPage === 1) return;
+
+		const cursorsClone = [...trackedPreviousCursors];
+		cursorsClone.pop();
+		trackedPreviousCursors = cursorsClone;
+		trackedCurrentPage--;
+
+		const cursor = trackedCurrentPage === 1 ? null : cursorsClone[cursorsClone.length - 1];
+		void loadTrackedUsers(cursor);
+	}
+
+	// Fetch tracked cursors up to a target page
+	async function fetchTrackedCursorsToPage(targetPage: number): Promise<boolean> {
+		isFetchingTrackedCursors = true;
+
+		try {
+			let cursor: string | null = trackedCursorCache[trackedCursorCache.length - 1] ?? null;
+
+			while (trackedCursorCache.length < targetPage) {
+				const response = await apiClient.getGroupTrackedUsers(
+					groupId,
+					cursor ?? undefined,
+					DISPLAY_LIMIT
+				);
+
+				trackedCursorCache = [...trackedCursorCache, response.nextCursor];
+
+				if (!response.nextCursor) break;
+				cursor = response.nextCursor;
+				await new Promise((r) => setTimeout(r, 100));
+			}
+			return true;
+		} catch (error) {
+			logger.error('Failed to fetch tracked cursors:', error);
+			trackedError = get(_)('group_members_error_cursors');
+			return false;
+		} finally {
+			isFetchingTrackedCursors = false;
+		}
+	}
+
+	// Handle click on tracked page info to show input
+	function handleTrackedPageInfoClick() {
+		trackedShowPageInput = true;
+		trackedPageInputValue = String(trackedCurrentPage);
+	}
+
+	// Navigate to a specific tracked page
+	async function goToTrackedPage(targetPage: number) {
+		if (trackedTotalCount === null) return;
+		const totalPages = Math.ceil(trackedTotalCount / DISPLAY_LIMIT);
+		if (targetPage < 1 || targetPage > totalPages || targetPage === trackedCurrentPage) return;
+
+		// Check if we need to fetch more cursors
+		if (trackedCursorCache.length < targetPage) {
+			const requestsNeeded = targetPage - trackedCursorCache.length;
+			const confirmed = confirm(
+				get(_)('group_members_page_jump_confirm', { values: { 0: requestsNeeded, 1: targetPage } })
+			);
+			if (!confirmed) return;
+
+			const success = await fetchTrackedCursorsToPage(targetPage);
+			if (!success) return;
+		}
+
+		// Reset navigation state
+		trackedPreviousCursors = [];
+		trackedCurrentPage = targetPage;
+
+		// Rebuild history for backward navigation
+		for (let i = 1; i < targetPage; i++) {
+			trackedPreviousCursors = [...trackedPreviousCursors, trackedCursorCache[i] ?? null];
+		}
+
+		// Load the target page
+		const cursor = targetPage === 1 ? null : trackedCursorCache[targetPage - 1];
+		await loadTrackedUsers(cursor);
+	}
+
+	// Handle tracked page input keydown
+	function handleTrackedPageInputKeydown(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			const targetPage = parseInt(trackedPageInputValue, 10);
+			if (trackedTotalCount === null) return;
+			const totalPages = Math.ceil(trackedTotalCount / DISPLAY_LIMIT);
+			if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
+				trackedShowPageInput = false;
+				void goToTrackedPage(targetPage);
+			}
+		} else if (event.key === 'Escape') {
+			trackedShowPageInput = false;
+		}
+	}
+
+	// Handle tracked page input blur
+	function handleTrackedPageInputBlur() {
+		trackedShowPageInput = false;
 	}
 
 	// Mount all status indicators
@@ -242,7 +446,10 @@
 	// Mount status indicator for a member tile
 	function mountStatusIndicator(tileElement: HTMLElement, userId: string) {
 		const status = userStatuses.get(userId);
+
+		// Find user info from either by-role members or tracked users
 		const member = members.find((m) => String(m.userId) === userId);
+		const trackedUser = trackedUsers.find((u) => String(u.id) === userId);
 
 		// Cleanup existing
 		const existing = mountedComponents.get(userId);
@@ -271,9 +478,9 @@
 				showText: false,
 				skipAutoFetch: true,
 				onQueue: handleQueueUser,
-				userUsername: member?.username,
-				userDisplayName: member?.displayName,
-				userAvatarUrl: member ? thumbnails.get(member.userId) : undefined
+				userUsername: member?.username ?? trackedUser?.name,
+				userDisplayName: member?.displayName ?? trackedUser?.displayName,
+				userAvatarUrl: member ? thumbnails.get(member.userId) : trackedUser?.thumbnailUrl
 			}
 		});
 
@@ -322,8 +529,8 @@
 				await loadStatuses(userIds.map(String));
 			} catch (error) {
 				logger.error('Failed to load carryover member:', error);
-				errorMessage = 'Failed to load members';
-				onError?.('Failed to load group members');
+				errorMessage = get(_)('group_members_error_members');
+				onError?.(get(_)('group_members_error_members'));
 			} finally {
 				isLoadingMembers = false;
 			}
@@ -388,7 +595,7 @@
 			return true;
 		} catch (error) {
 			logger.error('Failed to fetch cursors:', error);
-			errorMessage = 'Failed to load page cursors';
+			errorMessage = get(_)('group_members_error_cursors');
 			return false;
 		} finally {
 			isFetchingCursors = false;
@@ -410,7 +617,7 @@
 		if (cursorCache.length < targetPage) {
 			const requestsNeeded = targetPage - cursorCache.length;
 			const confirmed = confirm(
-				`This will make ${requestsNeeded} request${requestsNeeded > 1 ? 's' : ''} to reach page ${targetPage}. Continue?`
+				get(_)('group_members_page_jump_confirm', { values: { 0: requestsNeeded, 1: targetPage } })
 			);
 			if (!confirmed) return;
 
@@ -509,133 +716,276 @@
 <div bind:this={contentWrapper} class="group-members-section">
 	<!-- Header -->
 	<div class="group-members-header">
-		<h2 class="group-members-title">Members</h2>
+		<h2 class="group-members-title">{$_('group_members_title')}</h2>
+		<div class="group-members-tabs" role="tablist">
+			<button
+				class="group-members-tab"
+				class:active={activeTab === 'by-role'}
+				aria-selected={activeTab === 'by-role'}
+				onclick={() => handleTabChange('by-role')}
+				role="tab"
+				type="button"
+			>
+				{$_('group_members_tab_by_role')}
+			</button>
+			<button
+				class="group-members-tab"
+				class:active={activeTab === 'tracked'}
+				aria-selected={activeTab === 'tracked'}
+				onclick={() => handleTabChange('tracked')}
+				role="tab"
+				type="button"
+			>
+				{$_('group_members_tab_tracked')}
+			</button>
+		</div>
 	</div>
 
 	<!-- Content -->
 	<div class="group-members-content">
-		{#if isLoadingRoles}
-			<div class="group-members-loading">
-				<div class="group-members-spinner"></div>
-			</div>
-		{:else if errorMessage}
-			<div class="group-members-error">
-				<span>{errorMessage}</span>
-				<button class="group-members-nav-btn" onclick={() => loadRoles()} type="button"
-					>Retry</button
-				>
-			</div>
-		{:else if roles.length === 0}
-			<div class="group-members-empty">
-				<span>No members found</span>
-			</div>
-		{:else}
-			<!-- Role Dropdown -->
-			<div class="group-members-role-selector">
-				<select
-					class="group-members-dropdown"
-					disabled={isFetchingCursors}
-					onchange={handleRoleChange}
-					value={selectedRoleId}
-				>
-					{#each roles as role (role.id)}
-						<option value={role.id}>
-							{role.name} ({role.memberCount})
-						</option>
-					{/each}
-				</select>
-			</div>
-
-			<!-- Member Grid -->
-			{#if members.length === 0 && !isLoadingMembers}
+		{#if activeTab === 'by-role'}
+			<!-- By Role View -->
+			{#if isLoadingRoles}
+				<div class="group-members-loading">
+					<div class="group-members-spinner"></div>
+				</div>
+			{:else if errorMessage}
+				<div class="group-members-error">
+					<span>{errorMessage}</span>
+					<button class="group-members-nav-btn" onclick={() => loadRoles()} type="button"
+						>{$_('group_members_retry')}</button
+					>
+				</div>
+			{:else if roles.length === 0}
 				<div class="group-members-empty">
-					<span>No members in this role</span>
+					<span>{$_('group_members_empty_no_members')}</span>
 				</div>
 			{:else}
+				<!-- Role Dropdown -->
+				<div class="group-members-role-selector">
+					<select
+						class="group-members-dropdown"
+						disabled={isFetchingCursors}
+						onchange={handleRoleChange}
+						value={selectedRoleId}
+					>
+						{#each roles as role (role.id)}
+							<option value={role.id}>
+								{role.name} ({role.memberCount})
+							</option>
+						{/each}
+					</select>
+				</div>
+
+				<!-- Member Grid -->
+				{#if members.length === 0 && !isLoadingMembers}
+					<div class="group-members-empty">
+						<span>{$_('group_members_empty_no_role_members')}</span>
+					</div>
+				{:else}
+					<div class="group-members-grid-container">
+						{#if isLoadingMembers}
+							<div class="group-members-loading-overlay">
+								<div class="group-members-spinner"></div>
+							</div>
+						{/if}
+						<div class="group-members-grid">
+							{#each members as member (member.userId)}
+								<a
+									class="group-member-tile rotector-member-tile"
+									data-rotector-user-id={member.userId}
+									href="https://www.roblox.com/users/{member.userId}/profile"
+								>
+									<div class="group-member-avatar rotector-member-avatar">
+										{#if thumbnails.get(member.userId)}
+											<img
+												alt={member.displayName}
+												loading="lazy"
+												src={thumbnails.get(member.userId)}
+											/>
+										{:else}
+											<div class="group-member-avatar-placeholder"></div>
+										{/if}
+									</div>
+									<span class="group-member-display-name rotector-member-display-name">
+										{member.displayName}
+									</span>
+								</a>
+							{/each}
+						</div>
+					</div>
+
+					<!-- Pagination -->
+					<div class="group-members-nav">
+						<button
+							class="group-members-nav-btn"
+							disabled={currentPage === 1 || isFetchingCursors || isLoadingMembers}
+							onclick={goToPreviousPage}
+							type="button"
+						>
+							{$_('group_members_previous')}
+						</button>
+						{#if isFetchingCursors}
+							<span class="group-members-page-info group-members-page-loading">
+								<span class="group-members-page-spinner"></span>
+								{$_('group_members_loading')}
+							</span>
+						{:else if showPageInput}
+							<span class="group-members-page-info">
+								{$_('group_members_page')}
+								<input
+									bind:this={pageInputElement}
+									class="group-members-page-input"
+									onblur={handlePageInputBlur}
+									onkeydown={handlePageInputKeydown}
+									type="text"
+									bind:value={pageInputValue}
+								/>
+								{#if selectedRole}
+									{$_('group_members_page_of')}
+									{Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT)}
+								{/if}
+							</span>
+						{:else}
+							<button
+								class="group-members-page-info group-members-page-btn"
+								onclick={handlePageInfoClick}
+								title={$_('group_members_page_jump_tooltip')}
+								type="button"
+							>
+								{$_('group_members_page')}
+								{currentPage}
+								{#if selectedRole}
+									{$_('group_members_page_of')}
+									{Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT)}
+								{/if}
+							</button>
+						{/if}
+						<button
+							class="group-members-nav-btn"
+							disabled={(!nextCursor && !pendingCarryover) || isFetchingCursors || isLoadingMembers}
+							onclick={goToNextPage}
+							type="button"
+						>
+							{$_('group_members_next')}
+						</button>
+					</div>
+				{/if}
+			{/if}
+		{:else}
+			<!-- Tracked Users View -->
+			{#if isLoadingTracked && !hasLoadedTracked}
+				<div class="group-members-loading">
+					<div class="group-members-spinner"></div>
+				</div>
+			{:else if trackedError}
+				<div class="group-members-error">
+					<span>{trackedError}</span>
+					<button class="group-members-nav-btn" onclick={retryTrackedUsers} type="button"
+						>{$_('group_members_retry')}</button
+					>
+				</div>
+			{:else if trackedUsers.length === 0 && hasLoadedTracked}
+				<div class="group-members-tracked-header">
+					<span class="group-members-tracked-desc">
+						{$_('group_members_tracked_description')}
+					</span>
+				</div>
+				<div class="group-members-empty">
+					<span>{$_('group_members_empty_no_tracked')}</span>
+				</div>
+			{:else}
+				<div class="group-members-tracked-header">
+					<span class="group-members-tracked-desc">
+						{$_('group_members_tracked_description')}
+					</span>
+					{#if trackedTotalCount !== null}
+						<span class="group-members-tracked-count"
+							>{$_('group_members_tracked_count', { values: { 0: trackedTotalCount } })}</span
+						>
+					{/if}
+				</div>
 				<div class="group-members-grid-container">
-					{#if isLoadingMembers}
+					{#if isLoadingTracked}
 						<div class="group-members-loading-overlay">
 							<div class="group-members-spinner"></div>
 						</div>
 					{/if}
 					<div class="group-members-grid">
-						{#each members as member (member.userId)}
+						{#each trackedUsers as user (user.id)}
 							<a
 								class="group-member-tile rotector-member-tile"
-								data-rotector-user-id={member.userId}
-								href="https://www.roblox.com/users/{member.userId}/profile"
+								data-rotector-user-id={user.id}
+								href="https://www.roblox.com/users/{user.id}/profile"
 							>
 								<div class="group-member-avatar rotector-member-avatar">
-									{#if thumbnails.get(member.userId)}
-										<img
-											alt={member.displayName}
-											loading="lazy"
-											src={thumbnails.get(member.userId)}
-										/>
+									{#if user.thumbnailUrl}
+										<img alt={user.displayName} loading="lazy" src={user.thumbnailUrl} />
 									{:else}
 										<div class="group-member-avatar-placeholder"></div>
 									{/if}
 								</div>
 								<span class="group-member-display-name rotector-member-display-name">
-									{member.displayName}
+									{user.displayName}
 								</span>
 							</a>
 						{/each}
 					</div>
 				</div>
 
-				<!-- Pagination -->
-				<div class="group-members-nav">
-					<button
-						class="group-members-nav-btn"
-						disabled={currentPage === 1 || isFetchingCursors || isLoadingMembers}
-						onclick={goToPreviousPage}
-						type="button"
-					>
-						Previous
-					</button>
-					{#if isFetchingCursors}
-						<span class="group-members-page-info group-members-page-loading">
-							<span class="group-members-page-spinner"></span>
-							Loading...
-						</span>
-					{:else if showPageInput}
-						<span class="group-members-page-info">
-							Page
-							<input
-								bind:this={pageInputElement}
-								class="group-members-page-input"
-								onblur={handlePageInputBlur}
-								onkeydown={handlePageInputKeydown}
-								type="text"
-								bind:value={pageInputValue}
-							/>
-							{#if selectedRole}
-								of {Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT)}
-							{/if}
-						</span>
-					{:else}
+				<!-- Tracked Users Pagination -->
+				{#if trackedTotalCount !== null && trackedTotalCount > DISPLAY_LIMIT}
+					<div class="group-members-nav">
 						<button
-							class="group-members-page-info group-members-page-btn"
-							onclick={handlePageInfoClick}
-							title="Click to jump to page"
+							class="group-members-nav-btn"
+							disabled={trackedCurrentPage === 1 || isFetchingTrackedCursors || isLoadingTracked}
+							onclick={goToPreviousTrackedPage}
 							type="button"
 						>
-							Page {currentPage}
-							{#if selectedRole}
-								of {Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT)}
-							{/if}
+							{$_('group_members_previous')}
 						</button>
-					{/if}
-					<button
-						class="group-members-nav-btn"
-						disabled={(!nextCursor && !pendingCarryover) || isFetchingCursors || isLoadingMembers}
-						onclick={goToNextPage}
-						type="button"
-					>
-						Next
-					</button>
-				</div>
+						{#if isFetchingTrackedCursors}
+							<span class="group-members-page-info group-members-page-loading">
+								<span class="group-members-page-spinner"></span>
+								{$_('group_members_loading')}
+							</span>
+						{:else if trackedShowPageInput}
+							<span class="group-members-page-info">
+								{$_('group_members_page')}
+								<input
+									bind:this={trackedPageInputElement}
+									class="group-members-page-input"
+									onblur={handleTrackedPageInputBlur}
+									onkeydown={handleTrackedPageInputKeydown}
+									type="text"
+									bind:value={trackedPageInputValue}
+								/>
+								{$_('group_members_page_of')}
+								{Math.ceil(trackedTotalCount / DISPLAY_LIMIT)}
+							</span>
+						{:else}
+							<button
+								class="group-members-page-info group-members-page-btn"
+								onclick={handleTrackedPageInfoClick}
+								title={$_('group_members_page_jump_tooltip')}
+								type="button"
+							>
+								{$_('group_members_page')}
+								{trackedCurrentPage}
+								{$_('group_members_page_of')}
+								{Math.ceil(trackedTotalCount / DISPLAY_LIMIT)}
+							</button>
+						{/if}
+						<button
+							class="group-members-nav-btn"
+							disabled={!trackedNextCursor || isFetchingTrackedCursors || isLoadingTracked}
+							onclick={goToNextTrackedPage}
+							type="button"
+						>
+							{$_('group_members_next')}
+						</button>
+					</div>
+				{/if}
 			{/if}
 		{/if}
 	</div>

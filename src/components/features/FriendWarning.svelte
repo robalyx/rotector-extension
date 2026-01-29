@@ -120,7 +120,7 @@
 		const isProfilePage = window.location.pathname.includes('/users/');
 
 		if (isProfilePage) {
-			const profileHeader = document.querySelector(`${PROFILE_SELECTORS.PROFILE_HEADER_MAIN}`);
+			const profileHeader = document.querySelector(`${PROFILE_SELECTORS.HEADER}`);
 			if (profileHeader) {
 				// Get username from profile username element
 				const usernameElement = profileHeader.querySelector(`${PROFILE_SELECTORS.USERNAME}`);

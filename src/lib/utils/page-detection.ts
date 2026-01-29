@@ -77,7 +77,7 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	if (isProfilePage) {
 		return {
 			pageType: 'profile',
-			container: document.querySelector(PROFILE_SELECTORS.PROFILE_HEADER_MAIN)
+			container: document.querySelector(PROFILE_SELECTORS.HEADER)
 		};
 	}
 

@@ -117,26 +117,14 @@ export const FRIENDS_CAROUSEL_SELECTORS = {
 
 // DOM selectors for profile page
 export const PROFILE_SELECTORS = {
-	// Legacy header selectors
-	PROFILE_HEADER_CONTAINER: '.profile-header-container',
-	PROFILE_HEADER: '.profile-header-title-container',
-	PROFILE_HEADER_MAIN: '.profile-header-main',
-	USERNAME: '.profile-header-username',
-	AVATAR_IMG: '.profile-avatar-thumb img',
-	TITLE_CONTAINER: '.profile-header-title-container',
-	TITLE: '.profile-header-title',
-	DROPDOWN: '.profile-header-dropdown',
-	BLOCK_BUTTON: '.block-button',
-	FRIEND_BUTTON: '.friend-button',
-	ADD_FRIEND_BUTTON_CONTAINER: '.profile-header-buttons',
-	AVATAR_THUMB: '.profile-avatar-thumb',
-	AVATAR_IMAGE: '.profile-avatar-image',
-	// A/B test header version selectors
-	LEGACY_HEADER: '#default-legacy-header',
-	REDESIGNED_HEADER: '#treatment-redesigned-header',
-	REDESIGNED_TITLE: '#profile-header-title-container-name',
-	REDESIGNED_TITLE_WRAPPER: '.items-center.gap-xsmall.flex',
-	REDESIGNED_FRIEND_BUTTON: 'button.foundation-web-button'
+	// Profile header selectors
+	HEADER: '.user-profile-header',
+	HEADER_TITLE: '#profile-header-title-container-name',
+	HEADER_TITLE_WRAPPER: '.items-center.gap-xsmall.flex',
+	HEADER_FRIEND_BUTTON: 'button.foundation-web-button',
+	HEADER_DROPDOWN_BUTTON: '#user-profile-header-contextual-menu-button',
+	USERNAME: '.stylistic-alts-username',
+	AVATAR_IMG: '.user-profile-header-details-avatar-container .avatar-card-image img'
 } as const;
 
 // DOM selectors for profile dropdown menu
@@ -265,15 +253,10 @@ export const BLUR_SELECTORS = {
 	CARD_USERNAME: '.avatar-card-label',
 
 	// Profile page
-	PROFILE_DISPLAY_NAME_LEGACY: '.profile-header-title-container [class*="Typography-h1"]',
-	PROFILE_USERNAME_LEGACY: '.profile-header-username',
-	PROFILE_DESCRIPTION_LEGACY: '.profile-about-text',
-	PROFILE_AVATAR_LEGACY: '.profile-avatar-thumb',
-
-	PROFILE_DISPLAY_NAME_NEW: '#profile-header-title-container-name',
-	PROFILE_USERNAME_NEW: '.stylistic-alts-username',
-	PROFILE_DESCRIPTION_NEW: '.description-content',
-	PROFILE_AVATAR_NEW: '.user-profile-header-details-avatar-container .thumbnail-2d-container',
+	PROFILE_DISPLAY_NAME: '#profile-header-title-container-name',
+	PROFILE_USERNAME: '.stylistic-alts-username',
+	PROFILE_DESCRIPTION: '.description-content',
+	PROFILE_AVATAR: '.user-profile-header-details-avatar-container .thumbnail-2d-container',
 
 	PROFILE_OUTFIT_2D: '.thumbnail-holder .thumbnail-2d-container',
 	PROFILE_OUTFIT_3D: '.thumbnail-holder .thumbnail-3d-container',

@@ -83,22 +83,18 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.CAROUSEL_DISPLAY_NAME]: ['home', 'profile'],
 	[BLUR_SELECTORS.CARD_DISPLAY_NAME]: ['friends'],
 	[BLUR_SELECTORS.SEARCH_DISPLAY_NAME]: ['search'],
-	[BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY]: ['profile'],
-	[BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_DISPLAY_NAME]: ['profile'],
 	[BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME]: ['groups'],
 	// Usernames
 	[BLUR_SELECTORS.CARD_USERNAME]: ['friends', 'search'],
-	[BLUR_SELECTORS.PROFILE_USERNAME_LEGACY]: ['profile'],
-	[BLUR_SELECTORS.PROFILE_USERNAME_NEW]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_USERNAME]: ['profile'],
 	// Descriptions
-	[BLUR_SELECTORS.PROFILE_DESCRIPTION_LEGACY]: ['profile'],
-	[BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_DESCRIPTION]: ['profile'],
 	// Avatars
 	[BLUR_SELECTORS.CAROUSEL_AVATAR]: ['home', 'profile'],
 	[BLUR_SELECTORS.FRIENDS_LIST_AVATAR]: ['friends'],
 	[BLUR_SELECTORS.SEARCH_AVATAR]: ['search'],
-	[BLUR_SELECTORS.PROFILE_AVATAR_LEGACY]: ['profile'],
-	[BLUR_SELECTORS.PROFILE_AVATAR_NEW]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_AVATAR]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_2D]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_3D]: ['profile'],
@@ -197,8 +193,7 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.CAROUSEL_DISPLAY_NAME,
 				BLUR_SELECTORS.CARD_DISPLAY_NAME,
 				BLUR_SELECTORS.SEARCH_DISPLAY_NAME,
-				BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY,
-				BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW,
+				BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
 				BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME
 			],
 			'filter: blur(6px) !important; clip-path: inset(0); user-select: none;'
@@ -211,17 +206,10 @@ function buildBlurCSS(allEnabled = false): string {
 	// Username/description blur
 	const otherTextSelectors: string[] = [];
 	if (bs.usernames) {
-		otherTextSelectors.push(
-			BLUR_SELECTORS.CARD_USERNAME,
-			BLUR_SELECTORS.PROFILE_USERNAME_LEGACY,
-			BLUR_SELECTORS.PROFILE_USERNAME_NEW
-		);
+		otherTextSelectors.push(BLUR_SELECTORS.CARD_USERNAME, BLUR_SELECTORS.PROFILE_USERNAME);
 	}
 	if (bs.descriptions) {
-		otherTextSelectors.push(
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_LEGACY,
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW
-		);
+		otherTextSelectors.push(BLUR_SELECTORS.PROFILE_DESCRIPTION);
 	}
 	addRule(
 		otherTextSelectors,
@@ -229,7 +217,7 @@ function buildBlurCSS(allEnabled = false): string {
 	);
 	if (bs.descriptions) {
 		rules.push(
-			`${BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
+			`${BLUR_SELECTORS.PROFILE_DESCRIPTION}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
 		);
 	}
 
@@ -240,8 +228,7 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.CAROUSEL_AVATAR,
 				BLUR_SELECTORS.FRIENDS_LIST_AVATAR,
 				BLUR_SELECTORS.SEARCH_AVATAR,
-				BLUR_SELECTORS.PROFILE_AVATAR_LEGACY,
-				BLUR_SELECTORS.PROFILE_AVATAR_NEW,
+				BLUR_SELECTORS.PROFILE_AVATAR,
 				BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR
 			],
 			'filter: blur(6px) !important; clip-path: circle(50%);'
@@ -277,8 +264,7 @@ function buildBlurCSS(allEnabled = false): string {
 			BLUR_SELECTORS.CAROUSEL_DISPLAY_NAME,
 			BLUR_SELECTORS.CARD_DISPLAY_NAME,
 			BLUR_SELECTORS.SEARCH_DISPLAY_NAME,
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY,
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW,
+			BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
 			BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME
 		);
 	}
@@ -304,13 +290,11 @@ function buildBlurCSS(allEnabled = false): string {
 		// Profile-specific reveal selectors
 		if (ps.profile) {
 			avatarRevealSelectors.push(
-				`.blur-revealed ${BLUR_SELECTORS.PROFILE_AVATAR_LEGACY}`,
-				`.blur-revealed ${BLUR_SELECTORS.PROFILE_AVATAR_NEW}`,
+				`.blur-revealed ${BLUR_SELECTORS.PROFILE_AVATAR}`,
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}`,
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_OUTFIT_3D}`,
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING}`,
-				`${BLUR_SELECTORS.PROFILE_AVATAR_LEGACY}.blur-revealed`,
-				`${BLUR_SELECTORS.PROFILE_AVATAR_NEW}.blur-revealed`,
+				`${BLUR_SELECTORS.PROFILE_AVATAR}.blur-revealed`,
 				'.thumbnail-holder .thumbnail-2d-container.blur-revealed',
 				'.thumbnail-holder .thumbnail-3d-container.blur-revealed',
 				'.profile-item-card .thumbnail-2d-container.blur-revealed'
@@ -566,40 +550,19 @@ export function markProfileElementsForBlur(userId: string): void {
 	if (displayNames) {
 		markAllElements(
 			document,
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY,
-			userId,
-			'displayName',
-			headerGroup
-		);
-		markAllElements(
-			document,
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW,
+			BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
 			userId,
 			'displayName',
 			headerGroup
 		);
 	}
 	if (usernames) {
-		markAllElements(
-			document,
-			BLUR_SELECTORS.PROFILE_USERNAME_LEGACY,
-			userId,
-			'username',
-			headerGroup
-		);
-		markAllElements(document, BLUR_SELECTORS.PROFILE_USERNAME_NEW, userId, 'username', headerGroup);
+		markAllElements(document, BLUR_SELECTORS.PROFILE_USERNAME, userId, 'username', headerGroup);
 	}
 	if (descriptions) {
 		markAllElements(
 			document,
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_LEGACY,
-			userId,
-			'description',
-			headerGroup
-		);
-		markAllElements(
-			document,
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW,
+			BLUR_SELECTORS.PROFILE_DESCRIPTION,
 			userId,
 			'description',
 			headerGroup
@@ -608,8 +571,7 @@ export function markProfileElementsForBlur(userId: string): void {
 
 	// Outfit group: avatar images, outfit thumbnails, currently wearing items
 	if (avatars) {
-		markAllElements(document, BLUR_SELECTORS.PROFILE_AVATAR_LEGACY, userId, 'avatar', outfitGroup);
-		markAllElements(document, BLUR_SELECTORS.PROFILE_AVATAR_NEW, userId, 'avatar', outfitGroup);
+		markAllElements(document, BLUR_SELECTORS.PROFILE_AVATAR, userId, 'avatar', outfitGroup);
 		markAllElements(document, BLUR_SELECTORS.PROFILE_OUTFIT_2D, userId, 'avatar', outfitGroup);
 		markAllElements(document, BLUR_SELECTORS.PROFILE_OUTFIT_3D, userId, 'avatar', outfitGroup);
 		void markCurrentlyWearingItems(userId, outfitGroup);
@@ -647,8 +609,7 @@ export function observeProfileOutfitSwitch(userId: string): () => void {
 	const outfitGroup = `${PROFILE_BLUR_GROUPS.OUTFIT}:${userId}`;
 
 	const outfitSelectors = [
-		BLUR_SELECTORS.PROFILE_AVATAR_LEGACY,
-		BLUR_SELECTORS.PROFILE_AVATAR_NEW,
+		BLUR_SELECTORS.PROFILE_AVATAR,
 		BLUR_SELECTORS.PROFILE_OUTFIT_2D,
 		BLUR_SELECTORS.PROFILE_OUTFIT_3D
 	];
@@ -756,21 +717,11 @@ export function observeProfileHeader(userId: string): () => void {
 
 	const headerSelectors = [
 		{
-			selector: BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY,
+			selector: BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
 			type: 'displayName' as const,
 			enabled: displayNames
 		},
-		{
-			selector: BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW,
-			type: 'displayName' as const,
-			enabled: displayNames
-		},
-		{
-			selector: BLUR_SELECTORS.PROFILE_USERNAME_LEGACY,
-			type: 'username' as const,
-			enabled: usernames
-		},
-		{ selector: BLUR_SELECTORS.PROFILE_USERNAME_NEW, type: 'username' as const, enabled: usernames }
+		{ selector: BLUR_SELECTORS.PROFILE_USERNAME, type: 'username' as const, enabled: usernames }
 	].filter((s) => s.enabled);
 
 	if (headerSelectors.length === 0) {
@@ -894,8 +845,7 @@ function revealAndCleanup(el: Element): void {
 async function revealProfileAvatars(): Promise<void> {
 	// Reveal all avatar elements and clean up blur attributes
 	[
-		BLUR_SELECTORS.PROFILE_AVATAR_LEGACY,
-		BLUR_SELECTORS.PROFILE_AVATAR_NEW,
+		BLUR_SELECTORS.PROFILE_AVATAR,
 		BLUR_SELECTORS.PROFILE_OUTFIT_2D,
 		BLUR_SELECTORS.PROFILE_OUTFIT_3D
 	].forEach((sel) => {
@@ -922,24 +872,21 @@ export function revealProfileElements(status: CombinedStatus): void {
 
 	if (!blurNames) {
 		const textSelectors = [
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_LEGACY,
-			BLUR_SELECTORS.PROFILE_DISPLAY_NAME_NEW,
-			BLUR_SELECTORS.PROFILE_USERNAME_LEGACY,
-			BLUR_SELECTORS.PROFILE_USERNAME_NEW,
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_LEGACY,
-			BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW
+			BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
+			BLUR_SELECTORS.PROFILE_USERNAME,
+			BLUR_SELECTORS.PROFILE_DESCRIPTION
 		];
 		textSelectors.forEach((sel) => {
 			document.querySelectorAll(sel).forEach(revealAndCleanup);
 		});
 
-		void waitForElement(BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW, {
+		void waitForElement(BLUR_SELECTORS.PROFILE_DESCRIPTION, {
 			maxRetries: 5,
 			baseDelay: 200,
 			maxDelay: 1000
 		}).then((result) => {
 			if (result.success) {
-				document.querySelectorAll(BLUR_SELECTORS.PROFILE_DESCRIPTION_NEW).forEach(revealAndCleanup);
+				document.querySelectorAll(BLUR_SELECTORS.PROFILE_DESCRIPTION).forEach(revealAndCleanup);
 			}
 		});
 	}

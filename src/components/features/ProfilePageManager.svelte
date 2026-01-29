@@ -155,44 +155,23 @@
 	// Set up status indicator in profile header
 	async function setupStatusIndicator() {
 		try {
-			// Detect which header version is active
-			const headerVersion = detectHeaderVersion();
-			logger.debug('Detected header version:', headerVersion);
+			// Wait for profile header title
+			const titleResult = await waitForElement(PROFILE_SELECTORS.HEADER_TITLE);
 
-			let titleContainer: Element | null = null;
-
-			if (headerVersion === 'redesigned') {
-				// Wait for redesigned header title
-				const titleResult = await waitForElement(PROFILE_SELECTORS.REDESIGNED_TITLE);
-
-				if (!titleResult.success || !titleResult.element) {
-					logger.warn('Could not find redesigned header title container');
-					return;
-				}
-
-				// The status indicator should be injected after the title span
-				// Find the parent wrapper that contains the title
-				titleContainer = titleResult.element.parentElement;
-
-				if (!titleContainer) {
-					logger.warn('Could not find parent container for redesigned title');
-					return;
-				}
-			} else {
-				// Wait for legacy profile header title container
-				const titleResult = await waitForElement(
-					`${PROFILE_SELECTORS.TITLE_CONTAINER}, ${PROFILE_SELECTORS.PROFILE_HEADER}, .profile-header-title-container`
-				);
-
-				if (!titleResult.success || !titleResult.element) {
-					logger.warn('Could not find legacy profile header title container');
-					return;
-				}
-
-				titleContainer = titleResult.element;
+			if (!titleResult.success || !titleResult.element) {
+				logger.warn('Could not find profile header title container');
+				return;
 			}
 
-			// Check if container already exists, reuse it
+			// Inject status indicator after the title span
+			const titleContainer = titleResult.element.parentElement;
+
+			if (!titleContainer) {
+				logger.warn('Could not find parent container for profile title');
+				return;
+			}
+
+			// Check if container already exists to reuse it
 			let container = titleContainer.querySelector(
 				`.${COMPONENT_CLASSES.PROFILE_STATUS}`
 			) as HTMLElement;
@@ -211,7 +190,7 @@
 			// Mount StatusIndicator component to the container
 			mountStatusIndicator();
 
-			logger.debug('Status indicator container set up and component mounted', { headerVersion });
+			logger.debug('Status indicator container set up and component mounted');
 		} catch (error) {
 			logger.error('Failed to setup status indicator:', error);
 		}
@@ -376,19 +355,10 @@
 
 	// Get the currently visible header element
 	function getActiveHeader(): HTMLElement | null {
-		const legacyHeader = document.querySelector(PROFILE_SELECTORS.LEGACY_HEADER);
-		const redesignedHeader = document.querySelector(PROFILE_SELECTORS.REDESIGNED_HEADER);
-
-		// Check redesigned header
-		if (redesignedHeader instanceof HTMLElement && redesignedHeader.offsetParent !== null) {
-			return redesignedHeader;
+		const header = document.querySelector(PROFILE_SELECTORS.HEADER);
+		if (header instanceof HTMLElement && header.offsetParent !== null) {
+			return header;
 		}
-
-		// Fall back to legacy header
-		if (legacyHeader instanceof HTMLElement && legacyHeader.offsetParent !== null) {
-			return legacyHeader;
-		}
-
 		return null;
 	}
 
@@ -519,7 +489,7 @@
 
 		try {
 			// Find the more options button (three dots)
-			const moreButton = document.querySelector(PROFILE_SELECTORS.DROPDOWN);
+			const moreButton = document.querySelector(PROFILE_SELECTORS.HEADER_DROPDOWN_BUTTON);
 
 			if (moreButton instanceof HTMLElement) {
 				// Click the more button to open dropdown
@@ -619,81 +589,23 @@
 		}
 	}
 
-	// Detect which header version is active
-	function detectHeaderVersion(): 'legacy' | 'redesigned' {
-		const redesignedHeader = document.querySelector(PROFILE_SELECTORS.REDESIGNED_HEADER);
-		const legacyHeader = document.querySelector(PROFILE_SELECTORS.LEGACY_HEADER);
-
-		// Check if redesigned header exists and is visible
-		if (
-			redesignedHeader instanceof HTMLElement &&
-			redesignedHeader.style.display !== 'none' &&
-			redesignedHeader.offsetParent !== null
-		) {
-			return 'redesigned';
-		}
-
-		// Check if legacy header exists and is visible
-		if (
-			legacyHeader instanceof HTMLElement &&
-			legacyHeader.style.display !== 'none' &&
-			legacyHeader.offsetParent !== null
-		) {
-			return 'legacy';
-		}
-
-		// Default to legacy if we can't determine
-		logger.warn('Could not detect header version, defaulting to legacy');
-		return 'legacy';
-	}
-
-	// Get the active friend button
-	async function getActiveFriendButton(): Promise<HTMLElement | null> {
-		const headerVersion = detectHeaderVersion();
-
-		if (headerVersion === 'redesigned') {
-			// Wait for redesigned friend button
-			const result = await waitForElement(PROFILE_SELECTORS.REDESIGNED_FRIEND_BUTTON);
-
-			if (!result.success || !result.element) return null;
-
-			// Find the button that contains "Add" text
-			const buttons = document.querySelectorAll(PROFILE_SELECTORS.REDESIGNED_FRIEND_BUTTON);
-			for (const button of buttons) {
-				const text = button.textContent?.trim().toLowerCase() || '';
-				if (text === 'add' || text.includes('add connection')) {
-					return button as HTMLElement;
-				}
-			}
-
-			return null;
-		} else {
-			// Wait for legacy friend button
-			const result = await waitForElement('#friend-button');
-			return result.success && result.element ? result.element : null;
-		}
-	}
-
-	// Get the active friend button (sync version for clicks and cleanup)
+	// Get the active friend button (sync version)
 	function getActiveFriendButtonSync(): HTMLElement | null {
-		const headerVersion = detectHeaderVersion();
-
-		if (headerVersion === 'redesigned') {
-			// Find the redesigned friend button
-			const buttons = document.querySelectorAll(PROFILE_SELECTORS.REDESIGNED_FRIEND_BUTTON);
-			for (const button of buttons) {
-				const text = button.textContent?.trim().toLowerCase() || '';
-				if (text === 'add' || text.includes('add connection')) {
-					return button as HTMLElement;
-				}
+		const buttons = document.querySelectorAll(PROFILE_SELECTORS.HEADER_FRIEND_BUTTON);
+		for (const button of buttons) {
+			const text = button.textContent?.trim().toLowerCase() || '';
+			if (text === 'add' || text.includes('add connection')) {
+				return button as HTMLElement;
 			}
-
-			return null;
-		} else {
-			// Find the legacy friend button
-			const button = document.querySelector('#friend-button');
-			return button instanceof HTMLElement ? button : null;
 		}
+		return null;
+	}
+
+	// Get the active friend button (async version)
+	async function getActiveFriendButton(): Promise<HTMLElement | null> {
+		const result = await waitForElement(PROFILE_SELECTORS.HEADER_FRIEND_BUTTON);
+		if (!result.success || !result.element) return null;
+		return getActiveFriendButtonSync();
 	}
 </script>
 

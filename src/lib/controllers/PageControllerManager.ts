@@ -7,6 +7,7 @@ import type { PageController } from './PageController';
 import { FriendsPageController } from './FriendsPageController';
 import { ProfilePageController } from './ProfilePageController';
 import { GroupsPageController } from './GroupsPageController';
+import { GroupConfigureController } from './GroupConfigureController';
 import { HomePageController } from './HomePageController';
 import { ReportPageController } from './ReportPageController';
 import { SearchPageController } from './SearchPageController';
@@ -31,6 +32,7 @@ export class PageControllerManager {
 		this.controllers.set(PAGE_TYPES.FRIENDS_CAROUSEL, FriendsPageController);
 		this.controllers.set(PAGE_TYPES.PROFILE, ProfilePageController);
 		this.controllers.set(PAGE_TYPES.MEMBERS, GroupsPageController);
+		this.controllers.set(PAGE_TYPES.GROUP_CONFIGURE_MEMBERS, GroupConfigureController);
 		this.controllers.set(PAGE_TYPES.REPORT, ReportPageController);
 		this.controllers.set(PAGE_TYPES.SEARCH_USER, SearchPageController);
 	}
@@ -150,7 +152,7 @@ export class PageControllerManager {
 			const pathname = normalizePathname(urlObj.pathname.toLowerCase());
 
 			// URL pattern to page type mapping
-			const pagePatterns = [
+			const pagePatterns: Array<{ pattern: RegExp; type: PageType; hash?: string }> = [
 				{ pattern: /^\/(?:home)?$/, type: PAGE_TYPES.HOME },
 				{
 					pattern: /\/users\/(?:\d+\/)?(?:friends|followers|following)/,
@@ -159,12 +161,16 @@ export class PageControllerManager {
 				{ pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE },
 				{ pattern: /\/search\/users/, type: PAGE_TYPES.SEARCH_USER },
 				{ pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT },
+				{
+					pattern: /^\/communities\/configure$/,
+					type: PAGE_TYPES.GROUP_CONFIGURE_MEMBERS,
+					hash: '#!/members'
+				},
 				{ pattern: /\/(groups|communities)\/\d+/, type: PAGE_TYPES.MEMBERS }
 			];
 
-			// Check standard patterns
-			for (const { pattern, type } of pagePatterns) {
-				if (pattern.test(pathname)) {
+			for (const { pattern, type, hash } of pagePatterns) {
+				if (pattern.test(pathname) && (!hash || urlObj.hash === hash)) {
 					return type;
 				}
 			}

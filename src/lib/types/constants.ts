@@ -176,6 +176,21 @@ export const GROUP_MEMBERS_CAROUSEL_SELECTORS = {
 	DISPLAY_NAME: '.rotector-member-display-name'
 } as const;
 
+// DOM selectors for group configure members page
+export const GROUP_CONFIGURE_SELECTORS = {
+	CONTAINER: 'configure-group-members-list .hlist.avatar-cards',
+	CARD: {
+		CONTAINER: '.list-item.avatar-card',
+		UNPROCESSED: `.list-item.avatar-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+		CAPTION: '.avatar-card-caption, .avatar-card-label',
+		CAPTION_INNER: '.avatar-card-caption > span',
+		USERNAME: '.avatar-name',
+		AVATAR_IMG: '.thumbnail-2d-container img',
+		FULLBODY: '.avatar-card-fullbody'
+	},
+	PROFILE_LINK: 'a[href*="/users/"]'
+} as const;
+
 // DOM selectors for search users page
 export const SEARCH_SELECTORS = {
 	CONTAINER: 'ul.search-result.avatar-cards',
@@ -276,8 +291,8 @@ export const BLUR_SELECTORS = {
 	SEARCH_DISPLAY_NAME: '.avatar-name-container .avatar-name',
 
 	// Group members carousel
-	MEMBER_CAROUSEL_DISPLAY_NAME: '.rotector-member-display-name',
-	MEMBER_CAROUSEL_AVATAR: '.rotector-member-avatar',
+	MEMBER_CAROUSEL_DISPLAY_NAME: '.rotector-member-tile .rotector-member-display-name',
+	MEMBER_CAROUSEL_AVATAR: '.rotector-member-tile .rotector-member-avatar',
 
 	// Data attributes for blur state tracking
 	BLUR_USER_ID: 'data-blur-user-id',
@@ -324,7 +339,8 @@ export const PAGE_TYPES = {
 	MEMBERS: 'members',
 	REPORT: 'report',
 	SEARCH_USER: 'search-user',
-	GROUP_MEMBERS_CAROUSEL: 'group-members-carousel'
+	GROUP_MEMBERS_CAROUSEL: 'group-members-carousel',
+	GROUP_CONFIGURE_MEMBERS: 'group-configure-members'
 } as const;
 
 // Component Classes
@@ -333,6 +349,7 @@ export const COMPONENT_CLASSES = {
 	STATUS_POSITIONED_ABSOLUTE: 'status-positioned-absolute',
 	FRIENDS_MANAGER: 'rotector-friends-manager',
 	GROUPS_MANAGER: 'rotector-groups-manager',
+	GROUP_CONFIGURE_MANAGER: 'rotector-group-configure-manager',
 	SEARCH_MANAGER: 'rotector-search-manager',
 	HOME_CAROUSEL_MANAGER: 'rotector-home-carousel-manager',
 	PROFILE_STATUS: 'rotector-profile-status',

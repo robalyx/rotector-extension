@@ -57,6 +57,11 @@ const PAGE_SELECTORS: Record<
 	[PAGE_TYPES.GROUP_MEMBERS_CAROUSEL]: {
 		displayName: BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME,
 		avatar: BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR
+	},
+	[PAGE_TYPES.GROUP_CONFIGURE_MEMBERS]: {
+		displayName: BLUR_SELECTORS.CARD_DISPLAY_NAME,
+		username: BLUR_SELECTORS.CARD_USERNAME,
+		avatar: BLUR_SELECTORS.TILE_THUMBNAIL
 	}
 };
 
@@ -159,10 +164,12 @@ function isBlurEnabled(): boolean {
 
 /**
  * Transform selector to reveal variant.
+ * - Simple selectors: `.selector` → `.blur-revealed .selector` (ancestor has blur-revealed)
+ * - Compound selectors: `.parent .child` → `.parent.blur-revealed .child` (parent has blur-revealed)
  */
 function toRevealSelector(selector: string): string {
 	const spaceIdx = selector.indexOf(' ');
-	if (spaceIdx === -1) return `${selector}.blur-revealed`;
+	if (spaceIdx === -1) return `.blur-revealed ${selector}`;
 	return `${selector.slice(0, spaceIdx)}.blur-revealed${selector.slice(spaceIdx)}`;
 }
 
@@ -271,7 +278,7 @@ function buildBlurCSS(allEnabled = false): string {
 	allTextSelectors.push(...otherTextSelectors);
 	const filteredText = filterByPage(allTextSelectors, ps);
 	if (filteredText.length > 0) {
-		const textReveal = filteredText.map((s) => `.blur-revealed ${s}`);
+		const textReveal = filteredText.map(toRevealSelector);
 		rules.push(`${textReveal.join(',')} { filter: none !important; user-select: auto; }`);
 	}
 

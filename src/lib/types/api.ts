@@ -115,7 +115,8 @@ export type PageType =
 	| 'members'
 	| 'report'
 	| 'search-user'
-	| 'group-members-carousel';
+	| 'group-members-carousel'
+	| 'group-configure-members';
 
 export interface TranslationResult {
 	translations: Record<string, string>;

@@ -8,6 +8,7 @@
 		ENTITY_TYPES,
 		FRIENDS_CAROUSEL_SELECTORS,
 		FRIENDS_SELECTORS,
+		GROUP_CONFIGURE_SELECTORS,
 		GROUPS_MODAL_SELECTORS,
 		LOOKUP_CONTEXT,
 		PAGE_TYPES,
@@ -81,6 +82,11 @@
 			containerSelector: SEARCH_SELECTORS.CONTAINER,
 			itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
 			profileLinkSelector: SEARCH_SELECTORS.PROFILE_LINK
+		},
+		[PAGE_TYPES.GROUP_CONFIGURE_MEMBERS]: {
+			containerSelector: GROUP_CONFIGURE_SELECTORS.CONTAINER,
+			itemSelector: GROUP_CONFIGURE_SELECTORS.CARD.CONTAINER,
+			profileLinkSelector: GROUP_CONFIGURE_SELECTORS.PROFILE_LINK
 		},
 		[PAGE_TYPES.FRIENDS_CAROUSEL]: FRIENDS_CAROUSEL_CONFIG,
 		[PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_CONFIG,
@@ -159,6 +165,8 @@
 				await initializeGroupsModalObserver();
 			} else if (pageType === PAGE_TYPES.SEARCH_USER) {
 				await initializeSearchPageObserver();
+			} else if (pageType === PAGE_TYPES.GROUP_CONFIGURE_MEMBERS) {
+				await initializeGroupConfigureObserver();
 			} else {
 				const config = createObserverConfig();
 
@@ -241,6 +249,16 @@
 			containerSelector: SEARCH_SELECTORS.CONTAINER,
 			itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
 			observerName: 'search-list-observer'
+		});
+	}
+
+	// Initialize observer for group configure members page
+	async function initializeGroupConfigureObserver() {
+		await initializePaginatedPageObserver({
+			pageName: 'GroupConfigure',
+			containerSelector: GROUP_CONFIGURE_SELECTORS.CONTAINER,
+			itemSelector: GROUP_CONFIGURE_SELECTORS.CARD.CONTAINER,
+			observerName: 'group-configure-list-observer'
 		});
 	}
 
@@ -657,6 +675,11 @@
 			if (isModalItem) {
 				targetElement = tileElement.querySelector(
 					GROUPS_MODAL_SELECTORS.TEXT_CONTAINER
+				) as HTMLElement;
+				showText = true;
+			} else if (pageType === PAGE_TYPES.GROUP_CONFIGURE_MEMBERS) {
+				targetElement = tileElement.querySelector(
+					GROUP_CONFIGURE_SELECTORS.CARD.CAPTION_INNER
 				) as HTMLElement;
 				showText = true;
 			} else {

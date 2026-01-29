@@ -886,11 +886,6 @@
 					>
 				</div>
 			{:else if trackedUsers.length === 0 && hasLoadedTracked}
-				<div class="group-members-tracked-header">
-					<span class="group-members-tracked-desc">
-						{$_('group_members_tracked_description')}
-					</span>
-				</div>
 				<div class="group-members-empty">
 					<span>{$_('group_members_empty_no_tracked')}</span>
 				</div>

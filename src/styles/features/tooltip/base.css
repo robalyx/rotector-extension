@@ -105,14 +105,10 @@
 }
 
 @utility tooltip-avatar {
-	@apply w-[70px] h-[70px] rounded-full overflow-hidden flex-shrink-0 border-3 relative z-[1] transition-transform duration-300;
+	@apply w-20 h-20 rounded-full overflow-hidden flex-shrink-0 border-3 relative z-[1];
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
-	&:hover {
-		@apply scale-105;
-	}
 
 	img {
 		@apply w-full h-full object-cover transition-all duration-300;

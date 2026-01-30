@@ -43,7 +43,7 @@ export function getStatusConfig(
 		}
 		return {
 			iconName: 'error',
-			iconColor: '#ff4444',
+			iconColor: '#6b7280',
 			textContent: t('tooltip_status_unknown'),
 			textClass: 'status-text-error',
 			confidence: null,
@@ -179,7 +179,7 @@ export function getStatusConfig(
 			return {
 				...baseConfig,
 				iconName: 'error',
-				iconColor: '#ff4444',
+				iconColor: '#6b7280',
 				textContent: t('tooltip_status_unknown'),
 				textClass: 'status-text-error',
 				isReportable: false,

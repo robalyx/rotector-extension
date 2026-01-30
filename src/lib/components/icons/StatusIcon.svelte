@@ -2,6 +2,7 @@
 	import {
 		CircleCheck,
 		AlertCircle,
+		AlertTriangle,
 		Clock,
 		Loader2,
 		Workflow,
@@ -24,8 +25,10 @@
 
 {#if name === 'safe'}
 	<CircleCheck class={className} {color} {size} {strokeWidth} />
-{:else if name === 'unsafe' || name === 'error'}
+{:else if name === 'unsafe'}
 	<AlertCircle class={className} {color} {size} {strokeWidth} />
+{:else if name === 'error'}
+	<AlertTriangle class={className} {color} {size} {strokeWidth} />
 {:else if name === 'pending' || name === 'queued' || name === 'checking'}
 	<Clock class={className} {color} {size} {strokeWidth} />
 {:else if name === 'loading'}

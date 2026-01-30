@@ -469,7 +469,8 @@
 		if (userUsername || userDisplayName || userAvatarUrl) {
 			return {
 				userId: id,
-				username: userUsername || userDisplayName || 'Unknown User',
+				username: userUsername,
+				displayName: userDisplayName,
 				avatarUrl: userAvatarUrl
 			};
 		}
@@ -1268,7 +1269,13 @@
 								<img alt="" src={userInfo.avatarUrl} />
 							</div>
 							<div class="tooltip-user-info">
-								<div class="tooltip-username">{userInfo.username}</div>
+								<div class="tooltip-username">
+									{userInfo.displayName ||
+										(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
+									{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
+										<span class="tooltip-user-handle">@{userInfo.username}</span>
+									{/if}
+								</div>
 								<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
 								{#if !effectivelyRestricted && !activeError}
 									<div class="tooltip-status-badge {statusBadgeClass}">

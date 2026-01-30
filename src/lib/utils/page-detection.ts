@@ -11,7 +11,8 @@ import {
 
 export interface UserInfo {
 	userId: string;
-	username: string;
+	username?: string;
+	displayName?: string;
 	avatarUrl?: string;
 }
 
@@ -91,21 +92,27 @@ export function extractUserInfo(
 	container: Element | null
 ): UserInfo {
 	if (!container) {
-		return { userId, username: 'Unknown User' };
+		return { userId, displayName: 'Unknown User' };
 	}
 
-	let username = 'Unknown User';
+	let username: string | undefined;
+	let displayName: string | undefined;
 	let avatarUrl: string | undefined;
 
-	const usernameSelectors = {
+	const displayNameSelectors: Record<string, string> = {
 		carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
-		friends: FRIENDS_SELECTORS.CARD.USERNAME,
 		'modal-members': GROUPS_MODAL_SELECTORS.DISPLAY_NAME,
+		profile: PROFILE_SELECTORS.HEADER_TITLE
+	};
+
+	const usernameSelectors: Record<string, string> = {
+		friends: FRIENDS_SELECTORS.CARD.USERNAME,
+		'modal-members': GROUPS_MODAL_SELECTORS.USERNAME,
 		search: SEARCH_SELECTORS.CARD.USERNAME,
 		profile: PROFILE_SELECTORS.USERNAME
 	};
 
-	const avatarSelectors = {
+	const avatarSelectors: Record<string, string> = {
 		carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
 		friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
 		'modal-members': `${GROUPS_MODAL_SELECTORS.AVATAR} img`,
@@ -113,12 +120,22 @@ export function extractUserInfo(
 		profile: PROFILE_SELECTORS.AVATAR_IMG
 	};
 
+	// Extract display name
+	if (pageType in displayNameSelectors) {
+		const selector = displayNameSelectors[pageType];
+		const el = container.querySelector(selector);
+		if (el) {
+			const text = el.textContent?.trim();
+			if (text) displayName = text;
+		}
+	}
+
 	// Extract username
 	if (pageType in usernameSelectors) {
-		const usernameSelector = usernameSelectors[pageType as keyof typeof usernameSelectors];
-		const usernameEl = container.querySelector(usernameSelector);
-		if (usernameEl) {
-			let text = usernameEl.textContent?.trim() || '';
+		const selector = usernameSelectors[pageType];
+		const el = container.querySelector(selector);
+		if (el) {
+			let text = el.textContent?.trim() || '';
 			if (text.startsWith('@')) text = text.substring(1);
 			if (text) username = text;
 		}
@@ -126,14 +143,19 @@ export function extractUserInfo(
 
 	// Extract avatar URL
 	if (pageType in avatarSelectors) {
-		const avatarSelector = avatarSelectors[pageType as keyof typeof avatarSelectors];
-		const avatarEl = container.querySelector(avatarSelector);
-		if (avatarEl instanceof HTMLImageElement && avatarEl.src) {
-			avatarUrl = avatarEl.src;
+		const selector = avatarSelectors[pageType];
+		const el = container.querySelector(selector);
+		if (el instanceof HTMLImageElement && el.src) {
+			avatarUrl = el.src;
 		}
 	}
 
-	return { userId, username, avatarUrl };
+	// When neither name field is found
+	if (!displayName && !username) {
+		displayName = 'Unknown User';
+	}
+
+	return { userId, username, displayName, avatarUrl };
 }
 
 // Extract group information based on page type and container

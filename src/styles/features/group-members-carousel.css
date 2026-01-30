@@ -16,13 +16,13 @@
 @utility group-members-title {
 	font-size: 16px;
 	font-weight: 700;
-	color: rgb(247, 247, 248);
+	color: var(--roblox-text-heading);
 	margin: 0;
 }
 
 @utility group-members-content {
 	padding: 12px;
-	background: rgb(25, 26, 31);
+	background: var(--roblox-bg-content);
 	border-radius: 8px;
 }
 
@@ -38,9 +38,9 @@
 	display: flex;
 	gap: 4px;
 	padding: 2px;
-	background: rgb(25, 26, 31);
+	background: var(--roblox-bg-content);
 	border-radius: 6px;
-	border: 1px solid rgb(57, 59, 66);
+	border: 1px solid var(--roblox-border);
 }
 
 @utility group-members-tab {
@@ -50,7 +50,7 @@
 	font-weight: 500;
 	cursor: pointer;
 	background: transparent;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 	border: none;
 	transition:
 		background-color 0.15s,
@@ -58,13 +58,13 @@
 	white-space: nowrap;
 
 	&:hover:not(.active) {
-		background: rgb(39, 40, 46);
-		color: rgb(200, 200, 206);
+		background: var(--roblox-bg-hover);
+		color: var(--roblox-text-primary);
 	}
 
 	&.active {
-		background: rgb(57, 59, 66);
-		color: rgb(247, 247, 248);
+		background: var(--roblox-bg-surface);
+		color: var(--roblox-text-heading);
 	}
 }
 
@@ -81,13 +81,13 @@
 
 @utility group-members-tracked-desc {
 	font-size: 13px;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 }
 
 @utility group-members-tracked-count {
 	font-size: 13px;
 	font-weight: 500;
-	color: rgb(200, 200, 206);
+	color: var(--roblox-text-primary);
 }
 
 /* =================================
@@ -105,22 +105,22 @@
 	font-size: 14px;
 	font-weight: 500;
 	cursor: pointer;
-	background: rgb(57, 59, 66);
-	color: rgb(200, 200, 206);
-	border: 1px solid rgb(71, 74, 82);
+	background: var(--roblox-bg-surface);
+	color: var(--roblox-text-primary);
+	border: 1px solid var(--roblox-border-hover);
 	outline: none;
 
 	&:hover {
-		background-color: rgb(71, 74, 82);
+		background-color: var(--roblox-border-hover);
 	}
 
 	&:focus {
-		border-color: rgb(0, 162, 255);
+		border-color: var(--roblox-accent);
 	}
 
 	& option {
-		background: rgb(25, 26, 31);
-		color: rgb(200, 200, 206);
+		background: var(--roblox-bg-content);
+		color: var(--roblox-text-primary);
 	}
 }
 
@@ -150,7 +150,7 @@
 	position: relative;
 
 	&:hover {
-		background: rgb(57, 59, 66);
+		background: var(--roblox-bg-surface);
 	}
 }
 
@@ -161,7 +161,7 @@
 	overflow: hidden;
 	position: relative;
 	flex-shrink: 0;
-	border: 1px solid rgb(57, 59, 66);
+	border: 1px solid var(--roblox-border);
 
 	& img {
 		width: 100%;
@@ -174,13 +174,13 @@
 	width: 90px;
 	height: 90px;
 	border-radius: 50%;
-	background: rgb(57, 59, 66);
+	background: var(--roblox-bg-surface);
 }
 
 @utility group-member-display-name {
 	font-size: 12.8px;
 	font-weight: 400;
-	color: rgb(247, 247, 248);
+	color: var(--roblox-text-heading);
 	text-align: center;
 	max-width: 92px;
 	overflow: hidden;
@@ -205,7 +205,7 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 12px 4px 0;
-	border-top: 1px solid rgb(57, 59, 66);
+	border-top: 1px solid var(--roblox-border);
 	margin-top: 12px;
 }
 
@@ -215,15 +215,15 @@
 	font-size: 12px;
 	font-weight: 500;
 	cursor: pointer;
-	background: rgb(57, 59, 66);
-	color: rgb(200, 200, 206);
+	background: var(--roblox-bg-surface);
+	color: var(--roblox-text-primary);
 	border: none;
 	transition:
 		background-color 0.15s,
 		opacity 0.15s;
 
 	&:hover:not(:disabled) {
-		background: rgb(71, 74, 82);
+		background: var(--roblox-border-hover);
 	}
 
 	&:disabled {
@@ -234,7 +234,7 @@
 
 @utility group-members-page-info {
 	font-size: 14px;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 }
 
 @utility group-members-page-btn {
@@ -246,7 +246,7 @@
 	transition: background-color 0.15s;
 
 	&:hover {
-		background: rgb(57, 59, 66);
+		background: var(--roblox-bg-surface);
 	}
 }
 
@@ -257,13 +257,13 @@
 	border-radius: 4px;
 	font-size: 14px;
 	text-align: center;
-	background: rgb(57, 59, 66);
-	color: rgb(247, 247, 248);
-	border: 1px solid rgb(71, 74, 82);
+	background: var(--roblox-bg-surface);
+	color: var(--roblox-text-heading);
+	border: 1px solid var(--roblox-border-hover);
 	outline: none;
 
 	&:focus {
-		border-color: rgb(0, 162, 255);
+		border-color: var(--roblox-accent);
 	}
 }
 
@@ -276,8 +276,8 @@
 @utility group-members-page-spinner {
 	width: 14px;
 	height: 14px;
-	border: 2px solid rgb(71, 74, 82);
-	border-top-color: rgb(0, 162, 255);
+	border: 2px solid var(--roblox-border-hover);
+	border-top-color: var(--roblox-accent);
 	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
 }
@@ -291,7 +291,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 48px 0;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 	font-size: 14px;
 }
 
@@ -301,7 +301,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: rgba(25, 26, 31, 0.7);
+	background: var(--roblox-overlay);
 	border-radius: 8px;
 	z-index: 10;
 }
@@ -309,8 +309,8 @@
 @utility group-members-spinner {
 	width: 24px;
 	height: 24px;
-	border: 2px solid rgb(71, 74, 82);
-	border-top-color: rgb(0, 162, 255);
+	border: 2px solid var(--roblox-border-hover);
+	border-top-color: var(--roblox-accent);
 	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
 }
@@ -322,7 +322,7 @@
 	justify-content: center;
 	gap: 12px;
 	padding: 32px 0;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 	font-size: 14px;
 }
 
@@ -331,7 +331,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 32px 0;
-	color: rgb(163, 163, 172);
+	color: var(--roblox-text-muted);
 	font-size: 14px;
 }
 

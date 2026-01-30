@@ -1,5 +1,12 @@
+/*noinspection DuplicatedCode*/
+
+/* =================================
+   PRIMITIVE COLOR TOKENS
+   Raw color values used by semantic tokens
+   ================================= */
+
 :root {
-	/* Base neutrals */
+	/* Neutrals */
 	--primitive-white: #ffffff;
 	--primitive-black: #000000;
 	--primitive-gray-50: #f9f9f9;
@@ -13,29 +20,34 @@
 	--primitive-gray-800: #444444;
 	--primitive-gray-900: #333333;
 	--primitive-gray-950: #1a1a1a;
-
-	/* Error indicators */
 	--primitive-gray-error-light: #6b7280;
 	--primitive-gray-error-dark: #9ca3af;
 
-	/* Brand colors */
+	/* Blues */
 	--primitive-blue-400: #58a6ff;
-	--primitive-blue-past-offender: #4a9eff;
 	--primitive-blue-500: #2196f3;
 	--primitive-blue-600: #1976d2;
 	--primitive-blue-700: #1565c0;
 	--primitive-blue-classic: #007bff;
 	--primitive-blue-classic-dark: #0056b3;
+	--primitive-blue-past-offender: #4a9eff;
+	--primitive-blue-tailwind-500: #3b82f6;
 
-	/* Status colors */
+	/* Greens */
 	--primitive-green-400: #66bb6a;
 	--primitive-green-500: #4caf50;
 	--primitive-green-600: #44cc44;
+	--primitive-green-tailwind-400: #4ade80;
+
+	/* Reds */
 	--primitive-red-400: #ff5252;
 	--primitive-red-500: #f44336;
 	--primitive-red-600: #d32f2f;
 	--primitive-red-700: #c62828;
 	--primitive-red-bright: #ff4444;
+	--primitive-red-tailwind-500: #ef4444;
+
+	/* Oranges & Yellows */
 	--primitive-orange-400: #ffb74d;
 	--primitive-orange-500: #ff9800;
 	--primitive-orange-600: #d35400;
@@ -44,20 +56,21 @@
 	--primitive-orange-tailwind-700: #f97316;
 	--primitive-yellow-tailwind-400: #facc15;
 	--primitive-yellow-tailwind-500: #eab308;
-	--primitive-green-tailwind-400: #4ade80;
-	--primitive-blue-tailwind-500: #3b82f6;
-	--primitive-red-tailwind-500: #ef4444;
+
+	/* Purples & Indigos */
 	--primitive-purple-50: #f3e5f5;
 	--primitive-purple-400: #ba68c8;
 	--primitive-purple-500: #9c27b0;
 	--primitive-indigo-400: #818cf8;
 	--primitive-indigo-500: #6366f1;
+
+	/* Teals & Browns */
 	--primitive-teal-400: #4fd1c7;
 	--primitive-teal-500: #14b8a6;
 	--primitive-brown-500: #8b4513;
 	--primitive-brown-600: #cd853f;
 
-	/* Dark theme neutrals */
+	/* Dark theme surfaces */
 	--primitive-dark-bg: #121212;
 	--primitive-dark-surface: #1e1e1e;
 	--primitive-dark-surface-2: #2a2a2a;
@@ -68,33 +81,34 @@
 	--primitive-dark-text-heading: #ffffff;
 	--primitive-dark-text-subtle: #aaaaaa;
 
-	/* Value replacements */
+	/* Link colors */
 	--primitive-link-bg-light: #3a3a3a;
 	--primitive-link-bg-dark: #2c2c2c;
 	--primitive-link-hover-bg-light: #484848;
 	--primitive-link-hover-bg-dark: #353535;
 	--primitive-link-text-light: #ccc;
+
+	/* Form colors */
 	--primitive-switch-disabled: #404040;
 	--primitive-switch-active-dark: #3c91e6;
 
-	/* Interaction opacity values */
+	/* Opacity values */
 	--hover-light: rgba(0, 0, 0, 0.05);
-	--active-light: rgba(0, 0, 0, 0.1);
 	--hover-dark: rgba(255, 255, 255, 0.05);
+	--active-light: rgba(0, 0, 0, 0.1);
 	--active-dark: rgba(255, 255, 255, 0.1);
-
-	/* Utility opacity values */
 	--divider-light: rgba(0, 0, 0, 0.1);
 	--divider-dark: rgba(255, 255, 255, 0.1);
 	--evidence-light: rgba(0, 0, 0, 0.07);
 	--evidence-dark: rgba(255, 255, 255, 0.07);
 	--surface-overlay-light: rgba(255, 255, 255, 0.03);
 	--surface-overlay-dark: rgba(255, 255, 255, 0.05);
-}
 
-/*noinspection DuplicatedCode*/
-:root {
-	/* Base surface colors */
+	/* =================================
+	   LIGHT THEME (Default)
+	   ================================= */
+
+	/* Surfaces */
 	--color-bg: var(--primitive-gray-50);
 	--color-background: var(--primitive-white);
 	--color-bg-content: var(--primitive-white);
@@ -102,8 +116,12 @@
 	--color-bg-secondary: var(--primitive-gray-100);
 	--color-bg-tertiary: var(--primitive-gray-200);
 	--color-bg-subtle: var(--primitive-gray-100);
+	--color-card: var(--primitive-white);
+	--color-card-hover: var(--primitive-gray-100);
+	--color-hover: var(--hover-light);
+	--color-active: var(--active-light);
 
-	/* Text hierarchy */
+	/* Text */
 	--color-text: var(--primitive-gray-900);
 	--color-text-primary: var(--primitive-gray-900);
 	--color-text-secondary: var(--primitive-gray-700);
@@ -111,19 +129,13 @@
 	--color-text-heading: var(--primitive-gray-950);
 	--color-text-subtle: var(--primitive-gray-700);
 
-	/* Border system */
+	/* Borders */
 	--color-border: var(--primitive-gray-300);
 	--color-border-primary: var(--primitive-gray-300);
 	--color-border-hover: var(--primitive-gray-400);
 	--color-border-subtle: var(--primitive-gray-200);
 
-	/* Interactive surfaces */
-	--color-card: var(--primitive-white);
-	--color-card-hover: var(--primitive-gray-100);
-	--color-hover: var(--hover-light);
-	--color-active: var(--active-light);
-
-	/* Brand system */
+	/* Brand */
 	--color-primary: var(--primitive-blue-500);
 	--color-primary-hover: var(--primitive-blue-600);
 	--color-primary-alpha: rgba(33, 150, 243, 0.1);
@@ -133,16 +145,18 @@
 	--color-success-bg: rgba(76, 175, 80, 0.15);
 	--color-warning: var(--primitive-orange-500);
 	--color-warning-hover: var(--primitive-orange-tailwind-600);
+	--color-error: var(--primitive-red-600);
+	--color-error-bg: rgba(244, 67, 54, 0.15);
+	--color-error-hover: var(--primitive-red-700);
+
+	/* War Zone */
 	--color-war-zone: var(--primitive-orange-tailwind-500);
 	--color-war-zone-dark: var(--primitive-orange-tailwind-700);
 	--color-liberation-high: var(--primitive-green-tailwind-400);
 	--color-liberation-medium: var(--primitive-blue-tailwind-500);
 	--color-liberation-low: var(--primitive-red-tailwind-500);
-	--color-error: var(--primitive-red-600);
-	--color-error-bg: rgba(244, 67, 54, 0.15);
-	--color-error-hover: var(--primitive-red-700);
 
-	/* Link system */
+	/* Links */
 	--color-link: var(--primitive-blue-classic);
 	--color-link-hover: var(--primitive-blue-classic-dark);
 	--color-link-bg: var(--primitive-link-bg-light);
@@ -152,7 +166,7 @@
 	--color-link-hover-border: var(--primitive-gray-600);
 	--color-link-hover-text: var(--primitive-white);
 
-	/* Status system */
+	/* Status indicators */
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-bright);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
@@ -177,27 +191,44 @@
 	--color-placeholder: var(--primitive-gray-400);
 	--color-secondary: var(--primitive-gray-100);
 
-	/* Feature-specific colors */
+	/* Feature: Reasons & Evidence */
 	--color-reason-bg: var(--primitive-gray-100);
 	--color-reason-header: var(--primitive-orange-600);
 	--color-reason-evidence-bg: var(--primitive-gray-50);
 	--color-reason-evidence-text: var(--primitive-gray-800);
 	--color-reason-evidence-border: var(--evidence-light);
 	--color-reason-message: var(--primitive-gray-900);
-
 	--color-evidence-bg: var(--primitive-gray-50);
 	--color-evidence-text: var(--primitive-gray-700);
 	--color-evidence-border: var(--primitive-gray-300);
 	--color-outfit-evidence-bg: var(--primitive-purple-50);
-
 	--color-tooltip-divider: var(--divider-light);
+
+	/* =================================
+	   ROBLOX THEME (Light - Default)
+	   For components embedded in Roblox pages
+	   ================================= */
+
+	--roblox-bg-content: #f2f2f2;
+	--roblox-bg-surface: #e0e0e0;
+	--roblox-bg-hover: #e8e8e8;
+	--roblox-border: #d4d4d4;
+	--roblox-border-hover: #bdbdbd;
+	--roblox-text-heading: rgb(26, 26, 26);
+	--roblox-text-primary: rgb(32, 34, 39);
+	--roblox-text-muted: #888888;
+	--roblox-accent: rgb(0, 162, 255);
+	--roblox-overlay: rgba(242, 242, 242, 0.7);
 }
 
-/* Auto dark theme */
+/* =================================
+   AUTO DARK THEME
+   Applies when system prefers dark
+   ================================= */
+
 @media (prefers-color-scheme: dark) {
-	/*noinspection DuplicatedCode*/
 	:root {
-		/* Surface colors */
+		/* Surfaces */
 		--color-bg: var(--primitive-dark-bg);
 		--color-background: var(--primitive-dark-surface);
 		--color-bg-content: var(--primitive-dark-surface);
@@ -205,8 +236,12 @@
 		--color-bg-secondary: var(--primitive-dark-surface-2);
 		--color-bg-tertiary: var(--primitive-dark-surface-3);
 		--color-bg-subtle: var(--primitive-dark-surface-2);
+		--color-card: var(--primitive-dark-surface);
+		--color-card-hover: var(--primitive-dark-surface-2);
+		--color-hover: var(--hover-dark);
+		--color-active: var(--active-dark);
 
-		/* Text colors */
+		/* Text */
 		--color-text: var(--primitive-dark-text);
 		--color-text-primary: var(--primitive-dark-text);
 		--color-text-secondary: var(--primitive-dark-text-subtle);
@@ -214,19 +249,13 @@
 		--color-text-heading: var(--primitive-dark-text-heading);
 		--color-text-subtle: var(--primitive-dark-text-subtle);
 
-		/* Border colors */
+		/* Borders */
 		--color-border: var(--primitive-dark-border);
 		--color-border-primary: var(--primitive-dark-border);
 		--color-border-hover: var(--primitive-gray-500);
 		--color-border-subtle: var(--primitive-dark-border-subtle);
 
-		/* Interactive surfaces */
-		--color-card: var(--primitive-dark-surface);
-		--color-card-hover: var(--primitive-dark-surface-2);
-		--color-hover: var(--hover-dark);
-		--color-active: var(--active-dark);
-
-		/* Brand adjustments */
+		/* Brand */
 		--color-primary-hover: var(--primitive-blue-700);
 		--color-primary-alpha: rgba(88, 166, 255, 0.1);
 		--color-accent: var(--primitive-blue-400);
@@ -234,7 +263,7 @@
 		--color-success-bg: rgba(102, 187, 106, 0.15);
 		--color-error-bg: rgba(255, 82, 82, 0.15);
 
-		/* Link adjustments */
+		/* Links */
 		--color-link: var(--primitive-blue-400);
 		--color-link-hover: #80bfff;
 		--color-link-bg: var(--primitive-link-bg-dark);
@@ -244,7 +273,7 @@
 		--color-link-hover-border: var(--primitive-gray-700);
 		--color-link-hover-text: var(--primitive-white);
 
-		/* Status adjustments */
+		/* Status indicators */
 		--color-status-safe: var(--primitive-gray-500);
 		--color-status-unsafe: var(--primitive-red-400);
 		--color-status-pending: var(--primitive-orange-tailwind-700);
@@ -260,33 +289,47 @@
 		--color-status-past-offender: var(--primitive-blue-past-offender);
 		--color-status-mixed: var(--primitive-yellow-tailwind-400);
 
-		/* Form adjustments */
+		/* Form controls */
 		--color-switch-bg-active: var(--primitive-switch-active-dark);
 		--color-switch-handle: var(--primitive-dark-text);
 		--color-switch-handle-disabled: var(--primitive-gray-600);
 		--color-placeholder: var(--primitive-gray-500);
 		--color-secondary: var(--primitive-switch-disabled);
 
-		/* Feature adjustments */
+		/* Feature: Reasons & Evidence */
 		--color-reason-bg: var(--surface-overlay-light);
 		--color-reason-header: var(--primitive-orange-400);
 		--color-reason-evidence-bg: var(--surface-overlay-dark);
 		--color-reason-evidence-text: var(--primitive-gray-400);
 		--color-reason-evidence-border: var(--evidence-dark);
 		--color-reason-message: var(--primitive-dark-text);
-
 		--color-evidence-bg: var(--surface-overlay-dark);
 		--color-evidence-text: var(--primitive-gray-400);
 		--color-evidence-border: rgba(255, 255, 255, 0.15);
 		--color-outfit-evidence-bg: rgba(186, 104, 200, 0.1);
-
 		--color-tooltip-divider: var(--divider-dark);
+
+		/* Roblox theme (Dark) */
+		--roblox-bg-content: rgb(25, 26, 31);
+		--roblox-bg-surface: rgb(57, 59, 66);
+		--roblox-bg-hover: rgb(39, 40, 46);
+		--roblox-border: rgb(57, 59, 66);
+		--roblox-border-hover: rgb(71, 74, 82);
+		--roblox-text-heading: rgb(247, 247, 248);
+		--roblox-text-primary: rgb(200, 200, 206);
+		--roblox-text-muted: rgb(163, 163, 172);
+		--roblox-accent: rgb(0, 162, 255);
+		--roblox-overlay: rgba(25, 26, 31, 0.7);
 	}
 }
 
-/* Manual dark theme (overrides auto dark) */
-/*noinspection DuplicatedCode*/
+/* =================================
+   MANUAL DARK THEME
+   Overrides auto detection
+   ================================= */
+
 [data-theme='dark'] {
+	/* Surfaces */
 	--color-bg: var(--primitive-dark-bg);
 	--color-background: var(--primitive-dark-surface);
 	--color-bg-content: var(--primitive-dark-surface);
@@ -294,26 +337,34 @@
 	--color-bg-secondary: var(--primitive-dark-surface-2);
 	--color-bg-tertiary: var(--primitive-dark-surface-3);
 	--color-bg-subtle: var(--primitive-dark-surface-2);
+	--color-card: var(--primitive-dark-surface);
+	--color-card-hover: var(--primitive-dark-surface-2);
+	--color-hover: var(--hover-dark);
+	--color-active: var(--active-dark);
+
+	/* Text */
 	--color-text: var(--primitive-dark-text);
 	--color-text-primary: var(--primitive-dark-text);
 	--color-text-secondary: var(--primitive-dark-text-subtle);
 	--color-text-tertiary: var(--primitive-gray-500);
 	--color-text-heading: var(--primitive-dark-text-heading);
 	--color-text-subtle: var(--primitive-dark-text-subtle);
+
+	/* Borders */
 	--color-border: var(--primitive-dark-border);
 	--color-border-primary: var(--primitive-dark-border);
 	--color-border-hover: var(--primitive-gray-500);
 	--color-border-subtle: var(--primitive-dark-border-subtle);
-	--color-card: var(--primitive-dark-surface);
-	--color-card-hover: var(--primitive-dark-surface-2);
-	--color-hover: var(--hover-dark);
-	--color-active: var(--active-dark);
+
+	/* Brand */
 	--color-primary-hover: var(--primitive-blue-700);
 	--color-primary-alpha: rgba(88, 166, 255, 0.1);
 	--color-accent: var(--primitive-blue-400);
 	--color-accent-hover: var(--primitive-blue-500);
 	--color-success-bg: rgba(102, 187, 106, 0.15);
 	--color-error-bg: rgba(255, 82, 82, 0.15);
+
+	/* Links */
 	--color-link: var(--primitive-blue-400);
 	--color-link-hover: #80bfff;
 	--color-link-bg: var(--primitive-link-bg-dark);
@@ -322,6 +373,8 @@
 	--color-link-hover-bg: var(--primitive-link-hover-bg-dark);
 	--color-link-hover-border: var(--primitive-gray-700);
 	--color-link-hover-text: var(--primitive-white);
+
+	/* Status indicators */
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-400);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
@@ -336,11 +389,15 @@
 	--color-status-integration: var(--primitive-teal-400);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-400);
+
+	/* Form controls */
 	--color-switch-bg-active: var(--primitive-switch-active-dark);
 	--color-switch-handle: var(--primitive-dark-text);
 	--color-switch-handle-disabled: var(--primitive-gray-600);
 	--color-placeholder: var(--primitive-gray-500);
 	--color-secondary: var(--primitive-switch-disabled);
+
+	/* Feature: Reasons & Evidence */
 	--color-reason-bg: var(--surface-overlay-light);
 	--color-reason-header: var(--primitive-orange-400);
 	--color-reason-evidence-bg: var(--surface-overlay-dark);
@@ -352,11 +409,27 @@
 	--color-evidence-border: rgba(255, 255, 255, 0.15);
 	--color-outfit-evidence-bg: rgba(186, 104, 200, 0.1);
 	--color-tooltip-divider: var(--divider-dark);
+
+	/* Roblox theme (Dark) */
+	--roblox-bg-content: rgb(25, 26, 31);
+	--roblox-bg-surface: rgb(57, 59, 66);
+	--roblox-bg-hover: rgb(39, 40, 46);
+	--roblox-border: rgb(57, 59, 66);
+	--roblox-border-hover: rgb(71, 74, 82);
+	--roblox-text-heading: rgb(247, 247, 248);
+	--roblox-text-primary: rgb(200, 200, 206);
+	--roblox-text-muted: rgb(163, 163, 172);
+	--roblox-accent: rgb(0, 162, 255);
+	--roblox-overlay: rgba(25, 26, 31, 0.7);
 }
 
-/* Manual light theme (overrides auto light) */
-/*noinspection DuplicatedCode*/
+/* =================================
+   MANUAL LIGHT THEME
+   Overrides auto detection
+   ================================= */
+
 [data-theme='light'] {
+	/* Surfaces */
 	--color-bg: var(--primitive-gray-50);
 	--color-background: var(--primitive-white);
 	--color-bg-content: var(--primitive-white);
@@ -364,24 +437,32 @@
 	--color-bg-secondary: var(--primitive-gray-100);
 	--color-bg-tertiary: var(--primitive-gray-200);
 	--color-bg-subtle: var(--primitive-gray-100);
+	--color-card: var(--primitive-white);
+	--color-card-hover: var(--primitive-gray-100);
+	--color-hover: var(--hover-light);
+	--color-active: var(--active-light);
+
+	/* Text */
 	--color-text: var(--primitive-gray-900);
 	--color-text-primary: var(--primitive-gray-900);
 	--color-text-secondary: var(--primitive-gray-700);
 	--color-text-tertiary: var(--primitive-gray-500);
 	--color-text-heading: var(--primitive-gray-950);
 	--color-text-subtle: var(--primitive-gray-700);
+
+	/* Borders */
 	--color-border: var(--primitive-gray-300);
 	--color-border-primary: var(--primitive-gray-300);
 	--color-border-hover: var(--primitive-gray-400);
 	--color-border-subtle: var(--primitive-gray-200);
-	--color-card: var(--primitive-white);
-	--color-card-hover: var(--primitive-gray-100);
-	--color-hover: var(--hover-light);
-	--color-active: var(--active-light);
+
+	/* Brand */
 	--color-primary-hover: var(--primitive-blue-600);
 	--color-primary-alpha: rgba(33, 150, 243, 0.1);
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
+
+	/* Links */
 	--color-link: var(--primitive-blue-classic);
 	--color-link-hover: var(--primitive-blue-classic-dark);
 	--color-link-bg: var(--primitive-link-bg-light);
@@ -390,6 +471,8 @@
 	--color-link-hover-bg: var(--primitive-link-hover-bg-light);
 	--color-link-hover-border: var(--primitive-gray-600);
 	--color-link-hover-text: var(--primitive-white);
+
+	/* Status indicators */
 	--color-status-safe: var(--primitive-gray-500);
 	--color-status-unsafe: var(--primitive-red-700);
 	--color-status-pending: var(--primitive-orange-tailwind-700);
@@ -403,11 +486,15 @@
 	--color-status-integration: var(--primitive-teal-500);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-500);
+
+	/* Form controls */
 	--color-switch-bg-active: var(--primitive-blue-400);
 	--color-switch-handle: var(--primitive-gray-200);
 	--color-switch-handle-disabled: var(--primitive-gray-600);
 	--color-placeholder: var(--primitive-gray-400);
 	--color-secondary: var(--primitive-gray-100);
+
+	/* Feature: Reasons & Evidence */
 	--color-reason-bg: var(--primitive-gray-100);
 	--color-reason-header: var(--primitive-orange-600);
 	--color-reason-evidence-bg: var(--primitive-gray-50);
@@ -419,4 +506,16 @@
 	--color-evidence-border: var(--primitive-gray-300);
 	--color-outfit-evidence-bg: var(--primitive-purple-50);
 	--color-tooltip-divider: var(--divider-light);
+
+	/* Roblox theme (Light) */
+	--roblox-bg-content: #f2f2f2;
+	--roblox-bg-surface: #e0e0e0;
+	--roblox-bg-hover: #e8e8e8;
+	--roblox-border: #d4d4d4;
+	--roblox-border-hover: #bdbdbd;
+	--roblox-text-heading: rgb(26, 26, 26);
+	--roblox-text-primary: rgb(32, 34, 39);
+	--roblox-text-muted: #888888;
+	--roblox-accent: rgb(0, 162, 255);
+	--roblox-overlay: rgba(242, 242, 242, 0.7);
 }

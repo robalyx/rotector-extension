@@ -22,7 +22,8 @@
 	let showConfirmDialog = $state(false);
 	let tosAccepted = $state(false);
 	let responsibleUseAccepted = $state(false);
-	const canProceed = $derived(tosAccepted && responsibleUseAccepted);
+	let accuracyAccepted = $state(false);
+	const canProceed = $derived(tosAccepted && responsibleUseAccepted && accuracyAccepted);
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
@@ -190,6 +191,22 @@
 								</span>
 								<span class="onboarding-agreement-text">
 									{$_('onboarding_welcome_agree_responsible_use')}
+								</span>
+							</label>
+
+							<label class="onboarding-agreement-item">
+								<input
+									class="onboarding-agreement-checkbox"
+									type="checkbox"
+									bind:checked={accuracyAccepted}
+								/>
+								<span class="onboarding-agreement-checkmark" class:checked={accuracyAccepted}>
+									{#if accuracyAccepted}
+										<Check aria-hidden="true" size={14} strokeWidth={3} />
+									{/if}
+								</span>
+								<span class="onboarding-agreement-text">
+									{$_('onboarding_welcome_agree_accuracy')}
 								</span>
 							</label>
 						</div>

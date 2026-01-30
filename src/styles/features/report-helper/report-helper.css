@@ -155,13 +155,13 @@
 }
 
 @utility report-helper-button {
-	background: var(--color-primary);
-	color: white;
-	border: none;
+	background: var(--color-primary) !important;
+	color: var(--primitive-white) !important;
+	border: none !important;
 	border-radius: 6px;
 	padding: 10px 20px;
-	font-size: 14px;
-	font-weight: 500;
+	font-size: 14px !important;
+	font-weight: 500 !important;
 	cursor: pointer;
 	transition: all 0.2s ease;
 	display: inline-flex;
@@ -171,7 +171,7 @@
 	min-width: 140px;
 
 	&:hover:not(:disabled) {
-		background: var(--color-primary-hover);
+		background: var(--color-primary-hover) !important;
 		transform: translateY(-1px);
 		box-shadow: var(--shadow-sm);
 	}

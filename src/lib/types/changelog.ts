@@ -16,6 +16,66 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.11.0',
+		version: '2.11.0',
+		date: '2026-02-02',
+		title: 'Group Members Carousel & Queue History',
+		summary:
+			'This update adds a dedicated group members carousel for better browsing experience, queue history tracking with notifications, and various improvements.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					"Group members carousel - Browse group members in a paginated grid with direct page navigation, replacing Roblox's virtual scrolling list for improved usability"
+			},
+			{
+				type: 'added',
+				description:
+					'Tracked users tab - View flagged users who have previously joined a small group directly from the group members carousel'
+			},
+			{
+				type: 'added',
+				description:
+					'Group configure members page - Status indicators and blur support now work on the group admin members management page'
+			},
+			{
+				type: 'added',
+				description:
+					'Queue history tracking - View submitted users in the popup Queue tab with real-time status updates and system notifications when processing completes'
+			},
+			{
+				type: 'changed',
+				description:
+					'Tooltip user display - Now shows both display name and @username when available'
+			},
+			{
+				type: 'changed',
+				description:
+					'Profile page blur handling - Improved blur system with group-based click-to-reveal and better support for profile header redesign'
+			},
+			{
+				type: 'changed',
+				description:
+					'Error indicator styling - Changed from red circle to gray triangle to distinguish lookup errors from flagged users'
+			},
+			{
+				type: 'changed',
+				description:
+					'Onboarding improvements - Clearer preset descriptions and added accuracy acknowledgment checkbox'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile header selectors - Updated to support unified Roblox profile header structure'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Report helper button styling - Fixed button text color being overridden by Roblox page styles'
+			}
+		]
+	},
+	{
 		id: 'v2.10.0',
 		version: '2.10.0',
 		date: '2026-01-26',

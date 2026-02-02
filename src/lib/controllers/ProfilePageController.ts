@@ -3,6 +3,7 @@ import { PageController } from './PageController';
 import { SETTINGS_KEYS } from '../types/settings';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
+import { startProfileQuery, type ProfileQuerySubscription } from '../utils/profile-query';
 import { settings } from '../stores/settings';
 import ProfilePageManager from '../../components/features/ProfilePageManager.svelte';
 import { logger } from '../utils/logger';
@@ -13,6 +14,7 @@ import { logger } from '../utils/logger';
 export class ProfilePageController extends PageController {
 	private userId: string | null = null;
 	private profilePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
+	private querySubscription: ProfileQuerySubscription | null = null;
 
 	protected override async initializePage(): Promise<void> {
 		try {
@@ -36,6 +38,9 @@ export class ProfilePageController extends PageController {
 
 			logger.debug('Profile user ID extracted', { userId: this.userId });
 
+			// Start API query
+			this.querySubscription = startProfileQuery(this.userId);
+
 			// Wait for profile elements to load
 			await this.waitForProfileElements();
 
@@ -55,6 +60,11 @@ export class ProfilePageController extends PageController {
 			if (this.profilePageManager) {
 				this.profilePageManager.cleanup();
 				this.profilePageManager = null;
+			}
+
+			if (this.querySubscription) {
+				this.querySubscription.cancel();
+				this.querySubscription = null;
 			}
 
 			this.userId = null;
@@ -94,8 +104,8 @@ export class ProfilePageController extends PageController {
 	// Mount profile page manager to handle all UI components
 	private mountProfilePageManager(): void {
 		try {
-			if (!this.userId) {
-				throw new Error('Cannot mount ProfilePageManager without userId');
+			if (!this.userId || !this.querySubscription) {
+				throw new Error('Cannot mount ProfilePageManager without userId and querySubscription');
 			}
 
 			const container = this.createComponentContainer();
@@ -103,7 +113,8 @@ export class ProfilePageController extends PageController {
 			document.body.appendChild(container);
 
 			this.profilePageManager = this.mountComponent(ProfilePageManager, container, {
-				userId: this.userId
+				userId: this.userId,
+				querySubscription: this.querySubscription
 			});
 
 			logger.debug('ProfilePageManager mounted successfully');

@@ -2,12 +2,10 @@
 	import { mount } from 'svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
+	import type { GroupQuerySubscription } from '@/lib/utils/group-query';
 	import { COMPONENT_CLASSES, ENTITY_TYPES, GROUP_HEADER_SELECTORS } from '@/lib/types/constants';
-	import type { GroupStatus, PageType } from '@/lib/types/api';
+	import type { PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import { wrapGroupStatus } from '@/lib/utils/status-utils';
-	import { groupStatusService } from '@/lib/services/entity-status-service';
-	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
 	import GroupMembersCarousel from './GroupMembersCarousel.svelte';
@@ -15,51 +13,22 @@
 	interface Props {
 		groupId: string | null;
 		pageType: PageType;
+		querySubscription?: GroupQuerySubscription | null;
 	}
 
-	let { groupId, pageType }: Props = $props();
+	let { groupId, pageType, querySubscription = null }: Props = $props();
 
 	// Status state owned by this component
-	let groupStatus = $state<GroupStatus | null>(null);
-	let isLoading = $state(true);
-	let error = $state<string | undefined>(undefined);
+	let groupStatus = $state<CombinedStatus | null>(null);
 
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 
-	// Fetch group status
+	// Subscribe to status updates from pre-fetched query
 	$effect(() => {
-		if (!groupId) {
-			isLoading = false;
-			return;
-		}
-
-		// Block group lookups when restricted
-		if ($restrictedAccessStore.isRestricted) {
-			error = 'restricted_access';
-			isLoading = false;
-			return;
-		}
-
-		let cancelled = false;
-		isLoading = true;
-		error = undefined;
-
-		groupStatusService
-			.getStatus(groupId)
-			.then((status) => {
-				if (cancelled) return;
-				groupStatus = status;
-				isLoading = false;
-			})
-			.catch((err) => {
-				if (cancelled) return;
-				logger.error('Failed to load group status:', err);
-				isLoading = false;
-			});
-
-		return () => {
-			cancelled = true;
-		};
+		if (!querySubscription) return;
+		return querySubscription.subscribe((status) => {
+			groupStatus = status;
+		});
 	});
 
 	// Initialize components when mounted
@@ -117,7 +86,7 @@
 				entityId: groupId!,
 				entityType: ENTITY_TYPES.GROUP,
 				get entityStatus() {
-					return wrapGroupStatus(groupStatus, isLoading, error);
+					return groupStatus;
 				},
 				skipAutoFetch: true,
 				showText: true

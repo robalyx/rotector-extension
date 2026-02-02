@@ -6,6 +6,7 @@ import { settings } from '../stores/settings';
 import { logger } from '../utils/logger';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
+import { startGroupQuery, type GroupQuerySubscription } from '../utils/group-query';
 import GroupPageManager from '../../components/features/GroupPageManager.svelte';
 
 /**
@@ -14,6 +15,7 @@ import GroupPageManager from '../../components/features/GroupPageManager.svelte'
 export class GroupsPageController extends PageController {
 	private groupPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 	private groupId: string | null = null;
+	private querySubscription: GroupQuerySubscription | null = null;
 
 	protected override async initializePage(): Promise<void> {
 		try {
@@ -32,9 +34,10 @@ export class GroupsPageController extends PageController {
 			// Extract group ID from URL
 			this.groupId = this.extractGroupIdFromUrl();
 
-			// Wait for group elements if we have a group ID
+			// Start API query
 			if (this.groupId) {
-				logger.debug('Group ID extracted', { groupId: this.groupId });
+				logger.debug('Group ID extracted, starting query', { groupId: this.groupId });
+				this.querySubscription = startGroupQuery(this.groupId);
 				await this.waitForGroupElements();
 			} else {
 				logger.debug('No group ID found in URL, proceeding with groups page manager only');
@@ -58,6 +61,11 @@ export class GroupsPageController extends PageController {
 				this.groupPageManager = null;
 			}
 
+			if (this.querySubscription) {
+				this.querySubscription.cancel();
+				this.querySubscription = null;
+			}
+
 			this.groupId = null;
 
 			logger.debug('GroupsPageController cleanup completed');
@@ -76,7 +84,8 @@ export class GroupsPageController extends PageController {
 			// Mount GroupPageManager
 			this.groupPageManager = this.mountComponent(GroupPageManager, container, {
 				groupId: this.groupId,
-				pageType: this.pageType
+				pageType: this.pageType,
+				querySubscription: this.querySubscription
 			});
 
 			logger.debug('GroupPageManager mounted successfully');

@@ -5,6 +5,7 @@
 	import { settings } from '@/lib/stores/settings';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
+	import type { ProfileQuerySubscription } from '@/lib/utils/profile-query';
 	import {
 		BTROBLOX_GROUPS_SELECTORS,
 		COMPONENT_CLASSES,
@@ -44,9 +45,10 @@
 
 	interface Props {
 		userId: string;
+		querySubscription: ProfileQuerySubscription;
 	}
 
-	let { userId }: Props = $props();
+	let { userId, querySubscription }: Props = $props();
 
 	// Status state owned by this component
 	let userStatus = $state<CombinedStatus | null>(null);
@@ -69,7 +71,7 @@
 	let headerCheckInterval: ReturnType<typeof setInterval> | null = null;
 	let isReinjecting = false;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
-	let cancelQuery: (() => void) | null = null;
+	let refreshCancelQuery: (() => void) | null = null;
 	let outfitObserverCleanup: (() => void) | null = null;
 	let descriptionObserverCleanup: (() => void) | null = null;
 	let headerObserverCleanup: (() => void) | null = null;
@@ -95,19 +97,14 @@
 		return false;
 	}
 
-	// Fetch status progressively
+	// Subscribe to status updates from pre-fetched query
 	$effect(() => {
-		cancelQuery = queryUserProgressive(userId, (status) => {
+		return querySubscription.subscribe((status) => {
 			userStatus = status;
-
-			// Set profile blur state based on outfit reason
 			const shouldBlur = shouldBlurOutfit(status);
 			setProfileBlurState(shouldBlur ? 'flagged' : 'safe');
-
 			revealProfileElements(status);
 		});
-
-		return () => cancelQuery?.();
 	});
 
 	// Mark profile elements for blur tracking
@@ -450,9 +447,11 @@
 
 	// Refresh status after queue completion
 	function handleStatusRefresh() {
-		cancelQuery?.();
-		cancelQuery = queryUserProgressive(userId, (status) => {
+		refreshCancelQuery?.();
+		refreshCancelQuery = queryUserProgressive(userId, (status) => {
 			userStatus = status;
+			const shouldBlur = shouldBlurOutfit(status);
+			setProfileBlurState(shouldBlur ? 'flagged' : 'safe');
 			revealProfileElements(status);
 		});
 	}
@@ -568,6 +567,10 @@
 				clearInterval(headerCheckInterval);
 				headerCheckInterval = null;
 			}
+
+			// Clean up any active refresh query
+			refreshCancelQuery?.();
+			refreshCancelQuery = null;
 
 			// Clean up mounted components
 			mountedComponents.forEach((component) => component.unmount?.());

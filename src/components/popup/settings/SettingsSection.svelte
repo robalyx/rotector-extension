@@ -11,6 +11,7 @@
 		applyAgePreset
 	} from '@/lib/stores/settings';
 	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
+	import { errorLogs } from '@/lib/stores/developer-logs';
 	import { setLanguage, getAvailableLocales } from '@/lib/stores/i18n';
 	import {
 		extractOriginPattern,
@@ -35,9 +36,11 @@
 	interface Props {
 		onNavigateToCustomApis?: () => void;
 		onNavigateToRotectorDocs?: () => void;
+		onNavigateToDeveloperLogs?: () => void;
 	}
 
-	let { onNavigateToCustomApis, onNavigateToRotectorDocs }: Props = $props();
+	let { onNavigateToCustomApis, onNavigateToRotectorDocs, onNavigateToDeveloperLogs }: Props =
+		$props();
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
@@ -436,6 +439,23 @@
 								</div>
 							{/if}
 						{/each}
+
+						<!-- View Developer Logs Button -->
+						{#if onNavigateToDeveloperLogs}
+							<button
+								class="manage-custom-apis-button"
+								onclick={onNavigateToDeveloperLogs}
+								type="button"
+							>
+								<span class="manage-custom-apis-text">
+									{$_('settings_view_logs_button')}
+									{#if $errorLogs.length > 0}
+										<span class="developer-logs-error-badge">{$errorLogs.length}</span>
+									{/if}
+								</span>
+								<ChevronRight size={16} />
+							</button>
+						{/if}
 
 						<!-- API Key input field -->
 						<div class="api-key-container mt-2.5">

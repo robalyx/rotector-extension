@@ -1,0 +1,297 @@
+/* =================================
+   DEVELOPER LOGS PAGE
+   ================================= */
+
+@utility developer-logs-container {
+	@apply flex flex-col w-full relative;
+	gap: 0.75rem;
+}
+
+@utility developer-logs-header {
+	@apply flex items-center justify-between;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--color-border);
+}
+
+@utility developer-logs-back-button {
+	@apply flex items-center;
+	gap: 0.25rem;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text-subtle);
+	background-color: transparent;
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: var(--color-text);
+		border-color: var(--color-text-subtle);
+		background-color: var(--color-hover);
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+@utility developer-logs-actions {
+	@apply flex items-center gap-1;
+}
+
+@utility developer-logs-action-button {
+	@apply flex items-center justify-center w-7 h-7 rounded border cursor-pointer transition-all duration-200;
+	border-color: var(--color-border);
+	background-color: var(--color-bg-content);
+	color: var(--color-text-subtle);
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-hover);
+		border-color: var(--color-text-subtle);
+		color: var(--color-text);
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	&.developer-logs-action-danger:hover:not(:disabled) {
+		background-color: var(--color-error);
+		border-color: var(--color-error);
+		color: white;
+	}
+}
+
+@utility developer-logs-title {
+	@apply m-0 text-center;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--color-text-heading);
+}
+
+/* =================================
+   FILTER TABS
+   ================================= */
+
+@utility developer-logs-filters {
+	@apply flex items-center gap-1;
+	padding: 0.25rem;
+	border-radius: 0.375rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility developer-logs-filter-tab {
+	@apply flex items-center justify-center gap-1 flex-1 px-2 py-1.5 rounded text-2xs font-medium cursor-pointer transition-all duration-200;
+	background-color: transparent;
+	border: none;
+	color: var(--color-text-subtle);
+
+	&:hover:not(.active) {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+
+	&.active {
+		background-color: var(--color-primary);
+		color: white;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+
+	&.developer-logs-filter-error.active {
+		background-color: var(--color-error);
+	}
+
+	&.developer-logs-filter-warn.active {
+		background-color: var(--color-warning);
+		color: var(--color-text-heading);
+	}
+}
+
+@utility developer-logs-filter-count {
+	@apply px-1.5 py-0.5 rounded-full text-3xs font-semibold;
+	background-color: color-mix(in srgb, currentColor 15%, transparent);
+
+	.active & {
+		background-color: rgba(255, 255, 255, 0.25);
+	}
+}
+
+/* =================================
+   LOG LIST
+   ================================= */
+
+@utility developer-logs-list {
+	@apply flex flex-col rounded-lg border overflow-hidden;
+	max-height: 300px;
+	overflow-y: auto;
+	border-color: var(--color-border-subtle);
+	background-color: var(--color-bg-content);
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border) transparent;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--color-border);
+		border-radius: 2px;
+	}
+}
+
+@utility developer-logs-loading {
+	@apply flex flex-col items-center gap-3 py-8 text-sm;
+	color: var(--color-text-subtle);
+}
+
+@utility developer-logs-empty {
+	@apply flex flex-col items-center gap-1 py-6 text-center;
+}
+
+@utility developer-logs-empty-title {
+	@apply m-0 text-sm font-medium;
+	color: var(--color-text);
+}
+
+@utility developer-logs-empty-hint {
+	@apply m-0 text-2xs;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   LOG ENTRY
+   ================================= */
+
+@utility developer-logs-entry {
+	@apply flex items-start gap-1.5 px-2 py-1.5 text-3xs;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+	border-bottom: 1px solid var(--color-border-subtle);
+
+	&:last-of-type {
+		border-bottom: none;
+	}
+
+	&.log-level-error {
+		background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+	}
+
+	&.log-level-warn {
+		background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
+	}
+}
+
+@utility developer-logs-entry-time {
+	@apply shrink-0;
+	color: var(--color-text-subtle);
+	font-variant-numeric: tabular-nums;
+}
+
+@utility developer-logs-entry-level {
+	@apply shrink-0 px-1 rounded font-semibold uppercase;
+	font-size: 0.5625rem;
+	letter-spacing: 0.05em;
+	background-color: color-mix(in srgb, var(--color-text-subtle) 15%, transparent);
+	color: var(--color-text-subtle);
+
+	.log-level-error & {
+		background-color: color-mix(in srgb, var(--color-error) 20%, transparent);
+		color: var(--color-error);
+	}
+
+	.log-level-warn & {
+		background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+		color: var(--color-warning);
+	}
+
+	.log-level-info & {
+		background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+		color: var(--color-primary);
+	}
+
+	.log-level-action & {
+		background-color: color-mix(in srgb, var(--color-success) 20%, transparent);
+		color: var(--color-success);
+	}
+
+	.log-level-api & {
+		background-color: color-mix(in srgb, #8b5cf6 20%, transparent);
+		color: #8b5cf6;
+	}
+}
+
+@utility developer-logs-entry-source {
+	@apply shrink-0 px-1 rounded;
+	font-size: 0.5625rem;
+	background-color: var(--color-hover);
+	color: var(--color-text-subtle);
+}
+
+@utility developer-logs-entry-message {
+	@apply flex-1 break-words;
+	color: var(--color-text);
+}
+
+@utility developer-logs-entry-data-toggle {
+	@apply shrink-0 w-4 h-4 flex items-center justify-center rounded cursor-pointer transition-all duration-200;
+	background-color: transparent;
+	border: none;
+	color: var(--color-text-subtle);
+	font-weight: 600;
+
+	&:hover {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+}
+
+@utility developer-logs-entry-data {
+	@apply mx-2 mb-2 p-2 rounded text-3xs overflow-x-auto;
+	background-color: var(--color-bg);
+	border: 1px solid var(--color-border-subtle);
+	color: var(--color-text-subtle);
+	white-space: pre-wrap;
+	word-break: break-word;
+	max-height: 150px;
+	margin-top: 0;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* =================================
+   TOAST NOTIFICATION
+   ================================= */
+
+@utility developer-logs-toast {
+	@apply absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium shadow-lg;
+	background-color: var(--color-success);
+	color: white;
+	animation: toast-slide-up 0.3s ease;
+}
+
+@keyframes toast-slide-up {
+	from {
+		opacity: 0;
+		transform: translate(-50%, 10px);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+}
+
+/* =================================
+   SETTINGS PAGE ERROR BADGE
+   ================================= */
+
+@utility developer-logs-error-badge {
+	@apply px-1.5 py-0.5 rounded-full text-3xs font-semibold;
+	background-color: var(--color-error);
+	color: white;
+}

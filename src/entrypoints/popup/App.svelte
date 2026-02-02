@@ -7,11 +7,13 @@
 	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
 	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
+	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import { initializeSettings, settings } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
+	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
@@ -23,7 +25,8 @@
 		| 'queue'
 		| 'custom-apis'
 		| 'custom-api-docs'
-		| 'rotector-api-docs';
+		| 'rotector-api-docs'
+		| 'developer-logs';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
@@ -47,6 +50,9 @@
 		loadQueueHistory().catch((error) => {
 			logger.error('Failed to load queue history:', error);
 		});
+		loadDeveloperLogs().catch((error) => {
+			logger.error('Failed to load developer logs:', error);
+		});
 	});
 
 	// Load last visited page from storage on mount
@@ -63,7 +69,8 @@
 						savedPage === 'queue' ||
 						savedPage === 'custom-apis' ||
 						savedPage === 'custom-api-docs' ||
-						savedPage === 'rotector-api-docs')
+						savedPage === 'rotector-api-docs' ||
+						savedPage === 'developer-logs')
 				) {
 					currentPage = savedPage;
 				} else {
@@ -122,6 +129,7 @@
 			{:else if currentPage === 'settings'}
 				<SettingsPage
 					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
+					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 					onNavigateToRotectorDocs={() => handlePageChange('rotector-api-docs')}
 				/>
 			{:else if currentPage === 'warzone'}
@@ -137,6 +145,8 @@
 				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
 			{:else if currentPage === 'rotector-api-docs'}
 				<RotectorApiDocumentation onBack={() => handlePageChange('settings')} />
+			{:else if currentPage === 'developer-logs'}
+				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
 			{/if}
 		{/if}
 	</div>

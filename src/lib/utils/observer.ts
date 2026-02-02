@@ -1,4 +1,5 @@
 import { logger } from './logger';
+import { startTrace, TRACE_CATEGORIES } from './perf-tracer';
 import { OBSERVER_CONFIG } from '../types/constants';
 
 interface ObserverConfig {
@@ -146,6 +147,10 @@ class ObserverManager extends Observer {
 					return;
 				}
 
+				const endTrace = startTrace(TRACE_CATEGORIES.OBSERVER, `${this.name}.mutation`, {
+					mutationCount: mutations.length
+				});
+
 				// Call the callback first (for custom processing)
 				this.config.callback(mutations, observer);
 
@@ -153,6 +158,8 @@ class ObserverManager extends Observer {
 				if (this.config.onNewMutations) {
 					this.config.onNewMutations(mutations);
 				}
+
+				endTrace();
 			});
 
 			this.observer.observe(target, this.config.observerOptions);
@@ -319,10 +326,7 @@ class ObserverManager extends Observer {
 		if (!target) {
 			logger.warn(`${this.name} observer: Health check failed - target element lost`);
 			this.scheduleRestart();
-			return;
 		}
-
-		logger.debug(`${this.name} observer: Health check passed`);
 	}
 
 	// Starts the health check timer

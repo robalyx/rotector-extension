@@ -37,10 +37,15 @@
 		onNavigateToCustomApis?: () => void;
 		onNavigateToRotectorDocs?: () => void;
 		onNavigateToDeveloperLogs?: () => void;
+		onNavigateToPerformance?: () => void;
 	}
 
-	let { onNavigateToCustomApis, onNavigateToRotectorDocs, onNavigateToDeveloperLogs }: Props =
-		$props();
+	let {
+		onNavigateToCustomApis,
+		onNavigateToRotectorDocs,
+		onNavigateToDeveloperLogs,
+		onNavigateToPerformance
+	}: Props = $props();
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
@@ -452,6 +457,20 @@
 									{#if $errorLogs.length > 0}
 										<span class="developer-logs-error-badge">{$errorLogs.length}</span>
 									{/if}
+								</span>
+								<ChevronRight size={16} />
+							</button>
+						{/if}
+
+						<!-- View Performance Button -->
+						{#if onNavigateToPerformance}
+							<button
+								class="manage-custom-apis-button"
+								onclick={onNavigateToPerformance}
+								type="button"
+							>
+								<span class="manage-custom-apis-text">
+									{$_('settings_view_performance_button')}
 								</span>
 								<ChevronRight size={16} />
 							</button>

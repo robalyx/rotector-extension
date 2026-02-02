@@ -1,4 +1,5 @@
 import { logger } from './logger';
+import { logElementWaitResult } from './perf-tracer';
 import { RETRY_CONFIG } from '../types/constants';
 
 interface WaitForElementOptions {
@@ -55,12 +56,14 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
 				}
 			});
 
-			return {
+			const result = {
 				element,
 				attempts: attempt,
 				totalTime,
 				success: true
 			};
+			logElementWaitResult(selector, result);
+			return result;
 		}
 
 		// Log retry attempt
@@ -89,10 +92,12 @@ export async function waitForElement<T extends HTMLElement = HTMLElement>(
 		finalDelay: currentDelay
 	});
 
-	return {
+	const result = {
 		element: null,
 		attempts: attempt,
 		totalTime,
 		success: false
 	};
+	logElementWaitResult(selector, result);
+	return result;
 }

@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
 import type { PageType } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
@@ -28,6 +29,13 @@ export abstract class PageController {
 			return;
 		}
 
+		const endTrace = startTrace(
+			TRACE_CATEGORIES.CONTROLLER,
+			`${this.constructor.name}.initialize`,
+			{
+				pageType: this.pageType
+			}
+		);
 		try {
 			logger.debug(`Initializing ${this.constructor.name}`);
 
@@ -42,6 +50,8 @@ export abstract class PageController {
 		} catch (error) {
 			logger.error(`Failed to initialize ${this.constructor.name}:`, error);
 			throw error;
+		} finally {
+			endTrace();
 		}
 	}
 
@@ -71,6 +81,9 @@ export abstract class PageController {
 
 	// Cleanup all resources
 	async cleanup(): Promise<void> {
+		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, `${this.constructor.name}.cleanup`, {
+			pageType: this.pageType
+		});
 		try {
 			logger.debug(`Cleaning up ${this.constructor.name}`);
 
@@ -87,6 +100,8 @@ export abstract class PageController {
 			logger.debug(`${this.constructor.name} cleanup completed`);
 		} catch (error) {
 			logger.error(`Failed to cleanup ${this.constructor.name}:`, error);
+		} finally {
+			endTrace();
 		}
 	}
 
@@ -116,6 +131,10 @@ export abstract class PageController {
 		target: HTMLElement,
 		props: Record<string, any> = {} // eslint-disable-line @typescript-eslint/no-explicit-any
 	): { element: HTMLElement; cleanup: () => void } {
+		const endTrace = startTrace(TRACE_CATEGORIES.COMPONENT, 'mountComponent', {
+			target: target.tagName,
+			pageType: this.pageType
+		});
 		try {
 			logger.debug(`Mounting component to`, { target: target.tagName, props });
 
@@ -158,8 +177,10 @@ export abstract class PageController {
 			const mountedComponent = { element: target, cleanup };
 			this.mountedComponents.push(mountedComponent);
 
+			endTrace();
 			return mountedComponent;
 		} catch (error) {
+			endTrace({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
 			logger.error('Failed to mount component:', error);
 			throw error;
 		}

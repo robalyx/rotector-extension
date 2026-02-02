@@ -267,9 +267,23 @@ async function handleCaptchaError(
 	logger.error('Captcha verification failed:', error);
 }
 
+// Clear developer logs and performance entries on startup to prevent unbounded growth
+async function clearDevDataOnStartup(): Promise<void> {
+	try {
+		await browser.storage.local.remove(['developerLogs', 'performanceEntries']);
+		logger.debug('Developer logs and performance entries cleared on startup');
+	} catch (error) {
+		logger.warn('Failed to clear dev data on startup:', error);
+	}
+}
+
 export default defineBackground(() => {
 	logger.info('Rotector Background Script: Starting...', {
 		id: browser.runtime.id
+	});
+
+	clearDevDataOnStartup().catch((err) => {
+		logger.warn('Failed to clear dev data:', err);
 	});
 
 	initializeSettings().catch((err) => {

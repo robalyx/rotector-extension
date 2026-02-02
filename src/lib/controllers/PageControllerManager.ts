@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { sanitizeUrl } from '../utils/sanitizer';
 import { normalizePathname } from '../utils/page-detection';
 import { PAGE_TYPES } from '../types/constants';
@@ -56,6 +57,7 @@ export class PageControllerManager {
 		}
 
 		this.isNavigating = true;
+		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, 'handleNavigation', { url });
 		try {
 			const sanitizedUrl = sanitizeUrl(url);
 			if (!sanitizedUrl) {
@@ -75,6 +77,7 @@ export class PageControllerManager {
 		} catch (error) {
 			logger.error('Failed to handle navigation:', error, { url });
 		} finally {
+			endTrace();
 			this.isNavigating = false;
 		}
 	}
@@ -99,6 +102,7 @@ export class PageControllerManager {
 
 	// Switch to a specific page controller
 	private async switchToController(pageType: PageType, url: string): Promise<void> {
+		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, 'switchToController', { pageType });
 		try {
 			// Clean up current controller if page type is different or URL changed
 			if (
@@ -127,6 +131,8 @@ export class PageControllerManager {
 		} catch (error) {
 			logger.error(`Failed to switch to controller for ${pageType}:`, error);
 			await this.cleanupCurrentController();
+		} finally {
+			endTrace();
 		}
 	}
 

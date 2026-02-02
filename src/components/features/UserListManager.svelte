@@ -18,6 +18,7 @@
 	} from '@/lib/types/constants';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
+	import { startTrace, TRACE_CATEGORIES } from '@/lib/utils/perf-tracer';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import type { PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
@@ -402,6 +403,10 @@
 
 	// Process new users found by the observer
 	async function handleNewUsers(items: Element[]) {
+		const endTrace = startTrace(TRACE_CATEGORIES.DOM, 'handleNewUsers', {
+			itemCount: items.length,
+			pageType
+		});
 		try {
 			// Figure out which elements are new vs which ones Roblox is reusing
 			const unprocessedElements: Element[] = [];
@@ -528,6 +533,8 @@
 		} catch (error) {
 			logger.error('Failed to process new users:', error);
 			onError?.('Failed to process user list');
+		} finally {
+			endTrace();
 		}
 	}
 
@@ -614,6 +621,10 @@
 
 	// Load user statuses from API with caching
 	async function loadUserStatuses(users: UserDetails[]) {
+		const endTrace = startTrace(TRACE_CATEGORIES.API, 'loadUserStatuses', {
+			userCount: users.length,
+			pageType
+		});
 		try {
 			const userIds = users.map((u) => u.userId);
 
@@ -640,11 +651,18 @@
 			users.forEach((u) => loadingUsers.delete(u.userId));
 
 			onError?.('Failed to load user status information');
+		} finally {
+			endTrace();
 		}
 	}
 
 	// Mount status indicator for a user
 	function mountStatusIndicator(user: UserDetails, isLoading = false) {
+		const endTrace = startTrace(TRACE_CATEGORIES.COMPONENT, 'mountStatusIndicator', {
+			userId: user.userId,
+			isLoading,
+			pageType
+		});
 		try {
 			const status = userStatuses.get(user.userId);
 
@@ -749,7 +767,9 @@
 				isLoading,
 				isModalItem
 			});
+			endTrace();
 		} catch (error) {
+			endTrace({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
 			logger.error('Failed to mount status indicator:', error, {
 				userId: user.userId,
 				pageType,

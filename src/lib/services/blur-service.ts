@@ -11,6 +11,7 @@ import {
 import type { CombinedStatus } from '../types/custom-api';
 import type { PageType } from '../types/api';
 import { waitForElement } from '../utils/element-waiter';
+import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 
 type BlurContentType = 'displayName' | 'username' | 'description' | 'avatar';
 
@@ -518,6 +519,11 @@ function markAllElements(
  */
 export function markUserElementForBlur(element: Element, userId: string, pageType: PageType): void {
 	if (!isBlurEnabled() || isUserRevealed(userId)) return;
+
+	const endTrace = startTrace(TRACE_CATEGORIES.BLUR, 'markUserElementForBlur', {
+		userId,
+		pageType
+	});
 	const { displayNames, usernames, avatars } = getBlurSettings();
 
 	const isModalItem = element.closest(GROUPS_MODAL_SELECTORS.MODAL) !== null;
@@ -540,6 +546,7 @@ export function markUserElementForBlur(element: Element, userId: string, pageTyp
 		if (usernames) markElement(element, sel.username, userId, 'username');
 		if (avatars) markElement(element, sel.avatar, userId, 'avatar');
 	}
+	endTrace();
 }
 
 /**
@@ -810,12 +817,14 @@ function cleanupBlurElement(el: Element): void {
  * Reveal (unblur) user content based on reason types.
  */
 export function revealUserElement(element: Element, status: CombinedStatus): void {
+	const endTrace = startTrace(TRACE_CATEGORIES.BLUR, 'revealUserElement');
 	const blurNames = hasReason(status, PROFILE_REASON_KEY);
 	const blurAvatars = hasReason(status, OUTFIT_REASON_KEY);
 
 	if (!blurNames && !blurAvatars) {
 		element.classList.add('blur-revealed');
 		element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach(cleanupBlurElement);
+		endTrace();
 		return;
 	}
 
@@ -826,6 +835,7 @@ export function revealUserElement(element: Element, status: CombinedStatus): voi
 			cleanupBlurElement(el);
 		}
 	});
+	endTrace();
 }
 
 /**

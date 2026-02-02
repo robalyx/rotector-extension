@@ -8,12 +8,14 @@
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
 	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
+	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import { initializeSettings, settings } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
+	import { loadPerformanceEntries } from '@/lib/stores/performance';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
@@ -26,7 +28,8 @@
 		| 'custom-apis'
 		| 'custom-api-docs'
 		| 'rotector-api-docs'
-		| 'developer-logs';
+		| 'developer-logs'
+		| 'performance';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
@@ -53,6 +56,9 @@
 		loadDeveloperLogs().catch((error) => {
 			logger.error('Failed to load developer logs:', error);
 		});
+		loadPerformanceEntries().catch((error) => {
+			logger.error('Failed to load performance entries:', error);
+		});
 	});
 
 	// Load last visited page from storage on mount
@@ -70,7 +76,8 @@
 						savedPage === 'custom-apis' ||
 						savedPage === 'custom-api-docs' ||
 						savedPage === 'rotector-api-docs' ||
-						savedPage === 'developer-logs')
+						savedPage === 'developer-logs' ||
+						savedPage === 'performance')
 				) {
 					currentPage = savedPage;
 				} else {
@@ -130,6 +137,7 @@
 				<SettingsPage
 					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
+					onNavigateToPerformance={() => handlePageChange('performance')}
 					onNavigateToRotectorDocs={() => handlePageChange('rotector-api-docs')}
 				/>
 			{:else if currentPage === 'warzone'}
@@ -147,6 +155,8 @@
 				<RotectorApiDocumentation onBack={() => handlePageChange('settings')} />
 			{:else if currentPage === 'developer-logs'}
 				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
+			{:else if currentPage === 'performance'}
+				<PerformanceDashboard onBack={() => handlePageChange('settings')} />
 			{/if}
 		{/if}
 	</div>

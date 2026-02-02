@@ -128,3 +128,19 @@ export function formatActiveDuration(dateString: string): string {
 		return `${diffDays}d`;
 	}
 }
+
+/**
+ * Formats milliseconds to a human-readable duration string
+ */
+export function formatDurationMs(ms: number): string {
+	if (ms < 1) return '<1ms';
+	if (ms < 1000) return `${ms.toFixed(1)}ms`;
+	return `${(ms / 1000).toFixed(2)}s`;
+}
+
+/**
+ * Formats a timestamp to time-of-day string (HH:MM:SS)
+ */
+export function formatTimeOfDay(timestamp: number): string {
+	return new Date(timestamp).toISOString().slice(11, 19);
+}

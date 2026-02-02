@@ -53,8 +53,9 @@
 /* Queue Page */
 @import './popup/queue/history.css';
 
-/* Developer Logs */
+/* Developer Observability */
 @import './popup/developer/logs.css';
+@import './popup/developer/performance.css';
 
 /* Custom API Management */
 @import './popup/api/management.css';

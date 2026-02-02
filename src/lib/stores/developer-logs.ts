@@ -22,10 +22,10 @@ export const warningLogs = derived(developerLogs, ($logs) =>
 	$logs.filter((log) => log.level === LOG_LEVELS.WARN)
 );
 
-// Load logs from session storage
+// Load logs from local storage
 export async function loadDeveloperLogs(): Promise<void> {
 	try {
-		const result = await browser.storage.session.get([DEVELOPER_LOGS_KEY]);
+		const result = await browser.storage.local.get([DEVELOPER_LOGS_KEY]);
 		const stored = result[DEVELOPER_LOGS_KEY] as LogEntry[] | undefined;
 		developerLogs.set(stored ?? []);
 	} catch (error) {
@@ -35,10 +35,10 @@ export async function loadDeveloperLogs(): Promise<void> {
 	}
 }
 
-// Save logs to session storage
+// Save logs to local storage
 async function saveDeveloperLogs(entries: LogEntry[]): Promise<void> {
 	try {
-		await browser.storage.session.set({ [DEVELOPER_LOGS_KEY]: entries });
+		await browser.storage.local.set({ [DEVELOPER_LOGS_KEY]: entries });
 		developerLogs.set(entries);
 	} catch (error) {
 		// eslint-disable-next-line no-console
@@ -53,7 +53,7 @@ export async function addLogEntry(entry: Omit<LogEntry, 'id'>): Promise<void> {
 
 	writeQueue = writeQueue.then(async () => {
 		// Read latest from storage to avoid overwriting concurrent writes
-		const result = await browser.storage.session.get([DEVELOPER_LOGS_KEY]);
+		const result = await browser.storage.local.get([DEVELOPER_LOGS_KEY]);
 		const current = (result[DEVELOPER_LOGS_KEY] as LogEntry[] | undefined) ?? [];
 		const updated = [newEntry, ...current].slice(0, MAX_LOG_ENTRIES);
 		await saveDeveloperLogs(updated);
@@ -160,7 +160,7 @@ export function formatLogsForCopy(exportData: LogExport): string {
 
 // Listen for storage changes from other contexts
 browser.storage.onChanged.addListener((changes, namespace) => {
-	if (namespace === 'session' && changes[DEVELOPER_LOGS_KEY]) {
+	if (namespace === 'local' && changes[DEVELOPER_LOGS_KEY]) {
 		const newValue = changes[DEVELOPER_LOGS_KEY].newValue as LogEntry[] | undefined;
 		developerLogs.set(newValue ?? []);
 	}

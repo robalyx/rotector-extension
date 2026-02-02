@@ -6,6 +6,7 @@ import { restrictedAccessStore } from '../stores/restricted-access';
 import { settings } from '../stores/settings';
 import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
+import { startTrace, traceAsync, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { chunkArray } from '../utils/array';
 import { API_CONFIG, STATUS } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
@@ -84,29 +85,36 @@ export async function queryUser(userId: string): Promise<CombinedStatus> {
 		return createRestrictedResult();
 	}
 
-	const enabledApis = getEnabledCustomApis();
+	return traceAsync(
+		TRACE_CATEGORIES.API,
+		'queryUser',
+		async () => {
+			const enabledApis = getEnabledCustomApis();
 
-	// Query all APIs in parallel
-	const results = await Promise.allSettled(
-		enabledApis.map(async (api) =>
-			api.isSystem && api.id === ROTECTOR_API_ID
-				? apiClient.checkUser(userId)
-				: apiClient.checkUser(userId, { apiConfig: api })
-		)
+			// Query all APIs in parallel
+			const results = await Promise.allSettled(
+				enabledApis.map(async (api) =>
+					api.isSystem && api.id === ROTECTOR_API_ID
+						? apiClient.checkUser(userId)
+						: apiClient.checkUser(userId, { apiConfig: api })
+				)
+			);
+
+			// Format results
+			const customApiResults = new Map(
+				enabledApis.map((api, i) => [api.id, formatApiResult(api, results[i])])
+			);
+
+			logger.debug('Unified query completed:', {
+				userId,
+				totalApis: enabledApis.length,
+				successfulApis: Array.from(customApiResults.values()).filter((r) => r.data).length
+			});
+
+			return { customApis: customApiResults };
+		},
+		{ userId }
 	);
-
-	// Format results
-	const customApiResults = new Map(
-		enabledApis.map((api, i) => [api.id, formatApiResult(api, results[i])])
-	);
-
-	logger.debug('Unified query completed:', {
-		userId,
-		totalApis: enabledApis.length,
-		successfulApis: Array.from(customApiResults.values()).filter((r) => r.data).length
-	});
-
-	return { customApis: customApiResults };
 }
 
 // Query a single user with progressive updates as each API completes
@@ -187,6 +195,10 @@ export async function queryMultipleUsers(
 		return new Map(userIds.map((userId) => [userId, restrictedResult]));
 	}
 
+	const endTrace = startTrace(TRACE_CATEGORIES.API, 'queryMultipleUsers', {
+		userCount: userIds.length,
+		lookupContext
+	});
 	const enabledApis = getEnabledCustomApis();
 
 	// Initialize results map
@@ -290,6 +302,7 @@ export async function queryMultipleUsers(
 		totalApis: enabledApis.length
 	});
 
+	endTrace();
 	return results;
 }
 

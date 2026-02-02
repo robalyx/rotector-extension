@@ -28,9 +28,9 @@
 	// UI state
 	let saving = $state(false);
 
-	const isEditing = $derived(() => editingApi !== null);
-	const modalTitle = $derived(() =>
-		isEditing() ? $_('custom_api_form_title_edit') : $_('custom_api_form_title_add')
+	const isEditing = $derived(editingApi !== null);
+	const modalTitle = $derived(
+		isEditing ? $_('custom_api_form_title_edit') : $_('custom_api_form_title_add')
 	);
 
 	// Validate name
@@ -176,7 +176,7 @@
 		saving = true;
 
 		try {
-			if (isEditing() && editingApi) {
+			if (isEditing && editingApi) {
 				// Check if URL changed
 				const urlChanged = url.trim() !== editingApi.url;
 
@@ -241,7 +241,7 @@
 	onConfirm={handleSave}
 	showCancel={true}
 	size="normal"
-	title={modalTitle()}
+	title={modalTitle}
 >
 	<div class="custom-api-form">
 		<!-- Name Field -->

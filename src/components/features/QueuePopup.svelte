@@ -63,7 +63,7 @@
 	let captchaSessionId = $state<string | null>(null);
 
 	// Sanitize user ID for display and API calls
-	const sanitizedUserId = $derived(() => {
+	const sanitizedUserId = $derived.by(() => {
 		const id = sanitizeEntityId(userId);
 		return id ? id.toString() : '';
 	});
@@ -83,22 +83,21 @@
 	// Check if this is a self-lookup
 	const isSelfLookup = $derived.by(() => {
 		const clientId = getLoggedInUserId();
-		const id = sanitizedUserId();
-		return clientId !== null && id !== '' && clientId === id;
+		return clientId !== null && sanitizedUserId !== '' && clientId === sanitizedUserId;
 	});
 
 	// Hide queue limits for restricted self-lookups
 	const hideQueueLimits = $derived(isRestricted && isSelfLookup);
 
 	// Get outfit limit from queue limits
-	const outfitLimit = $derived(() => {
+	const outfitLimit = $derived.by(() => {
 		if (!queueLimitsRef) return 0;
 		const state = queueLimitsRef.getState();
 		return state.queueLimits?.outfit.remaining ?? 0;
 	});
 
 	// Determine if submission is allowed
-	const canSubmit = $derived(() => {
+	const canSubmit = $derived.by(() => {
 		if (submitting || awaitingCaptcha) return false;
 		if (hideQueueLimits) return true;
 		if (!queueLimitsRef) return false;
@@ -117,7 +116,7 @@
 
 		try {
 			logger.userAction('queue_popup_confirm', {
-				userId: sanitizedUserId(),
+				userId: sanitizedUserId,
 				isReanalysis,
 				profileCheck,
 				friendsCheck,
@@ -130,7 +129,7 @@
 				type: CAPTCHA_MESSAGES.CAPTCHA_START,
 				sessionId,
 				queueData: {
-					userId: sanitizedUserId(),
+					userId: sanitizedUserId,
 					outfitNames: selectedOutfitNames.length > 0 ? selectedOutfitNames : [],
 					inappropriateProfile: profileCheck === 'thorough',
 					inappropriateFriends: friendsCheck === 'thorough',
@@ -148,7 +147,7 @@
 
 	// Handle cancellation
 	function handleCancel() {
-		logger.userAction('queue_popup_cancel', { userId: sanitizedUserId() });
+		logger.userAction('queue_popup_cancel', { userId: sanitizedUserId });
 
 		if (onCancel) {
 			onCancel();
@@ -245,7 +244,7 @@
 <Modal
 	actionsLayout="horizontal"
 	cancelText={$_('queue_popup_cancel_button')}
-	confirmDisabled={!canSubmit()}
+	confirmDisabled={!canSubmit}
 	confirmText={submitting ? $_('queue_popup_submitting_button') : $_('queue_popup_submit_button')}
 	confirmVariant="queue"
 	icon="warning"
@@ -257,9 +256,9 @@
 	<div>
 		<p class="text-text mb-4!">
 			{#if isReanalysis}
-				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId() } })}
+				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId } })}
 			{:else}
-				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId() } })}
+				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId } })}
 			{/if}
 		</p>
 
@@ -384,10 +383,10 @@
 
 				<!-- Outfit Picker -->
 				<OutfitPicker
-					disabled={outfitLimit() === 0}
-					maxSelections={outfitLimit()}
+					disabled={outfitLimit === 0}
+					maxSelections={outfitLimit}
 					onSelectionChange={(names: string[]) => (selectedOutfitNames = names)}
-					userId={sanitizedUserId()}
+					userId={sanitizedUserId}
 					bind:selectedOutfits={selectedOutfitNames}
 				/>
 			</div>

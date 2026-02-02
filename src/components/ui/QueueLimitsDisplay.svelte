@@ -19,7 +19,7 @@
 	let error = $state<string | null>(null);
 
 	// Calculate time until reset
-	const timeUntilReset = $derived(() => {
+	const timeUntilReset = $derived.by(() => {
 		if (!queueLimits) return '';
 
 		const now = Math.floor(Date.now() / 1000);
@@ -39,14 +39,14 @@
 	});
 
 	// Calculate usage percentage
-	const usagePercentage = $derived(() => {
+	const usagePercentage = $derived.by(() => {
 		if (!queueLimits || queueLimits.limit === 0) return 0;
 		const pct = Math.round((queueLimits.current_usage / queueLimits.limit) * 100);
 		return Math.max(0, Math.min(100, pct));
 	});
 
 	// Calculate outfit usage percentage
-	const outfitUsagePercentage = $derived(() => {
+	const outfitUsagePercentage = $derived.by(() => {
 		if (!queueLimits || queueLimits.outfit.limit === 0) return 0;
 		const pct = Math.round((queueLimits.outfit.current_usage / queueLimits.outfit.limit) * 100);
 		return Math.max(0, Math.min(100, pct));
@@ -198,12 +198,12 @@
 					})}
 					aria-valuemax="100"
 					aria-valuemin="0"
-					aria-valuenow={usagePercentage()}
+					aria-valuenow={usagePercentage}
 					role="progressbar"
 				>
 					<div
-						style:width="{usagePercentage()}%"
-						class="{classes.progressFill} {getUsageClass(usagePercentage())}"
+						style:width="{usagePercentage}%"
+						class="{classes.progressFill} {getUsageClass(usagePercentage)}"
 					></div>
 				</div>
 			</div>
@@ -240,12 +240,12 @@
 					})}
 					aria-valuemax="100"
 					aria-valuemin="0"
-					aria-valuenow={outfitUsagePercentage()}
+					aria-valuenow={outfitUsagePercentage}
 					role="progressbar"
 				>
 					<div
-						style:width="{outfitUsagePercentage()}%"
-						class="{classes.progressFill} {getUsageClass(outfitUsagePercentage())}"
+						style:width="{outfitUsagePercentage}%"
+						class="{classes.progressFill} {getUsageClass(outfitUsagePercentage)}"
 					></div>
 				</div>
 			</div>
@@ -267,7 +267,7 @@
 				<!-- Reset Timer -->
 				<div class={classes.resetTimer}>
 					<span class={classes.resetLabel}>{$_('stats_queue_resets_in')}</span>
-					<span class={classes.resetTime}>{timeUntilReset()}</span>
+					<span class={classes.resetTime}>{timeUntilReset}</span>
 				</div>
 			</div>
 		</div>

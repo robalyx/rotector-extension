@@ -15,22 +15,16 @@
 	let { isOpen = $bindable(), userId, errorData, onClose }: Props = $props();
 
 	// Computed values
-	const sanitizedUserId = $derived(() => {
+	const sanitizedUserId = $derived.by(() => {
 		const id = sanitizeEntityId(userId);
 		return id ? id.toString() : '';
 	});
 
-	const errorMessage = $derived(() => {
-		return errorData.error || $_('queue_error_modal_unknown_error');
-	});
+	const errorMessage = $derived(errorData.error || $_('queue_error_modal_unknown_error'));
 
-	const requestId = $derived(() => {
-		return errorData.requestId || 'N/A';
-	});
+	const requestId = $derived(errorData.requestId || 'N/A');
 
-	const errorCode = $derived(() => {
-		return errorData.code || 'UNKNOWN_ERROR';
-	});
+	const errorCode = $derived(errorData.code || 'UNKNOWN_ERROR');
 
 	// Handle close
 	function handleClose() {
@@ -54,7 +48,7 @@
 >
 	<div>
 		<p class="text-text mb-4!">
-			{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId() } })}
+			{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId } })}
 		</p>
 
 		<div class="modal-content-section-warning">
@@ -64,16 +58,16 @@
 			</h3>
 			<div>
 				<p class="text-text">
-					{errorMessage()}
+					{errorMessage}
 				</p>
 				<br />
 				<p class="text-text-subtle text-sm">
 					<strong>{$_('queue_error_modal_error_code_label')}</strong>
-					{errorCode()}
+					{errorCode}
 				</p>
 				<p class="text-text-subtle text-sm">
 					<strong>{$_('queue_error_modal_request_id_label')}</strong>
-					{requestId()}
+					{requestId}
 				</p>
 			</div>
 		</div>

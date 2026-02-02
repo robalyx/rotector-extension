@@ -38,16 +38,14 @@
 	let userInfo: UserInfo | null = $state(null);
 
 	// Computed values
-	const sanitizedUserId = $derived(() => {
+	const sanitizedUserId = $derived.by(() => {
 		const id = sanitizeEntityId(userId);
 		return id ? id.toString() : '';
 	});
 
-	const displayName = $derived(() => {
-		return username || `User ${sanitizedUserId()}`;
-	});
+	const displayName = $derived(username || `User ${sanitizedUserId}`);
 
-	const warningConfig = $derived(() => {
+	const warningConfig = $derived.by(() => {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		const rawConfidence = rotector?.data?.confidence ?? 0;
 		const confidence = Math.round(rawConfidence * 100);
@@ -67,7 +65,7 @@
 	function handleProceed() {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_proceed', {
-			userId: sanitizedUserId(),
+			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType
 		});
 
@@ -82,7 +80,7 @@
 	function handleCancel() {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_cancel', {
-			userId: sanitizedUserId(),
+			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType
 		});
 
@@ -97,7 +95,7 @@
 	function handleBlock() {
 		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_block', {
-			userId: sanitizedUserId(),
+			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType
 		});
 
@@ -110,8 +108,8 @@
 
 	// Extract user info from the page DOM
 	function extractUserInfo(): UserInfo | null {
-		const userId = sanitizedUserId();
-		if (!userId) return null;
+		const extractedUserId = sanitizedUserId;
+		if (!extractedUserId) return null;
 
 		let username = 'Unknown User';
 		let avatarUrl: string | undefined;
@@ -157,7 +155,7 @@
 			}
 		}
 
-		return { userId, username, avatarUrl };
+		return { userId: extractedUserId, username, avatarUrl };
 	}
 
 	// Update user info when component mounts
@@ -196,10 +194,10 @@
 			</div>
 			<div class="friend-warning-user-info-details">
 				<div class="friend-warning-user-info-name">
-					{userInfo?.username || displayName()}
+					{userInfo?.username || displayName}
 				</div>
 				<div class="friend-warning-user-info-id">
-					{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId() } })}
+					{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId } })}
 				</div>
 			</div>
 		</div>
@@ -212,10 +210,10 @@
 			<div class="friend-warning-risk-message">
 				{$_('friend_warning_risk_message')}
 			</div>
-			{#if warningConfig().confidence > 0}
+			{#if warningConfig.confidence > 0}
 				<div class="friend-warning-risk-confidence">
 					{$_('friend_warning_confidence_label', {
-						values: { 0: String(warningConfig().confidence) }
+						values: { 0: String(warningConfig.confidence) }
 					})}
 				</div>
 			{/if}

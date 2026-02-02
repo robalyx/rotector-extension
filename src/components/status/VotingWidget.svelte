@@ -15,7 +15,7 @@
 	let { voteData = null, loading = false, error = null, onVote }: Props = $props();
 
 	// Computed values
-	const voteStats = $derived(() => {
+	const voteStats = $derived.by(() => {
 		if (!voteData) {
 			return {
 				upvotes: 0,
@@ -38,20 +38,16 @@
 		};
 	});
 
-	const fillWidth = $derived(() => {
-		return `${voteStats().percentage}%`;
-	});
+	const fillWidth = $derived(`${voteStats.percentage}%`);
 
 	// Handle vote submission
 	function handleVoteClick(voteType: number) {
 		if (loading || !onVote) return;
 
-		const stats = voteStats();
-
 		logger.userAction('voting_widget_click', {
 			voteType,
-			previousVote: stats.currentVote,
-			action: stats.currentVote === voteType ? 'undo_vote' : 'change_vote'
+			previousVote: voteStats.currentVote,
+			action: voteStats.currentVote === voteType ? 'undo_vote' : 'change_vote'
 		});
 
 		onVote(voteType);
@@ -66,8 +62,8 @@
 			{#if loading}
 				{$_('voting_loading')}
 			{:else}
-				{$_(voteStats().totalVotes === 1 ? 'voting_count_singular' : 'voting_count_plural', {
-					values: { 0: voteStats().totalVotes.toString() }
+				{$_(voteStats.totalVotes === 1 ? 'voting_count_singular' : 'voting_count_plural', {
+					values: { 0: voteStats.totalVotes.toString() }
 				})}
 			{/if}
 		</span>
@@ -76,14 +72,14 @@
 	<!-- Vote bar and stats -->
 	<div class="voting-bar">
 		<div class="voting-meter">
-			<div style:width={fillWidth()} class="voting-meter-fill"></div>
+			<div style:width={fillWidth} class="voting-meter-fill"></div>
 		</div>
 		<div class="voting-stats">
 			<span class="voting-percentage">
-				{loading ? '-' : `${voteStats().percentage}%`}
+				{loading ? '-' : `${voteStats.percentage}%`}
 			</span>
 			<span class="voting-ratio">
-				{loading ? '-' : `${voteStats().upvotes} / ${voteStats().totalVotes}`}
+				{loading ? '-' : `${voteStats.upvotes} / ${voteStats.totalVotes}`}
 			</span>
 		</div>
 	</div>
@@ -92,7 +88,7 @@
 	<div class="voting-buttons">
 		<button
 			class="voting-upvote voting-button"
-			class:voting-button-upvote-active={voteStats().currentVote === VOTE_TYPES.UPVOTE}
+			class:voting-button-upvote-active={voteStats.currentVote === VOTE_TYPES.UPVOTE}
 			aria-label={$_('voting_aria_agree')}
 			disabled={loading}
 			onclick={(e) => {
@@ -107,7 +103,7 @@
 
 		<button
 			class="voting-downvote voting-button"
-			class:voting-button-downvote-active={voteStats().currentVote === VOTE_TYPES.DOWNVOTE}
+			class:voting-button-downvote-active={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
 			aria-label={$_('voting_aria_disagree')}
 			disabled={loading}
 			onclick={(e) => {

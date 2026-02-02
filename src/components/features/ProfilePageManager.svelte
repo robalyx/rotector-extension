@@ -52,7 +52,7 @@
 	let userStatus = $state<CombinedStatus | null>(null);
 
 	// Check if user is flagged by any API
-	const userIsFlagged = $derived(() => isFlagged(userStatus));
+	const userIsFlagged = $derived(isFlagged(userStatus));
 
 	// Component state
 	let friendWarningOpen = $state(false);
@@ -238,7 +238,7 @@
 	// Set up friend warning if applicable
 	async function setupFriendWarning() {
 		try {
-			if (!userIsFlagged()) return;
+			if (!userIsFlagged) return;
 
 			// Get the active friend button based on header version
 			const friendButton = await getActiveFriendButton();
@@ -610,7 +610,7 @@
 </script>
 
 <!-- Friend Warning Modal -->
-{#if userIsFlagged()}
+{#if userIsFlagged}
 	<FriendWarning
 		isOpen={friendWarningOpen}
 		onBlock={handleFriendBlock}

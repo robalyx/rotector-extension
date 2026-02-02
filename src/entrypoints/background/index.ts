@@ -1,6 +1,17 @@
-import type { ApiResponse, ContentMessage, ExtensionUserProfile } from '@/lib/types/api';
+import type {
+	ApiResponse,
+	CaptchaSession,
+	ContentMessage,
+	ExtensionUserProfile
+} from '@/lib/types/api';
 import type { QueueHistoryEntry } from '@/lib/types/queue-history';
-import { API_ACTIONS, DISCORD_OAUTH_MESSAGES } from '@/lib/types/constants';
+import {
+	API_ACTIONS,
+	API_CONFIG,
+	CAPTCHA_EXTERNAL_MESSAGES,
+	CAPTCHA_MESSAGES,
+	DISCORD_OAUTH_MESSAGES
+} from '@/lib/types/constants';
 import { getAssetUrl } from '@/lib/utils/assets';
 import { logger } from '@/lib/utils/logger';
 import {
@@ -115,6 +126,147 @@ async function initializeQueuePolling(): Promise<void> {
 	});
 }
 
+// Handle captcha start by storing session and opening popup
+async function handleCaptchaStart(request: {
+	sessionId?: string;
+	queueData?: Omit<CaptchaSession, 'sessionId' | 'timestamp'>;
+}): Promise<void> {
+	const { sessionId, queueData } = request;
+
+	if (!sessionId || !queueData) {
+		throw new Error('Missing sessionId or queueData for captcha start');
+	}
+
+	// Store pending captcha session
+	const session: CaptchaSession = {
+		sessionId,
+		...queueData,
+		timestamp: Date.now()
+	};
+	await browser.storage.local.set({
+		[`captcha_session_${sessionId}`]: session
+	});
+
+	// Build captcha URL
+	const captchaUrl = new URL(`${API_CONFIG.BASE_URL}/captcha`);
+	captchaUrl.searchParams.set('session', sessionId);
+
+	// Open captcha popup
+	await browser.windows.create({
+		url: captchaUrl.toString(),
+		type: 'popup',
+		width: 450,
+		height: 550,
+		focused: true
+	});
+
+	logger.info('Captcha popup opened for session:', sessionId);
+}
+
+// Handle captcha success from backend
+async function handleCaptchaSuccess(
+	sessionId: string,
+	token: string,
+	sender: { tab?: { id?: number } }
+): Promise<void> {
+	const storageKey = `captcha_session_${sessionId}`;
+	const inProgressKey = `captcha_in_progress_${sessionId}`;
+	const result = await browser.storage.local.get([storageKey, inProgressKey]);
+
+	const session = result[storageKey] as CaptchaSession | undefined;
+
+	if (!session) {
+		logger.error('Captcha session not found:', sessionId);
+		return;
+	}
+
+	// Check session expiry (10 minutes)
+	if (Date.now() - session.timestamp > 600000) {
+		logger.error('Captcha session expired:', sessionId);
+		await browser.storage.local.remove([storageKey]);
+		return;
+	}
+
+	// Prevent duplicate processing of the same session
+	if (result[inProgressKey]) {
+		logger.warn('Captcha already being processed for session:', sessionId);
+		return;
+	}
+
+	await browser.storage.local.set({ [inProgressKey]: true });
+
+	try {
+		// Clean up session
+		await browser.storage.local.remove([storageKey]);
+
+		// Close the captcha popup tab
+		if (sender.tab?.id) {
+			await browser.tabs.remove(sender.tab.id).catch(() => {});
+		}
+
+		// Broadcast token to content scripts in Roblox tabs
+		const message = {
+			type: CAPTCHA_MESSAGES.CAPTCHA_TOKEN_READY,
+			token,
+			sessionId,
+			queueData: {
+				userId: session.userId,
+				outfitNames: session.outfitNames,
+				inappropriateProfile: session.inappropriateProfile,
+				inappropriateFriends: session.inappropriateFriends,
+				inappropriateGroups: session.inappropriateGroups
+			}
+		};
+
+		const tabs = await browser.tabs.query({ url: '*://*.roblox.com/*' });
+		for (const tab of tabs) {
+			if (tab.id) {
+				browser.tabs.sendMessage(tab.id, message).catch(() => {
+					// Tab may not have content script loaded
+				});
+			}
+		}
+
+		logger.info('Captcha completed for session:', sessionId);
+	} finally {
+		await browser.storage.local.remove([inProgressKey]);
+	}
+}
+
+// Handle captcha error from backend
+async function handleCaptchaError(
+	sessionId: string | undefined,
+	error: string | undefined,
+	sender: { tab?: { id?: number } }
+): Promise<void> {
+	if (sessionId) {
+		await browser.storage.local.remove([`captcha_session_${sessionId}`]);
+	}
+
+	// Close the captcha popup tab
+	if (sender.tab?.id) {
+		await browser.tabs.remove(sender.tab.id).catch(() => {});
+	}
+
+	// Notify content scripts of cancellation in Roblox tabs
+	const message = {
+		type: CAPTCHA_MESSAGES.CAPTCHA_CANCELLED,
+		error,
+		sessionId
+	};
+
+	const tabs = await browser.tabs.query({ url: '*://*.roblox.com/*' });
+	for (const tab of tabs) {
+		if (tab.id) {
+			browser.tabs.sendMessage(tab.id, message).catch(() => {
+				// Tab may not have content script loaded
+			});
+		}
+	}
+
+	logger.error('Captcha verification failed:', error);
+}
+
 export default defineBackground(() => {
 	logger.info('Rotector Background Script: Starting...', {
 		id: browser.runtime.id
@@ -130,9 +282,24 @@ export default defineBackground(() => {
 
 	// Handle runtime messages from content scripts and popup
 	browser.runtime.onMessage.addListener(
-		(request: ContentMessage, _sender: unknown, sendResponse: (response: ApiResponse) => void) => {
+		(
+			request: ContentMessage & {
+				type?: string;
+				sessionId?: string;
+			},
+			_sender: unknown,
+			sendResponse: (response: ApiResponse) => void
+		) => {
 			void (async () => {
 				try {
+					// Handle captcha start message
+					if (request.type === CAPTCHA_MESSAGES.CAPTCHA_START) {
+						await handleCaptchaStart(request);
+						sendResponse({ success: true });
+						return;
+					}
+
+					// Handle API actions
 					const handler = actionHandlers[request.action as keyof typeof actionHandlers];
 
 					if (!handler) {
@@ -154,7 +321,7 @@ export default defineBackground(() => {
 		}
 	);
 
-	// Listen for external messages from OAuth callback page
+	// Listen for external messages from OAuth callback and captcha pages
 	browser.runtime.onMessageExternal.addListener(
 		(
 			message: {
@@ -164,12 +331,31 @@ export default defineBackground(() => {
 				error?: string;
 				state?: string;
 				isNewUser?: boolean;
+				token?: string;
+				session?: string;
 			},
 			sender,
 			_sendResponse
 		) => {
 			void (async () => {
 				try {
+					// Handle captcha success from backend
+					if (
+						message.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS &&
+						message.token &&
+						message.session
+					) {
+						await handleCaptchaSuccess(message.session, message.token, sender);
+						return;
+					}
+
+					// Handle captcha error from backend
+					if (message.type === CAPTCHA_EXTERNAL_MESSAGES.ERROR) {
+						await handleCaptchaError(message.session, message.error, sender);
+						return;
+					}
+
+					// Handle Discord OAuth success
 					if (
 						message.type === DISCORD_OAUTH_MESSAGES.AUTH_SUCCESS &&
 						message.uuid &&
@@ -275,7 +461,7 @@ export default defineBackground(() => {
 						logger.error('Discord OAuth error:', message.error ?? 'Unknown error');
 					}
 				} catch (error) {
-					logger.error('Discord OAuth external message handling failed:', error);
+					logger.error('External message handling failed:', error);
 				}
 			})();
 		}

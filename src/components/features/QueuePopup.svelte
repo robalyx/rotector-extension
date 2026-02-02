@@ -4,7 +4,7 @@
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
-	import { STATUS } from '@/lib/types/constants';
+	import { STATUS, CAPTCHA_MESSAGES } from '@/lib/types/constants';
 	import { Clipboard, User, Users, AlertTriangle, Check, Info } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
@@ -30,7 +30,8 @@
 			outfitNames?: string[],
 			inappropriateProfile?: boolean,
 			inappropriateFriends?: boolean,
-			inappropriateGroups?: boolean
+			inappropriateGroups?: boolean,
+			captchaToken?: string
 		) => void | Promise<void>;
 		onCancel?: () => void;
 	}
@@ -56,6 +57,10 @@
 
 	// Queue limits component
 	let queueLimitsRef: QueueLimitsRef | undefined = $state();
+
+	// Captcha state
+	let awaitingCaptcha = $state(false);
+	let captchaSessionId = $state<string | null>(null);
 
 	// Sanitize user ID for display and API calls
 	const sanitizedUserId = $derived(() => {
@@ -94,7 +99,7 @@
 
 	// Determine if submission is allowed
 	const canSubmit = $derived(() => {
-		if (submitting) return false;
+		if (submitting || awaitingCaptcha) return false;
 		if (hideQueueLimits) return true;
 		if (!queueLimitsRef) return false;
 
@@ -102,11 +107,13 @@
 		return !state.isLoading && state.queueLimits !== null && state.queueLimits.remaining > 0;
 	});
 
-	// Handle form submission
+	// Handle form submission which starts captcha flow
 	async function handleConfirm() {
-		if (submitting) return;
+		if (submitting || awaitingCaptcha) return;
 
-		submitting = true;
+		awaitingCaptcha = true;
+		const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+		captchaSessionId = sessionId;
 
 		try {
 			logger.userAction('queue_popup_confirm', {
@@ -118,28 +125,24 @@
 				selectedOutfitNames
 			});
 
-			if (onConfirm) {
-				// Map thresholds to boolean flags
-				// quick = false, thorough = true
-				const inappropriateProfile = profileCheck === 'thorough';
-				const inappropriateFriends = friendsCheck === 'thorough';
-				const inappropriateGroups = groupsCheck === 'thorough';
+			// Start captcha flow via background script
+			await browser.runtime.sendMessage({
+				type: CAPTCHA_MESSAGES.CAPTCHA_START,
+				sessionId,
+				queueData: {
+					userId: sanitizedUserId(),
+					outfitNames: selectedOutfitNames.length > 0 ? selectedOutfitNames : [],
+					inappropriateProfile: profileCheck === 'thorough',
+					inappropriateFriends: friendsCheck === 'thorough',
+					inappropriateGroups: groupsCheck === 'thorough'
+				}
+			});
 
-				await onConfirm(
-					selectedOutfitNames.length > 0 ? selectedOutfitNames : undefined,
-					inappropriateProfile,
-					inappropriateFriends,
-					inappropriateGroups
-				);
-			}
-
-			// Close modal on success
-			isOpen = false;
-			resetAllState();
+			// NOTE: Modal stays open waiting for captcha completion
 		} catch (error) {
-			logger.error('Queue submission failed:', error);
-		} finally {
-			submitting = false;
+			logger.error('Failed to start captcha flow:', error);
+			awaitingCaptcha = false;
+			captchaSessionId = null;
 		}
 	}
 
@@ -162,6 +165,8 @@
 		groupsCheck = 'quick';
 		selectedOutfitNames = [];
 		submitting = false;
+		awaitingCaptcha = false;
+		captchaSessionId = null;
 		queueLimitsRef?.reset();
 	}
 
@@ -171,9 +176,69 @@
 			queueLimitsRef.refresh().catch((err: unknown) => {
 				logger.error('Failed to load queue limits:', err);
 			});
-		} else if (!isOpen) {
+		} else if (!isOpen && !awaitingCaptcha) {
 			resetAllState();
 		}
+	});
+
+	// Listen for captcha token from background script
+	$effect(() => {
+		const handleMessage = (message: {
+			type: string;
+			token?: string;
+			sessionId?: string;
+			queueData?: {
+				userId: string;
+				outfitNames: string[];
+				inappropriateProfile: boolean;
+				inappropriateFriends: boolean;
+				inappropriateGroups: boolean;
+			};
+			error?: string;
+		}) => {
+			if (message.type === CAPTCHA_MESSAGES.CAPTCHA_TOKEN_READY) {
+				if (message.sessionId === captchaSessionId && message.token && message.queueData) {
+					submitting = true;
+					awaitingCaptcha = false;
+
+					if (onConfirm) {
+						Promise.resolve(
+							onConfirm(
+								message.queueData.outfitNames.length > 0
+									? message.queueData.outfitNames
+									: undefined,
+								message.queueData.inappropriateProfile,
+								message.queueData.inappropriateFriends,
+								message.queueData.inappropriateGroups,
+								message.token
+							)
+						)
+							.then(() => {
+								isOpen = false;
+								resetAllState();
+							})
+							.catch((error) => {
+								logger.error('Queue submission failed:', error);
+								submitting = false;
+							});
+					} else {
+						isOpen = false;
+						resetAllState();
+					}
+				}
+			} else if (message.type === CAPTCHA_MESSAGES.CAPTCHA_CANCELLED) {
+				if (message.sessionId === captchaSessionId) {
+					awaitingCaptcha = false;
+					captchaSessionId = null;
+					logger.warn('Captcha was cancelled:', message.error);
+				}
+			}
+		};
+
+		browser.runtime.onMessage.addListener(handleMessage);
+		return () => {
+			browser.runtime.onMessage.removeListener(handleMessage);
+		};
 	});
 </script>
 

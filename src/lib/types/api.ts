@@ -157,6 +157,18 @@ export interface ContentMessage {
 	texts?: string[];
 	targetLanguage?: string;
 	sourceLanguage?: string;
+
+	captchaToken?: string;
+}
+
+export interface CaptchaSession {
+	sessionId: string;
+	userId: string;
+	outfitNames: string[];
+	inappropriateProfile: boolean;
+	inappropriateFriends: boolean;
+	inappropriateGroups: boolean;
+	timestamp: number;
 }
 
 export interface ExtensionUserProfile {

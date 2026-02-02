@@ -151,7 +151,8 @@ class RotectorApiClient {
 		outfitNames: string[] = [],
 		inappropriateProfile = false,
 		inappropriateFriends = false,
-		inappropriateGroups = false
+		inappropriateGroups = false,
+		captchaToken?: string
 	): Promise<QueueResult> {
 		// Block queueing other users when restricted
 		const { isRestricted } = get(restrictedAccessStore);
@@ -169,7 +170,8 @@ class RotectorApiClient {
 				outfitNames,
 				inappropriateProfile,
 				inappropriateFriends,
-				inappropriateGroups
+				inappropriateGroups,
+				captchaToken
 			},
 			{ maxRetries: 2, retryDelay: 2000 }
 		);

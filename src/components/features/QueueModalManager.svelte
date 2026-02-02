@@ -45,7 +45,8 @@
 		outfitNames?: string[],
 		inappropriateProfile?: boolean,
 		inappropriateFriends?: boolean,
-		inappropriateGroups?: boolean
+		inappropriateGroups?: boolean,
+		captchaToken?: string
 	) {
 		// Close queue popup and show loading modal
 		showQueueModal = false;
@@ -65,7 +66,8 @@
 				outfitNames ?? [],
 				inappropriateProfile,
 				inappropriateFriends,
-				inappropriateGroups
+				inappropriateGroups,
+				captchaToken
 			);
 
 			// Handle successful queue submission

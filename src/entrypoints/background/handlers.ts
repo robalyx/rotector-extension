@@ -85,7 +85,8 @@ export const actionHandlers = {
 			request.inappropriateProfile,
 			request.inappropriateFriends,
 			request.inappropriateGroups,
-			request.clientId
+			request.clientId,
+			request.captchaToken
 		);
 	},
 	[API_ACTIONS.GET_QUEUE_LIMITS]: async (request: ContentMessage) =>

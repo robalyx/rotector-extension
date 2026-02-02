@@ -128,7 +128,8 @@ export async function queueUser(
 	inappropriateProfile: boolean = false,
 	inappropriateFriends: boolean = false,
 	inappropriateGroups: boolean = false,
-	clientId?: string
+	clientId?: string,
+	captchaToken?: string
 ): Promise<QueueResult> {
 	const sanitizedUserId = validateEntityId(userId);
 
@@ -142,6 +143,11 @@ export async function queueUser(
 	// Only include outfit_names if there are selections
 	if (outfitNames.length > 0) {
 		requestBody.outfit_names = outfitNames;
+	}
+
+	// Include captcha token if provided
+	if (captchaToken) {
+		requestBody.captcha_token = captchaToken;
 	}
 
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {

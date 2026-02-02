@@ -97,6 +97,19 @@ export const DISCORD_OAUTH_MESSAGES = {
 	AUTH_ERROR: 'DISCORD_AUTH_ERROR'
 } as const;
 
+// Captcha external message types
+export const CAPTCHA_EXTERNAL_MESSAGES = {
+	SUCCESS: 'CAPTCHA_SUCCESS',
+	ERROR: 'CAPTCHA_ERROR'
+} as const;
+
+// Captcha internal message types
+export const CAPTCHA_MESSAGES = {
+	CAPTCHA_START: 'CAPTCHA_START',
+	CAPTCHA_TOKEN_READY: 'CAPTCHA_TOKEN_READY',
+	CAPTCHA_CANCELLED: 'CAPTCHA_CANCELLED'
+} as const;
+
 // DOM selectors and data attributes for status/processing tracking
 export const STATUS_SELECTORS = {
 	PROCESSED_CLASS: 'status-processed',

@@ -1,5 +1,6 @@
 import { logger } from '../utils/logger';
 import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
+import { metricsCollector } from '../utils/metrics-collector';
 import { sanitizeUrl } from '../utils/sanitizer';
 import { normalizePathname } from '../utils/page-detection';
 import { PAGE_TYPES } from '../types/constants';
@@ -79,6 +80,7 @@ export class PageControllerManager {
 		} finally {
 			endTrace();
 			this.isNavigating = false;
+			metricsCollector.takeSnapshot('navigation');
 		}
 	}
 

@@ -1,6 +1,7 @@
 import { logger } from './logger';
 import { startTrace, TRACE_CATEGORIES } from './perf-tracer';
 import { OBSERVER_CONFIG } from '../types/constants';
+import { observerRegistry, OBSERVER_TYPES } from './observer-registry';
 
 interface ObserverConfig {
 	name: string;
@@ -165,6 +166,9 @@ class ObserverManager extends Observer {
 			this.observer.observe(target, this.config.observerOptions);
 			this.active = true;
 
+			// Register with metrics tracking
+			observerRegistry.register(OBSERVER_TYPES.MUTATION);
+
 			// Clear any pending reconnection timer
 			if (this.reconnectTimer) {
 				window.clearTimeout(this.reconnectTimer);
@@ -199,6 +203,7 @@ class ObserverManager extends Observer {
 		super.stop();
 
 		if (this.observer) {
+			observerRegistry.unregister(OBSERVER_TYPES.MUTATION);
 			this.observer.disconnect();
 			this.observer = null;
 		}

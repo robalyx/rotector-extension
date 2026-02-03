@@ -31,3 +31,33 @@ export interface CategoryStats {
 	minDuration: number;
 	maxDuration: number;
 }
+
+export interface MetricsSnapshot {
+	id: string;
+	timestamp: number;
+	pageUrl?: string;
+	source: LogSource;
+	type: 'periodic' | 'navigation' | 'longtask';
+	observerCount: ObserverCount;
+	domNodeCount: number;
+	memory?: MemorySnapshot;
+	longTask?: LongTaskEntry;
+}
+
+export interface LongTaskEntry {
+	startTime: number;
+	duration: number;
+	name: string;
+}
+
+export interface ObserverCount {
+	mutation: number;
+	resize: number;
+	total: number;
+}
+
+export interface MemorySnapshot {
+	usedJSHeapSize: number;
+	totalJSHeapSize: number;
+	jsHeapSizeLimit: number;
+}

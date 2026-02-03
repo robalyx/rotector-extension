@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ArrowLeft, Trash2, Activity, Zap, Clock, Copy, Check } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		Trash2,
+		Activity,
+		Zap,
+		Clock,
+		Copy,
+		Check,
+		Cpu,
+		AlertTriangle
+	} from 'lucide-svelte';
 	import {
 		performanceEntries,
 		categoryStats,
@@ -8,8 +18,16 @@
 		loadPerformanceEntries,
 		clearPerformanceEntries
 	} from '@/lib/stores/performance';
+	import {
+		latestSnapshot,
+		longTaskCount,
+		recentLongTasks,
+		loadMetricsSnapshots,
+		clearMetricsSnapshots
+	} from '@/lib/stores/metrics';
 	import type { TraceCategory } from '@/lib/types/performance';
 	import { formatDurationMs, formatTimeOfDay } from '@/lib/utils/time';
+	import { formatBytes, formatNumber } from '@/lib/utils/format';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -46,6 +64,34 @@
 			`Total entries: ${$performanceEntries.length}`,
 			''
 		];
+
+		// System metrics
+		if ($latestSnapshot) {
+			lines.push('=== System Metrics ===');
+			lines.push(
+				`Observers: ${$latestSnapshot.observerCount.total} (${$latestSnapshot.observerCount.mutation} mutation)`
+			);
+			lines.push(`DOM Nodes: ${formatNumber($latestSnapshot.domNodeCount)}`);
+			if ($latestSnapshot.memory) {
+				lines.push(
+					`JS Heap: ${formatBytes($latestSnapshot.memory.usedJSHeapSize)} / ${formatBytes($latestSnapshot.memory.jsHeapSizeLimit)}`
+				);
+			}
+			lines.push(`Long Tasks: ${$longTaskCount}`);
+			lines.push('');
+		}
+
+		// Recent long tasks
+		if ($recentLongTasks.length > 0) {
+			lines.push('=== Long Tasks (>50ms) ===');
+			for (const task of $recentLongTasks) {
+				const time = new Date(task.timestamp).toISOString();
+				lines.push(
+					`[${time}] ${task.longTask?.name ?? 'unknown'} - ${formatDurationMs(task.longTask?.duration ?? 0)}`
+				);
+			}
+			lines.push('');
+		}
 
 		// Category summary
 		if ($categoryStats.length > 0) {
@@ -101,7 +147,7 @@
 	// Clear all performance data
 	async function handleClear() {
 		if (confirm($_('performance_dashboard_clear_confirm'))) {
-			await clearPerformanceEntries();
+			await Promise.all([clearPerformanceEntries(), clearMetricsSnapshots()]);
 		}
 	}
 
@@ -111,7 +157,7 @@
 	}
 
 	onMount(() => {
-		void loadPerformanceEntries().finally(() => {
+		void Promise.all([loadPerformanceEntries(), loadMetricsSnapshots()]).finally(() => {
 			isLoading = false;
 		});
 	});
@@ -165,6 +211,58 @@
 			<p class="perf-empty-hint">{$_('performance_dashboard_empty_hint')}</p>
 		</div>
 	{:else}
+		<!-- System Metrics -->
+		<div class="flex flex-col gap-1.5">
+			<h3 class="perf-section-header">
+				<Cpu size={12} />
+				{$_('performance_dashboard_system_metrics')}
+			</h3>
+			<div class="perf-metrics-grid">
+				<div class="perf-metric-card">
+					<span class="perf-metric-label">{$_('performance_dashboard_metric_observers')}</span>
+					<span class="perf-metric-value">{$latestSnapshot?.observerCount.total ?? 0}</span>
+					<span class="perf-metric-detail">
+						{$latestSnapshot?.observerCount.mutation ?? 0} mutation
+					</span>
+				</div>
+				<div class="perf-metric-card">
+					<span class="perf-metric-label">{$_('performance_dashboard_metric_dom_nodes')}</span>
+					<span class="perf-metric-value">{formatNumber($latestSnapshot?.domNodeCount ?? 0)}</span>
+				</div>
+				<div class="perf-metric-card">
+					<span class="perf-metric-label">{$_('performance_dashboard_metric_heap')}</span>
+					<span class="perf-metric-value">
+						{$latestSnapshot?.memory ? formatBytes($latestSnapshot.memory.usedJSHeapSize) : 'N/A'}
+					</span>
+					<span class="perf-metric-detail">
+						{$latestSnapshot?.memory
+							? `of ${formatBytes($latestSnapshot.memory.jsHeapSizeLimit)}`
+							: $_('performance_dashboard_chrome_only')}
+					</span>
+				</div>
+				<div class="perf-metric-card">
+					<span class="perf-metric-label">{$_('performance_dashboard_metric_long_tasks')}</span>
+					<span class="perf-metric-value">{$longTaskCount}</span>
+					<span class="perf-metric-detail">{$_('performance_dashboard_blocking_threshold')}</span>
+				</div>
+			</div>
+
+			{#if $recentLongTasks.length > 0}
+				<div class="perf-longtasks-list">
+					{#each $recentLongTasks as task (task.id)}
+						<div class="perf-longtask-item">
+							<AlertTriangle class="perf-longtask-icon" size={10} />
+							<span class="perf-longtask-time">{formatTimeOfDay(task.timestamp)}</span>
+							<span class="perf-longtask-duration"
+								>{formatDurationMs(task.longTask?.duration ?? 0)}</span
+							>
+							<span class="perf-longtask-name">{task.longTask?.name ?? 'unknown'}</span>
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
+
 		<!-- Category Overview -->
 		<div class="flex flex-col gap-1.5">
 			<h3 class="perf-section-header">

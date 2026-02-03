@@ -82,6 +82,91 @@
 }
 
 /* =================================
+   SYSTEM METRICS
+   ================================= */
+
+@utility perf-metrics-grid {
+	@apply grid grid-cols-2 gap-1.5;
+}
+
+@utility perf-metric-card {
+	@apply flex flex-col p-2 rounded-lg border;
+	background-color: var(--color-bg-content);
+	border-color: var(--color-border-subtle);
+}
+
+@utility perf-metric-label {
+	@apply text-3xs font-semibold uppercase tracking-wide;
+	color: var(--color-text-subtle);
+}
+
+@utility perf-metric-value {
+	@apply text-base font-semibold tabular-nums;
+	color: var(--color-text);
+	line-height: 1.2;
+}
+
+@utility perf-metric-detail {
+	@apply text-3xs tabular-nums;
+	color: var(--color-text-subtle);
+}
+
+@utility perf-longtasks-list {
+	@apply flex flex-col rounded-lg border overflow-hidden;
+	max-height: 80px;
+	overflow-y: auto;
+	border-color: var(--color-border-subtle);
+	background-color: var(--color-bg-content);
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border) transparent;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--color-border);
+		border-radius: 2px;
+	}
+}
+
+@utility perf-longtask-item {
+	@apply flex items-center gap-1.5 px-2 py-1 text-3xs;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+	border-bottom: 1px solid var(--color-border-subtle);
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+@utility perf-longtask-icon {
+	@apply shrink-0;
+	color: var(--color-warning);
+}
+
+@utility perf-longtask-time {
+	@apply shrink-0 tabular-nums;
+	color: var(--color-text-subtle);
+}
+
+@utility perf-longtask-duration {
+	@apply shrink-0 px-1 py-0.5 rounded font-semibold tabular-nums;
+	background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+	color: var(--color-warning);
+	font-size: 0.5rem;
+}
+
+@utility perf-longtask-name {
+	@apply flex-1 truncate;
+	color: var(--color-text);
+}
+
+/* =================================
    CATEGORY OVERVIEW
    ================================= */
 

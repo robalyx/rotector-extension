@@ -19,6 +19,7 @@ import {
 import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
 import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur-service';
 import { shouldShowChangelogModal } from '@/lib/stores/changelog';
+import { metricsCollector } from '@/lib/utils/metrics-collector';
 import OnboardingManager from '@/components/onboarding/OnboardingManager.svelte';
 import ChangelogModal from '@/components/changelog/ChangelogModal.svelte';
 
@@ -179,6 +180,9 @@ export default defineContentScript({
 				pageManager.initialize();
 				logger.debug('Page controller manager initialized');
 
+				// Start metrics collection in dev mode
+				metricsCollector.start();
+
 				// Handle page navigation changes
 				let currentUrl = window.location.href;
 				const checkForNavigation = () => {
@@ -226,6 +230,7 @@ export default defineContentScript({
 			// Set up cleanup on page unload
 			window.addEventListener('beforeunload', () => {
 				logger.debug('Content script cleanup on page unload');
+				metricsCollector.stop();
 				if (onboardingContainer) {
 					unregisterPortalContainer(onboardingContainer);
 				}

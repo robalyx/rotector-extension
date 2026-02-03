@@ -155,7 +155,8 @@ export const FRIENDS_SELECTORS = {
 		CONTAINER: '.list-item.avatar-card',
 		UNPROCESSED: `.list-item.avatar-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
 		CAPTION: '.avatar-card-caption, .friend-caption, .avatar-card-label',
-		USERNAME: '.avatar-name',
+		DISPLAY_NAME: '.avatar-name',
+		USERNAME: '.avatar-name-container + .avatar-card-label',
 		AVATAR_IMG: '.thumbnail-2d-container img',
 		FULLBODY: '.avatar-card-fullbody'
 	},
@@ -211,7 +212,8 @@ export const SEARCH_SELECTORS = {
 		CONTAINER: 'li.player-item.avatar-card',
 		UNPROCESSED: `li.player-item.avatar-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
 		CAPTION: '.avatar-card-caption',
-		USERNAME: '.avatar-name-container .avatar-name',
+		DISPLAY_NAME: '.avatar-name-container .avatar-name',
+		USERNAME: '.avatar-name-container + .avatar-card-label',
 		AVATAR_IMG: '.thumbnail-2d-container img',
 		FULLBODY: '.avatar-card-fullbody'
 	},
@@ -338,7 +340,7 @@ export const OBSERVER_CONFIG = {
 // Element detection retry configuration
 export const RETRY_CONFIG = {
 	MAX_RETRIES: 10,
-	BASE_DELAY: 300, // ms
+	BASE_DELAY: 100, // ms
 	BACKOFF_MULTIPLIER: 1.3,
 	MAX_DELAY: 3000 // ms
 } as const;

@@ -101,8 +101,10 @@ export function extractUserInfo(
 
 	const displayNameSelectors: Record<string, string> = {
 		carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
+		friends: FRIENDS_SELECTORS.CARD.DISPLAY_NAME,
 		'modal-members': GROUPS_MODAL_SELECTORS.DISPLAY_NAME,
-		profile: PROFILE_SELECTORS.HEADER_TITLE
+		profile: PROFILE_SELECTORS.HEADER_TITLE,
+		search: SEARCH_SELECTORS.CARD.DISPLAY_NAME
 	};
 
 	const usernameSelectors: Record<string, string> = {

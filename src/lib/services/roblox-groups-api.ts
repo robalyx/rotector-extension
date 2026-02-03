@@ -1,4 +1,4 @@
-// Types for Roblox Groups API responses
+// Roblox Groups API types and client functions
 export interface GroupRole {
 	id: number;
 	name: string;
@@ -18,6 +18,8 @@ export interface MembersResponse {
 	previousPageCursor: string | null;
 	nextPageCursor: string | null;
 }
+
+export type SortOrder = 'Asc' | 'Desc';
 
 interface ThumbnailRequest {
 	requestId: string;
@@ -44,7 +46,7 @@ interface RolesApiResponse {
 	roles: GroupRole[];
 }
 
-// Fetch group roles sorted by rank ascending
+// Returns roles sorted by rank ascending
 export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
 	const response = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/roles`);
 
@@ -56,15 +58,16 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
 	return data.roles.sort((a, b) => a.rank - b.rank);
 }
 
-// Fetch members for a specific role
+// Paginated member fetch
 export async function getGroupMembers(
 	groupId: string,
 	roleId: number,
 	cursor?: string | null,
-	limit: number = 25
+	limit: number = 25,
+	sortOrder: SortOrder = 'Desc'
 ): Promise<MembersResponse> {
 	const params = new URLSearchParams({
-		sortOrder: 'Desc',
+		sortOrder,
 		limit: limit.toString()
 	});
 
@@ -83,7 +86,7 @@ export async function getGroupMembers(
 	return (await response.json()) as MembersResponse;
 }
 
-// Batch fetch avatar headshots for multiple users
+// Batch fetch avatar headshots via thumbnails API
 export async function getMemberThumbnails(userIds: number[]): Promise<Map<number, string>> {
 	if (userIds.length === 0) {
 		return new Map();

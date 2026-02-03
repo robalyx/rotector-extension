@@ -91,15 +91,17 @@
 }
 
 /* =================================
-   ROLE SELECTOR
+   ROLE SELECTOR & SORT
    ================================= */
 
-@utility group-members-role-selector {
+@utility group-members-controls {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	padding: 0 4px 12px;
 }
 
 @utility group-members-dropdown {
-	width: 100%;
 	padding: 8px 12px;
 	border-radius: 6px;
 	font-size: 14px;
@@ -110,7 +112,7 @@
 	border: 1px solid var(--roblox-border-hover);
 	outline: none;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		background-color: var(--roblox-border-hover);
 	}
 
@@ -118,10 +120,25 @@
 		border-color: var(--roblox-accent);
 	}
 
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
 	& option {
 		background: var(--roblox-bg-content);
 		color: var(--roblox-text-primary);
 	}
+}
+
+@utility group-members-dropdown-role {
+	flex: 1;
+	min-width: 0;
+}
+
+@utility group-members-dropdown-sort {
+	flex-shrink: 0;
+	width: auto;
 }
 
 /* =================================

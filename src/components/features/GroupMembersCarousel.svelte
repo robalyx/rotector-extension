@@ -8,7 +8,8 @@
 		getGroupMembers,
 		getMemberThumbnails,
 		type GroupRole,
-		type GroupMember
+		type GroupMember,
+		type SortOrder
 	} from '@/lib/services/roblox-groups-api';
 	import { apiClient } from '@/lib/services/api-client';
 	import { queryMultipleUsers } from '@/lib/services/unified-query-service';
@@ -39,13 +40,14 @@
 
 	const API_LIMIT = 25;
 	const DISPLAY_LIMIT = 24;
+	const CARRYOVER_ONLY = '__CARRYOVER_ONLY__';
 
 	// Shared state
 	let activeTab = $state<ViewTab>('by-role');
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
 
-	// By-role state
+	// By-role view state
 	let roles = $state<GroupRole[]>([]);
 	let selectedRoleId = $state<number | null>(null);
 	let members = $state<GroupMember[]>([]);
@@ -55,22 +57,19 @@
 	let errorMessage = $state<string | null>(null);
 
 	// By-role pagination
-	let nextCursor = $state<string | null>(null);
+	// cursorCache[i] and carryoverCache[i] correspond to page i+1 (0-indexed)
 	let previousCursors = $state<(string | null)[]>([]);
 	let currentPage = $state(1);
-	let pendingCarryover = $state<GroupMember[]>([]);
 	let carryoverHistory = $state<GroupMember[][]>([]);
-
-	// By-role page navigation
-	// NOTE: cursorCache[i] = cursor for page i+1, carryoverCache[i] = carryover for page i+1
 	let cursorCache = $state<(string | null)[]>([null]);
 	let carryoverCache = $state<GroupMember[][]>([[]]);
+	let currentSortOrder = $state<SortOrder>('Desc');
 	let isFetchingCursors = $state(false);
 	let showPageInput = $state(false);
 	let pageInputValue = $state('');
 	let pageInputElement = $state<HTMLInputElement | null>(null);
 
-	// Tracked users state
+	// Tracked users view state
 	let trackedUsers = $state<TrackedUser[]>([]);
 	let trackedTotalCount = $state<number | null>(null);
 	let trackedNextCursor = $state<string | null>(null);
@@ -81,7 +80,7 @@
 	let hasLoadedTracked = $state(false);
 	let trackedRequestId = $state(0);
 
-	// Tracked users page navigation
+	// Tracked users pagination
 	let trackedCursorCache = $state<(string | null)[]>([null]);
 	let isFetchingTrackedCursors = $state(false);
 	let trackedShowPageInput = $state(false);
@@ -91,8 +90,6 @@
 	// DOM references
 	let portalTarget: HTMLDivElement | null = null;
 	let contentWrapper: HTMLDivElement | null = null;
-
-	// Queue modal
 	let queueModalManager: QueueModalManagerInstance;
 
 	// Inject section into Roblox page and portal content
@@ -103,11 +100,9 @@
 			return;
 		}
 
-		// Create section wrapper in the Roblox DOM
 		portalTarget = document.createElement('div');
 		portalTarget.className = `section ${GROUP_MEMBERS_CAROUSEL_SELECTORS.SECTION.slice(1)}`;
 
-		// Find insertion point
 		const referenceSection = tabContent.querySelector('.group-shout, .group-announcements');
 		if (referenceSection?.parentElement) {
 			referenceSection.parentElement.insertBefore(portalTarget, referenceSection.nextSibling);
@@ -196,16 +191,25 @@
 			isLoadingMembers = true;
 			cleanupMountedComponents();
 
-			const response = await getGroupMembers(groupId, selectedRoleId, cursor, API_LIMIT);
+			// Display remaining members for carryover-only page
+			let available: GroupMember[];
+			if (cursor === CARRYOVER_ONLY) {
+				available = carryover;
+			} else {
+				const response = await getGroupMembers(
+					groupId,
+					selectedRoleId,
+					cursor,
+					API_LIMIT,
+					currentSortOrder
+				);
+				available = [...carryover, ...response.data];
+			}
 
-			// Combine carryover with fetched data then split into display and new carryover
-			const available = [...carryover, ...response.data];
 			members = available.slice(0, DISPLAY_LIMIT);
-			pendingCarryover = available.slice(DISPLAY_LIMIT);
-			nextCursor = response.nextPageCursor;
+			const userIds = members.map((m) => m.userId);
 
 			// Load thumbnails
-			const userIds = members.map((m) => m.userId);
 			const fetchedThumbnails = await getMemberThumbnails(userIds);
 			thumbnails = fetchedThumbnails;
 
@@ -219,7 +223,6 @@
 			currentPage = 1;
 			previousCursors = [];
 			carryoverHistory = [];
-			pendingCarryover = [];
 		} finally {
 			isLoadingMembers = false;
 		}
@@ -486,71 +489,40 @@
 		selectedRoleId = roleId;
 		previousCursors = [];
 		carryoverHistory = [];
-		pendingCarryover = [];
 		currentPage = 1;
 		cursorCache = [null];
 		carryoverCache = [[]];
+		currentSortOrder = 'Desc';
 		showPageInput = false;
 		userStatuses.clear();
 		void loadMembers();
 	}
 
-	// Handle pagination with carryover tracking
-	async function goToNextPage() {
-		if (!nextCursor && pendingCarryover.length === 0) return;
+	// Handle sort order dropdown change
+	function handleSortOrderSelectChange(event: Event) {
+		const select = event.target as HTMLSelectElement;
+		const newOrder = select.value as SortOrder;
+		if (newOrder === currentSortOrder) return;
 
-		carryoverHistory = [...carryoverHistory, pendingCarryover];
-		previousCursors = [...previousCursors, nextCursor];
-		currentPage++;
-
-		// Handle last page with carryover item
-		if (!nextCursor && pendingCarryover.length > 0) {
-			isLoadingMembers = true;
-			cleanupMountedComponents();
-
-			try {
-				const carryoverMembers = pendingCarryover;
-				members = carryoverMembers.slice(0, DISPLAY_LIMIT);
-				pendingCarryover = carryoverMembers.slice(DISPLAY_LIMIT);
-				nextCursor = null;
-
-				const userIds = members.map((m) => m.userId);
-				const fetchedThumbnails = await getMemberThumbnails(userIds);
-				thumbnails = fetchedThumbnails;
-				await loadStatuses(userIds.map(String));
-			} catch (error) {
-				logger.error('Failed to load carryover members:', error);
-				errorMessage = get(_)('group_members_error_members');
-				onError?.(get(_)('group_members_error_members'));
-			} finally {
-				isLoadingMembers = false;
-			}
-			return;
-		}
-
-		void loadMembers(nextCursor, pendingCarryover);
+		currentSortOrder = newOrder;
+		currentPage = 1;
+		cursorCache = [null];
+		carryoverCache = [[]];
+		previousCursors = [];
+		carryoverHistory = [];
+		userStatuses.clear();
+		void loadMembers();
 	}
 
-	function goToPreviousPage() {
-		if (previousCursors.length === 0 || currentPage === 1) return;
+	async function goToNextPage() {
+		const totalPages = selectedRole ? Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT) : 1;
+		if (currentPage >= totalPages) return;
+		await goToPage(currentPage + 1);
+	}
 
-		// Pop from history stacks
-		const historyClone = [...carryoverHistory];
-		historyClone.pop();
-		carryoverHistory = historyClone;
-
-		const cursorsClone = [...previousCursors];
-		cursorsClone.pop();
-		previousCursors = cursorsClone;
-		currentPage--;
-
-		// Determine which cursor and carryover to use
-		if (currentPage === 1) {
-			void loadMembers(null, []);
-		} else {
-			const prevCarryover = historyClone.length > 0 ? historyClone[historyClone.length - 1] : [];
-			void loadMembers(cursorsClone[cursorsClone.length - 1] ?? null, prevCarryover);
-		}
+	async function goToPreviousPage() {
+		if (currentPage <= 1) return;
+		await goToPage(currentPage - 1);
 	}
 
 	// Fetch cursors and carryovers up to a target page
@@ -561,25 +533,47 @@
 
 		try {
 			// Start from the last cached cursor and carryover
-			let cursor: string | null = cursorCache[cursorCache.length - 1] ?? null;
+			let lastCursor = cursorCache[cursorCache.length - 1];
+			let cursor: string | null = lastCursor === CARRYOVER_ONLY ? null : (lastCursor ?? null);
 			let currentCarryover: GroupMember[] = carryoverCache[carryoverCache.length - 1] ?? [];
 
-			// Fetch cursors and carryovers until we have enough to reach targetPage
 			while (cursorCache.length < targetPage) {
-				const response = await getGroupMembers(groupId, selectedRoleId, cursor, API_LIMIT);
+				// Handle carryover-only page
+				if (cursor === null && currentCarryover.length > 0 && cursorCache.length > 1) {
+					cursorCache = [...cursorCache, CARRYOVER_ONLY];
+					carryoverCache = [...carryoverCache, currentCarryover];
+					currentCarryover = [];
+					continue;
+				}
 
-				// Simulate what this page would display when carryover + new fetch
+				if (cursor === null && cursorCache.length > 1) break;
+
+				const response = await getGroupMembers(
+					groupId,
+					selectedRoleId,
+					cursor,
+					API_LIMIT,
+					currentSortOrder
+				);
+
 				const available = [...currentCarryover, ...response.data];
 				const nextCarryover = available.slice(DISPLAY_LIMIT);
 
-				cursorCache = [...cursorCache, response.nextPageCursor];
+				// Mark as carryover-only page if API exhausted but carryover remains
+				const nextCursor =
+					!response.nextPageCursor && nextCarryover.length > 0
+						? CARRYOVER_ONLY
+						: response.nextPageCursor;
+
+				cursorCache = [...cursorCache, nextCursor];
 				carryoverCache = [...carryoverCache, nextCarryover];
 
 				if (!response.nextPageCursor && nextCarryover.length === 0) break;
 				cursor = response.nextPageCursor;
 				currentCarryover = nextCarryover;
-				await new Promise((r) => setTimeout(r, 100)); // Rate limit
+				await new Promise((r) => setTimeout(r, 100));
 			}
+
 			return true;
 		} catch (error) {
 			logger.error('Failed to fetch cursors:', error);
@@ -596,36 +590,80 @@
 		pageInputValue = String(currentPage);
 	}
 
-	// Navigate to a specific page
 	async function goToPage(targetPage: number) {
 		const totalPages = selectedRole ? Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT) : 1;
 		if (targetPage < 1 || targetPage > totalPages || targetPage === currentPage) return;
 
-		// Check if we need to fetch more cursors
-		if (cursorCache.length < targetPage) {
-			const requestsNeeded = targetPage - cursorCache.length;
-			const confirmed = confirm(
-				get(_)('group_members_page_jump_confirm', { values: { 0: requestsNeeded, 1: targetPage } })
+		// Calculate requests needed for current vs opposite direction
+		const currentRequestsNeeded = Math.max(0, targetPage - cursorCache.length);
+		const oppositeRequestsNeeded = totalPages - targetPage + 1;
+		const oppositeOrder: SortOrder = currentSortOrder === 'Desc' ? 'Asc' : 'Desc';
+		const oppositeLabel = oppositeOrder === 'Asc' ? 'Oldest' : 'Newest';
+
+		// Check if switching direction would be more efficient
+		if (currentRequestsNeeded > 1 && oppositeRequestsNeeded < currentRequestsNeeded) {
+			const switchConfirmed = confirm(
+				get(_)('group_members_page_jump_switch', {
+					values: {
+						0: oppositeLabel,
+						1: oppositeRequestsNeeded,
+						2: currentRequestsNeeded
+					}
+				})
 			);
-			if (!confirmed) return;
+
+			if (switchConfirmed) {
+				// Switch direction and jump to the equivalent page in the new direction
+				currentSortOrder = oppositeOrder;
+				cursorCache = [null];
+				carryoverCache = [[]];
+				previousCursors = [];
+				carryoverHistory = [];
+				userStatuses.clear();
+				currentPage = oppositeRequestsNeeded;
+
+				const success = await fetchCursorsToPage(oppositeRequestsNeeded);
+				if (!success) return;
+
+				for (let i = 1; i < oppositeRequestsNeeded; i++) {
+					previousCursors = [...previousCursors, cursorCache[i] ?? null];
+					carryoverHistory = [...carryoverHistory, carryoverCache[i] ?? []];
+				}
+
+				const cursor =
+					oppositeRequestsNeeded === 1 ? null : cursorCache[oppositeRequestsNeeded - 1];
+				const carryover =
+					oppositeRequestsNeeded === 1 ? [] : (carryoverCache[oppositeRequestsNeeded - 1] ?? []);
+				await loadMembers(cursor, carryover);
+				return;
+			}
+		}
+
+		// For standard path, check if we need to fetch more cursors
+		if (cursorCache.length < targetPage) {
+			if (currentRequestsNeeded > 1) {
+				const confirmed = confirm(
+					get(_)('group_members_page_jump_confirm', {
+						values: { 0: currentRequestsNeeded, 1: targetPage }
+					})
+				);
+				if (!confirmed) return;
+			}
 
 			const success = await fetchCursorsToPage(targetPage);
 			if (!success) return;
 		}
 
-		// Reset navigation state
+		// Reset navigation state and rebuild history
 		previousCursors = [];
 		carryoverHistory = [];
-		pendingCarryover = [];
 		currentPage = targetPage;
 
-		// Rebuild history stacks for backward navigation
 		for (let i = 1; i < targetPage; i++) {
 			previousCursors = [...previousCursors, cursorCache[i] ?? null];
 			carryoverHistory = [...carryoverHistory, carryoverCache[i] ?? []];
 		}
 
-		// Load the target page
 		const cursor = targetPage === 1 ? null : cursorCache[targetPage - 1];
 		const carryover = targetPage === 1 ? [] : (carryoverCache[targetPage - 1] ?? []);
 		await loadMembers(cursor, carryover);
@@ -749,10 +787,10 @@
 					<span>{$_('group_members_empty_no_members')}</span>
 				</div>
 			{:else}
-				<!-- Role Dropdown -->
-				<div class="group-members-role-selector">
+				<!-- Role Dropdown and Sort Order -->
+				<div class="group-members-controls">
 					<select
-						class="group-members-dropdown"
+						class="group-members-dropdown group-members-dropdown-role"
 						disabled={isFetchingCursors}
 						onchange={handleRoleChange}
 						value={selectedRoleId}
@@ -762,6 +800,15 @@
 								{role.name} ({role.memberCount})
 							</option>
 						{/each}
+					</select>
+					<select
+						class="group-members-dropdown group-members-dropdown-sort"
+						disabled={isLoadingMembers || isFetchingCursors}
+						onchange={handleSortOrderSelectChange}
+						value={currentSortOrder}
+					>
+						<option value="Desc">{$_('group_members_sort_newest')}</option>
+						<option value="Asc">{$_('group_members_sort_oldest')}</option>
 					</select>
 				</div>
 
@@ -851,7 +898,8 @@
 						{/if}
 						<button
 							class="group-members-nav-btn"
-							disabled={(!nextCursor && pendingCarryover.length === 0) ||
+							disabled={currentPage >=
+								Math.ceil((selectedRole?.memberCount ?? 0) / DISPLAY_LIMIT) ||
 								isFetchingCursors ||
 								isLoadingMembers}
 							onclick={goToNextPage}

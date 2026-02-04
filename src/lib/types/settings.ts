@@ -28,7 +28,9 @@ export const SETTINGS_KEYS = {
 	BLUR_AVATARS: 'blurAvatars',
 	EXPERIMENTAL_BLUR_ENABLED: 'experimentalBlurEnabled',
 	EXPERIMENTAL_CUSTOM_APIS_ENABLED: 'experimentalCustomApisEnabled',
-	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled'
+	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled',
+	EXPANDED_TOOLTIP_WIDTH: 'expandedTooltipWidth',
+	EXPANDED_TOOLTIP_HEIGHT: 'expandedTooltipHeight'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -72,6 +74,8 @@ export interface Settings {
 	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: boolean;
+	[SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH]?: number;
+	[SETTINGS_KEYS.EXPANDED_TOOLTIP_HEIGHT]?: number;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {

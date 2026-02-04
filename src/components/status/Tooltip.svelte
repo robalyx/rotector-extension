@@ -56,6 +56,13 @@
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 
+	const TOOLTIP_SIZE = {
+		MIN_WIDTH: 400,
+		MIN_HEIGHT: 350,
+		MAX_WIDTH_RATIO: 0.9,
+		MAX_HEIGHT_RATIO: 0.9
+	} as const;
+
 	interface Props {
 		userId: string | number;
 		userStatus?: CombinedStatus | null;
@@ -113,6 +120,13 @@
 	let optionsMenuRef = $state<HTMLElement>();
 	let showOptionsMenu = $state(false);
 	let copySuccess = $state(false);
+
+	// Resize state
+	let isResizing = $state(false);
+	let resizeStartPos = $state<{ x: number; y: number } | null>(null);
+	let resizeStartSize = $state<{ width: number; height: number } | null>(null);
+	let customWidth = $state<number | undefined>(undefined);
+	let customHeight = $state<number | undefined>(undefined);
 
 	// Engine version status for options menu display
 	const engineVersionStatus = $derived.by(() => {
@@ -409,6 +423,21 @@
 		return translateEnabled && hasReasons;
 	});
 
+	// Calculate constrained tooltip dimensions
+	const tooltipDimensions = $derived.by(() => {
+		const maxWidth = window.innerWidth * TOOLTIP_SIZE.MAX_WIDTH_RATIO;
+		const maxHeight = window.innerHeight * TOOLTIP_SIZE.MAX_HEIGHT_RATIO;
+
+		return {
+			width: customWidth
+				? Math.min(Math.max(customWidth, TOOLTIP_SIZE.MIN_WIDTH), maxWidth)
+				: undefined,
+			height: customHeight
+				? Math.min(Math.max(customHeight, TOOLTIP_SIZE.MIN_HEIGHT), maxHeight)
+				: undefined
+		};
+	});
+
 	// Get text to display (original or translated)
 	function getDisplayText(originalText: string): string {
 		if (!showTranslated) return originalText;
@@ -569,6 +598,62 @@
 	function toggleOptionsMenu(event: MouseEvent) {
 		event.stopPropagation();
 		showOptionsMenu = !showOptionsMenu;
+	}
+
+	function handleResizeStart(event: MouseEvent) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (!tooltipRef) return;
+
+		isResizing = true;
+		resizeStartPos = { x: event.clientX, y: event.clientY };
+
+		const rect = tooltipRef.getBoundingClientRect();
+		resizeStartSize = { width: rect.width, height: rect.height };
+
+		document.addEventListener('mousemove', handleResizeMove);
+		document.addEventListener('mouseup', handleResizeEnd);
+	}
+
+	function handleResizeMove(event: MouseEvent) {
+		if (!isResizing || !resizeStartPos || !resizeStartSize) return;
+
+		const deltaX = (event.clientX - resizeStartPos.x) * 2;
+		const deltaY = (event.clientY - resizeStartPos.y) * 2;
+
+		const maxWidth = window.innerWidth * TOOLTIP_SIZE.MAX_WIDTH_RATIO;
+		const maxHeight = window.innerHeight * TOOLTIP_SIZE.MAX_HEIGHT_RATIO;
+
+		customWidth = Math.min(
+			Math.max(resizeStartSize.width + deltaX, TOOLTIP_SIZE.MIN_WIDTH),
+			maxWidth
+		);
+		customHeight = Math.min(
+			Math.max(resizeStartSize.height + deltaY, TOOLTIP_SIZE.MIN_HEIGHT),
+			maxHeight
+		);
+	}
+
+	function handleResizeEnd() {
+		if (!isResizing) return;
+
+		isResizing = false;
+		resizeStartPos = null;
+		resizeStartSize = null;
+
+		document.removeEventListener('mousemove', handleResizeMove);
+		document.removeEventListener('mouseup', handleResizeEnd);
+
+		if (customWidth !== undefined) {
+			updateSetting(SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH, customWidth).catch((err) => {
+				logger.error('Failed to save tooltip width:', err);
+			});
+		}
+		if (customHeight !== undefined) {
+			updateSetting(SETTINGS_KEYS.EXPANDED_TOOLTIP_HEIGHT, customHeight).catch((err) => {
+				logger.error('Failed to save tooltip height:', err);
+			});
+		}
 	}
 
 	// Copy Discord link to clipboard
@@ -737,6 +822,40 @@
 			onClose?.();
 		}, 350);
 	}
+
+	// Load saved dimensions when tooltip expands
+	$effect(() => {
+		if (isExpanded) {
+			customWidth = $settings[SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH];
+			customHeight = $settings[SETTINGS_KEYS.EXPANDED_TOOLTIP_HEIGHT];
+		}
+	});
+
+	// Handle window resize to clamp dimensions
+	$effect(() => {
+		if (!isExpanded) return;
+
+		function handleWindowResize() {
+			const maxWidth = window.innerWidth * TOOLTIP_SIZE.MAX_WIDTH_RATIO;
+			const maxHeight = window.innerHeight * TOOLTIP_SIZE.MAX_HEIGHT_RATIO;
+
+			if (customWidth && customWidth > maxWidth) customWidth = maxWidth;
+			if (customHeight && customHeight > maxHeight) customHeight = maxHeight;
+		}
+
+		window.addEventListener('resize', handleWindowResize);
+		return () => window.removeEventListener('resize', handleWindowResize);
+	});
+
+	// Cleanup resize event listeners on unmount
+	$effect(() => {
+		return () => {
+			if (isResizing) {
+				document.removeEventListener('mousemove', handleResizeMove);
+				document.removeEventListener('mouseup', handleResizeEnd);
+			}
+		};
+	});
 
 	// Load vote data when tooltip becomes visible
 	let hasLoadedVoteData = $state(false);
@@ -1193,12 +1312,24 @@
 		role="button"
 		tabindex="0"
 	>
-		<div bind:this={tooltipRef} class="expanded-tooltip" class:has-tabs={tabs.length > 1}>
+		<div
+			bind:this={tooltipRef}
+			style:width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
+			style:height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
+			style:max-width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
+			style:max-height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
+			class="expanded-tooltip"
+			class:has-tabs={tabs.length > 1}
+			class:is-resizing={isResizing}
+		>
 			<!-- Tab Navigation -->
 			{@render tabNavigation()}
 
 			<!-- Tooltip content -->
-			<div class="expanded-tooltip-content">
+			<div
+				style:max-height={tooltipDimensions.height ? 'none' : undefined}
+				class="expanded-tooltip-content"
+			>
 				<div class="tooltip-sticky-header">
 					<!-- Options Menu -->
 					{#if activeTab === ROTECTOR_API_ID && !isGroup}
@@ -1317,10 +1448,22 @@
 				</div>
 
 				<!-- Scrollable content -->
-				<div class="tooltip-scrollable-content px-5 py-4 flex-1">
+				<div
+					style:max-height={tooltipDimensions.height ? 'none' : undefined}
+					class="tooltip-scrollable-content px-5 py-4 flex-1"
+				>
 					{@render tooltipContent()}
 				</div>
 			</div>
+
+			<!-- Resize Handle -->
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+			<div
+				class="tooltip-resize-handle"
+				aria-label={$_('tooltip_resize_handle_aria')}
+				onmousedown={handleResizeStart}
+				role="separator"
+			></div>
 		</div>
 	</div>
 {:else}

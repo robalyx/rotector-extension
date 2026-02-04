@@ -66,6 +66,10 @@
 		opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	/*noinspection CssUnresolvedCustomProperty*/
 	transform-origin: var(--tooltip-origin-x, 50%) var(--tooltip-origin-y, 50%);
+
+	&.is-resizing {
+		transition: none;
+	}
 }
 
 @utility expanded-tooltip-content {
@@ -81,6 +85,19 @@
 	&:hover {
 		@apply rotate-90;
 		background: rgba(0, 0, 0, 0.5);
+	}
+}
+
+@utility tooltip-resize-handle {
+	@apply absolute bottom-1 right-1 w-3 h-3 cursor-nwse-resize z-[4];
+	opacity: 0.4;
+	transition: opacity 0.15s ease;
+	background-image: radial-gradient(circle, var(--color-text-subtle) 1.5px, transparent 1.5px);
+	background-size: 5px 5px;
+	background-position: 0 0;
+
+	&:hover {
+		opacity: 0.7;
 	}
 }
 

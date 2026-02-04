@@ -95,6 +95,7 @@
 @import './features/tooltip/content.css';
 @import './features/tooltip/voting.css';
 @import './features/tooltip/tabs.css';
+@import './features/tooltip/discord-evidence.css';
 
 /* Report Helper */
 @import './features/report-helper/report-helper.css';

@@ -3,6 +3,7 @@ import type {
 	GroupTrackedUsersResponse,
 	QueueLimitsData,
 	QueueResult,
+	RobloxUserDiscordLookup,
 	UserStatus,
 	VoteData,
 	VoteResult
@@ -76,7 +77,7 @@ export async function checkMultipleUsers(
 		...(excludeInfo && { excludeInfo: true })
 	};
 
-	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.MULTIPLE_USER_CHECK, {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.USER_CHECK, {
 		method: 'POST',
 		body: JSON.stringify(requestBody),
 		clientId,
@@ -259,4 +260,17 @@ export async function getGroupTrackedUsers(
 	const response = await makeHttpRequest(url, { method: 'GET' });
 
 	return extractResponseData<GroupTrackedUsersResponse>(response);
+}
+
+// Look up Discord accounts linked to a Roblox user
+export async function lookupRobloxUserDiscord(
+	userId: string | number,
+	clientId?: string
+): Promise<RobloxUserDiscordLookup> {
+	const sanitizedUserId = validateEntityId(userId);
+
+	const url = `${API_CONFIG.ENDPOINTS.USER_CHECK}/${sanitizedUserId}/discord`;
+	const response = await makeHttpRequest(url, { method: 'GET', clientId });
+
+	return extractResponseData<RobloxUserDiscordLookup>(response);
 }

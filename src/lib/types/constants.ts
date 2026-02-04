@@ -27,7 +27,6 @@ export const API_CONFIG = {
 	BASE_URL: `https://${API_DOMAIN}`,
 	ENDPOINTS: {
 		USER_CHECK: '/v1/lookup/roblox/user',
-		MULTIPLE_USER_CHECK: '/v1/lookup/roblox/user',
 		GROUP_CHECK: '/v1/lookup/roblox/group',
 		QUEUE_USER: '/v1/queue/roblox/user',
 		QUEUE_LIMITS: '/v1/queue/limits',
@@ -88,7 +87,8 @@ export const API_ACTIONS = {
 	TRANSLATE_TEXT: 'translateText',
 	HAS_TRANSLATE_PERMISSION: 'hasTranslatePermission',
 	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission',
-	GET_GROUP_TRACKED_USERS: 'getGroupTrackedUsers'
+	GET_GROUP_TRACKED_USERS: 'getGroupTrackedUsers',
+	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord'
 } as const;
 
 // Discord OAuth external message types

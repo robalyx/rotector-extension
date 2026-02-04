@@ -405,3 +405,41 @@ export interface GroupTrackedUsersResponse {
 	nextCursor: string | null;
 	hasMore: boolean;
 }
+
+// Discord lookup types for Roblox user
+export interface DiscordServerInfo {
+	serverId: string;
+	serverName: string;
+	joinedAt: number | null;
+	updatedAt: number | null;
+	isTase: boolean;
+}
+
+export interface DiscordAccountInfo {
+	id: string;
+	detectedAt: number | null;
+	updatedAt: number | null;
+	servers: DiscordServerInfo[];
+	sources: number[];
+}
+
+export interface RobloxAltAccount {
+	robloxUserId: number;
+	robloxUsername: string;
+	detectedAt: number;
+	updatedAt: number;
+	sources: number[];
+}
+
+export interface RobloxUserDiscordLookup {
+	robloxUserId: number;
+	discordAccounts: DiscordAccountInfo[];
+	altAccounts: RobloxAltAccount[];
+}
+
+// Verification source names for Discord-Roblox connections
+export const VERIFICATION_SOURCE_NAMES: Record<number, string> = {
+	0: 'Bloxlink',
+	1: 'Rover',
+	2: 'Profile'
+};

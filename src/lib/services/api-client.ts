@@ -15,6 +15,7 @@ import type {
 	QueueResult,
 	ReportableUserResponse,
 	RequestOptions,
+	RobloxUserDiscordLookup,
 	TranslationResult,
 	UserStatus,
 	VoteData,
@@ -296,6 +297,12 @@ class RotectorApiClient {
 			texts,
 			targetLanguage,
 			sourceLanguage
+		});
+	}
+
+	async lookupRobloxUserDiscord(userId: string | number): Promise<RobloxUserDiscordLookup> {
+		return sendMessage<RobloxUserDiscordLookup>(API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD, {
+			userId
 		});
 	}
 }

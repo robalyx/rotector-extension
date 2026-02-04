@@ -1,0 +1,190 @@
+/* =================================
+   DISCORD EVIDENCE CONTAINER
+   ================================= */
+
+@utility discord-evidence-container {
+	@apply w-full;
+}
+
+/* =================================
+   LOADING STATE
+   ================================= */
+
+@utility discord-loading {
+	@apply relative flex items-center gap-2 p-3 rounded-md overflow-hidden;
+	background-color: var(--color-reason-bg);
+}
+
+@utility discord-loading-shimmer {
+	@apply absolute inset-0 shimmer;
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
+@utility discord-loading-text {
+	@apply relative text-sm z-10;
+	color: var(--color-text-secondary);
+}
+
+/* =================================
+   SUMMARY BAR
+   ================================= */
+
+@utility discord-summary {
+	@apply flex items-center justify-center gap-2 flex-wrap mb-2 py-1.5 px-2 rounded-md text-xs;
+	background-color: var(--color-reason-bg);
+}
+
+@utility discord-summary-item {
+	@apply inline-flex items-center gap-1;
+	color: var(--color-text-secondary);
+}
+
+@utility discord-summary-separator {
+	@apply w-px h-3;
+	background-color: var(--color-border);
+}
+
+@utility discord-expand-all-btn {
+	@apply ml-auto p-0.5 rounded transition-colors duration-150;
+	background: transparent;
+	border: none;
+	color: var(--color-text-tertiary);
+	cursor: pointer;
+
+	&:hover {
+		color: var(--color-text-secondary);
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+}
+
+/* =================================
+   DISCORD ACCOUNT CARD
+   ================================= */
+
+@utility discord-account-card {
+	@apply mb-2 rounded-md overflow-hidden;
+	background-color: var(--color-reason-bg);
+	border: 1px solid var(--color-border);
+
+	&:last-child {
+		@apply mb-0;
+	}
+
+	&.expanded {
+		border-color: var(--color-text-tertiary);
+	}
+}
+
+@utility discord-account-header {
+	@apply w-full flex items-center gap-2 p-2 text-left cursor-pointer transition-colors duration-150;
+	background: transparent;
+	border: none;
+	color: var(--color-text);
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.03);
+	}
+}
+
+@utility discord-chevron-wrapper {
+	@apply inline-flex flex-shrink-0 transition-transform duration-200;
+}
+
+@utility discord-chevron {
+	@apply flex-shrink-0;
+	color: var(--color-text-tertiary);
+}
+
+@utility discord-icon {
+	@apply flex-shrink-0;
+	color: #5865f2;
+}
+
+@utility discord-roblox-icon {
+	@apply flex-shrink-0;
+	color: var(--color-text-secondary);
+}
+
+@utility discord-account-id {
+	@apply text-sm font-mono truncate;
+	color: var(--color-text);
+}
+
+@utility discord-server-count {
+	@apply ml-auto text-xs;
+	color: var(--color-text-tertiary);
+}
+
+@utility discord-account-content {
+	@apply p-2 pt-0;
+}
+
+@utility discord-alt-header-static {
+	@apply w-full flex items-center gap-2 p-2 text-left;
+	background: transparent;
+	border: none;
+	color: var(--color-text);
+}
+
+@utility discord-alt-link {
+	@apply text-sm font-medium truncate;
+	color: var(--color-text);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+@utility discord-alt-id {
+	@apply text-sm font-mono flex-shrink-0;
+	color: var(--color-text-tertiary);
+}
+
+/* =================================
+   SERVER ITEMS
+   ================================= */
+
+@utility discord-server-item {
+	@apply flex items-center justify-between gap-2 p-1.5 mb-1 rounded text-sm;
+	background-color: var(--color-evidence-bg);
+	border: 1px solid var(--color-evidence-border);
+
+	&:last-child {
+		@apply mb-0;
+	}
+}
+
+@utility discord-server-info {
+	@apply flex items-center gap-1.5 flex-1 min-w-0;
+}
+
+@utility discord-server-name {
+	@apply truncate text-sm;
+	color: var(--color-text);
+}
+
+@utility discord-server-date {
+	@apply flex items-center gap-1 text-2xs flex-shrink-0;
+	color: var(--color-text-tertiary);
+}
+
+@utility discord-date-separator {
+	opacity: 0.5;
+}
+
+/* =================================
+   BADGES
+   ================================= */
+
+@utility discord-tase-badge {
+	@apply px-1.5 py-0.5 rounded text-2xs font-bold uppercase flex-shrink-0;
+	background-color: var(--color-status-unsafe);
+	color: white;
+}
+
+@utility discord-source-badge {
+	@apply px-1.5 py-0.5 rounded text-2xs font-medium uppercase flex-shrink-0;
+	background-color: var(--color-status-integration);
+	color: white;
+}

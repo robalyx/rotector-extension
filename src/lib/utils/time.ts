@@ -86,6 +86,25 @@ export function getDurationSince(timestamp: number): string {
 }
 
 /**
+ * Formats a Unix timestamp to a short date string (e.g., "Jan 1" or "Jan 1, 2024" if different year)
+ */
+export function formatShortDate(timestamp: number | null): string | null {
+	if (!timestamp) return null;
+	const date = new Date(timestamp * 1000);
+	if (isNaN(date.getTime())) return null;
+
+	const now = new Date();
+	const dateYear = date.getFullYear();
+	const currentYear = now.getFullYear();
+
+	return date.toLocaleDateString('en-US', {
+		month: 'short',
+		day: 'numeric',
+		year: dateYear !== currentYear ? 'numeric' : undefined
+	});
+}
+
+/**
  * Formats a Unix timestamp to a complete date and time string
  */
 export function formatExactTimestamp(timestamp: number): string {

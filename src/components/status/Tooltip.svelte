@@ -47,6 +47,7 @@
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
+	import DiscordAccountsEvidence from './DiscordAccountsEvidence.svelte';
 	import { get } from 'svelte/store';
 	import { _, locale } from 'svelte-i18n';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
@@ -1135,26 +1136,33 @@
 								{/if}
 								{#if reason.evidence && reason.evidence.length > 0}
 									<div class="reason-evidence">
-										{#each reason.evidence as evidence, index (index)}
-											{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
-												<div class="evidence-item outfit-evidence-item">
-													<div class="outfit-evidence-header">
-														<div class="outfit-evidence-name">
-															{getDisplayText(evidence.outfitName)}
-														</div>
-														{#if evidence.outfitConfidence !== null}
-															<div class="outfit-confidence-badge">
-																{evidence.outfitConfidence}
-																%
+										{#if reason.typeName === 'Condo Activity'}
+											<DiscordAccountsEvidence
+												fallbackEvidence={reason.evidence.map((e) => getDisplayText(e.content))}
+												robloxUserId={parseInt(sanitizedUserId, 10)}
+											/>
+										{:else}
+											{#each reason.evidence as evidence, index (index)}
+												{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
+													<div class="evidence-item outfit-evidence-item">
+														<div class="outfit-evidence-header">
+															<div class="outfit-evidence-name">
+																{getDisplayText(evidence.outfitName)}
 															</div>
-														{/if}
+															{#if evidence.outfitConfidence !== null}
+																<div class="outfit-confidence-badge">
+																	{evidence.outfitConfidence}
+																	%
+																</div>
+															{/if}
+														</div>
+														<div class="outfit-reason">{getDisplayText(evidence.outfitReason)}</div>
 													</div>
-													<div class="outfit-reason">{getDisplayText(evidence.outfitReason)}</div>
-												</div>
-											{:else}
-												<div class="evidence-item">{getDisplayText(evidence.content)}</div>
-											{/if}
-										{/each}
+												{:else}
+													<div class="evidence-item">{getDisplayText(evidence.content)}</div>
+												{/if}
+											{/each}
+										{/if}
 									</div>
 								{/if}
 							</div>

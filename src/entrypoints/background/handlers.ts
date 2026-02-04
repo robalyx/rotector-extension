@@ -12,6 +12,7 @@ import {
 	getQueueStatus,
 	getStatistics,
 	getVotes,
+	lookupRobloxUserDiscord,
 	queueUser,
 	submitVote
 } from './endpoints/core';
@@ -169,6 +170,10 @@ export const actionHandlers = {
 	},
 	[API_ACTIONS.EXTENSION_GET_LEADERBOARD]: async (request: ContentMessage) =>
 		getLeaderboard(request.limit, request.includeAnonymous),
+	[API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD]: async (request: ContentMessage) => {
+		if (!request.userId) throw new Error('User ID is required for Discord lookup');
+		return lookupRobloxUserDiscord(request.userId, request.clientId);
+	},
 	[API_ACTIONS.TRANSLATE_TEXT]: async (request: ContentMessage) => {
 		if (!request.texts || request.texts.length === 0) {
 			throw new Error('Texts are required for translation');

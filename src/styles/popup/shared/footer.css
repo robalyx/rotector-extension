@@ -74,11 +74,11 @@
    ================================= */
 
 @utility footer-help-section {
-	@apply mt-1;
+	@apply flex justify-center gap-2 mt-1;
 }
 
 @utility footer-help-link {
-	@apply inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-all duration-200 no-underline;
+	@apply inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-all duration-200 no-underline border-none bg-transparent cursor-pointer;
 
 	color: var(--color-text-subtle);
 

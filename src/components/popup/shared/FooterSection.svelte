@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { BookOpen, ExternalLink, CircleHelp } from 'lucide-svelte';
+	import { BookOpen, ExternalLink, CircleHelp, FileText } from 'lucide-svelte';
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiGithub from '@icons-pack/svelte-simple-icons/icons/SiGithub';
 
@@ -49,10 +49,19 @@
 
 	<!-- Help Link -->
 	<div class="footer-help-section">
-		<button class="footer-view-guide-button" onclick={handleViewGuide} type="button">
-			<BookOpen class="footer-view-guide-icon" />
+		<button class="footer-help-link" onclick={handleViewGuide} type="button">
+			<BookOpen class="footer-help-icon-stroke" />
 			{$_('footer_view_guide')}
 		</button>
+		<a
+			class="footer-help-link"
+			href="https://roscoe.rotector.com/docs"
+			rel="noopener noreferrer"
+			target="_blank"
+		>
+			<FileText class="footer-help-icon-stroke" />
+			{$_('footer_docs')}
+		</a>
 		<a
 			class="footer-help-link"
 			href="https://rotector.com"

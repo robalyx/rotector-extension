@@ -402,24 +402,6 @@
 }
 
 /* =================================
-   FOOTER VIEW GUIDE BUTTON
-   ================================= */
-
-@utility footer-view-guide-button {
-	@apply flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium cursor-pointer transition-all duration-200 border-none;
-	background-color: var(--color-primary);
-	color: white;
-
-	&:hover {
-		background-color: var(--color-primary-hover);
-	}
-}
-
-@utility footer-view-guide-icon {
-	@apply w-3.5 h-3.5;
-}
-
-/* =================================
    CLOSE CONFIRMATION DIALOG
    ================================= */
 

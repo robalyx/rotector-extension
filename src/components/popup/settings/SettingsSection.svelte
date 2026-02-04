@@ -35,17 +35,12 @@
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
-		onNavigateToRotectorDocs?: () => void;
 		onNavigateToDeveloperLogs?: () => void;
 		onNavigateToPerformance?: () => void;
 	}
 
-	let {
-		onNavigateToCustomApis,
-		onNavigateToRotectorDocs,
-		onNavigateToDeveloperLogs,
-		onNavigateToPerformance
-	}: Props = $props();
+	let { onNavigateToCustomApis, onNavigateToDeveloperLogs, onNavigateToPerformance }: Props =
+		$props();
 
 	let apiKeyVisible = $state(false);
 	let showMatureWarning = $state(false);
@@ -501,16 +496,6 @@
 						</div>
 					</div>
 				</div>
-			{/if}
-
-			<!-- Rotector API Documentation Button -->
-			{#if onNavigateToRotectorDocs}
-				<button class="manage-custom-apis-button" onclick={onNavigateToRotectorDocs} type="button">
-					<span class="manage-custom-apis-text">
-						{$_('settings_rotector_api_docs_button')}
-					</span>
-					<ChevronRight size={16} />
-				</button>
 			{/if}
 		</div>
 	</fieldset>

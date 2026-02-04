@@ -6,7 +6,6 @@
 	import QueuePage from '../../components/popup/QueuePage.svelte';
 	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
-	import RotectorApiDocumentation from '../../components/popup/api/RotectorApiDocumentation.svelte';
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
@@ -27,7 +26,6 @@
 		| 'queue'
 		| 'custom-apis'
 		| 'custom-api-docs'
-		| 'rotector-api-docs'
 		| 'developer-logs'
 		| 'performance';
 
@@ -75,7 +73,6 @@
 						savedPage === 'queue' ||
 						savedPage === 'custom-apis' ||
 						savedPage === 'custom-api-docs' ||
-						savedPage === 'rotector-api-docs' ||
 						savedPage === 'developer-logs' ||
 						savedPage === 'performance')
 				) {
@@ -138,7 +135,6 @@
 					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 					onNavigateToPerformance={() => handlePageChange('performance')}
-					onNavigateToRotectorDocs={() => handlePageChange('rotector-api-docs')}
 				/>
 			{:else if currentPage === 'warzone'}
 				<WarzonePage />
@@ -151,8 +147,6 @@
 				/>
 			{:else if currentPage === 'custom-api-docs'}
 				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
-			{:else if currentPage === 'rotector-api-docs'}
-				<RotectorApiDocumentation onBack={() => handlePageChange('settings')} />
 			{:else if currentPage === 'developer-logs'}
 				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
 			{:else if currentPage === 'performance'}

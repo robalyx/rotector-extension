@@ -16,6 +16,66 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.12.0',
+		version: '2.12.0',
+		date: '2026-02-09',
+		title: 'Developer Tools & Performance',
+		summary:
+			'This update adds developer debugging tools, captcha verification for queue submissions, and faster page loading.',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'Resizable expanded tooltip - Drag the bottom-right corner handle to resize the expanded tooltip; your preferred size is automatically saved'
+			},
+			{
+				type: 'added',
+				description:
+					'Discord account lookup - Condo Activity evidence now shows linked Discord accounts with server memberships and Roblox alt accounts in an expandable view'
+			},
+			{
+				type: 'added',
+				description:
+					'Captcha verification - Queue submissions now include a captcha challenge to help prevent automated abuse'
+			},
+			{
+				type: 'added',
+				description:
+					'Developer logs page - View extension activity logs in the popup settings when developer mode is enabled'
+			},
+			{
+				type: 'changed',
+				description:
+					'Faster page loading - Profile and group pages now load status indicators 800ms+ faster by fetching data while the page is still loading'
+			},
+			{
+				type: 'changed',
+				description:
+					'Smarter page navigation - Jumping to distant pages in the group members carousel now requires fewer API requests by automatically choosing the optimal fetch direction'
+			},
+			{
+				type: 'changed',
+				description:
+					'API documentation - Moved Rotector API docs to external site with new footer link to roscoe.rotector.com/docs'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group members carousel pagination - Fixed bug where members were being skipped when navigating through pages'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Tooltip user info - Fixed incorrect username and display name extraction on friends list and search pages'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile page initialization - Fixed status indicators not loading due to outdated selector for new Roblox profile layout'
+			}
+		]
+	},
+	{
 		id: 'v2.11.0',
 		version: '2.11.0',
 		date: '2026-02-02',

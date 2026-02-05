@@ -22,7 +22,6 @@
 	import type { SettingsKey } from '@/lib/types/settings';
 	import {
 		AGE_PRESETS,
-		EXPERIMENTAL_BLUR_CATEGORY,
 		EXPERIMENTAL_DEVELOPER_CATEGORY,
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
@@ -279,55 +278,6 @@
 			{$_('settings_category_experimental')}
 		</legend>
 		<div class="settings-category">
-			<!-- Content Blur Master Toggle -->
-			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED}>
-				<div class="setting-label">
-					{$_('settings_label_experimental_blur')}
-					<HelpIndicator text={$_('settings_help_experimental_blur')} />
-				</div>
-				<Toggle
-					checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED] ?? false)}
-					onchange={(value: boolean) =>
-						handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED, value)}
-				/>
-			</div>
-
-			<!-- Blur Settings -->
-			{#if $settings[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]}
-				<div class="experimental-nested-container">
-					<div class="nested-legend">
-						<button
-							class="toggle-all-button"
-							class:toggle-all-active={areAllCategorySettingsEnabled(
-								EXPERIMENTAL_BLUR_CATEGORY.settings
-							)}
-							onclick={() => toggleAllCategorySettings(EXPERIMENTAL_BLUR_CATEGORY.settings)}
-							title={areAllCategorySettingsEnabled(EXPERIMENTAL_BLUR_CATEGORY.settings)
-								? $_('settings_toggle_all_disable')
-								: $_('settings_toggle_all_enable')}
-							type="button"
-						>
-							{areAllCategorySettingsEnabled(EXPERIMENTAL_BLUR_CATEGORY.settings)
-								? $_('settings_toggle_all_on')
-								: $_('settings_toggle_all_off')}
-						</button>
-					</div>
-					<div class="settings-category">
-						{#each EXPERIMENTAL_BLUR_CATEGORY.settings as setting (setting.key)}
-							<div class="setting-item" data-setting-key={setting.key}>
-								<div class="setting-label">
-									{$_(setting.labelKey)}
-								</div>
-								<Toggle
-									checked={Boolean($settings[setting.key] ?? false)}
-									onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-								/>
-							</div>
-						{/each}
-					</div>
-				</div>
-			{/if}
-
 			<!-- Custom API Integration Master Toggle -->
 			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}>
 				<div class="setting-label">

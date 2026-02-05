@@ -26,7 +26,6 @@ export const SETTINGS_KEYS = {
 	BLUR_USERNAMES: 'blurUsernames',
 	BLUR_DESCRIPTIONS: 'blurDescriptions',
 	BLUR_AVATARS: 'blurAvatars',
-	EXPERIMENTAL_BLUR_ENABLED: 'experimentalBlurEnabled',
 	EXPERIMENTAL_CUSTOM_APIS_ENABLED: 'experimentalCustomApisEnabled',
 	EXPERIMENTAL_WARZONE_ENABLED: 'experimentalWarzoneEnabled',
 	EXPANDED_TOOLTIP_WIDTH: 'expandedTooltipWidth',
@@ -71,7 +70,6 @@ export interface Settings {
 	[SETTINGS_KEYS.BLUR_USERNAMES]: boolean;
 	[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: boolean;
 	[SETTINGS_KEYS.BLUR_AVATARS]: boolean;
-	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: boolean;
 	[SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH]?: number;
@@ -102,7 +100,6 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.BLUR_USERNAMES]: false,
 	[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: false,
 	[SETTINGS_KEYS.BLUR_AVATARS]: false,
-	[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]: false,
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false,
 	[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED]: false
 };
@@ -174,32 +171,30 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 				labelKey: 'settings_label_report_helper'
 			}
 		]
+	},
+	{
+		titleKey: 'settings_category_content_blur',
+		hasToggleAll: true,
+		settings: [
+			{
+				key: SETTINGS_KEYS.BLUR_DISPLAY_NAMES,
+				labelKey: 'settings_label_blur_display_names'
+			},
+			{
+				key: SETTINGS_KEYS.BLUR_USERNAMES,
+				labelKey: 'settings_label_blur_usernames'
+			},
+			{
+				key: SETTINGS_KEYS.BLUR_DESCRIPTIONS,
+				labelKey: 'settings_label_blur_descriptions'
+			},
+			{
+				key: SETTINGS_KEYS.BLUR_AVATARS,
+				labelKey: 'settings_label_blur_avatars'
+			}
+		]
 	}
 ];
-
-// Experimental blur settings
-export const EXPERIMENTAL_BLUR_CATEGORY: SettingCategory = {
-	titleKey: 'settings_category_content_blur',
-	hasToggleAll: true,
-	settings: [
-		{
-			key: SETTINGS_KEYS.BLUR_DISPLAY_NAMES,
-			labelKey: 'settings_label_blur_display_names'
-		},
-		{
-			key: SETTINGS_KEYS.BLUR_USERNAMES,
-			labelKey: 'settings_label_blur_usernames'
-		},
-		{
-			key: SETTINGS_KEYS.BLUR_DESCRIPTIONS,
-			labelKey: 'settings_label_blur_descriptions'
-		},
-		{
-			key: SETTINGS_KEYS.BLUR_AVATARS,
-			labelKey: 'settings_label_blur_avatars'
-		}
-	]
-};
 
 // Experimental developer settings
 export const EXPERIMENTAL_DEVELOPER_CATEGORY: SettingCategory = {

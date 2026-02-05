@@ -155,10 +155,6 @@ function getPageSettings(): PageSettings {
  * Check if any blur setting is enabled.
  */
 function isBlurEnabled(): boolean {
-	const s = get(settings);
-	if (!s[SETTINGS_KEYS.EXPERIMENTAL_BLUR_ENABLED]) {
-		return false;
-	}
 	const bs = getBlurSettings();
 	return bs.displayNames || bs.usernames || bs.descriptions || bs.avatars;
 }

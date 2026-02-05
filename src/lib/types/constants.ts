@@ -141,13 +141,6 @@ export const PROFILE_SELECTORS = {
 	AVATAR_IMG: '.user-profile-header-details-avatar-container .avatar-card-image img'
 } as const;
 
-// DOM selectors for profile dropdown menu
-export const PROFILE_DROPDOWN_SELECTORS = {
-	MENU: '.foundation-web-menu',
-	MENU_ITEM: '.foundation-web-menu-item',
-	MENU_ITEM_TITLE: '.foundation-web-menu-item-title'
-} as const;
-
 // DOM selectors for friends list pages
 export const FRIENDS_SELECTORS = {
 	CONTAINER: '.hlist.avatar-cards',

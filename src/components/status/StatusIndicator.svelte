@@ -26,6 +26,7 @@
 		skipAutoFetch?: boolean;
 		onClick?: (entityId: string) => void;
 		onQueue?: (entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void;
+		onViewOutfits?: () => void;
 		userUsername?: string;
 		userDisplayName?: string;
 		userAvatarUrl?: string;
@@ -40,6 +41,7 @@
 		skipAutoFetch = false,
 		onClick,
 		onQueue,
+		onViewOutfits,
 		userUsername,
 		userDisplayName,
 		userAvatarUrl
@@ -376,6 +378,7 @@
 			onMouseEnter={handleTooltipMouseEnter}
 			onMouseLeave={handleTooltipMouseLeave}
 			onQueue={handleQueue}
+			{onViewOutfits}
 			{userAvatarUrl}
 			{userDisplayName}
 			userId={entityId}
@@ -395,6 +398,7 @@
 			mode="expanded"
 			onClose={closeExpandedTooltip}
 			onQueue={handleExpandedQueue}
+			{onViewOutfits}
 			{userAvatarUrl}
 			{userDisplayName}
 			userId={entityId}

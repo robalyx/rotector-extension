@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { _ } from 'svelte-i18n';
 	import { mount } from 'svelte';
 	import { settings } from '@/lib/stores/settings';
 	import { logger } from '@/lib/utils/logger';
@@ -12,7 +11,6 @@
 		ENTITY_TYPES,
 		FRIENDS_CAROUSEL_SELECTORS,
 		PAGE_TYPES,
-		PROFILE_DROPDOWN_SELECTORS,
 		PROFILE_GROUPS_SHOWCASE_SELECTORS,
 		PROFILE_SELECTORS,
 		USER_ACTIONS
@@ -67,7 +65,6 @@
 	let queueModalManager: QueueModalManagerInstance | undefined;
 	let statusContainer: HTMLElement | null = null;
 	let friendButtonHandler: ((event: Event) => void) | null = null;
-	let dropdownObserver: MutationObserver | null = null;
 	let headerCheckInterval: ReturnType<typeof setInterval> | null = null;
 	let isReinjecting = false;
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
@@ -136,7 +133,6 @@
 		try {
 			await setupStatusIndicator();
 			setupHeaderCheck();
-			setupDropdownObserver();
 
 			// NOTE: We mark profile elements ready early so blur marking and observers start immediately
 			profileElementsReady = true;
@@ -219,7 +215,8 @@
 					},
 					skipAutoFetch: true,
 					onClick: handleStatusClick,
-					onQueue: handleQueueUser
+					onQueue: handleQueueUser,
+					onViewOutfits: handleViewOutfits
 				}
 			});
 
@@ -329,27 +326,6 @@
 		}
 	}
 
-	// Set up dropdown observer to inject outfit viewer button
-	function setupDropdownObserver() {
-		dropdownObserver = new MutationObserver((mutations) => {
-			for (const mutation of mutations) {
-				for (const node of mutation.addedNodes) {
-					if (node instanceof HTMLElement) {
-						const menu =
-							node.querySelector(PROFILE_DROPDOWN_SELECTORS.MENU) ||
-							(node.classList.contains('foundation-web-menu') ? node : null);
-						if (menu) {
-							injectOutfitViewerButton(menu);
-						}
-					}
-				}
-			}
-		});
-
-		dropdownObserver.observe(document.body, { childList: true, subtree: true });
-		logger.debug('Dropdown observer set up');
-	}
-
 	// Get the currently visible header element
 	function getActiveHeader(): HTMLElement | null {
 		const header = document.querySelector(PROFILE_SELECTORS.HEADER);
@@ -397,43 +373,6 @@
 		logger.debug('Header check interval set up');
 	}
 
-	// Inject outfit viewer button into profile dropdown menu
-	function injectOutfitViewerButton(menu: Element) {
-		if (menu.querySelector('[data-rotector-outfit-btn]')) return;
-
-		const menuContent = menu.querySelector('.padding-small');
-		if (!menuContent) return;
-
-		const button = document.createElement('button');
-		button.type = 'button';
-		button.dataset.rotectorOutfitBtn = 'true';
-		button.className =
-			'relative clip group/interactable focus-visible:outline-focus disabled:outline-none foundation-web-menu-item flex items-center content-default text-truncate-split focus-visible:hover:outline-none cursor-pointer stroke-none bg-none text-align-x-left width-full text-body-medium padding-x-medium padding-y-small gap-x-medium radius-medium';
-		button.style.cssText = 'outline-offset: 0px;';
-		button.innerHTML = `
-			<div role="presentation" class="absolute inset-[0] transition-colors group-hover/interactable:bg-[var(--color-state-hover)] group-active/interactable:bg-[var(--color-state-press)] group-disabled/interactable:bg-none"></div>
-			<div class="grow-1 text-truncate-split flex flex-col gap-y-xsmall">
-				<span class="foundation-web-menu-item-title text-no-wrap text-truncate-split content-emphasis">${get(_)('outfit_viewer_button')}</span>
-			</div>
-		`;
-
-		button.addEventListener('click', (e) => {
-			e.stopPropagation();
-			outfitViewerOpen = true;
-			document.body.click();
-		});
-
-		const items = menuContent.querySelectorAll(PROFILE_DROPDOWN_SELECTORS.MENU_ITEM);
-		const lastItem = items[items.length - 1];
-		if (lastItem) {
-			menuContent.insertBefore(button, lastItem);
-		} else {
-			menuContent.appendChild(button);
-		}
-
-		logger.debug('Outfit viewer button injected into dropdown');
-	}
-
 	// Handle status indicator click
 	function handleStatusClick(clickedUserId: string) {
 		logger.userAction(USER_ACTIONS.STATUS_CLICKED, { userId: clickedUserId });
@@ -443,6 +382,11 @@
 	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
 		queueModalManager?.showQueue(clickedUserId, isReprocess, status);
+	}
+
+	// Handle view outfits request
+	function handleViewOutfits() {
+		outfitViewerOpen = true;
 	}
 
 	// Refresh status after queue completion
@@ -554,12 +498,6 @@
 			if (friendButton && friendButtonHandler) {
 				friendButton.removeEventListener('click', friendButtonHandler, true);
 				friendButtonHandler = null;
-			}
-
-			// Clean up dropdown observer
-			if (dropdownObserver) {
-				dropdownObserver.disconnect();
-				dropdownObserver = null;
 			}
 
 			// Clean up header check interval

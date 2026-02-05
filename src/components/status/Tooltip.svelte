@@ -71,6 +71,7 @@
 		mode?: 'preview' | 'expanded';
 		entityType?: 'user' | 'group';
 		onQueue?: (isReprocess?: boolean, userStatus?: UserStatus | null) => void;
+		onViewOutfits?: () => void;
 		onClose?: () => void;
 		onExpand?: () => void;
 		element?: HTMLElement;
@@ -89,6 +90,7 @@
 		mode = 'preview',
 		entityType = 'user',
 		onQueue,
+		onViewOutfits,
 		onClose,
 		onExpand,
 		element = $bindable(),
@@ -671,6 +673,13 @@
 		} catch (err) {
 			logger.error('Failed to copy Discord link:', err);
 		}
+	}
+
+	// Handle view outfits click
+	function handleViewOutfits(event: MouseEvent) {
+		event.stopPropagation();
+		showOptionsMenu = false;
+		onViewOutfits?.();
 	}
 
 	// Handle click outside options menu
@@ -1356,6 +1365,12 @@
 										{/if}
 										<span>{$_('tooltip_copy_link')}</span>
 									</button>
+									{#if onViewOutfits}
+										<button class="tooltip-options-item" onclick={handleViewOutfits} type="button">
+											<Shirt class="tooltip-options-icon" size={14} />
+											<span>{$_('outfit_viewer_button')}</span>
+										</button>
+									{/if}
 									{#if activeUserStatus?.engineVersion}
 										<div class="tooltip-options-divider"></div>
 										<div class="tooltip-options-engine">

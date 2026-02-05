@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 import { PageController } from './PageController';
+import { PROFILE_SELECTORS } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { sanitizeEntityId } from '../utils/sanitizer';
 import { waitForElement } from '../utils/element-waiter';
@@ -92,12 +93,12 @@ export class ProfilePageController extends PageController {
 
 	// Wait for profile elements to be available
 	private async waitForProfileElements(): Promise<void> {
-		const result = await waitForElement('.profile-header-username', {
+		const result = await waitForElement(PROFILE_SELECTORS.HEADER, {
 			baseDelay: 200
 		});
 
 		if (!result.success) {
-			throw new Error('Profile username element not found');
+			throw new Error('Profile header element not found');
 		}
 	}
 

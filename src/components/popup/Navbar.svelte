@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { BarChart3, Settings, Swords, ListTodo } from 'lucide-svelte';
+	import { BarChart3, Settings, ListTodo } from 'lucide-svelte';
 	import { _ } from 'svelte-i18n';
 	import { unprocessedCount } from '@/lib/stores/queue-history';
 
-	type NavPage = 'stats' | 'settings' | 'warzone' | 'queue';
+	type NavPage = 'stats' | 'settings' | 'queue';
 
 	interface NavbarProps {
 		currentPage: string | null;
 		onPageChange: (page: NavPage) => void;
-		showWarzone?: boolean;
 	}
 
-	let { currentPage, onPageChange, showWarzone = false }: NavbarProps = $props();
+	let { currentPage, onPageChange }: NavbarProps = $props();
 </script>
 
 <nav class="navbar">
@@ -43,21 +42,6 @@
 		</span>
 		<span class="navbar-label">{$_('navbar_tab_queue')}</span>
 	</button>
-
-	{#if showWarzone}
-		<button
-			class="navbar-tab"
-			class:active={currentPage === 'warzone'}
-			aria-current={currentPage === 'warzone' ? 'page' : undefined}
-			onclick={() => onPageChange('warzone')}
-			type="button"
-		>
-			<span class="navbar-icon">
-				<Swords size={18} strokeWidth={2.5} />
-			</span>
-			<span class="navbar-label">{$_('navbar_tab_warzone')}</span>
-		</button>
-	{/if}
 
 	<button
 		class="navbar-tab"

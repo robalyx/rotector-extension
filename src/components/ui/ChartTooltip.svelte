@@ -12,25 +12,13 @@
 		mainValue: string;
 		subtitle: string;
 		details?: TooltipDetail[];
-		variant?: 'default' | 'warzone';
 	}
 
-	let {
-		visible,
-		x,
-		y,
-		transform,
-		mainValue,
-		subtitle,
-		details,
-		variant = 'default'
-	}: Props = $props();
-
-	const tooltipClass = $derived(variant === 'warzone' ? 'war-zone-chart-tooltip' : 'chart-tooltip');
+	let { visible, x, y, transform, mainValue, subtitle, details }: Props = $props();
 </script>
 
 {#if visible}
-	<div style:left="{x}px" style:top="{y}px" style:transform class={tooltipClass}>
+	<div style:left="{x}px" style:top="{y}px" style:transform class="chart-tooltip">
 		<div class="tooltip-main-value">
 			{mainValue}
 		</div>

@@ -334,19 +334,6 @@
 				</div>
 			{/if}
 
-			<!-- War Zone Master Toggle -->
-			<div class="setting-item" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED}>
-				<div class="setting-label">
-					{$_('settings_label_experimental_warzone')}
-					<HelpIndicator text={$_('settings_help_experimental_warzone')} />
-				</div>
-				<Toggle
-					checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED] ?? false)}
-					onchange={(value: boolean) =>
-						handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED, value)}
-				/>
-			</div>
-
 			<!-- Developer Mode Master Toggle -->
 			<div class="setting-item" data-setting-key={SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}>
 				<div class="setting-label">

@@ -121,7 +121,6 @@
 	/* Page wrappers */
 	.stats-page,
 	.settings-page,
-	.warzone-page,
 	.queue-page {
 		display: flex;
 		flex-direction: column;

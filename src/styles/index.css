@@ -63,18 +63,6 @@
 @import './popup/api/import.css';
 @import './popup/api/documentation.css';
 
-/* Warzone Page */
-@import './popup/warzone/base.css';
-@import './popup/warzone/auth.css';
-@import './popup/warzone/profile.css';
-@import './popup/warzone/section.css';
-@import './popup/warzone/hunter.css';
-@import './popup/warzone/overview.css';
-@import './popup/warzone/targets.css';
-@import './popup/warzone/leaderboard.css';
-@import './popup/warzone/hexagonal-map.css';
-@import './popup/warzone/charts.css';
-
 /* Shared Components */
 @import './popup/shared/banner.css';
 @import './popup/shared/footer.css';

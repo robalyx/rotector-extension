@@ -122,33 +122,6 @@ export function formatExactTimestamp(timestamp: number): string {
 }
 
 /**
- * Formats an ISO date string to a compact duration showing how long it's been active
- */
-export function formatActiveDuration(dateString: string): string {
-	const date = new Date(dateString);
-	if (isNaN(date.getTime())) return '0m';
-
-	const now = new Date();
-	const diffMs = now.getTime() - date.getTime();
-
-	if (diffMs < 0) return '0m';
-
-	const diffMinutes = Math.floor(diffMs / (1000 * 60));
-	const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-	const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-	if (diffMinutes < 1) {
-		return '< 1m';
-	} else if (diffMinutes < 60) {
-		return `${diffMinutes}m`;
-	} else if (diffHours < 24) {
-		return `${diffHours}h`;
-	} else {
-		return `${diffDays}d`;
-	}
-}
-
-/**
  * Formats milliseconds to a human-readable duration string
  */
 export function formatDurationMs(ms: number): string {

@@ -2,15 +2,13 @@
 	import Navbar from '../../components/popup/Navbar.svelte';
 	import StatsPage from '../../components/popup/StatsPage.svelte';
 	import SettingsPage from '../../components/popup/SettingsPage.svelte';
-	import WarzonePage from '../../components/popup/WarzonePage.svelte';
 	import QueuePage from '../../components/popup/QueuePage.svelte';
 	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
-	import { initializeSettings, settings } from '@/lib/stores/settings';
-	import { SETTINGS_KEYS } from '@/lib/types/settings';
+	import { initializeSettings } from '@/lib/stores/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
@@ -22,7 +20,6 @@
 	type Page =
 		| 'stats'
 		| 'settings'
-		| 'warzone'
 		| 'queue'
 		| 'custom-apis'
 		| 'custom-api-docs'
@@ -32,7 +29,6 @@
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
 	let currentPage = $state<Page | null>(null);
-	const showWarzone = $derived($settings[SETTINGS_KEYS.EXPERIMENTAL_WARZONE_ENABLED] ?? false);
 
 	function handlePageChange(page: Page) {
 		currentPage = page;
@@ -69,7 +65,6 @@
 					savedPage &&
 					(savedPage === 'stats' ||
 						savedPage === 'settings' ||
-						savedPage === 'warzone' ||
 						savedPage === 'queue' ||
 						savedPage === 'custom-apis' ||
 						savedPage === 'custom-api-docs' ||
@@ -123,7 +118,7 @@
 	</div>
 
 	<!-- Navigation -->
-	<Navbar {currentPage} onPageChange={handlePageChange} {showWarzone} />
+	<Navbar {currentPage} onPageChange={handlePageChange} />
 
 	<!-- Page Content -->
 	<div class="page-content">
@@ -136,8 +131,6 @@
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 					onNavigateToPerformance={() => handlePageChange('performance')}
 				/>
-			{:else if currentPage === 'warzone'}
-				<WarzonePage />
 			{:else if currentPage === 'queue'}
 				<QueuePage />
 			{:else if currentPage === 'custom-apis'}

@@ -2,7 +2,6 @@
 	import { get } from 'svelte/store';
 	import { _ } from 'svelte-i18n';
 	import { settings } from '@/lib/stores/settings';
-	import { authStore } from '@/lib/stores/auth';
 	import { logger } from '@/lib/utils/logger';
 	import { apiClient } from '@/lib/services/api-client';
 	import { waitForElement } from '@/lib/utils/element-waiter';
@@ -78,12 +77,6 @@
 	// Handle report submission
 	async function handleReportSubmit(): Promise<void> {
 		if (!userId) {
-			return;
-		}
-
-		// Only log reports if user is authenticated
-		if (!$authStore.isAuthenticated) {
-			logger.debug('User not authenticated, skipping report logging');
 			return;
 		}
 

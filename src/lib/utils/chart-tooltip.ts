@@ -18,7 +18,7 @@ interface ChartDimensions {
  * Calculate tooltip position for a chart element
  * Handles viewport bounds checking and optimal positioning
  */
-export function calculateTooltipPosition(
+function calculateTooltipPosition(
 	event: MouseEvent,
 	chartDimensions: ChartDimensions,
 	elementX: number,

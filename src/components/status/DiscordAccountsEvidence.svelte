@@ -1,7 +1,16 @@
 <script lang="ts">
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiRoblox from '@icons-pack/svelte-simple-icons/icons/SiRoblox';
-	import { ChevronRight, Users, Server, ChevronsDownUp, ChevronsUpDown } from 'lucide-svelte';
+	import {
+		ChevronRight,
+		Users,
+		Server,
+		ChevronsDownUp,
+		ChevronsUpDown,
+		Copy,
+		Check,
+		X
+	} from 'lucide-svelte';
 	import { _ } from 'svelte-i18n';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { apiClient } from '@/lib/services/api-client';
@@ -21,6 +30,8 @@
 	let isLoading = $state(true);
 	let error = $state<string | null>(null);
 	let expandedAccounts = new SvelteSet<string>();
+	let copySuccess = $state(false);
+	let copyError = $state(false);
 
 	const hasData = $derived(discordAccounts.length > 0 || altAccounts.length > 0);
 	const totalServers = $derived(
@@ -52,6 +63,73 @@
 			for (const account of discordAccounts) {
 				expandedAccounts.add(account.id);
 			}
+		}
+	}
+
+	async function handleCopyDiscordSummary(event: MouseEvent) {
+		event.stopPropagation();
+
+		const lines: string[] = [];
+
+		// Header with Roblox user ID
+		lines.push(`Roblox User ID: ${robloxUserId}`);
+		lines.push('');
+
+		// Summary counts
+		lines.push(`Discord Accounts: ${discordAccounts.length}`);
+		lines.push(`Total Servers: ${totalServers}`);
+		if (altAccounts.length > 0) {
+			lines.push(`Alt Accounts: ${altAccounts.length}`);
+		}
+		lines.push('');
+
+		// Discord accounts with server details
+		for (const account of discordAccounts) {
+			lines.push(`--- Discord Account ${account.id} ---`);
+
+			const sourceNames = getSourceNames(account.sources);
+			if (sourceNames.length > 0) {
+				lines.push(`Sources: ${sourceNames.join(', ')}`);
+			}
+
+			lines.push(`Servers (${account.servers.length}):`);
+			for (const server of account.servers) {
+				const taseTag = server.isTase ? ' [TASE]' : '';
+				const joinedDate = formatShortDate(server.joinedAt) ?? 'Unknown';
+				lines.push(`  - ${server.serverName}${taseTag} - Joined ${joinedDate}`);
+			}
+			lines.push('');
+		}
+
+		// Alt accounts
+		if (altAccounts.length > 0) {
+			lines.push('--- Roblox Alt Accounts ---');
+			for (const alt of altAccounts) {
+				const altSourceNames = getSourceNames(alt.sources);
+				const sourcesStr =
+					altSourceNames.length > 0 ? ` - Sources: ${altSourceNames.join(', ')}` : '';
+				const updatedStr = formatTimestamp(alt.updatedAt);
+				lines.push(
+					`  - ${alt.robloxUsername} (ID: ${alt.robloxUserId})${sourcesStr} - Updated ${updatedStr}`
+				);
+			}
+		}
+
+		try {
+			await navigator.clipboard.writeText(lines.join('\n').trim());
+			copySuccess = true;
+			copyError = false;
+
+			setTimeout(() => {
+				copySuccess = false;
+			}, 2000);
+		} catch {
+			copyError = true;
+			copySuccess = false;
+
+			setTimeout(() => {
+				copyError = false;
+			}, 2000);
 		}
 	}
 
@@ -119,21 +197,51 @@
 				</span>
 			{/if}
 			{#if discordAccounts.length > 0}
-				<button
-					class="discord-expand-all-btn"
-					aria-label={$_(
-						allExpanded ? 'tooltip_discord_collapse_all' : 'tooltip_discord_expand_all'
-					)}
-					onclick={toggleAll}
-					title={$_(allExpanded ? 'tooltip_discord_collapse_all' : 'tooltip_discord_expand_all')}
-					type="button"
-				>
-					{#if allExpanded}
-						<ChevronsDownUp size={14} />
-					{:else}
-						<ChevronsUpDown size={14} />
-					{/if}
-				</button>
+				<div class="discord-summary-actions">
+					<button
+						class="discord-copy-btn"
+						class:error={copyError}
+						aria-label={$_(
+							copyError
+								? 'tooltip_discord_copy_failed'
+								: copySuccess
+									? 'tooltip_discord_copied'
+									: 'tooltip_discord_copy'
+						)}
+						onclick={handleCopyDiscordSummary}
+						title={$_(
+							copyError
+								? 'tooltip_discord_copy_failed'
+								: copySuccess
+									? 'tooltip_discord_copied'
+									: 'tooltip_discord_copy'
+						)}
+						type="button"
+					>
+						{#if copyError}
+							<X size={14} />
+						{:else if copySuccess}
+							<Check size={14} />
+						{:else}
+							<Copy size={14} />
+						{/if}
+					</button>
+					<button
+						class="discord-expand-all-btn"
+						aria-label={$_(
+							allExpanded ? 'tooltip_discord_collapse_all' : 'tooltip_discord_expand_all'
+						)}
+						onclick={toggleAll}
+						title={$_(allExpanded ? 'tooltip_discord_collapse_all' : 'tooltip_discord_expand_all')}
+						type="button"
+					>
+						{#if allExpanded}
+							<ChevronsDownUp size={14} />
+						{:else}
+							<ChevronsUpDown size={14} />
+						{/if}
+					</button>
+				</div>
 			{/if}
 		</div>
 

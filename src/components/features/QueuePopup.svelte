@@ -121,7 +121,7 @@
 				profileCheck,
 				friendsCheck,
 				groupsCheck,
-				selectedOutfitNames
+				selectedOutfitNames: $state.snapshot(selectedOutfitNames)
 			});
 
 			// Start captcha flow via background script
@@ -130,7 +130,7 @@
 				sessionId,
 				queueData: {
 					userId: sanitizedUserId,
-					outfitNames: selectedOutfitNames.length > 0 ? selectedOutfitNames : [],
+					outfitNames: $state.snapshot(selectedOutfitNames),
 					inappropriateProfile: profileCheck === 'thorough',
 					inappropriateFriends: friendsCheck === 'thorough',
 					inappropriateGroups: groupsCheck === 'thorough'

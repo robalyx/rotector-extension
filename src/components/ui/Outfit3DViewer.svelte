@@ -29,6 +29,7 @@
 	let renderer: { dispose: () => void; domElement: HTMLCanvasElement } | null = null;
 	let controls: { dispose: () => void } | null = null;
 	let animationFrameId: number | null = null;
+	let blobUrls: string[] = [];
 
 	// Store light references for brightness control
 	type Light = { intensity: number };
@@ -91,6 +92,11 @@
 			}
 			renderer = null;
 		}
+
+		for (const url of blobUrls) {
+			URL.revokeObjectURL(url);
+		}
+		blobUrls = [];
 	}
 
 	async function initializeViewer(): Promise<void> {
@@ -122,33 +128,40 @@
 	}
 
 	async function loadThreeJS(metadata: Roblox3DMetadata): Promise<void> {
-		const THREE = await import('three');
+		const {
+			Scene,
+			AmbientLight,
+			DirectionalLight,
+			PerspectiveCamera,
+			Vector3,
+			WebGLRenderer
+		} = await import('three');
 		const { OBJLoader } = await import('three/addons/loaders/OBJLoader.js');
 		const { MTLLoader } = await import('three/addons/loaders/MTLLoader.js');
 		const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
 
 		if (!canvasContainer?.isConnected) return;
 
-		const threeScene = new THREE.Scene();
+		const threeScene = new Scene();
 		scene = threeScene;
 		threeScene.background = null;
 
 		// Ambient light for overall illumination
-		const ambientLight = new THREE.AmbientLight(0xffffff, 1.0 * brightness);
+		const ambientLight = new AmbientLight(0xffffff, 1.0 * brightness);
 		threeScene.add(ambientLight);
 
 		// Main directional light from front-top
-		const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2 * brightness);
+		const directionalLight = new DirectionalLight(0xffffff, 1.2 * brightness);
 		directionalLight.position.set(5, 10, 10);
 		threeScene.add(directionalLight);
 
 		// Fill light from left side
-		const fillLight = new THREE.DirectionalLight(0xffffff, 0.6 * brightness);
+		const fillLight = new DirectionalLight(0xffffff, 0.6 * brightness);
 		fillLight.position.set(-10, 5, 5);
 		threeScene.add(fillLight);
 
 		// Back light for rim lighting
-		const backLight = new THREE.DirectionalLight(0xffffff, 0.4 * brightness);
+		const backLight = new DirectionalLight(0xffffff, 0.4 * brightness);
 		backLight.position.set(0, 5, -10);
 		threeScene.add(backLight);
 
@@ -161,10 +174,10 @@
 		];
 
 		// Camera setup using Roblox metadata
-		const camera = new THREE.PerspectiveCamera(metadata.camera.fov, width / height, 0.1, 1000);
+		const camera = new PerspectiveCamera(metadata.camera.fov, width / height, 0.1, 1000);
 
 		// Calculate center of bounding box for camera target
-		const center = new THREE.Vector3(
+		const center = new Vector3(
 			(metadata.aabb.min.x + metadata.aabb.max.x) / 2,
 			(metadata.aabb.min.y + metadata.aabb.max.y) / 2,
 			(metadata.aabb.min.z + metadata.aabb.max.z) / 2
@@ -178,7 +191,7 @@
 		camera.lookAt(center);
 
 		// Renderer
-		const webGLRenderer = new THREE.WebGLRenderer({
+		const webGLRenderer = new WebGLRenderer({
 			antialias: true,
 			alpha: true
 		});
@@ -205,8 +218,8 @@
 		const objUrl = roblox3DService.resolveCdnUrl(metadata.objHash);
 		const textureUrls = metadata.textureHashes.map((hash) => roblox3DService.resolveCdnUrl(hash));
 
-		// Fetch textures as data URLs
-		const textureDataUrls: Record<string, string> = {};
+		// Fetch textures as blob URLs
+		const textureBlobUrls: Record<string, string> = {};
 		await Promise.all(
 			metadata.textureHashes.map(async (hash, i) => {
 				const response = await fetch(textureUrls[i]);
@@ -214,12 +227,9 @@
 					throw new Error(`Failed to fetch texture: ${response.status}`);
 				}
 				const blob = await response.blob();
-				const dataUrl = await new Promise<string>((resolve) => {
-					const reader = new FileReader();
-					reader.onloadend = () => resolve(reader.result as string);
-					reader.readAsDataURL(blob);
-				});
-				textureDataUrls[hash] = dataUrl;
+				const blobUrl = URL.createObjectURL(blob);
+				blobUrls.push(blobUrl);
+				textureBlobUrls[hash] = blobUrl;
 			})
 		);
 
@@ -229,12 +239,13 @@
 			throw new Error(`Failed to fetch MTL: ${mtlResponse.status}`);
 		}
 		let mtlContent = await mtlResponse.text();
-		for (const [hash, dataUrl] of Object.entries(textureDataUrls)) {
-			mtlContent = mtlContent.split(hash).join(dataUrl);
+		for (const [hash, blobUrl] of Object.entries(textureBlobUrls)) {
+			mtlContent = mtlContent.split(hash).join(blobUrl);
 		}
 
 		// Parse MTL from text
 		const mtlLoader = new MTLLoader();
+		mtlLoader.setCrossOrigin('anonymous');
 		const materials = mtlLoader.parse(mtlContent, '');
 		materials.preload();
 

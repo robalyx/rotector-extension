@@ -3,6 +3,7 @@
 	"entry": [
 		"src/entrypoints/background/index.ts",
 		"src/entrypoints/content.ts",
+		"src/entrypoints/roscoe-bridge.content.ts",
 		"src/entrypoints/popup/main.ts"
 	],
 	"project": ["src/**/*.{ts,svelte}", "!src/**/*.d.ts"],

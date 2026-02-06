@@ -91,12 +91,6 @@ export const API_ACTIONS = {
 	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord'
 } as const;
 
-// Discord OAuth external message types
-export const DISCORD_OAUTH_MESSAGES = {
-	AUTH_SUCCESS: 'DISCORD_AUTH_SUCCESS',
-	AUTH_ERROR: 'DISCORD_AUTH_ERROR'
-} as const;
-
 // Captcha external message types
 export const CAPTCHA_EXTERNAL_MESSAGES = {
 	SUCCESS: 'CAPTCHA_SUCCESS',

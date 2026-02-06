@@ -50,13 +50,15 @@ export default defineConfig({
 		name: '__MSG_extensionName__',
 		description: '__MSG_extensionDescription__',
 		default_locale: 'en',
-		version: '2.12.0',
+		version: '2.12.1',
 		permissions: ['storage', 'notifications'],
 		host_permissions: [`https://${apiDomain}/*`],
 		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],
-		externally_connectable: {
-			matches: [`https://${apiDomain}/*`]
-		},
+		...(browser !== 'firefox' && {
+			externally_connectable: {
+				matches: [`https://${apiDomain}/*`]
+			}
+		}),
 		web_accessible_resources: [
 			{
 				resources: ['assets/*', 'locales/*/*'],

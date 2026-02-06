@@ -209,6 +209,16 @@
 	@apply modal-content-base-small;
 }
 
+@utility modal-content-compact {
+	@apply p-5 overflow-y-auto;
+	background-color: var(--color-bg-content) !important;
+
+	& p {
+		@apply m-0 text-sm leading-relaxed;
+		color: var(--color-text);
+	}
+}
+
 @utility modal-actions {
 	@apply modal-actions-horizontal;
 }

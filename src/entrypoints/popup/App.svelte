@@ -8,6 +8,7 @@
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
+	import Toast from '../../components/ui/Toast.svelte';
 	import { initializeSettings } from '@/lib/stores/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
@@ -102,6 +103,9 @@
   app flex min-h-[400px] w-[350px] flex-col gap-3 p-3
 "
 >
+	<!-- Toast Notifications -->
+	<Toast />
+
 	<!-- Header Section -->
 	<div class="pb-2 text-center">
 		<div class="mb-2 flex justify-center">

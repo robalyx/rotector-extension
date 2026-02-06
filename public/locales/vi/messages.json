@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "Tải xuống tệp",
 	"custom_api_mgmt_button_import": "Nhập API",
 	"custom_api_mgmt_button_view_integration_guide": "Xem Hướng dẫn Tích hợp",
+	"custom_api_mgmt_button_delete": "Xóa",
+	"custom_api_mgmt_delete_title": "Xóa API tùy chỉnh",
 	"custom_api_mgmt_confirm_delete": "Xóa API tùy chỉnh \"{0}\"?",
 	"custom_api_mgmt_error_delete": "Không xóa được API tùy chỉnh",
 	"custom_api_mgmt_http_method_get": "GET",

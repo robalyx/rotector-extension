@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
+	import { showError, showWarning } from '@/lib/stores/toast';
 	import { logger } from '@/lib/utils/logger';
 	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
@@ -198,7 +199,7 @@
 
 				// Notify user if API was auto-disabled due to URL change
 				if (urlChanged) {
-					alert($_('custom_api_form_alert_url_changed_disabled'));
+					showWarning($_('custom_api_form_alert_url_changed_disabled'));
 				}
 			} else {
 				// Add new API
@@ -218,7 +219,7 @@
 			onClose();
 		} catch (error) {
 			logger.error('Failed to save custom API:', error);
-			alert(
+			showError(
 				$_('custom_api_form_error_save_prefix') +
 					(error instanceof Error ? error.message : $_('custom_api_form_error_unknown'))
 			);

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { importApi } from '@/lib/stores/custom-apis';
+	import { showError } from '@/lib/stores/toast';
 	import { importCustomApi } from '@/lib/utils/api-export';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
@@ -28,7 +29,7 @@
 
 		// Check file extension
 		if (!file.name.endsWith('.rotector-api')) {
-			alert($_('custom_api_import_error_invalid_file_extension'));
+			showError($_('custom_api_import_error_invalid_file_extension'));
 			input.value = '';
 			return;
 		}
@@ -41,7 +42,7 @@
 			input.value = '';
 		};
 		reader.onerror = () => {
-			alert($_('custom_api_import_error_file_read_failed'));
+			showError($_('custom_api_import_error_file_read_failed'));
 			input.value = '';
 		};
 		reader.readAsText(file);
@@ -50,7 +51,7 @@
 	// Handle import
 	async function handleImport() {
 		if (!encodedData.trim()) {
-			alert($_('custom_api_import_error_empty_data'));
+			showError($_('custom_api_import_error_empty_data'));
 			return;
 		}
 
@@ -73,7 +74,7 @@
 			logger.error('Failed to import custom API:', error);
 			const errorMessage =
 				error instanceof Error ? error.message : $_('custom_api_import_error_unknown');
-			alert($_('custom_api_mgmt_alert_import_failed', { values: { 0: errorMessage } }));
+			showError($_('custom_api_mgmt_alert_import_failed', { values: { 0: errorMessage } }));
 		} finally {
 			importing = false;
 		}

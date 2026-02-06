@@ -26,6 +26,7 @@
 @import './components/loading.css';
 @import './components/status-indicator.css';
 @import './components/number-input.css';
+@import './components/toast.css';
 
 /* =================================
    POPUP IMPORTS

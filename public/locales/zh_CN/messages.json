@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "下载文件",
 	"custom_api_mgmt_button_import": "导入 API",
 	"custom_api_mgmt_button_view_integration_guide": "查看集成指南",
+	"custom_api_mgmt_button_delete": "删除",
+	"custom_api_mgmt_delete_title": "删除自定义 API",
 	"custom_api_mgmt_confirm_delete": "删除自定义 API \"{0}\"？",
 	"custom_api_mgmt_error_delete": "删除自定义 API 失败",
 	"custom_api_mgmt_http_method_get": "GET",

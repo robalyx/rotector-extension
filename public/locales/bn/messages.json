@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "ফাইল ডাউনলোড করুন",
 	"custom_api_mgmt_button_import": "API আমদানি করুন",
 	"custom_api_mgmt_button_view_integration_guide": "ইন্টিগ্রেশন গাইড দেখুন",
+	"custom_api_mgmt_button_delete": "মুছুন",
+	"custom_api_mgmt_delete_title": "কাস্টম API মুছুন",
 	"custom_api_mgmt_confirm_delete": "কাস্টম API \"{0}\" মুছবেন?",
 	"custom_api_mgmt_error_delete": "কাস্টম API মুছতে ব্যর্থ",
 	"custom_api_mgmt_http_method_get": "GET",

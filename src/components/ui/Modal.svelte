@@ -20,7 +20,7 @@
 		onBlock?: () => void;
 		icon?: string;
 		actionsLayout?: 'horizontal' | 'vertical';
-		size?: 'normal' | 'small' | 'wide';
+		size?: 'normal' | 'small' | 'wide' | 'compact';
 		modalType?: 'modal' | 'friend-warning' | 'queue-success' | 'queue-error' | 'queue-loading';
 		children: import('svelte').Snippet;
 		actions?: import('svelte').Snippet;
@@ -62,10 +62,19 @@
 	const MODAL_CLASSES = {
 		modal: {
 			overlay: 'modal-overlay',
-			popup: { normal: 'modal-popup', small: 'modal-popup-small', wide: 'modal-popup-wide' },
+			popup: {
+				normal: 'modal-popup',
+				small: 'modal-popup-small',
+				wide: 'modal-popup-wide',
+				compact: 'modal-popup'
+			},
 			header: 'modal-header',
 			title: 'modal-title',
-			content: { normal: 'modal-content', small: 'modal-content-small' },
+			content: {
+				normal: 'modal-content',
+				small: 'modal-content-small',
+				compact: 'modal-content-compact'
+			},
 			actions: { vertical: 'modal-actions', horizontal: 'modal-actions-horizontal' }
 		},
 		'friend-warning': {
@@ -73,11 +82,16 @@
 			popup: {
 				normal: 'friend-warning-popup',
 				small: 'friend-warning-popup-small',
-				wide: 'modal-popup-wide'
+				wide: 'modal-popup-wide',
+				compact: 'friend-warning-popup'
 			},
 			header: 'friend-warning-header',
 			title: 'friend-warning-title',
-			content: { normal: 'friend-warning-content', small: 'friend-warning-content-small' },
+			content: {
+				normal: 'friend-warning-content',
+				small: 'friend-warning-content-small',
+				compact: 'modal-content-compact'
+			},
 			actions: {
 				vertical: 'friend-warning-actions',
 				horizontal: 'friend-warning-actions-horizontal'
@@ -88,11 +102,16 @@
 			popup: {
 				normal: 'queue-success-popup',
 				small: 'queue-success-popup-small',
-				wide: 'modal-popup-wide'
+				wide: 'modal-popup-wide',
+				compact: 'queue-success-popup'
 			},
 			header: 'queue-success-header',
 			title: 'queue-success-title',
-			content: { normal: 'queue-success-content', small: 'queue-success-content-small' },
+			content: {
+				normal: 'queue-success-content',
+				small: 'queue-success-content-small',
+				compact: 'modal-content-compact'
+			},
 			actions: { vertical: 'queue-success-actions', horizontal: 'queue-success-actions-horizontal' }
 		},
 		'queue-error': {
@@ -100,11 +119,16 @@
 			popup: {
 				normal: 'queue-error-popup',
 				small: 'queue-error-popup-small',
-				wide: 'modal-popup-wide'
+				wide: 'modal-popup-wide',
+				compact: 'queue-error-popup'
 			},
 			header: 'queue-error-header',
 			title: 'queue-error-title',
-			content: { normal: 'queue-error-content', small: 'queue-error-content-small' },
+			content: {
+				normal: 'queue-error-content',
+				small: 'queue-error-content-small',
+				compact: 'modal-content-compact'
+			},
 			actions: { vertical: 'queue-error-actions', horizontal: 'queue-error-actions-horizontal' }
 		},
 		'queue-loading': {
@@ -112,11 +136,16 @@
 			popup: {
 				normal: 'queue-loading-popup',
 				small: 'queue-loading-popup-small',
-				wide: 'modal-popup-wide'
+				wide: 'modal-popup-wide',
+				compact: 'queue-loading-popup'
 			},
 			header: 'queue-loading-header',
 			title: 'queue-loading-title',
-			content: { normal: 'queue-loading-content', small: 'queue-loading-content-small' },
+			content: {
+				normal: 'queue-loading-content',
+				small: 'queue-loading-content-small',
+				compact: 'modal-content-compact'
+			},
 			actions: { vertical: 'queue-loading-actions', horizontal: 'queue-loading-actions-horizontal' }
 		}
 	} as const;
@@ -125,11 +154,20 @@
 		overlay: MODAL_CLASSES[modalType].overlay,
 		popup:
 			MODAL_CLASSES[modalType].popup[
-				size === 'wide' ? 'wide' : size === 'small' ? 'small' : 'normal'
+				size === 'wide'
+					? 'wide'
+					: size === 'small'
+						? 'small'
+						: size === 'compact'
+							? 'compact'
+							: 'normal'
 			],
 		header: MODAL_CLASSES[modalType].header,
 		title: MODAL_CLASSES[modalType].title,
-		content: MODAL_CLASSES[modalType].content[size === 'small' ? 'small' : 'normal'],
+		content:
+			MODAL_CLASSES[modalType].content[
+				size === 'small' ? 'small' : size === 'compact' ? 'compact' : 'normal'
+			],
 		actions: MODAL_CLASSES[modalType].actions[actionsLayout]
 	});
 

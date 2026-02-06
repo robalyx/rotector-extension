@@ -29,6 +29,7 @@
 		exportApi,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
+	import { showError, showSuccess } from '@/lib/stores/toast';
 	import {
 		extractOriginPattern,
 		hasPermissionsForOrigins,
@@ -39,6 +40,7 @@
 	import CustomApiForm from './CustomApiForm.svelte';
 	import CustomApiImport from './CustomApiImport.svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
+	import Modal from '../../ui/Modal.svelte';
 	import Toggle from '../../ui/Toggle.svelte';
 
 	interface Props {
@@ -52,6 +54,7 @@
 	let showForm = $state(false);
 	let showImportModal = $state(false);
 	let editingApi = $state<CustomApiConfig | null>(null);
+	let apiToDelete = $state<CustomApiConfig | null>(null);
 	let testingApiId = $state<string | null>(null);
 	let openExportDropdown = $state<string | null>(null);
 	let loading = $state(true);
@@ -75,18 +78,28 @@
 	}
 
 	// Handle delete API
-	async function handleDelete(api: CustomApiConfig) {
-		if (!confirm($_('custom_api_mgmt_confirm_delete', { values: { 0: api.name } }))) {
-			return;
-		}
+	function handleDeleteClick(api: CustomApiConfig) {
+		apiToDelete = api;
+	}
+
+	// Confirm delete API
+	async function confirmDelete() {
+		if (!apiToDelete) return;
 
 		try {
-			await deleteCustomApi(api.id);
-			logger.userAction('custom_api_deleted', { apiId: api.id, apiName: api.name });
+			await deleteCustomApi(apiToDelete.id);
+			logger.userAction('custom_api_deleted', { apiId: apiToDelete.id, apiName: apiToDelete.name });
 		} catch (error) {
 			logger.error('Failed to delete custom API:', error);
-			alert($_('custom_api_mgmt_error_delete'));
+			showError($_('custom_api_mgmt_error_delete'));
+		} finally {
+			apiToDelete = null;
 		}
+	}
+
+	// Cancel delete
+	function cancelDelete() {
+		apiToDelete = null;
 	}
 
 	// Handle reorder API
@@ -111,9 +124,9 @@
 			await updateTestResult(api.id, success);
 
 			if (success) {
-				alert($_('custom_api_mgmt_test_success', { values: { 0: api.name } }));
+				showSuccess($_('custom_api_mgmt_test_success', { values: { 0: api.name } }));
 			} else {
-				alert($_('custom_api_mgmt_test_failed', { values: { 0: api.name } }));
+				showError($_('custom_api_mgmt_test_failed', { values: { 0: api.name } }));
 			}
 
 			logger.userAction('custom_api_tested', {
@@ -124,7 +137,7 @@
 		} catch (error) {
 			logger.error('Failed to test custom API:', error);
 			await updateTestResult(api.id, false);
-			alert(
+			showError(
 				$_('custom_api_mgmt_test_error', {
 					values: { 0: api.name, 1: error instanceof Error ? error.message : 'Unknown error' }
 				})
@@ -181,11 +194,11 @@
 		try {
 			const exported = exportApi(api.id);
 			await navigator.clipboard.writeText(exported);
-			alert($_('custom_api_mgmt_alert_export_clipboard_success'));
+			showSuccess($_('custom_api_mgmt_alert_export_clipboard_success'));
 			logger.userAction('custom_api_exported_clipboard', { apiId: api.id, apiName: api.name });
 		} catch (error) {
 			logger.error('Failed to export API to clipboard:', error);
-			alert(
+			showError(
 				$_('custom_api_mgmt_alert_export_failed', {
 					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
 				})
@@ -212,11 +225,11 @@
 			document.body.removeChild(a);
 			URL.revokeObjectURL(url);
 
-			alert($_('custom_api_mgmt_alert_export_file_success'));
+			showSuccess($_('custom_api_mgmt_alert_export_file_success'));
 			logger.userAction('custom_api_exported_file', { apiId: api.id, apiName: api.name });
 		} catch (error) {
 			logger.error('Failed to export API to file:', error);
-			alert(
+			showError(
 				$_('custom_api_mgmt_alert_export_failed', {
 					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
 				})
@@ -229,11 +242,11 @@
 	// Handle import success
 	function handleImportSuccess(apiName: string, wasRenamed: boolean, originalName?: string) {
 		if (wasRenamed && originalName) {
-			alert(
+			showSuccess(
 				$_('custom_api_mgmt_alert_import_renamed', { values: { 0: apiName, 1: originalName } })
 			);
 		} else {
-			alert($_('custom_api_mgmt_alert_import_success', { values: { 0: apiName } }));
+			showSuccess($_('custom_api_mgmt_alert_import_success', { values: { 0: apiName } }));
 		}
 	}
 
@@ -581,7 +594,7 @@
 								</button>
 								<button
 									class="action-button delete-button"
-									onclick={() => handleDelete(api)}
+									onclick={() => handleDeleteClick(api)}
 									title={$_('custom_api_mgmt_title_delete')}
 									type="button"
 								>
@@ -629,5 +642,21 @@
 	<!-- Import Modal -->
 	{#if showImportModal}
 		<CustomApiImport onClose={handleImportClose} onSuccess={handleImportSuccess} />
+	{/if}
+
+	<!-- Delete Confirmation Modal -->
+	{#if apiToDelete}
+		<Modal
+			confirmText={$_('custom_api_mgmt_button_delete')}
+			isOpen={true}
+			modalType="modal"
+			onCancel={cancelDelete}
+			onConfirm={confirmDelete}
+			showCancel={true}
+			size="compact"
+			title={$_('custom_api_mgmt_delete_title')}
+		>
+			<p>{$_('custom_api_mgmt_confirm_delete', { values: { 0: apiToDelete.name } })}</p>
+		</Modal>
 	{/if}
 </div>

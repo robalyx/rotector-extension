@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "Завантажити файл",
 	"custom_api_mgmt_button_import": "Імпортувати API",
 	"custom_api_mgmt_button_view_integration_guide": "Переглянути посібник з інтеграції",
+	"custom_api_mgmt_button_delete": "Видалити",
+	"custom_api_mgmt_delete_title": "Видалити користувацький API",
 	"custom_api_mgmt_confirm_delete": "Видалити користувацький API \"{0}\"?",
 	"custom_api_mgmt_error_delete": "Не вдалося видалити користувацький API",
 	"custom_api_mgmt_http_method_get": "GET",

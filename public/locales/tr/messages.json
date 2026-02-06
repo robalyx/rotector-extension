@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "Dosya İndir",
 	"custom_api_mgmt_button_import": "API İçe Aktar",
 	"custom_api_mgmt_button_view_integration_guide": "Entegrasyon Kılavuzunu Görüntüle",
+	"custom_api_mgmt_button_delete": "Sil",
+	"custom_api_mgmt_delete_title": "Özel API'yi Sil",
 	"custom_api_mgmt_confirm_delete": "\"{0}\" özel API'sini sil?",
 	"custom_api_mgmt_error_delete": "Özel API silinemedi",
 	"custom_api_mgmt_http_method_get": "GET",

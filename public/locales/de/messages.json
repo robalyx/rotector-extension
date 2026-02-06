@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "Datei herunterladen",
 	"custom_api_mgmt_button_import": "API importieren",
 	"custom_api_mgmt_button_view_integration_guide": "Integrationsleitfaden anzeigen",
+	"custom_api_mgmt_button_delete": "Löschen",
+	"custom_api_mgmt_delete_title": "Benutzerdefinierte API löschen",
 	"custom_api_mgmt_confirm_delete": "Benutzerdefinierte API \"{0}\" löschen?",
 	"custom_api_mgmt_error_delete": "Löschen der benutzerdefinierten API fehlgeschlagen",
 	"custom_api_mgmt_http_method_get": "GET",

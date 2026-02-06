@@ -128,6 +128,8 @@
 	"custom_api_mgmt_button_export_file": "تنزيل ملف",
 	"custom_api_mgmt_button_import": "استيراد API",
 	"custom_api_mgmt_button_view_integration_guide": "عرض دليل التكامل",
+	"custom_api_mgmt_button_delete": "حذف",
+	"custom_api_mgmt_delete_title": "حذف واجهة API مخصصة",
 	"custom_api_mgmt_confirm_delete": "حذف API المخصص \"{0}\"؟",
 	"custom_api_mgmt_error_delete": "فشل حذف API المخصص",
 	"custom_api_mgmt_http_method_get": "GET",

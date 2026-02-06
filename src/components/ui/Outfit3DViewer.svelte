@@ -6,8 +6,10 @@
 		type Roblox3DMetadata
 	} from '@/lib/services/roblox-3d-service';
 	import { logger } from '@/lib/utils/logger';
+	import { vertex, fragment } from '@/lib/shaders/lambert';
 	import { AlertCircle, ShieldOff } from 'lucide-svelte';
 	import LoadingSpinner from './LoadingSpinner.svelte';
+	import type { Program } from 'ogl';
 
 	interface Props {
 		outfitId?: number;
@@ -24,26 +26,22 @@
 	let error = $state<string | null>(null);
 	let isBlocked = $state(false);
 
-	// Store Three.js objects for cleanup
-	let scene: { traverse: (cb: (obj: unknown) => void) => void } | null = null;
-	let renderer: { dispose: () => void; domElement: HTMLCanvasElement } | null = null;
-	let controls: { dispose: () => void } | null = null;
+	let orbitControls: { remove: () => void } | null = null;
 	let animationFrameId: number | null = null;
 	let blobUrls: string[] = [];
-
-	// Store light references for brightness control
-	type Light = { intensity: number };
-	let lights = $state<{ base: number; ref: Light }[]>([]);
+	let programs = $state.raw<Program[]>([]);
 
 	onMount(() => {
 		void initializeViewer();
 		return cleanup;
 	});
 
-	// Update light intensities when brightness changes
+	// Update brightness uniform across all material programs
 	$effect(() => {
-		for (const light of lights) {
-			light.ref.intensity = light.base * brightness;
+		const b = brightness;
+		for (const program of programs) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- OGL uniforms are typed as Record<string, any>
+			program.uniforms.uBrightness.value = b;
 		}
 	});
 
@@ -53,44 +51,16 @@
 			animationFrameId = null;
 		}
 
-		if (controls) {
-			controls.dispose();
-			controls = null;
+		if (orbitControls) {
+			orbitControls.remove();
+			orbitControls = null;
 		}
 
-		lights = [];
+		programs = [];
 
-		// Dispose all geometries, materials, and textures in the scene
-		if (scene) {
-			scene.traverse((object: unknown) => {
-				const obj = object as {
-					geometry?: { dispose: () => void };
-					material?:
-						| { dispose: () => void; map?: { dispose: () => void } }
-						| Array<{ dispose: () => void; map?: { dispose: () => void } }>;
-				};
-				if (obj.geometry) {
-					obj.geometry.dispose();
-				}
-				if (obj.material) {
-					const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
-					for (const material of materials) {
-						if (material.map) {
-							material.map.dispose();
-						}
-						material.dispose();
-					}
-				}
-			});
-			scene = null;
-		}
-
-		if (renderer) {
-			renderer.dispose();
-			if (renderer.domElement.parentElement) {
-				renderer.domElement.remove();
-			}
-			renderer = null;
+		if (canvasContainer) {
+			const canvas = canvasContainer.querySelector('canvas');
+			if (canvas) canvas.remove();
 		}
 
 		for (const url of blobUrls) {
@@ -113,7 +83,7 @@
 
 			if (!canvasContainer?.isConnected) return;
 
-			await loadThreeJS(metadata);
+			await loadScene(metadata);
 		} catch (err) {
 			if (!canvasContainer?.isConnected) return;
 
@@ -127,105 +97,64 @@
 		}
 	}
 
-	async function loadThreeJS(metadata: Roblox3DMetadata): Promise<void> {
-		const {
-			Scene,
-			AmbientLight,
-			DirectionalLight,
-			PerspectiveCamera,
-			Vector3,
-			WebGLRenderer
-		} = await import('three');
-		const { OBJLoader } = await import('three/addons/loaders/OBJLoader.js');
-		const { MTLLoader } = await import('three/addons/loaders/MTLLoader.js');
-		const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+	async function loadScene(metadata: Roblox3DMetadata): Promise<void> {
+		const [
+			{ Renderer, Camera, Transform, Geometry, Program, Mesh, Texture, Vec3, Orbit },
+			{ Mesh: OBJMesh, MaterialLibrary }
+		] = await Promise.all([import('ogl'), import('webgl-obj-loader')]);
 
 		if (!canvasContainer?.isConnected) return;
 
-		const threeScene = new Scene();
-		scene = threeScene;
-		threeScene.background = null;
+		const renderer = new Renderer({
+			width,
+			height,
+			dpr: Math.min(window.devicePixelRatio, 2),
+			antialias: true,
+			alpha: true
+		});
+		const gl = renderer.gl;
+		// eslint-disable-next-line svelte/no-dom-manipulating -- OGL requires direct DOM access for its canvas
+		canvasContainer.appendChild(gl.canvas);
 
-		// Ambient light for overall illumination
-		const ambientLight = new AmbientLight(0xffffff, 1.0 * brightness);
-		threeScene.add(ambientLight);
-
-		// Main directional light from front-top
-		const directionalLight = new DirectionalLight(0xffffff, 1.2 * brightness);
-		directionalLight.position.set(5, 10, 10);
-		threeScene.add(directionalLight);
-
-		// Fill light from left side
-		const fillLight = new DirectionalLight(0xffffff, 0.6 * brightness);
-		fillLight.position.set(-10, 5, 5);
-		threeScene.add(fillLight);
-
-		// Back light for rim lighting
-		const backLight = new DirectionalLight(0xffffff, 0.4 * brightness);
-		backLight.position.set(0, 5, -10);
-		threeScene.add(backLight);
-
-		// Store light references for brightness updates
-		lights = [
-			{ base: 1.0, ref: ambientLight },
-			{ base: 1.2, ref: directionalLight },
-			{ base: 0.6, ref: fillLight },
-			{ base: 0.4, ref: backLight }
-		];
-
-		// Camera setup using Roblox metadata
-		const camera = new PerspectiveCamera(metadata.camera.fov, width / height, 0.1, 1000);
-
-		// Calculate center of bounding box for camera target
-		const center = new Vector3(
-			(metadata.aabb.min.x + metadata.aabb.max.x) / 2,
-			(metadata.aabb.min.y + metadata.aabb.max.y) / 2,
-			(metadata.aabb.min.z + metadata.aabb.max.z) / 2
-		);
-
+		const camera = new Camera(gl, {
+			fov: metadata.camera.fov,
+			aspect: width / height,
+			near: 0.1,
+			far: 1000
+		});
 		camera.position.set(
 			metadata.camera.position.x,
 			metadata.camera.position.y,
 			metadata.camera.position.z
 		);
+
+		// Bounding box center for camera target and orbit pivot
+		const center = new Vec3(
+			(metadata.aabb.min.x + metadata.aabb.max.x) / 2,
+			(metadata.aabb.min.y + metadata.aabb.max.y) / 2,
+			(metadata.aabb.min.z + metadata.aabb.max.z) / 2
+		);
 		camera.lookAt(center);
 
-		// Renderer
-		const webGLRenderer = new WebGLRenderer({
-			antialias: true,
-			alpha: true
+		const scene = new Transform();
+
+		const orbit = new Orbit(camera, {
+			element: gl.canvas as HTMLElement,
+			target: center,
+			ease: 0.05,
+			enablePan: false,
+			minDistance: 5,
+			maxDistance: 50
 		});
-		webGLRenderer.setSize(width, height);
-		webGLRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-		// eslint-disable-next-line svelte/no-dom-manipulating -- Three.js requires direct DOM access for its canvas
-		canvasContainer.appendChild(webGLRenderer.domElement);
-		renderer = webGLRenderer;
-
-		// Orbit controls for rotation/zoom
-		const orbitControls = new OrbitControls(camera, webGLRenderer.domElement);
-		controls = orbitControls;
-		orbitControls.target.copy(center);
-		orbitControls.enableDamping = true;
-		orbitControls.dampingFactor = 0.05;
-		orbitControls.enableZoom = true;
-		orbitControls.enablePan = false;
-		orbitControls.minDistance = 5;
-		orbitControls.maxDistance = 50;
-		orbitControls.update();
-
-		// Build CDN URLs
-		const mtlUrl = roblox3DService.resolveCdnUrl(metadata.mtlHash);
-		const objUrl = roblox3DService.resolveCdnUrl(metadata.objHash);
-		const textureUrls = metadata.textureHashes.map((hash) => roblox3DService.resolveCdnUrl(hash));
+		orbitControls = orbit;
 
 		// Fetch textures as blob URLs
+		const textureUrls = metadata.textureHashes.map((hash) => roblox3DService.resolveCdnUrl(hash));
 		const textureBlobUrls: Record<string, string> = {};
 		await Promise.all(
 			metadata.textureHashes.map(async (hash, i) => {
 				const response = await fetch(textureUrls[i]);
-				if (!response.ok) {
-					throw new Error(`Failed to fetch texture: ${response.status}`);
-				}
+				if (!response.ok) throw new Error(`Failed to fetch texture: ${response.status}`);
 				const blob = await response.blob();
 				const blobUrl = URL.createObjectURL(blob);
 				blobUrls.push(blobUrl);
@@ -233,60 +162,97 @@
 			})
 		);
 
-		// Fetch and parse MTL file
+		// Fetch and parse MTL with texture hashes
+		const mtlUrl = roblox3DService.resolveCdnUrl(metadata.mtlHash);
 		const mtlResponse = await fetch(mtlUrl);
-		if (!mtlResponse.ok) {
-			throw new Error(`Failed to fetch MTL: ${mtlResponse.status}`);
-		}
+		if (!mtlResponse.ok) throw new Error(`Failed to fetch MTL: ${mtlResponse.status}`);
 		let mtlContent = await mtlResponse.text();
 		for (const [hash, blobUrl] of Object.entries(textureBlobUrls)) {
 			mtlContent = mtlContent.split(hash).join(blobUrl);
 		}
+		const mtlLib = new MaterialLibrary(mtlContent);
 
-		// Parse MTL from text
-		const mtlLoader = new MTLLoader();
-		mtlLoader.setCrossOrigin('anonymous');
-		const materials = mtlLoader.parse(mtlContent, '');
-		materials.preload();
-
-		// Fetch and parse OBJ file
+		// Fetch and parse OBJ
+		const objUrl = roblox3DService.resolveCdnUrl(metadata.objHash);
 		const objResponse = await fetch(objUrl);
-		if (!objResponse.ok) {
-			throw new Error(`Failed to fetch OBJ: ${objResponse.status}`);
-		}
+		if (!objResponse.ok) throw new Error(`Failed to fetch OBJ: ${objResponse.status}`);
 		const objContent = await objResponse.text();
-		const objLoader = new OBJLoader();
-		objLoader.setMaterials(materials);
-		const object = objLoader.parse(objContent);
-
-		// Fix material transparency
-		object.traverse((child) => {
-			const mesh = child as {
-				isMesh?: boolean;
-				material?:
-					| { transparent: boolean; opacity: number }
-					| Array<{ transparent: boolean; opacity: number }>;
-			};
-			if (mesh.isMesh && mesh.material) {
-				const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-				for (const mat of materials) {
-					mat.transparent = false;
-					mat.opacity = 1;
-				}
-			}
-		});
+		const objMesh = new OBJMesh(objContent);
 
 		if (!canvasContainer?.isConnected) return;
 
-		threeScene.add(object);
+		// Shared vertex data across all material groups
+		const positions = new Float32Array(objMesh.vertices);
+		const normals = new Float32Array(objMesh.vertexNormals);
+		const uvs = new Float32Array(objMesh.textures);
+
+		// Cache loaded textures to avoid duplicating shared textures across materials
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity -- non-reactive local cache inside async function
+		const textureCache = new Map<string, InstanceType<typeof Texture>>();
+		async function loadTexture(blobUrl: string): Promise<InstanceType<typeof Texture>> {
+			const cached = textureCache.get(blobUrl);
+			if (cached) return cached;
+
+			const img = new Image();
+			await new Promise<void>((resolve, reject) => {
+				img.onload = () => resolve();
+				img.onerror = reject;
+				img.src = blobUrl;
+			});
+
+			const tex = new Texture(gl, { generateMipmaps: true });
+			tex.image = img;
+			textureCache.set(blobUrl, tex);
+			return tex;
+		}
+
+		// Create one Mesh per material group (body parts, accessories, etc.)
+		const newPrograms: InstanceType<typeof Program>[] = [];
+		for (let i = 0; i < objMesh.materialNames.length; i++) {
+			const materialName = objMesh.materialNames[i];
+			const indices = objMesh.indicesPerMaterial[i];
+			if (!indices || indices.length === 0) continue;
+
+			const material = mtlLib.materials[materialName];
+
+			let diffuseTexture: InstanceType<typeof Texture> | null = null;
+			if (material?.mapDiffuse?.filename) {
+				diffuseTexture = await loadTexture(material.mapDiffuse.filename);
+			}
+
+			const diffuseColor = material?.diffuse || [1, 1, 1];
+
+			const geometry = new Geometry(gl, {
+				position: { size: 3, data: positions },
+				normal: { size: 3, data: normals },
+				uv: { size: 2, data: uvs },
+				index: { data: new Uint32Array(indices) }
+			});
+
+			const program = new Program(gl, {
+				vertex,
+				fragment,
+				uniforms: {
+					tMap: { value: diffuseTexture || new Texture(gl) },
+					uHasTexture: { value: !!diffuseTexture },
+					uDiffuseColor: { value: diffuseColor },
+					uBrightness: { value: brightness }
+				},
+				transparent: false
+			});
+			newPrograms.push(program);
+
+			const mesh = new Mesh(gl, { geometry, program });
+			mesh.setParent(scene);
+		}
+		programs = newPrograms;
 
 		isLoading = false;
 
-		// Animation loop
 		function animate(): void {
 			animationFrameId = requestAnimationFrame(animate);
-			orbitControls.update();
-			webGLRenderer.render(threeScene, camera);
+			orbit.update();
+			renderer.render({ scene, camera });
 		}
 		animate();
 	}

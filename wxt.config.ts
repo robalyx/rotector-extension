@@ -15,6 +15,12 @@ export default defineConfig({
 		define: {
 			'import.meta.env.USE_DEV_API': JSON.stringify(isDev ? 'true' : 'false')
 		},
+		resolve: {
+			alias: {
+				// The minified build uses webpack eval() which violates MV3 CSP
+				'webgl-obj-loader': 'webgl-obj-loader/dist/webgl-obj-loader.js'
+			}
+		},
 		build: {
 			cssMinify: 'lightningcss'
 		},

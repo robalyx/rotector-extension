@@ -1,14 +1,6 @@
 /**
- * Lambert diffuse shader for 3D avatar rendering.
- *
- * OGL has no built-in materials, so lighting is implemented in GLSL directly.
- * Uses a 3-point directional light setup (key, fill, rim) plus ambient for
- * even illumination of character models. Roblox avatars don't need specular
- * highlights, so Lambert diffuse is sufficient.
- *
- * Color pipeline: sRGB texture input → linear space (for correct light math)
- * → sRGB output. Without this conversion, mid-tones appear washed out because
- * lighting math assumes linear color values.
+ * Lambert diffuse shader with 3-point lighting for avatar rendering.
+ * Converts sRGB textures to linear space for lighting, then back to sRGB for output.
  */
 
 export const vertex = /* glsl */ `

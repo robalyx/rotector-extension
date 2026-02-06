@@ -101,6 +101,7 @@
 	background: transparent;
 	border: none;
 	color: var(--color-text);
+	user-select: none;
 
 	&:hover {
 		background-color: rgba(255, 255, 255, 0.03);
@@ -129,6 +130,8 @@
 @utility discord-account-id {
 	@apply text-sm font-mono truncate;
 	color: var(--color-text);
+	user-select: text;
+	cursor: text;
 }
 
 @utility discord-server-count {

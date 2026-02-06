@@ -440,6 +440,12 @@ export interface RobloxUserDiscordLookup {
 // Verification source names for Discord-Roblox connections
 export const VERIFICATION_SOURCE_NAMES: Record<number, string> = {
 	0: 'Bloxlink',
-	1: 'Rover',
+	1: 'RoVer',
 	2: 'Profile'
+};
+
+export const VERIFICATION_SOURCE_URLS: Record<number, string> = {
+	0: 'https://blox.link/',
+	1: 'https://rover.link/',
+	2: 'https://discord.com'
 };

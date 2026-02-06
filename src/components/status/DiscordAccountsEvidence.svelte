@@ -3,6 +3,7 @@
 	import SiRoblox from '@icons-pack/svelte-simple-icons/icons/SiRoblox';
 	import {
 		ChevronRight,
+		CircleUserRound,
 		Users,
 		Server,
 		ChevronsDownUp,
@@ -13,9 +14,11 @@
 	} from 'lucide-svelte';
 	import { _ } from 'svelte-i18n';
 	import { SvelteSet } from 'svelte/reactivity';
+	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';
+	import RoVerIcon from '@/components/icons/RoVerIcon.svelte';
 	import { apiClient } from '@/lib/services/api-client';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
-	import { VERIFICATION_SOURCE_NAMES } from '@/lib/types/api';
+	import { VERIFICATION_SOURCE_NAMES, VERIFICATION_SOURCE_URLS } from '@/lib/types/api';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
 
 	interface Props {
@@ -46,6 +49,16 @@
 		return sources
 			.map((source) => VERIFICATION_SOURCE_NAMES[source])
 			.filter((name): name is string => name !== undefined);
+	}
+
+	function getSourceInfo(sources: number[]) {
+		return sources
+			.map((source) => {
+				const name = VERIFICATION_SOURCE_NAMES[source];
+				const url = VERIFICATION_SOURCE_URLS[source];
+				return name && url ? { code: source, name, url } : null;
+			})
+			.filter((info): info is NonNullable<typeof info> => info !== null);
 	}
 
 	function toggleAccount(accountId: string) {
@@ -152,6 +165,7 @@
 	});
 </script>
 
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <div class="discord-evidence-container">
 	{#if isLoading}
 		<div class="discord-loading">
@@ -248,7 +262,7 @@
 		<!-- Discord accounts -->
 		{#each discordAccounts as account (account.id)}
 			{@const isExpanded = expandedAccounts.has(account.id)}
-			{@const sourceNames = getSourceNames(account.sources)}
+			{@const sourceInfo = getSourceInfo(account.sources)}
 			<div class="discord-account-card" class:expanded={isExpanded}>
 				<button
 					class="discord-account-header"
@@ -265,11 +279,24 @@
 					<span class="discord-account-id">
 						{account.id}
 					</span>
-					{#if sourceNames.length > 0}
-						{#each sourceNames as sourceName (sourceName)}
-							<span class="discord-source-badge">{sourceName}</span>
-						{/each}
-					{/if}
+					{#each sourceInfo as source (source.code)}
+						<a
+							class="discord-source-link"
+							href={source.url}
+							onclick={(e) => e.stopPropagation()}
+							rel="noopener noreferrer"
+							target="_blank"
+							title={source.name}
+						>
+							{#if source.code === 0}
+								<BloxlinkIcon size={14} />
+							{:else if source.code === 1}
+								<RoVerIcon size={14} />
+							{:else}
+								<CircleUserRound size={14} />
+							{/if}
+						</a>
+					{/each}
 					<span class="discord-server-count">
 						{$_(
 							account.servers.length === 1
@@ -318,9 +345,9 @@
 			</div>
 		{/each}
 
-		<!-- Alt accounts (same card style as Discord accounts) -->
+		<!-- Alt accounts -->
 		{#each altAccounts as alt (alt.robloxUserId)}
-			{@const altSourceNames = getSourceNames(alt.sources)}
+			{@const altSourceInfo = getSourceInfo(alt.sources)}
 			<div class="discord-account-card">
 				<div class="discord-alt-header-static">
 					<span class="discord-roblox-icon"><SiRoblox size={14} /></span>
@@ -335,11 +362,23 @@
 					<span class="discord-alt-id"
 						>{$_('tooltip_discord_id_label', { values: { 0: alt.robloxUserId } })}</span
 					>
-					{#if altSourceNames.length > 0}
-						{#each altSourceNames as sourceName (sourceName)}
-							<span class="discord-source-badge">{sourceName}</span>
-						{/each}
-					{/if}
+					{#each altSourceInfo as source (source.code)}
+						<a
+							class="discord-source-link"
+							href={source.url}
+							rel="noopener noreferrer"
+							target="_blank"
+							title={source.name}
+						>
+							{#if source.code === 0}
+								<BloxlinkIcon size={14} />
+							{:else if source.code === 1}
+								<RoVerIcon size={14} />
+							{:else}
+								<CircleUserRound size={14} />
+							{/if}
+						</a>
+					{/each}
 					<span class="discord-server-count">
 						{$_('tooltip_discord_updated', { values: { 0: formatTimestamp(alt.updatedAt) } })}
 					</span>

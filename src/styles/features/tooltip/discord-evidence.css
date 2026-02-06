@@ -207,8 +207,12 @@
 	color: white;
 }
 
-@utility discord-source-badge {
-	@apply px-1.5 py-0.5 rounded text-2xs font-medium uppercase flex-shrink-0;
-	background-color: var(--color-status-integration);
-	color: white;
+@utility discord-source-link {
+	@apply inline-flex items-center flex-shrink-0 transition-colors duration-150;
+	color: var(--color-text-tertiary);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-text-secondary);
+	}
 }

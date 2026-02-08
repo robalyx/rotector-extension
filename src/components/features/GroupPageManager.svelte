@@ -18,6 +18,12 @@
 
 	let { groupId, pageType, querySubscription = null }: Props = $props();
 
+	// Check if on the about tab
+	const isAboutTab = (() => {
+		const hash = window.location.hash;
+		return !hash || hash === '#' || hash === '#!' || hash === '#!/' || hash === '#!/about';
+	})();
+
 	// Status state owned by this component
 	let groupStatus = $state<CombinedStatus | null>(null);
 
@@ -121,6 +127,6 @@
 <UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />
 
 <!-- Group Members Carousel -->
-{#if groupId}
+{#if groupId && isAboutTab}
 	<GroupMembersCarousel {groupId} onError={handleError} onUserProcessed={handleUserProcessed} />
 {/if}

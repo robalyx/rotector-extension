@@ -2,8 +2,7 @@ import { LOG_SOURCES, type LogSource } from '../types/developer-logs';
 import { TRACE_CATEGORIES, type TraceCategory } from '../types/performance';
 import { addPerformanceEntry } from '../stores/performance';
 
-// Re-export for backward compatibility
-export { TRACE_CATEGORIES, type TraceCategory };
+export { TRACE_CATEGORIES };
 
 const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 const MAX_DATA_LENGTH = 500;

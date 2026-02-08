@@ -13,7 +13,7 @@ export interface GroupMember {
 	hasVerifiedBadge: boolean;
 }
 
-export interface MembersResponse {
+interface MembersResponse {
 	data: GroupMember[];
 	previousPageCursor: string | null;
 	nextPageCursor: string | null;

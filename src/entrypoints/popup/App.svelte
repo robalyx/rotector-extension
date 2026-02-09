@@ -29,10 +29,26 @@
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
-	let currentPage = $state<Page | null>(null);
+	const urlParams = new URLSearchParams(window.location.search);
+	const standaloneMode = urlParams.get('standalone') === 'true';
+	const standaloneInitialPage = urlParams.get('page') as Page | null;
+
+	let currentPage = $state<Page | null>(standaloneMode ? standaloneInitialPage : null);
 
 	function handlePageChange(page: Page) {
 		currentPage = page;
+	}
+
+	// Open custom API management in a standalone window
+	async function openCustomApisWindow() {
+		const url = browser.runtime.getURL('/popup.html') + '?page=custom-apis&standalone=true';
+		await browser.windows.create({
+			url,
+			type: 'popup',
+			width: 400,
+			height: 650,
+			focused: true
+		});
 	}
 
 	$effect(() => {
@@ -56,19 +72,21 @@
 		});
 	});
 
-	// Load last visited page from storage on mount
+	// Load last visited page from storage
 	$effect(() => {
+		if (standaloneMode) return;
+
 		browser.storage.local
 			.get(LAST_PAGE_STORAGE_KEY)
 			.then((result) => {
 				const savedPage = result[LAST_PAGE_STORAGE_KEY] as Page | undefined;
 				if (
 					savedPage &&
+					savedPage !== 'custom-apis' &&
+					savedPage !== 'custom-api-docs' &&
 					(savedPage === 'stats' ||
 						savedPage === 'settings' ||
 						savedPage === 'queue' ||
-						savedPage === 'custom-apis' ||
-						savedPage === 'custom-api-docs' ||
 						savedPage === 'developer-logs' ||
 						savedPage === 'performance')
 				) {
@@ -83,8 +101,10 @@
 			});
 	});
 
-	// Save current page to storage whenever it changes
+	// Save current page to storage
 	$effect(() => {
+		if (standaloneMode) return;
+
 		if (currentPage) {
 			browser.storage.local.set({ [LAST_PAGE_STORAGE_KEY]: currentPage }).catch((error) => {
 				logger.error('Failed to save last visited page:', error);
@@ -99,30 +119,32 @@
 </script>
 
 <div
-	class="
-  app flex min-h-[400px] w-[350px] flex-col gap-3 p-3
-"
+	class={standaloneMode
+		? 'app flex min-h-screen w-full overflow-x-hidden flex-col gap-3 p-4'
+		: 'app flex min-h-[400px] w-[350px] flex-col gap-3 p-3'}
 >
 	<!-- Toast Notifications -->
 	<Toast />
 
-	<!-- Header Section -->
-	<div class="pb-2 text-center">
-		<div class="mb-2 flex justify-center">
-			<img class="h-20 w-auto max-w-[260px] object-contain" alt="Rotector" src={logoSrc} />
-		</div>
-		<p
-			class="
+	{#if !standaloneMode}
+		<!-- Header Section -->
+		<div class="pb-2 text-center">
+			<div class="mb-2 flex justify-center">
+				<img class="h-20 w-auto max-w-[260px] object-contain" alt="Rotector" src={logoSrc} />
+			</div>
+			<p
+				class="
       text-text-subtle m-0 text-xs
       dark:text-text-subtle-dark
     "
-		>
-			{$_('popup_header_description')}
-		</p>
-	</div>
+			>
+				{$_('popup_header_description')}
+			</p>
+		</div>
 
-	<!-- Navigation -->
-	<Navbar {currentPage} onPageChange={handlePageChange} />
+		<!-- Navigation -->
+		<Navbar {currentPage} onPageChange={handlePageChange} />
+	{/if}
 
 	<!-- Page Content -->
 	<div class="page-content">
@@ -131,7 +153,7 @@
 				<StatsPage />
 			{:else if currentPage === 'settings'}
 				<SettingsPage
-					onNavigateToCustomApis={() => handlePageChange('custom-apis')}
+					onNavigateToCustomApis={openCustomApisWindow}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 					onNavigateToPerformance={() => handlePageChange('performance')}
 				/>
@@ -139,7 +161,7 @@
 				<QueuePage />
 			{:else if currentPage === 'custom-apis'}
 				<CustomApiManagement
-					onBack={() => handlePageChange('settings')}
+					onBack={standaloneMode ? () => window.close() : () => handlePageChange('settings')}
 					onNavigateToDocumentation={() => handlePageChange('custom-api-docs')}
 				/>
 			{:else if currentPage === 'custom-api-docs'}
@@ -152,6 +174,8 @@
 		{/if}
 	</div>
 
-	<!-- Footer Section -->
-	<FooterSection />
+	{#if !standaloneMode}
+		<!-- Footer Section -->
+		<FooterSection />
+	{/if}
 </div>

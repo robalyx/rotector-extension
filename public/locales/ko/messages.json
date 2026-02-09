@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "아래 모든 사항을 확인하고 동의합니다",
 	"queue_popup_ack_dynamic_limits": "제출 내용이 정확하다고 확인될수록 대기열 한도가 증가함을 이해합니다",
 	"queue_popup_ack_misuse": "이 기능을 남용할 경우 계정에 제한이 부과될 수 있음을 이해합니다",
+	"queue_popup_ack_not_identity": "사용자의 신원이나 관심사만으로는 제출의 타당한 이유가 아님을 이해합니다",
 	"queue_popup_ack_not_innocent": "이 사용자에 대해 합리적인 우려가 있으며 명백히 무고한 프로필을 제출하는 것이 아닙니다",
 	"queue_popup_ack_review_process": "결과는 AI가 처리하고 사람 관리자가 검토함을 이해합니다",
 	"queue_popup_ack_scope": "이 제출은 성적 또는 포식적 콘텐츠 관련 우려에만 해당됩니다",

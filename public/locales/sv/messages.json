@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Jag bekräftar och godkänner allt nedan",
 	"queue_popup_ack_dynamic_limits": "Jag förstår att mina kögränser ökar i takt med att mina inskickningar bekräftas vara korrekta",
 	"queue_popup_ack_misuse": "Jag förstår att missbruk av denna funktion kan leda till begränsningar på mitt konto",
+	"queue_popup_ack_not_identity": "Jag förstår att en användares identitet eller intressen ensamt inte är giltiga skäl för ett inlägg",
 	"queue_popup_ack_not_innocent": "Jag har rimlig anledning till oro gällande denna användare och skickar inte in en uppenbart oskyldig profil",
 	"queue_popup_ack_review_process": "Jag förstår att resultaten behandlas av AI och granskas av mänskliga moderatorer",
 	"queue_popup_ack_scope": "Denna inskickning gäller enbart misstankar om sexuellt eller rovdjursliknande innehåll",

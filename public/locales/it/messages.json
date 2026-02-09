@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Riconosco e accetto tutto quanto indicato di seguito",
 	"queue_popup_ack_dynamic_limits": "Comprendo che i miei limiti di coda aumentano man mano che le mie segnalazioni vengono confermate accurate",
 	"queue_popup_ack_misuse": "Comprendo che l'uso improprio di questa funzione può comportare restrizioni sul mio account",
+	"queue_popup_ack_not_identity": "Comprendo che l'identità o gli interessi di un utente da soli non sono motivi validi per la segnalazione",
 	"queue_popup_ack_not_innocent": "Ho un ragionevole motivo di preoccupazione riguardo a questo utente e non sto segnalando un profilo palesemente innocente",
 	"queue_popup_ack_review_process": "Comprendo che i risultati vengono elaborati dall'IA e revisionati da moderatori umani",
 	"queue_popup_ack_scope": "Questa segnalazione riguarda esclusivamente contenuti di natura sessuale o predatoria",

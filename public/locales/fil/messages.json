@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Kinikilala at sumasang-ayon ako sa lahat ng nasa ibaba",
 	"queue_popup_ack_dynamic_limits": "Naiintindihan ko na ang aking mga limitasyon sa queue ay tataas habang nakukumpirma na tumpak ang aking mga isinumite",
 	"queue_popup_ack_misuse": "Naiintindihan ko na ang maling paggamit ng feature na ito ay maaaring magresulta sa mga paghihigpit sa aking account",
+	"queue_popup_ack_not_identity": "Nauunawaan ko na ang pagkakakilanlan o interes ng isang user ay hindi sapat na dahilan para sa pagsusumite",
 	"queue_popup_ack_not_innocent": "Mayroon akong makatwirang pag-aalala tungkol sa user na ito at hindi ako nagsusumite ng isang malinaw na inosenteng profile",
 	"queue_popup_ack_review_process": "Naiintindihan ko na ang mga resulta ay pinoproseso ng AI at sinusuri ng mga moderador na tao",
 	"queue_popup_ack_scope": "Ang pagsusumiteng ito ay nauugnay lamang sa mga alalahanin tungkol sa sekswal o mapanganib na nilalaman",

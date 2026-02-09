@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Ik erken en ga akkoord met alles hieronder",
 	"queue_popup_ack_dynamic_limits": "Ik begrijp dat mijn wachtrijlimieten toenemen naarmate mijn inzendingen als nauwkeurig worden bevestigd",
 	"queue_popup_ack_misuse": "Ik begrijp dat misbruik van deze functie kan leiden tot beperkingen op mijn account",
+	"queue_popup_ack_not_identity": "Ik begrijp dat de identiteit of interesses van een gebruiker alleen geen geldige reden voor indiening zijn",
 	"queue_popup_ack_not_innocent": "Ik heb een redelijke zorg over deze gebruiker en dien niet een duidelijk onschuldig profiel in",
 	"queue_popup_ack_review_process": "Ik begrijp dat resultaten worden verwerkt door AI en beoordeeld door menselijke moderatoren",
 	"queue_popup_ack_scope": "Deze inzending heeft uitsluitend betrekking op zorgen over seksuele of roofzuchtige inhoud",

@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Potwierdzam i zgadzam się ze wszystkimi poniższymi warunkami",
 	"queue_popup_ack_dynamic_limits": "Rozumiem, że moje limity kolejki rosną w miarę potwierdzania dokładności moich zgłoszeń",
 	"queue_popup_ack_misuse": "Rozumiem, że nadużywanie tej funkcji może skutkować ograniczeniami na moim koncie",
+	"queue_popup_ack_not_identity": "Rozumiem, że tożsamość lub interesy użytkownika samodzielnie nie są ważnym powodem do zgłoszenia",
 	"queue_popup_ack_not_innocent": "Mam uzasadnione obawy dotyczące tego użytkownika i nie zgłaszam wyraźnie niewinnego profilu",
 	"queue_popup_ack_review_process": "Rozumiem, że wyniki są przetwarzane przez AI i weryfikowane przez ludzkich moderatorów",
 	"queue_popup_ack_scope": "To zgłoszenie dotyczy wyłącznie obaw związanych z treściami seksualnymi lub drapieżczymi",

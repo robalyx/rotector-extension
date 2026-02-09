@@ -58,9 +58,16 @@
 	let ackDynamicLimits = $state(false);
 	let ackReviewProcess = $state(false);
 	let ackAccuracy = $state(false);
+	let ackNotIdentity = $state(false);
 	let ackMisuse = $state(false);
 	const allAcknowledged = $derived(
-		ackScope && ackNotInnocent && ackDynamicLimits && ackReviewProcess && ackAccuracy && ackMisuse
+		ackScope &&
+			ackNotInnocent &&
+			ackDynamicLimits &&
+			ackReviewProcess &&
+			ackAccuracy &&
+			ackNotIdentity &&
+			ackMisuse
 	);
 
 	// UI state
@@ -125,6 +132,7 @@
 		ackDynamicLimits = newValue;
 		ackReviewProcess = newValue;
 		ackAccuracy = newValue;
+		ackNotIdentity = newValue;
 		ackMisuse = newValue;
 	}
 
@@ -196,6 +204,7 @@
 		ackDynamicLimits = false;
 		ackReviewProcess = false;
 		ackAccuracy = false;
+		ackNotIdentity = false;
 		ackMisuse = false;
 		submitting = false;
 		awaitingCaptcha = false;
@@ -488,6 +497,16 @@
 						{/if}
 					</span>
 					<span class="queue-ack-text">{$_('queue_popup_ack_accuracy')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotIdentity} />
+					<span class="queue-ack-checkmark" class:checked={ackNotIdentity}>
+						{#if ackNotIdentity}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_not_identity')}</span>
 				</label>
 
 				<label class="queue-ack-item">

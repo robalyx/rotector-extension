@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "我已閱讀並同意以下所有條款",
 	"queue_popup_ack_dynamic_limits": "我了解隨著我的提交被確認準確，我的佇列限額會相應增加",
 	"queue_popup_ack_misuse": "我了解濫用此功能可能導致我的帳號受到限制",
+	"queue_popup_ack_not_identity": "我了解使用者的身分或興趣本身不是有效的提交理由",
 	"queue_popup_ack_not_innocent": "我對該使用者有合理的疑慮，並非提交一個明顯無問題的帳號",
 	"queue_popup_ack_review_process": "我了解結果由 AI 處理並經人工審核員審核",
 	"queue_popup_ack_scope": "此提交僅涉及色情或掠奪性內容相關的問題",

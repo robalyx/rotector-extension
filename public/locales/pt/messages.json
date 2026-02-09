@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Reconheço e concordo com todos os itens abaixo",
 	"queue_popup_ack_dynamic_limits": "Entendo que meus limites de fila aumentam conforme minhas submissões são confirmadas como precisas",
 	"queue_popup_ack_misuse": "Entendo que o uso indevido deste recurso pode resultar em restrições na minha conta",
+	"queue_popup_ack_not_identity": "Entendo que a identidade ou interesses de um usuário sozinhos não são razões válidas para submissão",
 	"queue_popup_ack_not_innocent": "Tenho uma preocupação razoável sobre este usuário e não estou enviando um perfil claramente inocente",
 	"queue_popup_ack_review_process": "Entendo que os resultados são processados por IA e revisados por moderadores humanos",
 	"queue_popup_ack_scope": "Esta submissão está relacionada apenas a preocupações com conteúdo sexual ou predatório",

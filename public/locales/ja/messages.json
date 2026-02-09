@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "以下のすべてを確認し、同意します",
 	"queue_popup_ack_dynamic_limits": "提出内容が正確であると確認されるにつれて、キューの上限が増加することを理解しています",
 	"queue_popup_ack_misuse": "この機能を悪用した場合、アカウントに制限が課される可能性があることを理解しています",
+	"queue_popup_ack_not_identity": "ユーザーのアイデンティティや興味だけが提出の有効な理由ではないことを理解しています",
 	"queue_popup_ack_not_innocent": "このユーザーに対して合理的な懸念があり、明らかに無害なプロフィールを提出しているわけではありません",
 	"queue_popup_ack_review_process": "結果はAIによって処理され、人間のモデレーターによって審査されることを理解しています",
 	"queue_popup_ack_scope": "この提出は、性的またはプレデター的なコンテンツに関する懸念のみに関連しています",

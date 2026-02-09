@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Saya mengakui dan bersetuju dengan semua perkara di bawah",
 	"queue_popup_ack_dynamic_limits": "Saya faham had giliran saya akan meningkat apabila penyerahan saya disahkan tepat",
 	"queue_popup_ack_misuse": "Saya faham bahawa penyalahgunaan ciri ini boleh mengakibatkan sekatan pada akaun saya",
+	"queue_popup_ack_not_identity": "Saya faham bahawa identiti atau minat pengguna sahaja bukan alasan sah untuk penyerahan",
 	"queue_popup_ack_not_innocent": "Saya mempunyai kebimbangan yang munasabah tentang pengguna ini dan tidak menyerahkan profil yang jelas tidak bersalah",
 	"queue_popup_ack_review_process": "Saya faham keputusan diproses oleh AI dan disemak oleh moderator manusia",
 	"queue_popup_ack_scope": "Penyerahan ini berkaitan dengan kebimbangan kandungan seksual atau pemangsa sahaja",

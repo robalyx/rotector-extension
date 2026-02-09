@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Ich bestätige und stimme allem Folgenden zu",
 	"queue_popup_ack_dynamic_limits": "Ich verstehe, dass meine Warteschlangenlimits steigen, wenn meine Einreichungen als korrekt bestätigt werden",
 	"queue_popup_ack_misuse": "Ich verstehe, dass der Missbrauch dieser Funktion zu Einschränkungen meines Kontos führen kann",
+	"queue_popup_ack_not_identity": "Ich verstehe, dass die Identität oder Interessen eines Benutzers allein keine gültigen Gründe für eine Einreichung sind",
 	"queue_popup_ack_not_innocent": "Ich habe begründete Bedenken bezüglich dieses Benutzers und reiche kein offensichtlich unschuldiges Profil ein",
 	"queue_popup_ack_review_process": "Ich verstehe, dass die Ergebnisse von KI verarbeitet und von menschlichen Moderatoren überprüft werden",
 	"queue_popup_ack_scope": "Diese Einreichung bezieht sich ausschließlich auf Bedenken hinsichtlich sexueller oder räuberischer Inhalte",

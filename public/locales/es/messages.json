@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Reconozco y acepto todo lo siguiente",
 	"queue_popup_ack_dynamic_limits": "Entiendo que mis límites de cola aumentan a medida que se confirma la precisión de mis envíos",
 	"queue_popup_ack_misuse": "Entiendo que el uso indebido de esta función puede resultar en restricciones en mi cuenta",
+	"queue_popup_ack_not_identity": "Entiendo que la identidad o los intereses de un usuario por sí solos no son razones válidas para enviar",
 	"queue_popup_ack_not_innocent": "Tengo una preocupación razonable sobre este usuario y no estoy enviando un perfil obviamente inocente",
 	"queue_popup_ack_review_process": "Entiendo que los resultados son procesados por IA y revisados por moderadores humanos",
 	"queue_popup_ack_scope": "Este envío está relacionado únicamente con preocupaciones de contenido sexual o depredador",

@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Saya mengakui dan menyetujui semua hal di bawah ini",
 	"queue_popup_ack_dynamic_limits": "Saya memahami bahwa batas antrean saya meningkat seiring pengajuan saya dikonfirmasi akurat",
 	"queue_popup_ack_misuse": "Saya memahami bahwa penyalahgunaan fitur ini dapat mengakibatkan pembatasan pada akun saya",
+	"queue_popup_ack_not_identity": "Saya memahami bahwa identitas atau minat pengguna saja bukan alasan pengajuan yang valid",
 	"queue_popup_ack_not_innocent": "Saya memiliki kekhawatiran yang wajar tentang pengguna ini dan tidak mengajukan profil yang jelas-jelas tidak bersalah",
 	"queue_popup_ack_review_process": "Saya memahami bahwa hasil diproses oleh AI dan ditinjau oleh moderator manusia",
 	"queue_popup_ack_scope": "Pengajuan ini terkait dengan kekhawatiran konten seksual atau predator saja",

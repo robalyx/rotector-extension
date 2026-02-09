@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "I acknowledge and agree to all of the below",
 	"queue_popup_ack_dynamic_limits": "I understand my queue limits increase as my submissions are confirmed accurate",
 	"queue_popup_ack_misuse": "I understand that misusing this feature may result in restrictions on my account",
+	"queue_popup_ack_not_identity": "I understand that a user's identity or interests alone are not valid reasons for submission",
 	"queue_popup_ack_not_innocent": "I have reasonable concern about this user and am not submitting an obviously innocent profile",
 	"queue_popup_ack_review_process": "I understand results are processed by AI and reviewed by human moderators",
 	"queue_popup_ack_scope": "This submission is related to sexual or predatory content concerns only",

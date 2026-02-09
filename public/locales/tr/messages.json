@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Aşağıdakilerin tümünü kabul ediyorum",
 	"queue_popup_ack_dynamic_limits": "Gönderimlerim doğru onaylandıkça kuyruk limitlerimin artacağını anlıyorum",
 	"queue_popup_ack_misuse": "Bu özelliği kötüye kullanmanın hesabımda kısıtlamalara yol açabileceğini anlıyorum",
+	"queue_popup_ack_not_identity": "Bir kullanıcının kimliğinin veya ilgilerinin tek başına gönderim için geçerli bir neden olmadığını anlıyorum",
 	"queue_popup_ack_not_innocent": "Bu kullanıcı hakkında makul bir endişem var ve açıkça masum bir profil göndermiyorum",
 	"queue_popup_ack_review_process": "Sonuçların yapay zeka tarafından işlendiğini ve insan moderatörler tarafından incelendiğini anlıyorum",
 	"queue_popup_ack_scope": "Bu gönderim yalnızca cinsel veya istismarcı içerik endişeleriyle ilgilidir",

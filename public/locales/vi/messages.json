@@ -385,6 +385,7 @@
 	"queue_popup_ack_all": "Tôi xác nhận và đồng ý với tất cả các điều dưới đây",
 	"queue_popup_ack_dynamic_limits": "Tôi hiểu rằng giới hạn hàng đợi của tôi sẽ tăng khi các đệ trình của tôi được xác nhận là chính xác",
 	"queue_popup_ack_misuse": "Tôi hiểu rằng việc lạm dụng tính năng này có thể dẫn đến hạn chế tài khoản của tôi",
+	"queue_popup_ack_not_identity": "Tôi hiểu rằng danh tính hoặc sở thích của một người dùng không phải là lý do hợp lệ duy nhất để gửi",
 	"queue_popup_ack_not_innocent": "Tôi có lo ngại hợp lý về người dùng này và không đệ trình một hồ sơ rõ ràng vô tội",
 	"queue_popup_ack_review_process": "Tôi hiểu rằng kết quả được xử lý bởi AI và được xem xét bởi người kiểm duyệt",
 	"queue_popup_ack_scope": "Đệ trình này chỉ liên quan đến các lo ngại về nội dung tình dục hoặc săn mồi",

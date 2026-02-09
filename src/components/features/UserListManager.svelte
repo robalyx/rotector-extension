@@ -145,7 +145,7 @@
 		// Start periodic cleanup for orphaned components
 		const cleanupInterval = setInterval(() => {
 			cleanupOrphanedComponents();
-		}, 30000);
+		}, 10000);
 
 		return () => {
 			clearInterval(cleanupInterval);
@@ -214,6 +214,9 @@
 
 				observer = observerFactory.createListObserver(config);
 				void observer.start();
+
+				// Clean up orphaned components from the previous container
+				cleanupOrphanedComponents();
 			}
 		});
 
@@ -497,7 +500,7 @@
 					markUserElementForBlur(user.element, user.userId, pageType);
 				});
 
-				// Mount status indicators immediately with loading state
+				// Mount status indicators with loading state
 				newUsers.forEach((user) => {
 					mountStatusIndicator(user, true);
 				});

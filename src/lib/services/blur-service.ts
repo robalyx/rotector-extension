@@ -789,6 +789,7 @@ export function resetElementBlur(element: Element): void {
 	element.classList.remove('blur-revealed');
 	element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
 		el.classList.remove('blur-revealed');
+		el.removeEventListener('click', handleBlurClick);
 		el.removeAttribute(BLUR_SELECTORS.BLUR_USER_ID);
 		el.removeAttribute(BLUR_SELECTORS.BLUR_TYPE);
 		el.removeAttribute(BLUR_SELECTORS.BLUR_GROUP);
@@ -803,6 +804,7 @@ export function resetElementBlur(element: Element): void {
  * Clean up blur-related attributes and classes from an element.
  */
 function cleanupBlurElement(el: Element): void {
+	el.removeEventListener('click', handleBlurClick);
 	el.removeAttribute(BLUR_SELECTORS.BLUR_USER_ID);
 	el.removeAttribute(BLUR_SELECTORS.BLUR_TYPE);
 	el.removeAttribute(BLUR_SELECTORS.BLUR_GROUP);

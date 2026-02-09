@@ -40,20 +40,68 @@
 	@apply modal-actions-horizontal;
 }
 
-@utility queue-scope-note {
-	@apply flex items-center gap-2.5 p-3 mb-4 rounded-lg;
+/* =================================
+   ACKNOWLEDGMENT CHECKBOXES
+   ================================= */
+
+@utility queue-ack-section {
+	@apply mb-4;
+}
+
+@utility queue-ack-heading {
+	@apply mb-3 text-base font-semibold;
+	color: var(--color-text);
+}
+
+@utility queue-ack-list {
+	@apply flex flex-col gap-2;
+}
+
+@utility queue-ack-item {
+	@apply flex items-start gap-3 py-1.5 cursor-pointer transition-colors duration-200;
+	padding-left: 2rem;
+}
+
+@utility queue-ack-item-all {
+	@apply p-3 rounded-lg;
+	padding-left: 0.75rem;
+	font-weight: 600;
 	background-color: var(--color-bg-tertiary);
-	border: 1px solid var(--color-border-subtle);
+
+	&:hover {
+		background-color: var(--color-card-hover);
+	}
 }
 
-@utility queue-scope-note-icon {
-	@apply flex-shrink-0;
-	color: var(--color-primary);
+@utility queue-ack-checkbox {
+	@apply sr-only;
+
+	&:focus + .queue-ack-checkmark {
+		@apply ring-2 ring-offset-2;
+		--tw-ring-color: var(--color-primary);
+		--tw-ring-offset-color: var(--color-bg-tertiary);
+	}
 }
 
-@utility queue-scope-note-text {
-	@apply text-sm leading-relaxed m-0;
-	color: var(--color-text-subtle);
+@utility queue-ack-checkmark {
+	@apply flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-0.5;
+	border-color: var(--color-text-subtle);
+	background-color: transparent;
+	color: white;
+
+	&.checked {
+		background-color: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+}
+
+@utility queue-ack-text {
+	@apply text-sm leading-relaxed;
+	color: var(--color-text);
+}
+
+@utility queue-ack-text-all {
+	@apply font-semibold;
 }
 
 /* =================================

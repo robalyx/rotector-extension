@@ -5,7 +5,7 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { STATUS, CAPTCHA_MESSAGES } from '@/lib/types/constants';
-	import { Clipboard, User, Users, AlertTriangle, Check, Info } from 'lucide-svelte';
+	import { Clipboard, User, Users, Check } from 'lucide-svelte';
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
 	import OutfitPicker from './OutfitPicker.svelte';
@@ -52,7 +52,19 @@
 	let groupsCheck = $state<CheckThreshold>('quick');
 	let selectedOutfitNames = $state<string[]>([]);
 
+	// Acknowledgment states
+	let ackScope = $state(false);
+	let ackNotInnocent = $state(false);
+	let ackDynamicLimits = $state(false);
+	let ackReviewProcess = $state(false);
+	let ackAccuracy = $state(false);
+	let ackMisuse = $state(false);
+	const allAcknowledged = $derived(
+		ackScope && ackNotInnocent && ackDynamicLimits && ackReviewProcess && ackAccuracy && ackMisuse
+	);
+
 	// UI state
+	let ackSectionEl = $state<HTMLDivElement>();
 	let submitting = $state(false);
 
 	// Queue limits component
@@ -106,9 +118,25 @@
 		return !state.isLoading && state.queueLimits !== null && state.queueLimits.remaining > 0;
 	});
 
+	function toggleAll() {
+		const newValue = !allAcknowledged;
+		ackScope = newValue;
+		ackNotInnocent = newValue;
+		ackDynamicLimits = newValue;
+		ackReviewProcess = newValue;
+		ackAccuracy = newValue;
+		ackMisuse = newValue;
+	}
+
 	// Handle form submission which starts captcha flow
 	async function handleConfirm() {
 		if (submitting || awaitingCaptcha) return;
+
+		// Scroll to acknowledgment section if not all acknowledged
+		if (!allAcknowledged) {
+			ackSectionEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			return;
+		}
 
 		awaitingCaptcha = true;
 		const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
@@ -163,6 +191,12 @@
 		friendsCheck = 'quick';
 		groupsCheck = 'quick';
 		selectedOutfitNames = [];
+		ackScope = false;
+		ackNotInnocent = false;
+		ackDynamicLimits = false;
+		ackReviewProcess = false;
+		ackAccuracy = false;
+		ackMisuse = false;
 		submitting = false;
 		awaitingCaptcha = false;
 		captchaSessionId = null;
@@ -242,14 +276,10 @@
 </script>
 
 <Modal
-	actionsLayout="horizontal"
-	cancelText={$_('queue_popup_cancel_button')}
-	confirmDisabled={!canSubmit}
-	confirmText={submitting ? $_('queue_popup_submitting_button') : $_('queue_popup_submit_button')}
-	confirmVariant="queue"
 	icon="warning"
 	onCancel={handleCancel}
-	onConfirm={handleConfirm}
+	showCancel={false}
+	showConfirm={false}
 	title={isReanalysis ? $_('queue_popup_title_reprocess') : $_('queue_popup_title_queue')}
 	bind:isOpen
 >
@@ -261,12 +291,6 @@
 				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId } })}
 			{/if}
 		</p>
-
-		<!-- Scope Note -->
-		<div class="queue-scope-note">
-			<Info class="queue-scope-note-icon" size={16} />
-			<p class="queue-scope-note-text">{$_('queue_popup_scope_note')}</p>
-		</div>
 
 		<!-- Queue Limits Section -->
 		{#if !hideQueueLimits}
@@ -392,33 +416,104 @@
 			</div>
 		</div>
 
-		<div class="modal-content-section-info">
-			<h3 class="modal-content-heading">
-				<Check class="mr-2 text-blue-500" size={18} />
-				{$_('queue_popup_review_process_heading')}
+		<!-- Acknowledgment Checkboxes -->
+		<div bind:this={ackSectionEl} class="queue-ack-section">
+			<h3 class="queue-ack-heading">
+				{$_('queue_popup_acknowledgment_heading')}
 			</h3>
-			<ul class="modal-content-list">
-				<li class="modal-content-list-item-info">
-					{$_('queue_popup_review_process_step1')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_popup_review_process_step2')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_popup_review_process_step3')}
-				</li>
-			</ul>
-		</div>
 
-		<div class="modal-content-section-warning">
-			<h3 class="modal-content-heading flex items-center">
-				<AlertTriangle class="mr-2 warning-triangle-icon" size={24} />
-				{$_('queue_popup_warning_heading')}
-			</h3>
-			<p class="text-text text-sm">
-				<strong>{$_('queue_popup_warning_message_prefix')}</strong>
-				{$_('queue_popup_warning_message_suffix')}
-			</p>
+			<div class="queue-ack-list">
+				<label class="queue-ack-item queue-ack-item-all">
+					<input
+						class="queue-ack-checkbox"
+						checked={allAcknowledged}
+						onchange={toggleAll}
+						type="checkbox"
+					/>
+					<span class="queue-ack-checkmark" class:checked={allAcknowledged}>
+						{#if allAcknowledged}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text queue-ack-text-all">
+						{$_('queue_popup_ack_all')}
+					</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackScope} />
+					<span class="queue-ack-checkmark" class:checked={ackScope}>
+						{#if ackScope}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_scope')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotInnocent} />
+					<span class="queue-ack-checkmark" class:checked={ackNotInnocent}>
+						{#if ackNotInnocent}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_not_innocent')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackDynamicLimits} />
+					<span class="queue-ack-checkmark" class:checked={ackDynamicLimits}>
+						{#if ackDynamicLimits}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_dynamic_limits')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackReviewProcess} />
+					<span class="queue-ack-checkmark" class:checked={ackReviewProcess}>
+						{#if ackReviewProcess}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_review_process')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackAccuracy} />
+					<span class="queue-ack-checkmark" class:checked={ackAccuracy}>
+						{#if ackAccuracy}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_accuracy')}</span>
+				</label>
+
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackMisuse} />
+					<span class="queue-ack-checkmark" class:checked={ackMisuse}>
+						{#if ackMisuse}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_('queue_popup_ack_misuse')}</span>
+				</label>
+			</div>
 		</div>
 	</div>
+
+	{#snippet actions()}
+		<button class="modal-cancel" onclick={handleCancel} type="button">
+			{$_('queue_popup_cancel_button')}
+		</button>
+		<button
+			class="modal-confirm modal-confirm-queue"
+			disabled={!canSubmit}
+			onclick={handleConfirm}
+			type="button"
+		>
+			{submitting ? $_('queue_popup_submitting_button') : $_('queue_popup_submit_button')}
+		</button>
+	{/snippet}
 </Modal>

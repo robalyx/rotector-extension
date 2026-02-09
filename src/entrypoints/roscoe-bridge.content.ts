@@ -7,9 +7,6 @@ import { API_CONFIG } from '@/lib/types/constants';
  * cannot use `browser.runtime.sendMessage(extensionId)` to reach the
  * extension. The backend falls back to `window.postMessage` on non-Chromium
  * browsers. This script forwards those messages to the background script.
- *
- * On Chrome the web page communicates directly via `onMessageExternal`,
- * so this listener never fires.
  */
 export default defineContentScript({
 	matches: ['https://roscoe.rotector.com/*', 'https://roscoe-dev.rotector.com/*'],

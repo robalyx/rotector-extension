@@ -23,6 +23,8 @@ const POLL_INTERVAL = 30000; // 30 seconds
 let pollIntervalId: ReturnType<typeof setInterval> | null = null;
 let isPolling = false;
 
+const activeCaptchaSessions = new Set<string>();
+
 // Send notification when queue processing completes
 async function sendQueueNotification(entry: QueueHistoryEntry): Promise<void> {
 	const notificationId = `queue-${entry.userId}-${Date.now()}`;
@@ -121,10 +123,13 @@ async function initializeQueuePolling(): Promise<void> {
 }
 
 // Handle captcha start by storing session and opening popup
-async function handleCaptchaStart(request: {
-	sessionId?: string;
-	queueData?: Omit<CaptchaSession, 'sessionId' | 'timestamp'>;
-}): Promise<void> {
+async function handleCaptchaStart(
+	request: {
+		sessionId?: string;
+		queueData?: Omit<CaptchaSession, 'sessionId' | 'senderTabId' | 'timestamp'>;
+	},
+	senderTabId?: number
+): Promise<void> {
 	const { sessionId, queueData } = request;
 
 	if (!sessionId || !queueData) {
@@ -135,6 +140,7 @@ async function handleCaptchaStart(request: {
 	const session: CaptchaSession = {
 		sessionId,
 		...queueData,
+		senderTabId,
 		timestamp: Date.now()
 	};
 	await browser.storage.local.set({
@@ -163,34 +169,29 @@ async function handleCaptchaSuccess(
 	token: string,
 	sender: { tab?: { id?: number } }
 ): Promise<void> {
-	const storageKey = `captcha_session_${sessionId}`;
-	const inProgressKey = `captcha_in_progress_${sessionId}`;
-	const result = await browser.storage.local.get([storageKey, inProgressKey]);
-
-	const session = result[storageKey] as CaptchaSession | undefined;
-
-	if (!session) {
-		logger.error('Captcha session not found:', sessionId);
+	// Skip if this session is already being processed
+	if (activeCaptchaSessions.has(sessionId)) {
 		return;
 	}
-
-	// Check session expiry (10 minutes)
-	if (Date.now() - session.timestamp > 600000) {
-		logger.error('Captcha session expired:', sessionId);
-		await browser.storage.local.remove([storageKey]);
-		return;
-	}
-
-	// Prevent duplicate processing of the same session
-	if (result[inProgressKey]) {
-		logger.warn('Captcha already being processed for session:', sessionId);
-		return;
-	}
-
-	await browser.storage.local.set({ [inProgressKey]: true });
+	activeCaptchaSessions.add(sessionId);
 
 	try {
-		// Clean up session
+		const storageKey = `captcha_session_${sessionId}`;
+		const result = await browser.storage.local.get(storageKey);
+		const session = result[storageKey] as CaptchaSession | undefined;
+
+		if (!session) {
+			logger.error('Captcha session not found:', sessionId);
+			return;
+		}
+
+		// Check session expiry (10 minutes)
+		if (Date.now() - session.timestamp > 600000) {
+			logger.error('Captcha session expired:', sessionId);
+			await browser.storage.local.remove([storageKey]);
+			return;
+		}
+
 		await browser.storage.local.remove([storageKey]);
 
 		// Close the captcha popup tab
@@ -198,7 +199,7 @@ async function handleCaptchaSuccess(
 			await browser.tabs.remove(sender.tab.id).catch(() => {});
 		}
 
-		// Broadcast token to content scripts in Roblox tabs
+		// Send token to the originating content script tab
 		const message = {
 			type: CAPTCHA_MESSAGES.CAPTCHA_TOKEN_READY,
 			token,
@@ -212,18 +213,17 @@ async function handleCaptchaSuccess(
 			}
 		};
 
-		const tabs = await browser.tabs.query({ url: '*://*.roblox.com/*' });
-		for (const tab of tabs) {
-			if (tab.id) {
-				browser.tabs.sendMessage(tab.id, message).catch(() => {
-					// Tab may not have content script loaded
-				});
-			}
+		if (session.senderTabId !== undefined) {
+			await browser.tabs.sendMessage(session.senderTabId, message).catch((err) => {
+				logger.error('Failed to deliver captcha token to content script:', err);
+			});
+		} else {
+			logger.error('No sender tab ID in captcha session — cannot deliver token');
 		}
 
 		logger.info('Captcha completed for session:', sessionId);
 	} finally {
-		await browser.storage.local.remove([inProgressKey]);
+		activeCaptchaSessions.delete(sessionId);
 	}
 }
 
@@ -233,8 +233,14 @@ async function handleCaptchaError(
 	error: string | undefined,
 	sender: { tab?: { id?: number } }
 ): Promise<void> {
+	// Retrieve session to get originating tab ID
+	let senderTabId: number | undefined;
 	if (sessionId) {
-		await browser.storage.local.remove([`captcha_session_${sessionId}`]);
+		const storageKey = `captcha_session_${sessionId}`;
+		const result = await browser.storage.local.get(storageKey);
+		const session = result[storageKey] as CaptchaSession | undefined;
+		senderTabId = session?.senderTabId;
+		await browser.storage.local.remove([storageKey]);
 	}
 
 	// Close the captcha popup tab
@@ -242,20 +248,16 @@ async function handleCaptchaError(
 		await browser.tabs.remove(sender.tab.id).catch(() => {});
 	}
 
-	// Notify content scripts of cancellation in Roblox tabs
-	const message = {
-		type: CAPTCHA_MESSAGES.CAPTCHA_CANCELLED,
-		error,
-		sessionId
-	};
-
-	const tabs = await browser.tabs.query({ url: '*://*.roblox.com/*' });
-	for (const tab of tabs) {
-		if (tab.id) {
-			browser.tabs.sendMessage(tab.id, message).catch(() => {
-				// Tab may not have content script loaded
-			});
-		}
+	// Notify the originating content script of cancellation
+	if (senderTabId !== undefined) {
+		const message = {
+			type: CAPTCHA_MESSAGES.CAPTCHA_CANCELLED,
+			error,
+			sessionId
+		};
+		await browser.tabs.sendMessage(senderTabId, message).catch((err) => {
+			logger.error('Failed to deliver captcha cancellation to content script:', err);
+		});
 	}
 
 	logger.error('Captcha verification failed:', error);
@@ -320,7 +322,7 @@ export default defineBackground(() => {
 
 					// Handle captcha start message
 					if (request.type === CAPTCHA_MESSAGES.CAPTCHA_START) {
-						await handleCaptchaStart(request);
+						await handleCaptchaStart(request, sender.tab?.id);
 						sendResponse({ success: true });
 						return;
 					}
@@ -377,6 +379,8 @@ export default defineBackground(() => {
 					logger.error('External message handling failed:', error);
 				}
 			})();
+
+			return true;
 		}
 	);
 

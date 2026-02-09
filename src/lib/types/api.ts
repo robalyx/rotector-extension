@@ -168,6 +168,7 @@ export interface CaptchaSession {
 	inappropriateProfile: boolean;
 	inappropriateFriends: boolean;
 	inappropriateGroups: boolean;
+	senderTabId?: number;
 	timestamp: number;
 }
 

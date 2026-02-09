@@ -16,13 +16,18 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.12.0',
-		version: '2.12.0',
-		date: '2026-02-09',
-		title: 'Developer Tools & Performance',
+		id: 'v2.13.0',
+		version: '2.13.0',
+		date: '2026-02-16',
+		title: 'Captcha, Developer Tools & Firefox Support',
 		summary:
-			'This update adds developer debugging tools, captcha verification for queue submissions, and faster page loading.',
+			'This update adds captcha verification for queue submissions, developer debugging tools, Discord account lookups, and full Firefox compatibility with numerous UI refinements and performance improvements.',
 		changes: [
+			{
+				type: 'added',
+				description:
+					'Captcha verification - Queue submissions now include a captcha challenge to help prevent automated abuse'
+			},
 			{
 				type: 'added',
 				description:
@@ -32,11 +37,6 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Discord account lookup - Condo Activity evidence now shows linked Discord accounts with server memberships and Roblox alt accounts in an expandable view'
-			},
-			{
-				type: 'added',
-				description:
-					'Captcha verification - Queue submissions now include a captcha challenge to help prevent automated abuse'
 			},
 			{
 				type: 'added',
@@ -56,7 +56,77 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description:
+					'Outfit viewer access - Moved "View Outfits" button from Roblox profile dropdown to the tooltip options menu'
+			},
+			{
+				type: 'changed',
+				description:
+					'Custom toast notifications - Replaced browser alert dialogs with styled toast notifications that auto-dismiss for success messages'
+			},
+			{
+				type: 'changed',
+				description:
+					'Content blur settings - Moved blur options out of experimental into their own dedicated settings section'
+			},
+			{
+				type: 'changed',
+				description:
+					'Verification source icons - Replaced text badges with clickable Bloxlink, RoVer, and profile icons that link to each service'
+			},
+			{
+				type: 'changed',
+				description:
+					'Smaller extension size - Switched to a lightweight 3D renderer, reducing the extension package by ~370 KB'
+			},
+			{
+				type: 'changed',
+				description:
+					'Queue submission acknowledgments - Replaced passive notices with mandatory checkboxes that must be accepted before submitting'
+			},
+			{
+				type: 'changed',
+				description:
 					'API documentation - Moved Rotector API docs to external site with new footer link to roscoe.rotector.com/docs'
+			},
+			{
+				type: 'changed',
+				description:
+					'Custom API management window - Custom API settings now open in a standalone window so file pickers work without closing the popup'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Captcha flow reliability - Fixed service worker termination and message delivery issues that prevented queue submission after captcha completion on Chrome'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Firefox captcha support - Captcha verification for queue submissions now works on Firefox using a message bridge for browser compatibility'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Firefox 3D outfit viewer - Fixed characters rendering as black by resolving a WebGL cross-origin texture loading issue'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Firefox outfit queue submission - Fixed outfit selection failing when queuing users due to reactive state serialization'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Slow device compatibility - Increased element detection retries to prevent initialization failures on slower devices'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Discord account ID selection - Discord account IDs in the tooltip can now be selected and copied'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group tab navigation - Fixed members carousel appearing on store and affiliates tabs instead of only the about tab'
 			},
 			{
 				type: 'fixed',
@@ -72,6 +142,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Profile page initialization - Fixed status indicators not loading due to outdated selector for new Roblox profile layout'
+			},
+			{
+				type: 'removed',
+				description:
+					'War Zone feature - Removed experimental hunter system; a better redesigned version is planned for a future update'
 			}
 		]
 	},

@@ -9,7 +9,9 @@ import { API_CONFIG } from '@/lib/types/constants';
  * browsers. This script forwards those messages to the background script.
  */
 export default defineContentScript({
-	matches: ['https://roscoe.rotector.com/*', 'https://roscoe-dev.rotector.com/*'],
+	matches: [
+		`https://${import.meta.env.USE_DEV_API === 'true' ? 'roscoe-dev' : 'roscoe'}.rotector.com/*`
+	],
 	runAt: 'document_start',
 
 	main() {

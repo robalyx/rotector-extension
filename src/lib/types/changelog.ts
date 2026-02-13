@@ -16,8 +16,8 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.13.0',
-		version: '2.13.0',
+		id: 'v2.14.0',
+		version: '2.14.0',
 		date: '2026-02-16',
 		title: 'Captcha, Developer Tools & Firefox Support',
 		summary:

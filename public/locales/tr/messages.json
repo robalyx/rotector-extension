@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "Kuyrukta",
 	"tooltip_badge_reportable": "Raporlanabilir",
 	"tooltip_copy_link": "Bağlantıyı Kopyala",
+	"tooltip_cross_signal_message": "Yapay zeka, diğer alanlarda destekleyici kanıt bulunduğu için değerlendirmesinde daha agresif davranmıştır. Burada işaretlenen içerik, kendi başına sınırda görünebilir.",
+	"tooltip_cross_signal_title": "Daha Katı Değerlendirme",
 	"tooltip_discord_accounts_plural": "{0} hesap",
 	"tooltip_discord_accounts_singular": "{0} hesap",
 	"tooltip_discord_alts_plural": "{0} yan hesap",

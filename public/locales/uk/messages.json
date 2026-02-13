@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "У черзі",
 	"tooltip_badge_reportable": "Для скарги",
 	"tooltip_copy_link": "Копіювати посилання",
+	"tooltip_cross_signal_message": "ШІ був більш агресивний у своїй оцінці, оскільки в інших областях було виявлено підтверджуючі докази. Вміст, позначений тут, може здатися сумнівним самостійно.",
+	"tooltip_cross_signal_title": "Суворіша Оцінка",
 	"tooltip_discord_accounts_plural": "{0} акаунтів",
 	"tooltip_discord_accounts_singular": "{0} акаунт",
 	"tooltip_discord_alts_plural": "{0} альтів",

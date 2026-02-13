@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "대기 중",
 	"tooltip_badge_reportable": "신고 가능",
 	"tooltip_copy_link": "링크 복사",
+	"tooltip_cross_signal_message": "AI가 다른 영역에서 지원 증거를 감지하여 더 공격적으로 평가했습니다. 여기서 플래그 지정된 콘텐츠는 단독으로는 경계선상에 있을 수 있습니다.",
+	"tooltip_cross_signal_title": "더 엄격한 평가",
 	"tooltip_discord_accounts_plural": "{0}개 계정",
 	"tooltip_discord_accounts_singular": "{0}개 계정",
 	"tooltip_discord_alts_plural": "{0}개 부계정",

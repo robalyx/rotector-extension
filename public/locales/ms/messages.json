@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "Digilirkan",
 	"tooltip_badge_reportable": "Boleh Dilaporkan",
 	"tooltip_copy_link": "Salin Pautan",
+	"tooltip_cross_signal_message": "AI menilai dengan lebih agresif kerana bukti sokongan telah dikesan di kawasan lain. Kandungan yang ditandai di sini mungkin kelihatan sempadan pada dirinya sendiri.",
+	"tooltip_cross_signal_title": "Penilaian yang Lebih Ketat",
 	"tooltip_discord_accounts_plural": "{0} akaun",
 	"tooltip_discord_accounts_singular": "{0} akaun",
 	"tooltip_discord_alts_plural": "{0} akaun alt",

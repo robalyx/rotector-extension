@@ -319,6 +319,41 @@
 	}
 }
 
+@utility cross-signal-indicator {
+	@apply relative inline-flex items-center cursor-help;
+	color: var(--color-primary);
+
+	&:hover .cross-signal-popover {
+		@apply visible opacity-100;
+	}
+}
+
+@utility cross-signal-popover {
+	@apply absolute invisible opacity-0 z-10;
+	transition:
+		opacity 0.15s ease,
+		visibility 0.15s ease;
+	top: calc(100% + 6px);
+	right: 0;
+	width: 240px;
+	padding: 8px 10px;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+	strong {
+		@apply block !text-sm font-semibold;
+		color: var(--color-primary);
+		margin-bottom: 2px;
+	}
+
+	p {
+		@apply !text-sm leading-normal m-0 font-normal;
+		color: var(--color-text);
+	}
+}
+
 @utility reasons-container {
 	@apply text-left mt-2;
 }

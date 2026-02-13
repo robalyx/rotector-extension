@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "W kolejce",
 	"tooltip_badge_reportable": "Do zgłoszenia",
 	"tooltip_copy_link": "Kopiuj link",
+	"tooltip_cross_signal_message": "AI była bardziej agresywna w swojej ocenie, ponieważ znaleziono dowody potwierdzające w innych obszarach. Zawartość oznaczona tutaj może wydawać się wątpliwa sama w sobie.",
+	"tooltip_cross_signal_title": "Surowsza Ocena",
 	"tooltip_discord_accounts_plural": "{0} kont",
 	"tooltip_discord_accounts_singular": "{0} konto",
 	"tooltip_discord_alts_plural": "{0} altkont",

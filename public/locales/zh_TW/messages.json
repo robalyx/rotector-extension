@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "已加入佇列",
 	"tooltip_badge_reportable": "可檢舉",
 	"tooltip_copy_link": "複製連結",
+	"tooltip_cross_signal_message": "AI進行了更激進的評估，因為在其他區域偵測到了支持證據。此處標記的內容單獨看可能顯得有爭議。",
+	"tooltip_cross_signal_title": "更嚴格的評估",
 	"tooltip_discord_accounts_plural": "{0} 個帳戶",
 	"tooltip_discord_accounts_singular": "{0} 個帳戶",
 	"tooltip_discord_alts_plural": "{0} 個分身",

@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "Eingereiht",
 	"tooltip_badge_reportable": "Meldbar",
 	"tooltip_copy_link": "Link kopieren",
+	"tooltip_cross_signal_message": "Die KI war in ihrer Bewertung aggressiver, weil unterstützende Belege in anderen Bereichen erkannt wurden. Inhalte, die hier gekennzeichnet sind, können für sich allein als grenzwertig wirken.",
+	"tooltip_cross_signal_title": "Strengere Bewertung",
 	"tooltip_discord_accounts_plural": "{0} Konten",
 	"tooltip_discord_accounts_singular": "{0} Konto",
 	"tooltip_discord_alts_plural": "{0} Alts",

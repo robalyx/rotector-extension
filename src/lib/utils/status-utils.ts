@@ -7,6 +7,7 @@ import { STATUS } from '../types/constants';
 interface StatusBadges {
 	isReportable: boolean;
 	isOutfitOnly: boolean;
+	hasCrossSignal: boolean;
 }
 
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
@@ -79,7 +80,8 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 	if (!status?.reasons) {
 		return {
 			isReportable,
-			isOutfitOnly: false
+			isOutfitOnly: false,
+			hasCrossSignal: false
 		};
 	}
 
@@ -88,9 +90,14 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 	const hasOutfitReason = reasonTypes.includes('Avatar Outfit');
 	const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;
 
+	// Detect profile reason corroborated by other categories
+	const hasProfileReason = reasonTypes.includes('User Profile');
+	const hasCrossSignal = hasProfileReason && reasonTypes.length > 1;
+
 	return {
 		isReportable,
-		isOutfitOnly
+		isOutfitOnly,
+		hasCrossSignal
 	};
 }
 

@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "In Coda",
 	"tooltip_badge_reportable": "Segnalabile",
 	"tooltip_copy_link": "Copia Link",
+	"tooltip_cross_signal_message": "L'IA è stata più aggressiva nella sua valutazione perché sono state rilevate prove di supporto in altre aree. Il contenuto contrassegnato qui potrebbe sembrare borderline di per sé.",
+	"tooltip_cross_signal_title": "Valutazione Più Rigorosa",
 	"tooltip_discord_accounts_plural": "{0} account",
 	"tooltip_discord_accounts_singular": "{0} account",
 	"tooltip_discord_alts_plural": "{0} account alternativi",

@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "已排队",
 	"tooltip_badge_reportable": "可举报",
 	"tooltip_copy_link": "复制链接",
+	"tooltip_cross_signal_message": "AI进行了更激进的评估，因为在其他区域检测到了支持证据。此处标记的内容单独看可能显得有争议。",
+	"tooltip_cross_signal_title": "更严格的评估",
 	"tooltip_discord_accounts_plural": "{0} 个账户",
 	"tooltip_discord_accounts_singular": "{0} 个账户",
 	"tooltip_discord_alts_plural": "{0} 个小号",

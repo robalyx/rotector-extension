@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "कतार में",
 	"tooltip_badge_reportable": "रिपोर्ट योग्य",
 	"tooltip_copy_link": "लिंक कॉपी करें",
+	"tooltip_cross_signal_message": "अन्य क्षेत्रों में समर्थक साक्ष्य का पता चलने के कारण एआई अपने मूल्यांकन में अधिक आक्रामक था। यहां फ्लैग की गई सामग्री अपने आप में सीमावर्ती लग सकती है।",
+	"tooltip_cross_signal_title": "सख्त मूल्यांकन",
 	"tooltip_discord_accounts_plural": "{0} खाते",
 	"tooltip_discord_accounts_singular": "{0} खाता",
 	"tooltip_discord_alts_plural": "{0} वैकल्पिक खाते",

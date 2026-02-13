@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "কিউতে আছে",
 	"tooltip_badge_reportable": "রিপোর্টযোগ্য",
 	"tooltip_copy_link": "লিংক কপি করুন",
+	"tooltip_cross_signal_message": "সমর্থক প্রমাণ অন্যান্য ক্ষেত্রে সনাক্ত হওয়ায় AI তার মূল্যায়নে আরও আক্রমণাত্মক ছিল। এখানে চিহ্নিত কন্টেন্ট নিজে নিজে সীমানা মনে হতে পারে।",
+	"tooltip_cross_signal_title": "কঠোর মূল্যায়ন",
 	"tooltip_discord_accounts_plural": "{0} অ্যাকাউন্ট",
 	"tooltip_discord_accounts_singular": "{0} অ্যাকাউন্ট",
 	"tooltip_discord_alts_plural": "{0} অল্টস",

@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "في قائمة الانتظار",
 	"tooltip_badge_reportable": "قابل للإبلاغ",
 	"tooltip_copy_link": "نسخ الرابط",
+	"tooltip_cross_signal_message": "كان الذكاء الاصطناعي أكثر عدوانية في تقييمه لأن أدلة داعمة تم كشفها في مناطق أخرى. قد يبدو المحتوى المميز هنا حدود على حد ذاته.",
+	"tooltip_cross_signal_title": "تقييم أكثر صرامة",
 	"tooltip_discord_accounts_plural": "{0} حسابات",
 	"tooltip_discord_accounts_singular": "حساب {0}",
 	"tooltip_discord_alts_plural": "{0} حسابات بديلة",

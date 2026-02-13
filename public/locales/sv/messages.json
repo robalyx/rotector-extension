@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "Köad",
 	"tooltip_badge_reportable": "Rapporterbar",
 	"tooltip_copy_link": "Kopiera länk",
+	"tooltip_cross_signal_message": "AI:n var mer aggressiv i sin bedömning eftersom stödjande bevis upptäcktes i andra områden. Innehål som flaggas här kan verka gränsfallet på sin egen hand.",
+	"tooltip_cross_signal_title": "Strängare bedömning",
 	"tooltip_discord_accounts_plural": "{0} konton",
 	"tooltip_discord_accounts_singular": "{0} konto",
 	"tooltip_discord_alts_plural": "{0} alts",

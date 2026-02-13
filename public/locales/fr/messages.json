@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "En File d'Attente",
 	"tooltip_badge_reportable": "Signalable",
 	"tooltip_copy_link": "Copier le lien",
+	"tooltip_cross_signal_message": "L'IA a été plus agressive dans son évaluation car des preuves à l'appui ont été détectées ailleurs. Le contenu signalé ici peut sembler douteux en lui-même.",
+	"tooltip_cross_signal_title": "Évaluation Plus Stricte",
 	"tooltip_discord_accounts_plural": "{0} comptes",
 	"tooltip_discord_accounts_singular": "{0} compte",
 	"tooltip_discord_alts_plural": "{0} comptes alternatifs",

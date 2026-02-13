@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "Naka-queue",
 	"tooltip_badge_reportable": "Pwedeng I-report",
 	"tooltip_copy_link": "Kopyahin ang Link",
+	"tooltip_cross_signal_message": "Ang AI ay mas agresibo sa pagtatasa dahil may nakitang suportang ebidensya sa ibang lugar. Ang nilalaman na minarkahan dito ay maaaring mukhang pag-aalinlangan na mag-isa.",
+	"tooltip_cross_signal_title": "Mas Mahigpit na Pagtatasa",
 	"tooltip_discord_accounts_plural": "{0} mga account",
 	"tooltip_discord_accounts_singular": "{0} account",
 	"tooltip_discord_alts_plural": "{0} mga alt",

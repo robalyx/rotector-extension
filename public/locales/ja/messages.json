@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "キュー中",
 	"tooltip_badge_reportable": "通報可能",
 	"tooltip_copy_link": "リンクをコピー",
+	"tooltip_cross_signal_message": "AI は他の領域でサポート証拠が検出されたため、より積極的に評価を行いました。ここでフラグが立てられたコンテンツは、単独では境界線上に見える場合があります。",
+	"tooltip_cross_signal_title": "より厳密な評価",
 	"tooltip_discord_accounts_plural": "{0} アカウント",
 	"tooltip_discord_accounts_singular": "{0} アカウント",
 	"tooltip_discord_alts_plural": "{0} サブアカウント",

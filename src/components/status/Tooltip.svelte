@@ -43,7 +43,8 @@
 		FileText,
 		Ban,
 		Ellipsis,
-		Link
+		Link,
+		Info
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
@@ -1256,6 +1257,15 @@
 							<div class="reason-item">
 								<div class="reason-header">
 									{reason.typeName} ({reason.confidence}%)
+									{#if reason.typeName === 'User Profile' && badgeStatus.hasCrossSignal}
+										<div class="cross-signal-indicator">
+											<Info size={14} />
+											<div class="cross-signal-popover">
+												<strong>{$_('tooltip_cross_signal_title')}</strong>
+												<p>{$_('tooltip_cross_signal_message')}</p>
+											</div>
+										</div>
+									{/if}
 								</div>
 								{#if reason.message}
 									<div class="reason-message">

@@ -604,6 +604,8 @@
 	"tooltip_badge_queued": "В очереди",
 	"tooltip_badge_reportable": "Подходит для жалобы",
 	"tooltip_copy_link": "Копировать ссылку",
+	"tooltip_cross_signal_message": "ИИ был более агрессивен при оценке, так как подтверждающие доказательства были обнаружены в других областях. Контент, помеченный здесь, может показаться спорным сам по себе.",
+	"tooltip_cross_signal_title": "Более строгая оценка",
 	"tooltip_discord_accounts_plural": "{0} аккаунтов",
 	"tooltip_discord_accounts_singular": "{0} аккаунт",
 	"tooltip_discord_alts_plural": "{0} альтов",

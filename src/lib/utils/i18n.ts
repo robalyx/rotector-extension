@@ -25,8 +25,8 @@ export const SUPPORTED_LOCALES = [
 	'tr',
 	'uk',
 	'vi',
-	'zh_CN',
-	'zh_TW'
+	'zh-CN',
+	'zh-TW'
 ] as const;
 
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
@@ -55,11 +55,11 @@ export const LOCALE_DISPLAY_NAMES: Record<SupportedLocale, string> = {
 	tr: 'Türkçe',
 	uk: 'Українська',
 	vi: 'Tiếng Việt',
-	zh_CN: '简体中文',
-	zh_TW: '繁體中文'
+	'zh-CN': '简体中文',
+	'zh-TW': '繁體中文'
 };
 
-// Normalize browser locale to supported format
+// Normalize browser locale to supported BCP 47 format
 export function normalizeLocale(browserLocale: string): SupportedLocale {
 	if (SUPPORTED_LOCALES.includes(browserLocale as SupportedLocale)) {
 		return browserLocale as SupportedLocale;
@@ -68,9 +68,9 @@ export function normalizeLocale(browserLocale: string): SupportedLocale {
 	const lowerLocale = browserLocale.toLowerCase();
 	if (lowerLocale.startsWith('zh')) {
 		if (lowerLocale.includes('tw') || lowerLocale.includes('hant') || lowerLocale.includes('hk')) {
-			return 'zh_TW';
+			return 'zh-TW';
 		}
-		return 'zh_CN';
+		return 'zh-CN';
 	}
 
 	const baseLocale = browserLocale.split(/[-_]/)[0];
@@ -88,9 +88,7 @@ async function getCurrentLocale(): Promise<SupportedLocale> {
 		const storedLocale = stored[SETTINGS_KEYS.LANGUAGE_OVERRIDE] as string | undefined;
 
 		if (storedLocale && storedLocale !== 'auto') {
-			return SUPPORTED_LOCALES.includes(storedLocale as SupportedLocale)
-				? (storedLocale as SupportedLocale)
-				: 'en';
+			return normalizeLocale(storedLocale);
 		}
 
 		const browserLocale = navigator.language ?? 'en';

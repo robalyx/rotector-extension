@@ -40,10 +40,8 @@ async function applyLocale(localeCode: string): Promise<void> {
 	if (localeCode === 'auto') {
 		const browserLocale = getLocaleFromNavigator() ?? 'en';
 		targetLocale = normalizeLocale(browserLocale);
-	} else if (SUPPORTED_LOCALES.includes(localeCode as SupportedLocale)) {
-		targetLocale = localeCode as SupportedLocale;
 	} else {
-		targetLocale = 'en';
+		targetLocale = normalizeLocale(localeCode);
 	}
 
 	await loadLocale(targetLocale);

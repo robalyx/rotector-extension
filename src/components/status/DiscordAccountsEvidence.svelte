@@ -16,7 +16,7 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';
 	import RoVerIcon from '@/components/icons/RoVerIcon.svelte';
-	import { apiClient } from '@/lib/services/api-client';
+	import { discordDataService } from '@/lib/services/discord-data-service';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
 	import { VERIFICATION_SOURCE_NAMES, VERIFICATION_SOURCE_URLS } from '@/lib/types/api';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
@@ -151,7 +151,7 @@
 			try {
 				isLoading = true;
 				error = null;
-				const result = await apiClient.lookupRobloxUserDiscord(robloxUserId);
+				const result = await discordDataService.getDiscordData(robloxUserId);
 				discordAccounts = result.discordAccounts;
 				altAccounts = result.altAccounts;
 			} catch (err) {

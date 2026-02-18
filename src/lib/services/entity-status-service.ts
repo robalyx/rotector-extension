@@ -1,4 +1,4 @@
-import { derived, get, writable } from 'svelte/store';
+import { get } from 'svelte/store';
 import type { GroupStatus, UserStatus } from '../types/api';
 import { API_CONFIG } from '../types/constants';
 import { settings } from '../stores/settings';
@@ -22,9 +22,6 @@ type EntityStatus = UserStatus | GroupStatus;
 class EntityStatusService<T extends EntityStatus> {
 	private readonly cache = new Map<string, CacheEntry<T>>();
 	private readonly pendingRequests = new Map<string, Array<StatusRequest<T>>>();
-	private readonly statusStore = writable<Map<string, T>>(new Map());
-
-	public readonly statuses = derived(this.statusStore, ($store) => $store);
 
 	constructor(
 		private readonly entityType: 'user' | 'group',
@@ -61,14 +58,8 @@ class EntityStatusService<T extends EntityStatus> {
 		const entry = this.cache.get(entityId);
 		if (!entry) return null;
 
-		const currentSettings = get(settings);
-		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
-		const cacheTTL = cacheDurationMinutes * 60 * 1000;
-
-		const isExpired = Date.now() - entry.timestamp > cacheTTL;
-		if (isExpired) {
+		if (Date.now() - entry.timestamp > this.getCacheTTL()) {
 			this.cache.delete(entityId);
-			this.updateStore();
 			return null;
 		}
 
@@ -141,8 +132,6 @@ class EntityStatusService<T extends EntityStatus> {
 					results.set(entityId, null);
 				}
 			});
-
-			this.updateStore();
 		}
 
 		return results;
@@ -154,50 +143,15 @@ class EntityStatusService<T extends EntityStatus> {
 			data: status,
 			timestamp: Date.now()
 		});
-		this.updateStore();
 		logger.info(`${this.entityType}StatusService`, 'Status manually updated', {
 			entityId
 		});
 	}
 
-	// Preloads cache with entity statuses
-	public async warmCache(entityIds: string[]): Promise<void> {
-		logger.info(`${this.entityType}StatusService`, 'Warming cache', {
-			count: entityIds.length
-		});
-		await this.getStatuses(entityIds);
-	}
-
-	// Clears entire cache
-	public clearCache(): void {
-		this.cache.clear();
-		this.updateStore();
-		logger.info(`${this.entityType}StatusService`, 'Cache cleared');
-	}
-
-	// Clears cache for specific entity
-	public clearEntityCache(entityId: string): void {
-		this.cache.delete(entityId);
-		this.updateStore();
-		logger.info(`${this.entityType}StatusService`, 'Cache cleared for entity', {
-			entityId
-		});
-	}
-
-	// Returns cache size and entry age statistics
-	public getCacheStats(): {
-		size: number;
-		entries: Array<{ entityId: string; age: number }>;
-	} {
-		const entries = Array.from(this.cache.entries()).map(([entityId, entry]) => ({
-			entityId,
-			age: Date.now() - entry.timestamp
-		}));
-
-		return {
-			size: this.cache.size,
-			entries
-		};
+	private getCacheTTL(): number {
+		const currentSettings = get(settings);
+		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
+		return cacheDurationMinutes * 60 * 1000;
 	}
 
 	// Fetches status from API with request deduplication
@@ -213,7 +167,6 @@ class EntityStatusService<T extends EntityStatus> {
 					data: status,
 					timestamp: Date.now()
 				});
-				this.updateStore();
 
 				requestQueue.forEach(({ resolve }) => {
 					resolve(status);
@@ -234,15 +187,6 @@ class EntityStatusService<T extends EntityStatus> {
 		} finally {
 			this.pendingRequests.delete(entityId);
 		}
-	}
-
-	// Updates Svelte store with current cache data
-	private updateStore(): void {
-		const storeData = new Map<string, T>();
-		for (const [entityId, entry] of this.cache.entries()) {
-			storeData.set(entityId, entry.data);
-		}
-		this.statusStore.set(storeData);
 	}
 }
 

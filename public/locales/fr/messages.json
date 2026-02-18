@@ -213,6 +213,7 @@
 	"group_members_error_members": "Échec du chargement des membres",
 	"group_members_error_roles": "Échec du chargement des rôles du groupe",
 	"group_members_error_tracked": "Échec du chargement des utilisateurs suivis",
+	"group_members_hidden": "Le propriétaire du groupe a désactivé la liste des membres pour ce groupe. Utilisez l'onglet Suivi pour voir les membres signalés.",
 	"group_members_loading": "Chargement...",
 	"group_members_next": "Suivant",
 	"group_members_page": "Page",

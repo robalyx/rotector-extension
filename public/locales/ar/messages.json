@@ -213,6 +213,7 @@
 	"group_members_error_members": "فشل تحميل الأعضاء",
 	"group_members_error_roles": "فشل تحميل أدوار المجموعة",
 	"group_members_error_tracked": "فشل تحميل المستخدمين المتتبعين",
+	"group_members_hidden": "قائمة الأعضاء معطلة من قبل مالك المجموعة. استخدم علامة التبويب المتتبعة لعرض الأعضاء المرفوضين.",
 	"group_members_loading": "جارٍ التحميل...",
 	"group_members_next": "التالي",
 	"group_members_page": "الصفحة",

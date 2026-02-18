@@ -213,6 +213,7 @@
 	"group_members_error_members": "Gagal memuat anggota",
 	"group_members_error_roles": "Gagal memuat peran grup",
 	"group_members_error_tracked": "Gagal memuat pengguna terlacak",
+	"group_members_hidden": "Pemilik grup telah menonaktifkan daftar anggota untuk grup ini. Gunakan tab Terlacak untuk melihat anggota yang ditandai.",
 	"group_members_loading": "Memuat...",
 	"group_members_next": "Berikutnya",
 	"group_members_page": "Halaman",

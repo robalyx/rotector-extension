@@ -213,6 +213,7 @@
 	"group_members_error_members": "Üyeler yüklenemedi",
 	"group_members_error_roles": "Grup rolleri yüklenemedi",
 	"group_members_error_tracked": "Takip edilen kullanıcılar yüklenemedi",
+	"group_members_hidden": "Grup sahibi bu grup için üye listesini devre dışı bırakmıştır. Bayraklı üyeleri görüntülemek için Takip Edilen sekmesini kullanın.",
 	"group_members_loading": "Yükleniyor...",
 	"group_members_next": "Sonraki",
 	"group_members_page": "Sayfa",

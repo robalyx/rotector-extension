@@ -213,6 +213,7 @@
 	"group_members_error_members": "Error al cargar los miembros",
 	"group_members_error_roles": "Error al cargar los roles del grupo",
 	"group_members_error_tracked": "Error al cargar los usuarios rastreados",
+	"group_members_hidden": "El propietario del grupo ha deshabilitado la lista de miembros para este grupo. Usa la pestaña Rastreados para ver los miembros marcados.",
 	"group_members_loading": "Cargando...",
 	"group_members_next": "Siguiente",
 	"group_members_page": "Página",

@@ -213,6 +213,7 @@
 	"group_members_error_members": "Failed to load members",
 	"group_members_error_roles": "Failed to load group roles",
 	"group_members_error_tracked": "Failed to load tracked users",
+	"group_members_hidden": "The group owner has disabled the member list for this group. Use the Tracked tab to view flagged members.",
 	"group_members_loading": "Loading...",
 	"group_members_next": "Next",
 	"group_members_page": "Page",

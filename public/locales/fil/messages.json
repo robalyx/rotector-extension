@@ -213,6 +213,7 @@
 	"group_members_error_members": "Nabigo ang pag-load ng mga miyembro",
 	"group_members_error_roles": "Nabigo ang pag-load ng mga tungkulin ng grupo",
 	"group_members_error_tracked": "Nabigo ang pag-load ng mga sinusubaybayang user",
+	"group_members_hidden": "Ang may-ari ng grupo ay nag-disable ng listahan ng mga miyembro para sa grupong ito. Gamitin ang Tracked tab upang makita ang mga nakamark na miyembro.",
 	"group_members_loading": "Naglo-load...",
 	"group_members_next": "Susunod",
 	"group_members_page": "Pahina",

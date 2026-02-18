@@ -213,6 +213,7 @@
 	"group_members_error_members": "加载成员失败",
 	"group_members_error_roles": "加载群组角色失败",
 	"group_members_error_tracked": "加载已追踪用户失败",
+	"group_members_hidden": "此群组的群主已禁用成员列表。请使用「已追踪」标签查看被标记的成员。",
 	"group_members_loading": "加载中...",
 	"group_members_next": "下一页",
 	"group_members_page": "页",

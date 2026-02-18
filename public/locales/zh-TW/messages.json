@@ -213,6 +213,7 @@
 	"group_members_error_members": "載入成員失敗",
 	"group_members_error_roles": "載入群組角色失敗",
 	"group_members_error_tracked": "載入已追蹤使用者失敗",
+	"group_members_hidden": "此群組的群主已禁用成員列表。請使用「已追蹤」標籤查看被標記的成員。",
 	"group_members_loading": "載入中...",
 	"group_members_next": "下一頁",
 	"group_members_page": "頁",

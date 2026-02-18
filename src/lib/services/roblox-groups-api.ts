@@ -80,7 +80,22 @@ export async function getGroupMembers(
 	);
 
 	if (!response.ok) {
-		throw new Error(`Failed to fetch group members: ${response.status}`);
+		const error = new Error(`Failed to fetch group members: ${response.status}`) as Error & {
+			status?: number;
+			robloxErrorCode?: number;
+		};
+		error.status = response.status;
+
+		try {
+			const body = (await response.json()) as { errors?: Array<{ code: number }> };
+			if (body.errors?.[0]?.code) {
+				error.robloxErrorCode = body.errors[0].code;
+			}
+		} catch (parseError) {
+			console.warn('Failed to parse Roblox error response body:', parseError);
+		}
+
+		throw error;
 	}
 
 	return (await response.json()) as MembersResponse;

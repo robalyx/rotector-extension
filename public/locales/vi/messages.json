@@ -213,6 +213,7 @@
 	"group_members_error_members": "Không thể tải thành viên",
 	"group_members_error_roles": "Không thể tải vai trò nhóm",
 	"group_members_error_tracked": "Không thể tải người dùng được theo dõi",
+	"group_members_hidden": "Chủ sở hữu nhóm đã vô hiệu hóa danh sách thành viên cho nhóm này. Hãy sử dụng tab Được theo dõi để xem các thành viên được đánh dấu.",
 	"group_members_loading": "Đang tải...",
 	"group_members_next": "Tiếp",
 	"group_members_page": "Trang",

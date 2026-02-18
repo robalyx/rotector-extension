@@ -213,6 +213,7 @@
 	"group_members_error_members": "Misslyckades med att ladda medlemmar",
 	"group_members_error_roles": "Misslyckades med att ladda grupproller",
 	"group_members_error_tracked": "Misslyckades med att ladda spårade användare",
+	"group_members_hidden": "Gruppägaren har inaktiverat medlemslistan för denna grupp. Använd fliken Spårade för att visa flaggade medlemmar.",
 	"group_members_loading": "Laddar...",
 	"group_members_next": "Nästa",
 	"group_members_page": "Sida",

@@ -213,6 +213,7 @@
 	"group_members_error_members": "सदस्य लोड करने में विफल",
 	"group_members_error_roles": "समूह भूमिकाएं लोड करने में विफल",
 	"group_members_error_tracked": "ट्रैक किए गए उपयोगकर्ता लोड करने में विफल",
+	"group_members_hidden": "समूह के मालिक ने इस समूह के लिए सदस्य सूची को अक्षम कर दिया है। फ़्लैग किए गए सदस्यों को देखने के लिए ट्रैक किए गए टैब का उपयोग करें।",
 	"group_members_loading": "लोड हो रहा है...",
 	"group_members_next": "अगला",
 	"group_members_page": "पृष्ठ",

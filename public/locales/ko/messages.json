@@ -213,6 +213,7 @@
 	"group_members_error_members": "멤버를 불러오지 못했습니다",
 	"group_members_error_roles": "그룹 역할을 불러오지 못했습니다",
 	"group_members_error_tracked": "추적된 사용자를 불러오지 못했습니다",
+	"group_members_hidden": "그룹 소유자가 이 그룹의 멤버 목록을 비활성화했습니다. 추적된 탭에서 신고된 멤버를 확인하세요.",
 	"group_members_loading": "로딩 중...",
 	"group_members_next": "다음",
 	"group_members_page": "페이지",

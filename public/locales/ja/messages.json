@@ -213,6 +213,7 @@
 	"group_members_error_members": "メンバーの読み込みに失敗しました",
 	"group_members_error_roles": "グループロールの読み込みに失敗しました",
 	"group_members_error_tracked": "追跡中のユーザーの読み込みに失敗しました",
+	"group_members_hidden": "グループオーナーはこのグループのメンバーリストを非表示にしています。トラッキングタブで対象メンバーを表示します。",
 	"group_members_loading": "読み込み中...",
 	"group_members_next": "次へ",
 	"group_members_page": "ページ",

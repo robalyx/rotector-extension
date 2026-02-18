@@ -213,6 +213,7 @@
 	"group_members_error_members": "Falha ao carregar membros",
 	"group_members_error_roles": "Falha ao carregar cargos do grupo",
 	"group_members_error_tracked": "Falha ao carregar usuários rastreados",
+	"group_members_hidden": "O proprietário do grupo desabilitou a lista de membros para este grupo. Use a aba Rastreados para visualizar membros sinalizados.",
 	"group_members_loading": "Carregando...",
 	"group_members_next": "Próximo",
 	"group_members_page": "Página",

@@ -213,6 +213,7 @@
 	"group_members_error_members": "Mitglieder konnten nicht geladen werden",
 	"group_members_error_roles": "Gruppenrollen konnten nicht geladen werden",
 	"group_members_error_tracked": "Verfolgte Benutzer konnten nicht geladen werden",
+	"group_members_hidden": "Der Gruppenbesitzer hat die Mitgliederliste für diese Gruppe deaktiviert. Verwenden Sie die Registerkarte \"Verfolgt\", um gekennzeichnete Mitglieder anzuzeigen.",
 	"group_members_loading": "Laden...",
 	"group_members_next": "Weiter",
 	"group_members_page": "Seite",

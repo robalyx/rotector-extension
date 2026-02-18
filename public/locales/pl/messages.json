@@ -213,6 +213,7 @@
 	"group_members_error_members": "Nie udało się załadować członków",
 	"group_members_error_roles": "Nie udało się załadować ról grupy",
 	"group_members_error_tracked": "Nie udało się załadować śledzonych użytkowników",
+	"group_members_hidden": "Właściciel grupy wyłączył listę członków dla tej grupy. Użyj karty Śledzone, aby wyświetlić oflagowanych członków.",
 	"group_members_loading": "Ładowanie...",
 	"group_members_next": "Następna",
 	"group_members_page": "Strona",

@@ -213,6 +213,7 @@
 	"group_members_error_members": "Impossibile caricare i membri",
 	"group_members_error_roles": "Impossibile caricare i ruoli del gruppo",
 	"group_members_error_tracked": "Impossibile caricare gli utenti tracciati",
+	"group_members_hidden": "Il proprietario del gruppo ha disabilitato l'elenco dei membri per questo gruppo. Usa la scheda Tracciati per visualizzare i membri contrassegnati.",
 	"group_members_loading": "Caricamento...",
 	"group_members_next": "Successivo",
 	"group_members_page": "Pagina",

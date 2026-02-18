@@ -213,6 +213,7 @@
 	"group_members_error_members": "সদস্য লোড করতে ব্যর্থ",
 	"group_members_error_roles": "গ্রুপ ভূমিকা লোড করতে ব্যর্থ",
 	"group_members_error_tracked": "ট্র্যাক করা ব্যবহারকারী লোড করতে ব্যর্থ",
+	"group_members_hidden": "গ্রুপের মালিক এই গ্রুপের জন্য সদস্য তালিকা অক্ষম করেছেন। ফ্ল্যাগ করা সদস্যদের দেখতে ট্র্যাক করা ট্যাব ব্যবহার করুন।",
 	"group_members_loading": "লোড হচ্ছে...",
 	"group_members_next": "পরবর্তী",
 	"group_members_page": "পৃষ্ঠা",

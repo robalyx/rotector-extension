@@ -213,6 +213,7 @@
 	"group_members_error_members": "ไม่สามารถโหลดสมาชิกได้",
 	"group_members_error_roles": "ไม่สามารถโหลดบทบาทกลุ่มได้",
 	"group_members_error_tracked": "ไม่สามารถโหลดผู้ใช้ที่ติดตามได้",
+	"group_members_hidden": "เจ้าของกลุ่มได้ปิดใช้งานรายชื่อสมาชิกสำหรับกลุ่มนี้ ใช้แท็บติดตามเพื่อดูสมาชิกที่ถูกทำเครื่องหมาย",
 	"group_members_loading": "กำลังโหลด...",
 	"group_members_next": "ถัดไป",
 	"group_members_page": "หน้า",

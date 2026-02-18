@@ -55,6 +55,7 @@
 	let isLoadingRoles = $state(true);
 	let isLoadingMembers = $state(false);
 	let errorMessage = $state<string | null>(null);
+	let membersHidden = $state(false);
 
 	// By-role pagination
 	// cursorCache[i] and carryoverCache[i] correspond to page i+1 (0-indexed)
@@ -216,6 +217,13 @@
 			// Load Rotector statuses
 			await loadStatuses(userIds.map(String));
 		} catch (error) {
+			const structured = error as Error & { status?: number; robloxErrorCode?: number };
+
+			if (structured.status === 400 && structured.robloxErrorCode === 3) {
+				membersHidden = true;
+				return;
+			}
+
 			logger.error('Failed to load group members:', error);
 			errorMessage = get(_)('group_members_error_members');
 			onError?.(get(_)('group_members_error_members'));
@@ -774,6 +782,10 @@
 			{#if isLoadingRoles}
 				<div class="group-members-loading">
 					<div class="group-members-spinner"></div>
+				</div>
+			{:else if membersHidden}
+				<div class="group-members-empty">
+					<span>{$_('group_members_hidden')}</span>
 				</div>
 			{:else if errorMessage}
 				<div class="group-members-error">

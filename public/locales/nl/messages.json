@@ -213,6 +213,7 @@
 	"group_members_error_members": "Kon leden niet laden",
 	"group_members_error_roles": "Kon groepsrollen niet laden",
 	"group_members_error_tracked": "Kon gevolgde gebruikers niet laden",
+	"group_members_hidden": "De groepseigenaar heeft de ledenlijst voor deze groep uitgeschakeld. Gebruik het tabblad Bijgehouden om geflaggde leden weer te geven.",
 	"group_members_loading": "Laden...",
 	"group_members_next": "Volgende",
 	"group_members_page": "Pagina",

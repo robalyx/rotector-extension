@@ -131,8 +131,18 @@ class RotectorApiClient {
 		);
 	}
 
-	async checkMultipleGroups(groupIds: Array<string | number>): Promise<GroupStatus[]> {
-		return sendMessage<GroupStatus[]>(API_ACTIONS.CHECK_MULTIPLE_GROUPS, { groupIds });
+	async checkMultipleGroups(
+		groupIds: Array<string | number>,
+		options: RequestOptions = {}
+	): Promise<GroupStatus[]> {
+		return sendMessage<GroupStatus[]>(
+			API_ACTIONS.CHECK_MULTIPLE_GROUPS,
+			{
+				groupIds,
+				...(options.lookupContext && { lookupContext: options.lookupContext })
+			},
+			options
+		);
 	}
 
 	async getGroupTrackedUsers(

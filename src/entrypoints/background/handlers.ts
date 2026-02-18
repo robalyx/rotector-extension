@@ -72,7 +72,7 @@ export const actionHandlers = {
 	},
 	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
 		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');
-		return checkMultipleGroups(request.groupIds, request.clientId);
+		return checkMultipleGroups(request.groupIds, request.clientId, request.lookupContext);
 	},
 	[API_ACTIONS.GET_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
 		if (!request.groupId) throw new Error('Group ID is required for get group tracked users');

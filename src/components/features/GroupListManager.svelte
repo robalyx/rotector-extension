@@ -7,12 +7,12 @@
 		BTROBLOX_GROUPS_SELECTORS,
 		COMPONENT_CLASSES,
 		ENTITY_TYPES,
+		LOOKUP_CONTEXT,
 		PROFILE_GROUPS_SHOWCASE_SELECTORS,
 		STATUS_SELECTORS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { groupStatusService } from '@/lib/services/entity-status-service';
-	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
 	import type { GroupStatus } from '@/lib/types/api';
@@ -202,14 +202,6 @@
 	// Process groups with batch status fetching
 	async function processGroups(groupDetails: GroupDetails[]): Promise<void> {
 		try {
-			if ($restrictedAccessStore.isRestricted) {
-				for (const { groupId, element } of groupDetails) {
-					element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
-					updateStatusIndicator(groupId, null, element, false, 'restricted_access');
-				}
-				return;
-			}
-
 			for (const { groupId, element } of groupDetails) {
 				element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
 				updateStatusIndicator(groupId, null, element, true);
@@ -218,7 +210,10 @@
 			const groupsToFetch = groupDetails.filter(({ groupId }) => !groupStatuses.has(groupId));
 			if (groupsToFetch.length > 0) {
 				const groupIds = groupsToFetch.map(({ groupId }) => groupId);
-				const fetchedResults = await groupStatusService.getStatuses(groupIds);
+				const fetchedResults = await groupStatusService.getStatuses(
+					groupIds,
+					LOOKUP_CONTEXT.GROUPS
+				);
 
 				for (const [groupId, status] of fetchedResults.entries()) {
 					if (status) {

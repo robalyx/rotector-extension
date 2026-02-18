@@ -98,7 +98,8 @@ export async function checkMultipleUsers(
 // Check the status of multiple groups in a batch request
 export async function checkMultipleGroups(
 	groupIds: Array<string | number>,
-	clientId?: string
+	clientId?: string,
+	lookupContext?: string
 ): Promise<GroupStatus[]> {
 	const sanitizedGroupIds = processBatchEntityIds(groupIds);
 
@@ -109,7 +110,8 @@ export async function checkMultipleGroups(
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.GROUP_CHECK, {
 		method: 'POST',
 		body: JSON.stringify(requestBody),
-		clientId
+		clientId,
+		lookupContext
 	});
 
 	const responseData = extractResponseData<Record<string, GroupStatus>>(response);

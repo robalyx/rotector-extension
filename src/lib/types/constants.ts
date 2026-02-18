@@ -390,5 +390,6 @@ export const USER_ACTIONS = {
 
 // Lookup context for request headers
 export const LOOKUP_CONTEXT = {
-	FRIENDS: 'friends'
+	FRIENDS: 'friends',
+	GROUPS: 'groups'
 } as const;

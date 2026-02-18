@@ -26,7 +26,7 @@ class EntityStatusService<T extends EntityStatus> {
 	constructor(
 		private readonly entityType: 'user' | 'group',
 		private readonly fetchSingle: (id: string) => Promise<T>,
-		private readonly fetchMultiple?: (ids: string[]) => Promise<T[]>
+		private readonly fetchMultiple?: (ids: string[], lookupContext?: string) => Promise<T[]>
 	) {}
 
 	// Gets entity status from cache or fetches from API
@@ -67,7 +67,10 @@ class EntityStatusService<T extends EntityStatus> {
 	}
 
 	// Gets multiple entity statuses with batch fetching optimization
-	public async getStatuses(entityIds: string[]): Promise<Map<string, T | null>> {
+	public async getStatuses(
+		entityIds: string[],
+		lookupContext?: string
+	): Promise<Map<string, T | null>> {
 		if (!this.fetchMultiple) {
 			const results = new Map<string, T | null>();
 			for (const id of entityIds) {
@@ -105,7 +108,7 @@ class EntityStatusService<T extends EntityStatus> {
 				}
 
 				try {
-					const batchStatuses = await this.fetchMultiple(chunk);
+					const batchStatuses = await this.fetchMultiple(chunk, lookupContext);
 
 					batchStatuses.forEach((status) => {
 						if (status && status.id) {
@@ -200,5 +203,6 @@ export const userStatusService = new EntityStatusService<UserStatus>(
 export const groupStatusService = new EntityStatusService<GroupStatus>(
 	'group',
 	async (id: string) => apiClient.checkGroup(id),
-	async (ids: string[]) => apiClient.checkMultipleGroups(ids)
+	async (ids: string[], lookupContext?: string) =>
+		apiClient.checkMultipleGroups(ids, { lookupContext })
 );

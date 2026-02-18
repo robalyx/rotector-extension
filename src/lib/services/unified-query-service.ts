@@ -1,6 +1,7 @@
 import type { CombinedStatus, CustomApiConfig, CustomApiResult } from '../types/custom-api';
 import type { UserStatus } from '../types/api';
 import { apiClient } from './api-client';
+import { userStatusService } from './entity-status-service';
 import { customApis, ROTECTOR_API_ID } from '../stores/custom-apis';
 import { restrictedAccessStore } from '../stores/restricted-access';
 import { settings } from '../stores/settings';
@@ -149,7 +150,7 @@ export function queryUserProgressive(
 		try {
 			const result =
 				api.isSystem && api.id === ROTECTOR_API_ID
-					? await apiClient.checkUser(userId)
+					? await userStatusService.getStatus(userId)
 					: await apiClient.checkUser(userId, { apiConfig: api });
 
 			if (cancelled) return;
@@ -157,7 +158,7 @@ export function queryUserProgressive(
 			customApis.set(api.id, {
 				apiId: api.id,
 				apiName: api.name,
-				data: result,
+				data: result ?? undefined,
 				loading: false,
 				timestamp: Date.now(),
 				landscapeImageDataUrl: api.landscapeImageDataUrl

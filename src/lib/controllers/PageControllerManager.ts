@@ -109,7 +109,8 @@ export class PageControllerManager {
 			// Clean up current controller if page type is different or URL changed
 			if (
 				this.currentController &&
-				(this.currentController.getPageType() !== pageType || this.currentUrl !== url)
+				(this.currentController.getPageType() !== pageType ||
+					this.stripHash(this.currentUrl ?? '') !== this.stripHash(url))
 			) {
 				await this.cleanupCurrentController();
 			}
@@ -151,6 +152,12 @@ export class PageControllerManager {
 				this.currentUrl = null;
 			}
 		}
+	}
+
+	// Strip hash fragment from URL
+	private stripHash(url: string): string {
+		const hashIndex = url.indexOf('#');
+		return hashIndex >= 0 ? url.substring(0, hashIndex) : url;
 	}
 
 	// Detect the page type based on URL

@@ -104,15 +104,15 @@ export const actionHandlers = {
 	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
 		if (!request.userId || request.voteType === undefined || request.voteType === null)
 			throw new Error('User ID and vote type are required for submit vote');
-		return submitVote(request.userId, request.voteType);
+		return submitVote(request.userId, request.voteType, request.clientId);
 	},
 	[API_ACTIONS.GET_VOTES]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for get votes');
-		return getVotes(request.userId);
+		return getVotes(request.userId, request.clientId);
 	},
 	[API_ACTIONS.GET_MULTIPLE_VOTES]: async (request: ContentMessage) => {
 		if (!request.userIds) throw new Error('User IDs are required for get multiple votes');
-		return getMultipleVotes(request.userIds);
+		return getMultipleVotes(request.userIds, request.clientId);
 	},
 	[API_ACTIONS.GET_STATISTICS]: async () => getStatistics(),
 

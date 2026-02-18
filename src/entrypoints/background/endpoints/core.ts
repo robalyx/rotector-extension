@@ -161,7 +161,11 @@ export async function queueUser(
 }
 
 // Submit a community vote (upvote/downvote) for a user
-export async function submitVote(userId: string | number, voteType: number): Promise<VoteResult> {
+export async function submitVote(
+	userId: string | number,
+	voteType: number,
+	clientId?: string
+): Promise<VoteResult> {
 	const sanitizedUserId = validateEntityId(userId);
 
 	if (voteType !== VOTE_TYPES.UPVOTE && voteType !== VOTE_TYPES.DOWNVOTE) {
@@ -170,7 +174,8 @@ export async function submitVote(userId: string | number, voteType: number): Pro
 
 	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.SUBMIT_VOTE}/${sanitizedUserId}`, {
 		method: 'POST',
-		body: JSON.stringify({ voteType })
+		body: JSON.stringify({ voteType }),
+		clientId
 	});
 
 	const voteData = extractResponseData<VoteData>(response);
@@ -184,13 +189,14 @@ export async function submitVote(userId: string | number, voteType: number): Pro
 }
 
 // Get vote data for a single user
-export async function getVotes(userId: string | number): Promise<VoteData> {
+export async function getVotes(userId: string | number, clientId?: string): Promise<VoteData> {
 	const sanitizedUserId = validateEntityId(userId);
 
 	const response = await makeHttpRequest(
 		`${API_CONFIG.ENDPOINTS.GET_VOTES}/${sanitizedUserId}?includeVote=true`,
 		{
-			method: 'GET'
+			method: 'GET',
+			clientId
 		}
 	);
 
@@ -198,12 +204,16 @@ export async function getVotes(userId: string | number): Promise<VoteData> {
 }
 
 // Get vote data for multiple users in a batch request
-export async function getMultipleVotes(userIds: Array<string | number>): Promise<VoteData[]> {
+export async function getMultipleVotes(
+	userIds: Array<string | number>,
+	clientId?: string
+): Promise<VoteData[]> {
 	const sanitizedUserIds = processBatchEntityIds(userIds);
 
 	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.GET_VOTES}?includeVote=true`, {
 		method: 'POST',
-		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => parseInt(id, 10)) })
+		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => parseInt(id, 10)) }),
+		clientId
 	});
 
 	return extractResponseData<VoteData[]>(response);

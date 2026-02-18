@@ -108,6 +108,7 @@
 	let voteData: VoteData | null = $state(null);
 	let loadingVotes = $state(false);
 	let voteError = $state<string | null>(null);
+	let voteAccessDenied = $state(false);
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
@@ -244,6 +245,7 @@
 
 	const shouldShowVoting = $derived(
 		!isGroup &&
+			!voteAccessDenied &&
 			activeTab === ROTECTOR_API_ID && // Only show voting on Rotector tab
 			activeUserStatus &&
 			(activeUserStatus.flagType === STATUS.FLAGS.UNSAFE ||
@@ -549,6 +551,11 @@
 			voteData = votes;
 			logger.debug('Loaded vote data for user', { userId: sanitizedUserId, votes });
 		} catch (err) {
+			const structuredError = err as Error & { type?: string };
+			if (structuredError.type === 'AbuseDetectionError') {
+				voteAccessDenied = true;
+				return;
+			}
 			voteError = 'Failed to load voting data';
 			logger.error('Failed to load vote data:', err);
 		} finally {
@@ -575,6 +582,11 @@
 				success: true
 			});
 		} catch (err) {
+			const structuredError = err as Error & { type?: string };
+			if (structuredError.type === 'AbuseDetectionError') {
+				voteAccessDenied = true;
+				return;
+			}
 			logger.error('Failed to submit vote:', err);
 			voteError = 'Failed to submit vote';
 		} finally {

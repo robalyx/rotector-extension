@@ -393,6 +393,25 @@
 	border: 1px solid var(--color-evidence-border);
 }
 
+@utility source-evidence-item {
+	@apply evidence-item;
+}
+
+@utility source-evidence-header {
+	@apply flex items-center mb-1;
+}
+
+@utility source-evidence-badge {
+	@apply px-1.5 py-0.5 rounded text-xs font-bold uppercase;
+	background-color: var(--color-evidence-border);
+	color: var(--color-text);
+}
+
+@utility source-evidence-description {
+	@apply text-base leading-tight;
+	color: var(--color-evidence-text);
+}
+
 @utility outfit-evidence-item {
 	@apply evidence-item;
 	background-color: var(--color-outfit-evidence-bg);

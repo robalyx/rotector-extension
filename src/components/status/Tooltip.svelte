@@ -10,7 +10,8 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {
 		type FormattedReasonEntry,
-		formatViolationReasons
+		formatViolationReasons,
+		parseSourceTag
 	} from '@/lib/utils/violation-formatter';
 	import {
 		detectPageContext,
@@ -1280,9 +1281,27 @@
 									{/if}
 								</div>
 								{#if reason.message}
-									<div class="reason-message">
-										{getDisplayText(reason.message)}
-									</div>
+									{@const displayMessage = getDisplayText(reason.message)}
+									{@const messageLines = displayMessage.split('\n').filter((l) => l.trim())}
+									{#if messageLines.some((l) => parseSourceTag(l))}
+										<div class="reason-evidence">
+											{#each messageLines as line, i (i)}
+												{@const parsed = parseSourceTag(line)}
+												{#if parsed}
+													<div class="source-evidence-item">
+														<div class="source-evidence-header">
+															<span class="source-evidence-badge">{parsed.source}</span>
+														</div>
+														<div class="source-evidence-description">{parsed.description}</div>
+													</div>
+												{:else}
+													<div class="evidence-item">{line}</div>
+												{/if}
+											{/each}
+										</div>
+									{:else}
+										<div class="reason-message">{displayMessage}</div>
+									{/if}
 								{/if}
 								{#if reason.evidence && reason.evidence.length > 0}
 									<div class="reason-evidence">

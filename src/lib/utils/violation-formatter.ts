@@ -21,6 +21,11 @@ interface ParsedOutfitEvidence {
 	confidence: number | null;
 }
 
+interface ParsedSourceTag {
+	source: string;
+	description: string;
+}
+
 export interface FlaggedOutfitInfo {
 	reason: string;
 	confidence: number;
@@ -70,6 +75,13 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 			};
 		}
 	});
+}
+
+// Extracts a leading [Source] tag from reason message text
+export function parseSourceTag(text: string): ParsedSourceTag | null {
+	const match = /^\[([^\]]+)\]\s*(.*)$/.exec(text);
+	if (!match) return null;
+	return { source: match[1], description: match[2] };
 }
 
 // Formats the reasons from the API response into a structured format for display

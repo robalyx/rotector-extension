@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} صوت",
 	"voting_count_singular": "{0} صوت",
 	"voting_description": "ساعد الآخرين من خلال تأكيد ما إذا كانت حالة هذا المستخدم دقيقة.",
+	"voting_disagree_disabled_confirmed": "التصويت بعدم الموافقة غير متاح للمستخدمين المؤكدين",
 	"voting_header_title": "ملاحظات المجتمع",
 	"voting_loading": "جارٍ التحميل..."
 }

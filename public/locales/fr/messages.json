@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} votes",
 	"voting_count_singular": "{0} vote",
 	"voting_description": "Aidez les autres en confirmant si le statut de cet utilisateur est exact.",
+	"voting_disagree_disabled_confirmed": "Le vote de désaccord n'est pas disponible pour les utilisateurs confirmés",
 	"voting_header_title": "Retour de la Communauté",
 	"voting_loading": "Chargement..."
 }

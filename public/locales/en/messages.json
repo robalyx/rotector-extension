@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} votes",
 	"voting_count_singular": "{0} vote",
 	"voting_description": "Help others by confirming if this user's status is accurate.",
+	"voting_disagree_disabled_confirmed": "Disagree voting is not available for confirmed users",
 	"voting_header_title": "Community Feedback",
 	"voting_loading": "Loading..."
 }

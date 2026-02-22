@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} röster",
 	"voting_count_singular": "{0} röst",
 	"voting_description": "Hjälp andra genom att bekräfta om denna användares status är korrekt.",
+	"voting_disagree_disabled_confirmed": "Röstning emot är inte tillgängligt för bekräftade användare",
 	"voting_header_title": "Gemenskapsfeedback",
 	"voting_loading": "Laddar..."
 }

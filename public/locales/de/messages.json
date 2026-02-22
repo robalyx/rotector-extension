@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} Stimmen",
 	"voting_count_singular": "{0} Stimme",
 	"voting_description": "Helfen Sie anderen, indem Sie bestätigen, ob der Status dieses Benutzers korrekt ist.",
+	"voting_disagree_disabled_confirmed": "Abstimmung mit Ablehnung ist für bestätigte Benutzer nicht verfügbar",
 	"voting_header_title": "Community-Feedback",
 	"voting_loading": "Lädt..."
 }

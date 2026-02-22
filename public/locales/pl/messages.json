@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} głosów",
 	"voting_count_singular": "{0} głos",
 	"voting_description": "Pomóż innym, potwierdzając, czy status tego użytkownika jest dokładny.",
+	"voting_disagree_disabled_confirmed": "Głosowanie «nie zgadzam się» nie jest dostępne dla potwierdzonych użytkowników",
 	"voting_header_title": "Opinia społeczności",
 	"voting_loading": "Ładowanie..."
 }

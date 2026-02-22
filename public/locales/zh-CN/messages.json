@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} 票",
 	"voting_count_singular": "{0} 票",
 	"voting_description": "通过确认此用户的状态是否准确来帮助他人。",
+	"voting_disagree_disabled_confirmed": "不同意投票不适用于已确认的用户",
 	"voting_header_title": "社区反馈",
 	"voting_loading": "加载中..."
 }

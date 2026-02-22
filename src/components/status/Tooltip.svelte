@@ -1177,6 +1177,7 @@
 				<!-- Voting widget for unsafe/pending users -->
 				{#if shouldShowVoting}
 					<VotingWidget
+						disableDownvote={activeUserStatus?.flagType === STATUS.FLAGS.UNSAFE}
 						error={voteError}
 						loading={loadingVotes}
 						onVote={handleVoteSubmit}

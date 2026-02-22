@@ -10,9 +10,16 @@
 		loading?: boolean;
 		error?: string | null;
 		onVote?: (voteType: number) => void;
+		disableDownvote?: boolean;
 	}
 
-	let { voteData = null, loading = false, error = null, onVote }: Props = $props();
+	let {
+		voteData = null,
+		loading = false,
+		error = null,
+		onVote,
+		disableDownvote = false
+	}: Props = $props();
 
 	// Computed values
 	const voteStats = $derived.by(() => {
@@ -105,11 +112,12 @@
 			class="voting-downvote voting-button"
 			class:voting-button-downvote-active={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
 			aria-label={$_('voting_aria_disagree')}
-			disabled={loading}
+			disabled={loading || disableDownvote}
 			onclick={(e) => {
 				e.stopPropagation();
 				handleVoteClick(VOTE_TYPES.DOWNVOTE);
 			}}
+			title={disableDownvote ? $_('voting_disagree_disabled_confirmed') : undefined}
 			type="button"
 		>
 			<ArrowDown class="voting-icon-downvote" size={14} strokeWidth={2.5} />

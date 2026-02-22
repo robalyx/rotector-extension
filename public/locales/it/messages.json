@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} voti",
 	"voting_count_singular": "{0} voto",
 	"voting_description": "Aiuta gli altri confermando se lo stato di questo utente è accurato.",
+	"voting_disagree_disabled_confirmed": "Il voto in disaccordo non è disponibile per gli utenti confermati",
 	"voting_header_title": "Feedback della Comunità",
 	"voting_loading": "Caricamento..."
 }

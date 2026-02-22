@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} stemmen",
 	"voting_count_singular": "{0} stem",
 	"voting_description": "Help anderen door te bevestigen of de status van deze gebruiker correct is.",
+	"voting_disagree_disabled_confirmed": "Oneens stemmen is niet beschikbaar voor bevestigde gebruikers",
 	"voting_header_title": "Community-feedback",
 	"voting_loading": "Laden..."
 }

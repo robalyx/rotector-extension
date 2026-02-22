@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} โหวต",
 	"voting_count_singular": "{0} โหวต",
 	"voting_description": "ช่วยผู้อื่นโดยการยืนยันว่าสถานะของผู้ใช้นี้ถูกต้องหรือไม่",
+	"voting_disagree_disabled_confirmed": "การโหวตไม่เห็นด้วยไม่สามารถใช้ได้สำหรับผู้ใช้ที่ยืนยันแล้ว",
 	"voting_header_title": "ความคิดเห็นจากชุมชน",
 	"voting_loading": "กำลังโหลด..."
 }

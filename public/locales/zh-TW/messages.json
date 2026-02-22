@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} 票",
 	"voting_count_singular": "{0} 票",
 	"voting_description": "確認此使用者的狀態是否準確以協助其他人。",
+	"voting_disagree_disabled_confirmed": "不同意投票不適用於已確認的使用者",
 	"voting_header_title": "社群回饋",
 	"voting_loading": "載入中..."
 }

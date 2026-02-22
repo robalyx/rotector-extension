@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} undian",
 	"voting_count_singular": "{0} undian",
 	"voting_description": "Bantu orang lain dengan mengesahkan jika status pengguna ini tepat.",
+	"voting_disagree_disabled_confirmed": "Undian tidak bersetuju tidak tersedia untuk pengguna yang disahkan",
 	"voting_header_title": "Maklum Balas Komuniti",
 	"voting_loading": "Memuatkan..."
 }

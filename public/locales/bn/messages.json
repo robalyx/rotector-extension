@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} ভোট",
 	"voting_count_singular": "{0} ভোট",
 	"voting_description": "এই ব্যবহারকারীর অবস্থা সঠিক কিনা তা নিশ্চিত করে অন্যদের সাহায্য করুন।",
+	"voting_disagree_disabled_confirmed": "নিশ্চিত ব্যবহারকারীদের জন্য অসম্মতি ভোট দেওয়া যায় না",
 	"voting_header_title": "সম্প্রদায় প্রতিক্রিয়া",
 	"voting_loading": "লোড হচ্ছে..."
 }

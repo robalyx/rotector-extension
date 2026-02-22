@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} boto",
 	"voting_count_singular": "{0} boto",
 	"voting_description": "Tulungan ang iba sa pamamagitan ng pagkumpirma kung tama ang status ng user na ito.",
+	"voting_disagree_disabled_confirmed": "Hindi magagamit ang pagboto ng hindi sang-ayon para sa mga nakumpirmang gumagamit",
 	"voting_header_title": "Feedback ng Komunidad",
 	"voting_loading": "Naglo-load..."
 }

@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0}票",
 	"voting_count_singular": "{0}票",
 	"voting_description": "このユーザーのステータスが正確かどうかを確認して、他のユーザーを支援してください。",
+	"voting_disagree_disabled_confirmed": "確認済みユーザーは投票に反対することはできません",
 	"voting_header_title": "コミュニティフィードバック",
 	"voting_loading": "読み込み中..."
 }

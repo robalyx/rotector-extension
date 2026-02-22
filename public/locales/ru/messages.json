@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} голосов",
 	"voting_count_singular": "{0} голос",
 	"voting_description": "Помогите другим, подтвердив, правильный ли статус этого пользователя.",
+	"voting_disagree_disabled_confirmed": "Голосование против недоступно для подтверждённых пользователей",
 	"voting_header_title": "Отзывы сообщества",
 	"voting_loading": "Загрузка..."
 }

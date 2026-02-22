@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} phiếu",
 	"voting_count_singular": "{0} phiếu",
 	"voting_description": "Giúp người khác bằng cách xác nhận xem trạng thái của người dùng này có chính xác không.",
+	"voting_disagree_disabled_confirmed": "Bình chọn không đồng ý không khả dụng cho người dùng đã xác nhận",
 	"voting_header_title": "Phản hồi Cộng đồng",
 	"voting_loading": "Đang tải..."
 }

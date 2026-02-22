@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} suara",
 	"voting_count_singular": "{0} suara",
 	"voting_description": "Bantu orang lain dengan mengonfirmasi apakah status pengguna ini akurat.",
+	"voting_disagree_disabled_confirmed": "Voting tidak setuju tidak tersedia untuk pengguna terkonfirmasi",
 	"voting_header_title": "Umpan Balik Komunitas",
 	"voting_loading": "Memuat..."
 }

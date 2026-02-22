@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} मत",
 	"voting_count_singular": "{0} मत",
 	"voting_description": "यह पुष्टि करके दूसरों की मदद करें कि क्या यह उपयोगकर्ता की स्थिति सटीक है।",
+	"voting_disagree_disabled_confirmed": "असहमत करने वाली मतदान की अनुमति पुष्टि किए गए उपयोगकर्ताओं के लिए नहीं है",
 	"voting_header_title": "समुदाय फीडबैक",
 	"voting_loading": "लोड हो रहा है..."
 }

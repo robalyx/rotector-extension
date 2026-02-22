@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} голосів",
 	"voting_count_singular": "{0} голос",
 	"voting_description": "Допоможіть іншим, підтвердивши, чи статус цього користувача точний.",
+	"voting_disagree_disabled_confirmed": "Голосування проти недоступне для підтверджених користувачів",
 	"voting_header_title": "Відгуки спільноти",
 	"voting_loading": "Завантаження..."
 }

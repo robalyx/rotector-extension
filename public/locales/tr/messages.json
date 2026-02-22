@@ -685,6 +685,7 @@
 	"voting_count_plural": "{0} oy",
 	"voting_count_singular": "{0} oy",
 	"voting_description": "Bu kullanıcının durumunun doğru olup olmadığını onaylayarak diğerlerine yardımcı olun.",
+	"voting_disagree_disabled_confirmed": "Onaylı kullanıcılar için anlaşmazlık oylaması mevcut değil",
 	"voting_header_title": "Topluluk Geri Bildirimi",
 	"voting_loading": "Yükleniyor..."
 }

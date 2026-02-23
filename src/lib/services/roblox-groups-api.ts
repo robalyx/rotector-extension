@@ -1,3 +1,5 @@
+import { logger } from '@/lib/utils/logger';
+
 // Roblox Groups API types and client functions
 export interface GroupRole {
 	id: number;
@@ -92,7 +94,7 @@ export async function getGroupMembers(
 				error.robloxErrorCode = body.errors[0].code;
 			}
 		} catch (parseError) {
-			console.warn('Failed to parse Roblox error response body:', parseError);
+			logger.warn('Failed to parse Roblox error response body:', parseError);
 		}
 
 		throw error;

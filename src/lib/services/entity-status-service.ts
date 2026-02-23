@@ -151,6 +151,11 @@ class EntityStatusService<T extends EntityStatus> {
 		});
 	}
 
+	// Removes cached status to fetch fresh data from API
+	public invalidateCache(entityId: string): void {
+		this.cache.delete(entityId);
+	}
+
 	private getCacheTTL(): number {
 		const currentSettings = get(settings);
 		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;

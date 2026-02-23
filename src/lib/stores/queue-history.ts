@@ -151,6 +151,9 @@ export function getUnprocessedUserIds(userIds: number[]): number[] {
 	return userIds.filter((id) => unprocessedSet.has(id));
 }
 
+// Initialize queue history for availability in all contexts
+void loadQueueHistory();
+
 // Listen for storage changes from other contexts
 browser.storage.onChanged.addListener((changes, namespace) => {
 	if (namespace === 'local' && changes[QUEUE_HISTORY_KEY]) {

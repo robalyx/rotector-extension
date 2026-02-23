@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { apiClient } from '@/lib/services/api-client';
-	import { addQueueEntry } from '@/lib/stores/queue-history';
+	import { userStatusService } from '@/lib/services/entity-status-service';
+	import { addQueueEntry, queueHistory } from '@/lib/stores/queue-history';
+	import { STATUS } from '@/lib/types/constants';
 	import { logger } from '@/lib/utils/logger';
 	import type { QueueErrorData, QueueSuccessData, UserStatus } from '@/lib/types/api';
 	import QueuePopup from './QueuePopup.svelte';
@@ -25,7 +27,6 @@
 	let successData = $state<QueueSuccessData | null>(null);
 	let errorData = $state<QueueErrorData | null>(null);
 
-	// Public methods for parent components
 	export function showQueue(userId: string, reprocess = false, status: UserStatus | null = null) {
 		queueUserId = userId;
 		isReprocess = reprocess;
@@ -77,6 +78,9 @@
 
 				// Add to queue history for tracking
 				await addQueueEntry(parseInt(queueUserId, 10));
+
+				// Invalidate cached status to refresh
+				userStatusService.invalidateCache(queueUserId);
 
 				// Refresh user status in parent component
 				if (onStatusRefresh) {
@@ -133,6 +137,22 @@
 		showErrorModal = false;
 		errorData = null;
 	}
+
+	// Auto-refresh status when background polling detects queue processing completed
+	$effect(() => {
+		for (const entry of $queueHistory) {
+			if (!entry.processed) continue;
+
+			const id = entry.userId.toString();
+			const cached = userStatusService.getCachedStatus(id);
+			if (cached?.flagType === STATUS.FLAGS.QUEUED) {
+				userStatusService.invalidateCache(id);
+				if (onStatusRefresh) {
+					void onStatusRefresh(id);
+				}
+			}
+		}
+	});
 </script>
 
 <!-- Queue confirmation modal -->

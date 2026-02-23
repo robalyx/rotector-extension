@@ -62,7 +62,6 @@ Want to learn more about the Rotector project? Visit our website at **[rotector.
 #### Prerequisites
 
 - [Bun](https://bun.sh/) (v1.2+)
-- Node.js 18+
 
 #### Setup
 
@@ -77,21 +76,24 @@ bun install
 # Development
 bun run dev          # Chrome
 bun run dev:firefox  # Firefox
+bun run dev:edge     # Edge
 
 # Build for production
 bun run build         # Chrome
 bun run build:firefox # Firefox
+bun run build:edge    # Edge
 
 # Create distributable packages
 bun run zip          # Chrome
 bun run zip:firefox  # Firefox
+bun run zip:edge     # Edge
 ```
 
 #### 🔄 Loading the Extension
 
-##### Chrome
+##### Chrome / Edge
 
-1. Navigate to `chrome://extensions/`
+1. Navigate to `chrome://extensions/` (Chrome) or `edge://extensions/` (Edge)
 2. Enable "Developer mode"
 3. Click "Load unpacked"
 4. Select the `.output/chrome-mv3` directory
@@ -102,26 +104,6 @@ bun run zip:firefox  # Firefox
 2. Click "This Firefox"
 3. Click "Load Temporary Add-on"
 4. Select any file in the `.output/firefox-mv3` directory
-
-## 📋 Usage
-
-1. Install the extension in your browser
-2. Navigate to any Roblox page (home/profile/friends/groups)
-3. Look for safety indicators next to users:
-   - 🟢 Safe users
-   - 🟡 Flagged (needs review)
-   - 🔴 Confirmed as inappropriate
-4. Click on indicators for detailed information
-5. Use the voting system to help improve accuracy
-6. Access settings and statistics via the extension popup
-
-### 🌐 Supported Pages
-
-- **Home Page** (`/home`) - Analyzes users in the friends carousel
-- **Profile Pages** (`/users/*/profile`) - Analyzes current user and friends
-- **Friends Pages** (`/users/*/friends`, `/users/*/followers`, `/users/*/following`) - Bulk analysis of user lists
-- **Groups Pages** (`/groups/*/members`) - Processes group member lists
-- **Report Pages** (`/report`) - Automated form filling for flagged users
 
 ## 🛠️ Development
 
@@ -138,53 +120,24 @@ bun run zip:firefox  # Firefox
 
 #### Development Tools
 
-- **Code Quality**: [ESLint](https://eslint.org/) with TypeScript and Svelte plugins
+- **Code Quality**: [ESLint](https://eslint.org/) with TypeScript and Svelte plugins, [Prettier](https://prettier.io/) for formatting
 - **Dead Code**: [Knip](https://knip.dev/) for analysis
 - **Type Checking**: [svelte-check](https://www.npmjs.com/package/svelte-check) with TypeScript integration
-- **Hot Reload**: Built-in with [WXT](https://wxt.dev/) development tools
+- **i18n Validation**: Custom scripts for translation key integrity
 
 ### ✅ Quality Checks
 
 ```bash
-# Run all quality checks
+# Run all quality checks (type check + dead code + i18n validation + lint)
 bun run quality
 
 # Individual checks
-bun run check        # Svelte type checking
-bun run lint         # ESLint
-bun run lint:fix     # ESLint + Auto-fix
-bun run knip         # Dead code detection
-```
-
-### 📁 Project Structure
-
-```
-src/
-├── assets/          # Static assets
-├── components/      # Svelte 5 components
-│   ├── features/    # Main feature components
-│   ├── popup/       # Extension popup components
-│   ├── status/      # Status indicators
-│   └── ui/          # Reusable UI components
-├── entrypoints/     # Extension entry points
-│   └── popup/       # Popup interface
-├── lib/             # Core logic
-│   ├── controllers/ # Page-specific controllers
-│   ├── services/    # API and external services
-│   ├── stores/      # State management
-│   ├── types/       # TypeScript definitions
-│   └── utils/       # Utility functions
-└── styles/          # Organized CSS modules
-    ├── base/        # Foundation styles
-    ├── components/  # Generic component styles
-    ├── features/    # Feature-specific styles
-    │   ├── changelog/
-    │   ├── modal/
-    │   ├── report-helper/
-    │   ├── settings/
-    │   ├── statistics/
-    │   └── tooltip/
-    └── theme/       # Design tokens
+bun run check         # Svelte type checking
+bun run lint          # ESLint + Prettier
+bun run lint:fix      # ESLint + Prettier auto-fix
+bun run knip          # Dead code detection
+bun run validate:i18n # Translation key validation
+bun run format:i18n   # Sort translation keys alphabetically
 ```
 
 ## 🤝 Contributing
@@ -200,7 +153,7 @@ Please note that this project follows the [Contributor Covenant Code of Conduct]
 
 ## 💬 Support
 
-- **Issues**: [GitHub Issues](https://github.com/rotector/rotector-extension-v2/issues)
+- **Issues**: [GitHub Issues](https://github.com/robalyx/rotector-extension/issues)
 - **Discord**: [Join our Discord](https://discord.gg/2Cn7kXqqhY)
 
 ## 📄 License

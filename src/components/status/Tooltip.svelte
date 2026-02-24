@@ -45,7 +45,9 @@
 		Ban,
 		Ellipsis,
 		Link,
-		Info
+		Info,
+		ChevronRight,
+		ChevronDown
 	} from 'lucide-svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
@@ -263,6 +265,14 @@
 			(activeUserStatus.flagType === STATUS.FLAGS.SAFE ||
 				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
+
+	const isQueuedSafe = $derived(
+		isSafeUserWithQueueOnly &&
+			activeUserStatus?.flagType === STATUS.FLAGS.QUEUED &&
+			activeUserStatus?.processed === true
+	);
+
+	let showSafeReasons = $state(false);
 
 	// Queue cooldown check for recently processed users (3-day cooldown)
 	const queueCooldownInfo = $derived.by(() => {
@@ -1130,8 +1140,52 @@
 		<!-- Status information -->
 		<div>
 			{#if isSafeUserWithQueueOnly}
-				<!-- Safe users: Only show queue button -->
-				<div class="flex gap-2">
+				<!-- Expandable reasons for queued-safe users -->
+				{#if isQueuedSafe}
+					<button
+						class="safe-reasons-toggle"
+						onclick={(e) => {
+							e.stopPropagation();
+							showSafeReasons = !showSafeReasons;
+						}}
+						type="button"
+					>
+						<Info size={14} />
+						<span>{$_('tooltip_safe_reasons_title')}</span>
+						{#if showSafeReasons}
+							<ChevronDown size={14} />
+						{:else}
+							<ChevronRight size={14} />
+						{/if}
+					</button>
+
+					{#if showSafeReasons}
+						{@const systemLimitsMsg = $_('tooltip_safe_reason_system_limits', {
+							values: { 0: '|||LINK|||' }
+						})}
+						{@const parts = systemLimitsMsg.split('|||LINK|||')}
+						<ul class="safe-reasons-list">
+							<li class="safe-reasons-item">{$_('tooltip_safe_reason_external')}</li>
+							<li class="safe-reasons-item">{$_('tooltip_safe_reason_threshold')}</li>
+							<li class="safe-reasons-item">{$_('tooltip_safe_reason_outfit')}</li>
+							<li class="safe-reasons-item">
+								{$_('tooltip_safe_reason_profile_changed')}
+							</li>
+							<li class="safe-reasons-item">
+								{parts[0]}<a
+									class="safe-reasons-link"
+									href="https://rotector.com"
+									onclick={(e) => e.stopPropagation()}
+									rel="noopener noreferrer"
+									target="_blank">{$_('tooltip_safe_reason_contact_us')}</a
+								>{parts[1]}
+							</li>
+						</ul>
+					{/if}
+				{/if}
+
+				<!-- Queue button -->
+				<div class="flex gap-2 mt-3">
 					{#if queueCooldownInfo.isInCooldown}
 						<button class="queue-button w-full queue-button-disabled" disabled type="button">
 							{$_('tooltip_queue_cooldown', {

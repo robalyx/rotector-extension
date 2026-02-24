@@ -239,6 +239,51 @@
 	}
 }
 
+/* =================================
+   SAFE REASONS
+   ================================= */
+
+@utility safe-reasons-toggle {
+	@apply !w-full flex items-center !justify-center gap-1.5 !mb-2 text-sm font-medium cursor-pointer;
+	background: transparent;
+	border: none;
+	padding: 0;
+	color: var(--color-text-subtle);
+	transition: color 0.15s ease;
+
+	&:hover {
+		color: var(--color-text);
+	}
+}
+
+@utility safe-reasons-list {
+	@apply !list-none !m-0 !px-5 !py-3 mt-2 flex flex-col gap-1.5 rounded;
+	background-color: var(--color-reason-bg);
+}
+
+@utility safe-reasons-item {
+	@apply !relative !pl-4 text-sm leading-relaxed;
+	color: var(--color-text);
+
+	&::before {
+		@apply absolute left-0 top-0;
+		content: '\2022';
+	}
+}
+
+@utility safe-reasons-link {
+	color: var(--color-primary);
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+/* =================================
+   QUEUE & ACTIONS
+   ================================= */
+
 @utility queue-button {
 	@apply text-white border rounded-lg px-4 py-2 text-base font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
 	background: linear-gradient(135deg, #3f7ee3, #2c5eb8);

@@ -10,11 +10,15 @@
 		currentPreset,
 		applyAgePreset
 	} from '@/lib/stores/settings';
-	import { customApis, loadCustomApis, updateCustomApi } from '@/lib/stores/custom-apis';
+	import {
+		customApis,
+		loadCustomApis,
+		updateCustomApi,
+		extractApiOrigins
+	} from '@/lib/stores/custom-apis';
 	import { errorLogs } from '@/lib/stores/developer-logs';
 	import { setLanguage, getAvailableLocales } from '@/lib/stores/i18n';
 	import {
-		extractOriginPattern,
 		hasTranslatePermission,
 		requestPermissionsForOrigins,
 		requestTranslatePermission
@@ -95,22 +99,22 @@
 			logger.userAction('custom_api_toggled', { apiId, enabled });
 		} catch (error) {
 			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
-				// Look up the API configuration to get the URL
+				// Look up the API configuration to get the URLs
 				const api = $customApis.find((a) => a.id === apiId);
 				if (!api) {
 					logger.error('Failed to find API for permission request:', { apiId });
 					return;
 				}
 
-				// Extract origin from the API's URL
-				const origin = extractOriginPattern(api.url);
-				if (!origin) {
-					logger.error('Failed to extract origin from API URL:', { url: api.url });
+				// Extract origins from the API's URLs
+				const origins = extractApiOrigins(api);
+				if (origins.length === 0) {
+					logger.error('Failed to extract origins from API URLs:', { apiId });
 					return;
 				}
 
-				// Request permission for this origin
-				await requestPermissionsForOrigins([origin]);
+				// Request permissions for API origins
+				await requestPermissionsForOrigins(origins);
 			} else {
 				logger.error('Failed to toggle custom API:', error);
 			}
@@ -407,33 +411,36 @@
 								<ChevronRight size={16} />
 							</button>
 						{/if}
-
-						<!-- API Key input field -->
-						<div class="api-key-container mt-2.5">
-							<div class="setting-label mb-1.5 w-full">{$_('settings_api_key_label')}</div>
-							<div class="flex items-center gap-1">
-								<input
-									class="api-key-input"
-									oninput={handleApiKeyChange}
-									placeholder={$_('settings_api_key_placeholder')}
-									type={apiKeyVisible ? 'text' : 'password'}
-									value={$settings[SETTINGS_KEYS.API_KEY]}
-								/>
-								<button
-									class="api-key-toggle"
-									onclick={toggleApiKeyVisibility}
-									title={$_('settings_api_key_toggle_title')}
-									type="button"
-								>
-									<span class="text-xs select-none">
-										{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
-									</span>
-								</button>
-							</div>
-						</div>
 					</div>
 				</div>
 			{/if}
+
+			<!-- API Key input -->
+			<div class="api-key-container mt-1">
+				<div class="setting-label mb-1 w-full">
+					{$_('settings_api_key_label')}
+					<HelpIndicator text={$_('settings_api_key_help')} />
+				</div>
+				<div class="flex items-center gap-1">
+					<input
+						class="api-key-input"
+						oninput={handleApiKeyChange}
+						placeholder={$_('settings_api_key_placeholder')}
+						type={apiKeyVisible ? 'text' : 'password'}
+						value={$settings[SETTINGS_KEYS.API_KEY]}
+					/>
+					<button
+						class="api-key-toggle"
+						onclick={toggleApiKeyVisibility}
+						title={$_('settings_api_key_toggle_title')}
+						type="button"
+					>
+						<span class="text-xs select-none">
+							{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
+						</span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</fieldset>
 </div>

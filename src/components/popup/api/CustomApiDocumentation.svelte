@@ -96,8 +96,11 @@
 	<!-- Authentication Section -->
 	<div class="docs-section">
 		<h4 class="docs-section-title">{$_('custom_api_docs_section_authentication')}</h4>
+		<p class="docs-note mb-3">
+			{$_('custom_api_docs_note_auth_optional')}
+		</p>
 		<p class="docs-note">
-			{$_('custom_api_docs_note_no_auth')}
+			{$_('custom_api_docs_note_auth_header')}
 		</p>
 	</div>
 
@@ -105,24 +108,14 @@
 	<div class="docs-section">
 		<h4 class="docs-section-title">{$_('custom_api_docs_section_url_config')}</h4>
 		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_url_single')}
+			{$_('custom_api_docs_note_url_overview')}
 		</p>
 		<p class="docs-note mb-3">
+			{$_('custom_api_docs_note_url_single')}
+		</p>
+		<p class="docs-note">
 			{$_('custom_api_docs_note_url_batch')}
 		</p>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_url_examples_correct_title')}</h5>
-		<ul class="docs-list mb-3">
-			<li><code>{$_('custom_api_docs_url_example_1')}</code></li>
-			<li><code>{$_('custom_api_docs_url_example_2')}</code></li>
-			<li><code>{$_('custom_api_docs_url_example_3')}</code></li>
-		</ul>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_url_examples_incorrect_title')}</h5>
-		<ul class="docs-list">
-			<li><code>{$_('custom_api_docs_url_example_wrong_1')}</code></li>
-			<li><code>{$_('custom_api_docs_url_example_wrong_2')}</code></li>
-		</ul>
 	</div>
 
 	<!-- HTTP Status Codes Section -->
@@ -146,7 +139,7 @@
 		<h4 class="docs-section-title">{$_('custom_api_docs_section_single_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method http-method-get">{$_('custom_api_mgmt_http_method_get')}</span>
-			<code class="endpoint-url">{'{your-api-url}/{userId}'}</code>
+			<code class="endpoint-url">{'{single-lookup-url}'}</code>
 		</div>
 
 		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_example_request')}</h5>
@@ -266,7 +259,7 @@
 		<h4 class="docs-section-title">{$_('custom_api_docs_section_batch_lookup')}</h4>
 		<div class="docs-endpoint">
 			<span class="http-method">{$_('custom_api_mgmt_http_method_post')}</span>
-			<code class="endpoint-url">{'{your-api-url}'}</code>
+			<code class="endpoint-url">{'{batch-url}'}</code>
 		</div>
 
 		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_example_request')}</h5>

@@ -18,7 +18,9 @@ export async function customApiCheckUser(
 		userId: sanitizedUserId
 	});
 
-	const data = await makeHttpRequest(`/${sanitizedUserId}`, {
+	const fullUrl = apiConfig.singleUrl.replace('{userId}', sanitizedUserId);
+
+	const data = await makeHttpRequest(fullUrl, {
 		method: 'GET',
 		customApi: apiConfig,
 		timeout: apiConfig.timeout
@@ -46,7 +48,7 @@ export async function customApiCheckMultipleUsers(
 		count: sanitizedUserIds.length
 	});
 
-	const data = await makeHttpRequest('', {
+	const data = await makeHttpRequest(apiConfig.batchUrl, {
 		method: 'POST',
 		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => parseInt(id, 10)) }),
 		customApi: apiConfig,

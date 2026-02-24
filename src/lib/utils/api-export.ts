@@ -4,7 +4,8 @@ import type { CustomApiConfig } from '../types/custom-api';
 // Exportable API configuration
 interface ExportableApiConfig {
 	name: string;
-	url: string;
+	singleUrl: string;
+	batchUrl: string;
 	enabled: boolean;
 	timeout: number;
 	reasonFormat?: 'numeric' | 'string';
@@ -16,7 +17,8 @@ export function exportCustomApi(config: CustomApiConfig): string {
 	// Strip runtime fields
 	const exportable: ExportableApiConfig = {
 		name: config.name,
-		url: config.url,
+		singleUrl: config.singleUrl,
+		batchUrl: config.batchUrl,
 		enabled: config.enabled,
 		timeout: config.timeout,
 		reasonFormat: config.reasonFormat,
@@ -65,8 +67,12 @@ export function importCustomApi(
 		throw new Error('Invalid API data: Missing or invalid "name" field');
 	}
 
-	if (typeof data.url !== 'string') {
-		throw new Error('Invalid API data: Missing or invalid "url" field');
+	if (typeof data.singleUrl !== 'string') {
+		throw new Error('Invalid API data: Missing or invalid "singleUrl" field');
+	}
+
+	if (typeof data.batchUrl !== 'string') {
+		throw new Error('Invalid API data: Missing or invalid "batchUrl" field');
 	}
 
 	if (typeof data.enabled !== 'boolean') {
@@ -82,8 +88,16 @@ export function importCustomApi(
 		throw new Error('Invalid API data: Name must be between 1 and 12 characters');
 	}
 
-	if (!data.url.startsWith('https://')) {
-		throw new Error('Invalid API data: URL must use HTTPS protocol');
+	if (!data.singleUrl.startsWith('https://')) {
+		throw new Error('Invalid API data: Single URL must use HTTPS protocol');
+	}
+
+	if (!data.singleUrl.includes('{userId}')) {
+		throw new Error('Invalid API data: Single URL must contain {userId} placeholder');
+	}
+
+	if (!data.batchUrl.startsWith('https://')) {
+		throw new Error('Invalid API data: Batch URL must use HTTPS protocol');
 	}
 
 	if (data.timeout < 1000 || data.timeout > 60000) {
@@ -103,10 +117,11 @@ export function importCustomApi(
 		}
 	}
 
-	// Return validated config
+	// Return validated config (apiKey is never exported/imported; users enter it locally)
 	return {
 		name: data.name,
-		url: data.url,
+		singleUrl: data.singleUrl,
+		batchUrl: data.batchUrl,
 		enabled: data.enabled,
 		timeout: data.timeout,
 		reasonFormat: data.reasonFormat,

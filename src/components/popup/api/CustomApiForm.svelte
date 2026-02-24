@@ -16,13 +16,16 @@
 
 	// Form state
 	let name = $state(untrack(() => editingApi?.name || ''));
-	let url = $state(untrack(() => editingApi?.url || ''));
+	let singleUrl = $state(untrack(() => editingApi?.singleUrl || ''));
+	let batchUrl = $state(untrack(() => editingApi?.batchUrl || ''));
 	let timeout = $state(untrack(() => editingApi?.timeout || 5000));
 	let landscapeImageDataUrl = $state(untrack(() => editingApi?.landscapeImageDataUrl || ''));
+	let apiKey = $state(untrack(() => editingApi?.apiKey || ''));
 
 	// Validation state
 	let nameError = $state('');
-	let urlError = $state('');
+	let singleUrlError = $state('');
+	let batchUrlError = $state('');
 	let timeoutError = $state('');
 	let imageError = $state('');
 
@@ -51,24 +54,53 @@
 		return true;
 	}
 
-	// Validate URL
-	function validateUrl(): boolean {
-		urlError = '';
+	// Validate single URL
+	function validateSingleUrl(): boolean {
+		singleUrlError = '';
 
-		if (!url.trim()) {
-			urlError = $_('custom_api_form_error_url_required');
+		if (!singleUrl.trim()) {
+			singleUrlError = $_('custom_api_form_error_url_required');
 			return false;
 		}
 
-		if (!url.startsWith('https://')) {
-			urlError = $_('custom_api_form_error_url_https');
+		if (!singleUrl.startsWith('https://')) {
+			singleUrlError = $_('custom_api_form_error_url_https');
+			return false;
+		}
+
+		if (!singleUrl.includes('{userId}')) {
+			singleUrlError = $_('custom_api_form_error_url_placeholder');
 			return false;
 		}
 
 		try {
-			new URL(url);
+			new URL(singleUrl.replace('{userId}', '1'));
 		} catch {
-			urlError = $_('custom_api_form_error_url_invalid');
+			singleUrlError = $_('custom_api_form_error_url_invalid');
+			return false;
+		}
+
+		return true;
+	}
+
+	// Validate batch URL
+	function validateBatchUrl(): boolean {
+		batchUrlError = '';
+
+		if (!batchUrl.trim()) {
+			batchUrlError = $_('custom_api_form_error_url_required');
+			return false;
+		}
+
+		if (!batchUrl.startsWith('https://')) {
+			batchUrlError = $_('custom_api_form_error_url_https');
+			return false;
+		}
+
+		try {
+			new URL(batchUrl);
+		} catch {
+			batchUrlError = $_('custom_api_form_error_url_invalid');
 			return false;
 		}
 
@@ -162,10 +194,11 @@
 	// Validate all fields
 	function validateForm(): boolean {
 		const nameValid = validateName();
-		const urlValid = validateUrl();
+		const singleUrlValid = validateSingleUrl();
+		const batchUrlValid = validateBatchUrl();
 		const timeoutValid = validateTimeout();
 
-		return nameValid && urlValid && timeoutValid;
+		return nameValid && singleUrlValid && batchUrlValid && timeoutValid;
 	}
 
 	// Handle save
@@ -178,16 +211,19 @@
 
 		try {
 			if (isEditing && editingApi) {
-				// Check if URL changed
-				const urlChanged = url.trim() !== editingApi.url;
+				// Check if URLs changed
+				const urlChanged =
+					singleUrl.trim() !== editingApi.singleUrl || batchUrl.trim() !== editingApi.batchUrl;
 
 				// Update existing API
 				await updateCustomApi(editingApi.id, {
 					name: name.trim(),
-					url: url.trim(),
+					singleUrl: singleUrl.trim(),
+					batchUrl: batchUrl.trim(),
 					timeout,
 					...(urlChanged ? { enabled: false } : {}),
-					landscapeImageDataUrl: landscapeImageDataUrl || undefined
+					landscapeImageDataUrl: landscapeImageDataUrl || undefined,
+					apiKey: apiKey.trim() || undefined
 				});
 
 				logger.userAction('custom_api_updated', {
@@ -205,10 +241,12 @@
 				// Add new API
 				await addCustomApi({
 					name: name.trim(),
-					url: url.trim(),
+					singleUrl: singleUrl.trim(),
+					batchUrl: batchUrl.trim(),
 					timeout,
 					enabled: false,
-					landscapeImageDataUrl: landscapeImageDataUrl || undefined
+					landscapeImageDataUrl: landscapeImageDataUrl || undefined,
+					apiKey: apiKey.trim() || undefined
 				});
 
 				logger.userAction('custom_api_added', {
@@ -269,27 +307,68 @@
 			{/if}
 		</div>
 
-		<!-- URL Field -->
+		<!-- Single Lookup URL Field -->
 		<div class="form-field">
-			<label class="form-label" for="api-url">
-				{$_('custom_api_form_label_url')}
+			<label class="form-label" for="api-single-url">
+				{$_('custom_api_form_label_single_url')}
 				<span class="required">{$_('custom_api_form_label_required')}</span>
 			</label>
 			<input
-				id="api-url"
+				id="api-single-url"
 				class="form-input"
-				class:error={urlError}
-				oninput={() => validateUrl()}
-				placeholder={$_('custom_api_form_placeholder_url')}
+				class:error={singleUrlError}
+				oninput={() => validateSingleUrl()}
+				placeholder={$_('custom_api_form_placeholder_single_url')}
 				type="url"
-				bind:value={url}
+				bind:value={singleUrl}
 			/>
 			<div class="form-hint">
-				{$_('custom_api_form_hint_url')}
+				{$_('custom_api_form_hint_single_url')}
 			</div>
-			{#if urlError}
-				<div class="form-error">{urlError}</div>
+			{#if singleUrlError}
+				<div class="form-error">{singleUrlError}</div>
 			{/if}
+		</div>
+
+		<!-- Batch URL Field -->
+		<div class="form-field">
+			<label class="form-label" for="api-batch-url">
+				{$_('custom_api_form_label_batch_url')}
+				<span class="required">{$_('custom_api_form_label_required')}</span>
+			</label>
+			<input
+				id="api-batch-url"
+				class="form-input"
+				class:error={batchUrlError}
+				oninput={() => validateBatchUrl()}
+				placeholder={$_('custom_api_form_placeholder_batch_url')}
+				type="url"
+				bind:value={batchUrl}
+			/>
+			<div class="form-hint">
+				{$_('custom_api_form_hint_batch_url')}
+			</div>
+			{#if batchUrlError}
+				<div class="form-error">{batchUrlError}</div>
+			{/if}
+		</div>
+
+		<!-- API Key Field -->
+		<div class="form-field">
+			<label class="form-label" for="api-key">
+				{$_('custom_api_form_label_api_key')}
+			</label>
+			<input
+				id="api-key"
+				class="form-input"
+				autocomplete="off"
+				placeholder={$_('custom_api_form_placeholder_api_key')}
+				type="password"
+				bind:value={apiKey}
+			/>
+			<div class="form-hint">
+				{$_('custom_api_form_hint_api_key')}
+			</div>
 		</div>
 
 		<!-- Timeout Field -->

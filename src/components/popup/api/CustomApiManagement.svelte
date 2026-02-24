@@ -27,14 +27,11 @@
 		updateTestResult,
 		updateCustomApi,
 		exportApi,
+		extractApiOrigins,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
 	import { showError, showSuccess } from '@/lib/stores/toast';
-	import {
-		extractOriginPattern,
-		hasPermissionsForOrigins,
-		requestPermissionsForOrigins
-	} from '@/lib/utils/permissions';
+	import { hasPermissionsForOrigins, requestPermissionsForOrigins } from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
 	import CustomApiForm from './CustomApiForm.svelte';
@@ -120,7 +117,7 @@
 	async function handleTest(api: CustomApiConfig) {
 		testingApiId = api.id;
 		try {
-			const success = await testCustomApiConnection(api.url);
+			const success = await testCustomApiConnection(api.singleUrl, api.batchUrl, api.apiKey);
 			await updateTestResult(api.id, success);
 
 			if (success) {
@@ -158,15 +155,15 @@
 			});
 		} catch (error) {
 			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
-				// Extract origin from this API's URL
-				const origin = extractOriginPattern(api.url);
-				if (!origin) {
-					logger.error('Failed to extract origin from API URL:', { url: api.url });
+				// Extract origins from the API's URLs
+				const origins = extractApiOrigins(api);
+				if (origins.length === 0) {
+					logger.error('Failed to extract origins from API URLs:', { apiId: api.id });
 					return;
 				}
 
-				// Request permission for this origin
-				await requestPermissionsForOrigins([origin]);
+				// Request permissions for API origins
+				await requestPermissionsForOrigins(origins);
 			} else {
 				logger.error('Failed to toggle custom API:', error);
 			}
@@ -267,17 +264,14 @@
 		batch: { method: string; url: string };
 	} {
 		if (api.isSystem) {
-			// Hardcoded endpoints for Rotector system API
 			return {
 				single: { method: 'GET', url: 'roscoe.rotector.com/v1/lookup/roblox/user/{userId}' },
 				batch: { method: 'POST', url: 'roscoe.rotector.com/v1/lookup/roblox/users' }
 			};
 		} else {
-			// Derive endpoints from custom API URL (remove https:// if present)
-			const cleanUrl = api.url.replace(/^https?:\/\//, '');
 			return {
-				single: { method: 'GET', url: `${cleanUrl}/{userId}` },
-				batch: { method: 'POST', url: cleanUrl }
+				single: { method: 'GET', url: api.singleUrl.replace(/^https?:\/\//, '') },
+				batch: { method: 'POST', url: api.batchUrl.replace(/^https?:\/\//, '') }
 			};
 		}
 	}
@@ -290,10 +284,10 @@
 			const origins: string[] = [];
 			for (const api of $customApis) {
 				if (api.isSystem) continue;
-
-				const origin = extractOriginPattern(api.url);
-				if (origin && !origins.includes(origin)) {
-					origins.push(origin);
+				for (const origin of extractApiOrigins(api)) {
+					if (!origins.includes(origin)) {
+						origins.push(origin);
+					}
 				}
 			}
 
@@ -327,9 +321,10 @@
 		const origins: string[] = [];
 		for (const api of $customApis) {
 			if (api.isSystem) continue;
-			const origin = extractOriginPattern(api.url);
-			if (origin && !origins.includes(origin)) {
-				origins.push(origin);
+			for (const origin of extractApiOrigins(api)) {
+				if (!origins.includes(origin)) {
+					origins.push(origin);
+				}
 			}
 		}
 		return origins;

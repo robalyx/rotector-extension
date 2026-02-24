@@ -18,7 +18,8 @@ function createRotectorApiConfig(): CustomApiConfig {
 	return {
 		id: ROTECTOR_API_ID,
 		name: 'Rotector',
-		url: API_CONFIG.BASE_URL,
+		singleUrl: `${API_CONFIG.BASE_URL}/v1/lookup/roblox/user/{userId}`,
+		batchUrl: `${API_CONFIG.BASE_URL}/v1/lookup/roblox/users`,
 		enabled: true,
 		timeout: API_CONFIG.TIMEOUT,
 		order: -1, // Always first
@@ -29,6 +30,18 @@ function createRotectorApiConfig(): CustomApiConfig {
 	};
 }
 
+// Extract unique origins from a custom API's URLs
+export function extractApiOrigins(api: CustomApiConfig): string[] {
+	const origins: string[] = [];
+	for (const url of [api.singleUrl, api.batchUrl]) {
+		const origin = extractOriginPattern(url);
+		if (origin && !origins.includes(origin)) {
+			origins.push(origin);
+		}
+	}
+	return origins;
+}
+
 // Store for custom API configurations
 export const customApis = writable<CustomApiConfig[]>([]);
 
@@ -37,18 +50,41 @@ function generateCustomApiId(): string {
 	return `custom-api-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
+// Migrate legacy configs that used a single url field
+function migrateApiConfig(api: Record<string, unknown>): CustomApiConfig {
+	if ('url' in api && !('singleUrl' in api)) {
+		const baseUrl = api.url as string;
+		return {
+			...(api as unknown as CustomApiConfig),
+			singleUrl: `${baseUrl}/{userId}`,
+			batchUrl: baseUrl
+		};
+	}
+	return api as unknown as CustomApiConfig;
+}
+
 // Load custom APIs from storage and inject Rotector system API
 export async function loadCustomApis(): Promise<void> {
 	try {
 		// Load user-created custom APIs
 		const result = await browser.storage.local.get([SETTINGS_KEYS.CUSTOM_APIS]);
-		const userApis = (result[SETTINGS_KEYS.CUSTOM_APIS] as CustomApiConfig[] | undefined) ?? [];
+		const rawApis =
+			(result[SETTINGS_KEYS.CUSTOM_APIS] as Array<Record<string, unknown>> | undefined) ?? [];
 
-		// Initialize defaults if custom APIs don't exist
+		// Migrate legacy configs and check if migration occurred
+		const userApis = rawApis.map(migrateApiConfig);
+		const needsMigration = rawApis.some((api) => 'url' in api && !('singleUrl' in api));
+
+		// Initialize defaults or save migrated configs
 		if (result[SETTINGS_KEYS.CUSTOM_APIS] === undefined) {
 			await browser.storage.local.set({
 				[SETTINGS_KEYS.CUSTOM_APIS]: []
 			});
+		} else if (needsMigration) {
+			await browser.storage.local.set({
+				[SETTINGS_KEYS.CUSTOM_APIS]: userApis
+			});
+			logger.info('Migrated custom API configs from legacy url field');
 		}
 
 		// Create Rotector system API and prepend it to the list
@@ -94,18 +130,17 @@ export async function addCustomApi(
 	// Check permissions before enabling API
 	let finalEnabled = config.enabled;
 	if (config.enabled) {
-		// Extract origin from the API URL
-		const origin = extractOriginPattern(config.url);
-		if (!origin) {
-			logger.error('Failed to extract origin from API URL:', { url: config.url });
+		const origins = extractApiOrigins(config as CustomApiConfig);
+		if (origins.length === 0) {
+			logger.error('Failed to extract origins from API URLs');
 			finalEnabled = false;
 		} else {
-			const hasPermissions = await hasPermissionsForOrigins([origin]);
+			const hasPermissions = await hasPermissionsForOrigins(origins);
 			if (!hasPermissions) {
 				finalEnabled = false;
 				logger.info('Auto-disabled custom API due to missing permissions:', {
 					name: config.name,
-					origin
+					origins
 				});
 			}
 		}
@@ -145,17 +180,13 @@ export async function updateCustomApi(
 
 	// Check permissions when enabling a custom API
 	if (updates.enabled === true && !current[index].isSystem) {
-		// Use the new URL if provided or use the current URL
-		const urlToCheck = updates.url ?? current[index].url;
-
-		// Extract origin from the API's URL
-		const origin = extractOriginPattern(urlToCheck);
-		if (!origin) {
-			logger.error('Failed to extract origin from API URL:', { url: urlToCheck });
+		const merged = { ...current[index], ...updates };
+		const origins = extractApiOrigins(merged);
+		if (origins.length === 0) {
 			throw new Error('INVALID_URL');
 		}
 
-		const hasPermissions = await hasPermissionsForOrigins([origin]);
+		const hasPermissions = await hasPermissionsForOrigins(origins);
 		if (!hasPermissions) {
 			throw new Error('PERMISSIONS_REQUIRED');
 		}
@@ -229,19 +260,26 @@ export async function reorderCustomApi(id: string, direction: 'up' | 'down'): Pr
 }
 
 // Test custom API connection with user queries
-export async function testCustomApiConnection(url: string): Promise<boolean> {
+export async function testCustomApiConnection(
+	singleUrl: string,
+	batchUrl: string,
+	apiKey?: string
+): Promise<boolean> {
 	const testUserId = '1';
+	const authHeaders: HeadersInit = apiKey?.trim() ? { 'X-Auth-Token': apiKey.trim() } : {};
 
 	try {
 		// Test 1: Single user lookup (GET)
-		const singleResponse = await fetch(`${url}/${testUserId}`, {
+		const singleTestUrl = singleUrl.replace('{userId}', testUserId);
+		const singleResponse = await fetch(singleTestUrl, {
 			method: 'GET',
+			headers: authHeaders,
 			signal: AbortSignal.timeout(5000)
 		});
 
 		if (!singleResponse.ok) {
 			logger.debug('Single user lookup test failed:', {
-				url,
+				url: singleTestUrl,
 				status: singleResponse.status
 			});
 			return false;
@@ -256,13 +294,13 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 			!('success' in singleData) ||
 			!('data' in singleData)
 		) {
-			logger.debug('Single user lookup returned invalid wrapper format:', { url });
+			logger.debug('Single user lookup returned invalid wrapper format:', { url: singleTestUrl });
 			return false;
 		}
 
 		const singleWrapped = singleData as { success: boolean; data?: unknown };
 		if (!singleWrapped.success || !singleWrapped.data) {
-			logger.debug('Single user lookup returned unsuccessful response:', { url });
+			logger.debug('Single user lookup returned unsuccessful response:', { url: singleTestUrl });
 			return false;
 		}
 
@@ -270,17 +308,18 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 		const singleValidation = validateUserStatusResponse(singleWrapped.data);
 		if (!singleValidation.valid) {
 			logger.debug('Single user lookup returned invalid schema:', {
-				url,
+				url: singleTestUrl,
 				errors: singleValidation.errors
 			});
 			return false;
 		}
 
 		// Test 2: Batch user lookup (POST)
-		const batchResponse = await fetch(url, {
+		const batchResponse = await fetch(batchUrl, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				...authHeaders
 			},
 			body: JSON.stringify({ ids: [1] }),
 			signal: AbortSignal.timeout(5000)
@@ -288,7 +327,7 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 
 		if (!batchResponse.ok) {
 			logger.debug('Batch user lookup test failed:', {
-				url,
+				url: batchUrl,
 				status: batchResponse.status
 			});
 			return false;
@@ -303,13 +342,13 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 			!('success' in batchData) ||
 			!('data' in batchData)
 		) {
-			logger.debug('Batch user lookup returned invalid wrapper format:', { url });
+			logger.debug('Batch user lookup returned invalid wrapper format:', { url: batchUrl });
 			return false;
 		}
 
 		const batchWrapped = batchData as { success: boolean; data?: unknown };
 		if (!batchWrapped.success || !batchWrapped.data) {
-			logger.debug('Batch user lookup returned unsuccessful response:', { url });
+			logger.debug('Batch user lookup returned unsuccessful response:', { url: batchUrl });
 			return false;
 		}
 
@@ -319,7 +358,7 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 			Array.isArray(batchWrapped.data) ||
 			batchWrapped.data === null
 		) {
-			logger.debug('Batch user lookup returned invalid data format:', { url });
+			logger.debug('Batch user lookup returned invalid data format:', { url: batchUrl });
 			return false;
 		}
 
@@ -329,17 +368,17 @@ export async function testCustomApiConnection(url: string): Promise<boolean> {
 			const validation = validateUserStatusResponse(status);
 			if (!validation.valid) {
 				logger.debug('Batch user lookup returned invalid status schema:', {
-					url,
+					url: batchUrl,
 					errors: validation.errors
 				});
 				return false;
 			}
 		}
 
-		logger.debug('Custom API connection test passed:', { url });
+		logger.debug('Custom API connection test passed:', { singleUrl, batchUrl });
 		return true;
 	} catch (error) {
-		logger.error('Custom API connection test failed:', { url, error });
+		logger.error('Custom API connection test failed:', { singleUrl, batchUrl, error });
 		return false;
 	}
 }

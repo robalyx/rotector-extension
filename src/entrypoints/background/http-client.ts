@@ -213,7 +213,7 @@ export async function makeHttpRequest(
 
 	// Determine URL and headers based on API type
 	const isCustomApi = !!customApi;
-	const url = isCustomApi ? `${customApi.url}${endpoint}` : `${API_CONFIG.BASE_URL}${endpoint}`;
+	const url = isCustomApi ? endpoint : `${API_CONFIG.BASE_URL}${endpoint}`;
 
 	const headers = new Headers({
 		'Content-Type': 'application/json',
@@ -226,8 +226,12 @@ export async function makeHttpRequest(
 		});
 	}
 
-	// Add authentication headers for Rotector API
-	if (!isCustomApi) {
+	// Add authentication headers
+	if (isCustomApi) {
+		if (customApi.apiKey?.trim()) {
+			headers.set('X-Auth-Token', customApi.apiKey.trim());
+		}
+	} else {
 		const apiKey = await getApiKey();
 		if (apiKey?.trim()) {
 			headers.set('X-Auth-Token', apiKey.trim());

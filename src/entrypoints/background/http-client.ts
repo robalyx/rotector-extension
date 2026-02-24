@@ -82,6 +82,106 @@ function unwrapCustomApiResponse(data: unknown): unknown {
 	return wrapped.data;
 }
 
+interface RawHttpResult {
+	content: string;
+	filename: string;
+	mimeType: string;
+}
+
+// HTTP client for non-JSON responses
+export async function makeRawHttpRequest(
+	endpoint: string,
+	options: { method?: string; timeout?: number } = {}
+): Promise<RawHttpResult> {
+	const { method = 'GET', timeout = 30000 } = options;
+	const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+
+	const headers = new Headers({ Accept: '*/*' });
+
+	// Authenticate with Rotector API
+	const apiKey = await getApiKey();
+	if (apiKey?.trim()) {
+		headers.set('X-Auth-Token', apiKey.trim());
+	}
+
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => {
+		controller.abort();
+	}, timeout);
+
+	try {
+		logger.debug(`Raw HTTP Request: ${method} ${url}`);
+		const startTime = Date.now();
+
+		const response = await fetch(url, {
+			method,
+			headers,
+			signal: controller.signal
+		});
+
+		const duration = Date.now() - startTime;
+
+		if (!response.ok) {
+			// Error responses may still be JSON even for raw endpoints
+			let errorData: { error?: string; code?: string; type?: string };
+			try {
+				const jsonData: unknown = await response.json();
+				errorData =
+					typeof jsonData === 'object' && jsonData !== null
+						? (jsonData as { error?: string; code?: string; type?: string })
+						: {};
+			} catch {
+				const errorText = await response.text().catch(() => 'Unknown error');
+				errorData = { error: errorText };
+			}
+
+			const error = new Error(
+				errorData.error ?? `HTTP ${response.status}: ${response.statusText}`
+			) as Error & { status: number; code?: string; type?: string };
+
+			Object.assign(error, {
+				status: response.status,
+				...(errorData.code && { code: errorData.code }),
+				...(errorData.type && { type: errorData.type })
+			});
+
+			throw error;
+		}
+
+		const content = await response.text();
+		logger.apiCall(method, url, response.status, duration);
+
+		// Parse filename from Content-Disposition header
+		const disposition = response.headers.get('Content-Disposition');
+		if (!disposition) {
+			throw new Error('Response missing Content-Disposition header');
+		}
+		const filenameMatch = /filename="?([^";\n]+)"?/.exec(disposition);
+		if (!filenameMatch?.[1]) {
+			throw new Error('Content-Disposition header missing filename');
+		}
+		const filename = filenameMatch[1];
+
+		const mimeType = response.headers.get('Content-Type');
+		if (!mimeType) {
+			throw new Error('Response missing Content-Type header');
+		}
+
+		return { content, filename, mimeType };
+	} catch (error) {
+		if ((error as Error).name === 'AbortError') {
+			const timeoutError = new Error(`Request timeout (${timeout}ms)`) as Error & {
+				status: number;
+			};
+			timeoutError.status = 408;
+			throw timeoutError;
+		}
+		throw error;
+	} finally {
+		clearTimeout(timeoutId);
+	}
+}
+
 interface HttpRequestOptions extends RequestInit {
 	timeout?: number;
 	maxRetries?: number;

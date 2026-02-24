@@ -1,0 +1,139 @@
+/* =================================
+   EXPORT BUTTON
+   ================================= */
+
+@utility rotector-export-button {
+	@apply inline-flex items-center gap-1.5 !ml-3 px-2.5 py-1 !text-[13px] !font-medium rounded cursor-pointer whitespace-nowrap transition-colors duration-150 border-none align-middle;
+	background-color: #2b2d33 !important;
+	color: #f5f5f5 !important;
+
+	&:hover {
+		background-color: #3a3c42 !important;
+	}
+
+	& img {
+		@apply shrink-0;
+	}
+
+	body:not(.dark-theme) & {
+		background-color: #f7f7f8 !important;
+		color: #393b3d !important;
+
+		&:hover {
+			background-color: #e8e8e9 !important;
+		}
+
+		& img {
+			filter: drop-shadow(0 0 0.5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 0.5px rgba(0, 0, 0, 0.6));
+		}
+	}
+}
+
+/* =================================
+   EXPORT MODAL
+   ================================= */
+
+@utility export-modal-description {
+	@apply text-sm m-0;
+	color: var(--color-text-subtle);
+}
+
+@utility export-section-label {
+	@apply text-xs font-semibold uppercase tracking-wider mb-2;
+	color: var(--color-text-subtle);
+}
+
+@utility export-format-group {
+	@apply flex gap-2;
+}
+
+@utility export-format-btn {
+	@apply flex-1 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border text-center;
+	background-color: var(--color-bg-tertiary);
+	border-color: var(--color-border);
+	color: var(--color-text);
+
+	&:hover {
+		background-color: var(--color-card-hover);
+	}
+}
+
+@utility export-format-btn-active {
+	@apply export-format-btn;
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
+	color: white;
+
+	&:hover {
+		background-color: var(--color-primary-hover);
+		border-color: var(--color-primary-hover);
+	}
+}
+
+@utility export-columns-header {
+	@apply flex items-center justify-between mb-2;
+}
+
+@utility export-columns-toggle {
+	@apply text-xs cursor-pointer transition-colors duration-150 bg-transparent border-none p-0;
+	color: var(--color-primary);
+
+	&:hover {
+		color: var(--color-primary-hover);
+	}
+}
+
+@utility export-columns-grid {
+	@apply grid grid-cols-2 gap-1.5;
+}
+
+@utility export-column-item {
+	@apply flex items-center gap-2 px-2.5 py-1.5 rounded-md cursor-pointer transition-colors duration-150;
+
+	&:hover {
+		background-color: var(--color-bg-tertiary);
+	}
+}
+
+@utility export-column-checkbox {
+	@apply w-3.5 h-3.5 rounded-sm cursor-pointer shrink-0;
+	accent-color: var(--color-primary);
+}
+
+@utility export-column-label {
+	@apply text-sm cursor-pointer select-none;
+	color: var(--color-text);
+}
+
+@utility export-sort-row {
+	@apply flex items-center gap-2;
+}
+
+@utility export-select {
+	@apply flex-1 px-3 py-2 text-sm rounded-md border transition-all duration-200 focus:outline-none focus:border-transparent focus:shadow-[0_0_0_2px_var(--color-primary)];
+	border-color: var(--color-border);
+	background-color: var(--color-bg-content);
+	color: var(--color-text);
+}
+
+@utility export-order-btn {
+	@apply px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border whitespace-nowrap;
+	background-color: var(--color-bg-tertiary);
+	border-color: var(--color-border);
+	color: var(--color-text);
+
+	&:hover {
+		background-color: var(--color-card-hover);
+	}
+}
+
+@utility export-error {
+	@apply text-xs mt-3 px-3 py-2 rounded-md;
+	background-color: rgba(244, 67, 54, 0.1);
+	color: var(--color-error);
+}
+
+@utility export-cooldown {
+	@apply text-xs;
+	color: var(--color-text-subtle);
+}

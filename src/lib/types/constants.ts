@@ -47,7 +47,8 @@ export const API_CONFIG = {
 		WAR_ZONES: '/v1/war/zones',
 		WAR_ORDERS: '/v1/war/orders',
 		WAR_STATS_HISTORY: '/v1/war/stats/history',
-		QUEUE_STATUS: '/v1/queue/roblox/user/status'
+		QUEUE_STATUS: '/v1/queue/roblox/user/status',
+		EXPORT_GROUP_TRACKED_USERS: '/v1/export/roblox/group'
 	},
 	BATCH_SIZE: 100,
 	BATCH_DELAY: 250, // ms between batches
@@ -88,7 +89,8 @@ export const API_ACTIONS = {
 	HAS_TRANSLATE_PERMISSION: 'hasTranslatePermission',
 	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission',
 	GET_GROUP_TRACKED_USERS: 'getGroupTrackedUsers',
-	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord'
+	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord',
+	EXPORT_GROUP_TRACKED_USERS: 'exportGroupTrackedUsers'
 } as const;
 
 // Captcha external message types
@@ -189,7 +191,8 @@ export const GROUP_CONFIGURE_SELECTORS = {
 		AVATAR_IMG: '.thumbnail-2d-container img',
 		FULLBODY: '.avatar-card-fullbody'
 	},
-	PROFILE_LINK: 'a[href*="/users/"]'
+	PROFILE_LINK: 'a[href*="/users/"]',
+	HEADER: 'configure-group-members-list .container-header'
 } as const;
 
 // DOM selectors for search users page
@@ -361,7 +364,8 @@ export const COMPONENT_CLASSES = {
 	REPORT_HELPER_SUCCESS_MESSAGE: 'report-helper-success-message',
 	GROUP_STATUS_CONTAINER: 'rotector-group-status-container',
 	VOTING_WIDGET: 'rotector-voting-widget',
-	COMPONENT_BASE: 'rotector-component'
+	COMPONENT_BASE: 'rotector-component',
+	EXPORT_BUTTON: 'rotector-export-button'
 } as const;
 
 // Type for component class values

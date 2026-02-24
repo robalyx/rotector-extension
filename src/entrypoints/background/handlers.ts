@@ -36,6 +36,7 @@ import {
 	getWarZoneStatistics
 } from './endpoints/war';
 import { customApiCheckUser, customApiCheckMultipleUsers } from './endpoints/custom';
+import { exportGroupTrackedUsers } from './endpoints/export';
 import { translateTexts } from './endpoints/translate';
 
 // Action handlers with validation
@@ -173,6 +174,21 @@ export const actionHandlers = {
 	[API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for Discord lookup');
 		return lookupRobloxUserDiscord(request.userId, request.clientId);
+	},
+	[API_ACTIONS.EXPORT_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
+		if (!request.groupId) throw new Error('Group ID is required for export');
+		if (!request.exportFormat) throw new Error('Export format is required');
+		if (!request.exportColumns || request.exportColumns.length === 0) {
+			throw new Error('At least one column is required for export');
+		}
+		if (!request.exportSort) throw new Error('Export sort column is required');
+		if (!request.exportOrder) throw new Error('Export sort order is required');
+		return exportGroupTrackedUsers(request.groupId, {
+			format: request.exportFormat,
+			columns: request.exportColumns,
+			sort: request.exportSort,
+			order: request.exportOrder
+		});
 	},
 	[API_ACTIONS.TRANSLATE_TEXT]: async (request: ContentMessage) => {
 		if (!request.texts || request.texts.length === 0) {

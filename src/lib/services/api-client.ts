@@ -2,6 +2,7 @@ import { API_ACTIONS, API_CONFIG, type VoteType } from '../types/constants';
 import type {
 	ApiResponse,
 	ContentMessage,
+	ExportResult,
 	ExtensionReportsResponse,
 	ExtensionStatistics,
 	ExtensionUserProfile,
@@ -308,6 +309,26 @@ class RotectorApiClient {
 			targetLanguage,
 			sourceLanguage
 		});
+	}
+
+	async exportGroupTrackedUsers(
+		groupId: string | number,
+		format: 'json' | 'csv',
+		columns: string[],
+		sort: string,
+		order: 'asc' | 'desc'
+	): Promise<ExportResult> {
+		return sendMessage<ExportResult>(
+			API_ACTIONS.EXPORT_GROUP_TRACKED_USERS,
+			{
+				groupId,
+				exportFormat: format,
+				exportColumns: columns,
+				exportSort: sort,
+				exportOrder: order
+			},
+			{ maxRetries: 0 }
+		);
 	}
 
 	async lookupRobloxUserDiscord(userId: string | number): Promise<RobloxUserDiscordLookup> {

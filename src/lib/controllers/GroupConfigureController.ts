@@ -4,6 +4,7 @@ import { COMPONENT_CLASSES } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { settings } from '../stores/settings';
 import { logger } from '../utils/logger';
+import { sanitizeEntityId } from '../utils/sanitizer';
 import GroupConfigurePageManager from '../../components/features/GroupConfigurePageManager.svelte';
 
 /**
@@ -57,14 +58,19 @@ export class GroupConfigureController extends PageController {
 		return window.location.hash === '#!/members';
 	}
 
+	private extractGroupId(): string | null {
+		const params = new URLSearchParams(window.location.search);
+		const id = params.get('id');
+		return id ? (sanitizeEntityId(id) ?? null) : null;
+	}
+
 	private mountGroupConfigurePageManager(): void {
 		try {
+			const groupId = this.extractGroupId();
 			const container = this.createComponentContainer(COMPONENT_CLASSES.GROUP_CONFIGURE_MANAGER);
-			this.groupConfigurePageManager = this.mountComponent(
-				GroupConfigurePageManager,
-				container,
-				{}
-			);
+			this.groupConfigurePageManager = this.mountComponent(GroupConfigurePageManager, container, {
+				groupId
+			});
 			logger.debug('GroupConfigurePageManager mounted successfully');
 		} catch (error) {
 			this.handleError(error, 'mountGroupConfigurePageManager');

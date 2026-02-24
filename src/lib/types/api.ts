@@ -159,6 +159,11 @@ export interface ContentMessage {
 	sourceLanguage?: string;
 
 	captchaToken?: string;
+
+	exportFormat?: 'json' | 'csv';
+	exportColumns?: string[];
+	exportSort?: string;
+	exportOrder?: 'asc' | 'desc';
 }
 
 export interface CaptchaSession {
@@ -405,6 +410,12 @@ export interface GroupTrackedUsersResponse {
 	totalCount: number;
 	nextCursor: string | null;
 	hasMore: boolean;
+}
+
+export interface ExportResult {
+	content: string;
+	filename: string;
+	mimeType: string;
 }
 
 // Discord lookup types for Roblox user

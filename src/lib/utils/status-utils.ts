@@ -88,7 +88,11 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
 	// Detect outfit-only status
 	const reasonTypes = Object.keys(status.reasons);
 	const hasOutfitReason = reasonTypes.includes('Avatar Outfit');
-	const isOutfitOnly = hasOutfitReason && reasonTypes.length === 1 && !isReportable;
+	const isOutfitOnly =
+		hasOutfitReason &&
+		reasonTypes.length === 1 &&
+		!isReportable &&
+		status.flagType !== STATUS.FLAGS.UNSAFE;
 
 	// Detect profile reason corroborated by other categories
 	const hasProfileReason = reasonTypes.includes('User Profile');

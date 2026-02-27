@@ -4,6 +4,8 @@
 	import {
 		ChevronRight,
 		CircleUserRound,
+		Eye,
+		Hourglass,
 		Users,
 		Server,
 		ChevronsDownUp,
@@ -108,8 +110,15 @@
 			lines.push(`Servers (${account.servers.length}):`);
 			for (const server of account.servers) {
 				const taseTag = server.isTase ? ' [TASE]' : '';
-				const joinedDate = formatShortDate(server.joinedAt) ?? 'Unknown';
-				lines.push(`  - ${server.serverName}${taseTag} - Joined ${joinedDate}`);
+				const graceTag = server.inGracePeriod ? ' [GRACE]' : '';
+				const dateStr =
+					server.joinedAt != null
+						? `Joined ${formatShortDate(server.joinedAt) ?? 'Unknown'}`
+						: `First seen ${formatTimestamp(server.firstSeenAt)}`;
+				const updatedStr = server.updatedAt ? formatTimestamp(server.updatedAt) : 'Unknown';
+				lines.push(
+					`  - ${server.serverName}${taseTag}${graceTag} - ${dateStr} - Updated ${updatedStr}`
+				);
 			}
 			lines.push('');
 		}
@@ -314,21 +323,36 @@
 								<div class="discord-server-info">
 									<span class="discord-server-name">{server.serverName}</span>
 									{#if server.isTase}
-										<span class="discord-tase-badge" title={$_('tooltip_discord_tase_description')}
-											>TASE</span
-										>
+										<span class="discord-tase-icon" title={$_('tooltip_discord_tase_description')}>
+											<Eye size={12} strokeWidth={2.5} />
+										</span>
+									{/if}
+									{#if server.inGracePeriod}
+										<span class="discord-grace-icon" title={$_('tooltip_discord_grace_period')}>
+											<Hourglass size={12} strokeWidth={2.5} />
+										</span>
 									{/if}
 								</div>
 								<div class="discord-server-date">
-									<span
-										>{$_('tooltip_discord_joined', {
-											values: {
-												0: formatShortDate(server.joinedAt) ?? $_('tooltip_discord_unknown')
-											}
-										})}</span
-									>
+									{#if server.joinedAt != null}
+										<span title={$_('tooltip_discord_joined_description')}
+											>{$_('tooltip_discord_joined', {
+												values: {
+													0: formatShortDate(server.joinedAt) ?? $_('tooltip_discord_unknown')
+												}
+											})}</span
+										>
+									{:else}
+										<span title={$_('tooltip_discord_seen_description')}
+											>{$_('tooltip_discord_seen', {
+												values: {
+													0: formatTimestamp(server.firstSeenAt)
+												}
+											})}</span
+										>
+									{/if}
 									<span class="discord-date-separator">•</span>
-									<span
+									<span title={$_('tooltip_discord_updated_description')}
 										>{$_('tooltip_discord_updated', {
 											values: {
 												0: server.updatedAt

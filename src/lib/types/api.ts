@@ -424,7 +424,9 @@ export interface DiscordServerInfo {
 	serverName: string;
 	joinedAt: number | null;
 	updatedAt: number | null;
+	firstSeenAt: number;
 	isTase: boolean;
+	inGracePeriod: boolean;
 }
 
 export interface DiscordAccountInfo {

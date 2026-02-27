@@ -198,14 +198,22 @@
 }
 
 /* =================================
-   BADGES
+   ICONS
    ================================= */
 
-@utility discord-tase-badge {
-	@apply px-1.5 py-0.5 rounded text-2xs font-bold uppercase flex-shrink-0;
-	background-color: var(--color-status-unsafe);
-	color: white;
+@utility discord-tase-icon {
+	@apply flex-shrink-0;
+	color: var(--color-status-unsafe);
 }
+
+@utility discord-grace-icon {
+	@apply flex-shrink-0;
+	color: var(--primitive-yellow-tailwind-400);
+}
+
+/* =================================
+   LINKS
+   ================================= */
 
 @utility discord-source-link {
 	@apply inline-flex items-center flex-shrink-0 transition-colors duration-150;

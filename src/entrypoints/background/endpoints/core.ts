@@ -258,7 +258,8 @@ export async function getQueueStatus(
 export async function getGroupTrackedUsers(
 	groupId: string | number,
 	cursor?: string,
-	limit: number = 24
+	limit: number = 24,
+	active?: 'true' | 'false'
 ): Promise<GroupTrackedUsersResponse> {
 	const sanitizedGroupId = validateEntityId(groupId);
 
@@ -266,6 +267,9 @@ export async function getGroupTrackedUsers(
 	params.set('limit', String(Math.min(limit, 100)));
 	if (cursor) {
 		params.set('cursor', cursor);
+	}
+	if (active) {
+		params.set('active', active);
 	}
 
 	const url = `${API_CONFIG.ENDPOINTS.GROUP_CHECK}/${sanitizedGroupId}/tracked-users?${params.toString()}`;

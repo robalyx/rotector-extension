@@ -80,6 +80,7 @@
 	let trackedError = $state<string | null>(null);
 	let hasLoadedTracked = $state(false);
 	let trackedRequestId = $state(0);
+	let trackedActiveFilter = $state<'' | 'true' | 'false'>('');
 
 	// Tracked users pagination
 	let trackedCursorCache = $state<(string | null)[]>([null]);
@@ -272,7 +273,8 @@
 			const response = await apiClient.getGroupTrackedUsers(
 				groupId,
 				cursor ?? undefined,
-				DISPLAY_LIMIT
+				DISPLAY_LIMIT,
+				trackedActiveFilter || undefined
 			);
 
 			if (requestId !== trackedRequestId) return;
@@ -301,6 +303,19 @@
 		trackedCurrentPage = 1;
 		trackedPreviousCursors = [];
 		trackedCursorCache = [null];
+		void loadTrackedUsers();
+	}
+
+	function handleTrackedFilterChange(event: Event) {
+		const select = event.target as HTMLSelectElement;
+		const newFilter = select.value as '' | 'true' | 'false';
+		if (newFilter === trackedActiveFilter) return;
+
+		trackedActiveFilter = newFilter;
+		trackedCurrentPage = 1;
+		trackedPreviousCursors = [];
+		trackedCursorCache = [null];
+		userStatuses.clear();
 		void loadTrackedUsers();
 	}
 
@@ -335,7 +350,8 @@
 				const response = await apiClient.getGroupTrackedUsers(
 					groupId,
 					cursor ?? undefined,
-					DISPLAY_LIMIT
+					DISPLAY_LIMIT,
+					trackedActiveFilter || undefined
 				);
 
 				trackedCursorCache = [...trackedCursorCache, response.nextCursor];
@@ -949,6 +965,16 @@
 							>{$_('group_members_tracked_count', { values: { 0: trackedTotalCount } })}</span
 						>
 					{/if}
+					<select
+						class="group-members-tracked-filter"
+						disabled={isLoadingTracked}
+						onchange={handleTrackedFilterChange}
+						value={trackedActiveFilter}
+					>
+						<option value="">{$_('group_members_tracked_filter_all')}</option>
+						<option value="true">{$_('group_members_tracked_filter_active')}</option>
+						<option value="false">{$_('group_members_tracked_filter_left')}</option>
+					</select>
 				</div>
 				<div class="group-members-grid-container">
 					{#if isLoadingTracked}
@@ -960,10 +986,14 @@
 						{#each trackedUsers as user (user.id)}
 							<a
 								class="group-member-tile rotector-member-tile"
+								class:group-member-tile-inactive={!user.isActive}
 								data-rotector-user-id={user.id}
 								href="https://www.roblox.com/users/{user.id}/profile"
 							>
-								<div class="group-member-avatar rotector-member-avatar">
+								<div
+									class="group-member-avatar rotector-member-avatar"
+									class:group-member-avatar-inactive={!user.isActive}
+								>
 									{#if user.thumbnailUrl}
 										<img alt={user.displayName} loading="lazy" src={user.thumbnailUrl} />
 									{:else}

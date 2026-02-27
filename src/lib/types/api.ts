@@ -147,6 +147,7 @@ export interface ContentMessage {
 	offset?: number;
 	cursor?: string;
 	status?: 'pending' | 'confirmed' | 'rejected';
+	active?: 'true' | 'false';
 	includeAnonymous?: boolean;
 
 	code?: string;
@@ -403,6 +404,7 @@ export interface TrackedUser {
 	name: string;
 	displayName: string;
 	thumbnailUrl: string;
+	isActive: boolean;
 }
 
 export interface GroupTrackedUsersResponse {

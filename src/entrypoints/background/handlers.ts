@@ -77,7 +77,7 @@ export const actionHandlers = {
 	},
 	[API_ACTIONS.GET_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
 		if (!request.groupId) throw new Error('Group ID is required for get group tracked users');
-		return getGroupTrackedUsers(request.groupId, request.cursor, request.limit);
+		return getGroupTrackedUsers(request.groupId, request.cursor, request.limit, request.active);
 	},
 	[API_ACTIONS.QUEUE_USER]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for queue user');

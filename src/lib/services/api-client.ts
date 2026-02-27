@@ -149,12 +149,14 @@ class RotectorApiClient {
 	async getGroupTrackedUsers(
 		groupId: string | number,
 		cursor?: string,
-		limit: number = 24
+		limit: number = 24,
+		active?: 'true' | 'false'
 	): Promise<GroupTrackedUsersResponse> {
 		return sendMessage<GroupTrackedUsersResponse>(API_ACTIONS.GET_GROUP_TRACKED_USERS, {
 			groupId,
 			cursor,
-			limit
+			limit,
+			active
 		});
 	}
 

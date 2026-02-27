@@ -75,7 +75,7 @@
 @utility group-members-tracked-header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	gap: 8px;
 	padding: 0 4px 12px;
 }
 
@@ -84,7 +84,38 @@
 	color: var(--roblox-text-muted);
 }
 
+@utility group-members-tracked-filter {
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	background: var(--roblox-bg-surface);
+	color: var(--roblox-text-primary);
+	border: 1px solid var(--roblox-border-hover);
+	outline: none;
+
+	&:hover:not(:disabled) {
+		background-color: var(--roblox-border-hover);
+	}
+
+	&:focus {
+		border-color: var(--roblox-accent);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	& option {
+		background: var(--roblox-bg-content);
+		color: var(--roblox-text-primary);
+	}
+}
+
 @utility group-members-tracked-count {
+	margin-left: auto;
 	font-size: 13px;
 	font-weight: 500;
 	color: var(--roblox-text-primary);
@@ -192,6 +223,18 @@
 	height: 90px;
 	border-radius: 50%;
 	background: var(--roblox-bg-surface);
+}
+
+@utility group-member-tile-inactive {
+	opacity: 0.5;
+}
+
+@utility group-member-avatar-inactive {
+	border-style: dashed;
+
+	& img {
+		filter: grayscale(100%);
+	}
 }
 
 @utility group-member-display-name {

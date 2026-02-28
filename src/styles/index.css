@@ -103,3 +103,6 @@
 
 /* Export Modal */
 @import './features/export-modal.css';
+
+/* Friends Scan */
+@import './features/friend-scan.css';

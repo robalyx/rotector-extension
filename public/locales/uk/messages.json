@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Ваш обліковий запис може бути пов'язаний з недоречними користувачами в нашій системі",
 	"friend_warning_why_matters_item3": "Ви можете піддатися небажаному або шкідливому контенту",
 	"friend_warning_why_matters_item4": "Цей користувач має явні докази порушення Умов використання Roblox",
+	"friends_scan_error_retry": "Сканування не вдалося",
 	"group_members_empty_no_members": "Учасників не знайдено",
 	"group_members_empty_no_role_members": "Немає учасників з цією роллю",
 	"group_members_empty_no_tracked": "Не знайдено відстежуваних користувачів або ця група надто велика для відстеження",

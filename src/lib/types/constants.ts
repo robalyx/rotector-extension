@@ -365,7 +365,8 @@ export const COMPONENT_CLASSES = {
 	GROUP_STATUS_CONTAINER: 'rotector-group-status-container',
 	VOTING_WIDGET: 'rotector-voting-widget',
 	COMPONENT_BASE: 'rotector-component',
-	EXPORT_BUTTON: 'rotector-export-button'
+	EXPORT_BUTTON: 'rotector-export-button',
+	FRIENDS_SCAN: 'rotector-friends-scan'
 } as const;
 
 // Type for component class values

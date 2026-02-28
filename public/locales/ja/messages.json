@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "あなたのアカウントがシステム内で不適切なユーザーと関連付けられる可能性があります",
 	"friend_warning_why_matters_item3": "望ましくないまたは有害なコンテンツにさらされる可能性があります",
 	"friend_warning_why_matters_item4": "このユーザーにはRobloxの利用規約に違反した明確な証拠があります",
+	"friends_scan_error_retry": "スキャン失敗",
 	"group_members_empty_no_members": "メンバーが見つかりません",
 	"group_members_empty_no_role_members": "このロールにメンバーはいません",
 	"group_members_empty_no_tracked": "追跡中のユーザーが見つかりません、またはこのグループが大きすぎます",

@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Ditt konto kan associeras med olämpliga användare i vårt system",
 	"friend_warning_why_matters_item3": "Du kan utsätta dig själv för oönskat eller skadligt innehåll",
 	"friend_warning_why_matters_item4": "Denna användare har tydliga bevis för att ha brutit mot Roblox användarvillkor",
+	"friends_scan_error_retry": "Skanning misslyckades",
 	"group_members_empty_no_members": "Inga medlemmar hittades",
 	"group_members_empty_no_role_members": "Inga medlemmar i denna roll",
 	"group_members_empty_no_tracked": "Inga spårade användare hittades, eller gruppen är för stor att spåra",

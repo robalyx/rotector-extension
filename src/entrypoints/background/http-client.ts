@@ -39,6 +39,15 @@ async function getExtensionUuid(): Promise<string | null> {
 	}
 }
 
+// Compute retry delay from rate limit reset timestamp or linear backoff
+function computeRetryDelay(error: Error, baseDelay: number, attempt: number): number {
+	const { rateLimitReset } = error as Error & { rateLimitReset?: number };
+	if (rateLimitReset) {
+		return Math.max(rateLimitReset * 1000 - Date.now() + 500, 0);
+	}
+	return baseDelay * attempt;
+}
+
 // Determine if error should trigger retry
 function isRetryableError(error: Error): boolean {
 	const status = (error as Error & { status?: number }).status;
@@ -313,6 +322,7 @@ export async function makeHttpRequest(
 					requestId?: string;
 					code?: string;
 					type?: string;
+					rateLimitReset?: number;
 				};
 
 				Object.assign(error, {
@@ -321,6 +331,14 @@ export async function makeHttpRequest(
 					...(errorData.code && { code: errorData.code }),
 					...(errorData.type && { type: errorData.type })
 				});
+
+				// Capture Retry-After for 429 responses
+				if (response.status === 429) {
+					const retryAfter = response.headers.get('Retry-After');
+					if (retryAfter) {
+						error.rateLimitReset = Math.ceil(Date.now() / 1000) + Number(retryAfter);
+					}
+				}
 
 				throw error;
 			}
@@ -332,6 +350,20 @@ export async function makeHttpRequest(
 
 			let data: unknown = await response.json();
 			logger.apiCall(method, url, response.status, duration);
+
+			// Proactively wait when rate limit is exhausted
+			const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
+			const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+			if (rateLimitRemaining !== null && rateLimitReset !== null) {
+				const remaining = Number(rateLimitRemaining);
+				if (remaining <= 0) {
+					const waitMs = Number(rateLimitReset) * 1000 - Date.now() + 500;
+					if (waitMs > 0) {
+						logger.debug(`Rate limit exhausted, waiting ${waitMs}ms for reset`);
+						await new Promise((resolve) => setTimeout(resolve, waitMs));
+					}
+				}
+			}
 
 			// Unwrap custom API response if needed
 			if (isCustomApi) {
@@ -357,9 +389,10 @@ export async function makeHttpRequest(
 				duration
 			});
 
-			// Check if error is retryable
-			if (isSafeMethod && attempt < maxRetries && isRetryableError(lastError)) {
-				const delay = retryDelay * attempt;
+			// Retry on retryable errors
+			const isRateLimited = (lastError as Error & { status?: number }).status === 429;
+			if (attempt < maxRetries && isRetryableError(lastError) && (isSafeMethod || isRateLimited)) {
+				const delay = computeRetryDelay(lastError, retryDelay, attempt);
 				logger.debug(`Retrying in ${delay}ms...`);
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				continue;

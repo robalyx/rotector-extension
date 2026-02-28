@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Ihr Konto könnte in unserem System mit unangemessenen Benutzern in Verbindung gebracht werden",
 	"friend_warning_why_matters_item3": "Sie könnten sich unerwünschten oder schädlichen Inhalten aussetzen",
 	"friend_warning_why_matters_item4": "Dieser Benutzer hat eindeutige Beweise für einen Verstoß gegen die Nutzungsbedingungen von Roblox",
+	"friends_scan_error_retry": "Scan fehlgeschlagen",
 	"group_members_empty_no_members": "Keine Mitglieder gefunden",
 	"group_members_empty_no_role_members": "Keine Mitglieder in dieser Rolle",
 	"group_members_empty_no_tracked": "Keine verfolgten Benutzer gefunden, oder diese Gruppe ist zu groß zum Verfolgen",

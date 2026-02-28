@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "आपका खाता हमारे सिस्टम में अनुपयुक्त उपयोगकर्ताओं से जुड़ा हो सकता है",
 	"friend_warning_why_matters_item3": "आप अवांछित या हानिकारक सामग्री से अवगत हो सकते हैं",
 	"friend_warning_why_matters_item4": "इस उपयोगकर्ता के पास Roblox की सेवा की शर्तों का उल्लंघन करने के स्पष्ट सबूत हैं",
+	"friends_scan_error_retry": "स्कैन विफल",
 	"group_members_empty_no_members": "कोई सदस्य नहीं मिला",
 	"group_members_empty_no_role_members": "इस भूमिका में कोई सदस्य नहीं",
 	"group_members_empty_no_tracked": "कोई ट्रैक किया गया उपयोगकर्ता नहीं मिला, या यह समूह ट्रैक करने के लिए बहुत बड़ा है",

@@ -40,15 +40,20 @@ export async function getExcludeAdvancedInfoSetting(): Promise<boolean> {
 }
 
 // Creates a standardized error response with optional error properties
-export function createErrorResponse(
-	error: Error
-): ApiResponse & { requestId?: string; code?: string; type?: string; status?: number } {
+export function createErrorResponse(error: Error): ApiResponse & {
+	requestId?: string;
+	code?: string;
+	type?: string;
+	status?: number;
+	rateLimitReset?: number;
+} {
 	const errorMessage = extractErrorMessage(error);
 	const errorObj = error as Error & {
 		requestId?: string;
 		code?: string;
 		type?: string;
 		status?: number;
+		rateLimitReset?: number;
 	};
 
 	return {
@@ -57,7 +62,8 @@ export function createErrorResponse(
 		...(errorObj.requestId && { requestId: errorObj.requestId }),
 		...(errorObj.code && { code: errorObj.code }),
 		...(errorObj.type && { type: errorObj.type }),
-		...(errorObj.status !== undefined && { status: errorObj.status })
+		...(errorObj.status !== undefined && { status: errorObj.status }),
+		...(errorObj.rateLimitReset && { rateLimitReset: errorObj.rateLimitReset })
 	};
 }
 

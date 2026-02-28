@@ -57,25 +57,32 @@ async function sendMessage<T>(
 				code?: string;
 				type?: string;
 				status?: number;
+				rateLimitReset?: number;
 			};
 			const responseWithError = response as ApiResponse & {
 				requestId?: string;
 				code?: string;
 				type?: string;
 				status?: number;
+				rateLimitReset?: number;
 			};
 
 			if (responseWithError.requestId) error.requestId = responseWithError.requestId;
 			if (responseWithError.code) error.code = responseWithError.code;
 			if (responseWithError.type) error.type = responseWithError.type;
 			if (responseWithError.status !== undefined) error.status = responseWithError.status;
+			if (responseWithError.rateLimitReset) error.rateLimitReset = responseWithError.rateLimitReset;
 
 			throw error;
 		} catch (error) {
 			attempt++;
 
 			// Check if we should retry
-			const structuredError = error as Error & { status?: number; type?: string };
+			const structuredError = error as Error & {
+				status?: number;
+				type?: string;
+				rateLimitReset?: number;
+			};
 			const status = structuredError.status;
 			const errorType = structuredError.type;
 
@@ -87,7 +94,10 @@ async function sendMessage<T>(
 				status === 429 || status === 408 || (status !== undefined && status >= 500 && status < 600);
 
 			if (attempt <= maxRetries && isRetryable) {
-				const delay = retryDelay * attempt;
+				let delay = retryDelay * attempt;
+				if (status === 429 && structuredError.rateLimitReset) {
+					delay = Math.max(structuredError.rateLimitReset * 1000 - Date.now() + 500, 0);
+				}
 				logger.warn(
 					`API request failed, retrying in ${delay}ms (attempt ${attempt}/${maxRetries}):`,
 					error

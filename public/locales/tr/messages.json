@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Hesabınız sistemimizde uygunsuz kullanıcılarla ilişkilendirilebilir",
 	"friend_warning_why_matters_item3": "İstenmeyen veya zararlı içeriğe maruz kalabilirsiniz",
 	"friend_warning_why_matters_item4": "Bu kullanıcının Roblox'un Hizmet Şartlarını ihlal ettiğine dair açık kanıt var",
+	"friends_scan_error_retry": "Tarama başarısız",
 	"group_members_empty_no_members": "Üye bulunamadı",
 	"group_members_empty_no_role_members": "Bu rolde üye yok",
 	"group_members_empty_no_tracked": "Takip edilen kullanıcı yok veya bu grup izleme için çok büyük",

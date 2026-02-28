@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Votre compte peut être associé à des utilisateurs inappropriés dans notre système",
 	"friend_warning_why_matters_item3": "Vous pourriez vous exposer à du contenu indésirable ou nuisible",
 	"friend_warning_why_matters_item4": "Cet utilisateur a des preuves claires de violation des Conditions d'Utilisation de Roblox",
+	"friends_scan_error_retry": "Échec de l'analyse",
 	"group_members_empty_no_members": "Aucun membre trouvé",
 	"group_members_empty_no_role_members": "Aucun membre dans ce rôle",
 	"group_members_empty_no_tracked": "Aucun utilisateur suivi trouvé, ou ce groupe est trop volumineux",

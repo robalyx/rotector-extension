@@ -1,0 +1,73 @@
+/* =================================
+   CONTAINER
+   ================================= */
+
+@utility rotector-friends-scan {
+	@apply inline-flex items-center;
+}
+
+/* =================================
+   PROGRESS BAR
+   ================================= */
+
+@utility rotector-scan-progress-wrapper {
+	@apply inline-flex items-center gap-1.5 !ml-3 align-middle;
+
+	& img {
+		@apply shrink-0;
+	}
+}
+
+@utility rotector-scan-progress {
+	@apply inline-flex items-center rounded-full overflow-hidden align-middle;
+	width: 120px;
+	height: 16px;
+	background-color: rgba(128, 128, 128, 0.2);
+}
+
+@utility rotector-scan-progress-fill {
+	@apply h-full rounded-full;
+	transition: width 200ms ease-out;
+	background-color: var(--color-primary);
+}
+
+@utility rotector-scan-progress-text {
+	@apply !text-[12px] !font-medium !ml-1.5 align-middle whitespace-nowrap;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   RESULTS BAR
+   ================================= */
+
+@utility rotector-scan-results {
+	@apply inline-flex items-center gap-2 !ml-3 align-middle;
+
+	& img {
+		@apply shrink-0;
+	}
+}
+
+@utility rotector-scan-bar {
+	@apply inline-flex rounded-full overflow-hidden align-middle;
+	width: 100px;
+	height: 14px;
+}
+
+@utility rotector-scan-segment {
+	@apply h-full;
+	min-width: 2px;
+}
+
+@utility rotector-scan-chip {
+	@apply inline-flex items-center gap-0.5 !text-[12px] !font-semibold whitespace-nowrap;
+}
+
+/* =================================
+   ERROR STATE
+   ================================= */
+
+@utility rotector-scan-error {
+	@apply inline-flex items-center gap-1 !ml-3 !text-[12px] align-middle;
+	color: var(--color-status-error);
+}

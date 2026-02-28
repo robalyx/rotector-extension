@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "您的账户可能在我们的系统中与不当用户关联",
 	"friend_warning_why_matters_item3": "您可能会接触到不需要的或有害的内容",
 	"friend_warning_why_matters_item4": "此用户有明确违反 Roblox 服务条款的证据",
+	"friends_scan_error_retry": "扫描失败",
 	"group_members_empty_no_members": "未找到成员",
 	"group_members_empty_no_role_members": "此角色没有成员",
 	"group_members_empty_no_tracked": "未找到已追踪用户，或此群组过大无法追踪",

@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "您的帳號可能會在我們的系統中與不當使用者關聯",
 	"friend_warning_why_matters_item3": "您可能會暴露於不想要或有害的內容",
 	"friend_warning_why_matters_item4": "此使用者有明確違反 Roblox 服務條款的證據",
+	"friends_scan_error_retry": "掃描失敗",
 	"group_members_empty_no_members": "未找到成員",
 	"group_members_empty_no_role_members": "此角色沒有成員",
 	"group_members_empty_no_tracked": "未找到已追蹤使用者，或此群組過大無法追蹤",

@@ -231,6 +231,7 @@
 	"friend_warning_why_matters_item2": "Tu cuenta puede estar asociada con usuarios inapropiados en nuestro sistema",
 	"friend_warning_why_matters_item3": "Podrías estar exponiéndote a contenido no deseado o dañino",
 	"friend_warning_why_matters_item4": "Este usuario tiene evidencia clara de violar los Términos de Servicio de Roblox",
+	"friends_scan_error_retry": "Error en el escaneo",
 	"group_members_empty_no_members": "No se encontraron miembros",
 	"group_members_empty_no_role_members": "No hay miembros en este rol",
 	"group_members_empty_no_tracked": "No se encontraron usuarios rastreados, o este grupo es demasiado grande para rastrear",

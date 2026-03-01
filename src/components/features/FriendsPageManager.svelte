@@ -93,14 +93,21 @@
 		if (!headerResult.success || !headerResult.element) return;
 
 		const header = headerResult.element;
-		const filter = header.querySelector('.friends-filter');
-		if (!filter) return;
 
-		// Create container and mount scan bar before the search filter
+		// Create container and mount scan bar
 		const container = document.createElement('span');
 		container.className = COMPONENT_CLASSES.FRIENDS_SCAN;
 
-		header.insertBefore(container, filter);
+		// Roseal extension splits the header into .friends-left and .friends-right
+		// sections, moving .friends-filter out of the direct header children
+		const friendsLeft = header.querySelector('.friends-left');
+		if (friendsLeft) {
+			friendsLeft.appendChild(container);
+		} else {
+			const filter = header.querySelector('.friends-filter');
+			if (!filter?.parentNode) return;
+			filter.parentNode.insertBefore(container, filter);
+		}
 		scanBarContainer = container;
 
 		const component = mount(FriendsScanBar, {

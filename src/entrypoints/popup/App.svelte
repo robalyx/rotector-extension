@@ -18,6 +18,8 @@
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
 
+	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
+
 	type Page =
 		| 'stats'
 		| 'settings'
@@ -67,9 +69,11 @@
 		loadDeveloperLogs().catch((error) => {
 			logger.error('Failed to load developer logs:', error);
 		});
-		loadPerformanceEntries().catch((error) => {
-			logger.error('Failed to load performance entries:', error);
-		});
+		if (IS_DEV) {
+			loadPerformanceEntries().catch((error) => {
+				logger.error('Failed to load performance entries:', error);
+			});
+		}
 	});
 
 	// Load last visited page from storage
@@ -84,6 +88,7 @@
 					savedPage &&
 					savedPage !== 'custom-apis' &&
 					savedPage !== 'custom-api-docs' &&
+					(!IS_DEV ? savedPage !== 'performance' : true) &&
 					(savedPage === 'stats' ||
 						savedPage === 'settings' ||
 						savedPage === 'queue' ||
@@ -155,7 +160,7 @@
 				<SettingsPage
 					onNavigateToCustomApis={openCustomApisWindow}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
-					onNavigateToPerformance={() => handlePageChange('performance')}
+					onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
 				/>
 			{:else if currentPage === 'queue'}
 				<QueuePage />
@@ -168,7 +173,7 @@
 				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
 			{:else if currentPage === 'developer-logs'}
 				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
-			{:else if currentPage === 'performance'}
+			{:else if IS_DEV && currentPage === 'performance'}
 				<PerformanceDashboard onBack={() => handlePageChange('settings')} />
 			{/if}
 		{/if}

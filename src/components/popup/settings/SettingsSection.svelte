@@ -34,6 +34,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
 
+	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 	const availableLocales = getAvailableLocales();
 
 	interface Props {
@@ -399,7 +400,7 @@
 						{/if}
 
 						<!-- View Performance Button -->
-						{#if onNavigateToPerformance}
+						{#if IS_DEV && onNavigateToPerformance}
 							<button
 								class="manage-custom-apis-button"
 								onclick={onNavigateToPerformance}

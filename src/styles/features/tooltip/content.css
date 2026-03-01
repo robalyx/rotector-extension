@@ -331,6 +331,10 @@
 	}
 }
 
+/* =================================
+   TRANSLATION
+   ================================= */
+
 @utility translate-status-container {
 	@apply flex items-center gap-1.5 justify-center mb-2;
 }
@@ -361,6 +365,33 @@
 
 	&:active {
 		opacity: 0.8;
+	}
+}
+
+/* =================================
+   VIOLATION REASONS & EVIDENCE
+   ================================= */
+
+@utility reasons-container {
+	@apply text-left mt-2;
+}
+
+@utility reason-item {
+	@apply mb-3 rounded-md p-2.5;
+	background-color: var(--color-reason-bg);
+
+	&:last-child {
+		@apply mb-0;
+	}
+}
+
+@utility reason-header {
+	@apply font-semibold mb-1 flex justify-between items-center;
+	color: var(--color-reason-header);
+	font-size: 17px;
+
+	&.integration {
+		color: var(--color-status-integration);
 	}
 }
 
@@ -399,29 +430,6 @@
 	}
 }
 
-@utility reasons-container {
-	@apply text-left mt-2;
-}
-
-@utility reason-item {
-	@apply mb-3 rounded-md p-2.5;
-	background-color: var(--color-reason-bg);
-
-	&:last-child {
-		@apply mb-0;
-	}
-}
-
-@utility reason-header {
-	@apply font-semibold mb-1 flex justify-between items-center;
-	color: var(--color-reason-header);
-	font-size: 17px;
-
-	&.integration {
-		color: var(--color-status-integration);
-	}
-}
-
 @utility reason-message {
 	@apply text-base leading-normal mb-2 whitespace-pre-wrap;
 	color: var(--color-reason-message);
@@ -450,6 +458,50 @@
 	@apply px-1.5 py-0.5 rounded text-xs font-bold uppercase;
 	background-color: var(--color-evidence-border);
 	color: var(--color-text);
+}
+
+@utility source-info-indicator {
+	@apply relative inline-flex items-center cursor-help ml-auto;
+	color: var(--color-primary);
+
+	&:hover .source-info-popover {
+		@apply visible opacity-100;
+	}
+}
+
+@utility source-info-popover {
+	@apply absolute invisible opacity-0 z-10;
+	transition:
+		opacity 0.15s ease,
+		visibility 0.15s ease;
+	top: calc(100% + 6px);
+	right: 0;
+	width: 240px;
+	padding: 8px 10px;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+	strong {
+		@apply block !text-sm font-semibold;
+		color: var(--color-primary);
+		margin-bottom: 2px;
+	}
+
+	p {
+		@apply !text-sm leading-normal m-0 font-normal;
+		color: var(--color-text);
+	}
+
+	a {
+		@apply !text-sm !underline;
+		color: var(--color-primary) !important;
+
+		&:hover {
+			@apply !no-underline;
+		}
+	}
 }
 
 @utility source-evidence-description {
@@ -482,6 +534,10 @@
 	@apply text-base leading-tight;
 	color: var(--color-evidence-text);
 }
+
+/* =================================
+   REVIEWER & ERROR
+   ================================= */
 
 @utility reviewer-section {
 	@apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;

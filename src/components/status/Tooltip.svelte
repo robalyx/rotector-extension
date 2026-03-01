@@ -1346,6 +1346,23 @@
 													<div class="source-evidence-item">
 														<div class="source-evidence-header">
 															<span class="source-evidence-badge">{parsed.source}</span>
+															{#if parsed.source.toLowerCase() === 'trap'}
+																<div class="source-info-indicator">
+																	<Info size={12} />
+																	<div class="source-info-popover">
+																		<strong>{$_('tooltip_trap_info_title')}</strong>
+																		<p>
+																			{$_('tooltip_trap_info_message')}
+																			<a
+																				href="https://rotector.com/blog/trap-game-detection-explained"
+																				onclick={(e) => e.stopPropagation()}
+																				rel="noopener noreferrer"
+																				target="_blank">{$_('tooltip_trap_info_link')}</a
+																			>
+																		</p>
+																	</div>
+																</div>
+															{/if}
 														</div>
 														<div class="source-evidence-description">{parsed.description}</div>
 													</div>

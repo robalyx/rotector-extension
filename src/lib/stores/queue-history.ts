@@ -15,12 +15,16 @@ export const unprocessedEntries = derived(queueHistory, ($history) =>
 // Count of unprocessed entries
 export const unprocessedCount = derived(unprocessedEntries, ($unprocessed) => $unprocessed.length);
 
-// Load history from storage
+// Read current entries from persistent storage
+async function readFromStorage(): Promise<QueueHistoryEntry[]> {
+	const result = await browser.storage.local.get([QUEUE_HISTORY_KEY]);
+	return (result[QUEUE_HISTORY_KEY] as QueueHistoryEntry[] | undefined) ?? [];
+}
+
+// Load history from storage into the in-memory store
 export async function loadQueueHistory(): Promise<void> {
 	try {
-		const result = await browser.storage.local.get([QUEUE_HISTORY_KEY]);
-		const stored = result[QUEUE_HISTORY_KEY] as QueueHistoryEntry[] | undefined;
-		queueHistory.set(stored ?? []);
+		queueHistory.set(await readFromStorage());
 	} catch (error) {
 		logger.error('Failed to load queue history:', error);
 		queueHistory.set([]);
@@ -40,9 +44,8 @@ async function saveQueueHistory(entries: QueueHistoryEntry[]): Promise<void> {
 
 // Add new entry when user is queued
 export async function addQueueEntry(userId: number): Promise<void> {
-	const current = get(queueHistory);
+	const current = await readFromStorage();
 
-	// Check if user already exists in history
 	const existingIndex = current.findIndex((e) => e.userId === userId);
 
 	const newEntry: QueueHistoryEntry = {
@@ -58,17 +61,16 @@ export async function addQueueEntry(userId: number): Promise<void> {
 	let updated: QueueHistoryEntry[];
 
 	if (existingIndex !== -1) {
-		// Update existing entry with new queue time
+		// Update existing entry with new queue time and move to front
 		updated = [...current];
 		updated[existingIndex] = newEntry;
-		// Move to front
 		updated = [
 			updated[existingIndex],
 			...updated.slice(0, existingIndex),
 			...updated.slice(existingIndex + 1)
 		];
 	} else {
-		// Add new entry at front, remove oldest if at limit
+		// Add new entry at front and remove oldest if at limit
 		updated = [newEntry, ...current];
 		if (updated.length > MAX_HISTORY_SIZE) {
 			updated = updated.slice(0, MAX_HISTORY_SIZE);
@@ -84,12 +86,22 @@ export async function updateEntryStatus(
 	userId: number,
 	status: QueueStatusItem
 ): Promise<QueueHistoryEntry | null> {
-	const current = get(queueHistory);
+	const current = await readFromStorage();
 	const index = current.findIndex((e) => e.userId === userId);
 
 	if (index === -1) return null;
 
 	const entry = current[index];
+
+	// Skip save if nothing changed
+	if (
+		entry.processed === status.processed &&
+		entry.processing === status.processing &&
+		entry.flagged === status.flagged
+	) {
+		return null;
+	}
+
 	const wasProcessed = entry.processed;
 
 	const updated = [...current];
@@ -112,7 +124,7 @@ export async function updateEntryStatus(
 
 // Mark entry as notified to prevent duplicate notifications
 export async function markAsNotified(userId: number): Promise<void> {
-	const current = get(queueHistory);
+	const current = await readFromStorage();
 	const index = current.findIndex((e) => e.userId === userId);
 
 	if (index === -1) return;
@@ -125,7 +137,7 @@ export async function markAsNotified(userId: number): Promise<void> {
 
 // Remove single entry
 export async function removeQueueEntry(userId: number): Promise<void> {
-	const current = get(queueHistory);
+	const current = await readFromStorage();
 	const updated = current.filter((e) => e.userId !== userId);
 	await saveQueueHistory(updated);
 	logger.debug('Removed queue history entry:', { userId });

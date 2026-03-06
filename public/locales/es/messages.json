@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "No se puede obtener el estado",
 	"tooltip_restricted_message": "Tu cuenta ha sido marcada por Rotector y el acceso a la extensión ha sido revocado.",
 	"tooltip_restricted_title": "Problema de acceso",
+	"tooltip_reviewer_anonymous_message": "Este revisor ha elegido mantener su identidad oculta. La revisión sigue siendo verificada y legítima.",
+	"tooltip_reviewer_anonymous_title": "Revisor anónimo",
 	"tooltip_reviewer_reviewed_by": "Revisado por",
 	"tooltip_safe_reason_contact_us": "contáctenos",
 	"tooltip_safe_reason_external": "Es posible que tengas información externa a Roblox (redes sociales, reportes de la comunidad) a la que el sistema automatizado no puede acceder.",

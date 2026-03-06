@@ -977,6 +977,15 @@
 						{/if}
 					</span>
 				</span>
+				{#if reviewer.username === 'Anonymous' && reviewer.displayName === 'Anonymous'}
+					<div class="reviewer-anonymous-indicator">
+						<Info size={12} />
+						<div class="reviewer-anonymous-popover">
+							<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
+							<p>{$_('tooltip_reviewer_anonymous_message')}</p>
+						</div>
+					</div>
+				{/if}
 			</div>
 		{/if}
 	{/if}

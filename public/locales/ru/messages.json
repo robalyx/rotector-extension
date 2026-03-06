@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Не удалось получить статус",
 	"tooltip_restricted_message": "Ваш аккаунт был отмечен Rotector, и доступ к расширению был отозван.",
 	"tooltip_restricted_title": "Проблема с доступом",
+	"tooltip_reviewer_anonymous_message": "Этот рецензент решил скрыть свою личность. Отзыв по-прежнему проверен и является подлинным.",
+	"tooltip_reviewer_anonymous_title": "Анонимный рецензент",
 	"tooltip_reviewer_reviewed_by": "Проверено",
 	"tooltip_safe_reason_contact_us": "свяжитесь с нами",
 	"tooltip_safe_reason_external": "Возможно, у вас есть информация из-за пределов Roblox (социальные сети, отчёты сообщества), к которой автоматизированная система не имеет доступа.",

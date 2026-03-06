@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Durum alınamıyor",
 	"tooltip_restricted_message": "Hesabınız Rotector tarafından işaretlendi ve uzantı erişimi iptal edildi.",
 	"tooltip_restricted_title": "Erişim Sorunu",
+	"tooltip_reviewer_anonymous_message": "Bu incelemeci kimliğini gizli tutmayı tercih etmiştir. İnceleme yine de doğrulanmış ve meşrudur.",
+	"tooltip_reviewer_anonymous_title": "Anonim İncelemeci",
 	"tooltip_reviewer_reviewed_by": "İnceleyen",
 	"tooltip_safe_reason_contact_us": "bizimle iletişime geçin",
 	"tooltip_safe_reason_external": "Roblox dışından (sosyal medya, topluluk raporları) otomatik sistemin erişemediği bilgilere sahip olabilirsiniz.",

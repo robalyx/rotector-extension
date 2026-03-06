@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "تعذر استرداد الحالة",
 	"tooltip_restricted_message": "تم وضع علامة على حسابك بواسطة Rotector وتم إلغاء الوصول إلى الإضافة.",
 	"tooltip_restricted_title": "مشكلة في الوصول",
+	"tooltip_reviewer_anonymous_message": "اختار هذا المراجع إخفاء هويته. لا تزال المراجعة موثقة وشرعية.",
+	"tooltip_reviewer_anonymous_title": "مراجع مجهول",
 	"tooltip_reviewer_reviewed_by": "تمت المراجعة بواسطة",
 	"tooltip_safe_reason_contact_us": "تواصل معنا",
 	"tooltip_safe_reason_external": "قد تكون لديك معلومات من خارج Roblox (وسائل التواصل الاجتماعي، بلاغات المجتمع) لا يستطيع النظام الآلي الوصول إليها.",

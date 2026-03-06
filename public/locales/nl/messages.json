@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Kan status niet ophalen",
 	"tooltip_restricted_message": "Uw account is gemarkeerd door Rotector en de toegang tot de extensie is ingetrokken.",
 	"tooltip_restricted_title": "Toegangsprobleem",
+	"tooltip_reviewer_anonymous_message": "Deze beoordelaar heeft ervoor gekozen om anoniem te blijven. De beoordeling is nog steeds geverifieerd en legitiem.",
+	"tooltip_reviewer_anonymous_title": "Anonieme beoordelaar",
 	"tooltip_reviewer_reviewed_by": "Beoordeeld door",
 	"tooltip_safe_reason_contact_us": "neem contact met ons op",
 	"tooltip_safe_reason_external": "U beschikt mogelijk over informatie van buiten Roblox (sociale media, communityrapportages) die het geautomatiseerde systeem niet kan raadplegen.",

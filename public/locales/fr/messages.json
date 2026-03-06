@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Impossible de récupérer le statut",
 	"tooltip_restricted_message": "Votre compte a été signalé par Rotector et l'accès à l'extension a été révoqué.",
 	"tooltip_restricted_title": "Problème d'accès",
+	"tooltip_reviewer_anonymous_message": "Ce réviseur a choisi de garder son identité cachée. L'évaluation reste vérifiée et légitime.",
+	"tooltip_reviewer_anonymous_title": "Réviseur anonyme",
 	"tooltip_reviewer_reviewed_by": "Examiné par",
 	"tooltip_safe_reason_contact_us": "contactez-nous",
 	"tooltip_safe_reason_external": "Vous disposez peut-être d'informations provenant de l'extérieur de Roblox (réseaux sociaux, signalements communautaires) auxquelles le système automatisé n'a pas accès.",

@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Status konnte nicht abgerufen werden",
 	"tooltip_restricted_message": "Ihr Konto wurde von Rotector markiert und der Zugriff auf die Erweiterung wurde widerrufen.",
 	"tooltip_restricted_title": "Zugriffsproblem",
+	"tooltip_reviewer_anonymous_message": "Dieser Prüfer hat sich entschieden, seine Identität zu verbergen. Die Überprüfung ist dennoch verifiziert und legitim.",
+	"tooltip_reviewer_anonymous_title": "Anonymer Prüfer",
 	"tooltip_reviewer_reviewed_by": "Überprüft von",
 	"tooltip_safe_reason_contact_us": "kontaktieren Sie uns",
 	"tooltip_safe_reason_external": "Möglicherweise haben Sie Informationen von außerhalb von Roblox (soziale Medien, Community-Berichte), auf die das automatisierte System keinen Zugriff hat.",

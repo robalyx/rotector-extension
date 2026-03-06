@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "ไม่สามารถดึงข้อมูลสถานะได้",
 	"tooltip_restricted_message": "บัญชีของคุณถูกระบุโดย Rotector และการเข้าถึงส่วนขยายถูกเพิกถอนแล้ว",
 	"tooltip_restricted_title": "ปัญหาการเข้าถึง",
+	"tooltip_reviewer_anonymous_message": "ผู้ตรวจสอบรายนี้เลือกที่จะปกปิดตัวตน การตรวจสอบยังคงได้รับการยืนยันและถูกต้องตามกฎ",
+	"tooltip_reviewer_anonymous_title": "ผู้ตรวจสอบที่ไม่ระบุตัวตน",
 	"tooltip_reviewer_reviewed_by": "ตรวจสอบโดย",
 	"tooltip_safe_reason_contact_us": "ติดต่อเรา",
 	"tooltip_safe_reason_external": "คุณอาจมีข้อมูลจากภายนอก Roblox (โซเชียลมีเดีย รายงานจากชุมชน) ที่ระบบอัตโนมัติไม่สามารถเข้าถึงได้",

@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "无法获取状态",
 	"tooltip_restricted_message": "您的账户已被 Rotector 标记，扩展程序访问权限已被撤销。",
 	"tooltip_restricted_title": "访问问题",
+	"tooltip_reviewer_anonymous_message": "此审核者选择隐藏其身份。该审核仍然经过验证且合法。",
+	"tooltip_reviewer_anonymous_title": "匿名审核者",
 	"tooltip_reviewer_reviewed_by": "审核者",
 	"tooltip_safe_reason_contact_us": "联系我们",
 	"tooltip_safe_reason_external": "您可能拥有来自 Roblox 之外（社交媒体、社区举报）的信息，而自动化系统无法获取这些信息。",

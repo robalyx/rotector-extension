@@ -553,6 +553,42 @@
 	color: var(--color-text);
 }
 
+@utility reviewer-anonymous-indicator {
+	@apply relative inline-flex items-center cursor-help;
+	color: var(--color-primary);
+
+	&:hover .reviewer-anonymous-popover {
+		@apply visible opacity-100;
+	}
+}
+
+@utility reviewer-anonymous-popover {
+	@apply absolute invisible opacity-0 z-10;
+	transition:
+		opacity 0.15s ease,
+		visibility 0.15s ease;
+	top: calc(100% + 6px);
+	left: 50%;
+	transform: translateX(-50%);
+	width: 240px;
+	padding: 8px 10px;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+	strong {
+		@apply block !text-sm font-semibold;
+		color: var(--color-primary);
+		margin-bottom: 2px;
+	}
+
+	p {
+		@apply !text-sm leading-normal m-0 font-normal;
+		color: var(--color-text);
+	}
+}
+
 @utility error-details {
 	@apply mt-1.5 pt-1.5 text-xs-plus whitespace-pre-wrap break-words border-t text-left;
 	border-color: var(--color-border);

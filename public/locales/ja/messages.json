@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "ステータスを取得できません",
 	"tooltip_restricted_message": "あなたのアカウントはRotectorによってフラグが付けられ、拡張機能へのアクセスが取り消されました。",
 	"tooltip_restricted_title": "アクセスの問題",
+	"tooltip_reviewer_anonymous_message": "このレビュアーは身元を非公開にしています。レビューは検証済みで正当なものです。",
+	"tooltip_reviewer_anonymous_title": "匿名レビュアー",
 	"tooltip_reviewer_reviewed_by": "レビュー者",
 	"tooltip_safe_reason_contact_us": "お問い合わせください",
 	"tooltip_safe_reason_external": "Roblox外の情報（ソーシャルメディア、コミュニティレポート）をお持ちかもしれませんが、自動システムはそれにアクセスできません。",

@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Hindi makuha ang status",
 	"tooltip_restricted_message": "Ang iyong account ay na-flag ng Rotector at ang access sa extension ay binawi.",
 	"tooltip_restricted_title": "Problema sa Access",
+	"tooltip_reviewer_anonymous_message": "Pinili ng reviewer na ito na itago ang kanilang pagkakakilanlan. Ang review ay nananatiling na-verify at lehitimo.",
+	"tooltip_reviewer_anonymous_title": "Anonymous na Reviewer",
 	"tooltip_reviewer_reviewed_by": "Sinuri ni",
 	"tooltip_safe_reason_contact_us": "makipag-ugnayan sa amin",
 	"tooltip_safe_reason_external": "Maaaring mayroon kang impormasyon mula sa labas ng Roblox (social media, community reports) na hindi ma-access ng automated system.",

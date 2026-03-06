@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "無法取得狀態",
 	"tooltip_restricted_message": "您的帳戶已被 Rotector 標記，擴充功能存取權限已被撤銷。",
 	"tooltip_restricted_title": "存取問題",
+	"tooltip_reviewer_anonymous_message": "此審核者選擇隱藏其身份。該審核仍然經過驗證且合法。",
+	"tooltip_reviewer_anonymous_title": "匿名審核者",
 	"tooltip_reviewer_reviewed_by": "審核者",
 	"tooltip_safe_reason_contact_us": "聯繫我們",
 	"tooltip_safe_reason_external": "您可能擁有來自 Roblox 之外（社群媒體、社群舉報）的資訊，而自動化系統無法取得這些資訊。",

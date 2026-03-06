@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Kan inte hämta status",
 	"tooltip_restricted_message": "Ditt konto har flaggats av Rotector och åtkomst till tillägget har återkallats.",
 	"tooltip_restricted_title": "Åtkomstproblem",
+	"tooltip_reviewer_anonymous_message": "Denna granskare har valt att dölja sin identitet. Granskningen är fortfarande verifierad och legitim.",
+	"tooltip_reviewer_anonymous_title": "Anonym granskare",
 	"tooltip_reviewer_reviewed_by": "Granskad av",
 	"tooltip_safe_reason_contact_us": "kontakta oss",
 	"tooltip_safe_reason_external": "Du kan ha information utanför Roblox (sociala medier, communityrapporter) som det automatiserade systemet inte kan komma åt.",

@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Não foi possível obter o status",
 	"tooltip_restricted_message": "Sua conta foi sinalizada pelo Rotector e o acesso à extensão foi revogado.",
 	"tooltip_restricted_title": "Problema de Acesso",
+	"tooltip_reviewer_anonymous_message": "Este revisor optou por manter sua identidade oculta. A revisão ainda é verificada e legítima.",
+	"tooltip_reviewer_anonymous_title": "Revisor anônimo",
 	"tooltip_reviewer_reviewed_by": "Revisado por",
 	"tooltip_safe_reason_contact_us": "entre em contato conosco",
 	"tooltip_safe_reason_external": "Você pode ter informações de fora do Roblox (redes sociais, denúncias da comunidade) que o sistema automatizado não consegue acessar.",

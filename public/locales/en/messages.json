@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Unable to retrieve status",
 	"tooltip_restricted_message": "Your account has been flagged by Rotector and extension access has been revoked.",
 	"tooltip_restricted_title": "Access Issue",
+	"tooltip_reviewer_anonymous_message": "This reviewer has chosen to keep their identity hidden. The review is still verified and legitimate.",
+	"tooltip_reviewer_anonymous_title": "Anonymous Reviewer",
 	"tooltip_reviewer_reviewed_by": "Reviewed by",
 	"tooltip_safe_reason_contact_us": "contact us",
 	"tooltip_safe_reason_external": "You may have information from outside Roblox (social media, community reports) that the automated system cannot access.",

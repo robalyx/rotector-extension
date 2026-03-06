@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Не вдалося отримати статус",
 	"tooltip_restricted_message": "Ваш обліковий запис було позначено Rotector, і доступ до розширення відкликано.",
 	"tooltip_restricted_title": "Проблема з доступом",
+	"tooltip_reviewer_anonymous_message": "Цей рецензент вирішив приховати свою особу. Рецензія все одно є перевіреною та легітимною.",
+	"tooltip_reviewer_anonymous_title": "Анонімний рецензент",
 	"tooltip_reviewer_reviewed_by": "Перевірено",
 	"tooltip_safe_reason_contact_us": "зв'яжіться з нами",
 	"tooltip_safe_reason_external": "Ви можете мати інформацію з-за меж Roblox (соціальні мережі, звіти спільноти), до якої автоматизована система не має доступу.",

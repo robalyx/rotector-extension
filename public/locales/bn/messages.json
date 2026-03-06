@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "স্থিতি পুনরুদ্ধার করতে অক্ষম",
 	"tooltip_restricted_message": "আপনার অ্যাকাউন্ট Rotector দ্বারা ফ্ল্যাগ করা হয়েছে এবং এক্সটেনশন অ্যাক্সেস প্রত্যাহার করা হয়েছে।",
 	"tooltip_restricted_title": "অ্যাক্সেস সমস্যা",
+	"tooltip_reviewer_anonymous_message": "এই পর্যালোচক তাদের পরিচয় গোপন রাখতে বেছে নিয়েছেন। পর্যালোচনাটি এখনও যাচাইকৃত এবং বৈধ।",
+	"tooltip_reviewer_anonymous_title": "বেনামী পর্যালোচক",
 	"tooltip_reviewer_reviewed_by": "পর্যালোচক",
 	"tooltip_safe_reason_contact_us": "আমাদের সাথে যোগাযোগ করুন",
 	"tooltip_safe_reason_external": "আপনার কাছে Roblox এর বাইরে থেকে তথ্য থাকতে পারে (সোশ্যাল মিডিয়া, কমিউনিটি রিপোর্ট) যা স্বয়ংক্রিয় সিস্টেম অ্যাক্সেস করতে পারে না।",

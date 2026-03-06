@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Tidak dapat mendapatkan status",
 	"tooltip_restricted_message": "Akaun anda telah ditandai oleh Rotector dan akses sambungan telah dibatalkan.",
 	"tooltip_restricted_title": "Isu Akses",
+	"tooltip_reviewer_anonymous_message": "Penyemak ini telah memilih untuk merahsiakan identiti mereka. Semakan ini masih disahkan dan sah.",
+	"tooltip_reviewer_anonymous_title": "Penyemak Tanpa Nama",
 	"tooltip_reviewer_reviewed_by": "Disemak oleh",
 	"tooltip_safe_reason_contact_us": "hubungi kami",
 	"tooltip_safe_reason_external": "Anda mungkin mempunyai maklumat dari luar Roblox (media sosial, laporan komuniti) yang tidak dapat diakses oleh sistem automatik.",

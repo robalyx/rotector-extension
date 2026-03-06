@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "상태를 가져올 수 없음",
 	"tooltip_restricted_message": "귀하의 계정이 Rotector에 의해 플래그 처리되었으며 확장 프로그램 접근 권한이 취소되었습니다.",
 	"tooltip_restricted_title": "접근 문제",
+	"tooltip_reviewer_anonymous_message": "이 검토자는 신원을 비공개로 설정했습니다. 검토는 여전히 검증되었으며 정당합니다.",
+	"tooltip_reviewer_anonymous_title": "익명 검토자",
 	"tooltip_reviewer_reviewed_by": "검토자",
 	"tooltip_safe_reason_contact_us": "문의하기",
 	"tooltip_safe_reason_external": "Roblox 외부의 정보(소셜 미디어, 커뮤니티 보고)를 가지고 계실 수 있지만, 자동 시스템은 이에 접근할 수 없습니다.",

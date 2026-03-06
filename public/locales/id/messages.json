@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Tidak dapat mengambil status",
 	"tooltip_restricted_message": "Akun Anda telah ditandai oleh Rotector dan akses ekstensi telah dicabut.",
 	"tooltip_restricted_title": "Masalah Akses",
+	"tooltip_reviewer_anonymous_message": "Peninjau ini memilih untuk menyembunyikan identitas mereka. Tinjauan ini tetap terverifikasi dan sah.",
+	"tooltip_reviewer_anonymous_title": "Peninjau Anonim",
 	"tooltip_reviewer_reviewed_by": "Ditinjau oleh",
 	"tooltip_safe_reason_contact_us": "hubungi kami",
 	"tooltip_safe_reason_external": "Anda mungkin memiliki informasi dari luar Roblox (media sosial, laporan komunitas) yang tidak dapat diakses oleh sistem otomatis.",

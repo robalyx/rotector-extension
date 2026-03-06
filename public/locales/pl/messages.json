@@ -699,6 +699,8 @@
 	"tooltip_restricted_header": "Nie można pobrać statusu",
 	"tooltip_restricted_message": "Twoje konto zostało oznaczone przez Rotector, a dostęp do rozszerzenia został cofnięty.",
 	"tooltip_restricted_title": "Problem z dostępem",
+	"tooltip_reviewer_anonymous_message": "Ten recenzent zdecydował się ukryć swoją tożsamość. Recenzja jest nadal zweryfikowana i wiarygodna.",
+	"tooltip_reviewer_anonymous_title": "Anonimowy recenzent",
 	"tooltip_reviewer_reviewed_by": "Sprawdzony przez",
 	"tooltip_safe_reason_contact_us": "skontaktuj się z nami",
 	"tooltip_safe_reason_external": "Możesz posiadać informacje spoza Robloxa (media społecznościowe, zgłoszenia społeczności), do których zautomatyzowany system nie ma dostępu.",

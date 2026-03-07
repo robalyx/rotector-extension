@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Deze {0} wordt momenteel gecontroleerd door ons systeem. Dit kan enkele minuten duren.",
 	"tooltip_header_queued_safe": "Deze {0} is beoordeeld door ons systeem en heeft onvoldoende bewijs om gemarkeerd te worden.",
 	"tooltip_header_safe": "Deze {0} is nog niet beoordeeld.",
+	"tooltip_header_toggle_aria": "Compacte koptekst in-/uitschakelen",
 	"tooltip_header_unavailable": "Statusinformatie niet beschikbaar.",
 	"tooltip_header_unknown": "Onbekende Status",
 	"tooltip_header_unsafe": "Deze {0} is geverifieerd als ongepast door menselijke moderators.",

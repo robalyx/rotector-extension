@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Bu {0} şu anda sistemimiz tarafından kontrol ediliyor. Bu birkaç dakika sürebilir.",
 	"tooltip_header_queued_safe": "Bu {0} sistemimiz tarafından incelendi ve işaretlenmek için yeterli kanıt bulunamamıştır.",
 	"tooltip_header_safe": "Bu {0} henüz incelenmedi.",
+	"tooltip_header_toggle_aria": "Kompakt başlığı aç/kapat",
 	"tooltip_header_unavailable": "Durum bilgisi mevcut değil.",
 	"tooltip_header_unknown": "Bilinmeyen Durum",
 	"tooltip_header_unsafe": "Bu {0} insan moderatörler tarafından uygunsuz olarak doğrulandı.",

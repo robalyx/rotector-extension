@@ -29,6 +29,10 @@
 		transform: translateX(calc(-50% + var(--bridge-offset-x, 0px)));
 	}
 
+	&.is-resizing {
+		transition: none;
+	}
+
 	&[style*='--tooltip-positioned-above: 1'] {
 		&::before {
 			@apply bottom-auto top-full;
@@ -101,6 +105,17 @@
 	}
 }
 
+@utility tooltip-header-toggle {
+	@apply absolute bottom-0 left-0 w-full h-1 cursor-pointer z-[4] border-none p-0;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+	background: var(--color-border);
+
+	&:hover {
+		opacity: 0.6;
+	}
+}
+
 /* =================================
    TOOLTIP LAYOUT COMPONENTS
    ================================= */
@@ -119,6 +134,10 @@
 		var(--color-bg-content) 40%,
 		transparent 100%
 	);
+
+	&.compact {
+		@apply pt-3 pl-4 pr-12 pb-3 mb-0;
+	}
 }
 
 @utility tooltip-avatar {
@@ -133,7 +152,21 @@
 }
 
 @utility tooltip-user-info {
-	@apply ml-4 flex-grow overflow-hidden relative z-[1] text-left;
+	@apply ml-4 flex-shrink overflow-hidden relative z-[1] text-left;
+}
+
+@utility tooltip-header-right {
+	@apply flex-grow flex-shrink-0 flex flex-col justify-center text-left ml-auto pl-4 overflow-hidden;
+	max-width: 50%;
+
+	.reviewer-section {
+		@apply justify-start p-0 my-0;
+	}
+}
+
+@utility tooltip-inline-message {
+	@apply text-sm leading-snug;
+	color: var(--color-text-subtle);
 }
 
 @utility tooltip-username {

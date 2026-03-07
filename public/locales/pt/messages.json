@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Este {0} está sendo verificado por nosso sistema no momento. Isso pode levar alguns minutos.",
 	"tooltip_header_queued_safe": "Este {0} foi revisado pelo nosso sistema e não possui evidências suficientes para ser sinalizado.",
 	"tooltip_header_safe": "Este {0} ainda não foi revisado.",
+	"tooltip_header_toggle_aria": "Alternar cabeçalho compacto",
 	"tooltip_header_unavailable": "Informações de status indisponíveis.",
 	"tooltip_header_unknown": "Status Desconhecido",
 	"tooltip_header_unsafe": "Este {0} foi verificado como inadequado por moderadores humanos.",

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "이 {0}은(는) 현재 시스템에서 확인 중입니다. 몇 분이 소요될 수 있습니다.",
 	"tooltip_header_queued_safe": "이 {0}은(는) 시스템에 의해 검토되었으며 플래그를 지정할 충분한 증거가 없습니다.",
 	"tooltip_header_safe": "이 {0}은(는) 아직 검토되지 않았습니다.",
+	"tooltip_header_toggle_aria": "간결한 헤더 전환",
 	"tooltip_header_unavailable": "상태 정보를 사용할 수 없습니다.",
 	"tooltip_header_unknown": "알 수 없는 상태",
 	"tooltip_header_unsafe": "이 {0}은(는) 인간 검토자에 의해 부적절함이 확인되었습니다.",

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Ten {0} jest obecnie sprawdzany przez nasz system. Może to potrwać kilka minut.",
 	"tooltip_header_queued_safe": "Ten {0} został sprawdzony przez nasz system i nie ma wystarczających dowodów, aby go oznaczyć.",
 	"tooltip_header_safe": "Ten {0} nie został jeszcze sprawdzony.",
+	"tooltip_header_toggle_aria": "Przełącz kompaktowy nagłówek",
 	"tooltip_header_unavailable": "Informacje o statusie niedostępne.",
 	"tooltip_header_unknown": "Status nieznany",
 	"tooltip_header_unsafe": "Ten {0} został zweryfikowany jako nieodpowiedni przez ludzkich moderatorów.",

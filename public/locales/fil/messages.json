@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Ang {0} na ito ay kasalukuyang sinusuri ng aming sistema. Maaaring tumagal ito ng ilang minuto.",
 	"tooltip_header_queued_safe": "Ang {0} na ito ay sinuri ng aming sistema at walang sapat na ebidensya para ma-flag.",
 	"tooltip_header_safe": "Ang {0} na ito ay hindi pa nasusuri.",
+	"tooltip_header_toggle_aria": "I-toggle ang compact header",
 	"tooltip_header_unavailable": "Hindi available ang impormasyon ng status.",
 	"tooltip_header_unknown": "Hindi Kilalang Status",
 	"tooltip_header_unsafe": "Ang {0} na ito ay na-verify na bilang hindi angkop ng human moderators.",

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "{0} ini sedang diperiksa oleh sistem kami. Ini mungkin memakan waktu beberapa menit.",
 	"tooltip_header_queued_safe": "{0} ini telah ditinjau oleh sistem kami dan tidak memiliki cukup bukti untuk ditandai.",
 	"tooltip_header_safe": "{0} ini belum ditinjau.",
+	"tooltip_header_toggle_aria": "Alihkan header ringkas",
 	"tooltip_header_unavailable": "Informasi status tidak tersedia.",
 	"tooltip_header_unknown": "Status Tidak Dikenal",
 	"tooltip_header_unsafe": "{0} ini telah diverifikasi sebagai tidak pantas oleh moderator manusia.",

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "この{0}は現在システムによってチェックされています。これには数分かかる場合があります。",
 	"tooltip_header_queued_safe": "この{0}はシステムによってレビューされ、フラグを付けるための十分な証拠がありませんでした。",
 	"tooltip_header_safe": "この{0}はまだレビューされていません。",
+	"tooltip_header_toggle_aria": "コンパクトヘッダーの切り替え",
 	"tooltip_header_unavailable": "ステータス情報が利用できません。",
 	"tooltip_header_unknown": "不明なステータス",
 	"tooltip_header_unsafe": "この{0}は人間のモデレーターによって不適切であると確認されています。",

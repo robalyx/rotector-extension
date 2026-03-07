@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "此{0}目前正在由我们的系统检查。这可能需要几分钟。",
 	"tooltip_header_queued_safe": "此{0}已被我们的系统审查，没有足够的证据将其标记。",
 	"tooltip_header_safe": "此{0}尚未被审查。",
+	"tooltip_header_toggle_aria": "切换紧凑标题",
 	"tooltip_header_unavailable": "状态信息不可用。",
 	"tooltip_header_unknown": "未知状态",
 	"tooltip_header_unsafe": "此{0}已被人工审核员验证为不当内容。",

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "{0} này hiện đang được kiểm tra bởi hệ thống của chúng tôi. Điều này có thể mất vài phút.",
 	"tooltip_header_queued_safe": "{0} này đã được hệ thống của chúng tôi xem xét và không có đủ bằng chứng để gắn cờ.",
 	"tooltip_header_safe": "{0} này chưa được xem xét.",
+	"tooltip_header_toggle_aria": "Chuyển đổi tiêu đề thu gọn",
 	"tooltip_header_unavailable": "Thông tin trạng thái không khả dụng.",
 	"tooltip_header_unknown": "Trạng thái Không rõ",
 	"tooltip_header_unsafe": "{0} này đã được xác minh là không phù hợp bởi người kiểm duyệt.",

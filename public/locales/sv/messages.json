@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Denna {0} kontrolleras för närvarande av vårt system. Detta kan ta några minuter.",
 	"tooltip_header_queued_safe": "Denna {0} har granskats av vårt system och har inte tillräckliga bevis för att flaggas.",
 	"tooltip_header_safe": "Denna {0} har inte granskats ännu.",
+	"tooltip_header_toggle_aria": "Växla kompakt rubrik",
 	"tooltip_header_unavailable": "Statusinformation otillgänglig.",
 	"tooltip_header_unknown": "Okänd status",
 	"tooltip_header_unsafe": "Denna {0} har verifierats som olämplig av mänskliga moderatorer.",

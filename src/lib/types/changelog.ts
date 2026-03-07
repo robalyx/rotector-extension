@@ -19,8 +19,9 @@ export const CHANGELOGS: Changelog[] = [
 		id: 'v2.15.0',
 		version: '2.15.0',
 		date: '2026-03-11',
-		title: '',
-		summary: '',
+		title: 'Friends Scan, Group Exports & Tooltip Customization',
+		summary:
+			'This update introduces friends page scanning, group member exports and resizable tooltips with compact headers, alongside numerous changes and bug fixes.',
 		changes: [
 			{
 				type: 'added',
@@ -40,6 +41,16 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Export tracked users - Export flagged, confirmed, and mixed-status group members as JSON or CSV from the group configure members page'
+			},
+			{
+				type: 'added',
+				description:
+					'Tooltip resizing - Preview and expanded tooltips can be resized via drag handle'
+			},
+			{
+				type: 'added',
+				description:
+					'Compact header toggle - Click the bottom edge of the expanded tooltip header to collapse it into a two-column layout'
 			},
 			{
 				type: 'added',
@@ -134,6 +145,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Voting access control - Voting widget now hides when the user is access-denied instead of showing a broken interface'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Settings persistence - Optional settings like saved tooltip dimensions are no longer wiped on extension restart'
 			},
 			{
 				type: 'fixed',

@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Ce {0} est actuellement en cours de vérification par notre système. Cela peut prendre quelques minutes.",
 	"tooltip_header_queued_safe": "Ce {0} a été examiné par notre système et ne présente pas suffisamment de preuves pour être signalé.",
 	"tooltip_header_safe": "Ce {0} n'a pas encore été examiné.",
+	"tooltip_header_toggle_aria": "Basculer l'en-tête compact",
 	"tooltip_header_unavailable": "Informations de statut non disponibles.",
 	"tooltip_header_unknown": "Statut Inconnu",
 	"tooltip_header_unsafe": "Ce {0} a été vérifié comme inapproprié par des modérateurs humains.",

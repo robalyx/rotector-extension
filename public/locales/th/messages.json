@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "{0} นี้กำลังถูกตรวจสอบโดยระบบของเรา อาจใช้เวลาสักครู่",
 	"tooltip_header_queued_safe": "{0} นี้ได้รับการตรวจสอบโดยระบบของเราและไม่มีหลักฐานเพียงพอที่จะถูกตั้งค่าสถานะ",
 	"tooltip_header_safe": "{0} นี้ยังไม่ได้รับการตรวจสอบ",
+	"tooltip_header_toggle_aria": "สลับส่วนหัวแบบกะทัดรัด",
 	"tooltip_header_unavailable": "ข้อมูลสถานะไม่พร้อมใช้งาน",
 	"tooltip_header_unknown": "สถานะไม่ทราบ",
 	"tooltip_header_unsafe": "{0} นี้ได้รับการตรวจสอบว่าไม่เหมาะสมโดยผู้ดูแลที่เป็นมนุษย์",

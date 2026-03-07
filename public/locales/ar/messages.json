@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "يتم حاليًا فحص هذا {0} بواسطة نظامنا. قد يستغرق هذا بضع دقائق.",
 	"tooltip_header_queued_safe": "تمت مراجعة هذا {0} بواسطة نظامنا ولا توجد أدلة كافية للإبلاغ عنه.",
 	"tooltip_header_safe": "لم تتم مراجعة هذا {0} بعد.",
+	"tooltip_header_toggle_aria": "تبديل العنوان المضغوط",
 	"tooltip_header_unavailable": "معلومات الحالة غير متوفرة.",
 	"tooltip_header_unknown": "حالة غير معروفة",
 	"tooltip_header_unsafe": "تم التحقق من أن هذا {0} غير مناسب بواسطة مشرفين بشريين.",

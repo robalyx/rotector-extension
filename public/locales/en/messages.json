@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "This {0} is currently being checked by our system. This may take a few minutes.",
 	"tooltip_header_queued_safe": "This {0} has been reviewed by our system and does not have sufficient evidence to be flagged.",
 	"tooltip_header_safe": "This {0} has not been reviewed yet.",
+	"tooltip_header_toggle_aria": "Toggle compact header",
 	"tooltip_header_unavailable": "Status information unavailable.",
 	"tooltip_header_unknown": "Unknown Status",
 	"tooltip_header_unsafe": "This {0} has been verified as inappropriate by human moderators.",

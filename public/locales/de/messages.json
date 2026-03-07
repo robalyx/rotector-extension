@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "Diese(r) {0} wird derzeit von unserem System überprüft. Dies kann einige Minuten dauern.",
 	"tooltip_header_queued_safe": "Diese(r) {0} wurde von unserem System überprüft und es gibt keine ausreichenden Beweise für eine Markierung.",
 	"tooltip_header_safe": "Diese(r) {0} wurde noch nicht überprüft.",
+	"tooltip_header_toggle_aria": "Kompakten Header umschalten",
 	"tooltip_header_unavailable": "Statusinformationen nicht verfügbar.",
 	"tooltip_header_unknown": "Unbekannter Status",
 	"tooltip_header_unsafe": "Diese(r) {0} wurde von menschlichen Moderatoren als unangemessen verifiziert.",

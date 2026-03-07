@@ -675,6 +675,7 @@
 	"tooltip_header_queued_processing": "{0} ini sedang disemak oleh sistem kami. Ini mungkin mengambil masa beberapa minit.",
 	"tooltip_header_queued_safe": "{0} ini telah disemak oleh sistem kami dan tidak mempunyai bukti yang mencukupi untuk dibenderakan.",
 	"tooltip_header_safe": "{0} ini belum disemak lagi.",
+	"tooltip_header_toggle_aria": "Togol pengepala padat",
 	"tooltip_header_unavailable": "Maklumat status tidak tersedia.",
 	"tooltip_header_unknown": "Status Tidak Diketahui",
 	"tooltip_header_unsafe": "{0} ini telah disahkan tidak sesuai oleh moderator manusia.",

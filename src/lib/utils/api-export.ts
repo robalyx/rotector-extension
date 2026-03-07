@@ -49,10 +49,8 @@ export function importCustomApi(
 	let parsed: unknown;
 	try {
 		parsed = JSON.parse(decompressed);
-	} catch (error) {
-		throw new Error(
-			`Failed to parse API data: ${error instanceof Error ? error.message : 'Invalid JSON'}`
-		);
+	} catch {
+		throw new Error('Failed to parse API data: Invalid JSON');
 	}
 
 	// Validate structure

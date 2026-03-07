@@ -78,7 +78,6 @@
 		onViewOutfits?: () => void;
 		onClose?: () => void;
 		onExpand?: () => void;
-		element?: HTMLElement;
 		onMouseEnter?: () => void;
 		onMouseLeave?: () => void;
 		userUsername?: string;
@@ -97,7 +96,6 @@
 		onViewOutfits,
 		onClose,
 		onExpand,
-		element = $bindable(),
 		onMouseEnter,
 		onMouseLeave,
 		userUsername,
@@ -906,8 +904,6 @@
 
 	// Setup and cleanup
 	$effect(() => {
-		element = tooltipRef;
-
 		if (isGroup) {
 			groupInfo = getPageGroupInfo();
 		} else {
@@ -1057,8 +1053,8 @@
 					class="tooltip-tab"
 					class:active={activeTab === tab.id}
 					class:error={!hasImage && tab.error}
-					class:has-image={hasImage}
 					class:loading={!hasImage && tab.loading}
+					class:tooltipTabHasImage={hasImage}
 					onclick={(e) => {
 						e.stopPropagation();
 						activeTab = tab.id;

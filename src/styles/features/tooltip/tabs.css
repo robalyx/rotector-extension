@@ -68,7 +68,7 @@
 	color: var(--color-status-unsafe);
 }
 
-@utility tooltip-tab.has-image {
+@utility tooltipTabHasImage {
 	@apply px-2 py-1.5;
 }
 

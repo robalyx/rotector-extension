@@ -7,7 +7,6 @@
 		"src/entrypoints/popup/main.ts"
 	],
 	"project": ["src/**/*.{ts,svelte}", "!src/**/*.d.ts"],
-	"ignore": [".wxt/**", ".output/**", "dist/**", "build/**", "public/**"],
 	"ignoreDependencies": [
 		"@tailwindcss/vite",
 		"@wxt-dev/module-svelte",

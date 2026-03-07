@@ -16,6 +16,163 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.15.0',
+		version: '2.15.0',
+		date: '2026-03-11',
+		title: '',
+		summary: '',
+		changes: [
+			{
+				type: 'added',
+				description:
+					'Friends scan - Automatically scans all friends on the friends page and displays a summary bar'
+			},
+			{
+				type: 'added',
+				description: 'Tracked users inactive indicator - Users who left the group appear grayed out'
+			},
+			{
+				type: 'added',
+				description:
+					'Tracked users membership filter - Dropdown to filter tracked users by active members, users who left, or all'
+			},
+			{
+				type: 'added',
+				description:
+					'Export tracked users - Export flagged, confirmed, and mixed-status group members as JSON or CSV from the group configure members page'
+			},
+			{
+				type: 'added',
+				description:
+					'Discord server grace period - Hourglass icon indicates when a member had not yet passed the grace period at last check'
+			},
+			{
+				type: 'added',
+				description:
+					'Discord first seen - Server entries show when a member was first observed when the join date is unavailable'
+			},
+			{
+				type: 'added',
+				description:
+					'Stricter evaluation indicator - Hoverable info icon on profile reason headers explains when the AI applied stricter standards'
+			},
+			{
+				type: 'added',
+				description:
+					'Trap detection info - Hoverable info icon on Trap source badges explains how trap game detection works with a link to the blog post'
+			},
+			{
+				type: 'added',
+				description:
+					'Discord detection info - Hoverable info icon on Discord source badges explains zero false positive verification and date field meanings'
+			},
+			{
+				type: 'added',
+				description:
+					'Source-tagged evidence display - Reason messages with [Source] prefixes now visually distinct for readability'
+			},
+			{
+				type: 'added',
+				description:
+					'Custom API authentication - Optional API key support for custom APIs, sent via X-Auth-Token header matching the Rotector API convention'
+			},
+			{
+				type: 'added',
+				description:
+					'Safe user explanation - Queued users found safe now show an expandable list of possible reasons why they were not flagged'
+			},
+			{
+				type: 'added',
+				description:
+					'Anonymous reviewer indicator - Info icon with hover popover clarifies when a reviewer has chosen to remain anonymous'
+			},
+			{
+				type: 'changed',
+				description:
+					'Style isolation - Tooltips, modals, and onboarding are now isolated from Roblox page styles to prevent visual glitches'
+			},
+			{
+				type: 'changed',
+				description:
+					'Custom API URL configuration - Custom APIs now define separate single lookup and batch URLs directly instead of a base URL with appended paths'
+			},
+			{
+				type: 'changed',
+				description: 'Confirmed user voting - Disagree button is now disabled for confirmed users'
+			},
+			{
+				type: 'changed',
+				description:
+					'Performance dashboard - Now only accessible in development builds where tracing data is collected'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Queue status refresh - Status indicator now updates automatically when queue processing completes'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Chinese locale placeholders - Fixed translation placeholders not being substituted for Chinese (Simplified and Traditional) users by using BCP 47 locale format'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Tab navigation stability - Fixed status indicators reloading when switching between profile or group page tabs'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile status caching - Profile page now uses cached results like the group page, preventing redundant API calls on revisits'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Discord data caching - Discord account lookups are now cached, preventing redundant API calls when reopening tooltips or switching to expanded view'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Voting access control - Voting widget now hides when the user is access-denied instead of showing a broken interface'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Profile group carousel access - Group status lookups for access-denied users now work on their own profile pages'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Hidden member list detection - Groups with owner-disabled member lists now show an explanatory message instead of a generic error'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Confirmed user outfit indicator - Confirmed users with outfit-only reasons now correctly show the confirmed status instead of the outfit detected indicator'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Rate limit handling - API requests now respect rate limit headers and wait for the reset window before retrying'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Queue history persistence - Fixed entries being lost due to cross-context race conditions'
+			},
+			{
+				type: 'fixed',
+				description:
+					"Restricted access on own profile - Groups carousels now load normally on the user's own profile instead of incorrectly showing access denied"
+			},
+			{
+				type: 'fixed',
+				description:
+					'Captcha session cleanup - Orphaned captcha sessions in storage are now cleaned up'
+			}
+		]
+	},
+	{
 		id: 'v2.14.0',
 		version: '2.14.0',
 		date: '2026-02-16',

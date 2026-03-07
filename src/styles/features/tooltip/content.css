@@ -494,6 +494,30 @@
 		color: var(--color-text);
 	}
 
+	.source-info-list {
+		margin-top: 4px;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.source-info-list-item {
+		@apply !text-sm leading-normal font-normal;
+		color: var(--color-text);
+		display: flex;
+		gap: 4px;
+
+		&::before {
+			content: '•';
+			flex-shrink: 0;
+		}
+
+		strong {
+			@apply inline !text-sm font-semibold;
+			color: var(--color-text);
+		}
+	}
+
 	a {
 		@apply !text-sm !underline;
 		color: var(--color-primary) !important;

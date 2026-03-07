@@ -1371,6 +1371,37 @@
 																		</p>
 																	</div>
 																</div>
+															{:else if parsed.source.toLowerCase() === 'discord'}
+																<div class="source-info-indicator">
+																	<Info size={12} />
+																	<div class="source-info-popover">
+																		<strong>{$_('tooltip_discord_info_title')}</strong>
+																		<p>{$_('tooltip_discord_info_message')}</p>
+																		<div class="source-info-list">
+																			<div class="source-info-list-item">
+																				<span
+																					><strong>Joined</strong> - {$_(
+																						'tooltip_discord_info_joined'
+																					)}</span
+																				>
+																			</div>
+																			<div class="source-info-list-item">
+																				<span
+																					><strong>First seen</strong> - {$_(
+																						'tooltip_discord_info_first_seen'
+																					)}</span
+																				>
+																			</div>
+																			<div class="source-info-list-item">
+																				<span
+																					><strong>Updated</strong> - {$_(
+																						'tooltip_discord_info_updated'
+																					)}</span
+																				>
+																			</div>
+																		</div>
+																	</div>
+																</div>
 															{/if}
 														</div>
 														<div class="source-evidence-description">{parsed.description}</div>

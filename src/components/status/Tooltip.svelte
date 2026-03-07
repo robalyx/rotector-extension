@@ -708,11 +708,12 @@
 
 	// Handle click outside options menu
 	function handleOptionsMenuClickOutside(event: MouseEvent) {
+		const target = event.composedPath()[0];
 		if (
 			showOptionsMenu &&
 			optionsMenuRef &&
-			event.target instanceof Node &&
-			!optionsMenuRef.contains(event.target)
+			target instanceof Node &&
+			!optionsMenuRef.contains(target)
 		) {
 			showOptionsMenu = false;
 		}
@@ -818,11 +819,12 @@
 
 	// Handle clicks outside tooltip
 	function handleClickOutside(event: MouseEvent) {
+		const target = event.composedPath()[0];
 		if (
 			tooltipRef &&
-			event.target instanceof Node &&
-			!tooltipRef.contains(event.target) &&
-			!anchorElement.contains(event.target) &&
+			target instanceof Node &&
+			!tooltipRef.contains(target) &&
+			!anchorElement.contains(target) &&
 			onClose
 		) {
 			onClose();
@@ -1194,7 +1196,7 @@
 				{/if}
 
 				<!-- Queue button -->
-				<div class="flex gap-2 mt-3">
+				<div class="flex gap-2 mt-2">
 					{#if queueCooldownInfo.isInCooldown}
 						<button class="queue-button w-full queue-button-disabled" disabled type="button">
 							{$_('tooltip_queue_cooldown', {
@@ -1512,15 +1514,15 @@
 										type="button"
 									>
 										{#if copySuccess}
-											<Check class="tooltip-options-icon success" size={14} />
+											<Check class="tooltip-options-icon success" size={15} />
 										{:else}
-											<Link class="tooltip-options-icon" size={14} />
+											<Link class="tooltip-options-icon" size={15} />
 										{/if}
 										<span>{$_('tooltip_copy_link')}</span>
 									</button>
 									{#if onViewOutfits}
 										<button class="tooltip-options-item" onclick={handleViewOutfits} type="button">
-											<Shirt class="tooltip-options-icon" size={14} />
+											<Shirt class="tooltip-options-icon" size={15} />
 											<span>{$_('outfit_viewer_button')}</span>
 										</button>
 									{/if}

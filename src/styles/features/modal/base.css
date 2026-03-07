@@ -51,7 +51,7 @@
 }
 
 @utility modal-close {
-	@apply modal-close-base !text-white;
+	@apply modal-close-base text-white;
 }
 
 @utility modal-content-base {
@@ -59,7 +59,7 @@
 	min-height: 200px;
 	max-height: calc(90vh - 200px);
 	overflow-anchor: auto;
-	background-color: var(--color-bg-content) !important;
+	background-color: var(--color-bg-content);
 
 	& p {
 		@apply m-0 mb-4 text-sm leading-relaxed;
@@ -211,7 +211,7 @@
 
 @utility modal-content-compact {
 	@apply p-5 overflow-y-auto;
-	background-color: var(--color-bg-content) !important;
+	background-color: var(--color-bg-content);
 
 	& p {
 		@apply m-0 text-sm leading-relaxed;
@@ -235,7 +235,7 @@
 }
 
 @utility modal-confirm {
-	@apply modal-button-base !text-white;
+	@apply modal-button-base text-white;
 	background-color: var(--color-warning);
 
 	&:hover:not(:disabled) {

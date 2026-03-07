@@ -13,13 +13,16 @@
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { groupStatusService } from '@/lib/services/entity-status-service';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { logger } from '@/lib/utils/logger';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import type { GroupStatus } from '@/lib/types/api';
 	import { wrapGroupStatus } from '@/lib/utils/status-utils';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 
 	interface Props {
+		profileOwnerId?: string;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
@@ -30,7 +33,7 @@
 		nameElement: Element;
 	}
 
-	let { onError, onMount }: Props = $props();
+	let { profileOwnerId, onError, onMount }: Props = $props();
 
 	// Local state
 	let btrobloxObserver: Observer | null = null;
@@ -202,10 +205,20 @@
 	// Process groups with batch status fetching
 	async function processGroups(groupDetails: GroupDetails[]): Promise<void> {
 		try {
+			const { isRestricted } = $restrictedAccessStore;
+			const isOwnProfile = profileOwnerId != null && profileOwnerId === getLoggedInUserId();
+			const showRestricted = isRestricted && !isOwnProfile;
+
 			for (const { groupId, element } of groupDetails) {
 				element.classList.add(STATUS_SELECTORS.PROCESSED_CLASS);
-				updateStatusIndicator(groupId, null, element, true);
+				if (showRestricted) {
+					updateStatusIndicator(groupId, null, element, false, 'restricted_access');
+				} else {
+					updateStatusIndicator(groupId, null, element, true);
+				}
 			}
+
+			if (showRestricted) return;
 
 			const groupsToFetch = groupDetails.filter(({ groupId }) => !groupStatuses.has(groupId));
 			if (groupsToFetch.length > 0) {

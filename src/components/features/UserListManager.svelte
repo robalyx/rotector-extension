@@ -28,7 +28,8 @@
 		resetElementBlur,
 		revealUserElement
 	} from '@/lib/services/blur-service';
-	import { isFlagged } from '@/lib/utils/status-utils';
+	import { isFlagged, createErrorCombinedStatus } from '@/lib/utils/status-utils';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import QueueModalManager from './QueueModalManager.svelte';
@@ -491,34 +492,46 @@
 
 			// Process new users
 			if (newUsers.length > 0) {
+				const { isRestricted } = $restrictedAccessStore;
+				const showRestricted = isRestricted && !isOwnFriendsLookup();
+
 				newUsers.forEach((user) => {
 					processedUsers.add(user.userId);
 				});
 
-				// Mark elements for blur tracking
-				newUsers.forEach((user) => {
-					markUserElementForBlur(user.element, user.userId, pageType);
-				});
+				if (showRestricted) {
+					// Show restricted access indicators
+					const restrictedStatus = createErrorCombinedStatus('restricted_access');
+					newUsers.forEach((user) => {
+						userStatuses.set(user.userId, restrictedStatus);
+						mountStatusIndicator(user, false);
+					});
+				} else {
+					// Mark elements for blur tracking
+					newUsers.forEach((user) => {
+						markUserElementForBlur(user.element, user.userId, pageType);
+					});
 
-				// Mount status indicators with loading state
-				newUsers.forEach((user) => {
-					mountStatusIndicator(user, true);
-				});
+					// Mount status indicators with loading state
+					newUsers.forEach((user) => {
+						mountStatusIndicator(user, true);
+					});
 
-				// Load user statuses in batches
-				await loadUserStatuses(newUsers);
+					// Load user statuses in batches
+					await loadUserStatuses(newUsers);
 
-				// Reveal safe content, mark flagged users, and remount status indicators
-				newUsers.forEach((user) => {
-					const status = userStatuses.get(user.userId);
-					if (status) {
-						revealUserElement(user.element, status);
-						if (isFlagged(status)) {
-							user.element.setAttribute(STATUS_SELECTORS.DATA_FLAGGED, 'true');
+					// Reveal safe content, mark flagged users, and remount status indicators
+					newUsers.forEach((user) => {
+						const status = userStatuses.get(user.userId);
+						if (status) {
+							revealUserElement(user.element, status);
+							if (isFlagged(status)) {
+								user.element.setAttribute(STATUS_SELECTORS.DATA_FLAGGED, 'true');
+							}
 						}
-					}
-					mountStatusIndicator(user, false);
-				});
+						mountStatusIndicator(user, false);
+					});
+				}
 			}
 
 			// Process returning users

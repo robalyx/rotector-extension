@@ -96,8 +96,8 @@
 }
 
 @utility voting-description {
-	@apply text-center !text-xs pt-2.5 mt-3 leading-normal italic opacity-90;
-	color: var(--color-text) !important;
+	@apply text-center text-xs pt-2.5 mt-3 leading-normal italic opacity-90;
+	color: var(--color-text);
 	margin: 12px 0 0 0;
 }
 
@@ -308,7 +308,7 @@
 	@apply absolute flex flex-col;
 	top: calc(100% + 0.375rem);
 	right: 0;
-	min-width: 160px;
+	min-width: 130px;
 	padding: 0.375rem;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border);
@@ -323,7 +323,7 @@
 	@apply flex items-center w-full border-none cursor-pointer transition-all duration-150;
 	gap: 0.5rem;
 	padding: 0.5rem 0.625rem;
-	font-size: 0.6875rem;
+	font-size: 0.8125rem;
 	font-weight: 500;
 	color: var(--color-text);
 	background-color: transparent;

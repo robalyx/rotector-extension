@@ -10,29 +10,33 @@ interface StatusBadges {
 	hasCrossSignal: boolean;
 }
 
+// Create a CombinedStatus representing an error state (e.g., restricted access)
+export function createErrorCombinedStatus(error: string): CombinedStatus {
+	return {
+		customApis: new Map([
+			[
+				ROTECTOR_API_ID,
+				{
+					apiId: ROTECTOR_API_ID,
+					apiName: 'Rotector',
+					error,
+					loading: false,
+					timestamp: Date.now(),
+					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
+				}
+			]
+		])
+	};
+}
+
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
 export function wrapGroupStatus(
 	groupStatus: GroupStatus | null,
 	isLoading = false,
 	error?: string
 ): CombinedStatus | null {
-	// Show error state
 	if (error) {
-		return {
-			customApis: new Map([
-				[
-					ROTECTOR_API_ID,
-					{
-						apiId: ROTECTOR_API_ID,
-						apiName: 'Rotector',
-						error,
-						loading: false,
-						timestamp: Date.now(),
-						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
-					}
-				]
-			])
-		};
+		return createErrorCombinedStatus(error);
 	}
 
 	// Show loading state while fetching

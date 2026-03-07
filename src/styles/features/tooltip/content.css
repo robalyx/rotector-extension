@@ -141,13 +141,13 @@
 
 	p {
 		@apply m-0 text-sm leading-normal text-left;
-		color: var(--color-text) !important;
+		color: var(--color-text);
 	}
 }
 
 @utility restricted-appeal-link {
 	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
-	background-color: var(--color-status-unsafe) !important;
+	background-color: var(--color-status-unsafe);
 
 	&:hover {
 		@apply no-underline;
@@ -221,7 +221,7 @@
 
 	p {
 		@apply m-0 text-sm leading-normal text-left;
-		color: var(--color-text) !important;
+		color: var(--color-text);
 	}
 }
 
@@ -235,7 +235,7 @@
 
 	p {
 		@apply m-0 text-sm leading-normal text-left;
-		color: var(--color-text) !important;
+		color: var(--color-text);
 	}
 }
 
@@ -244,7 +244,7 @@
    ================================= */
 
 @utility safe-reasons-toggle {
-	@apply !w-full flex items-center !justify-center gap-1.5 !mb-2 text-sm font-medium cursor-pointer;
+	@apply w-full flex items-center justify-center gap-1.5 mb-2 text-sm font-medium cursor-pointer;
 	background: transparent;
 	border: none;
 	padding: 0;
@@ -257,18 +257,13 @@
 }
 
 @utility safe-reasons-list {
-	@apply !list-none !m-0 !px-5 !py-3 mt-2 flex flex-col gap-1.5 rounded;
+	@apply list-disc m-0 px-5 py-3 mt-2 space-y-1.5 rounded;
 	background-color: var(--color-reason-bg);
 }
 
 @utility safe-reasons-item {
-	@apply !relative !pl-4 text-sm leading-relaxed;
+	@apply text-sm leading-relaxed;
 	color: var(--color-text);
-
-	&::before {
-		@apply absolute left-0 top-0;
-		content: '\2022';
-	}
 }
 
 @utility safe-reasons-link {
@@ -285,20 +280,17 @@
    ================================= */
 
 @utility queue-button {
-	@apply text-white border rounded-lg px-4 py-2 text-base font-semibold cursor-pointer transition-all duration-200 text-center flex-1 m-0;
+	@apply text-white border rounded-lg px-3 py-1.5 text-sm font-medium cursor-pointer transition-all duration-200 text-center flex-1 m-0;
 	background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
 	border-color: #3f7ee3;
-	color: white !important;
 
 	&:hover {
-		@apply -translate-y-0.5;
 		background: linear-gradient(135deg, #5da0ff, #3f7ee3);
 		border-color: #5da0ff;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 	}
 
 	&:active {
-		@apply translate-y-0;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 	}
 }
@@ -319,7 +311,7 @@
 
 @utility report-button {
 	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
-	background-color: var(--color-status-unsafe) !important;
+	background-color: var(--color-status-unsafe);
 
 	&:hover {
 		@apply no-underline;
@@ -397,7 +389,7 @@
 
 @utility cross-signal-indicator {
 	@apply relative inline-flex items-center cursor-help;
-	color: var(--color-primary);
+	color: var(--color-text-subtle);
 
 	&:hover .cross-signal-popover {
 		@apply visible opacity-100;
@@ -419,13 +411,13 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
 	strong {
-		@apply block !text-sm font-semibold;
+		@apply block text-sm font-semibold;
 		color: var(--color-primary);
 		margin-bottom: 2px;
 	}
 
 	p {
-		@apply !text-sm leading-normal m-0 font-normal;
+		@apply text-sm leading-normal m-0 font-normal;
 		color: var(--color-text);
 	}
 }
@@ -462,7 +454,7 @@
 
 @utility source-info-indicator {
 	@apply relative inline-flex items-center cursor-help ml-auto;
-	color: var(--color-primary);
+	color: var(--color-text-subtle);
 
 	&:hover .source-info-popover {
 		@apply visible opacity-100;
@@ -484,13 +476,13 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
 	strong {
-		@apply block !text-sm font-semibold;
+		@apply block text-sm font-semibold;
 		color: var(--color-primary);
 		margin-bottom: 2px;
 	}
 
 	p {
-		@apply !text-sm leading-normal m-0 font-normal;
+		@apply text-sm leading-normal m-0 font-normal;
 		color: var(--color-text);
 	}
 
@@ -502,7 +494,7 @@
 	}
 
 	.source-info-list-item {
-		@apply !text-sm leading-normal font-normal;
+		@apply text-sm leading-normal font-normal;
 		color: var(--color-text);
 		display: flex;
 		gap: 4px;
@@ -513,17 +505,17 @@
 		}
 
 		strong {
-			@apply inline !text-sm font-semibold;
+			@apply inline text-sm font-semibold;
 			color: var(--color-text);
 		}
 	}
 
 	a {
-		@apply !text-sm !underline;
-		color: var(--color-primary) !important;
+		@apply text-sm underline;
+		color: var(--color-primary);
 
 		&:hover {
-			@apply !no-underline;
+			@apply no-underline;
 		}
 	}
 }
@@ -579,7 +571,7 @@
 
 @utility reviewer-anonymous-indicator {
 	@apply relative inline-flex items-center cursor-help;
-	color: var(--color-primary);
+	color: var(--color-text-subtle);
 
 	&:hover .reviewer-anonymous-popover {
 		@apply visible opacity-100;
@@ -602,13 +594,13 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
 	strong {
-		@apply block !text-sm font-semibold;
+		@apply block text-sm font-semibold;
 		color: var(--color-primary);
 		margin-bottom: 2px;
 	}
 
 	p {
-		@apply !text-sm leading-normal m-0 font-normal;
+		@apply text-sm leading-normal m-0 font-normal;
 		color: var(--color-text);
 	}
 }

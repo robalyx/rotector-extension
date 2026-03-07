@@ -585,5 +585,5 @@
 
 <!-- Groups Showcase Manager -->
 {#if showGroupsShowcase}
-	<GroupListManager onError={handleGroupsShowcaseError} />
+	<GroupListManager onError={handleGroupsShowcaseError} profileOwnerId={userId} />
 {/if}

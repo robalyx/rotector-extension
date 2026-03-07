@@ -128,12 +128,6 @@ class ThemeManager {
 		logger.debug('Portal container registered for theme updates');
 	}
 
-	// Unregister a portal container from theme updates
-	unregisterPortalContainer(container: HTMLElement): void {
-		this.portalContainers.delete(container);
-		logger.debug('Portal container unregistered from theme updates');
-	}
-
 	// Get the stored content script theme for popup synchronization
 	async getContentScriptTheme(): Promise<'light' | 'dark' | null> {
 		try {
@@ -323,9 +317,6 @@ export const themeManager = new ThemeManager();
 // Export portal management functions
 export const registerPortalContainer = (container: HTMLElement) => {
 	themeManager.registerPortalContainer(container);
-};
-export const unregisterPortalContainer = (container: HTMLElement) => {
-	themeManager.unregisterPortalContainer(container);
 };
 
 // Export popup theme sync function

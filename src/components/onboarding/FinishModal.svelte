@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import Portal from 'svelte-portal';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
 
@@ -52,56 +51,54 @@
 </script>
 
 {#if isOpen}
-	<Portal target="body">
-		<div bind:this={overlayElement} class="onboarding-overlay" class:closing={isClosing}>
-			<div
-				bind:this={popupElement}
-				class="onboarding-popup"
-				aria-labelledby={headingId}
-				aria-modal="true"
-				role="dialog"
-				tabindex="-1"
-			>
-				<div class="onboarding-content">
-					<div class="onboarding-welcome-logo">
-						{#if currentTheme === 'dark'}
-							<img alt="Rotector" src={darkLogoUrl} />
-						{:else}
-							<img alt="Rotector" src={lightLogoUrl} />
-						{/if}
-					</div>
-
-					<div class="onboarding-welcome-content">
-						<h3 id={headingId} class="onboarding-finish-title">
-							{$_('onboarding_finish_title')}
-						</h3>
-
-						<p class="onboarding-welcome-description">
-							{$_('onboarding_finish_protection')}
-						</p>
-
-						<div class="onboarding-welcome-tos">
-							<p>
-								{$_('onboarding_finish_feedback')}
-								<a
-									class="onboarding-welcome-link"
-									href="https://discord.gg/2Cn7kXqqhY"
-									rel="noopener noreferrer"
-									target="_blank"
-								>
-									{$_('onboarding_finish_discord')}
-								</a>.
-							</p>
-						</div>
-					</div>
+	<div bind:this={overlayElement} class="onboarding-overlay" class:closing={isClosing}>
+		<div
+			bind:this={popupElement}
+			class="onboarding-popup"
+			aria-labelledby={headingId}
+			aria-modal="true"
+			role="dialog"
+			tabindex="-1"
+		>
+			<div class="onboarding-content">
+				<div class="onboarding-welcome-logo">
+					{#if currentTheme === 'dark'}
+						<img alt="Rotector" src={darkLogoUrl} />
+					{:else}
+						<img alt="Rotector" src={lightLogoUrl} />
+					{/if}
 				</div>
 
-				<div class="onboarding-actions">
-					<button class="onboarding-button-primary" onclick={handleFinish} type="button">
-						{$_('onboarding_finish_button')}
-					</button>
+				<div class="onboarding-welcome-content">
+					<h3 id={headingId} class="onboarding-finish-title">
+						{$_('onboarding_finish_title')}
+					</h3>
+
+					<p class="onboarding-welcome-description">
+						{$_('onboarding_finish_protection')}
+					</p>
+
+					<div class="onboarding-welcome-tos">
+						<p>
+							{$_('onboarding_finish_feedback')}
+							<a
+								class="onboarding-welcome-link"
+								href="https://discord.gg/2Cn7kXqqhY"
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								{$_('onboarding_finish_discord')}
+							</a>.
+						</p>
+					</div>
 				</div>
 			</div>
+
+			<div class="onboarding-actions">
+				<button class="onboarding-button-primary" onclick={handleFinish} type="button">
+					{$_('onboarding_finish_button')}
+				</button>
+			</div>
 		</div>
-	</Portal>
+	</div>
 {/if}

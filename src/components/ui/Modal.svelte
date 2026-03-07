@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Portal from 'svelte-portal';
+	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
 	import { AlertCircle, AlertTriangle, CheckCircle, XCircle, X } from 'lucide-svelte';
 
 	interface ModalProps {
@@ -200,7 +200,8 @@
 	}
 
 	function handleOverlayClick(e: MouseEvent | KeyboardEvent) {
-		if (e.target === overlayElement && showClose) {
+		const target = e.composedPath()[0];
+		if (target === overlayElement && showClose) {
 			closeModal(false);
 		}
 	}
@@ -216,7 +217,8 @@
 		if (focusable.length === 0) return;
 		const first = focusable[0];
 		const last = focusable[focusable.length - 1];
-		const active = document.activeElement as HTMLElement | null;
+		const root = popupElement.getRootNode() as Document | ShadowRoot;
+		const active = root.activeElement as HTMLElement | null;
 		if (e.shiftKey && active === first) {
 			e.preventDefault();
 			last.focus();
@@ -250,7 +252,7 @@
 </script>
 
 {#if isOpen}
-	<Portal target="body">
+	<OverlayPortal>
 		<!--
 			Modal overlay (backdrop) is intentionally mouse-only per ARIA best practices.
 			Keyboard users dismiss via Escape key or dialog buttons (focus trapped inside).
@@ -356,5 +358,5 @@
 				{/if}
 			</div>
 		</div>
-	</Portal>
+	</OverlayPortal>
 {/if}

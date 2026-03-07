@@ -174,7 +174,7 @@
 	color: var(--color-text);
 
 	& a {
-		color: var(--color-primary) !important;
+		color: var(--color-primary);
 		@apply underline font-medium;
 
 		&:hover {
@@ -189,7 +189,7 @@
 }
 
 @utility onboarding-welcome-link {
-	color: var(--color-primary) !important;
+	color: var(--color-primary);
 	@apply underline font-medium;
 
 	&:hover {

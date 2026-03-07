@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import Portal from 'svelte-portal';
 	import { Check, X } from 'lucide-svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
@@ -108,134 +107,132 @@
 </script>
 
 {#if isOpen}
-	<Portal target="body">
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div
+		bind:this={overlayElement}
+		class="onboarding-overlay"
+		class:closing={isClosing}
+		onclick={handleOverlayClick}
+	>
 		<div
-			bind:this={overlayElement}
-			class="onboarding-overlay"
-			class:closing={isClosing}
-			onclick={handleOverlayClick}
+			bind:this={popupElement}
+			class="onboarding-popup"
+			aria-labelledby={headingId}
+			aria-modal="true"
+			role="dialog"
+			tabindex="-1"
 		>
-			<div
-				bind:this={popupElement}
-				class="onboarding-popup"
-				aria-labelledby={headingId}
-				aria-modal="true"
-				role="dialog"
-				tabindex="-1"
-			>
-				<div class="onboarding-header">
-					<h3 id={headingId} class="onboarding-title">
-						{$_('onboarding_welcome_title')}
-					</h3>
-					<button
-						bind:this={closeButtonEl}
-						class="onboarding-close"
-						aria-label="Close dialog"
-						onclick={requestClose}
-						type="button"
-					>
-						<X aria-hidden="true" color="var(--color-error)" size={24} />
-					</button>
+			<div class="onboarding-header">
+				<h3 id={headingId} class="onboarding-title">
+					{$_('onboarding_welcome_title')}
+				</h3>
+				<button
+					bind:this={closeButtonEl}
+					class="onboarding-close"
+					aria-label="Close dialog"
+					onclick={requestClose}
+					type="button"
+				>
+					<X aria-hidden="true" color="var(--color-error)" size={24} />
+				</button>
+			</div>
+
+			<div class="onboarding-content">
+				<div class="onboarding-welcome-logo">
+					{#if currentTheme === 'dark'}
+						<img alt="Rotector" src={darkLogoUrl} />
+					{:else}
+						<img alt="Rotector" src={lightLogoUrl} />
+					{/if}
 				</div>
 
-				<div class="onboarding-content">
-					<div class="onboarding-welcome-logo">
-						{#if currentTheme === 'dark'}
-							<img alt="Rotector" src={darkLogoUrl} />
-						{:else}
-							<img alt="Rotector" src={lightLogoUrl} />
-						{/if}
+				<div class="onboarding-welcome-content">
+					<p class="onboarding-welcome-description">
+						{$_('onboarding_welcome_description')}
+					</p>
+
+					<div class="onboarding-welcome-agreements">
+						<label class="onboarding-agreement-item">
+							<input
+								class="onboarding-agreement-checkbox"
+								type="checkbox"
+								bind:checked={tosAccepted}
+							/>
+							<span class="onboarding-agreement-checkmark" class:checked={tosAccepted}>
+								{#if tosAccepted}
+									<Check aria-hidden="true" size={14} strokeWidth={3} />
+								{/if}
+							</span>
+							<span class="onboarding-agreement-text">
+								{$_('onboarding_welcome_agree_tos')}
+								<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
+									{$_('onboarding_welcome_terms')}
+								</a>
+								{$_('onboarding_welcome_and')}
+								<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
+									{$_('onboarding_welcome_privacy')}
+								</a>
+							</span>
+						</label>
+
+						<label class="onboarding-agreement-item">
+							<input
+								class="onboarding-agreement-checkbox"
+								type="checkbox"
+								bind:checked={responsibleUseAccepted}
+							/>
+							<span class="onboarding-agreement-checkmark" class:checked={responsibleUseAccepted}>
+								{#if responsibleUseAccepted}
+									<Check aria-hidden="true" size={14} strokeWidth={3} />
+								{/if}
+							</span>
+							<span class="onboarding-agreement-text">
+								{$_('onboarding_welcome_agree_responsible_use')}
+							</span>
+						</label>
+
+						<label class="onboarding-agreement-item">
+							<input
+								class="onboarding-agreement-checkbox"
+								type="checkbox"
+								bind:checked={accuracyAccepted}
+							/>
+							<span class="onboarding-agreement-checkmark" class:checked={accuracyAccepted}>
+								{#if accuracyAccepted}
+									<Check aria-hidden="true" size={14} strokeWidth={3} />
+								{/if}
+							</span>
+							<span class="onboarding-agreement-text">
+								{$_('onboarding_welcome_agree_accuracy')}
+							</span>
+						</label>
 					</div>
-
-					<div class="onboarding-welcome-content">
-						<p class="onboarding-welcome-description">
-							{$_('onboarding_welcome_description')}
-						</p>
-
-						<div class="onboarding-welcome-agreements">
-							<label class="onboarding-agreement-item">
-								<input
-									class="onboarding-agreement-checkbox"
-									type="checkbox"
-									bind:checked={tosAccepted}
-								/>
-								<span class="onboarding-agreement-checkmark" class:checked={tosAccepted}>
-									{#if tosAccepted}
-										<Check aria-hidden="true" size={14} strokeWidth={3} />
-									{/if}
-								</span>
-								<span class="onboarding-agreement-text">
-									{$_('onboarding_welcome_agree_tos')}
-									<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
-										{$_('onboarding_welcome_terms')}
-									</a>
-									{$_('onboarding_welcome_and')}
-									<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
-										{$_('onboarding_welcome_privacy')}
-									</a>
-								</span>
-							</label>
-
-							<label class="onboarding-agreement-item">
-								<input
-									class="onboarding-agreement-checkbox"
-									type="checkbox"
-									bind:checked={responsibleUseAccepted}
-								/>
-								<span class="onboarding-agreement-checkmark" class:checked={responsibleUseAccepted}>
-									{#if responsibleUseAccepted}
-										<Check aria-hidden="true" size={14} strokeWidth={3} />
-									{/if}
-								</span>
-								<span class="onboarding-agreement-text">
-									{$_('onboarding_welcome_agree_responsible_use')}
-								</span>
-							</label>
-
-							<label class="onboarding-agreement-item">
-								<input
-									class="onboarding-agreement-checkbox"
-									type="checkbox"
-									bind:checked={accuracyAccepted}
-								/>
-								<span class="onboarding-agreement-checkmark" class:checked={accuracyAccepted}>
-									{#if accuracyAccepted}
-										<Check aria-hidden="true" size={14} strokeWidth={3} />
-									{/if}
-								</span>
-								<span class="onboarding-agreement-text">
-									{$_('onboarding_welcome_agree_accuracy')}
-								</span>
-							</label>
-						</div>
-					</div>
-				</div>
-
-				<div class="onboarding-actions">
-					<button
-						class="onboarding-button-secondary"
-						disabled={!canProceed}
-						onclick={() => closeModal(onSkip)}
-						type="button"
-					>
-						{$_('onboarding_welcome_skip')}
-					</button>
-					<button
-						class="onboarding-button-primary"
-						disabled={!canProceed}
-						onclick={() => closeModal(onContinue)}
-						type="button"
-					>
-						{$_('onboarding_welcome_continue')}
-					</button>
 				</div>
 			</div>
-		</div>
 
-		{#if showConfirmDialog}
-			<CloseConfirmDialog onCancel={cancelClose} onConfirm={confirmClose} />
-		{/if}
-	</Portal>
+			<div class="onboarding-actions">
+				<button
+					class="onboarding-button-secondary"
+					disabled={!canProceed}
+					onclick={() => closeModal(onSkip)}
+					type="button"
+				>
+					{$_('onboarding_welcome_skip')}
+				</button>
+				<button
+					class="onboarding-button-primary"
+					disabled={!canProceed}
+					onclick={() => closeModal(onContinue)}
+					type="button"
+				>
+					{$_('onboarding_welcome_continue')}
+				</button>
+			</div>
+		</div>
+	</div>
+
+	{#if showConfirmDialog}
+		<CloseConfirmDialog onCancel={cancelClose} onConfirm={confirmClose} />
+	{/if}
 {/if}

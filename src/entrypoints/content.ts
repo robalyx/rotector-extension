@@ -1,13 +1,11 @@
 import '../styles/index.css';
 import { mount } from 'svelte';
 import { get } from 'svelte/store';
+import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
+import type { ContentScriptContext } from 'wxt/utils/content-script-context';
 import { logger } from '@/lib/utils/logger';
 import { PageControllerManager } from '@/lib/controllers/PageControllerManager';
-import {
-	registerPortalContainer,
-	themeManager,
-	unregisterPortalContainer
-} from '@/lib/utils/theme';
+import { registerPortalContainer, themeManager } from '@/lib/utils/theme';
 import { initializeSettings, settings } from '@/lib/stores/settings';
 import { SETTINGS_KEYS } from '@/lib/types/settings';
 import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
@@ -16,12 +14,10 @@ import {
 	initializeRestrictedAccess,
 	setupRestrictedAccessListener
 } from '@/lib/stores/restricted-access';
-import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
 import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur-service';
-import { shouldShowChangelogModal } from '@/lib/stores/changelog';
 import { metricsCollector } from '@/lib/utils/metrics-collector';
-import OnboardingManager from '@/components/onboarding/OnboardingManager.svelte';
-import ChangelogModal from '@/components/changelog/ChangelogModal.svelte';
+import { setOverlayContainer } from '@/lib/stores/overlay';
+import OverlayRoot from '@/components/overlay/OverlayRoot.svelte';
 
 /**
  * Wait for document.body to exist.
@@ -89,7 +85,7 @@ export default defineContentScript({
 	],
 	runAt: 'document_start',
 
-	async main() {
+	async main(ctx: ContentScriptContext) {
 		try {
 			injectDefaultBlurStyles();
 
@@ -117,56 +113,44 @@ export default defineContentScript({
 			logger.debug('Access state initialized');
 
 			// Wait for body to exist before DOM operations
-			const body = await waitForBody();
+			await waitForBody();
 
 			// Initialize Roblox theme detection
 			themeManager.initializeRobloxTheme();
 
-			// Create container for onboarding and mount component
-			const onboardingContainer = document.createElement('div');
-			onboardingContainer.id = 'rotector-onboarding';
-			body.appendChild(onboardingContainer);
-			registerPortalContainer(onboardingContainer);
-			mount(OnboardingManager, { target: onboardingContainer });
-			logger.debug('Onboarding manager mounted');
+			// Load content script CSS for injection into the shadow root
+			const cssUrl = browser.runtime.getURL(
+				'/content-scripts/content.css' as Parameters<typeof browser.runtime.getURL>[0]
+			);
+			const cssResponse = await fetch(cssUrl);
+			const rawCss = await cssResponse.text();
+			const cssText = rawCss.split(':root').join(':host');
 
-			// Check for replay request from popup
-			const replayResult = await browser.storage.local.get('onboardingReplayRequested');
-			if (replayResult.onboardingReplayRequested) {
-				await browser.storage.local.remove('onboardingReplayRequested');
-				triggerOnboardingReplay();
-				logger.debug('Onboarding replay triggered from popup');
-			}
+			// Create shadow root for overlay UI
+			const ui = await createShadowRootUi(ctx, {
+				name: 'rotector-overlay',
+				position: 'overlay',
+				zIndex: 10000,
+				css: cssText,
+				onMount(uiContainer, _shadow, shadowHost) {
+					setOverlayContainer(uiContainer);
+					registerPortalContainer(shadowHost);
 
-			// Create container for changelog modal and mount if needed
-			const changelogContainer = document.createElement('div');
-			changelogContainer.id = 'rotector-changelog';
-			body.appendChild(changelogContainer);
-			registerPortalContainer(changelogContainer);
+					// Register inner html element so [data-theme] CSS selectors
+					// match inside the shadow root (bare attribute selectors
+					// don't match the shadow host from within shadow CSS)
+					const shadowHtml = _shadow.querySelector('html');
+					if (shadowHtml) registerPortalContainer(shadowHtml as HTMLElement);
 
-			// Mount changelog modal if there are unread changelogs
-			if (get(shouldShowChangelogModal)) {
-				mount(ChangelogModal, {
-					target: changelogContainer,
-					props: {
-						onClose: () => {
-							logger.debug('Changelog modal closed');
-						}
-					}
-				});
-				logger.debug('Changelog modal mounted');
-			}
-
-			// Create portal container for tooltips
-			const portalContainer = document.createElement('div');
-			portalContainer.id = 'rotector-tooltip-portal';
-			portalContainer.style.cssText =
-				'position: fixed; top: 0; left: 0; width: 0; height: 0; z-index: 10000;';
-			body.appendChild(portalContainer);
-
-			// Register portal container with theme manager for theme updates
-			registerPortalContainer(portalContainer);
-			logger.debug('Portal container created and registered with theme manager');
+					mount(OverlayRoot, { target: uiContainer });
+					logger.debug('Shadow root overlay mounted');
+					return uiContainer;
+				},
+				onRemove() {
+					logger.debug('Shadow root overlay removed');
+				}
+			});
+			ui.mount();
 
 			// Track initialization state
 			let pageManagerInitialized = false;
@@ -231,15 +215,6 @@ export default defineContentScript({
 			window.addEventListener('beforeunload', () => {
 				logger.debug('Content script cleanup on page unload');
 				metricsCollector.stop();
-				if (onboardingContainer) {
-					unregisterPortalContainer(onboardingContainer);
-				}
-				if (changelogContainer) {
-					unregisterPortalContainer(changelogContainer);
-				}
-				if (portalContainer) {
-					unregisterPortalContainer(portalContainer);
-				}
 				themeManager.cleanup();
 			});
 

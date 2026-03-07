@@ -13,7 +13,7 @@
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
 	import Tooltip from './Tooltip.svelte';
-	import Portal from 'svelte-portal';
+	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
 
 	type EntityStatus = UserStatus | GroupStatus;
 
@@ -364,7 +364,7 @@
 
 <!-- Preview Tooltip -->
 {#if showPreviewTooltip && container}
-	<Portal target="#rotector-tooltip-portal">
+	<OverlayPortal>
 		<Tooltip
 			anchorElement={container}
 			{entityType}
@@ -385,12 +385,12 @@
 			userStatus={entityStatus}
 			{userUsername}
 		/>
-	</Portal>
+	</OverlayPortal>
 {/if}
 
 <!-- Expanded Tooltip -->
 {#if showExpandedTooltip && container}
-	<Portal target="#rotector-tooltip-portal">
+	<OverlayPortal>
 		<Tooltip
 			anchorElement={container}
 			{entityType}
@@ -405,5 +405,5 @@
 			userStatus={entityStatus}
 			{userUsername}
 		/>
-	</Portal>
+	</OverlayPortal>
 {/if}

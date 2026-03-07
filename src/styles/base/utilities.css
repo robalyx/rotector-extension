@@ -1,4 +1,23 @@
 /* =================================
+   SHADOW ROOT BASE RESET
+   ================================= */
+
+:host {
+	font-family: var(--font-system) !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	color: var(--color-text) !important;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+/* =================================
    SCROLLBAR UTILITIES
    ================================= */
 
@@ -8,7 +27,7 @@
 	scrollbar-color: var(--color-border) transparent;
 
 	&::-webkit-scrollbar {
-		width: 4px;
+		width: 3px;
 	}
 
 	&::-webkit-scrollbar-track {

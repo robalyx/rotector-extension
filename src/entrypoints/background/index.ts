@@ -136,12 +136,24 @@ async function handleCaptchaStart(
 		throw new Error('Missing sessionId or queueData for captcha start');
 	}
 
+	// Remove any orphaned captcha sessions older than 10 minutes
+	const allItems = await browser.storage.local.get(null);
+	const now = Date.now();
+	const staleKeys = Object.keys(allItems).filter((key) => {
+		if (!key.startsWith('captcha_session_')) return false;
+		const s = allItems[key] as CaptchaSession;
+		return now - s.timestamp > 600000;
+	});
+	if (staleKeys.length > 0) {
+		await browser.storage.local.remove(staleKeys);
+	}
+
 	// Store pending captcha session
 	const session: CaptchaSession = {
 		sessionId,
 		...queueData,
 		senderTabId,
-		timestamp: Date.now()
+		timestamp: now
 	};
 	await browser.storage.local.set({
 		[`captcha_session_${sessionId}`]: session

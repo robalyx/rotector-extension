@@ -19,10 +19,20 @@
 	let { groupId, pageType, querySubscription = null }: Props = $props();
 
 	// Check if on the about tab
-	const isAboutTab = (() => {
+	function checkIsAboutTab(): boolean {
 		const hash = window.location.hash;
 		return !hash || hash === '#' || hash === '#!' || hash === '#!/' || hash === '#!/about';
-	})();
+	}
+
+	let isAboutTab = $state(checkIsAboutTab());
+
+	$effect(() => {
+		const handler = () => {
+			isAboutTab = checkIsAboutTab();
+		};
+		window.addEventListener('hashchange', handler);
+		return () => window.removeEventListener('hashchange', handler);
+	});
 
 	// Status state owned by this component
 	let groupStatus = $state<CombinedStatus | null>(null);

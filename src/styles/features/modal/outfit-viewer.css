@@ -85,7 +85,7 @@
 }
 
 @utility outfit-viewer-header-logo {
-	@apply flex-shrink-0 pr-3 mr-3 border-r-2 border-white/20;
+	@apply self-stretch flex items-center flex-shrink-0 pr-3 mr-3 border-r-2 border-white/20;
 
 	& img {
 		@apply h-8 w-auto;

@@ -170,13 +170,20 @@
 		for (const [hash, blobUrl] of Object.entries(textureBlobUrls)) {
 			mtlContent = mtlContent.split(hash).join(blobUrl);
 		}
+
+		// Roblox MTL includes non-standard "Material" directive
+		mtlContent = mtlContent.replace(/^Material .+$/gm, '');
 		const mtlLib = new MaterialLibrary(mtlContent);
 
 		// Fetch and parse OBJ
 		const objUrl = roblox3DService.resolveCdnUrl(metadata.objHash);
 		const objResponse = await fetch(objUrl);
 		if (!objResponse.ok) throw new Error(`Failed to fetch OBJ: ${objResponse.status}`);
-		const objContent = await objResponse.text();
+		let objContent = await objResponse.text();
+
+		// Roblox OBJ includes vertex colors (v x y z r g b a), keep only position
+		objContent = objContent.replace(/^(v\s+\S+\s+\S+\s+\S+)\s.+$/gm, '$1');
+
 		const objMesh = new OBJMesh(objContent);
 
 		if (!canvasContainer?.isConnected) return;

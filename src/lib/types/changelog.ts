@@ -16,6 +16,31 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.15.1',
+		version: '2.15.1',
+		date: '2026-03-23',
+		title: 'Group Configure & 3D Viewer Fixes',
+		summary:
+			'This patch fixes the group configure members page for the updated Roblox UI and resolves 3D viewer compatibility with the new Roblox OBJ format.',
+		changes: [
+			{
+				type: 'fixed',
+				description:
+					'Group configure members page - Updated logic for the new Roblox v2 members UI, restoring the export button, status indicators, and blur functionality'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group configure blur mapping - Blur settings now correctly use the groups page toggle instead of piggybacking on the friends page setting'
+			},
+			{
+				type: 'fixed',
+				description:
+					'3D viewer - Handle Roblox OBJ vertex colors and MTL format changes that caused model rendering to fail'
+			}
+		]
+	},
+	{
 		id: 'v2.15.0',
 		version: '2.15.0',
 		date: '2026-03-11',

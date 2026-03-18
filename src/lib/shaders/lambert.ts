@@ -61,8 +61,9 @@ vec3 linearToSRGB(vec3 linear) {
 void main() {
     vec3 N = normalize(vNormal);
 
+    vec4 texSample = texture2D(tMap, vUv);
     vec3 baseColor = uHasTexture
-        ? sRGBToLinear(texture2D(tMap, vUv).rgb)
+        ? sRGBToLinear(mix(uDiffuseColor, texSample.rgb, texSample.a))
         : sRGBToLinear(uDiffuseColor);
 
     float diffuse = max(dot(N, KEY_DIR), 0.0) * KEY_INT

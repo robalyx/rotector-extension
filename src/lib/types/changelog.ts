@@ -37,6 +37,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'3D viewer - Handle Roblox OBJ vertex colors and MTL format changes that caused model rendering to fail'
+			},
+			{
+				type: 'fixed',
+				description:
+					'3D viewer skin color - Heads now display the correct skin tone instead of appearing white'
 			}
 		]
 	},

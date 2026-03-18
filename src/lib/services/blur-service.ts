@@ -60,9 +60,9 @@ const PAGE_SELECTORS: Record<
 		avatar: BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR
 	},
 	[PAGE_TYPES.GROUP_CONFIGURE_MEMBERS]: {
-		displayName: BLUR_SELECTORS.CARD_DISPLAY_NAME,
-		username: BLUR_SELECTORS.CARD_USERNAME,
-		avatar: BLUR_SELECTORS.TILE_THUMBNAIL
+		displayName: BLUR_SELECTORS.GROUP_CONFIGURE_DISPLAY_NAME,
+		username: BLUR_SELECTORS.GROUP_CONFIGURE_USERNAME,
+		avatar: BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR
 	}
 };
 
@@ -91,8 +91,10 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.SEARCH_DISPLAY_NAME]: ['search'],
 	[BLUR_SELECTORS.PROFILE_DISPLAY_NAME]: ['profile'],
 	[BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME]: ['groups'],
+	[BLUR_SELECTORS.GROUP_CONFIGURE_DISPLAY_NAME]: ['groups'],
 	// Usernames
 	[BLUR_SELECTORS.CARD_USERNAME]: ['friends', 'search'],
+	[BLUR_SELECTORS.GROUP_CONFIGURE_USERNAME]: ['groups'],
 	[BLUR_SELECTORS.PROFILE_USERNAME]: ['profile'],
 	// Descriptions
 	[BLUR_SELECTORS.PROFILE_DESCRIPTION]: ['profile'],
@@ -105,13 +107,15 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.PROFILE_OUTFIT_2D]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_3D]: ['profile'],
 	[BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR]: ['groups'],
+	[BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR]: ['groups'],
 	// Reveal selectors
 	[`${BLUR_SELECTORS.PROFILE_OUTFIT_2D}.blur-revealed`]: ['profile'],
 	[`${BLUR_SELECTORS.PROFILE_OUTFIT_3D}.blur-revealed`]: ['profile'],
 	[`${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING}.blur-revealed`]: ['profile'],
 	[`${BLUR_SELECTORS.FRIENDS_LIST_AVATAR}.blur-revealed`]: ['friends'],
 	[`${BLUR_SELECTORS.SEARCH_AVATAR}.blur-revealed`]: ['search'],
-	[`${BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR}.blur-revealed`]: ['groups']
+	[`${BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR}.blur-revealed`]: ['groups'],
+	[`${BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR}.blur-revealed`]: ['groups']
 };
 
 /**
@@ -198,7 +202,8 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.CARD_DISPLAY_NAME,
 				BLUR_SELECTORS.SEARCH_DISPLAY_NAME,
 				BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
-				BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME
+				BLUR_SELECTORS.MEMBER_CAROUSEL_DISPLAY_NAME,
+				BLUR_SELECTORS.GROUP_CONFIGURE_DISPLAY_NAME
 			],
 			'filter: blur(6px) !important; clip-path: inset(0); user-select: none;'
 		);
@@ -210,7 +215,11 @@ function buildBlurCSS(allEnabled = false): string {
 	// Username/description blur
 	const otherTextSelectors: string[] = [];
 	if (bs.usernames) {
-		otherTextSelectors.push(BLUR_SELECTORS.CARD_USERNAME, BLUR_SELECTORS.PROFILE_USERNAME);
+		otherTextSelectors.push(
+			BLUR_SELECTORS.CARD_USERNAME,
+			BLUR_SELECTORS.PROFILE_USERNAME,
+			BLUR_SELECTORS.GROUP_CONFIGURE_USERNAME
+		);
 	}
 	if (bs.descriptions) {
 		otherTextSelectors.push(BLUR_SELECTORS.PROFILE_DESCRIPTION);
@@ -233,7 +242,8 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.FRIENDS_LIST_AVATAR,
 				BLUR_SELECTORS.SEARCH_AVATAR,
 				BLUR_SELECTORS.PROFILE_AVATAR,
-				BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR
+				BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR,
+				BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR
 			],
 			'filter: blur(6px) !important; clip-path: circle(50%);'
 		);
@@ -309,7 +319,8 @@ function buildBlurCSS(allEnabled = false): string {
 		const thumbnailRevealSelectors = filterByPage(
 			[
 				'.list-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed'
+				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed',
+				`${BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR}.blur-revealed`
 			],
 			ps
 		);

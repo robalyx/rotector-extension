@@ -713,7 +713,7 @@
 				showText = true;
 			} else if (pageType === PAGE_TYPES.GROUP_CONFIGURE_MEMBERS) {
 				targetElement = tileElement.querySelector(
-					GROUP_CONFIGURE_SELECTORS.CARD.CAPTION_INNER
+					GROUP_CONFIGURE_SELECTORS.CARD.TEXT_CONTAINER
 				) as HTMLElement;
 				showText = true;
 			} else {

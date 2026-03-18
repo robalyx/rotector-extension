@@ -181,18 +181,15 @@ export const GROUP_MEMBERS_CAROUSEL_SELECTORS = {
 
 // DOM selectors for group configure members page
 export const GROUP_CONFIGURE_SELECTORS = {
-	CONTAINER: 'configure-group-members-list .hlist.avatar-cards',
+	CONTAINER: 'configure-group-members-v2',
 	CARD: {
-		CONTAINER: '.list-item.avatar-card',
-		UNPROCESSED: `.list-item.avatar-card:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
-		CAPTION: '.avatar-card-caption, .avatar-card-label',
-		CAPTION_INNER: '.avatar-card-caption > span',
-		USERNAME: '.avatar-name',
-		AVATAR_IMG: '.thumbnail-2d-container img',
-		FULLBODY: '.avatar-card-fullbody'
+		CONTAINER: '.member-info-display-wrapper',
+		UNPROCESSED: `.member-info-display-wrapper:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,
+		TEXT_CONTAINER: '.member-info-display-member-column .text-overflow',
+		AVATAR_IMG: '.thumbnail-2d-container img'
 	},
 	PROFILE_LINK: 'a[href*="/users/"]',
-	HEADER: 'configure-group-members-list .container-header'
+	HEADER: 'configure-group-members-v2 .group-mobile-spacing'
 } as const;
 
 // DOM selectors for search users page
@@ -298,6 +295,11 @@ export const BLUR_SELECTORS = {
 	// Group members carousel
 	MEMBER_CAROUSEL_DISPLAY_NAME: '.rotector-member-tile .rotector-member-display-name',
 	MEMBER_CAROUSEL_AVATAR: '.rotector-member-tile .rotector-member-avatar',
+
+	// Group configure members
+	GROUP_CONFIGURE_DISPLAY_NAME: '.member-info-display-member-column a.text-label-medium',
+	GROUP_CONFIGURE_USERNAME: '.member-info-display-member-column a.text-body-small',
+	GROUP_CONFIGURE_AVATAR: '.member-info-display-avatar .thumbnail-2d-container',
 
 	// Data attributes for blur state tracking
 	BLUR_USER_ID: 'data-blur-user-id',

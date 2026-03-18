@@ -49,10 +49,7 @@
 			return;
 		}
 
-		const header = headerResult.element;
-		const h2 = header.querySelector('h2');
-		if (!h2) return;
-
+		const row = headerResult.element;
 		const iconUrl = getAssetUrl('/icon/16.png');
 
 		const btn = document.createElement('button');
@@ -64,7 +61,7 @@
 			showExportModal = true;
 		});
 
-		h2.appendChild(btn);
+		row.appendChild(btn);
 		exportButton = btn;
 	}
 

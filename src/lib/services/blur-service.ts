@@ -164,14 +164,10 @@ function isBlurEnabled(): boolean {
 }
 
 /**
- * Transform selector to reveal variant.
- * - Simple selectors: `.selector` → `.blur-revealed .selector` (ancestor has blur-revealed)
- * - Compound selectors: `.parent .child` → `.parent.blur-revealed .child` (parent has blur-revealed)
+ * Transform selector to reveal variant(s).
  */
 function toRevealSelector(selector: string): string {
-	const spaceIdx = selector.indexOf(' ');
-	if (spaceIdx === -1) return `.blur-revealed ${selector}`;
-	return `${selector.slice(0, spaceIdx)}.blur-revealed${selector.slice(spaceIdx)}`;
+	return `.blur-revealed ${selector}`;
 }
 
 /**
@@ -296,7 +292,8 @@ function buildBlurCSS(allEnabled = false): string {
 				BLUR_SELECTORS.CAROUSEL_AVATAR,
 				BLUR_SELECTORS.FRIENDS_LIST_AVATAR,
 				BLUR_SELECTORS.SEARCH_AVATAR,
-				BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR
+				BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR,
+				BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR
 			],
 			ps
 		).map(toRevealSelector);
@@ -319,8 +316,7 @@ function buildBlurCSS(allEnabled = false): string {
 		const thumbnailRevealSelectors = filterByPage(
 			[
 				'.list-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				`${BLUR_SELECTORS.GROUP_CONFIGURE_AVATAR}.blur-revealed`
+				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed'
 			],
 			ps
 		);
@@ -832,7 +828,10 @@ export function revealUserElement(element: Element, status: CombinedStatus): voi
 
 	if (!blurNames && !blurAvatars) {
 		element.classList.add('blur-revealed');
-		element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach(cleanupBlurElement);
+		element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
+			el.classList.add('blur-revealed');
+			cleanupBlurElement(el);
+		});
 		endTrace();
 		return;
 	}

@@ -47,6 +47,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Members export on Firefox - Export no longer fails with a cloning error when triggered from the group configure page'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group configure blur reveal - Safe users on the group members page are no longer stuck with blurred names and avatars'
 			}
 		]
 	},

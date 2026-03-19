@@ -61,7 +61,7 @@
 			const result = await apiClient.exportGroupTrackedUsers(
 				groupId,
 				format,
-				selectedColumns,
+				$state.snapshot(selectedColumns),
 				sortColumn,
 				sortOrder
 			);

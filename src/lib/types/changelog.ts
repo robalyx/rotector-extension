@@ -42,6 +42,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'3D viewer skin color - Heads now display the correct skin tone instead of appearing white'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Members export on Firefox - Export no longer fails with a cloning error when triggered from the group configure page'
 			}
 		]
 	},

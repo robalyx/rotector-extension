@@ -79,6 +79,7 @@
 	let isLoadingTracked = $state(false);
 	let trackedError = $state<string | null>(null);
 	let hasLoadedTracked = $state(false);
+	let membersRequestId = $state(0);
 	let trackedRequestId = $state(0);
 	let trackedActiveFilter = $state<'' | 'true' | 'false'>('');
 
@@ -188,6 +189,7 @@
 	// Load members for selected role
 	async function loadMembers(cursor?: string | null, carryover: GroupMember[] = []) {
 		if (selectedRoleId === null) return;
+		const requestId = ++membersRequestId;
 
 		try {
 			isLoadingMembers = true;
@@ -205,6 +207,7 @@
 					API_LIMIT,
 					currentSortOrder
 				);
+				if (requestId !== membersRequestId) return;
 				available = [...carryover, ...response.data];
 			}
 
@@ -213,11 +216,14 @@
 
 			// Load thumbnails
 			const fetchedThumbnails = await getMemberThumbnails(userIds);
+			if (requestId !== membersRequestId) return;
 			thumbnails = fetchedThumbnails;
 
 			// Load Rotector statuses
 			await loadStatuses(userIds.map(String));
 		} catch (error) {
+			if (requestId !== membersRequestId) return;
+
 			const structured = error as Error & { status?: number; robloxErrorCode?: number };
 
 			if (structured.status === 400 && structured.robloxErrorCode === 3) {
@@ -233,7 +239,9 @@
 			previousCursors = [];
 			carryoverHistory = [];
 		} finally {
-			isLoadingMembers = false;
+			if (requestId === membersRequestId) {
+				isLoadingMembers = false;
+			}
 		}
 	}
 

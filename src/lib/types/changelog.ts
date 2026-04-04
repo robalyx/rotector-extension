@@ -40,6 +40,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Group members carousel - Status indicators no longer get stuck loading when quickly switching roles or changing pages'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Tooltip resize - Safe user and group tooltips no longer retain a large saved height, shrinking to fit their minimal content instead'
 			}
 		]

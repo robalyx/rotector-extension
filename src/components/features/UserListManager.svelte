@@ -522,6 +522,8 @@
 
 					// Reveal safe content, mark flagged users, and remount status indicators
 					newUsers.forEach((user) => {
+						if (user.element.getAttribute(STATUS_SELECTORS.DATA_USER_ID) !== user.userId) return;
+
 						const status = userStatuses.get(user.userId);
 						if (status) {
 							revealUserElement(user.element, status);

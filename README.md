@@ -31,7 +31,7 @@
 
 This extension is a browser-based client for the [Rotector](https://github.com/robalyx/rotector) system. It communicates with Rotector's API service to display status indicators for Roblox users directly on the Roblox website.
 
-The extension does not perform any analysis itself. All user analysis is performed by the Rotector system using AI and specialized algorithms. The extension simply displays the results of this analysis to help users identify potentially inappropriate accounts while browsing Roblox.
+The extension does not perform any analysis itself. All user analysis is performed by the Rotector system using automated analysis and specialized algorithms. The extension simply displays the results of this analysis to help users identify potentially inappropriate accounts while browsing Roblox.
 
 ## 🌐 Learn More
 

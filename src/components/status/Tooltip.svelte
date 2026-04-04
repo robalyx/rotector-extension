@@ -339,6 +339,9 @@
 
 		switch (flag) {
 			case STATUS.FLAGS.UNSAFE:
+				if (!isGroup && !currentStatus?.reviewer) {
+					return $_('tooltip_header_unsafe_auto', { values: { 0: entityType } });
+				}
 				return $_('tooltip_header_unsafe', { values: { 0: entityType } });
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
@@ -1250,7 +1253,7 @@
 						type="button"
 					>
 						<Info size={14} />
-						<span>{$_('tooltip_safe_reasons_title')}</span>
+						<span class="leading-none">{$_('tooltip_safe_reasons_title')}</span>
 						{#if showSafeReasons}
 							<ChevronDown size={14} />
 						{:else}
@@ -1269,6 +1272,12 @@
 							<li class="safe-reasons-item">{$_('tooltip_safe_reason_outfit')}</li>
 							<li class="safe-reasons-item">
 								{$_('tooltip_safe_reason_profile_changed')}
+							</li>
+							<li class="safe-reasons-item">
+								{$_('tooltip_safe_reason_throwaway_alt')}
+							</li>
+							<li class="safe-reasons-item">
+								{$_('tooltip_safe_reason_condo_groups')}
 							</li>
 							<li class="safe-reasons-item">
 								{parts[0]}<a

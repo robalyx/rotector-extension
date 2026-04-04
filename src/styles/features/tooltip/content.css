@@ -525,6 +525,15 @@
 	color: var(--color-evidence-text);
 }
 
+@utility source-evidence-subitems {
+	@apply mt-1 ml-2 space-y-0.5;
+}
+
+@utility source-evidence-subitem {
+	@apply text-sm leading-tight;
+	color: var(--color-evidence-text);
+}
+
 @utility outfit-evidence-item {
 	@apply evidence-item;
 	background-color: var(--color-outfit-evidence-bg);

@@ -26,12 +26,29 @@ interface ParsedSourceTag {
 	description: string;
 }
 
+// Source-tagged line group
+interface SourceGroup {
+	kind: 'source';
+	source: string;
+	description: string;
+	subItems: string[];
+}
+
+// Plain untagged line
+interface PlainLine {
+	kind: 'plain';
+	text: string;
+}
+
+type GroupedSourceLine = SourceGroup | PlainLine;
+
+// Flagged outfit info
 export interface FlaggedOutfitInfo {
 	reason: string;
 	confidence: number;
 }
 
-// Parses outfit evidence in format "name|reason|confidence"
+// Wire format: "name|reason|confidence"
 function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null {
 	const parts = evidenceText.split('|');
 	if (parts.length !== 3) return null;
@@ -47,7 +64,6 @@ function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null 
 	};
 }
 
-// Formats a single outfit evidence item with the pattern "outfit name|reason|confidence"
 function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
 	const parsed = parseOutfitEvidence(evidenceText);
 	if (!parsed) {
@@ -63,61 +79,58 @@ function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
 	};
 }
 
-// Formats evidence array into FormattedEvidence objects
 function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedEvidence[] {
-	return evidence.map((item) => {
-		if (isOutfitReason) {
-			return formatOutfitEvidence(item);
-		} else {
-			return {
-				type: 'regular',
-				content: item
-			};
-		}
-	});
+	return evidence.map((item) =>
+		isOutfitReason ? formatOutfitEvidence(item) : { type: 'regular', content: item }
+	);
 }
 
-// Extracts a leading [Source] tag from reason message text
-export function parseSourceTag(text: string): ParsedSourceTag | null {
+// Wire format: "[Source] description text"
+function parseSourceTag(text: string): ParsedSourceTag | null {
 	const match = /^\[([^\]]+)\]\s*(.*)$/.exec(text);
 	if (!match) return null;
 	return { source: match[1], description: match[2] };
 }
 
-// Formats the reasons from the API response into a structured format for display
+// Non-tagged lines are grouped under their preceding source tag
+export function groupSourceLines(lines: string[]): GroupedSourceLine[] {
+	const result: GroupedSourceLine[] = [];
+	let currentGroup: SourceGroup | null = null;
+
+	for (const line of lines) {
+		const parsed = parseSourceTag(line.trim());
+		if (parsed) {
+			if (currentGroup) result.push(currentGroup);
+			currentGroup = {
+				kind: 'source',
+				source: parsed.source,
+				description: parsed.description,
+				subItems: []
+			};
+		} else if (currentGroup) {
+			currentGroup.subItems.push(line.trim());
+		} else {
+			result.push({ kind: 'plain', text: line });
+		}
+	}
+
+	if (currentGroup) result.push(currentGroup);
+	return result;
+}
+
 export function formatViolationReasons(
 	reasons: Record<string, ReasonData>
 ): FormattedReasonEntry[] {
-	if (!reasons || Object.keys(reasons).length === 0) {
-		return [];
-	}
-
-	return Object.entries(reasons).map(([reasonType, reason]) => {
-		const typeName = reasonType;
-		const isOutfitReason = reasonType === 'Avatar Outfit';
-
-		const confidence = Math.round(reason.confidence * 100);
-
-		const formattedEntry: FormattedReasonEntry = {
-			typeName,
-			confidence
-		};
-
-		// Add message if available
-		if (reason.message) {
-			formattedEntry.message = reason.message;
-		}
-
-		// Add evidence if available
-		if (reason.evidence && reason.evidence.length > 0) {
-			formattedEntry.evidence = formatEvidence(reason.evidence, isOutfitReason);
-		}
-
-		return formattedEntry;
-	});
+	return Object.entries(reasons).map(([reasonType, reason]) => ({
+		typeName: reasonType,
+		confidence: Math.round(reason.confidence * 100),
+		...(reason.message && { message: reason.message }),
+		...(reason.evidence?.length && {
+			evidence: formatEvidence(reason.evidence, reasonType === 'Avatar Outfit')
+		})
+	}));
 }
 
-// Extracts flagged outfit names with their reasons and confidence from evidence array
 export function extractFlaggedOutfitNames(evidence: string[]): Map<string, FlaggedOutfitInfo> {
 	const flaggedOutfits = new Map<string, FlaggedOutfitInfo>();
 

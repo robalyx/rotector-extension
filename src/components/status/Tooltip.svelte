@@ -11,7 +11,7 @@
 	import {
 		type FormattedReasonEntry,
 		formatViolationReasons,
-		parseSourceTag
+		groupSourceLines
 	} from '@/lib/utils/violation-formatter';
 	import {
 		detectPageContext,
@@ -1427,15 +1427,15 @@
 								{#if reason.message}
 									{@const displayMessage = getDisplayText(reason.message)}
 									{@const messageLines = displayMessage.split('\n').filter((l) => l.trim())}
-									{#if messageLines.some((l) => parseSourceTag(l))}
+									{@const grouped = groupSourceLines(messageLines)}
+									{#if grouped.some((g) => g.kind === 'source')}
 										<div class="reason-evidence">
-											{#each messageLines as line, i (i)}
-												{@const parsed = parseSourceTag(line)}
-												{#if parsed}
+											{#each grouped as group, i (i)}
+												{#if group.kind === 'source'}
 													<div class="source-evidence-item">
 														<div class="source-evidence-header">
-															<span class="source-evidence-badge">{parsed.source}</span>
-															{#if parsed.source.toLowerCase() === 'trap'}
+															<span class="source-evidence-badge">{group.source}</span>
+															{#if group.source.toLowerCase() === 'trap'}
 																<div class="source-info-indicator">
 																	<Info size={12} />
 																	<div class="source-info-popover">
@@ -1451,7 +1451,7 @@
 																		</p>
 																	</div>
 																</div>
-															{:else if parsed.source.toLowerCase() === 'discord'}
+															{:else if group.source.toLowerCase() === 'discord'}
 																<div class="source-info-indicator">
 																	<Info size={12} />
 																	<div class="source-info-popover">
@@ -1484,10 +1484,17 @@
 																</div>
 															{/if}
 														</div>
-														<div class="source-evidence-description">{parsed.description}</div>
+														<div class="source-evidence-description">{group.description}</div>
+														{#if group.subItems.length > 0}
+															<div class="source-evidence-subitems">
+																{#each group.subItems as subItem, si (si)}
+																	<div class="source-evidence-subitem">{subItem}</div>
+																{/each}
+															</div>
+														{/if}
 													</div>
 												{:else}
-													<div class="evidence-item">{line}</div>
+													<div class="evidence-item">{group.text}</div>
 												{/if}
 											{/each}
 										</div>

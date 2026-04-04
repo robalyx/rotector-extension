@@ -10,7 +10,7 @@
 		Check,
 		Cpu,
 		AlertTriangle
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import {
 		performanceEntries,
 		categoryStats,

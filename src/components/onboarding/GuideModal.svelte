@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { X } from 'lucide-svelte';
+	import { X } from '@lucide/svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
 	import GuideStepStatus from './steps/GuideStepStatus.svelte';

@@ -12,7 +12,7 @@
 		Megaphone,
 		Theater,
 		FileQuestion
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 
 	const detectItems = [
 		{

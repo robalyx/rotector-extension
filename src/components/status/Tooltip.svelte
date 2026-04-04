@@ -48,7 +48,7 @@
 		Info,
 		ChevronRight,
 		ChevronDown
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import DiscordAccountsEvidence from './DiscordAccountsEvidence.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
-	import { Ban, ShieldHalf } from 'lucide-svelte';
+	import { Ban, ShieldHalf } from '@lucide/svelte';
 	import {
 		formatNumber,
 		lastUpdatedFormatted,

@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
 	import type { UserStatus } from '@/lib/types/api';
-	import { AlertTriangle, Info } from 'lucide-svelte';
+	import { AlertTriangle, Info } from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 
 	interface Props {

@@ -9,7 +9,7 @@
 	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
-	import { Flag, Hourglass } from 'lucide-svelte';
+	import { Flag, Hourglass } from '@lucide/svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
 	import Tooltip from './Tooltip.svelte';

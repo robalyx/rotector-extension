@@ -8,7 +8,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
-	import { AlertTriangle, AlertCircle, Shirt, ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { AlertTriangle, AlertCircle, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 	import OutfitStack from './OutfitStack.svelte';
 	import Outfit3DPanel from './Outfit3DPanel.svelte';

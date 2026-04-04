@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { Info, ListPlus, Vote, ChevronDown } from 'lucide-svelte';
+	import { Info, ListPlus, Vote, ChevronDown } from '@lucide/svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 
 	const features = [

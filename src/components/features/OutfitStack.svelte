@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AlertTriangle, ChevronDown, ChevronUp, ImageOff } from 'lucide-svelte';
+	import { AlertTriangle, ChevronDown, ChevronUp, ImageOff } from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import View3DButton from '../ui/View3DButton.svelte';
 	import type { OutfitWithThumbnail } from '@/lib/types/api';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ArrowLeft, Copy, Trash2, AlertCircle, AlertTriangle, Check } from 'lucide-svelte';
+	import { ArrowLeft, Copy, Trash2, AlertCircle, AlertTriangle, Check } from '@lucide/svelte';
 	import {
 		developerLogs,
 		errorLogs,

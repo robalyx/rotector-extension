@@ -11,7 +11,7 @@
 		Shirt,
 		Check,
 		ImageOff
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import View3DButton from '../ui/View3DButton.svelte';
 	import Outfit3DModal from './Outfit3DModal.svelte';

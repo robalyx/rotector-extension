@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { Box, Sun } from 'lucide-svelte';
+	import { Box, Sun } from '@lucide/svelte';
 	import Outfit3DViewer from '../ui/Outfit3DViewer.svelte';
 	import type { OutfitWithThumbnail } from '@/lib/types/api';
 	import type { FlaggedOutfitInfo } from '@/lib/utils/violation-formatter';

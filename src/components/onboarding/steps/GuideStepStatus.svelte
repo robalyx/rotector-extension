@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { CircleCheck, AlertCircle, Clock, History, CircleHelp } from 'lucide-svelte';
+	import { CircleCheck, AlertCircle, Clock, History, CircleHelp } from '@lucide/svelte';
 
 	const statusTypes = [
 		{

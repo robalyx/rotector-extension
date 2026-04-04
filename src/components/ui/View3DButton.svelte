@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { Box } from 'lucide-svelte';
+	import { Box } from '@lucide/svelte';
 
 	interface Props {
 		onclick: (event: MouseEvent) => void;

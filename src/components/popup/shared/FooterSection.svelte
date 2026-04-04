@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { BookOpen, ExternalLink, CircleHelp, FileText } from 'lucide-svelte';
+	import { BookOpen, ExternalLink, CircleHelp, FileText } from '@lucide/svelte';
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiGithub from '@icons-pack/svelte-simple-icons/icons/SiGithub';
 

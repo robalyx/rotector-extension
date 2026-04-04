@@ -5,7 +5,7 @@
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
-	import { AlertTriangle, Lightbulb } from 'lucide-svelte';
+	import { AlertTriangle, Lightbulb } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 
 	interface Props {

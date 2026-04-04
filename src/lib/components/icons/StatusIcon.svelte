@@ -9,7 +9,7 @@
 		History,
 		CircleHelp,
 		Ban
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
 
 	interface Props {

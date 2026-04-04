@@ -3,7 +3,7 @@
 	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueErrorData } from '@/lib/types/api';
-	import { AlertTriangle, Info } from 'lucide-svelte';
+	import { AlertTriangle, Info } from '@lucide/svelte';
 
 	interface Props {
 		isOpen: boolean;

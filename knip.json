@@ -1,5 +1,5 @@
 {
-	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"$schema": "https://unpkg.com/knip@6/schema.json",
 	"entry": [
 		"src/entrypoints/background/index.ts",
 		"src/entrypoints/content.ts",
@@ -12,7 +12,8 @@
 		"@wxt-dev/module-svelte",
 		"dotenv",
 		"lightningcss",
-		"tslib"
+		"tslib",
+		"webgl-obj-loader"
 	],
 	"rules": {
 		"files": "error",
@@ -27,6 +28,6 @@
 		"nsTypes": "error",
 		"duplicates": "error",
 		"enumMembers": "error",
-		"classMembers": "error"
+		"namespaceMembers": "error"
 	}
 }

@@ -30,7 +30,7 @@
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
 	} from '@/lib/types/settings';
-	import { ChevronRight } from 'lucide-svelte';
+	import { ChevronRight } from '@lucide/svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
 

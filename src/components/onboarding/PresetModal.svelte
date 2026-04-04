@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { X, Info, EyeOff, Eye } from 'lucide-svelte';
+	import { X, Info, EyeOff, Eye } from '@lucide/svelte';
 	import { applyAgePreset } from '@/lib/stores/settings';
 	import { AGE_PRESETS } from '@/lib/types/settings';
 

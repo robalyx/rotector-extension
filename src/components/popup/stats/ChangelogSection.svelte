@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Bell, BellOff } from 'lucide-svelte';
+	import { Bell, BellOff } from '@lucide/svelte';
 	import { logger } from '@/lib/utils/logger';
 	import ChangelogContent from './ChangelogContent.svelte';
 	import {

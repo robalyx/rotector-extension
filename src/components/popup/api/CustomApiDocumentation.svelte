@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowLeft, Copy, Check } from 'lucide-svelte';
+	import { ArrowLeft, Copy, Check } from '@lucide/svelte';
 	import Highlight from 'svelte-highlight';
 	import json from 'svelte-highlight/languages/json';
 	import 'svelte-highlight/styles/github-dark.css';

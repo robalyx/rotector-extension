@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { calculateFundingPercentage, formatCurrency, statistics } from '@/lib/stores/statistics';
 	import WeeklyUsageChart from './WeeklyUsageChart.svelte';
-	import { ChevronDown } from 'lucide-svelte';
+	import { ChevronDown } from '@lucide/svelte';
 	import SiKofi from '@icons-pack/svelte-simple-icons/icons/SiKofi';
 	import { _ } from 'svelte-i18n';
 

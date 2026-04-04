@@ -16,7 +16,7 @@
 		Download,
 		Upload,
 		AlertTriangle
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import {
 		customApis,

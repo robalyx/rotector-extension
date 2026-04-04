@@ -4,7 +4,7 @@
 	import { importCustomApi } from '@/lib/utils/api-export';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
-	import { Upload } from 'lucide-svelte';
+	import { Upload } from '@lucide/svelte';
 	import Modal from '../../ui/Modal.svelte';
 
 	interface Props {

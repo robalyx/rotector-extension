@@ -14,7 +14,7 @@
 		AlertTriangle,
 		Loader,
 		ListX
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 
 	let isLoading = $state(true);

@@ -7,7 +7,7 @@
 	} from '@/lib/services/roblox-3d-service';
 	import { logger } from '@/lib/utils/logger';
 	import { vertex, fragment } from '@/lib/shaders/lambert';
-	import { AlertCircle, ShieldOff } from 'lucide-svelte';
+	import { AlertCircle, ShieldOff } from '@lucide/svelte';
 	import LoadingSpinner from './LoadingSpinner.svelte';
 	import type { Program } from 'ogl';
 

@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueSuccessData } from '@/lib/types/api';
-	import { Check } from 'lucide-svelte';
+	import { Check } from '@lucide/svelte';
 
 	interface Props {
 		isOpen: boolean;

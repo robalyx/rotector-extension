@@ -3,7 +3,7 @@
 	import { apiClient } from '@/lib/services/api-client';
 	import { logger } from '@/lib/utils/logger';
 	import type { QueueLimitsData } from '@/lib/types/api';
-	import { Key } from 'lucide-svelte';
+	import { Key } from '@lucide/svelte';
 	import LoadingSpinner from './LoadingSpinner.svelte';
 
 	interface Props {

@@ -5,7 +5,7 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { STATUS, CAPTCHA_MESSAGES } from '@/lib/types/constants';
-	import { Clipboard, User, Users, Check } from 'lucide-svelte';
+	import { Clipboard, User, Users, Check } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
 	import OutfitPicker from './OutfitPicker.svelte';

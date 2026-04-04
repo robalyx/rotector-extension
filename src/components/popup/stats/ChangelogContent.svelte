@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Changelog, ChangelogEntry } from '@/lib/types/changelog';
-	import { Plus, RefreshCw, AlertTriangle, Trash2, Bug, Lock, FileText } from 'lucide-svelte';
+	import { Plus, RefreshCw, AlertTriangle, Trash2, Bug, Lock, FileText } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 
 	interface ChangelogContentProps {

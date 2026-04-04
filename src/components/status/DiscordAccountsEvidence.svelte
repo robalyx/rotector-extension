@@ -13,7 +13,7 @@
 		Copy,
 		Check,
 		X
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 	import { SvelteSet } from 'svelte/reactivity';
 	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';

@@ -3,7 +3,7 @@
 	import type { VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
-	import { ArrowUp, ArrowDown } from 'lucide-svelte';
+	import { ArrowUp, ArrowDown } from '@lucide/svelte';
 
 	interface Props {
 		voteData?: VoteData | null;

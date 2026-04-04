@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BarChart3, Settings, ListTodo } from 'lucide-svelte';
+	import { BarChart3, Settings, ListTodo } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 	import { unprocessedCount } from '@/lib/stores/queue-history';
 

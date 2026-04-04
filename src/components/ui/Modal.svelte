@@ -1,6 +1,6 @@
 <script lang="ts">
 	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
-	import { AlertCircle, AlertTriangle, CheckCircle, XCircle, X } from 'lucide-svelte';
+	import { AlertCircle, AlertTriangle, CheckCircle, XCircle, X } from '@lucide/svelte';
 
 	interface ModalProps {
 		isOpen: boolean;

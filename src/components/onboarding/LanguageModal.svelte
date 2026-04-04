@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { X, Globe, Languages, ChevronDown } from 'lucide-svelte';
+	import { X, Globe, Languages, ChevronDown } from '@lucide/svelte';
 	import { getAvailableLocales, setLanguage } from '@/lib/stores/i18n';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';

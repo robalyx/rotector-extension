@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { Flag, Hourglass, Hash } from 'lucide-svelte';
+	import { Flag, Hourglass, Hash } from '@lucide/svelte';
 
 	const badgeTypes = [
 		{

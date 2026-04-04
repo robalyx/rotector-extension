@@ -46,7 +46,7 @@
 	const displayName = $derived(username || `User ${sanitizedUserId}`);
 
 	const warningConfig = $derived.by(() => {
-		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		const rawConfidence = rotector?.data?.confidence ?? 0;
 		const confidence = Math.round(rawConfidence * 100);
 
@@ -63,7 +63,7 @@
 
 	// Handle proceed with friend request
 	function handleProceed() {
-		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_proceed', {
 			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType
@@ -78,7 +78,7 @@
 
 	// Handle cancel friend request
 	function handleCancel() {
-		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_cancel', {
 			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType
@@ -93,7 +93,7 @@
 
 	// Handle block user
 	function handleBlock() {
-		const rotector = userStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_block', {
 			userId: sanitizedUserId,
 			statusFlag: rotector?.data?.flagType

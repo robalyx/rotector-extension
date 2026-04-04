@@ -91,17 +91,17 @@
 	class:p-0={!$changelogSectionExpanded}
 	class:p-2={$changelogSectionExpanded}
 >
-	{#if $changelogSectionExpanded && $changelogs.length > 0}
+	{#if $changelogSectionExpanded && changelogs.length > 0}
 		<div
 			class="
       changelog-section-content max-h-[440px] scrollbar-styled overflow-y-auto
     "
 		>
-			{#each $changelogs as changelog, index (changelog.id)}
+			{#each changelogs as changelog, index (changelog.id)}
 				<div class="changelog-section-item" class:first={index === 0}>
 					<ChangelogContent {changelog} compact={false} />
 				</div>
-				{#if index < $changelogs.length - 1}
+				{#if index < changelogs.length - 1}
 					<div class="changelog-section-divider"></div>
 				{/if}
 			{/each}

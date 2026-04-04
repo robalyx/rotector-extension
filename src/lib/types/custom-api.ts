@@ -27,6 +27,4 @@ export interface CustomApiResult {
 	landscapeImageDataUrl?: string;
 }
 
-export interface CombinedStatus {
-	customApis: Map<string, CustomApiResult>;
-}
+export type CombinedStatus = Map<string, CustomApiResult>;

@@ -2,7 +2,6 @@
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import { FRIENDS_CAROUSEL_SELECTORS, PAGE_TYPES } from '@/lib/types/constants';
-	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 
 	interface Props {
@@ -44,14 +43,6 @@
 		logger.debug('Home page friends carousel detected and will be managed');
 	}
 
-	// Handle user processed events
-	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
-		logger.debug('Home page carousel user processed', {
-			userId: processedUserId,
-			hasStatus: !!status
-		});
-	}
-
 	// Handle errors
 	function handleError(error: string) {
 		logger.error('Home page UserListManager error:', error);
@@ -69,9 +60,5 @@
 
 <!-- Home Page Carousel Manager -->
 {#if showCarousel}
-	<UserListManager
-		onError={handleError}
-		onUserProcessed={handleUserProcessed}
-		pageType={PAGE_TYPES.HOME}
-	/>
+	<UserListManager onError={handleError} pageType={PAGE_TYPES.HOME} />
 {/if}

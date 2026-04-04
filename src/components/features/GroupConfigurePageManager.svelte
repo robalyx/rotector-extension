@@ -4,7 +4,6 @@
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { COMPONENT_CLASSES, GROUP_CONFIGURE_SELECTORS, PAGE_TYPES } from '@/lib/types/constants';
-	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 	import ExportModal from './ExportModal.svelte';
 
@@ -65,13 +64,6 @@
 		exportButton = btn;
 	}
 
-	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
-		logger.debug('Group configure member processed', {
-			userId: processedUserId,
-			hasStatus: !!status
-		});
-	}
-
 	function handleError(error: string) {
 		logger.error('GroupConfigurePageManager UserListManager error:', error);
 	}
@@ -87,11 +79,7 @@
 </script>
 
 {#if showMembersList}
-	<UserListManager
-		onError={handleError}
-		onUserProcessed={handleUserProcessed}
-		pageType={PAGE_TYPES.GROUP_CONFIGURE_MEMBERS}
-	/>
+	<UserListManager onError={handleError} pageType={PAGE_TYPES.GROUP_CONFIGURE_MEMBERS} />
 {/if}
 
 {#if groupId}

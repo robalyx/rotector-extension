@@ -77,7 +77,7 @@
 	const flaggedOutfits = $derived.by(() => {
 		if (!userStatus) return new Map<string, FlaggedOutfitInfo>();
 
-		const rotectorStatus = userStatus.customApis.get(ROTECTOR_API_ID)?.data;
+		const rotectorStatus = userStatus.get(ROTECTOR_API_ID)?.data;
 		if (!rotectorStatus?.reasons?.['Avatar Outfit']?.evidence) {
 			return new Map<string, FlaggedOutfitInfo>();
 		}
@@ -87,7 +87,7 @@
 
 	// Returns true if outfit should be blurred
 	function shouldBlurOutfit(status: CombinedStatus): boolean {
-		for (const result of status.customApis.values()) {
+		for (const result of status.values()) {
 			if (result.loading) return true;
 			if (result.data?.reasons && 'Avatar Outfit' in result.data.reasons) return true;
 		}

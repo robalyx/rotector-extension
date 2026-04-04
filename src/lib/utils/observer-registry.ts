@@ -33,10 +33,6 @@ class ObserverRegistry {
 			total: this.counts.mutation + this.counts.resize
 		};
 	}
-
-	reset(): void {
-		this.counts = { mutation: 0, resize: 0 };
-	}
 }
 
 export const observerRegistry = new ObserverRegistry();

@@ -92,16 +92,16 @@
 	});
 </script>
 
-<div class="developer-logs-container">
+<div class="developer-panel-container">
 	<!-- Header -->
-	<div class="developer-logs-header">
-		<button class="developer-logs-back-button" onclick={onBack} type="button">
+	<div class="developer-panel-header">
+		<button class="developer-panel-back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
 			<span>{$_('developer_logs_back')}</span>
 		</button>
-		<div class="developer-logs-actions">
+		<div class="developer-panel-actions">
 			<button
-				class="developer-logs-action-button"
+				class="developer-panel-action-button"
 				disabled={$developerLogs.length === 0}
 				onclick={handleCopy}
 				title={$_('developer_logs_copy_button')}
@@ -110,7 +110,7 @@
 				<Copy size={14} />
 			</button>
 			<button
-				class="developer-logs-action-button developer-logs-action-danger"
+				class="developer-panel-action-button developer-panel-action-danger"
 				disabled={$developerLogs.length === 0}
 				onclick={handleClear}
 				title={$_('developer_logs_clear_button')}
@@ -122,7 +122,7 @@
 	</div>
 
 	<!-- Title -->
-	<h2 class="developer-logs-title">{$_('developer_logs_title')}</h2>
+	<h2 class="developer-panel-title">{$_('developer_logs_title')}</h2>
 
 	<!-- Filter Tabs -->
 	<div class="developer-logs-filters">
@@ -164,14 +164,14 @@
 	<!-- Log List -->
 	<div class="developer-logs-list">
 		{#if isLoading}
-			<div class="developer-logs-loading">
+			<div class="developer-panel-loading">
 				<LoadingSpinner size="medium" />
 				<span>{$_('developer_logs_loading')}</span>
 			</div>
 		{:else if filteredLogs.length === 0}
-			<div class="developer-logs-empty">
-				<p class="developer-logs-empty-title">{$_('developer_logs_empty_title')}</p>
-				<p class="developer-logs-empty-hint">{$_('developer_logs_empty_hint')}</p>
+			<div class="developer-panel-empty">
+				<p class="developer-panel-empty-title">{$_('developer_logs_empty_title')}</p>
+				<p class="developer-panel-empty-hint">{$_('developer_logs_empty_hint')}</p>
 			</div>
 		{:else}
 			{#each filteredLogs as log (log.id)}
@@ -201,7 +201,7 @@
 
 	<!-- Copy Toast -->
 	{#if showCopyToast}
-		<div class="developer-logs-toast">
+		<div class="developer-panel-toast">
 			<Check size={14} />
 			<span>{$_('developer_logs_copied')}</span>
 		</div>

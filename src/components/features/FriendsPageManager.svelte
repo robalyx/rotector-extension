@@ -5,7 +5,6 @@
 	import { COMPONENT_CLASSES, FRIENDS_SELECTORS, PAGE_TYPES } from '@/lib/types/constants';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { normalizePathname } from '@/lib/utils/page-detection';
-	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 	import FriendsScanBar from './FriendsScanBar.svelte';
 
@@ -124,14 +123,6 @@
 		};
 	}
 
-	// Handle user processed events
-	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
-		logger.debug('Friends page user processed', {
-			userId: processedUserId,
-			hasStatus: !!status
-		});
-	}
-
 	// Handle errors
 	function handleError(error: string) {
 		logger.error('Friends page UserListManager error:', error);
@@ -163,9 +154,5 @@
 
 <!-- Friends List Manager -->
 {#if showFriendsList}
-	<UserListManager
-		onError={handleError}
-		onUserProcessed={handleUserProcessed}
-		pageType={PAGE_TYPES.FRIENDS_LIST}
-	/>
+	<UserListManager onError={handleError} pageType={PAGE_TYPES.FRIENDS_LIST} />
 {/if}

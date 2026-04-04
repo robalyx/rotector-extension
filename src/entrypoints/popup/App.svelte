@@ -9,11 +9,9 @@
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
 	import Toast from '../../components/ui/Toast.svelte';
-	import { initializeSettings } from '@/lib/stores/settings';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
-	import { loadPerformanceEntries } from '@/lib/stores/performance';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
@@ -57,23 +55,12 @@
 		loadStoredLanguagePreference().catch((error) => {
 			logger.error('Failed to load language preference:', error);
 		});
-		initializeSettings().catch((error) => {
-			logger.error('Failed to initialize settings:', error);
-		});
-		themeManager.initializePopupThemeSync().catch((error) => {
-			logger.error('Failed to initialize popup theme sync:', error);
-		});
 		loadQueueHistory().catch((error) => {
 			logger.error('Failed to load queue history:', error);
 		});
 		loadDeveloperLogs().catch((error) => {
 			logger.error('Failed to load developer logs:', error);
 		});
-		if (IS_DEV) {
-			loadPerformanceEntries().catch((error) => {
-				logger.error('Failed to load performance entries:', error);
-			});
-		}
 	});
 
 	// Load last visited page from storage

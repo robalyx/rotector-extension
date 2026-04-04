@@ -1,4 +1,4 @@
-import { derived, get, writable } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 import {
 	LOG_LEVELS,
 	type LogEntry,
@@ -6,13 +6,19 @@ import {
 	type LogLevel,
 	type SystemInfo
 } from '../types/developer-logs';
+import { createPersistentListStore } from './persistent-list-store';
 
-const DEVELOPER_LOGS_KEY = 'developerLogs';
-const MAX_LOG_ENTRIES = 500;
+const {
+	store: developerLogsStore,
+	load,
+	add,
+	clear
+} = createPersistentListStore<LogEntry>({
+	storageKey: 'developerLogs',
+	maxEntries: 500
+});
 
-let writeQueue = Promise.resolve();
-
-export const developerLogs = writable<LogEntry[]>([]);
+export const developerLogs = developerLogsStore;
 
 export const errorLogs = derived(developerLogs, ($logs) =>
 	$logs.filter((log) => log.level === LOG_LEVELS.ERROR)
@@ -22,50 +28,15 @@ export const warningLogs = derived(developerLogs, ($logs) =>
 	$logs.filter((log) => log.level === LOG_LEVELS.WARN)
 );
 
-// Load logs from local storage
-export async function loadDeveloperLogs(): Promise<void> {
-	try {
-		const result = await browser.storage.local.get([DEVELOPER_LOGS_KEY]);
-		const stored = result[DEVELOPER_LOGS_KEY] as LogEntry[] | undefined;
-		developerLogs.set(stored ?? []);
-	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.warn('[Rotector] Failed to load developer logs:', error);
-		developerLogs.set([]);
-	}
-}
+export const loadDeveloperLogs = load;
 
-// Save logs to local storage
-async function saveDeveloperLogs(entries: LogEntry[]): Promise<void> {
-	try {
-		await browser.storage.local.set({ [DEVELOPER_LOGS_KEY]: entries });
-		developerLogs.set(entries);
-	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.warn('[Rotector] Failed to save developer logs:', error);
-	}
-}
-
-// Add a new log entry
+// Add a new log entry with auto-generated ID
 export async function addLogEntry(entry: Omit<LogEntry, 'id'>): Promise<void> {
 	const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-	const newEntry: LogEntry = { ...entry, id };
-
-	writeQueue = writeQueue.then(async () => {
-		// Read latest from storage to avoid overwriting concurrent writes
-		const result = await browser.storage.local.get([DEVELOPER_LOGS_KEY]);
-		const current = (result[DEVELOPER_LOGS_KEY] as LogEntry[] | undefined) ?? [];
-		const updated = [newEntry, ...current].slice(0, MAX_LOG_ENTRIES);
-		await saveDeveloperLogs(updated);
-	});
-
-	return writeQueue;
+	return add({ ...entry, id });
 }
 
-// Clear all logs
-export async function clearDeveloperLogs(): Promise<void> {
-	await saveDeveloperLogs([]);
-}
+export const clearDeveloperLogs = clear;
 
 // Collect system information for export
 async function getSystemInfo(): Promise<SystemInfo> {
@@ -157,11 +128,3 @@ export function formatLogsForCopy(exportData: LogExport): string {
 
 	return lines.join('\n');
 }
-
-// Listen for storage changes from other contexts
-browser.storage.onChanged.addListener((changes, namespace) => {
-	if (namespace === 'local' && changes[DEVELOPER_LOGS_KEY]) {
-		const newValue = changes[DEVELOPER_LOGS_KEY].newValue as LogEntry[] | undefined;
-		developerLogs.set(newValue ?? []);
-	}
-});

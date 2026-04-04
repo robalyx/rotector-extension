@@ -13,86 +13,49 @@ import GroupPageManager from '../../components/features/GroupPageManager.svelte'
  * Handles group pages with member lists
  */
 export class GroupsPageController extends PageController {
-	private groupPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 	private groupId: string | null = null;
 	private querySubscription: GroupQuerySubscription | null = null;
 
 	protected override async initializePage(): Promise<void> {
-		try {
-			logger.debug('Initializing GroupsPageController', {
-				pageType: this.pageType,
-				url: this.url
-			});
-
-			// Check if groups checks are enabled
-			const currentSettings = get(settings);
-			if (!currentSettings[SETTINGS_KEYS.GROUPS_CHECK_ENABLED]) {
-				logger.debug('Groups checks disabled, skipping GroupsPageController initialization');
-				return;
-			}
-
-			// Extract group ID from URL
-			this.groupId = this.extractGroupIdFromUrl();
-
-			// Start API query
-			if (this.groupId) {
-				logger.debug('Group ID extracted, starting query', { groupId: this.groupId });
-				this.querySubscription = startGroupQuery(this.groupId);
-				await this.waitForGroupElements();
-			} else {
-				logger.debug('No group ID found in URL, proceeding with groups page manager only');
-			}
-
-			// Mount group page manager
-			this.mountGroupPageManager();
-
-			logger.debug('GroupsPageController initialized successfully');
-		} catch (error) {
-			this.handleError(error, 'initializePage');
-			throw error;
+		// Check if groups checks are enabled
+		const currentSettings = get(settings);
+		if (!currentSettings[SETTINGS_KEYS.GROUPS_CHECK_ENABLED]) {
+			logger.debug('Groups checks disabled, skipping GroupsPageController initialization');
+			return;
 		}
+
+		// Extract group ID from URL
+		this.groupId = this.extractGroupIdFromUrl();
+
+		// Start API query
+		if (this.groupId) {
+			this.querySubscription = startGroupQuery(this.groupId);
+			await this.waitForGroupElements();
+		}
+
+		// Mount group page manager
+		this.mountGroupPageManager();
 	}
 
 	// Page cleanup
 	protected override async cleanupPage(): Promise<void> {
-		try {
-			if (this.groupPageManager) {
-				this.groupPageManager.cleanup();
-				this.groupPageManager = null;
-			}
-
-			if (this.querySubscription) {
-				this.querySubscription.cancel();
-				this.querySubscription = null;
-			}
-
-			this.groupId = null;
-
-			logger.debug('GroupsPageController cleanup completed');
-		} catch (error) {
-			this.handleError(error, 'cleanupPage');
-			throw error;
+		if (this.querySubscription) {
+			this.querySubscription.cancel();
+			this.querySubscription = null;
 		}
+
+		this.groupId = null;
 	}
 
 	// Mount unified group page manager
 	private mountGroupPageManager(): void {
-		try {
-			// Create container for group page manager
-			const container = this.createComponentContainer(COMPONENT_CLASSES.GROUPS_MANAGER);
+		const container = this.createComponentContainer(COMPONENT_CLASSES.GROUPS_MANAGER);
 
-			// Mount GroupPageManager
-			this.groupPageManager = this.mountComponent(GroupPageManager, container, {
-				groupId: this.groupId,
-				pageType: this.pageType,
-				querySubscription: this.querySubscription
-			});
-
-			logger.debug('GroupPageManager mounted successfully');
-		} catch (error) {
-			this.handleError(error, 'mountGroupPageManager');
-			throw error;
-		}
+		this.mountComponent(GroupPageManager, container, {
+			groupId: this.groupId,
+			pageType: this.pageType,
+			querySubscription: this.querySubscription
+		});
 	}
 
 	// Extract group ID from the current URL

@@ -23,25 +23,9 @@
 		window.open('https://ko-fi.com/jaxron', '_blank', 'noopener,noreferrer');
 	}
 
-	// Handle keyboard events for accessibility
-	function handleKofiKeydown(event: KeyboardEvent) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			handleKofiClick();
-		}
-	}
-
 	// Toggle charts expansion
 	function toggleCharts() {
 		chartsExpanded = !chartsExpanded;
-	}
-
-	// Handle keyboard events for charts toggle
-	function handleChartsToggleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			toggleCharts();
-		}
 	}
 </script>
 
@@ -97,7 +81,6 @@
 		<button
 			class="kofi-support-button"
 			onclick={handleKofiClick}
-			onkeydown={handleKofiKeydown}
 			title={$_('stats_financial_kofi_title')}
 			type="button"
 		>
@@ -116,7 +99,6 @@
 				aria-controls="charts-content"
 				aria-expanded={chartsExpanded}
 				onclick={toggleCharts}
-				onkeydown={handleChartsToggleKeydown}
 				title={chartsExpanded
 					? $_('stats_financial_charts_hide')
 					: $_('stats_financial_charts_show')}

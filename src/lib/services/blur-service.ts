@@ -388,7 +388,7 @@ export function clearProfileBlurState(): void {
  */
 function hasReason(status: CombinedStatus | null, reasonKey: string): boolean {
 	if (!status) return true;
-	for (const result of status.customApis.values()) {
+	for (const result of status.values()) {
 		if (result.loading) return true;
 		if (result.data?.reasons && reasonKey in result.data.reasons) return true;
 	}

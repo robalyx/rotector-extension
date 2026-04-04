@@ -67,8 +67,8 @@ export function createErrorResponse(error: Error): ApiResponse & {
 	};
 }
 
-// Initialize settings on first install
-export async function initializeSettings(): Promise<void> {
+// Seed missing settings on first install
+export async function ensureDefaultSettings(): Promise<void> {
 	try {
 		const existingSettings = await browser.storage.sync.get(Object.keys(SETTINGS_DEFAULTS));
 		const missingSettings: Partial<typeof SETTINGS_DEFAULTS> = {};

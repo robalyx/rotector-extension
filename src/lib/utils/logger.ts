@@ -1,6 +1,7 @@
 import { SETTINGS_DEFAULTS } from '../types/settings';
-import { LOG_LEVELS, LOG_SOURCES, type LogLevel, type LogSource } from '../types/developer-logs';
+import { LOG_LEVELS, LOG_SOURCES, type LogLevel } from '../types/developer-logs';
 import { addLogEntry } from '../stores/developer-logs';
+import { getLogSource } from './log-source';
 
 const MAX_DATA_LENGTH = 1000;
 
@@ -101,19 +102,6 @@ class Logger {
 		return `[${timestamp}] [${level}] Rotector Extension: ${message}`;
 	}
 
-	// Detect which context the logger is running in
-	private getLogSource(): LogSource {
-		if (typeof document === 'undefined') {
-			return LOG_SOURCES.BACKGROUND;
-		}
-
-		if (window.location?.hostname?.includes('roblox.com')) {
-			return LOG_SOURCES.CONTENT;
-		}
-
-		return LOG_SOURCES.POPUP;
-	}
-
 	// Serialize data safely for storage
 	private serializeData(data: unknown[]): unknown {
 		if (!data || data.length === 0) return undefined;
@@ -136,7 +124,7 @@ class Logger {
 
 	// Write log entry to the developer logs store
 	private writeToStore(level: LogLevel, message: string, data?: unknown[]): void {
-		const source = this.getLogSource();
+		const source = getLogSource();
 		const pageUrl = source === LOG_SOURCES.CONTENT ? window.location.href : undefined;
 
 		addLogEntry({

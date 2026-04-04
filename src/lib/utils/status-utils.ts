@@ -12,21 +12,19 @@ interface StatusBadges {
 
 // Create a CombinedStatus representing an error state (e.g., restricted access)
 export function createErrorCombinedStatus(error: string): CombinedStatus {
-	return {
-		customApis: new Map([
-			[
-				ROTECTOR_API_ID,
-				{
-					apiId: ROTECTOR_API_ID,
-					apiName: 'Rotector',
-					error,
-					loading: false,
-					timestamp: Date.now(),
-					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
-				}
-			]
-		])
-	};
+	return new Map([
+		[
+			ROTECTOR_API_ID,
+			{
+				apiId: ROTECTOR_API_ID,
+				apiName: 'Rotector',
+				error,
+				loading: false,
+				timestamp: Date.now(),
+				landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
+			}
+		]
+	]);
 }
 
 // Wrap GroupStatus in CombinedStatus structure for StatusIndicator
@@ -41,38 +39,34 @@ export function wrapGroupStatus(
 
 	// Show loading state while fetching
 	if (isLoading) {
-		return {
-			customApis: new Map([
-				[
-					ROTECTOR_API_ID,
-					{
-						apiId: ROTECTOR_API_ID,
-						apiName: 'Rotector',
-						loading: true,
-						landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
-					}
-				]
-			])
-		};
-	}
-
-	if (!groupStatus) return null;
-
-	return {
-		customApis: new Map([
+		return new Map([
 			[
 				ROTECTOR_API_ID,
 				{
 					apiId: ROTECTOR_API_ID,
 					apiName: 'Rotector',
-					data: groupStatus,
-					loading: false,
-					timestamp: Date.now(),
+					loading: true,
 					landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 				}
 			]
-		])
-	};
+		]);
+	}
+
+	if (!groupStatus) return null;
+
+	return new Map([
+		[
+			ROTECTOR_API_ID,
+			{
+				apiId: ROTECTOR_API_ID,
+				apiName: 'Rotector',
+				data: groupStatus,
+				loading: false,
+				timestamp: Date.now(),
+				landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
+			}
+		]
+	]);
 }
 
 // Calculate status badges based on user status
@@ -115,7 +109,7 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
  */
 export function isFlagged(status: CombinedStatus | null): boolean {
 	if (!status) return false;
-	return Array.from(status.customApis.values()).some(
+	return Array.from(status.values()).some(
 		(result) =>
 			result.data &&
 			(result.data.flagType === STATUS.FLAGS.UNSAFE ||

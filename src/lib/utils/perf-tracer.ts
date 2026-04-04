@@ -1,6 +1,7 @@
-import { LOG_SOURCES, type LogSource } from '../types/developer-logs';
+import { LOG_SOURCES } from '../types/developer-logs';
 import { TRACE_CATEGORIES, type TraceCategory } from '../types/performance';
 import { addPerformanceEntry } from '../stores/performance';
+import { getLogSource } from './log-source';
 
 export { TRACE_CATEGORIES };
 
@@ -13,18 +14,6 @@ interface TraceData {
 	duration: number;
 	success?: boolean;
 	[key: string]: unknown;
-}
-
-function getLogSource(): LogSource {
-	if (typeof document === 'undefined') {
-		return LOG_SOURCES.BACKGROUND;
-	}
-
-	if (window.location?.hostname?.includes('roblox.com')) {
-		return LOG_SOURCES.CONTENT;
-	}
-
-	return LOG_SOURCES.POPUP;
 }
 
 function serializeMetadata(data: Record<string, unknown>): Record<string, unknown> | undefined {

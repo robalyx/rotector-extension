@@ -1,0 +1,110 @@
+/* =================================
+   DEVELOPER PANEL UTILITIES
+   ================================= */
+
+@utility developer-panel-container {
+	@apply flex flex-col w-full relative;
+	gap: 0.75rem;
+}
+
+@utility developer-panel-header {
+	@apply flex items-center justify-between;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--color-border);
+}
+
+@utility developer-panel-back-button {
+	@apply flex items-center;
+	gap: 0.25rem;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text-subtle);
+	background-color: transparent;
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: var(--color-text);
+		border-color: var(--color-text-subtle);
+		background-color: var(--color-hover);
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+@utility developer-panel-actions {
+	@apply flex items-center gap-1;
+}
+
+@utility developer-panel-action-button {
+	@apply flex items-center justify-center w-7 h-7 rounded border cursor-pointer transition-all duration-200;
+	border-color: var(--color-border);
+	background-color: var(--color-bg-content);
+	color: var(--color-text-subtle);
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-hover);
+		border-color: var(--color-text-subtle);
+		color: var(--color-text);
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	&.developer-panel-action-danger:hover:not(:disabled) {
+		background-color: var(--color-error);
+		border-color: var(--color-error);
+		color: white;
+	}
+}
+
+@utility developer-panel-title {
+	@apply m-0 text-center;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--color-text-heading);
+}
+
+@utility developer-panel-empty {
+	@apply flex flex-col items-center gap-1 py-6 text-center;
+}
+
+@utility developer-panel-empty-title {
+	@apply m-0 text-sm font-medium;
+	color: var(--color-text);
+}
+
+@utility developer-panel-empty-hint {
+	@apply m-0 text-2xs;
+	color: var(--color-text-subtle);
+}
+
+@utility developer-panel-loading {
+	@apply flex flex-col items-center gap-3 py-8 text-sm;
+	color: var(--color-text-subtle);
+}
+
+@utility developer-panel-toast {
+	@apply absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium shadow-lg;
+	background-color: var(--color-success);
+	color: white;
+	animation: developer-panel-toast-slide-up 0.3s ease;
+}
+
+@keyframes developer-panel-toast-slide-up {
+	from {
+		opacity: 0;
+		transform: translate(-50%, 10px);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+}

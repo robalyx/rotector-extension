@@ -5,7 +5,6 @@ import { restrictedAccessStore } from '../stores/restricted-access';
 import { wrapGroupStatus } from './status-utils';
 
 export interface GroupQuerySubscription {
-	readonly currentStatus: CombinedStatus | null;
 	subscribe(callback: (status: CombinedStatus) => void): () => void;
 	cancel(): void;
 }
@@ -52,9 +51,6 @@ export function startGroupQuery(groupId: string): GroupQuerySubscription {
 	}
 
 	return {
-		get currentStatus() {
-			return currentStatus;
-		},
 		subscribe(callback) {
 			subscribers.add(callback);
 			if (currentStatus) callback(currentStatus);

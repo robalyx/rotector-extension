@@ -16,7 +16,7 @@ import {
 } from '@/lib/stores/queue-history';
 import { get } from 'svelte/store';
 import { actionHandlers } from './handlers';
-import { createErrorResponse, initializeSettings } from './utils';
+import { createErrorResponse, ensureDefaultSettings } from './utils';
 import { t } from '@/lib/utils/i18n';
 
 const POLL_INTERVAL = 30000; // 30 seconds
@@ -294,13 +294,30 @@ export default defineBackground(() => {
 		logger.warn('Failed to clear dev data:', err);
 	});
 
-	initializeSettings().catch((err) => {
+	ensureDefaultSettings().catch((err) => {
 		logger.error('Failed to initialize settings:', err);
 	});
 
 	initializeQueuePolling().catch((err) => {
 		logger.error('Failed to initialize queue polling:', err);
 	});
+
+	async function dispatchCaptchaMessage(
+		message: { type?: string; token?: string; session?: string; error?: string },
+		sender: { tab?: { id?: number } }
+	): Promise<boolean> {
+		if (message.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS && message.token && message.session) {
+			await handleCaptchaSuccess(message.session, message.token, sender);
+			return true;
+		}
+
+		if (message.type === CAPTCHA_EXTERNAL_MESSAGES.ERROR) {
+			await handleCaptchaError(message.session, message.error, sender);
+			return true;
+		}
+
+		return false;
+	}
 
 	// Handle runtime messages from content scripts and popup
 	browser.runtime.onMessage.addListener(
@@ -317,20 +334,8 @@ export default defineBackground(() => {
 		) => {
 			void (async () => {
 				try {
-					// Handle bridged captcha messages from roscoe-bridge content script
-					if (
-						request.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS &&
-						request.token &&
-						request.session
-					) {
-						await handleCaptchaSuccess(request.session, request.token, sender);
-						return;
-					}
-
-					if (request.type === CAPTCHA_EXTERNAL_MESSAGES.ERROR) {
-						await handleCaptchaError(request.session, request.error, sender);
-						return;
-					}
+					// Handle captcha messages from roscoe-bridge content script
+					if (await dispatchCaptchaMessage(request, sender)) return;
 
 					// Handle captcha start message
 					if (request.type === CAPTCHA_MESSAGES.CAPTCHA_START) {
@@ -356,7 +361,6 @@ export default defineBackground(() => {
 				}
 			})();
 
-			// Return true to indicate we will respond asynchronously
 			return true;
 		}
 	);
@@ -364,29 +368,13 @@ export default defineBackground(() => {
 	// Listen for external messages from captcha pages
 	browser.runtime.onMessageExternal.addListener(
 		(
-			message: {
-				type: string;
-				token?: string;
-				session?: string;
-				error?: string;
-			},
+			message: { type: string; token?: string; session?: string; error?: string },
 			sender,
 			_sendResponse
 		) => {
 			void (async () => {
 				try {
-					if (
-						message.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS &&
-						message.token &&
-						message.session
-					) {
-						await handleCaptchaSuccess(message.session, message.token, sender);
-						return;
-					}
-
-					if (message.type === CAPTCHA_EXTERNAL_MESSAGES.ERROR) {
-						await handleCaptchaError(message.session, message.error, sender);
-					}
+					await dispatchCaptchaMessage(message, sender);
 				} catch (error) {
 					logger.error('External message handling failed:', error);
 				}

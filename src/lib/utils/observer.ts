@@ -64,27 +64,6 @@ export abstract class Observer {
 		this.stop();
 		logger.debug(`${this.name} observer cleanup complete`);
 	}
-
-	// Pauses the observer temporarily
-	pause(): void {
-		if (this.active) {
-			this.active = false;
-			logger.debug(`${this.name} observer paused`);
-		}
-	}
-
-	// Resumes the observer if paused
-	resume(): void {
-		if (!this.active) {
-			this.active = true;
-			logger.debug(`${this.name} observer resumed`);
-		}
-	}
-
-	// Checks if the observer is currently active
-	isActive(): boolean {
-		return this.active;
-	}
 }
 
 /**

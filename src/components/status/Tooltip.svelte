@@ -167,7 +167,7 @@
 	const activeStatus = $derived.by(() => {
 		if (!userStatus) return null;
 
-		const apiResult = userStatus.customApis.get(activeTab);
+		const apiResult = userStatus.get(activeTab);
 		return apiResult?.data ?? null;
 	});
 
@@ -175,7 +175,7 @@
 	const activeError = $derived.by(() => {
 		if (!userStatus) return error;
 
-		const apiResult = userStatus.customApis.get(activeTab);
+		const apiResult = userStatus.get(activeTab);
 		return apiResult?.error ?? error ?? null;
 	});
 
@@ -183,7 +183,7 @@
 	const activeLoading = $derived.by(() => {
 		if (!userStatus) return false;
 
-		const apiResult = userStatus.customApis.get(activeTab);
+		const apiResult = userStatus.get(activeTab);
 		return apiResult?.loading ?? false;
 	});
 
@@ -191,7 +191,7 @@
 	const tabs = $derived.by(() => {
 		if (!userStatus) return [];
 
-		return Array.from(userStatus.customApis.entries(), ([apiId, result]) => ({
+		return Array.from(userStatus.entries(), ([apiId, result]) => ({
 			id: apiId,
 			name: result.apiName,
 			loading: result.loading,
@@ -206,18 +206,18 @@
 
 		// First priority: Check if user has a preferred tab and if it exists in current results
 		const preferredTab = get(settings).lastSelectedCustomApiTab;
-		if (preferredTab && userStatus.customApis.has(preferredTab)) {
+		if (preferredTab && userStatus.has(preferredTab)) {
 			activeTab = preferredTab;
 			return;
 		}
 
 		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist
-		const rotector = userStatus.customApis.get(ROTECTOR_API_ID);
-		const allApisSafe = Array.from(userStatus.customApis.values()).every(
+		const rotector = userStatus.get(ROTECTOR_API_ID);
+		const allApisSafe = Array.from(userStatus.values()).every(
 			(result) => !result.data || result.data.flagType === STATUS.FLAGS.SAFE
 		);
 
-		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.customApis.size > 1) {
+		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.size > 1) {
 			// If ALL APIs are safe, show Rotector tab
 			if (allApisSafe) {
 				activeTab = ROTECTOR_API_ID;
@@ -225,7 +225,7 @@
 			}
 
 			// Or else open first custom API that detected something
-			const firstCustomWithDetection = Array.from(userStatus.customApis.entries()).find(
+			const firstCustomWithDetection = Array.from(userStatus.entries()).find(
 				([id, result]) =>
 					id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
 			);
@@ -316,7 +316,7 @@
 	const customApiBadges = $derived.by(() => {
 		if (activeTab === ROTECTOR_API_ID || isGroup || !userStatus) return [];
 
-		const data = userStatus.customApis.get(activeTab)?.data;
+		const data = userStatus.get(activeTab)?.data;
 		return data && 'badges' in data ? (data.badges ?? []) : [];
 	});
 

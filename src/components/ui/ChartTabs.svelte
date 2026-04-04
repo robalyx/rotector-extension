@@ -12,13 +12,6 @@
 	}
 
 	let { tabs, selected, onSelect, class: className = '' }: Props = $props();
-
-	function handleTabKeydown(event: KeyboardEvent, value: T) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			onSelect(value);
-		}
-	}
 </script>
 
 <div class="chart-tabs {className}" role="tablist">
@@ -28,7 +21,6 @@
 			class:active={selected === tab.value}
 			aria-selected={selected === tab.value}
 			onclick={() => onSelect(tab.value)}
-			onkeydown={(e) => handleTabKeydown(e, tab.value)}
 			role="tab"
 			tabindex="0"
 			type="button"

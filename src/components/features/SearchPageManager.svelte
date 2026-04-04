@@ -7,7 +7,6 @@
 		STATUS_SELECTORS,
 		USER_ACTIONS
 	} from '@/lib/types/constants';
-	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import UserListManager from './UserListManager.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 
@@ -101,14 +100,6 @@
 		logger.debug('Friend warning interception set up for search page');
 	}
 
-	// Handle user processed events
-	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
-		logger.debug('Search page user processed', {
-			userId: processedUserId,
-			hasStatus: !!status
-		});
-	}
-
 	// Handle errors
 	function handleError(error: string) {
 		logger.error('Search page UserListManager error:', error);
@@ -176,11 +167,7 @@
 
 <!-- Search Results List Manager -->
 {#if showSearchList}
-	<UserListManager
-		onError={handleError}
-		onUserProcessed={handleUserProcessed}
-		pageType={PAGE_TYPES.SEARCH_USER}
-	/>
+	<UserListManager onError={handleError} pageType={PAGE_TYPES.SEARCH_USER} />
 {/if}
 
 <!-- Friend Warning Modal -->

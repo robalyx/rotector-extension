@@ -1,4 +1,4 @@
-import { derived, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import { logger } from './logger';
 import { settings, updateSetting } from '../stores/settings';
 import { SETTINGS_KEYS, type Theme } from '../types/settings';
@@ -57,66 +57,9 @@ class ThemeManager {
 		}
 	}
 
-	// Toggles between light and dark themes (doesn't toggle to auto)
-	async toggleTheme(): Promise<void> {
-		let currentEffectiveTheme: 'light' | 'dark' = 'light';
-		this.effectiveTheme.subscribe((theme) => (currentEffectiveTheme = theme))();
-
-		const newTheme = currentEffectiveTheme === 'light' ? 'dark' : 'light';
-		await this.setTheme(newTheme);
-	}
-
-	// Gets the current theme setting from settings store
-	getCurrentThemeSetting(): Theme {
-		let currentTheme: Theme = 'auto';
-		settings.subscribe((currentSettings) => {
-			currentTheme = currentSettings[SETTINGS_KEYS.THEME];
-		})();
-		return currentTheme;
-	}
-
 	// Gets the current effective theme
 	getCurrentTheme(): 'light' | 'dark' {
-		let currentTheme: 'light' | 'dark' = 'light';
-		this.effectiveTheme.subscribe((theme) => (currentTheme = theme))();
-		return currentTheme;
-	}
-
-	// Gets the current system theme preference
-	getSystemTheme(): 'light' | 'dark' {
-		let systemTheme: 'light' | 'dark' = 'light';
-		this._systemTheme.subscribe((theme) => (systemTheme = theme))();
-		return systemTheme;
-	}
-
-	// Gets the current Roblox theme preference
-	getRobloxTheme(): 'light' | 'dark' {
-		let robloxTheme: 'light' | 'dark' = 'light';
-		this._robloxTheme.subscribe((theme) => (robloxTheme = theme))();
-		return robloxTheme;
-	}
-
-	// Detects if the system supports prefers-color-scheme
-	supportsSystemTheme(): boolean {
-		try {
-			return (
-				window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').media !== 'not all'
-			);
-		} catch {
-			return false;
-		}
-	}
-
-	// Applies theme to a specific element
-	applyThemeToElement(element: HTMLElement, theme?: 'light' | 'dark'): void {
-		const targetTheme = theme ?? this.getCurrentTheme();
-
-		try {
-			element.setAttribute('data-theme', targetTheme);
-			logger.debug(`Applied ${targetTheme} theme to element`);
-		} catch (error) {
-			logger.error('Failed to apply theme to element:', error);
-		}
+		return get(this.effectiveTheme);
 	}
 
 	// Register a portal container to receive theme updates

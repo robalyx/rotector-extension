@@ -55,6 +55,7 @@
 @import './popup/queue/history.css';
 
 /* Developer Observability */
+@import './popup/developer/shared.css';
 @import './popup/developer/logs.css';
 @import './popup/developer/performance.css';
 
@@ -65,7 +66,6 @@
 @import './popup/api/documentation.css';
 
 /* Shared Components */
-@import './popup/shared/banner.css';
 @import './popup/shared/footer.css';
 
 /* =================================

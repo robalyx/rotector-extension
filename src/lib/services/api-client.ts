@@ -51,29 +51,21 @@ async function sendMessage<T>(
 				return response.data as T;
 			}
 
-			// Create structured error with additional properties
-			const error = new Error(response.error ?? 'An error occurred. Please try again.') as Error & {
+			// Create structured error with additional properties from response
+			const resp = response as ApiResponse & {
 				requestId?: string;
 				code?: string;
 				type?: string;
 				status?: number;
 				rateLimitReset?: number;
 			};
-			const responseWithError = response as ApiResponse & {
-				requestId?: string;
-				code?: string;
-				type?: string;
-				status?: number;
-				rateLimitReset?: number;
-			};
-
-			if (responseWithError.requestId) error.requestId = responseWithError.requestId;
-			if (responseWithError.code) error.code = responseWithError.code;
-			if (responseWithError.type) error.type = responseWithError.type;
-			if (responseWithError.status !== undefined) error.status = responseWithError.status;
-			if (responseWithError.rateLimitReset) error.rateLimitReset = responseWithError.rateLimitReset;
-
-			throw error;
+			throw Object.assign(new Error(response.error ?? 'An error occurred. Please try again.'), {
+				...(resp.requestId && { requestId: resp.requestId }),
+				...(resp.code && { code: resp.code }),
+				...(resp.type && { type: resp.type }),
+				...(resp.status !== undefined && { status: resp.status }),
+				...(resp.rateLimitReset && { rateLimitReset: resp.rateLimitReset })
+			});
 		} catch (error) {
 			attempt++;
 
@@ -110,7 +102,8 @@ async function sendMessage<T>(
 		}
 	}
 
-	throw new Error('An error occurred. Please try again.');
+	// Unreachable: all loop paths throw, continue, or return
+	throw new Error('Unexpected: retry loop exited without resolution');
 }
 
 // API client for backend communication

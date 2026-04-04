@@ -103,11 +103,6 @@ export async function loadStatistics(forceRefresh: boolean = false): Promise<voi
 	}
 }
 
-// Force refresh statistics
-export async function refreshStatistics(): Promise<void> {
-	return loadStatistics(true);
-}
-
 // Format numbers for display
 export function formatNumber(num: number | undefined): string {
 	if (num === undefined || num === null || isNaN(num)) {

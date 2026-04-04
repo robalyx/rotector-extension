@@ -5,7 +5,6 @@
 		formatNumber,
 		lastUpdatedFormatted,
 		loadStatistics,
-		refreshStatistics,
 		statistics,
 		statisticsState
 	} from '@/lib/stores/statistics';
@@ -20,7 +19,7 @@
 
 		isRefreshing = true;
 		try {
-			await refreshStatistics();
+			await loadStatistics(true);
 		} catch (error) {
 			logger.error('Failed to refresh statistics:', error);
 		} finally {

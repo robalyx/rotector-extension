@@ -113,14 +113,6 @@
 		mountedComponents.set('group-owner', component);
 	}
 
-	// Handle user processing completion from UserListManager
-	function handleUserProcessed(processedUserId: string, status: CombinedStatus) {
-		logger.debug('Groups page user processed', {
-			userId: processedUserId,
-			hasStatus: !!status
-		});
-	}
-
 	// Handle errors from UserListManager
 	function handleError(error: string) {
 		logger.error('Groups page UserListManager error:', error);
@@ -134,9 +126,9 @@
 	}
 </script>
 
-<UserListManager onError={handleError} onUserProcessed={handleUserProcessed} {pageType} />
+<UserListManager onError={handleError} {pageType} />
 
 <!-- Group Members Carousel -->
 {#if groupId && isAboutTab}
-	<GroupMembersCarousel {groupId} onError={handleError} onUserProcessed={handleUserProcessed} />
+	<GroupMembersCarousel {groupId} onError={handleError} />
 {/if}

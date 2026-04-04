@@ -2,21 +2,17 @@ import { logger } from '../utils/logger';
 import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
 import type { PageType } from '../types/api';
-import type { CombinedStatus } from '../types/custom-api';
-import type { Observer } from '../utils/observer';
 import { type Component, mount } from 'svelte';
-import UserListManager from '../../components/features/UserListManager.svelte';
 
 /**
  * Base class for all page controllers
  */
 export abstract class PageController {
 	protected isInitialized = false;
-	protected observers: Observer[] = [];
 	protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
 
 	constructor(
-		protected pageType: PageType,
+		public readonly pageType: PageType,
 		protected url: string
 	) {
 		logger.debug(`Creating ${this.constructor.name}`, { pageType, url });
@@ -55,30 +51,6 @@ export abstract class PageController {
 		}
 	}
 
-	// Get the page type
-	getPageType(): PageType {
-		return this.pageType;
-	}
-
-	// Get the current URL
-	getUrl(): string {
-		return this.url;
-	}
-
-	// Check if the controller is initialized
-	isReady(): boolean {
-		return this.isInitialized;
-	}
-
-	// Update the URL (called on navigation within same page type)
-	updateUrl(newUrl: string): void {
-		logger.debug(`Updating URL for ${this.constructor.name}`, {
-			oldUrl: this.url,
-			newUrl
-		});
-		this.url = newUrl;
-	}
-
 	// Cleanup all resources
 	async cleanup(): Promise<void> {
 		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, `${this.constructor.name}.cleanup`, {
@@ -89,9 +61,6 @@ export abstract class PageController {
 
 			// Cleanup mounted components
 			this.cleanupComponents();
-
-			// Stop and cleanup observers
-			this.cleanupObservers();
 
 			// Call page cleanup
 			await this.cleanupPage();
@@ -195,16 +164,6 @@ export abstract class PageController {
 		return container;
 	}
 
-	// Find elements using a selector with error handling
-	protected findElements(selector: string): HTMLElement[] {
-		try {
-			return Array.from(document.querySelectorAll(selector));
-		} catch (error) {
-			logger.error(`Failed to find elements with selector: ${selector}`, error);
-			return [];
-		}
-	}
-
 	// Find a single element using a selector with error handling
 	protected findElement(selector: string): HTMLElement | null {
 		try {
@@ -215,113 +174,19 @@ export abstract class PageController {
 		}
 	}
 
-	// Add an observer and track it for cleanup
-	protected addObserver(observer: Observer): void {
-		this.observers.push(observer);
-	}
-
 	// Abstract method for page cleanup
 	protected async cleanupPage(): Promise<void> {}
 
-	// Handle errors that occur during page operation
-	protected handleError(error: unknown, context: string): void {
-		logger.error(`Error in ${this.constructor.name} (${context}):`, error);
-	}
-
-	// Mount UserListManager with standard configuration
-	protected mountUserListManager(
-		containerSelector: string,
-		componentClass: ComponentClassType,
-		pageType: PageType,
-		onUserProcessed?: (userId: string, status: CombinedStatus) => void,
-		onError?: (error: string) => void
-	): { element: HTMLElement; cleanup: () => void } | null {
-		try {
-			const targetContainer = this.findElement(containerSelector);
-
-			if (!targetContainer) {
-				throw new Error(`Container not found: ${containerSelector}`);
-			}
-
-			// Create a wrapper for our component
-			const componentContainer = this.createComponentContainer(componentClass);
-			targetContainer.appendChild(componentContainer);
-
-			// Mount UserListManager
-			const component = this.mountComponent(UserListManager, componentContainer, {
-				pageType,
-				onUserProcessed: onUserProcessed ?? this.handleUserProcessed.bind(this),
-				onError: onError ?? this.handleUserListError.bind(this)
-			});
-
-			logger.debug('UserListManager mounted successfully', {
-				container: containerSelector,
-				pageType
-			});
-
-			return component;
-		} catch (error) {
-			this.handleError(error, 'mountUserListManager');
-			throw error;
-		}
-	}
-
-	// Default user processed handler
-	protected handleUserProcessed(userId: string, _status: CombinedStatus): void {
-		logger.debug('User processed', { userId });
-	}
-
-	// Default user list error handler
-	protected handleUserListError(error: string): void {
-		logger.error('UserListManager error:', error);
-	}
-
-	// Generic method to update modal visibility by remounting component
-	protected updateModalVisibility(
-		modalRef: { element: HTMLElement; cleanup: () => void } | null,
-		componentClass: Component<Record<string, unknown>, Record<string, unknown>>,
-		visible: boolean,
-		props: Record<string, unknown>
-	): { element: HTMLElement; cleanup: () => void } | null {
-		if (!modalRef) return null;
-
-		try {
-			// Clean up existing component
-			modalRef.cleanup();
-
-			// Remount with new visibility state
-			return this.mountComponent(componentClass, modalRef.element, {
-				isOpen: visible,
-				...props
-			});
-		} catch (error) {
-			this.handleError(error, 'updateModalVisibility');
-			return null;
-		}
-	}
-
-	// Cleanup all mounted components
+	// Cleanup all mounted components and remove their DOM elements
 	private cleanupComponents(): void {
 		for (const component of this.mountedComponents) {
 			try {
 				component.cleanup();
+				component.element.parentNode?.removeChild(component.element);
 			} catch (error) {
 				logger.error('Failed to cleanup component:', error);
 			}
 		}
 		this.mountedComponents = [];
-	}
-
-	// Cleanup all observers
-	private cleanupObservers(): void {
-		for (const observer of this.observers) {
-			try {
-				observer.stop();
-				observer.cleanup();
-			} catch (error) {
-				logger.error('Failed to cleanup observer:', error);
-			}
-		}
-		this.observers = [];
 	}
 }

@@ -1,4 +1,4 @@
-import { derived, get, writable } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 import { settings, updateSetting } from './settings.js';
 import { SETTINGS_KEYS } from '../types/settings.js';
 import { type Changelog, CHANGELOGS } from '../types/changelog.js';
@@ -15,11 +15,8 @@ function compareVersions(a: string, b: string): number {
 	return 0;
 }
 
-// Store for all changelogs
-export const changelogs = writable<Changelog[]>(CHANGELOGS);
-
-// Store for the latest changelog
-const latestChangelog = derived(changelogs, ($changelogs) => $changelogs?.[0] ?? null);
+// Changelog data
+export const changelogs = CHANGELOGS;
 
 // Store for whether the changelog section is expanded
 export const changelogSectionExpanded = derived(
@@ -27,13 +24,13 @@ export const changelogSectionExpanded = derived(
 	($settings) => $settings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]
 );
 
-// Get all unread changelogs where versions newer than last seen
+// Unread changelogs where versions are newer than last seen
 export const unreadChangelogs = derived(settings, ($settings) => {
 	const lastSeen = $settings[SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION] || '0.0.0';
 	return CHANGELOGS.filter((cl) => compareVersions(cl.version, lastSeen) > 0);
 });
 
-// Store for whether the changelog modal should be visible
+// Whether the changelog modal should be visible
 export const shouldShowChangelogModal = derived(
 	[settings, unreadChangelogs],
 	([$settings, $unread]) => {
@@ -52,7 +49,7 @@ export async function toggleChangelogSection(): Promise<void> {
 
 // Mark changelogs as seen
 export async function markChangelogsSeen(): Promise<void> {
-	const latest = get(latestChangelog);
+	const latest = CHANGELOGS[0];
 	if (latest) {
 		await updateSetting(SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION, latest.version);
 	}

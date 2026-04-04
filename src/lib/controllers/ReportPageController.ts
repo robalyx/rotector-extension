@@ -15,64 +15,33 @@ import { get } from 'svelte/store';
 export class ReportPageController extends PageController {
 	private userId: string | null = null;
 	private userStatus: UserStatus | null = null;
-	private reportPageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 
 	protected override async initializePage(): Promise<void> {
-		try {
-			logger.debug('Initializing ReportPageController', {
-				pageType: this.pageType,
-				url: this.url
-			});
-
-			// Check if report helper is enabled
-			const currentSettings = get(settings);
-			if (!currentSettings[SETTINGS_KEYS.REPORT_HELPER_ENABLED]) {
-				logger.debug('Report helper is disabled in settings');
-				return;
-			}
-
-			// Extract user ID from report page
-			this.userId = this.extractUserId();
-			if (!this.userId) {
-				logger.warn('Could not extract user ID from report page');
-				return;
-			}
-
-			logger.debug('Report user ID extracted', { userId: this.userId });
-
-			// Load user status
-			await this.loadUserStatus();
-
-			// Mount report page manager
-			this.mountReportPageManager();
-
-			logger.debug('ReportPageController initialized successfully');
-		} catch (error) {
-			this.handleError(error, 'initializePage');
-			throw error;
+		// Check if report helper is enabled
+		const currentSettings = get(settings);
+		if (!currentSettings[SETTINGS_KEYS.REPORT_HELPER_ENABLED]) {
+			logger.debug('Report helper is disabled in settings');
+			return;
 		}
+
+		// Extract user ID from report page
+		this.userId = this.extractUserId();
+		if (!this.userId) {
+			logger.warn('Could not extract user ID from report page');
+			return;
+		}
+
+		// Load user status
+		await this.loadUserStatus();
+
+		// Mount report page manager
+		this.mountReportPageManager();
 	}
 
-	/**
-	 * Page cleanup
-	 */
+	// Page cleanup
 	protected override async cleanupPage(): Promise<void> {
-		try {
-			// Cleanup report page manager
-			if (this.reportPageManager) {
-				this.reportPageManager.cleanup();
-				this.reportPageManager = null;
-			}
-
-			// Reset state
-			this.userId = null;
-			this.userStatus = null;
-
-			logger.debug('ReportPageController cleanup completed');
-		} catch (error) {
-			this.handleError(error, 'cleanupPage');
-			throw error;
-		}
+		this.userId = null;
+		this.userStatus = null;
 	}
 
 	// Extract user ID from report page
@@ -126,24 +95,16 @@ export class ReportPageController extends PageController {
 
 	// Mount report page manager
 	private mountReportPageManager(): void {
-		try {
-			if (!this.userId || !this.userStatus) {
-				logger.debug('Missing userId or userStatus, not mounting ReportPageManager');
-				return;
-			}
-
-			// Create container for report page manager
-			const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
-
-			// Mount ReportPageManager
-			this.reportPageManager = this.mountComponent(ReportPageManager, container, {
-				userId: this.userId,
-				userStatus: this.userStatus
-			});
-
-			logger.debug('ReportPageManager mounted successfully');
-		} catch (error) {
-			this.handleError(error, 'mountReportPageManager');
+		if (!this.userId || !this.userStatus) {
+			logger.debug('Missing userId or userStatus, not mounting ReportPageManager');
+			return;
 		}
+
+		const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
+
+		this.mountComponent(ReportPageManager, container, {
+			userId: this.userId,
+			userStatus: this.userStatus
+		});
 	}
 }

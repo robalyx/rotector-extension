@@ -81,7 +81,7 @@
 			return getStatusConfig(cachedStatus, cachedStatus, true, null, entityType);
 		}
 
-		const rotector = entityStatus.customApis.get(ROTECTOR_API_ID);
+		const rotector = entityStatus.get(ROTECTOR_API_ID);
 		const rotectorStatus = rotector?.data ?? cachedStatus;
 		const rotectorLoading = rotector?.loading ?? false;
 		const rotectorError = rotector?.error ?? null;
@@ -127,7 +127,7 @@
 		event.preventDefault();
 		event.stopPropagation();
 
-		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = entityStatus?.get(ROTECTOR_API_ID);
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasData = rotector?.data || cachedStatus;
 
@@ -165,7 +165,7 @@
 			showBadgeExpansion = true;
 		}
 
-		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = entityStatus?.get(ROTECTOR_API_ID);
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasData = rotector?.data || cachedStatus;
 
@@ -212,7 +212,7 @@
 	// Handle queue action
 	function handleQueue(isReprocess = false) {
 		if (onQueue) {
-			const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+			const rotector = entityStatus?.get(ROTECTOR_API_ID);
 			const tooltipStatus = rotector?.data ?? cachedStatus;
 			onQueue(sanitizedEntityId, isReprocess, tooltipStatus);
 		}
@@ -239,7 +239,7 @@
 		// Skip fetching if access is restricted
 		if (isRestricted && !isSelfLookup) return;
 
-		const rotector = entityStatus?.customApis.get(ROTECTOR_API_ID);
+		const rotector = entityStatus?.get(ROTECTOR_API_ID);
 		const rotectorLoading = rotector?.loading ?? false;
 		const hasRotectorData = rotector?.data;
 
@@ -303,7 +303,7 @@
 				document.removeEventListener('keydown', handleEscape);
 			};
 		}
-		return () => {}; // No-op cleanup when tooltips are not shown
+		return () => {};
 	});
 </script>
 
@@ -312,7 +312,7 @@
 	class="status-container"
 	class:badge-expanded={showBadgeExpansion}
 	aria-label={`Status: ${statusConfig.textContent}. Click for details.`}
-	data-status-flag={entityStatus?.customApis.get(ROTECTOR_API_ID)?.data?.flagType}
+	data-status-flag={entityStatus?.get(ROTECTOR_API_ID)?.data?.flagType}
 	data-user-id={sanitizedEntityId}
 	onclick={handleClick}
 	onkeydown={handleKeydown}

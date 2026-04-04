@@ -1,22 +1,10 @@
-import { LOG_SOURCES, type LogSource } from '../types/developer-logs';
 import type { LongTaskEntry, MemorySnapshot, MetricsSnapshot } from '../types/performance';
 import { addMetricsSnapshot } from '../stores/metrics';
 import { observerRegistry } from './observer-registry';
+import { getLogSource } from './log-source';
 
 const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 const SAMPLE_INTERVAL = 30000; // 30 seconds
-
-function getLogSource(): LogSource {
-	if (typeof document === 'undefined') {
-		return LOG_SOURCES.BACKGROUND;
-	}
-
-	if (window.location?.hostname?.includes('roblox.com')) {
-		return LOG_SOURCES.CONTENT;
-	}
-
-	return LOG_SOURCES.POPUP;
-}
 
 function generateId(): string {
 	return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;

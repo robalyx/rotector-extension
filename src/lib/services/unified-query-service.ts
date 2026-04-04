@@ -28,21 +28,19 @@ function shouldBlockLookup(userId: string): boolean {
 // Create a restricted access result for blocked lookups
 function createRestrictedResult(): CombinedStatus {
 	const enabledApis = getEnabledCustomApis();
-	return {
-		customApis: new Map(
-			enabledApis.map((api) => [
-				api.id,
-				{
-					apiId: api.id,
-					apiName: api.name,
-					error: 'restricted_access',
-					loading: false,
-					timestamp: Date.now(),
-					landscapeImageDataUrl: api.landscapeImageDataUrl
-				}
-			])
-		)
-	};
+	return new Map(
+		enabledApis.map((api) => [
+			api.id,
+			{
+				apiId: api.id,
+				apiName: api.name,
+				error: 'restricted_access',
+				loading: false,
+				timestamp: Date.now(),
+				landscapeImageDataUrl: api.landscapeImageDataUrl
+			}
+		])
+	);
 }
 
 // Get enabled custom APIs sorted by order
@@ -112,7 +110,7 @@ export async function queryUser(userId: string): Promise<CombinedStatus> {
 				successfulApis: Array.from(customApiResults.values()).filter((r) => r.data).length
 			});
 
-			return { customApis: customApiResults };
+			return customApiResults;
 		},
 		{ userId }
 	);
@@ -132,7 +130,7 @@ export function queryUserProgressive(
 	let cancelled = false;
 
 	// Initialize with loading state for all APIs
-	const customApis = new Map<string, CustomApiResult>(
+	const apiResults = new Map<string, CustomApiResult>(
 		enabledApis.map((api) => [
 			api.id,
 			{
@@ -143,7 +141,7 @@ export function queryUserProgressive(
 			}
 		])
 	);
-	onUpdate({ customApis: new Map(customApis) });
+	onUpdate(new Map(apiResults));
 
 	// Fire all requests in parallel then update on each completion
 	enabledApis.forEach(async (api) => {
@@ -155,7 +153,7 @@ export function queryUserProgressive(
 
 			if (cancelled) return;
 
-			customApis.set(api.id, {
+			apiResults.set(api.id, {
 				apiId: api.id,
 				apiName: api.name,
 				data: result ?? undefined,
@@ -163,11 +161,11 @@ export function queryUserProgressive(
 				timestamp: Date.now(),
 				landscapeImageDataUrl: api.landscapeImageDataUrl
 			});
-			onUpdate({ customApis: new Map(customApis) });
+			onUpdate(new Map(apiResults));
 		} catch (error) {
 			if (cancelled) return;
 
-			customApis.set(api.id, {
+			apiResults.set(api.id, {
 				apiId: api.id,
 				apiName: api.name,
 				error: error instanceof Error ? error.message : 'Unknown error',
@@ -175,7 +173,7 @@ export function queryUserProgressive(
 				timestamp: Date.now(),
 				landscapeImageDataUrl: api.landscapeImageDataUrl
 			});
-			onUpdate({ customApis: new Map(customApis) });
+			onUpdate(new Map(apiResults));
 		}
 	});
 
@@ -205,7 +203,7 @@ export async function queryMultipleUsers(
 	// Initialize results map
 	const results = new Map<string, CombinedStatus>();
 	userIds.forEach((userId) => {
-		results.set(userId, { customApis: new Map() });
+		results.set(userId, new Map());
 	});
 
 	// Split user IDs into chunks
@@ -248,7 +246,7 @@ export async function queryMultipleUsers(
 
 					const userStatus = userMap.get(userId);
 
-					combined.customApis.set(
+					combined.set(
 						api.id,
 						userStatus
 							? {
@@ -277,7 +275,7 @@ export async function queryMultipleUsers(
 					const combined = results.get(userId);
 					if (!combined) return;
 
-					combined.customApis.set(api.id, {
+					combined.set(api.id, {
 						apiId: api.id,
 						apiName: api.name,
 						error: errorMessage,
@@ -310,7 +308,7 @@ export async function queryMultipleUsers(
 // Count how many custom APIs flagged a user
 export function countCustomApiFlags(combined: CombinedStatus): number {
 	let count = 0;
-	for (const [apiId, result] of combined.customApis.entries()) {
+	for (const [apiId, result] of combined.entries()) {
 		if (apiId === ROTECTOR_API_ID) continue;
 
 		if (

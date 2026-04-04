@@ -14,67 +14,40 @@ import { logger } from '../utils/logger';
  */
 export class ProfilePageController extends PageController {
 	private userId: string | null = null;
-	private profilePageManager: { element: HTMLElement; cleanup: () => void } | null = null;
 	private querySubscription: ProfileQuerySubscription | null = null;
 
 	protected override async initializePage(): Promise<void> {
-		try {
-			logger.debug('Initializing ProfilePageController', {
-				pageType: this.pageType,
-				url: this.url
-			});
-
-			// Check if profile checks are enabled
-			const currentSettings = get(settings);
-			if (!currentSettings[SETTINGS_KEYS.PROFILE_CHECK_ENABLED]) {
-				logger.debug('Profile checks disabled, skipping ProfilePageController initialization');
-				return;
-			}
-
-			// Extract user ID from URL
-			this.userId = this.extractUserIdFromUrl();
-			if (!this.userId) {
-				throw new Error('Could not extract user ID from profile URL');
-			}
-
-			logger.debug('Profile user ID extracted', { userId: this.userId });
-
-			// Start API query
-			this.querySubscription = startProfileQuery(this.userId);
-
-			// Wait for profile elements to load
-			await this.waitForProfileElements();
-
-			// Mount profile page manager
-			this.mountProfilePageManager();
-
-			logger.debug('ProfilePageController initialized successfully');
-		} catch (error) {
-			this.handleError(error, 'initializePage');
-			throw error;
+		// Check if profile checks are enabled
+		const currentSettings = get(settings);
+		if (!currentSettings[SETTINGS_KEYS.PROFILE_CHECK_ENABLED]) {
+			logger.debug('Profile checks disabled, skipping ProfilePageController initialization');
+			return;
 		}
+
+		// Extract user ID from URL
+		this.userId = this.extractUserIdFromUrl();
+		if (!this.userId) {
+			throw new Error('Could not extract user ID from profile URL');
+		}
+
+		// Start API query
+		this.querySubscription = startProfileQuery(this.userId);
+
+		// Wait for profile elements to load
+		await this.waitForProfileElements();
+
+		// Mount profile page manager
+		this.mountProfilePageManager();
 	}
 
 	// Page cleanup
 	protected override async cleanupPage(): Promise<void> {
-		try {
-			if (this.profilePageManager) {
-				this.profilePageManager.cleanup();
-				this.profilePageManager = null;
-			}
-
-			if (this.querySubscription) {
-				this.querySubscription.cancel();
-				this.querySubscription = null;
-			}
-
-			this.userId = null;
-
-			logger.debug('ProfilePageController cleanup completed');
-		} catch (error) {
-			this.handleError(error, 'cleanupPage');
-			throw error;
+		if (this.querySubscription) {
+			this.querySubscription.cancel();
+			this.querySubscription = null;
 		}
+
+		this.userId = null;
 	}
 
 	// Extract user ID from profile URL
@@ -104,24 +77,17 @@ export class ProfilePageController extends PageController {
 
 	// Mount profile page manager to handle all UI components
 	private mountProfilePageManager(): void {
-		try {
-			if (!this.userId || !this.querySubscription) {
-				throw new Error('Cannot mount ProfilePageManager without userId and querySubscription');
-			}
-
-			const container = this.createComponentContainer();
-			container.style.display = 'none';
-			document.body.appendChild(container);
-
-			this.profilePageManager = this.mountComponent(ProfilePageManager, container, {
-				userId: this.userId,
-				querySubscription: this.querySubscription
-			});
-
-			logger.debug('ProfilePageManager mounted successfully');
-		} catch (error) {
-			this.handleError(error, 'mountProfilePageManager');
-			throw error;
+		if (!this.userId || !this.querySubscription) {
+			throw new Error('Cannot mount ProfilePageManager without userId and querySubscription');
 		}
+
+		const container = this.createComponentContainer();
+		container.style.display = 'none';
+		document.body.appendChild(container);
+
+		this.mountComponent(ProfilePageManager, container, {
+			userId: this.userId,
+			querySubscription: this.querySubscription
+		});
 	}
 }

@@ -169,16 +169,16 @@
 	const recentTraces = $derived($performanceEntries.slice(0, 20));
 </script>
 
-<div class="perf-dashboard-container">
+<div class="developer-panel-container">
 	<!-- Header -->
-	<div class="perf-dashboard-header">
-		<button class="perf-dashboard-back-button" onclick={onBack} type="button">
+	<div class="developer-panel-header">
+		<button class="developer-panel-back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
 			<span>{$_('performance_dashboard_back')}</span>
 		</button>
-		<div class="perf-dashboard-actions">
+		<div class="developer-panel-actions">
 			<button
-				class="perf-dashboard-action-button"
+				class="developer-panel-action-button"
 				disabled={$performanceEntries.length === 0}
 				onclick={handleCopy}
 				title={$_('performance_dashboard_copy_button')}
@@ -187,7 +187,7 @@
 				<Copy size={14} />
 			</button>
 			<button
-				class="perf-dashboard-action-button perf-dashboard-action-danger"
+				class="developer-panel-action-button developer-panel-action-danger"
 				disabled={$performanceEntries.length === 0}
 				onclick={handleClear}
 				title={$_('performance_dashboard_clear_button')}
@@ -199,16 +199,16 @@
 	</div>
 
 	<!-- Title -->
-	<h2 class="perf-dashboard-title">{$_('performance_dashboard_title')}</h2>
+	<h2 class="developer-panel-title">{$_('performance_dashboard_title')}</h2>
 
 	{#if isLoading}
-		<div class="perf-loading">
+		<div class="developer-panel-loading">
 			<LoadingSpinner size="medium" />
 		</div>
 	{:else if $performanceEntries.length === 0}
-		<div class="perf-empty">
-			<p class="perf-empty-title">{$_('performance_dashboard_empty_title')}</p>
-			<p class="perf-empty-hint">{$_('performance_dashboard_empty_hint')}</p>
+		<div class="developer-panel-empty">
+			<p class="developer-panel-empty-title">{$_('performance_dashboard_empty_title')}</p>
+			<p class="developer-panel-empty-hint">{$_('performance_dashboard_empty_hint')}</p>
 		</div>
 	{:else}
 		<!-- System Metrics -->
@@ -353,7 +353,7 @@
 
 	<!-- Copy Toast -->
 	{#if showCopyToast}
-		<div class="perf-toast">
+		<div class="developer-panel-toast">
 			<Check size={14} />
 			<span>{$_('performance_dashboard_copied')}</span>
 		</div>

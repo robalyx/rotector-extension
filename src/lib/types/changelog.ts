@@ -16,6 +16,20 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.15.2',
+		version: '2.15.2',
+		date: '2026-04-10',
+		title: '',
+		summary: '',
+		changes: [
+			{
+				type: 'fixed',
+				description:
+					'Tooltip resize - Safe user and group tooltips no longer retain a large saved height, shrinking to fit their minimal content instead'
+			}
+		]
+	},
+	{
 		id: 'v2.15.1',
 		version: '2.15.1',
 		date: '2026-03-23',

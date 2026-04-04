@@ -280,6 +280,15 @@
 			activeUserStatus?.processed === true
 	);
 
+	const isSafeEntity = $derived(
+		activeTab === ROTECTOR_API_ID &&
+			activeStatus &&
+			(activeStatus.flagType === STATUS.FLAGS.SAFE ||
+				(activeStatus.flagType === STATUS.FLAGS.QUEUED &&
+					!isGroup &&
+					(activeStatus as UserStatus).processed === true))
+	);
+
 	let showSafeReasons = $state(false);
 
 	// Queue cooldown check for recently processed users (3-day cooldown)
@@ -478,9 +487,10 @@
 			width: customWidth
 				? Math.min(Math.max(customWidth, config.minWidth), config.maxWidth)
 				: undefined,
-			height: customHeight
-				? Math.min(Math.max(customHeight, config.minHeight), config.maxHeight)
-				: undefined
+			height:
+				customHeight && !isSafeEntity
+					? Math.min(Math.max(customHeight, config.minHeight), config.maxHeight)
+					: undefined
 		};
 	});
 

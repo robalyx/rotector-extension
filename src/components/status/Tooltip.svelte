@@ -35,6 +35,7 @@
 	import {
 		User,
 		AlertCircle,
+		Flag,
 		Shirt,
 		Clock,
 		Loader2,
@@ -75,6 +76,16 @@
 	} as const;
 
 	const COMPACT_HEADER_MIN_WIDTH = 450;
+	const HOVER_POPOVER_OFFSET = 6;
+	const HOVER_POPOVER_VIEWPORT_PADDING = 12;
+	const HOVER_POPOVER_HIDE_DELAY = 80;
+
+	type HoverPopoverKind = 'cross-signal' | 'outfit-only' | 'trap-info' | 'discord-info';
+
+	interface HoverPopoverState {
+		anchor: HTMLElement;
+		kind: HoverPopoverKind;
+	}
 
 	interface Props {
 		userId: string | number;
@@ -115,6 +126,8 @@
 	// Local state
 	let tooltipRef = $state<HTMLElement>();
 	let overlayRef = $state<HTMLElement>();
+	let scrollContentRef = $state<HTMLElement>();
+	let hoverPopoverRef = $state<HTMLElement>();
 	let voteData: VoteData | null = $state(null);
 	let loadingVotes = $state(false);
 	let voteError = $state<string | null>(null);
@@ -122,6 +135,8 @@
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
+	let activeHoverPopover = $state<HoverPopoverState | null>(null);
+	let hoverPopoverPosition = $state({ left: 0, top: 0 });
 
 	// Translation state
 	let translationsMap = $state<Record<string, string>>({});
@@ -142,6 +157,8 @@
 	let customWidth = $state<number | undefined>(undefined);
 	let customHeight = $state<number | undefined>(undefined);
 	let headerCompact = $state(false);
+	let hoverPopoverHideTimeout: ReturnType<typeof setTimeout> | null = null;
+	let hoverPopoverFrame: number | null = null;
 
 	// Engine version status for options menu display
 	const engineVersionStatus = $derived.by(() => {
@@ -596,6 +613,102 @@
 		applyTooltipPosition(tooltipRef, position);
 	}
 
+	function clearHoverPopoverHideTimeout() {
+		if (hoverPopoverHideTimeout !== null) {
+			clearTimeout(hoverPopoverHideTimeout);
+			hoverPopoverHideTimeout = null;
+		}
+	}
+
+	function clearHoverPopoverFrame() {
+		if (hoverPopoverFrame !== null) {
+			cancelAnimationFrame(hoverPopoverFrame);
+			hoverPopoverFrame = null;
+		}
+	}
+
+	function closeHoverPopover() {
+		clearHoverPopoverHideTimeout();
+		clearHoverPopoverFrame();
+		activeHoverPopover = null;
+	}
+
+	function positionHoverPopover() {
+		if (!activeHoverPopover || !hoverPopoverRef) return;
+
+		const { anchor } = activeHoverPopover;
+		if (!anchor.isConnected) {
+			closeHoverPopover();
+			return;
+		}
+
+		const anchorRect = anchor.getBoundingClientRect();
+		const popoverWidth = hoverPopoverRef.offsetWidth;
+		const popoverHeight = hoverPopoverRef.offsetHeight;
+
+		if (!popoverWidth || !popoverHeight) return;
+
+		const minLeft = HOVER_POPOVER_VIEWPORT_PADDING;
+		const maxLeft = Math.max(minLeft, window.innerWidth - popoverWidth - minLeft);
+		const belowTop = anchorRect.bottom + HOVER_POPOVER_OFFSET;
+		const aboveTop = anchorRect.top - popoverHeight - HOVER_POPOVER_OFFSET;
+		const fitsBelow =
+			belowTop + popoverHeight <= window.innerHeight - HOVER_POPOVER_VIEWPORT_PADDING;
+		const fitsAbove = aboveTop >= HOVER_POPOVER_VIEWPORT_PADDING;
+		const left = Math.min(Math.max(anchorRect.right - popoverWidth, minLeft), maxLeft);
+		let top = belowTop;
+
+		if (!fitsBelow && fitsAbove) {
+			top = aboveTop;
+		}
+
+		const minTop = HOVER_POPOVER_VIEWPORT_PADDING;
+		const maxTop = Math.max(minTop, window.innerHeight - popoverHeight - minTop);
+
+		hoverPopoverPosition = {
+			left: Math.round(left),
+			top: Math.round(Math.min(Math.max(top, minTop), maxTop))
+		};
+	}
+
+	function queueHoverPopoverPosition() {
+		if (hoverPopoverFrame !== null) return;
+
+		hoverPopoverFrame = requestAnimationFrame(() => {
+			hoverPopoverFrame = null;
+			positionHoverPopover();
+		});
+	}
+
+	function handleHoverPopoverTriggerEnter(kind: HoverPopoverKind, event: MouseEvent) {
+		const anchor = event.currentTarget;
+		if (!(anchor instanceof HTMLElement)) return;
+
+		clearHoverPopoverHideTimeout();
+		activeHoverPopover = { anchor, kind };
+		queueHoverPopoverPosition();
+	}
+
+	function scheduleHoverPopoverClose() {
+		clearHoverPopoverHideTimeout();
+		hoverPopoverHideTimeout = setTimeout(() => {
+			hoverPopoverHideTimeout = null;
+			activeHoverPopover = null;
+		}, HOVER_POPOVER_HIDE_DELAY);
+	}
+
+	function handleHoverPopoverTriggerLeave() {
+		scheduleHoverPopoverClose();
+	}
+
+	function handleHoverPopoverEnter() {
+		clearHoverPopoverHideTimeout();
+	}
+
+	function handleHoverPopoverLeave() {
+		scheduleHoverPopoverClose();
+	}
+
 	// Calculate transform-origin for expanded tooltip animation
 	function getTransformOrigin() {
 		return anchorElement ? calculateTransformOrigin(anchorElement) : { originX: 50, originY: 50 };
@@ -712,6 +825,8 @@
 		if (!isExpanded) {
 			requestAnimationFrame(() => positionTooltip());
 		}
+
+		queueHoverPopoverPosition();
 	}
 
 	function handleResizeEnd() {
@@ -985,6 +1100,38 @@
 		};
 	});
 
+	$effect(() => {
+		if (!activeHoverPopover || !hoverPopoverRef) return;
+
+		queueHoverPopoverPosition();
+	});
+
+	$effect(() => {
+		if (!activeHoverPopover) return;
+
+		const handleViewportChange = () => {
+			queueHoverPopoverPosition();
+		};
+		const scrollContent = scrollContentRef;
+
+		scrollContent?.addEventListener('scroll', handleViewportChange);
+		window.addEventListener('resize', handleViewportChange);
+		window.addEventListener('scroll', handleViewportChange, true);
+
+		return () => {
+			scrollContent?.removeEventListener('scroll', handleViewportChange);
+			window.removeEventListener('resize', handleViewportChange);
+			window.removeEventListener('scroll', handleViewportChange, true);
+		};
+	});
+
+	$effect(() => {
+		return () => {
+			clearHoverPopoverHideTimeout();
+			clearHoverPopoverFrame();
+		};
+	});
+
 	// Load vote data when tooltip becomes visible
 	let hasLoadedVoteData = $state(false);
 
@@ -1053,6 +1200,57 @@
 		}
 	});
 </script>
+
+{#snippet hoverPopover()}
+	{#if activeHoverPopover}
+		<div
+			bind:this={hoverPopoverRef}
+			style:left={`${hoverPopoverPosition.left}px`}
+			style:top={`${hoverPopoverPosition.top}px`}
+			class="tooltip-hover-popover"
+			class:cross-signal-popover={activeHoverPopover.kind === 'cross-signal'}
+			class:outfit-only-popover={activeHoverPopover.kind === 'outfit-only'}
+			class:source-info-popover={activeHoverPopover.kind === 'trap-info' ||
+				activeHoverPopover.kind === 'discord-info'}
+			onmouseenter={handleHoverPopoverEnter}
+			onmouseleave={handleHoverPopoverLeave}
+			role="tooltip"
+		>
+			{#if activeHoverPopover.kind === 'cross-signal'}
+				<strong>{$_('tooltip_cross_signal_title')}</strong>
+				<p>{$_('tooltip_cross_signal_message')}</p>
+			{:else if activeHoverPopover.kind === 'outfit-only'}
+				<strong>{$_('tooltip_outfit_title')}</strong>
+				<p>{$_('tooltip_outfit_message')}</p>
+			{:else if activeHoverPopover.kind === 'trap-info'}
+				<strong>{$_('tooltip_trap_info_title')}</strong>
+				<p>
+					{$_('tooltip_trap_info_message')}
+					<a
+						href="https://rotector.com/blog/trap-game-detection-explained"
+						onclick={(event) => event.stopPropagation()}
+						rel="noopener noreferrer"
+						target="_blank">{$_('tooltip_trap_info_link')}</a
+					>
+				</p>
+			{:else if activeHoverPopover.kind === 'discord-info'}
+				<strong>{$_('tooltip_discord_info_title')}</strong>
+				<p>{$_('tooltip_discord_info_message')}</p>
+				<div class="source-info-list">
+					<div class="source-info-list-item">
+						<span><strong>Joined</strong> - {$_('tooltip_discord_info_joined')}</span>
+					</div>
+					<div class="source-info-list-item">
+						<span><strong>First seen</strong> - {$_('tooltip_discord_info_first_seen')}</span>
+					</div>
+					<div class="source-info-list-item">
+						<span><strong>Updated</strong> - {$_('tooltip_discord_info_updated')}</span>
+					</div>
+				</div>
+			{/if}
+		</div>
+	{/if}
+{/snippet}
 
 {#snippet reviewerSection()}
 	{#if reviewerInfo}
@@ -1347,47 +1545,10 @@
 					/>
 				{/if}
 
-				<!-- Reportable notice -->
-				{#if activeTab === ROTECTOR_API_ID && !isGroup && badgeStatus.isReportable}
-					<div class="tooltip-divider"></div>
-					<div class="reportable-notice">
-						<AlertCircle class="reportable-icon" size={24} />
-						<div class="reportable-text">
-							<strong>{$_('tooltip_reportable_title')}</strong>
-							<p>
-								{$_('tooltip_reportable_message')}
-							</p>
-							<a
-								class="report-button"
-								href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId}&submitterId=0&abuseVector=userprofile&nl=true"
-								onclick={(e) => e.stopPropagation()}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								{$_('tooltip_reportable_report_button')}
-							</a>
-						</div>
-					</div>
-				{/if}
-
-				<!-- Outfit notice -->
-				{#if activeTab === ROTECTOR_API_ID && !isGroup && badgeStatus.isOutfitOnly}
-					<div class="tooltip-divider"></div>
-					<div class="outfit-notice">
-						<Shirt class="outfit-icon" size={24} />
-						<div class="outfit-text">
-							<strong>{$_('tooltip_outfit_title')}</strong>
-							<p>
-								{$_('tooltip_outfit_message')}
-							</p>
-						</div>
-					</div>
-				{/if}
-
 				<!-- Reasons -->
 				{#if reasonEntries.length > 0}
 					<!-- Show divider if there's content above -->
-					{#if shouldShowVoting || (activeTab === ROTECTOR_API_ID && !isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || customApiBadges.length > 0}
+					{#if shouldShowVoting || customApiBadges.length > 0}
 						<div class="tooltip-divider"></div>
 					{/if}
 
@@ -1434,13 +1595,44 @@
 								<div class="reason-header">
 									{reason.typeName} ({reason.confidence}%)
 									{#if reason.typeName === 'User Profile' && badgeStatus.hasCrossSignal}
-										<div class="cross-signal-indicator">
+										<button
+											class="cross-signal-indicator"
+											aria-label={$_('tooltip_cross_signal_title')}
+											onclick={(event) => event.stopPropagation()}
+											onmouseenter={(event) =>
+												handleHoverPopoverTriggerEnter('cross-signal', event)}
+											onmouseleave={handleHoverPopoverTriggerLeave}
+											type="button"
+										>
 											<Info size={14} />
-											<div class="cross-signal-popover">
-												<strong>{$_('tooltip_cross_signal_title')}</strong>
-												<p>{$_('tooltip_cross_signal_message')}</p>
-											</div>
-										</div>
+										</button>
+									{/if}
+									{#if activeTab === ROTECTOR_API_ID && !isGroup}
+										{#if reason.typeName === 'User Profile' && badgeStatus.isReportable}
+											<a
+												class="reportable-pill"
+												href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId}&submitterId=0&abuseVector=userprofile&nl=true"
+												onclick={(e) => e.stopPropagation()}
+												rel="noopener noreferrer"
+												target="_blank"
+											>
+												<Flag size={12} />
+												{$_('tooltip_reportable_report_button')}
+											</a>
+										{/if}
+										{#if reason.typeName === 'Avatar Outfit' && badgeStatus.isOutfitOnly}
+											<button
+												class="outfit-only-indicator"
+												onclick={(event) => event.stopPropagation()}
+												onmouseenter={(event) =>
+													handleHoverPopoverTriggerEnter('outfit-only', event)}
+												onmouseleave={handleHoverPopoverTriggerLeave}
+												type="button"
+											>
+												<Shirt size={12} />
+												{$_('tooltip_outfit_title')}
+											</button>
+										{/if}
 									{/if}
 								</div>
 								{#if reason.message}
@@ -1455,52 +1647,29 @@
 														<div class="source-evidence-header">
 															<span class="source-evidence-badge">{group.source}</span>
 															{#if group.source.toLowerCase() === 'trap'}
-																<div class="source-info-indicator">
+																<button
+																	class="source-info-indicator"
+																	aria-label={$_('tooltip_trap_info_title')}
+																	onclick={(event) => event.stopPropagation()}
+																	onmouseenter={(event) =>
+																		handleHoverPopoverTriggerEnter('trap-info', event)}
+																	onmouseleave={handleHoverPopoverTriggerLeave}
+																	type="button"
+																>
 																	<Info size={12} />
-																	<div class="source-info-popover">
-																		<strong>{$_('tooltip_trap_info_title')}</strong>
-																		<p>
-																			{$_('tooltip_trap_info_message')}
-																			<a
-																				href="https://rotector.com/blog/trap-game-detection-explained"
-																				onclick={(e) => e.stopPropagation()}
-																				rel="noopener noreferrer"
-																				target="_blank">{$_('tooltip_trap_info_link')}</a
-																			>
-																		</p>
-																	</div>
-																</div>
+																</button>
 															{:else if group.source.toLowerCase() === 'discord'}
-																<div class="source-info-indicator">
+																<button
+																	class="source-info-indicator"
+																	aria-label={$_('tooltip_discord_info_title')}
+																	onclick={(event) => event.stopPropagation()}
+																	onmouseenter={(event) =>
+																		handleHoverPopoverTriggerEnter('discord-info', event)}
+																	onmouseleave={handleHoverPopoverTriggerLeave}
+																	type="button"
+																>
 																	<Info size={12} />
-																	<div class="source-info-popover">
-																		<strong>{$_('tooltip_discord_info_title')}</strong>
-																		<p>{$_('tooltip_discord_info_message')}</p>
-																		<div class="source-info-list">
-																			<div class="source-info-list-item">
-																				<span
-																					><strong>Joined</strong> - {$_(
-																						'tooltip_discord_info_joined'
-																					)}</span
-																				>
-																			</div>
-																			<div class="source-info-list-item">
-																				<span
-																					><strong>First seen</strong> - {$_(
-																						'tooltip_discord_info_first_seen'
-																					)}</span
-																				>
-																			</div>
-																			<div class="source-info-list-item">
-																				<span
-																					><strong>Updated</strong> - {$_(
-																						'tooltip_discord_info_updated'
-																					)}</span
-																				>
-																			</div>
-																		</div>
-																	</div>
-																</div>
+																</button>
 															{/if}
 														</div>
 														<div class="source-evidence-description">{group.description}</div>
@@ -1747,6 +1916,7 @@
 
 				<!-- Scrollable content -->
 				<div
+					bind:this={scrollContentRef}
 					style:max-height={tooltipDimensions.height ? 'none' : undefined}
 					class="tooltip-scrollable-content px-5 py-4 flex-1"
 				>
@@ -1764,6 +1934,8 @@
 				role="separator"
 			></div>
 		</div>
+
+		{@render hoverPopover()}
 	</div>
 {:else}
 	<!-- Preview tooltip structure -->
@@ -1807,6 +1979,7 @@
 
 		<!-- Content -->
 		<div
+			bind:this={scrollContentRef}
 			style:max-height={tooltipDimensions.height ? 'none' : undefined}
 			class="tooltip-scrollable-content px-3 py-2 text-left"
 			class:flex-1={!!tooltipDimensions.height}
@@ -1825,5 +1998,7 @@
 			onmousedown={handleResizeStart}
 			role="separator"
 		></div>
+
+		{@render hoverPopover()}
 	</div>
 {/if}

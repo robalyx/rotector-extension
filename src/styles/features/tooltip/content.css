@@ -111,14 +111,53 @@
 	border-color: var(--color-tooltip-divider);
 }
 
-@utility reportable-notice {
-	@apply flex gap-2.5 p-2 rounded mt-1.5;
-	background-color: rgba(255, 68, 68, 0.1);
+@utility reportable-pill {
+	@apply inline-flex items-center gap-1 text-xs font-medium no-underline cursor-pointer ml-auto border-none;
+	background: none;
+	color: var(--color-status-unsafe);
+	opacity: 0.8;
+	transition: opacity 0.15s ease;
+
+	&:hover {
+		@apply no-underline;
+		opacity: 1;
+	}
 }
 
-@utility outfit-notice {
-	@apply flex gap-2.5 p-2 rounded mt-1.5;
-	background-color: rgba(156, 39, 176, 0.1);
+@utility tooltip-hover-popover {
+	@apply fixed z-[10006];
+	width: 240px;
+	padding: 8px 10px;
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	background-color: var(--color-bg-content);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	pointer-events: auto;
+	cursor: default;
+}
+
+@utility outfit-only-indicator {
+	@apply relative inline-flex items-center gap-1 text-xs font-medium cursor-help ml-auto border-none bg-transparent p-0;
+	color: var(--color-status-outfit);
+	opacity: 0.8;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+@utility outfit-only-popover {
+	@apply tooltip-hover-popover;
+
+	strong {
+		@apply block text-sm font-semibold mb-0.5;
+		color: var(--color-status-outfit);
+	}
+
+	p {
+		@apply text-sm leading-normal m-0 font-normal;
+		color: var(--color-text);
+	}
 }
 
 @utility restricted-access-notice {
@@ -211,34 +250,6 @@
 	}
 }
 
-@utility reportable-text {
-	@apply flex-1 text-left;
-
-	strong {
-		@apply block mb-1 text-left text-base;
-		color: var(--color-status-unsafe);
-	}
-
-	p {
-		@apply m-0 text-sm leading-normal text-left;
-		color: var(--color-text);
-	}
-}
-
-@utility outfit-text {
-	@apply flex-1 text-left;
-
-	strong {
-		@apply block mb-1 text-left text-base;
-		color: var(--color-status-outfit);
-	}
-
-	p {
-		@apply m-0 text-sm leading-normal text-left;
-		color: var(--color-text);
-	}
-}
-
 /* =================================
    SAFE REASONS
    ================================= */
@@ -309,20 +320,6 @@
 	}
 }
 
-@utility report-button {
-	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
-	background-color: var(--color-status-unsafe);
-
-	&:hover {
-		@apply no-underline;
-		background-color: #ff2222;
-	}
-
-	&:active {
-		background-color: #e03333;
-	}
-}
-
 /* =================================
    TRANSLATION
    ================================= */
@@ -378,7 +375,7 @@
 }
 
 @utility reason-header {
-	@apply font-semibold mb-1 flex justify-between items-center;
+	@apply font-semibold mb-1 flex items-center gap-2;
 	color: var(--color-reason-header);
 	font-size: 17px;
 
@@ -388,27 +385,14 @@
 }
 
 @utility cross-signal-indicator {
-	@apply relative inline-flex items-center cursor-help;
+	@apply relative inline-flex items-center cursor-help border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
-
-	&:hover .cross-signal-popover {
-		@apply visible opacity-100;
-	}
+	font: inherit;
+	line-height: inherit;
 }
 
 @utility cross-signal-popover {
-	@apply absolute invisible opacity-0 z-10;
-	transition:
-		opacity 0.15s ease,
-		visibility 0.15s ease;
-	top: calc(100% + 6px);
-	right: 0;
-	width: 240px;
-	padding: 8px 10px;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border);
-	border-radius: 6px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	@apply tooltip-hover-popover;
 
 	strong {
 		@apply block text-sm font-semibold;
@@ -433,6 +417,7 @@
 
 @utility evidence-item {
 	@apply text-base px-2 py-1 rounded;
+	overflow-wrap: break-word;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
 	border: 1px solid var(--color-evidence-border);
@@ -453,27 +438,14 @@
 }
 
 @utility source-info-indicator {
-	@apply relative inline-flex items-center cursor-help ml-auto;
+	@apply relative inline-flex items-center cursor-help ml-auto border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
-
-	&:hover .source-info-popover {
-		@apply visible opacity-100;
-	}
+	font: inherit;
+	line-height: inherit;
 }
 
 @utility source-info-popover {
-	@apply absolute invisible opacity-0 z-10;
-	transition:
-		opacity 0.15s ease,
-		visibility 0.15s ease;
-	top: calc(100% + 6px);
-	right: 0;
-	width: 240px;
-	padding: 8px 10px;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border);
-	border-radius: 6px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	@apply tooltip-hover-popover;
 
 	strong {
 		@apply block text-sm font-semibold;

@@ -30,6 +30,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description:
+					'Tooltip notices - Replaced the reportable and outfit-only banners with compact inline indicators on reason headers'
+			},
+			{
+				type: 'changed',
+				description:
 					'Safe reasons - Expanded the "Why wasn\'t this user flagged?" list with new entries'
 			},
 			{
@@ -46,6 +51,16 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Tooltip resize - Safe user and group tooltips no longer retain a large saved height, shrinking to fit their minimal content instead'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Evidence overflow - Long text like URLs in evidence items now wraps properly instead of overflowing the container'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Popover clipping - Info popovers in the tooltip no longer get cut off by the scroll container'
 			}
 		]
 	},

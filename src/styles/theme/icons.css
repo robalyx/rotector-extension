@@ -1,15 +1,4 @@
 /* Status icon utilities */
-@utility reportable-icon {
-	@apply w-6 h-6 flex-shrink-0;
-	color: var(--color-status-unsafe);
-}
-
-@utility outfit-icon {
-	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
-	background-color: var(--color-status-outfit);
-	color: white;
-}
-
 @utility profile-icon {
 	@apply w-6 h-6 flex-shrink-0 rounded p-0.5;
 	background-color: var(--color-status-profile);

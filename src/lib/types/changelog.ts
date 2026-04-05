@@ -55,6 +55,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Network errors - Connectivity failures now retry automatically and display a clear message instead of the raw browser error'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Evidence overflow - Long text like URLs in evidence items now wraps properly instead of overflowing the container'
 			},
 			{

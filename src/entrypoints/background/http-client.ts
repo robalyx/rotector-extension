@@ -63,6 +63,11 @@ function isRetryableError(error: Error): boolean {
 		}
 	}
 
+	// Network failures
+	if (error instanceof TypeError || status === 0) {
+		return true;
+	}
+
 	return false;
 }
 
@@ -383,6 +388,15 @@ export async function makeHttpRequest(
 				lastError = timeoutError;
 			}
 
+			// Network failure
+			if (!('status' in lastError) && lastError instanceof TypeError) {
+				const networkError = new Error(
+					'Unable to connect. Check your internet connection and try again.'
+				) as Error & { status?: number };
+				networkError.status = 0;
+				lastError = networkError;
+			}
+
 			logger.warn(`HTTP request failed (attempt ${attempt}/${maxRetries})`, {
 				url,
 				error: lastError.message,
@@ -390,8 +404,14 @@ export async function makeHttpRequest(
 			});
 
 			// Retry on retryable errors
-			const isRateLimited = (lastError as Error & { status?: number }).status === 429;
-			if (attempt < maxRetries && isRetryableError(lastError) && (isSafeMethod || isRateLimited)) {
+			const errStatus = (lastError as Error & { status?: number }).status;
+			const isRateLimited = errStatus === 429;
+			const isNetworkFailure = errStatus === 0;
+			if (
+				attempt < maxRetries &&
+				isRetryableError(lastError) &&
+				(isSafeMethod || isRateLimited || isNetworkFailure)
+			) {
 				const delay = computeRetryDelay(lastError, retryDelay, attempt);
 				logger.debug(`Retrying in ${delay}ms...`);
 				await new Promise((resolve) => setTimeout(resolve, delay));

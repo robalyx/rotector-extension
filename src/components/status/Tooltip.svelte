@@ -356,15 +356,16 @@
 
 		switch (flag) {
 			case STATUS.FLAGS.UNSAFE:
-				if (!isGroup && !currentStatus?.reviewer) {
-					return $_('tooltip_header_unsafe_auto', { values: { 0: entityType } });
+				if (!isModerated) {
+				return $_('tooltip_header_unsafe_auto', { values: { 0: entityType } });
+			}
+			
+			return $_('tooltip_header_unsafe', {
+				values: {
+					0: entityType,
+					1: MOD_TOKEN
 				}
-				return $_('tooltip_header_unsafe', {
-					values: {
-						0: entityType,
-						1: MOD_TOKEN
-					}
-				});
+			});
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
 				return $_('tooltip_header_pending', {

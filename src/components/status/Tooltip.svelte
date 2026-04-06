@@ -359,7 +359,12 @@
 				if (!isGroup && !currentStatus?.reviewer) {
 					return $_('tooltip_header_unsafe_auto', { values: { 0: entityType } });
 				}
-				return $_('tooltip_header_unsafe', { values: { 0: entityType } });
+				return $_('tooltip_header_unsafe', {
+					values: {
+						0: entityType,
+						1: MOD_TOKEN
+					}
+				});
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
 				return $_('tooltip_header_pending', {
@@ -411,6 +416,10 @@
 				return $_('tooltip_header_unknown');
 		}
 	});
+
+	// Split the header in parts
+	const MOD_TOKEN = '___MOD___';
+	const headerMessageParts = $derived(headerMessage.split(MOD_TOKEN));
 
 	const statusBadgeClass = $derived.by(() => {
 		const currentStatus = activeStatus;
@@ -543,6 +552,12 @@
 		if (!currentStatus?.lastUpdated) return false;
 		const daysSince = getDaysSinceTimestamp(currentStatus.lastUpdated);
 		return daysSince >= 7;
+	});
+
+	// Whether the status is reviewed by a moderator
+	const isModerated = $derived.by(() => {
+		if (!activeStatus || activeStatus.flagType !== STATUS.FLAGS.UNSAFE) return false;
+		return isGroup || !!(activeStatus as UserStatus).reviewer;
 	});
 
 	// Metadata information for processed users
@@ -1846,7 +1861,13 @@
 							{#if showCompactColumns}
 								<div class="tooltip-header-right">
 									{#if activeStatus}
-										<div class="tooltip-inline-message">{headerMessage}</div>
+										<div class="tooltip-inline-message">
+											<div class="header-message">
+												{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
+														>{$_('tooltip_entity_moderators')}</span
+													>{headerMessageParts[1] || ''}{/if}
+											</div>
+										</div>
 									{/if}
 									{@render reviewerSection()}
 								</div>
@@ -1877,7 +1898,13 @@
 							{#if showCompactColumns}
 								<div class="tooltip-header-right">
 									{#if activeStatus}
-										<div class="tooltip-inline-message">{headerMessage}</div>
+										<div class="tooltip-inline-message">
+											<div class="header-message">
+												{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
+														>{$_('tooltip_entity_moderators')}</span
+													>{headerMessageParts[1] || ''}{/if}
+											</div>
+										</div>
 									{/if}
 									{@render reviewerSection()}
 								</div>
@@ -1896,13 +1923,16 @@
 					{/if}
 
 					<!-- Header message and reviewer -->
-					{#if !showCompactColumns}
-						{#if (userInfo || groupInfo) && activeStatus}
-							<div class="tooltip-header">
-								<div>{headerMessage}</div>
+					{#if (userInfo || groupInfo) && activeStatus}
+						<div class="tooltip-header">
+							<div class="header-message">
+								<div class="header-message">
+									{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
+											>{$_('tooltip_entity_moderators')}</span
+										>{headerMessageParts[1] || ''}{/if}
+								</div>
 							</div>
-						{/if}
-						{@render reviewerSection()}
+						</div>
 					{/if}
 
 					<!-- Header Compact Toggle -->
@@ -1970,7 +2000,13 @@
 		<div class="tooltip-sticky-header">
 			<!-- Simple header -->
 			<div id="tooltip-header" class="tooltip-header">
-				<div>{headerMessage}</div>
+				<div>
+					<div class="header-message">
+						{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
+								>{$_('tooltip_entity_moderators')}</span
+							>{headerMessageParts[1] || ''}{/if}
+					</div>
+				</div>
 			</div>
 
 			<!-- Reviewer Section -->

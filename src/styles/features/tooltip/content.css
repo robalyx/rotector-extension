@@ -536,6 +536,11 @@
    REVIEWER & ERROR
    ================================= */
 
+@utility moderators-text {
+	color: var(--color-status-unsafe);
+	font-weight: 600;
+}
+
 @utility reviewer-section {
 	@apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;
 }

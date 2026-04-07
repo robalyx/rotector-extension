@@ -108,7 +108,7 @@
 	interface HeaderMessage {
 		full?: string;
 		parts?: HeaderPart[];
-		isModerated?: boolean;
+		isReviewed?: boolean;
 	}
 
 	interface HeaderPart {
@@ -382,7 +382,7 @@
 						{ text: $_('tooltip_entity_moderators'), class: 'moderators-text' },
 						{ text: suffix }
 					],
-					isModerated: true
+					isReviewed: true
 				};
 			}
 			case STATUS.FLAGS.PENDING: {

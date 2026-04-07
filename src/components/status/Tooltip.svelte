@@ -105,6 +105,17 @@
 		userAvatarUrl?: string;
 	}
 
+	interface HeaderMessage {
+		full?: string;
+		parts?: HeaderPart[];
+		isModerated?: boolean;
+	}
+
+	interface HeaderPart {
+		text: string;
+		class?: string;
+	}
+
 	let {
 		userId,
 		userStatus = null,
@@ -351,55 +362,65 @@
 		flag: number,
 		confidence = 0,
 		currentStatus?: UserStatus | null
-	): string {
+	): HeaderMessage {
 		const entityType = $_(isGroup ? 'tooltip_entity_group' : 'tooltip_entity_user');
 
 		switch (flag) {
-			case STATUS.FLAGS.UNSAFE:
-				if (!isModerated) {
-				return $_('tooltip_header_unsafe_auto', { values: { 0: entityType } });
-			}
-			
-			return $_('tooltip_header_unsafe', {
-				values: {
-					0: entityType,
-					1: MOD_TOKEN
+			case STATUS.FLAGS.UNSAFE: {
+				if (!isReviewed) {
+					return {
+						full: $_('tooltip_header_unsafe_auto', { values: { 0: entityType } })
+					};
 				}
-			});
+
+				const prefix = $_('tooltip_header_unsafe_pre', { values: { 0: entityType } });
+				const suffix = $_('tooltip_header_unsafe_suf', { values: { 0: entityType } });
+
+				return {
+					parts: [
+						{ text: prefix },
+						{ text: $_('tooltip_entity_moderators'), class: 'moderators-text' },
+						{ text: suffix }
+					],
+					isModerated: true
+				};
+			}
 			case STATUS.FLAGS.PENDING: {
 				const confidencePercent = Math.round(confidence * 100);
-				return $_('tooltip_header_pending', {
-					values: { 0: entityType, 1: confidencePercent.toString() }
-				});
+				return {
+					full: $_('tooltip_header_pending', {
+						values: { 0: entityType, 1: confidencePercent.toString() }
+					})
+				};
 			}
 			case STATUS.FLAGS.QUEUED:
 				// Check if processed to determine message
 				if (currentStatus?.processed === true) {
-					return $_('tooltip_header_queued_safe', { values: { 0: entityType } });
+					return { full: $_('tooltip_header_queued_safe', { values: { 0: entityType } }) };
 				} else {
-					return $_('tooltip_header_queued_processing', { values: { 0: entityType } });
+					return { full: $_('tooltip_header_queued_processing', { values: { 0: entityType } }) };
 				}
 			case STATUS.FLAGS.INTEGRATION:
-				return $_('tooltip_header_integration', { values: { 0: entityType } });
+				return { full: $_('tooltip_header_integration', { values: { 0: entityType } }) };
 			case STATUS.FLAGS.MIXED:
 				if (isGroup) {
-					return $_('tooltip_header_mixed_group');
+					return { full: $_('tooltip_header_mixed_group') };
 				} else {
-					return $_('tooltip_header_mixed_user');
+					return { full: $_('tooltip_header_mixed_user') };
 				}
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return $_('tooltip_header_past_offender', { values: { 0: entityType } });
+				return { full: $_('tooltip_header_past_offender', { values: { 0: entityType } }) };
 			case STATUS.FLAGS.SAFE:
-				return $_('tooltip_header_safe', { values: { 0: entityType } });
+				return { full: $_('tooltip_header_safe', { values: { 0: entityType } }) };
 			default:
-				return $_('tooltip_header_unavailable');
+				return { full: $_('tooltip_header_unavailable') };
 		}
 	}
 
 	const headerMessage = $derived.by(() => {
-		if (effectivelyRestricted) return $_('tooltip_restricted_header');
-		if (activeError) return $_('tooltip_error_details');
-		if (!activeStatus) return $_('tooltip_loading');
+		if (effectivelyRestricted) return { full: $_('tooltip_restricted_header') };
+		if (activeError) return { full: $_('tooltip_error_details') };
+		if (!activeStatus) return { full: $_('tooltip_loading') };
 
 		const currentStatus = activeStatus;
 		const confidence = currentStatus.confidence || 0;
@@ -414,13 +435,9 @@
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, currentStatus);
 			default:
-				return $_('tooltip_header_unknown');
+				return { full: $_('tooltip_header_unknown') };
 		}
 	});
-
-	// Split the header in parts
-	const MOD_TOKEN = '___MOD___';
-	const headerMessageParts = $derived(headerMessage.split(MOD_TOKEN));
 
 	const statusBadgeClass = $derived.by(() => {
 		const currentStatus = activeStatus;
@@ -556,7 +573,7 @@
 	});
 
 	// Whether the status is reviewed by a moderator
-	const isModerated = $derived.by(() => {
+	const isReviewed = $derived.by(() => {
 		if (!activeStatus || activeStatus.flagType !== STATUS.FLAGS.UNSAFE) return false;
 		return isGroup || !!(activeStatus as UserStatus).reviewer;
 	});
@@ -1749,6 +1766,22 @@
 	{/if}
 {/snippet}
 
+{#snippet headerMessageSection(headerMessage: HeaderMessage)}
+	{#if headerMessage.parts}
+		{#each headerMessage.parts as part, i (i)}
+			{#if part.class}
+				<span class={part.class}>
+					{part.text}
+				</span>
+			{:else}
+				{part.text}
+			{/if}
+		{/each}
+	{:else}
+		{headerMessage.full}
+	{/if}
+{/snippet}
+
 {#if isExpanded}
 	<!-- Expanded tooltip structure -->
 	<div
@@ -1864,9 +1897,7 @@
 									{#if activeStatus}
 										<div class="tooltip-inline-message">
 											<div class="header-message">
-												{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
-														>{$_('tooltip_entity_moderators')}</span
-													>{headerMessageParts[1] || ''}{/if}
+												{@render headerMessageSection(headerMessage)}
 											</div>
 										</div>
 									{/if}
@@ -1901,9 +1932,7 @@
 									{#if activeStatus}
 										<div class="tooltip-inline-message">
 											<div class="header-message">
-												{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
-														>{$_('tooltip_entity_moderators')}</span
-													>{headerMessageParts[1] || ''}{/if}
+												{@render headerMessageSection(headerMessage)}
 											</div>
 										</div>
 									{/if}
@@ -1924,16 +1953,15 @@
 					{/if}
 
 					<!-- Header message and reviewer -->
-					{#if (userInfo || groupInfo) && activeStatus}
-						<div class="tooltip-header">
-							<div class="header-message">
+					{#if !showCompactColumns}
+						{#if (userInfo || groupInfo) && activeStatus}
+							<div class="tooltip-header">
 								<div class="header-message">
-									{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
-											>{$_('tooltip_entity_moderators')}</span
-										>{headerMessageParts[1] || ''}{/if}
+									{@render headerMessageSection(headerMessage)}
 								</div>
 							</div>
-						</div>
+						{/if}
+						{@render reviewerSection()}
 					{/if}
 
 					<!-- Header Compact Toggle -->
@@ -2003,9 +2031,7 @@
 			<div id="tooltip-header" class="tooltip-header">
 				<div>
 					<div class="header-message">
-						{headerMessageParts[0]}{#if isModerated}<span class="moderators-text"
-								>{$_('tooltip_entity_moderators')}</span
-							>{headerMessageParts[1] || ''}{/if}
+						{@render headerMessageSection(headerMessage)}
 					</div>
 				</div>
 			</div>

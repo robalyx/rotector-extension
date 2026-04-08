@@ -2027,10 +2027,8 @@
 		<div class="tooltip-sticky-header">
 			<!-- Simple header -->
 			<div id="tooltip-header" class="tooltip-header">
-				<div>
-					<div class="header-message">
-						{@render headerMessageSection(headerMessage)}
-					</div>
+				<div class="header-message">
+					{@render headerMessageSection(headerMessage)}
 				</div>
 			</div>
 

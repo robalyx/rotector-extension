@@ -18,7 +18,7 @@ export const CHANGELOGS: Changelog[] = [
 	{
 		id: 'v2.15.2',
 		version: '2.15.2',
-		date: '2026-04-10',
+		date: '2026-04-17',
 		title: '',
 		summary: '',
 		changes: [
@@ -46,6 +46,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators no longer get stuck loading when quickly switching roles or changing pages'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Queue history - Rapid queue submissions no longer cause invalid entries to be recorded in the queue history tab'
 			},
 			{
 				type: 'fixed',

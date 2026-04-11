@@ -409,6 +409,16 @@
 @utility reason-message {
 	@apply text-base leading-normal mb-2 whitespace-pre-wrap;
 	color: var(--color-reason-message);
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 @utility reason-evidence {
@@ -421,6 +431,16 @@
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
 	border: 1px solid var(--color-evidence-border);
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 @utility source-evidence-item {
@@ -495,6 +515,16 @@
 @utility source-evidence-description {
 	@apply text-base leading-tight;
 	color: var(--color-evidence-text);
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 @utility source-evidence-subitems {
@@ -504,6 +534,16 @@
 @utility source-evidence-subitem {
 	@apply text-sm leading-tight;
 	color: var(--color-evidence-text);
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 @utility outfit-evidence-item {
@@ -530,6 +570,16 @@
 @utility outfit-reason {
 	@apply text-base leading-tight;
 	color: var(--color-evidence-text);
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 /* =================================

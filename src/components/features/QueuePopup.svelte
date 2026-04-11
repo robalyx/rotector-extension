@@ -82,10 +82,7 @@
 	let captchaSessionId = $state<string | null>(null);
 
 	// Sanitize user ID for display and API calls
-	const sanitizedUserId = $derived.by(() => {
-		const id = sanitizeEntityId(userId);
-		return id ? id.toString() : '';
-	});
+	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
 	// Check if this is a reanalysis of an existing flagged user
 	const isReanalysis = $derived(
@@ -109,11 +106,7 @@
 	const hideQueueLimits = $derived(isRestricted && isSelfLookup);
 
 	// Get outfit limit from queue limits
-	const outfitLimit = $derived.by(() => {
-		if (!queueLimitsRef) return 0;
-		const state = queueLimitsRef.getState();
-		return state.queueLimits?.outfit.remaining ?? 0;
-	});
+	const outfitLimit = $derived(queueLimitsRef?.getState().queueLimits?.outfit.remaining ?? 0);
 
 	// Determine if submission is allowed
 	const canSubmit = $derived.by(() => {
@@ -173,7 +166,7 @@
 				}
 			});
 
-			// NOTE: Modal stays open waiting for captcha completion
+			// Modal stays open waiting for captcha completion
 		} catch (error) {
 			logger.error('Failed to start captcha flow:', error);
 			awaitingCaptcha = false;
@@ -184,11 +177,7 @@
 	// Handle cancellation
 	function handleCancel() {
 		logger.userAction('queue_popup_cancel', { userId: sanitizedUserId });
-
-		if (onCancel) {
-			onCancel();
-		}
-
+		onCancel?.();
 		isOpen = false;
 		resetAllState();
 	}
@@ -285,249 +274,236 @@
 </script>
 
 <Modal
-	icon="warning"
 	onCancel={handleCancel}
 	showCancel={false}
 	showConfirm={false}
+	status="warning"
 	title={isReanalysis ? $_('queue_popup_title_reprocess') : $_('queue_popup_title_queue')}
 	bind:isOpen
 >
-	<div>
-		<p class="text-text mb-4!">
-			{#if isReanalysis}
-				{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId } })}
-			{:else}
-				{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId } })}
-			{/if}
-		</p>
-
-		<!-- Queue Limits Section -->
-		{#if !hideQueueLimits}
-			<div class="mb-6">
-				<QueueLimitsDisplay bind:this={queueLimitsRef} autoLoad={false} variant="modal" />
-			</div>
+	<p class="modal-paragraph">
+		{#if isReanalysis}
+			{$_('queue_popup_description_reanalysis', { values: { 0: sanitizedUserId } })}
+		{:else}
+			{$_('queue_popup_description_analysis', { values: { 0: sanitizedUserId } })}
 		{/if}
+	</p>
 
-		<!-- Check Options Section -->
-		<div class="queue-selection-section">
-			<h3 class="text-text mb-4 text-lg font-semibold">
-				{$_('queue_popup_check_options_heading')}
-			</h3>
-
-			<div class="mb-6 space-y-4">
-				<!-- Profile Check Card -->
-				<div class="queue-threshold-card queue-threshold-card-profile">
-					<div class="queue-threshold-header">
-						<Clipboard class="profile-icon" size={24} />
-						<div class="queue-threshold-title">{$_('queue_popup_profile_check_title')}</div>
-					</div>
-					<div class="queue-threshold-description">
-						{$_('queue_popup_profile_check_description')}
-					</div>
-					<div class="queue-threshold-options">
-						<label class="queue-threshold-option">
-							<input
-								name="profile-threshold"
-								checked={profileCheck === 'quick'}
-								onchange={() => (profileCheck = 'quick')}
-								type="radio"
-								value="quick"
-							/>
-							<span>{$_('queue_popup_threshold_quick')}</span>
-						</label>
-						<label class="queue-threshold-option">
-							<input
-								name="profile-threshold"
-								checked={profileCheck === 'thorough'}
-								onchange={() => (profileCheck = 'thorough')}
-								type="radio"
-								value="thorough"
-							/>
-							<span>{$_('queue_popup_threshold_thorough')}</span>
-						</label>
-					</div>
-				</div>
-
-				<!-- Friends Check Card -->
-				<div class="queue-threshold-card queue-threshold-card-friends">
-					<div class="queue-threshold-header">
-						<User class="friends-icon" size={24} />
-						<div class="queue-threshold-title">{$_('queue_popup_friends_check_title')}</div>
-					</div>
-					<div class="queue-threshold-description">
-						{$_('queue_popup_friends_check_description')}
-					</div>
-					<div class="queue-threshold-options">
-						<label class="queue-threshold-option">
-							<input
-								name="friends-threshold"
-								checked={friendsCheck === 'quick'}
-								onchange={() => (friendsCheck = 'quick')}
-								type="radio"
-								value="quick"
-							/>
-							<span>{$_('queue_popup_threshold_quick')}</span>
-						</label>
-						<label class="queue-threshold-option">
-							<input
-								name="friends-threshold"
-								checked={friendsCheck === 'thorough'}
-								onchange={() => (friendsCheck = 'thorough')}
-								type="radio"
-								value="thorough"
-							/>
-							<span>{$_('queue_popup_threshold_thorough')}</span>
-						</label>
-					</div>
-				</div>
-
-				<!-- Groups Check Card -->
-				<div class="queue-threshold-card queue-threshold-card-groups">
-					<div class="queue-threshold-header">
-						<Users class="groups-icon" size={24} />
-						<div class="queue-threshold-title">{$_('queue_popup_groups_check_title')}</div>
-					</div>
-					<div class="queue-threshold-description">
-						{$_('queue_popup_groups_check_description')}
-					</div>
-					<div class="queue-threshold-options">
-						<label class="queue-threshold-option">
-							<input
-								name="groups-threshold"
-								checked={groupsCheck === 'quick'}
-								onchange={() => (groupsCheck = 'quick')}
-								type="radio"
-								value="quick"
-							/>
-							<span>{$_('queue_popup_threshold_quick')}</span>
-						</label>
-						<label class="queue-threshold-option">
-							<input
-								name="groups-threshold"
-								checked={groupsCheck === 'thorough'}
-								onchange={() => (groupsCheck = 'thorough')}
-								type="radio"
-								value="thorough"
-							/>
-							<span>{$_('queue_popup_threshold_thorough')}</span>
-						</label>
-					</div>
-				</div>
-
-				<!-- Outfit Picker -->
-				<OutfitPicker
-					disabled={outfitLimit === 0}
-					maxSelections={outfitLimit}
-					onSelectionChange={(names: string[]) => (selectedOutfitNames = names)}
-					userId={sanitizedUserId}
-					bind:selectedOutfits={selectedOutfitNames}
-				/>
-			</div>
+	{#if !hideQueueLimits}
+		<div class="modal-section">
+			<QueueLimitsDisplay bind:this={queueLimitsRef} autoLoad={false} />
 		</div>
+	{/if}
 
-		<!-- Acknowledgment Checkboxes -->
-		<div bind:this={ackSectionEl} class="queue-ack-section">
-			<h3 class="queue-ack-heading">
-				{$_('queue_popup_acknowledgment_heading')}
-			</h3>
-
-			<div class="queue-ack-list">
-				<label class="queue-ack-item queue-ack-item-all">
-					<input
-						class="queue-ack-checkbox"
-						checked={allAcknowledged}
-						onchange={toggleAll}
-						type="checkbox"
-					/>
-					<span class="queue-ack-checkmark" class:checked={allAcknowledged}>
-						{#if allAcknowledged}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text queue-ack-text-all">
-						{$_('queue_popup_ack_all')}
-					</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackScope} />
-					<span class="queue-ack-checkmark" class:checked={ackScope}>
-						{#if ackScope}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_scope')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotInnocent} />
-					<span class="queue-ack-checkmark" class:checked={ackNotInnocent}>
-						{#if ackNotInnocent}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_not_innocent')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackDynamicLimits} />
-					<span class="queue-ack-checkmark" class:checked={ackDynamicLimits}>
-						{#if ackDynamicLimits}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_dynamic_limits')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackReviewProcess} />
-					<span class="queue-ack-checkmark" class:checked={ackReviewProcess}>
-						{#if ackReviewProcess}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_review_process')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackAccuracy} />
-					<span class="queue-ack-checkmark" class:checked={ackAccuracy}>
-						{#if ackAccuracy}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_accuracy')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotIdentity} />
-					<span class="queue-ack-checkmark" class:checked={ackNotIdentity}>
-						{#if ackNotIdentity}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_not_identity')}</span>
-				</label>
-
-				<label class="queue-ack-item">
-					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackMisuse} />
-					<span class="queue-ack-checkmark" class:checked={ackMisuse}>
-						{#if ackMisuse}
-							<Check aria-hidden="true" size={14} strokeWidth={3} />
-						{/if}
-					</span>
-					<span class="queue-ack-text">{$_('queue_popup_ack_misuse')}</span>
-				</label>
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_popup_check_options_heading')}</h3>
+		</header>
+		<div class="modal-section-body">
+			<div class="queue-threshold-card">
+				<header class="queue-threshold-header">
+					<Clipboard class="queue-threshold-icon" size={16} />
+					<h4 class="queue-threshold-title">{$_('queue_popup_profile_check_title')}</h4>
+				</header>
+				<p class="queue-threshold-description">
+					{$_('queue_popup_profile_check_description')}
+				</p>
+				<div class="queue-threshold-options">
+					<label class="queue-threshold-option">
+						<input
+							name="profile-threshold"
+							checked={profileCheck === 'quick'}
+							onchange={() => (profileCheck = 'quick')}
+							type="radio"
+							value="quick"
+						/>
+						{$_('queue_popup_threshold_quick')}
+					</label>
+					<label class="queue-threshold-option">
+						<input
+							name="profile-threshold"
+							checked={profileCheck === 'thorough'}
+							onchange={() => (profileCheck = 'thorough')}
+							type="radio"
+							value="thorough"
+						/>
+						{$_('queue_popup_threshold_thorough')}
+					</label>
+				</div>
 			</div>
+
+			<div class="queue-threshold-card">
+				<header class="queue-threshold-header">
+					<User class="queue-threshold-icon" size={16} />
+					<h4 class="queue-threshold-title">{$_('queue_popup_friends_check_title')}</h4>
+				</header>
+				<p class="queue-threshold-description">
+					{$_('queue_popup_friends_check_description')}
+				</p>
+				<div class="queue-threshold-options">
+					<label class="queue-threshold-option">
+						<input
+							name="friends-threshold"
+							checked={friendsCheck === 'quick'}
+							onchange={() => (friendsCheck = 'quick')}
+							type="radio"
+							value="quick"
+						/>
+						{$_('queue_popup_threshold_quick')}
+					</label>
+					<label class="queue-threshold-option">
+						<input
+							name="friends-threshold"
+							checked={friendsCheck === 'thorough'}
+							onchange={() => (friendsCheck = 'thorough')}
+							type="radio"
+							value="thorough"
+						/>
+						{$_('queue_popup_threshold_thorough')}
+					</label>
+				</div>
+			</div>
+
+			<div class="queue-threshold-card">
+				<header class="queue-threshold-header">
+					<Users class="queue-threshold-icon" size={16} />
+					<h4 class="queue-threshold-title">{$_('queue_popup_groups_check_title')}</h4>
+				</header>
+				<p class="queue-threshold-description">
+					{$_('queue_popup_groups_check_description')}
+				</p>
+				<div class="queue-threshold-options">
+					<label class="queue-threshold-option">
+						<input
+							name="groups-threshold"
+							checked={groupsCheck === 'quick'}
+							onchange={() => (groupsCheck = 'quick')}
+							type="radio"
+							value="quick"
+						/>
+						{$_('queue_popup_threshold_quick')}
+					</label>
+					<label class="queue-threshold-option">
+						<input
+							name="groups-threshold"
+							checked={groupsCheck === 'thorough'}
+							onchange={() => (groupsCheck = 'thorough')}
+							type="radio"
+							value="thorough"
+						/>
+						{$_('queue_popup_threshold_thorough')}
+					</label>
+				</div>
+			</div>
+
+			<OutfitPicker
+				disabled={outfitLimit === 0}
+				maxSelections={outfitLimit}
+				onSelectionChange={(names: string[]) => (selectedOutfitNames = names)}
+				userId={sanitizedUserId}
+				bind:selectedOutfits={selectedOutfitNames}
+			/>
+		</div>
+	</div>
+
+	<div bind:this={ackSectionEl} class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_popup_acknowledgment_heading')}</h3>
+		</header>
+		<div class="queue-ack-list">
+			<label class="queue-ack-item-all">
+				<input
+					class="queue-ack-checkbox"
+					checked={allAcknowledged}
+					onchange={toggleAll}
+					type="checkbox"
+				/>
+				<span class="queue-ack-checkmark" class:checked={allAcknowledged}>
+					{#if allAcknowledged}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_all')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackScope} />
+				<span class="queue-ack-checkmark" class:checked={ackScope}>
+					{#if ackScope}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_scope')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotInnocent} />
+				<span class="queue-ack-checkmark" class:checked={ackNotInnocent}>
+					{#if ackNotInnocent}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_not_innocent')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackDynamicLimits} />
+				<span class="queue-ack-checkmark" class:checked={ackDynamicLimits}>
+					{#if ackDynamicLimits}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_dynamic_limits')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackReviewProcess} />
+				<span class="queue-ack-checkmark" class:checked={ackReviewProcess}>
+					{#if ackReviewProcess}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_review_process')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackAccuracy} />
+				<span class="queue-ack-checkmark" class:checked={ackAccuracy}>
+					{#if ackAccuracy}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_accuracy')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotIdentity} />
+				<span class="queue-ack-checkmark" class:checked={ackNotIdentity}>
+					{#if ackNotIdentity}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_not_identity')}</span>
+			</label>
+
+			<label class="queue-ack-item">
+				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackMisuse} />
+				<span class="queue-ack-checkmark" class:checked={ackMisuse}>
+					{#if ackMisuse}
+						<Check aria-hidden="true" size={14} strokeWidth={3} />
+					{/if}
+				</span>
+				<span class="queue-ack-text">{$_('queue_popup_ack_misuse')}</span>
+			</label>
 		</div>
 	</div>
 
 	{#snippet actions()}
-		<button class="modal-cancel" onclick={handleCancel} type="button">
+		<button class="modal-button-cancel" onclick={handleCancel} type="button">
 			{$_('queue_popup_cancel_button')}
 		</button>
 		<button
-			class="modal-confirm modal-confirm-queue"
+			class="modal-button-primary"
 			disabled={!canSubmit}
 			onclick={handleConfirm}
 			type="button"

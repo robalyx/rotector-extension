@@ -1,199 +1,166 @@
 /* =================================
-   ONBOARDING OVERLAY & STRUCTURE
+   ONBOARDING PROGRESS DOTS
    ================================= */
 
-@utility onboarding-overlay {
-	@apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
-
-	&.visible {
-		@apply opacity-100 visible;
-	}
-
-	&.closing {
-		@apply opacity-0;
-	}
-}
-
-@utility onboarding-popup {
-	@apply max-w-[95%] w-[520px] rounded-xl shadow-2xl border border-white/5 flex flex-col;
-	background-color: var(--color-bg-content);
-	transform: scale(0.95) translateY(20px);
-	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
-	max-height: 90vh;
-
-	.onboarding-overlay.visible & {
-		transform: scale(1) translateY(0);
-	}
-}
-
-@utility onboarding-header {
-	@apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl gap-3;
-	background-color: var(--color-bg-tertiary);
-}
-
-@utility onboarding-header-logo {
-	@apply flex-shrink-0 pr-3 border-r-2 border-white/20;
-
-	& img {
-		@apply h-10 w-auto;
-	}
-}
-
-@utility onboarding-title {
-	@apply text-lg font-semibold m-0 flex-1;
-	color: var(--color-text-heading);
-}
-
 @utility onboarding-progress {
-	@apply flex gap-2 ml-auto mr-2;
+	@apply inline-flex items-center;
+	gap: 0.375rem;
 }
 
 @utility onboarding-progress-dot {
-	@apply w-2 h-2 rounded-full transition-all duration-200;
-	background-color: var(--color-bg-content);
+	@apply inline-block rounded-full;
+	width: 0.4375rem;
+	height: 0.4375rem;
+	background-color: var(--color-border);
+	transition:
+		background-color 0.2s ease,
+		width 0.2s ease;
 
 	&.active {
 		background-color: var(--color-primary);
-		@apply w-4;
+		width: 0.875rem;
 	}
 
 	&.completed {
-		background-color: var(--color-success);
-	}
-}
-
-@utility onboarding-close {
-	@apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200;
-	color: var(--color-text);
-
-	&:hover {
-		@apply bg-white/10;
-	}
-}
-
-@utility onboarding-content {
-	@apply p-5 overflow-y-auto flex-1;
-	min-height: min(300px, 50vh);
-	max-height: calc(90vh - 180px);
-	background-color: var(--color-bg-content);
-}
-
-@utility onboarding-actions {
-	@apply flex justify-center gap-3 p-5 pt-4 border-t border-white/10 rounded-b-xl;
-	background-color: var(--color-bg-content);
-}
-
-@utility onboarding-button-primary {
-	@apply px-5 py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm min-w-[100px];
-	background-color: var(--color-primary);
-	color: white;
-
-	&:hover:not(:disabled) {
-		background-color: var(--color-primary-hover);
-		@apply shadow-md -translate-y-px;
-	}
-
-	&:disabled {
-		@apply opacity-50 cursor-not-allowed;
-	}
-}
-
-@utility onboarding-button-secondary {
-	@apply px-5 py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm min-w-[100px];
-	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-primary);
-
-	&:hover:not(:disabled) {
-		background-color: var(--color-card-hover);
-		@apply shadow-md -translate-y-px;
-	}
-
-	&:disabled {
-		@apply opacity-50 cursor-not-allowed;
+		background-color: var(--color-primary);
 	}
 }
 
 /* =================================
-   WELCOME MODAL CONTENT
+   WELCOME / FINISH HERO LOGO
    ================================= */
 
-@utility onboarding-welcome-logo {
-	@apply flex justify-center mb-2;
+@utility onboarding-hero-logo {
+	@apply flex items-center justify-center;
+	margin-bottom: 0.625rem;
 
 	& img {
-		@apply h-24 w-auto;
-	}
-}
-
-@utility onboarding-welcome-content {
-	@apply flex flex-col gap-4;
-}
-
-@utility onboarding-welcome-description {
-	@apply text-base leading-relaxed m-0;
-	color: var(--color-text);
-}
-
-@utility onboarding-welcome-agreements {
-	@apply flex flex-col gap-3;
-}
-
-@utility onboarding-agreement-item {
-	@apply flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200;
-	background-color: var(--color-bg-tertiary);
-
-	&:hover {
-		background-color: var(--color-card-hover);
-	}
-}
-
-@utility onboarding-agreement-checkbox {
-	@apply sr-only;
-
-	&:focus + .onboarding-agreement-checkmark {
-		@apply ring-2 ring-offset-2;
-		--tw-ring-color: var(--color-primary);
-		--tw-ring-offset-color: var(--color-bg-tertiary);
-	}
-}
-
-@utility onboarding-agreement-checkmark {
-	@apply flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-0.5;
-	border-color: var(--color-text-subtle);
-	background-color: transparent;
-	color: white;
-
-	&.checked {
-		background-color: var(--color-primary);
-		border-color: var(--color-primary);
-	}
-}
-
-@utility onboarding-agreement-text {
-	@apply text-sm leading-relaxed;
-	color: var(--color-text);
-
-	& a {
-		color: var(--color-primary);
-		@apply underline font-medium;
-
-		&:hover {
-			@apply decoration-2;
-		}
+		@apply w-auto;
+		height: 4rem;
 	}
 }
 
 @utility onboarding-finish-title {
-	@apply text-xl font-semibold m-0 text-center;
+	@apply m-0 text-center text-lg font-semibold;
 	color: var(--color-text-heading);
 }
 
-@utility onboarding-welcome-link {
+/* =================================
+   WELCOME AGREEMENTS
+   ================================= */
+
+@utility onboarding-agreement-text {
+	@apply text-sm-plus;
+	line-height: 1.5;
+	color: var(--color-text);
+
+	& a {
+		@apply font-medium underline;
+		color: var(--color-primary);
+		text-underline-offset: 2px;
+		transition: color 0.15s ease;
+
+		&:hover {
+			color: var(--color-primary-hover);
+		}
+	}
+}
+
+/* =================================
+   LANGUAGE MODAL
+   ================================= */
+
+@utility onboarding-language-label-row {
+	@apply inline-flex items-center;
+	gap: 0.4375rem;
+}
+
+@utility onboarding-language-icon {
+	@apply inline-block flex-shrink-0;
+	width: 0.875rem;
+	height: 0.875rem;
 	color: var(--color-primary);
-	@apply underline font-medium;
+}
+
+@utility onboarding-language-select {
+	@apply text-sm-plus w-full cursor-pointer rounded;
+	padding: 0.5rem 0.75rem;
+	font-family: inherit;
+	color: var(--color-text);
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+	appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	padding-right: 2rem;
+	transition: border-color 0.15s ease;
 
 	&:hover {
-		@apply decoration-2;
+		border-color: var(--color-border);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+@utility onboarding-translate-row {
+	@apply flex items-center justify-between;
+	gap: 0.625rem;
+}
+
+@utility onboarding-translate-info {
+	@apply flex min-w-0 flex-col;
+	gap: 0.125rem;
+}
+
+@utility onboarding-translate-label {
+	@apply text-sm font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility onboarding-translate-description {
+	@apply m-0 text-xs;
+	line-height: 1.5;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   PRESET MODAL
+   ================================= */
+
+@utility onboarding-preset-cards {
+	@apply grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+@utility onboarding-preset-icon {
+	@apply inline-flex items-center justify-center;
+	width: 1.5rem;
+	height: 1.5rem;
+	color: var(--color-text-subtle);
+	transition: color 0.15s ease;
+
+	.preset-card.active & {
+		color: var(--color-primary);
+	}
+}
+
+@utility onboarding-preset-notice {
+	@apply flex items-start rounded text-xs;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+	padding: 0.625rem 0.75rem;
+	line-height: 1.5;
+	color: var(--color-text-subtle);
+	background-color: var(--color-bg-tertiary);
+
+	& > svg {
+		@apply flex-shrink-0;
+		margin-top: 0.1875rem;
 	}
 }
 
@@ -202,16 +169,18 @@
    ================================= */
 
 @utility guide-step {
-	@apply flex flex-col gap-4;
+	@apply flex flex-col;
+	gap: 0.875rem;
 }
 
 @utility guide-step-title {
-	@apply text-base font-semibold m-0;
+	@apply m-0 text-sm font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility guide-step-description {
-	@apply text-sm leading-relaxed m-0;
+	@apply text-sm-plus m-0;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
 }
 
@@ -220,31 +189,39 @@
    ================================= */
 
 @utility guide-status-grid {
-	@apply grid gap-3;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	@apply grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: 0.5rem;
 }
 
 @utility guide-status-item {
-	@apply flex items-start gap-3 p-3 rounded-lg;
-	background-color: var(--color-bg-tertiary);
+	@apply flex items-start rounded-md;
+	gap: 0.625rem;
+	padding: 0.625rem 0.75rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility guide-status-icon {
-	@apply flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg;
-	background-color: var(--color-bg-content);
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
+	width: 1.75rem;
+	height: 1.75rem;
+	background-color: var(--color-bg-tertiary);
 }
 
 @utility guide-status-info {
-	@apply flex flex-col gap-0.5 min-w-0;
+	@apply flex min-w-0 flex-col;
+	gap: 0.0625rem;
 }
 
 @utility guide-status-name {
-	@apply text-sm font-medium;
+	@apply text-sm-plus font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility guide-status-desc {
-	@apply text-xs leading-relaxed;
+	@apply text-xs;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
 }
 
@@ -253,30 +230,38 @@
    ================================= */
 
 @utility guide-badges-grid {
-	@apply grid gap-3;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	@apply grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: 0.5rem;
 }
 
 @utility guide-badge-item {
-	@apply flex items-start gap-3 p-3 rounded-lg;
-	background-color: var(--color-bg-tertiary);
+	@apply flex items-start rounded-md;
+	gap: 0.625rem;
+	padding: 0.625rem 0.75rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility guide-badge-icon {
-	@apply flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-md;
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
+	width: 1.5rem;
+	height: 1.5rem;
 }
 
 @utility guide-badge-info {
-	@apply flex flex-col gap-0.5 min-w-0;
+	@apply flex min-w-0 flex-col;
+	gap: 0.0625rem;
 }
 
 @utility guide-badge-name {
-	@apply text-sm font-medium;
+	@apply text-sm-plus font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility guide-badge-desc {
-	@apply text-xs leading-relaxed;
+	@apply text-xs;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
 }
 
@@ -285,37 +270,56 @@
    ================================= */
 
 @utility guide-features-list {
-	@apply flex flex-col gap-3;
+	@apply flex flex-col;
+	gap: 0.5rem;
 }
 
 @utility guide-feature-card {
-	@apply flex flex-col rounded-lg overflow-hidden border border-white/10;
-	background-color: var(--color-bg-tertiary);
+	@apply flex flex-col overflow-hidden rounded-md;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+	transition: border-color 0.15s ease;
+
+	&:hover {
+		border-color: var(--color-border);
+	}
 }
 
 @utility guide-feature-header {
-	@apply flex items-center gap-4 p-4 w-full text-left cursor-pointer transition-colors duration-200 border-none;
-	background-color: transparent;
+	@apply flex w-full cursor-pointer items-center border-none bg-transparent text-left;
+	gap: 0.625rem;
+	padding: 0.625rem 0.75rem;
+	color: var(--color-text);
+	transition: background-color 0.15s ease;
 
 	&:hover {
-		background-color: var(--color-bg-content);
+		background-color: var(--color-hover);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: -2px;
 	}
 }
 
 @utility guide-feature-images {
-	@apply w-full flex flex-col;
+	@apply flex w-full flex-col;
+	border-top: 1px solid var(--color-border-subtle);
 
 	& img {
-		@apply w-full h-auto block;
+		@apply block h-auto w-full;
 	}
 }
 
 @utility guide-feature-icon {
-	@apply flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg;
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
+	width: 1.75rem;
+	height: 1.75rem;
 }
 
 @utility guide-feature-info {
-	@apply flex flex-col gap-1 min-w-0 flex-1;
+	@apply flex min-w-0 flex-1 flex-col;
+	gap: 0.0625rem;
 }
 
 @utility guide-feature-title {
@@ -324,13 +328,15 @@
 }
 
 @utility guide-feature-desc {
-	@apply text-sm leading-relaxed;
+	@apply text-xs;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
 }
 
 @utility guide-feature-chevron {
-	@apply ml-auto flex-shrink-0 transition-transform duration-200;
+	@apply ml-auto flex-shrink-0;
 	color: var(--color-text-subtle);
+	transition: transform 0.2s ease;
 
 	&.expanded {
 		transform: rotate(180deg);
@@ -342,63 +348,76 @@
    ================================= */
 
 @utility guide-scope-sections {
-	@apply flex flex-col gap-4;
+	@apply flex flex-col;
+	gap: 0.875rem;
 }
 
 @utility guide-scope-section {
-	@apply flex flex-col gap-2;
+	@apply flex flex-col;
+	gap: 0.4375rem;
 }
 
 @utility guide-scope-heading {
-	@apply flex items-center gap-2 text-sm font-semibold px-3 py-2 rounded-md;
+	@apply inline-flex items-center self-start rounded text-xs font-semibold;
+	gap: 0.375rem;
+	padding: 0.3125rem 0.625rem;
 }
 
 @utility guide-scope-heading-detect {
-	background-color: var(--color-success-bg);
+	@apply guide-scope-heading;
 	color: var(--color-success);
+	background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
 }
 
 @utility guide-scope-heading-not-detect {
-	background-color: var(--color-error-bg);
+	@apply guide-scope-heading;
 	color: var(--color-error);
+	background-color: color-mix(in srgb, var(--color-error) 12%, transparent);
 }
 
 @utility guide-scope-list {
-	@apply flex flex-col gap-2 pl-2;
+	@apply flex flex-col;
+	gap: 0.3125rem;
+	padding-left: 0.25rem;
 }
 
 @utility guide-scope-item {
-	@apply flex items-center gap-3 p-3 rounded-lg;
-	background-color: var(--color-bg-tertiary);
+	@apply flex items-center rounded-md;
+	gap: 0.625rem;
+	padding: 0.5rem 0.75rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility guide-scope-item-icon {
-	@apply flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-md;
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
+	width: 1.5rem;
+	height: 1.5rem;
 }
 
 @utility guide-scope-item-icon-detect {
-	background-color: var(--color-success-bg);
+	@apply guide-scope-item-icon;
 	color: var(--color-success);
+	background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
 }
 
 @utility guide-scope-item-icon-not-detect {
-	background-color: var(--color-error-bg);
+	@apply guide-scope-item-icon;
 	color: var(--color-error);
+	background-color: color-mix(in srgb, var(--color-error) 12%, transparent);
 }
 
 @utility guide-scope-item-text {
-	@apply text-sm;
+	@apply text-sm-plus;
 	color: var(--color-text);
 }
 
 @utility guide-scope-explanation {
-	@apply p-3 rounded-lg;
-	background-color: var(--color-bg-tertiary);
-}
-
-@utility guide-scope-explanation-text {
-	@apply text-sm leading-relaxed m-0;
+	@apply rounded text-xs;
+	padding: 0.625rem 0.75rem;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
+	background-color: var(--color-bg-tertiary);
 }
 
 /* =================================
@@ -406,193 +425,53 @@
    ================================= */
 
 @utility onboarding-confirm-overlay {
-	@apply fixed inset-0 bg-black/85 flex items-center justify-center z-[10001] opacity-0 invisible transition-all duration-200;
+	@apply invisible fixed inset-0 z-[10001] flex items-center justify-center opacity-0;
+	background-color: var(--overlay-dialog);
+	transition:
+		opacity 0.2s ease,
+		visibility 0s linear 0.2s;
 
 	&.visible {
-		@apply opacity-100 visible;
+		opacity: 1;
+		visibility: visible;
+		transition:
+			opacity 0.2s ease,
+			visibility 0s linear 0s;
 	}
 }
 
 @utility onboarding-confirm-popup {
-	@apply max-w-[95%] w-[380px] rounded-xl shadow-2xl border border-white/5 p-5 flex flex-col gap-4;
+	@apply flex max-w-[95%] flex-col rounded-md opacity-0;
+	width: 340px;
+	padding: 1rem 1.125rem 0.875rem;
+	gap: 0.625rem;
 	background-color: var(--color-bg-content);
-	transform: scale(0.95);
-	transition: transform 200ms cubic-bezier(0.19, 1, 0.22, 1);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: 0 8px 24px var(--shadow-elevated);
+	transform: scale(0.96) translateY(8px);
+	transition:
+		transform 0.3s cubic-bezier(0.34, 1.15, 0.64, 1),
+		opacity 0.2s ease;
 
 	.onboarding-confirm-overlay.visible & {
-		transform: scale(1);
+		@apply opacity-100;
+		transform: scale(1) translateY(0);
 	}
 }
 
 @utility onboarding-confirm-title {
-	@apply text-base font-semibold m-0;
+	@apply m-0 text-sm font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility onboarding-confirm-message {
-	@apply text-sm leading-relaxed m-0;
+	@apply text-sm-plus m-0;
+	line-height: 1.5;
 	color: var(--color-text-subtle);
 }
 
 @utility onboarding-confirm-actions {
-	@apply flex justify-end gap-3 mt-2;
-}
-
-/* =================================
-   LANGUAGE MODAL CONTENT
-   ================================= */
-
-@utility onboarding-language-intro {
-	@apply mb-5;
-
-	& p {
-		@apply text-sm leading-relaxed m-0;
-		color: var(--color-text);
-	}
-}
-
-@utility onboarding-language-sections {
-	@apply flex flex-col gap-5;
-}
-
-@utility onboarding-language-section {
-	@apply flex flex-col gap-3 p-4 rounded-lg;
-	background-color: var(--color-bg-tertiary);
-}
-
-@utility onboarding-language-section-header {
-	@apply flex items-center gap-3;
-}
-
-@utility onboarding-language-icon {
-	@apply flex items-center justify-center w-9 h-9 rounded-lg flex-shrink-0;
-	background-color: var(--color-bg-content);
-	color: var(--color-primary);
-}
-
-@utility onboarding-language-label {
-	@apply text-sm font-semibold m-0;
-	color: var(--color-text-heading);
-}
-
-@utility onboarding-select-wrapper {
-	@apply relative;
-}
-
-@utility onboarding-language-select {
-	@apply w-full px-3 py-2.5 pr-10 rounded-md text-sm border-none cursor-pointer appearance-none;
-	background-color: var(--color-bg-content);
-	color: var(--color-text);
-
-	&:focus {
-		@apply outline-none ring-2;
-		--tw-ring-color: var(--color-primary);
-	}
-}
-
-@utility onboarding-select-chevron {
-	@apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none;
-	color: var(--color-text-subtle);
-}
-
-@utility onboarding-translate-description {
-	@apply text-xs leading-relaxed m-0;
-	color: var(--color-text-subtle);
-}
-
-@utility onboarding-toggle-wrapper {
-	@apply flex items-center gap-3 cursor-pointer;
-}
-
-@utility onboarding-toggle-input {
-	@apply sr-only;
-
-	&:checked + .onboarding-toggle-slider {
-		background-color: var(--color-primary);
-	}
-
-	&:checked + .onboarding-toggle-slider::before {
-		transform: translateX(16px);
-	}
-
-	&:focus + .onboarding-toggle-slider {
-		@apply ring-2 ring-offset-2;
-		--tw-ring-color: var(--color-primary);
-		--tw-ring-offset-color: var(--color-bg-tertiary);
-	}
-}
-
-@utility onboarding-toggle-slider {
-	@apply relative inline-block w-10 h-6 rounded-full transition-colors duration-200 flex-shrink-0;
-	background-color: var(--color-bg-content);
-
-	&::before {
-		content: '';
-		@apply absolute top-1 left-1 w-4 h-4 rounded-full transition-transform duration-200;
-		background-color: white;
-	}
-}
-
-@utility onboarding-toggle-label {
-	@apply text-sm;
-	color: var(--color-text);
-}
-
-/* =================================
-   PRESET MODAL CONTENT
-   ================================= */
-
-@utility onboarding-preset-intro {
-	@apply mb-5;
-
-	& p {
-		@apply text-sm leading-relaxed m-0;
-		color: var(--color-text);
-	}
-}
-
-@utility onboarding-preset-cards {
-	@apply grid grid-cols-2 gap-4;
-}
-
-@utility onboarding-preset-card {
-	@apply flex flex-col items-center gap-3 p-5 rounded-xl cursor-pointer transition-all duration-200 border-2;
-	background-color: var(--color-bg-tertiary);
-	border-color: transparent;
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		border-color: var(--color-border-subtle);
-	}
-
-	&:focus {
-		@apply outline-none;
-		border-color: var(--color-primary);
-	}
-
-	&.selected {
-		border-color: var(--color-primary);
-		background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-bg-tertiary));
-	}
-}
-
-@utility onboarding-preset-icon {
-	@apply mb-2;
-	color: var(--color-text-subtle);
-}
-
-@utility onboarding-preset-title {
-	@apply text-base font-semibold text-center;
-	color: var(--color-text-heading);
-}
-
-@utility onboarding-preset-description {
-	@apply text-xs text-center leading-relaxed;
-	color: var(--color-text-subtle);
-}
-
-@utility onboarding-preset-notice {
-	@apply flex items-center gap-2 mt-5 p-3 rounded-lg text-xs;
-	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-subtle);
+	@apply flex justify-end;
+	gap: 0.5rem;
+	margin-top: 0.25rem;
 }

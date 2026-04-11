@@ -2,7 +2,6 @@
 
 /* =================================
    PRIMITIVE COLOR TOKENS
-   Raw color values used by semantic tokens
    ================================= */
 
 :root {
@@ -103,6 +102,17 @@
 	--evidence-dark: rgba(255, 255, 255, 0.07);
 	--surface-overlay-light: rgba(255, 255, 255, 0.03);
 	--surface-overlay-dark: rgba(255, 255, 255, 0.05);
+
+	/* Shadow and overlay opacities */
+	--shadow-faint: rgba(0, 0, 0, 0.04);
+	--shadow-subtle: rgba(0, 0, 0, 0.08);
+	--shadow-light: rgba(0, 0, 0, 0.1);
+	--shadow-medium: rgba(0, 0, 0, 0.12);
+	--shadow-elevated: rgba(0, 0, 0, 0.18);
+	--overlay-scrim: rgba(0, 0, 0, 0.4);
+	--overlay-modal: rgba(0, 0, 0, 0.5);
+	--overlay-dialog: rgba(0, 0, 0, 0.55);
+	--overlay-heavy: rgba(0, 0, 0, 0.75);
 
 	/* =================================
 	   LIGHT THEME (Default)
@@ -223,7 +233,6 @@
 
 /* =================================
    AUTO DARK THEME
-   Applies when system prefers dark
    ================================= */
 
 @media (prefers-color-scheme: dark) {
@@ -325,7 +334,6 @@
 
 /* =================================
    MANUAL DARK THEME
-   Overrides auto detection
    ================================= */
 
 [data-theme='dark'] {
@@ -425,7 +433,6 @@
 
 /* =================================
    MANUAL LIGHT THEME
-   Overrides auto detection
    ================================= */
 
 [data-theme='light'] {

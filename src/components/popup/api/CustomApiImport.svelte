@@ -58,8 +58,9 @@
 		importing = true;
 
 		try {
-			const originalName = getApiNameFromEncodedData(encodedData);
-			const newApi = await importApi(encodedData.trim());
+			const trimmed = encodedData.trim();
+			const originalName = importCustomApi(trimmed).name;
+			const newApi = await importApi(trimmed);
 			const wasRenamed = newApi.name !== originalName;
 
 			logger.userAction('custom_api_imported', {
@@ -79,16 +80,6 @@
 			importing = false;
 		}
 	}
-
-	// Helper to extract API name from encoded data (for better error messages)
-	function getApiNameFromEncodedData(data: string): string {
-		try {
-			const decoded = importCustomApi(data);
-			return decoded.name;
-		} catch {
-			return '';
-		}
-	}
 </script>
 
 <Modal
@@ -98,11 +89,10 @@
 		? $_('custom_api_import_button_importing')
 		: $_('custom_api_import_button_import')}
 	isOpen={true}
-	modalType="modal"
 	onCancel={onClose}
 	onConfirm={handleImport}
 	showCancel={true}
-	size="normal"
+	showStatusChip={false}
 	title={$_('custom_api_import_title')}
 >
 	<div class="custom-api-import-modal">
@@ -120,19 +110,21 @@
 			></textarea>
 		</div>
 
-		<!-- File Upload -->
-		<div class="import-form-group">
-			<label class="upload-file-button" for="file-upload">
-				<Upload size={16} />
-				<span>{$_('custom_api_import_button_upload_file')}</span>
-			</label>
-			<input
-				id="file-upload"
-				class="file-input-hidden"
-				accept=".rotector-api"
-				onchange={handleFileUpload}
-				type="file"
-			/>
+		<div class="import-divider" role="separator">
+			<span class="import-divider-label">{$_('custom_api_import_divider_or')}</span>
 		</div>
+
+		<!-- File Upload -->
+		<label class="form-file-upload" for="file-upload">
+			<Upload size={14} />
+			<span>{$_('custom_api_import_button_upload_file')}</span>
+		</label>
+		<input
+			id="file-upload"
+			class="form-file-input"
+			accept=".rotector-api"
+			onchange={handleFileUpload}
+			type="file"
+		/>
 	</div>
 </Modal>

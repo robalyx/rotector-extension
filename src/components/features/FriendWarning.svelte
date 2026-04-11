@@ -5,7 +5,6 @@
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
-	import { AlertTriangle, Lightbulb } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 
 	interface Props {
@@ -38,98 +37,67 @@
 	let userInfo: UserInfo | null = $state(null);
 
 	// Computed values
-	const sanitizedUserId = $derived.by(() => {
-		const id = sanitizeEntityId(userId);
-		return id ? id.toString() : '';
-	});
+	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
 	const displayName = $derived(username || `User ${sanitizedUserId}`);
 
-	const warningConfig = $derived.by(() => {
-		const rotector = userStatus?.get(ROTECTOR_API_ID);
-		const rawConfidence = rotector?.data?.confidence ?? 0;
-		const confidence = Math.round(rawConfidence * 100);
-
-		return {
-			title: 'Potentially Inappropriate User',
-			message:
-				'This user has been flagged by our detection system. Please review their profile before accepting this friend request.',
-			colorClass: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20',
-			iconColor: 'text-yellow-600 dark:text-yellow-400',
-			textColor: 'text-yellow-800 dark:text-yellow-200',
-			confidence
-		};
-	});
+	const confidence = $derived(
+		Math.round((userStatus?.get(ROTECTOR_API_ID)?.data?.confidence ?? 0) * 100)
+	);
 
 	// Handle proceed with friend request
 	function handleProceed() {
-		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_proceed', {
 			userId: sanitizedUserId,
-			statusFlag: rotector?.data?.flagType
+			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
 		});
-
-		if (onProceed) {
-			onProceed();
-		}
-
+		onProceed?.();
 		isOpen = false;
 	}
 
 	// Handle cancel friend request
 	function handleCancel() {
-		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_cancel', {
 			userId: sanitizedUserId,
-			statusFlag: rotector?.data?.flagType
+			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
 		});
-
-		if (onCancel) {
-			onCancel();
-		}
-
+		onCancel?.();
 		isOpen = false;
 	}
 
 	// Handle block user
 	function handleBlock() {
-		const rotector = userStatus?.get(ROTECTOR_API_ID);
 		logger.userAction('friend_warning_block', {
 			userId: sanitizedUserId,
-			statusFlag: rotector?.data?.flagType
+			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
 		});
-
-		if (onBlock) {
-			onBlock();
-		}
-
+		onBlock?.();
 		isOpen = false;
 	}
 
 	// Extract user info from the page DOM
 	function extractUserInfo(): UserInfo | null {
-		const extractedUserId = sanitizedUserId;
-		if (!extractedUserId) return null;
+		if (!sanitizedUserId) return null;
 
-		let username = 'Unknown User';
+		let username = '';
 		let avatarUrl: string | undefined;
 
 		// Check if we're on a profile page
 		const isProfilePage = window.location.pathname.includes('/users/');
 
 		if (isProfilePage) {
-			const profileHeader = document.querySelector(`${PROFILE_SELECTORS.HEADER}`);
+			const profileHeader = document.querySelector(PROFILE_SELECTORS.HEADER);
 			if (profileHeader) {
 				// Get username from profile username element
-				const usernameElement = profileHeader.querySelector(`${PROFILE_SELECTORS.USERNAME}`);
+				const usernameElement = profileHeader.querySelector(PROFILE_SELECTORS.USERNAME);
 				if (usernameElement) {
-					let text = usernameElement.textContent?.trim() || '';
+					let text = usernameElement.textContent?.trim() ?? '';
 					if (text.startsWith('@')) text = text.substring(1);
-					if (text) username = text;
+					username = text;
 				}
 
 				// Get avatar image
-				const avatarImg = profileHeader.querySelector(`${PROFILE_SELECTORS.AVATAR_IMG}`);
+				const avatarImg = profileHeader.querySelector(PROFILE_SELECTORS.AVATAR_IMG);
 				if (avatarImg instanceof HTMLImageElement && avatarImg.src) {
 					avatarUrl = avatarImg.src;
 				}
@@ -143,8 +111,7 @@
 				// Get username from search card
 				const usernameElement = searchCard.querySelector(SEARCH_SELECTORS.CARD.USERNAME);
 				if (usernameElement) {
-					const text = usernameElement.textContent?.trim() || '';
-					if (text) username = text;
+					username = usernameElement.textContent?.trim() ?? '';
 				}
 
 				// Get avatar image from search card
@@ -155,7 +122,7 @@
 			}
 		}
 
-		return { userId: extractedUserId, username, avatarUrl };
+		return { userId: sanitizedUserId, username, avatarUrl };
 	}
 
 	// Update user info when component mounts
@@ -167,104 +134,94 @@
 </script>
 
 <Modal
-	actionsLayout="horizontal"
 	blockText={$_('friend_warning_block_button')}
 	cancelText={$_('friend_warning_cancel_button')}
+	confirmDanger
 	confirmText={$_('friend_warning_proceed_button')}
-	confirmVariant="danger"
-	icon="warning"
-	modalType="friend-warning"
 	onBlock={handleBlock}
 	onCancel={handleCancel}
 	onConfirm={handleProceed}
 	showBlock={true}
+	status="warning"
 	title={$_('friend_warning_title')}
 	bind:isOpen
 >
-	<div>
-		<!-- User information -->
-		<div class="friend-warning-user-info">
-			<div class="friend-warning-user-info-avatar">
-				{#if userInfo?.avatarUrl}
-					<img
-						alt={$_('friend_warning_avatar_alt', { values: { 0: userInfo.username } })}
-						src={userInfo.avatarUrl}
-					/>
-				{/if}
-			</div>
-			<div class="friend-warning-user-info-details">
-				<div class="friend-warning-user-info-name">
-					{userInfo?.username || displayName}
-				</div>
-				<div class="friend-warning-user-info-id">
-					{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId } })}
-				</div>
-			</div>
-		</div>
-
-		<!-- Risk assessment -->
-		<div class="friend-warning-risk-assessment">
-			<div class="friend-warning-risk-title">
-				{$_('friend_warning_risk_title')}
-			</div>
-			<div class="friend-warning-risk-message">
-				{$_('friend_warning_risk_message')}
-			</div>
-			{#if warningConfig.confidence > 0}
-				<div class="friend-warning-risk-confidence">
-					{$_('friend_warning_confidence_label', {
-						values: { 0: String(warningConfig.confidence) }
-					})}
-				</div>
+	<div class="friend-warning-user-card">
+		<div class="friend-warning-avatar">
+			{#if userInfo?.avatarUrl}
+				<img
+					alt={$_('friend_warning_avatar_alt', { values: { 0: userInfo.username } })}
+					src={userInfo.avatarUrl}
+				/>
 			{/if}
 		</div>
-
-		<!-- Why this matters section -->
-		<div class="friend-warning-why-matters">
-			<h3 class="friend-warning-why-matters-heading">
-				<AlertTriangle class="friend-warning-why-matters-icon" size={20} />
-				{$_('friend_warning_why_matters_heading')}
-			</h3>
-			<ul class="friend-warning-why-matters-list">
-				<li class="friend-warning-why-matters-item">
-					{$_('friend_warning_why_matters_item1')}
-				</li>
-				<li class="friend-warning-why-matters-item">
-					{$_('friend_warning_why_matters_item2')}
-				</li>
-				<li class="friend-warning-why-matters-item">
-					{$_('friend_warning_why_matters_item3')}
-				</li>
-				<li class="friend-warning-why-matters-item">
-					{$_('friend_warning_why_matters_item4')}
-				</li>
-			</ul>
-		</div>
-
-		<!-- Recommended actions section -->
-		<div class="friend-warning-recommendations">
-			<h3 class="friend-warning-recommendations-heading">
-				<Lightbulb class="friend-warning-recommendations-icon" size={20} />
-				{$_('friend_warning_recommendations_heading')}
-			</h3>
-			<ul class="friend-warning-recommendations-list">
-				<li class="friend-warning-recommendations-item">
-					{$_('friend_warning_recommendations_item1')}
-				</li>
-				<li class="friend-warning-recommendations-item">
-					{$_('friend_warning_recommendations_item2')}
-				</li>
-				<li class="friend-warning-recommendations-item">
-					{$_('friend_warning_recommendations_item3')}
-				</li>
-			</ul>
-		</div>
-
-		<!-- Warning message -->
-		<div class="friend-warning-high-risk-warning">
-			<div class="friend-warning-high-risk-text">
-				{$_('friend_warning_high_risk_message')}
+		<div class="friend-warning-user-meta">
+			<div class="friend-warning-user-name">
+				{userInfo?.username || displayName}
+			</div>
+			<div class="friend-warning-user-id">
+				{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId } })}
 			</div>
 		</div>
+	</div>
+
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('friend_warning_risk_title')}</h3>
+			{#if confidence > 0}
+				<span class="modal-section-status">
+					{$_('friend_warning_confidence_label', { values: { 0: String(confidence) } })}
+				</span>
+			{/if}
+		</header>
+		<p class="modal-paragraph">{$_('friend_warning_risk_message')}</p>
+	</div>
+
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('friend_warning_why_matters_heading')}</h3>
+		</header>
+		<ul class="modal-list">
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
+				{$_('friend_warning_why_matters_item1')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
+				{$_('friend_warning_why_matters_item2')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
+				{$_('friend_warning_why_matters_item3')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
+				{$_('friend_warning_why_matters_item4')}
+			</li>
+		</ul>
+	</div>
+
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('friend_warning_recommendations_heading')}</h3>
+		</header>
+		<ul class="modal-list">
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('friend_warning_recommendations_item1')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('friend_warning_recommendations_item2')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('friend_warning_recommendations_item3')}
+			</li>
+		</ul>
+	</div>
+
+	<div class="friend-warning-high-risk">
+		{$_('friend_warning_high_risk_message')}
 	</div>
 </Modal>

@@ -17,6 +17,7 @@
 	import { _ } from 'svelte-i18n';
 
 	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
+	type Surface = 'popup' | 'options';
 
 	type Page =
 		| 'stats'
@@ -28,27 +29,47 @@
 		| 'performance';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
+	interface Props {
+		surface?: Surface;
+	}
 
-	const urlParams = new URLSearchParams(window.location.search);
-	const standaloneMode = urlParams.get('standalone') === 'true';
-	const standaloneInitialPage = urlParams.get('page') as Page | null;
+	let { surface = 'popup' }: Props = $props();
 
-	let currentPage = $state<Page | null>(standaloneMode ? standaloneInitialPage : null);
+	const isPopupSurface = $derived(surface === 'popup');
+	const isOptionsSurface = $derived(surface === 'options');
+	let currentPage = $state<Page | null>(null);
+
+	$effect(() => {
+		if (isOptionsSurface && currentPage === null) {
+			currentPage = 'custom-apis';
+			void browser.storage.local.remove('optionsDeepLink');
+		}
+	});
+
+	// Handle deep link navigation from popup to an already-open options tab
+	$effect(() => {
+		if (!isOptionsSurface) return;
+
+		const handler = (changes: Record<string, { newValue?: unknown }>, area: string) => {
+			if (area !== 'local') return;
+			const target = changes.optionsDeepLink?.newValue;
+			if (typeof target === 'string') {
+				currentPage = target as Page;
+				void browser.storage.local.remove('optionsDeepLink');
+			}
+		};
+
+		browser.storage.onChanged.addListener(handler);
+		return () => browser.storage.onChanged.removeListener(handler);
+	});
 
 	function handlePageChange(page: Page) {
 		currentPage = page;
 	}
 
-	// Open custom API management in a standalone window
-	async function openCustomApisWindow() {
-		const url = browser.runtime.getURL('/popup.html') + '?page=custom-apis&standalone=true';
-		await browser.windows.create({
-			url,
-			type: 'popup',
-			width: 400,
-			height: 650,
-			focused: true
-		});
+	async function openCustomApisOptionsPage() {
+		await browser.storage.local.set({ optionsDeepLink: 'custom-apis' });
+		await browser.runtime.openOptionsPage();
 	}
 
 	$effect(() => {
@@ -65,7 +86,7 @@
 
 	// Load last visited page from storage
 	$effect(() => {
-		if (standaloneMode) return;
+		if (!isPopupSurface) return;
 
 		browser.storage.local
 			.get(LAST_PAGE_STORAGE_KEY)
@@ -95,7 +116,7 @@
 
 	// Save current page to storage
 	$effect(() => {
-		if (standaloneMode) return;
+		if (!isPopupSurface) return;
 
 		if (currentPage) {
 			browser.storage.local.set({ [LAST_PAGE_STORAGE_KEY]: currentPage }).catch((error) => {
@@ -111,14 +132,14 @@
 </script>
 
 <div
-	class={standaloneMode
-		? 'app flex min-h-screen w-full overflow-x-hidden flex-col gap-3 p-4'
+	class={isOptionsSurface
+		? 'app mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 overflow-x-hidden px-4 py-6'
 		: 'app flex min-h-[400px] w-[350px] flex-col gap-3 p-3'}
 >
 	<!-- Toast Notifications -->
 	<Toast />
 
-	{#if !standaloneMode}
+	{#if isPopupSurface}
 		<!-- Header Section -->
 		<div class="pb-2 text-center">
 			<div class="mb-2 flex justify-center">
@@ -126,8 +147,8 @@
 			</div>
 			<p
 				class="
-      text-text-subtle m-0 text-xs
-      dark:text-text-subtle-dark
+      text-text-subtle dark:text-text-subtle-dark m-0
+      text-xs
     "
 			>
 				{$_('popup_header_description')}
@@ -138,6 +159,30 @@
 		<Navbar {currentPage} onPageChange={handlePageChange} />
 	{/if}
 
+	{#if isOptionsSurface}
+		<!-- Options Tab Bar -->
+		<nav class="custom-api-tabs" aria-label={$_('custom_api_tab_navigation')}>
+			<button
+				class="custom-api-tab"
+				class:active={currentPage === 'custom-apis'}
+				aria-pressed={currentPage === 'custom-apis'}
+				onclick={() => handlePageChange('custom-apis')}
+				type="button"
+			>
+				{$_('custom_api_tab_manage')}
+			</button>
+			<button
+				class="custom-api-tab"
+				class:active={currentPage === 'custom-api-docs'}
+				aria-pressed={currentPage === 'custom-api-docs'}
+				onclick={() => handlePageChange('custom-api-docs')}
+				type="button"
+			>
+				{$_('custom_api_tab_docs')}
+			</button>
+		</nav>
+	{/if}
+
 	<!-- Page Content -->
 	<div class="page-content">
 		{#if currentPage !== null}
@@ -145,19 +190,16 @@
 				<StatsPage />
 			{:else if currentPage === 'settings'}
 				<SettingsPage
-					onNavigateToCustomApis={openCustomApisWindow}
+					onNavigateToCustomApis={openCustomApisOptionsPage}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 					onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
 				/>
 			{:else if currentPage === 'queue'}
 				<QueuePage />
 			{:else if currentPage === 'custom-apis'}
-				<CustomApiManagement
-					onBack={standaloneMode ? () => window.close() : () => handlePageChange('settings')}
-					onNavigateToDocumentation={() => handlePageChange('custom-api-docs')}
-				/>
+				<CustomApiManagement />
 			{:else if currentPage === 'custom-api-docs'}
-				<CustomApiDocumentation onBack={() => handlePageChange('custom-apis')} />
+				<CustomApiDocumentation />
 			{:else if currentPage === 'developer-logs'}
 				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
 			{:else if IS_DEV && currentPage === 'performance'}
@@ -166,7 +208,7 @@
 		{/if}
 	</div>
 
-	{#if !standaloneMode}
+	{#if isPopupSurface}
 		<!-- Footer Section -->
 		<FooterSection />
 	{/if}

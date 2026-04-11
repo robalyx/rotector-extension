@@ -3,14 +3,16 @@
    ================================= */
 
 @utility status-container {
-	@apply inline-flex items-center relative cursor-help leading-normal align-middle w-auto overflow-visible;
+	@apply relative inline-flex w-auto cursor-help items-center overflow-visible align-middle leading-normal;
 	background: transparent !important;
 	border: none !important;
 }
 
 @utility status-positioned-absolute {
-	@apply absolute flex justify-center items-center pointer-events-auto top-1 right-1 z-[1000] rounded-full p-0 w-5 h-5;
-	background: rgba(0, 0, 0, 0.6);
+	@apply pointer-events-auto absolute top-1 right-1 z-[1000] flex h-5 w-5 items-center justify-center rounded-full p-0;
+	background-color: var(--overlay-scrim);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
 
 	& [class*='status-icon-'] {
 		@apply mr-0;
@@ -21,11 +23,11 @@
    STATUS ICON STYLES
    ================================= */
 @utility status-icon-wrapper {
-	@apply block relative flex-shrink-0 w-5 h-5 mr-1;
+	@apply relative mr-1 block h-5 w-5 flex-shrink-0;
 }
 
 @utility status-icon-base {
-	@apply block w-5 h-5;
+	@apply block h-5 w-5;
 }
 
 @utility icon-bg-checking {
@@ -41,7 +43,9 @@
    STATUS TEXT STYLES
    ================================= */
 @utility status-text-base {
-	@apply text-sm-plus whitespace-nowrap font-medium;
+	@apply text-sm-plus font-medium whitespace-nowrap;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.005em;
 }
 
 @utility text-status-safe {
@@ -119,7 +123,7 @@
    BADGE STYLES
    ================================= */
 @utility badge-base {
-	@apply absolute flex items-center justify-center rounded-full w-[15px] h-[15px] shadow-sm transition-all duration-400 pointer-events-auto;
+	@apply pointer-events-auto absolute flex h-[15px] w-[15px] items-center justify-center rounded-full shadow-sm transition-all duration-400;
 	transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	top: 0;
 	left: 0;
@@ -174,15 +178,16 @@
 }
 
 @utility badge-bg-integration {
-	@apply text-2xs font-bold text-white leading-none;
+	@apply text-2xs leading-none font-bold text-white;
 	background-color: var(--color-status-integration);
+	font-variant-numeric: tabular-nums;
 }
 
 /* =================================
    BADGE CLASSES
    ================================= */
 @utility badge-container {
-	@apply absolute -bottom-1 left-4 w-[15px] h-[15px] pointer-events-none;
+	@apply pointer-events-none absolute -bottom-1 left-4 h-[15px] w-[15px];
 }
 
 @utility reportable-badge {
@@ -201,8 +206,7 @@
    PROFILE STATUS CONTAINER
    ================================= */
 @utility rotector-profile-status {
-	display: inline-flex;
-	align-items: center;
+	@apply inline-flex items-center;
 	vertical-align: middle;
 	line-height: normal;
 }

@@ -5,37 +5,37 @@
 	const statusTypes = [
 		{
 			icon: CircleCheck,
-			color: '#888888',
+			color: 'var(--color-status-safe)',
 			nameKey: 'onboarding_status_not_flagged',
 			descKey: 'onboarding_status_not_flagged_desc'
 		},
 		{
 			icon: Clock,
-			color: '#f97316',
+			color: 'var(--color-status-pending)',
 			nameKey: 'onboarding_status_pending',
 			descKey: 'onboarding_status_pending_desc'
 		},
 		{
 			icon: AlertCircle,
-			color: '#ff4444',
+			color: 'var(--color-status-unsafe)',
 			nameKey: 'onboarding_status_unsafe',
 			descKey: 'onboarding_status_unsafe_desc'
 		},
 		{
 			icon: Clock,
-			color: '#999999',
+			color: 'var(--color-status-checking)',
 			nameKey: 'onboarding_status_queued',
 			descKey: 'onboarding_status_queued_desc'
 		},
 		{
 			icon: CircleHelp,
-			color: '#eab308',
+			color: 'var(--color-status-mixed)',
 			nameKey: 'onboarding_status_mixed',
 			descKey: 'onboarding_status_mixed_desc'
 		},
 		{
 			icon: History,
-			color: '#4a9eff',
+			color: 'var(--color-status-past-offender)',
 			nameKey: 'onboarding_status_past_offender',
 			descKey: 'onboarding_status_past_offender_desc'
 		}

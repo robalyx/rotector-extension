@@ -1,76 +1,129 @@
 /* =================================
-   OUTFIT VIEWER MODAL
+   OUTFIT VIEWER LAYOUT
    ================================= */
 
 @utility outfit-viewer-two-panel {
-	@apply flex gap-5;
+	@apply flex;
+	gap: 1rem;
 }
 
 @utility outfit-viewer-left-panel {
+	@apply flex flex-shrink-0 flex-col;
+	gap: 0.75rem;
 	width: 460px;
-	flex-shrink: 0;
 }
 
 @utility outfit-viewer-right-panel {
+	@apply flex flex-shrink-0 flex-col;
+	gap: 0.625rem;
 	width: 400px;
-	flex-shrink: 0;
-	@apply flex flex-col gap-3;
 }
 
-@utility outfit-viewer-3d-container {
-	@apply rounded-lg overflow-hidden;
+@utility outfit-viewer-header-logo {
+	@apply inline-flex flex-shrink-0 items-center;
+	padding-right: 0.625rem;
+	margin-right: 0.125rem;
+	border-right: 1px solid var(--color-border-subtle);
+
+	& img {
+		@apply block h-8 w-auto;
+	}
 }
 
-@utility outfit-viewer-3d-name {
-	@apply text-base font-semibold text-center;
-	color: var(--color-text);
+@utility outfit-viewer-disclaimer {
+	@apply flex items-center rounded text-xs;
+	gap: 0.5rem;
+	padding: 0.625rem 0.75rem;
+	line-height: 1.5;
+	color: var(--color-warning);
+	background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
 }
 
-@utility outfit-viewer-flagged-box {
-	@apply p-3 rounded-lg text-sm;
-	background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
-}
-
-@utility outfit-viewer-flagged-reason {
-	@apply font-medium;
+@utility outfit-viewer-disclaimer-icon {
+	@apply flex-shrink-0;
 	color: var(--color-warning);
 }
 
-@utility outfit-viewer-flagged-confidence {
-	@apply text-xs mt-1;
+@utility outfit-viewer-flagged-count {
+	@apply m-0 text-xs;
 	color: var(--color-text-subtle);
 }
 
+/* =================================
+   3D VIEWER PANEL
+   ================================= */
+
+@utility outfit-viewer-3d-container {
+	@apply overflow-hidden rounded-md;
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility outfit-viewer-3d-name {
+	@apply m-0 text-center text-sm font-semibold;
+	color: var(--color-text-heading);
+}
+
 @utility outfit-viewer-3d-empty {
-	@apply flex flex-col items-center justify-center gap-3 rounded-lg;
+	@apply flex flex-col items-center justify-center rounded-md text-xs;
+	gap: 0.625rem;
 	height: 400px;
-	background-color: var(--color-bg-tertiary);
+	border: 1px dashed var(--color-border-subtle);
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-viewer-3d-hint {
-	@apply text-xs text-center;
+	@apply m-0 text-center text-xs;
 	color: var(--color-text-subtle);
 }
 
+@utility outfit-viewer-flagged-box {
+	@apply rounded text-xs;
+	padding: 0.625rem 0.75rem;
+	line-height: 1.5;
+	background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
+}
+
+@utility outfit-viewer-flagged-reason {
+	@apply font-semibold;
+	color: var(--color-warning);
+}
+
+@utility outfit-viewer-flagged-confidence {
+	@apply text-2xs;
+	margin-top: 0.125rem;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   BRIGHTNESS SLIDER
+   ================================= */
+
 @utility outfit-viewer-brightness {
-	@apply flex items-center gap-2 px-2;
+	@apply flex items-center;
+	gap: 0.5rem;
+	padding: 0 0.25rem;
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-viewer-brightness-slider {
-	@apply flex-1 h-1 rounded-full cursor-pointer appearance-none;
+	@apply flex-1 cursor-pointer appearance-none rounded-full;
+	height: 3px;
 	background: var(--color-bg-tertiary);
 
 	&::-webkit-slider-thumb {
-		@apply appearance-none w-3 h-3 rounded-full cursor-pointer;
+		@apply cursor-pointer appearance-none rounded-full;
+		width: 0.75rem;
+		height: 0.75rem;
 		background: var(--color-text-subtle);
 		transition: background-color 0.15s ease;
 	}
 
 	&::-moz-range-thumb {
-		@apply w-3 h-3 rounded-full cursor-pointer border-none;
+		@apply cursor-pointer rounded-full border-none;
+		width: 0.75rem;
+		height: 0.75rem;
 		background: var(--color-text-subtle);
 		transition: background-color 0.15s ease;
 	}
@@ -84,37 +137,26 @@
 	}
 }
 
-@utility outfit-viewer-header-logo {
-	@apply self-stretch flex items-center flex-shrink-0 pr-3 mr-3 border-r-2 border-white/20;
-
-	& img {
-		@apply h-8 w-auto;
-	}
-}
-
-@utility outfit-viewer-disclaimer {
-	@apply flex items-center gap-2.5 p-3 rounded-lg mb-4 text-sm;
-	background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
-	color: var(--color-warning);
-}
-
-@utility outfit-viewer-disclaimer-icon {
-	@apply shrink-0;
-	color: var(--color-warning);
-}
+/* =================================
+   LOADING / ERROR / EMPTY STATES
+   ================================= */
 
 @utility outfit-viewer-loading {
-	@apply flex flex-col items-center justify-center gap-3 py-12;
+	@apply flex flex-col items-center justify-center;
+	gap: 0.625rem;
+	padding: 2rem 0;
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-viewer-progress {
-	@apply flex flex-col items-center gap-3 w-full max-w-xs;
+	@apply flex w-full flex-col items-center;
+	gap: 0.5rem;
+	max-width: 18rem;
 }
 
 @utility outfit-viewer-progress-bar {
-	@apply w-full h-1.5 rounded-full overflow-hidden;
+	@apply w-full overflow-hidden rounded-full;
+	height: 4px;
 	background-color: var(--color-bg-tertiary);
 }
 
@@ -141,33 +183,48 @@
 }
 
 @utility outfit-viewer-progress-text {
-	@apply text-sm;
+	@apply text-xs;
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-viewer-error {
-	@apply flex flex-col items-center gap-3 py-8 text-center text-sm;
+	@apply flex flex-col items-center text-center text-xs;
+	gap: 0.625rem;
+	padding: 1.5rem 0;
 	color: var(--color-error);
 }
 
 @utility outfit-viewer-retry {
-	@apply px-3 py-1.5 text-sm font-medium rounded-md transition-colors cursor-pointer;
+	@apply cursor-pointer rounded text-xs font-medium;
+	padding: 0.375rem 0.75rem;
 	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
-	border: 1px solid var(--color-border);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
 
 	&:hover {
 		background-color: var(--color-bg-secondary);
+		border-color: var(--color-border);
 	}
 }
 
 @utility outfit-viewer-empty {
-	@apply flex flex-col items-center gap-2 py-12 text-center text-sm;
+	@apply flex flex-col items-center text-center text-xs;
+	gap: 0.5rem;
+	padding: 2rem 0;
 	color: var(--color-text-subtle);
 }
 
+/* =================================
+   OUTFIT GRID
+   ================================= */
+
 @utility outfit-viewer-grid {
-	@apply grid gap-4 py-2;
+	@apply grid;
+	gap: 0.625rem;
+	padding: 0.25rem 0;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -177,16 +234,19 @@
 
 @utility outfit-stack-container {
 	@apply flex flex-col items-center;
+	gap: 0.375rem;
 }
 
 @utility outfit-stack-primary {
-	@apply relative rounded-lg overflow-hidden;
+	@apply relative overflow-hidden rounded-md p-0;
 	width: 120px;
 	height: 120px;
+	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-tertiary);
-	border: 2px solid transparent;
-	padding: 0;
 	cursor: default;
+	transition:
+		border-color 0.15s ease,
+		background-color 0.15s ease;
 
 	&:hover .view-3d-button {
 		opacity: 1;
@@ -195,71 +255,72 @@
 }
 
 @utility outfit-stack-primary-clickable {
-	cursor: pointer;
-	transition: transform 0.15s ease;
+	@apply cursor-pointer;
 
 	&:hover {
-		transform: scale(1.02);
+		border-color: var(--color-border);
 	}
 }
 
 @utility outfit-stack-item-flagged {
-	border-color: var(--color-warning);
-	box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-warning) 25%, transparent);
+	border-color: color-mix(in srgb, var(--color-warning) 60%, transparent);
 }
 
 @utility outfit-stack-thumbnail {
-	@apply w-full h-full object-cover;
+	@apply h-full w-full object-cover;
 }
 
 @utility outfit-stack-thumbnail-pending {
-	@apply w-full h-full flex items-center justify-center;
+	@apply flex h-full w-full items-center justify-center;
 	background-color: var(--color-bg-secondary);
 }
 
 @utility outfit-stack-thumbnail-placeholder {
-	@apply w-full h-full flex items-center justify-center;
+	@apply flex h-full w-full items-center justify-center;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-stack-flagged-indicator {
-	@apply absolute flex items-center justify-center rounded-full;
+	@apply absolute inline-flex items-center justify-center rounded-full text-white;
 	top: 4px;
 	right: 4px;
 	width: 18px;
 	height: 18px;
 	background-color: var(--color-warning);
-	color: white;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 @utility outfit-stack-count-badge {
-	@apply absolute flex items-center gap-0.5 text-xs font-bold rounded-full;
+	@apply text-2xs absolute inline-flex items-center rounded-full font-semibold text-white;
 	bottom: 4px;
 	right: 4px;
-	padding: 2px 6px;
+	gap: 0.125rem;
+	padding: 1px 6px;
 	background-color: var(--color-primary);
-	color: white;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	font-variant-numeric: tabular-nums;
 }
 
 @utility outfit-stack-name {
-	@apply text-sm text-center truncate w-full mt-2;
-	color: var(--color-text);
+	@apply m-0 w-full overflow-hidden text-center text-xs text-ellipsis whitespace-nowrap;
 	max-width: 120px;
+	color: var(--color-text);
 }
 
 @utility outfit-stack-expanded {
-	@apply grid gap-2 mt-2 w-full;
+	@apply grid w-full;
 	grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+	gap: 0.375rem;
+	margin-top: 0.375rem;
 }
 
 @utility outfit-stack-expanded-item {
-	@apply rounded overflow-hidden aspect-square cursor-pointer border-none p-0 transition-transform;
+	@apply cursor-pointer overflow-hidden rounded p-0;
+	aspect-ratio: 1 / 1;
+	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-tertiary);
+	transition: border-color 0.15s ease;
 
 	&:hover {
-		transform: scale(1.05);
+		border-color: var(--color-border);
 	}
 }

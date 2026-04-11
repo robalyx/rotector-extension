@@ -32,9 +32,8 @@ export const API_CONFIG = {
 		QUEUE_LIMITS: '/v1/queue/limits',
 		SUBMIT_VOTE: '/v1/votes/roblox/user',
 		GET_VOTES: '/v1/votes/roblox/user',
-		GET_STATISTICS: '/v1/stats',
+		GET_STATS: '/v1/stats',
 		EXTENSION_AUTH_LOGIN: '/v1/extension/auth/login',
-		EXTENSION_AUTH_CALLBACK: '/v1/extension/auth/callback',
 		EXTENSION_PROFILE: '/v1/extension/profile',
 		EXTENSION_PROFILE_ANONYMOUS: '/v1/extension/profile/anonymous',
 		EXTENSION_RESET_UUID: '/v1/extension/profile/reset-uuid',
@@ -69,7 +68,7 @@ export const API_ACTIONS = {
 	SUBMIT_VOTE: 'submitVote',
 	GET_VOTES: 'getVotes',
 	GET_MULTIPLE_VOTES: 'getMultipleVotes',
-	GET_STATISTICS: 'getStatistics',
+	GET_STATS: 'getStats',
 	EXTENSION_GET_PROFILE: 'extensionGetProfile',
 	EXTENSION_UPDATE_ANONYMOUS: 'extensionUpdateAnonymous',
 	EXTENSION_RESET_UUID: 'extensionResetUuid',
@@ -253,11 +252,14 @@ export const BTROBLOX_GROUPS_SELECTORS = {
 // DOM selectors for report/abuse pages
 export const REPORT_PAGE_SELECTORS = {
 	FORM_CONTAINER: '.abuse-report-container',
+	INNER_FORM: '.single-step-container',
 	FOOTER: '.single-step-footer',
 	CATEGORY_BUTTON: 'button[role="combobox"]',
 	CATEGORY_SELECTED_TEXT: 'button[role="combobox"] .foundation-web-menu-item-title',
 	COMMENT_TEXTAREA: 'textarea.foundation-web-text-area',
-	DROPDOWN_OPTION: '[role="option"]',
+	DROPDOWN_OPTION: '.foundation-web-menu-item[data-radix-collection-item]',
+	DROPDOWN_OPTION_TEXT: '.foundation-web-menu-item-title',
+	DROPDOWN_LISTBOX: '[role="listbox"]',
 	SUBMIT_BUTTON: '.single-step-footer button[type="button"]'
 } as const;
 
@@ -363,7 +365,6 @@ export const COMPONENT_CLASSES = {
 	FRIEND_WARNING: 'rotector-friend-warning',
 	QUEUE_MODAL: 'rotector-queue-modal',
 	REPORT_HELPER: 'rotector-report-helper',
-	REPORT_HELPER_SUCCESS_MESSAGE: 'report-helper-success-message',
 	GROUP_STATUS_CONTAINER: 'rotector-group-status-container',
 	VOTING_WIDGET: 'rotector-voting-widget',
 	COMPONENT_BASE: 'rotector-component',
@@ -391,6 +392,7 @@ export const USER_ACTIONS = {
 	QUEUE_POPUP_CANCEL: 'queue_popup_cancel',
 	REPORT_HELPER_AUTOFILL: 'report_helper_autofill',
 	REPORT_HELPER_AUTOFILL_FAILED: 'report_helper_autofill_failed',
+	REPORT_HELPER_SUBMIT: 'report_helper_submit',
 	REPORT_HELPER_OPEN_PAGE: 'report_helper_open_page',
 	REPORT_HELPER_COPY_EVIDENCE: 'report_helper_copy_evidence'
 } as const;

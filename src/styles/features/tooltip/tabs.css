@@ -3,32 +3,33 @@
    ================================= */
 
 @utility tooltip-tabs {
-	@apply flex gap-1.5 m-1.5 rounded-md;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border-subtle);
-	margin-bottom: 0.5rem;
+	@apply flex gap-1;
+	padding: 0.25rem 0.5rem 0;
+	margin-bottom: 0.25rem;
 }
 
 @utility tooltip-tab {
-	@apply flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-2xs font-medium rounded;
-	@apply border-none cursor-pointer transition-all duration-150;
-	background-color: transparent;
+	@apply text-xs-plus flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded border-none bg-transparent font-semibold;
+	padding: 0.3125rem 0.5rem;
+	letter-spacing: 0.02em;
 	color: var(--color-text-subtle);
+	font-variant-numeric: tabular-nums;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
 
 	&:hover:not(.active):not(:disabled) {
-		background-color: var(--color-hover);
 		color: var(--color-text);
 	}
 
 	&:focus-visible {
-		@apply outline-none;
-		box-shadow: 0 0 0 2px var(--color-primary);
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 
 	&.active {
-		background-color: var(--color-bg-secondary);
-		color: var(--color-text);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		background-color: var(--color-primary);
+		color: var(--primitive-white);
 	}
 
 	&.error {
@@ -36,11 +37,12 @@
 	}
 
 	&.error:hover:not(:disabled) {
-		background-color: rgba(255, 68, 68, 0.1);
+		color: color-mix(in srgb, var(--color-status-unsafe) 80%, black);
 	}
 
 	&.error.active {
-		background-color: rgba(255, 68, 68, 0.15);
+		background-color: var(--color-status-unsafe);
+		color: var(--primitive-white);
 	}
 
 	&.loading {
@@ -49,11 +51,11 @@
 	}
 
 	&:disabled {
-		@apply opacity-50 cursor-not-allowed;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	&:disabled:hover {
-		background-color: transparent;
+		@apply bg-transparent;
 		color: var(--color-text-subtle);
 	}
 }
@@ -69,11 +71,11 @@
 }
 
 @utility tooltipTabHasImage {
-	@apply px-2 py-1.5;
+	padding: 0.25rem 0.5rem;
 }
 
 @utility tooltip-tab-image {
-	@apply h-8 max-w-full object-contain rounded;
+	@apply h-7 max-w-full rounded object-contain;
 	background-color: var(--color-surface-primary);
 }
 

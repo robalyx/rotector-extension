@@ -1,49 +1,67 @@
 /* =================================
-   OUTFIT PICKER
+   OUTFIT PICKER CARD
    ================================= */
 
 @utility outfit-picker-card {
-	@apply rounded-[10px] transition-all duration-200 w-full overflow-hidden box-border;
+	@apply w-full overflow-hidden rounded-md;
 	background-color: var(--color-bg-content);
-	border: 2px solid var(--color-border);
+	border: 1px solid var(--color-border-subtle);
+	transition:
+		border-color 0.15s ease,
+		background-color 0.15s ease;
+
+	&:hover {
+		border-color: var(--color-border);
+	}
 
 	&.outfit-picker-disabled {
-		opacity: 0.6;
+		@apply opacity-60;
 	}
 
 	&.outfit-picker-has-selections {
-		border-color: var(--color-status-outfit);
+		border-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+		background-color: color-mix(in srgb, var(--color-primary) 4%, transparent);
 	}
 }
 
 @utility outfit-picker-header {
-	@apply flex items-center justify-between w-full p-4 cursor-pointer border-none;
-	background: transparent;
+	@apply flex w-full cursor-pointer items-center justify-between border-none bg-transparent;
+	padding: 0.75rem 0.875rem;
+	color: var(--color-text-heading);
+	transition: background-color 0.15s ease;
 
 	&:hover:not(:disabled) {
-		background-color: var(--color-bg-tertiary);
+		background-color: var(--color-hover);
 	}
 
 	&:disabled {
-		cursor: not-allowed;
+		@apply cursor-not-allowed;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: -2px;
 	}
 }
 
 @utility outfit-picker-header-content {
-	@apply flex items-center gap-3;
+	@apply flex items-center;
+	gap: 0.5rem;
 }
 
 @utility outfit-picker-icon {
-	color: var(--color-status-outfit);
+	@apply flex-shrink-0;
+	color: var(--color-text-subtle);
 }
 
 @utility outfit-picker-title-section {
-	@apply flex flex-col items-start gap-0.5;
+	@apply flex flex-col items-start;
+	gap: 0.0625rem;
 }
 
 @utility outfit-picker-title {
-	@apply text-base font-semibold;
-	color: var(--color-text);
+	@apply m-0 text-sm font-semibold;
+	color: var(--color-text-heading);
 }
 
 @utility outfit-picker-subtitle {
@@ -52,53 +70,80 @@
 }
 
 @utility outfit-picker-chevron {
+	@apply flex-shrink-0;
 	color: var(--color-text-subtle);
+	transition: transform 0.2s ease;
 }
 
 @utility outfit-picker-content {
-	@apply px-4 pb-4 box-border;
+	padding: 0.5rem 0.875rem 0.875rem;
 	border-top: 1px solid var(--color-border-subtle);
-	max-width: 100%;
 }
 
+/* =================================
+   OUTFIT PICKER STATES
+   ================================= */
+
 @utility outfit-picker-loading {
-	@apply flex items-center justify-center gap-2 py-6 text-sm;
+	@apply flex items-center justify-center text-xs;
+	gap: 0.5rem;
+	padding: 1rem 0;
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-picker-error {
-	@apply flex flex-col items-center gap-2 py-4 text-center text-sm;
+	@apply flex flex-col items-center text-center text-xs;
+	gap: 0.5rem;
+	padding: 1rem 0;
 	color: var(--color-error);
 }
 
 @utility outfit-picker-retry {
-	@apply px-3 py-1.5 text-sm font-medium rounded-md transition-colors cursor-pointer;
+	@apply cursor-pointer rounded text-xs font-medium;
+	padding: 0.375rem 0.75rem;
 	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
-	border: 1px solid var(--color-border);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
 
 	&:hover {
 		background-color: var(--color-bg-secondary);
+		border-color: var(--color-border);
 	}
 }
 
 @utility outfit-picker-empty {
-	@apply flex flex-col items-center gap-2 py-6 text-center text-sm;
+	@apply flex flex-col items-center text-center text-xs;
+	gap: 0.5rem;
+	padding: 1rem 0;
 	color: var(--color-text-subtle);
 }
 
+/* =================================
+   OUTFIT PICKER GRID & ITEMS
+   ================================= */
+
 @utility outfit-picker-grid {
-	@apply grid gap-2 py-3 w-full box-border;
+	@apply grid w-full;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.5rem;
+	padding: 0.5rem 0;
 }
 
 @utility outfit-picker-item {
-	@apply flex flex-col items-center gap-1 p-2 rounded-lg cursor-pointer transition-all duration-150 border-2 border-transparent;
-	background-color: var(--color-bg-tertiary);
+	@apply flex cursor-pointer flex-col items-center rounded-md bg-transparent;
+	gap: 0.3125rem;
+	border: 1px solid var(--color-border-subtle);
+	padding: 0.4375rem;
+	transition:
+		border-color 0.15s ease,
+		background-color 0.15s ease;
 
 	&:hover:not(.outfit-picker-item-disabled):not(.outfit-picker-item-selected) {
-		background-color: var(--color-bg-secondary);
 		border-color: var(--color-border);
+		background-color: var(--color-hover);
 	}
 
 	&:hover .view-3d-button {
@@ -107,18 +152,23 @@
 	}
 
 	&.outfit-picker-item-selected {
-		border-color: var(--color-status-outfit);
-		background-color: color-mix(in srgb, var(--color-status-outfit) 10%, transparent);
+		border-color: var(--color-primary);
+		background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
 	}
 
 	&.outfit-picker-item-disabled:not(.outfit-picker-item-selected) {
-		opacity: 0.5;
-		cursor: not-allowed;
+		@apply cursor-not-allowed opacity-50;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
 @utility outfit-thumbnail-container {
-	@apply relative w-full aspect-square;
+	@apply relative w-full;
+	aspect-ratio: 1 / 1;
 
 	&:hover .view-3d-button {
 		opacity: 1;
@@ -127,82 +177,100 @@
 }
 
 @utility outfit-thumbnail {
-	@apply w-full h-full object-cover rounded-md;
+	@apply h-full w-full rounded object-cover;
 }
 
 @utility outfit-thumbnail-pending {
-	@apply w-full h-full flex items-center justify-center rounded-md;
+	@apply flex h-full w-full items-center justify-center rounded;
 	background-color: var(--color-bg-secondary);
 }
 
 @utility outfit-thumbnail-placeholder {
-	@apply w-full h-full flex items-center justify-center rounded-md;
+	@apply flex h-full w-full items-center justify-center rounded;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-selected-badge {
-	@apply absolute flex items-center justify-center rounded-full text-xs font-bold;
+	@apply text-2xs absolute inline-flex items-center justify-center rounded-full font-semibold text-white;
 	top: -4px;
 	right: -4px;
 	width: 18px;
 	height: 18px;
-	background-color: var(--color-status-outfit);
-	color: white;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	background-color: var(--color-primary);
+	font-variant-numeric: tabular-nums;
 }
 
 @utility outfit-name {
-	@apply text-xs text-center truncate w-full;
+	@apply w-full overflow-hidden text-center text-xs text-ellipsis whitespace-nowrap;
 	color: var(--color-text);
 }
 
 @utility outfit-name-container {
-	@apply flex flex-col items-center gap-0 w-full;
+	@apply flex w-full flex-col items-center;
+	gap: 0;
 }
 
 @utility outfit-current-label {
-	@apply text-[10px] font-medium uppercase tracking-wide;
-	color: var(--color-status-outfit);
-	opacity: 0.8;
+	@apply text-3xs font-semibold uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-primary);
 }
 
 @utility outfit-picker-limit-hint {
-	@apply text-xs text-center py-2;
+	@apply text-center text-xs;
+	padding: 0.5rem 0 0;
 	color: var(--color-warning);
 }
 
-/* Pagination Controls */
+/* =================================
+   PAGINATION
+   ================================= */
+
 @utility outfit-picker-pagination {
-	@apply flex items-center justify-center gap-3 pt-3 pb-1;
+	@apply flex items-center justify-center;
+	gap: 0.625rem;
+	padding-top: 0.5rem;
 	border-top: 1px solid var(--color-border-subtle);
 }
 
+@utility outfit-pagination-bar {
+	@apply flex flex-1 items-center justify-center;
+	gap: 0.5rem;
+}
+
 @utility outfit-pagination-btn {
-	@apply flex items-center justify-center w-8 h-8 rounded-md cursor-pointer transition-all duration-150;
+	@apply inline-flex cursor-pointer items-center justify-center rounded;
+	width: 1.75rem;
+	height: 1.75rem;
 	background-color: var(--color-bg-tertiary);
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
 
-	&:hover:not(:disabled) {
+	&:hover:not(:disabled):not(.outfit-pagination-btn-disabled) {
 		background-color: var(--color-bg-secondary);
-		border-color: var(--color-status-outfit);
-		color: var(--color-status-outfit);
+		border-color: var(--color-border);
 	}
 
-	&:disabled {
-		cursor: not-allowed;
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 
+	&:disabled,
 	&.outfit-pagination-btn-disabled {
+		@apply cursor-not-allowed;
 		opacity: 0.4;
-		color: var(--color-text-subtle);
 	}
 }
 
 @utility outfit-pagination-info {
-	@apply text-sm font-medium tabular-nums;
+	@apply text-center text-xs font-medium;
+	min-width: 5rem;
 	color: var(--color-text-subtle);
-	min-width: 80px;
-	text-align: center;
+	font-variant-numeric: tabular-nums;
 }

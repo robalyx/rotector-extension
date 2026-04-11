@@ -5,6 +5,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
+	import { Upload, Trash2 } from '@lucide/svelte';
 	import Modal from '../../ui/Modal.svelte';
 
 	interface Props {
@@ -138,9 +139,7 @@
 		// Validate file extension
 		const validExtensions = ['.png', '.jpg', '.jpeg', '.svg', '.webp'];
 		const fileName = file.name.toLowerCase();
-		const hasValidExtension = validExtensions.some((ext) => fileName.endsWith(ext));
-
-		if (!hasValidExtension) {
+		if (!validExtensions.some((ext) => fileName.endsWith(ext))) {
 			imageError = $_('custom_api_form_error_image_type');
 			landscapeImageDataUrl = '';
 			input.value = '';
@@ -165,20 +164,15 @@
 		}
 
 		// Convert to base64 data URL
-		try {
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				landscapeImageDataUrl = e.target?.result as string;
-			};
-			reader.onerror = () => {
-				imageError = $_('custom_api_form_error_image_read');
-				landscapeImageDataUrl = '';
-			};
-			reader.readAsDataURL(file);
-		} catch {
-			imageError = $_('custom_api_form_error_image_process');
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			landscapeImageDataUrl = e.target?.result as string;
+		};
+		reader.onerror = () => {
+			imageError = $_('custom_api_form_error_image_read');
 			landscapeImageDataUrl = '';
-		}
+		};
+		reader.readAsDataURL(file);
 	}
 
 	// Remove landscape image
@@ -211,7 +205,7 @@
 
 		try {
 			if (isEditing && editingApi) {
-				// Check if URLs changed
+				// Changing URLs auto-disables the API so the user must retest before it runs again
 				const urlChanged =
 					singleUrl.trim() !== editingApi.singleUrl || batchUrl.trim() !== editingApi.batchUrl;
 
@@ -275,11 +269,10 @@
 <Modal
 	confirmText={saving ? $_('custom_api_form_button_saving') : $_('custom_api_form_button_save')}
 	isOpen={true}
-	modalType="modal"
 	onCancel={handleCancel}
 	onConfirm={handleSave}
 	showCancel={true}
-	size="normal"
+	showStatusChip={false}
 	title={modalTitle}
 >
 	<div class="custom-api-form">
@@ -397,11 +390,14 @@
 
 		<!-- Landscape Image Field -->
 		<div class="form-field">
-			<label class="form-label" for="api-image"> {$_('custom_api_form_label_image')} </label>
+			<label class="form-label" for="api-image">{$_('custom_api_form_label_image')}</label>
+			<label class="form-file-upload" for="api-image">
+				<Upload size={14} />
+				<span>{$_('custom_api_form_button_choose_image')}</span>
+			</label>
 			<input
 				id="api-image"
-				class="form-input"
-				class:error={imageError}
+				class="form-file-input"
 				accept=".png,.jpg,.jpeg,.svg,.webp"
 				onchange={handleImageUpload}
 				type="file"
@@ -413,20 +409,13 @@
 				<div class="form-error">{imageError}</div>
 			{/if}
 			{#if landscapeImageDataUrl}
-				<div
-					class="mt-2 p-2.5 bg-(--color-surface-secondary) rounded-lg flex flex-col gap-2 items-start"
-				>
-					<img
-						class="max-w-[240px] h-[80px] object-contain rounded-sm bg-(--color-surface-primary) p-1"
-						alt="Landscape preview"
-						src={landscapeImageDataUrl}
-					/>
-					<button
-						class="px-2.5 py-1 bg-(--color-danger) text-(--color-text-inverse) border-none rounded-sm cursor-pointer text-xs font-medium transition-colors duration-200 hover:bg-(--color-danger-hover)"
-						onclick={removeImage}
-						type="button"
-					>
-						{$_('custom_api_form_button_remove_image')}
+				<div class="api-form-image-preview">
+					<div class="api-form-image-preview-frame">
+						<img alt="Landscape preview" src={landscapeImageDataUrl} />
+					</div>
+					<button class="api-form-image-remove" onclick={removeImage} type="button">
+						<Trash2 size={12} />
+						<span>{$_('custom_api_form_button_remove_image')}</span>
 					</button>
 				</div>
 			{/if}

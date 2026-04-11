@@ -2,14 +2,14 @@
    GENERAL BADGE UTILITIES
    ================================= */
 @utility status-badge {
-	@apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium uppercase tracking-wider border transition-all duration-200 ease-in-out;
+	@apply inline-flex items-center rounded border px-2 py-1 text-xs font-medium tracking-wider uppercase transition-all duration-200 ease-in-out;
 }
 
 /* =================================
    STATUS BADGE UTILITIES
    ================================= */
 @utility status-badge-base {
-	@apply absolute w-[15px] h-[15px] bg-contain bg-center bg-no-repeat rounded-full flex items-center justify-center z-[2] shadow-badge;
+	@apply shadow-badge absolute z-[2] flex h-[15px] w-[15px] items-center justify-center rounded-full bg-contain bg-center bg-no-repeat;
 	bottom: -4px;
 	right: -4px;
 }

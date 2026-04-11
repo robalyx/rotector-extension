@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { BarChart3, Settings, ListTodo } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 	import { unprocessedCount } from '@/lib/stores/queue-history';
 
@@ -13,7 +12,7 @@
 	let { currentPage, onPageChange }: NavbarProps = $props();
 </script>
 
-<nav class="navbar">
+<nav class="navbar-text-tabs" aria-label="Primary">
 	<button
 		class="navbar-tab"
 		class:active={currentPage === 'stats'}
@@ -21,10 +20,7 @@
 		onclick={() => onPageChange('stats')}
 		type="button"
 	>
-		<span class="navbar-icon">
-			<BarChart3 size={18} strokeWidth={2.5} />
-		</span>
-		<span class="navbar-label">{$_('navbar_tab_stats')}</span>
+		{$_('navbar_tab_stats')}
 	</button>
 
 	<button
@@ -34,13 +30,10 @@
 		onclick={() => onPageChange('queue')}
 		type="button"
 	>
-		<span class="navbar-icon relative">
-			<ListTodo size={18} strokeWidth={2.5} />
-			{#if $unprocessedCount > 0}
-				<span class="navbar-badge">{$unprocessedCount > 9 ? '9+' : $unprocessedCount}</span>
-			{/if}
-		</span>
-		<span class="navbar-label">{$_('navbar_tab_queue')}</span>
+		{$_('navbar_tab_queue')}
+		{#if $unprocessedCount > 0}
+			<span class="navbar-tab-count">{$unprocessedCount}</span>
+		{/if}
 	</button>
 
 	<button
@@ -50,9 +43,6 @@
 		onclick={() => onPageChange('settings')}
 		type="button"
 	>
-		<span class="navbar-icon">
-			<Settings size={18} strokeWidth={2.5} />
-		</span>
-		<span class="navbar-label">{$_('navbar_tab_settings')}</span>
+		{$_('navbar_tab_settings')}
 	</button>
 </nav>

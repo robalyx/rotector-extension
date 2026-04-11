@@ -22,17 +22,17 @@
 }
 
 @utility changelog-title {
-	@apply m-0 text-sm font-semibold leading-tight;
+	@apply m-0 text-sm leading-tight font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility changelog-meta {
-	@apply flex items-center gap-2 text-2xs mt-2;
+	@apply text-2xs mt-2 flex items-center gap-2;
 	color: var(--color-text-subtle);
 }
 
 @utility changelog-version {
-	@apply font-medium px-1.5 py-0.5 rounded;
+	@apply rounded px-1.5 py-0.5 font-medium;
 	background-color: var(--color-secondary);
 	color: var(--color-text);
 }
@@ -119,30 +119,30 @@
    CHANGE LIST STYLES
    ================================= */
 @utility changelog-type-list {
-	@apply list-none m-0 pl-8 space-y-1;
+	@apply m-0 list-none space-y-1 pl-8;
 }
 
 @utility changelog-change-item {
-	@apply text-xs leading-relaxed relative;
+	@apply relative text-xs leading-relaxed;
 	color: var(--color-text);
 
 	&::before {
-		@apply absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full;
+		@apply absolute top-[6px] left-[-20px] h-1.5 w-1.5 rounded-full;
 		content: '';
 		background-color: var(--color-border);
 	}
 }
 
 @utility changelog-change-subpoints {
-	@apply list-none m-0 mt-1.5 pl-4 space-y-1;
+	@apply m-0 mt-1.5 list-none space-y-1 pl-4;
 }
 
 @utility changelog-subpoint-item {
-	@apply text-xs leading-relaxed relative;
+	@apply relative text-xs leading-relaxed;
 	color: var(--color-text-subtle);
 
 	&::before {
-		@apply absolute left-[-12px] top-[7px] w-1 h-1 rounded-full;
+		@apply absolute top-[7px] left-[-12px] h-1 w-1 rounded-full;
 		content: '';
 		background-color: var(--color-border-subtle);
 	}

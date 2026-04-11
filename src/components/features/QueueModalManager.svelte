@@ -49,13 +49,23 @@
 		inappropriateGroups?: boolean,
 		captchaToken?: string
 	) {
+		// Capture userId locally to avoid races with concurrent submissions mutating module state
+		const userIdStr = queueUserId;
+		const parsedUserId = parseInt(userIdStr, 10);
+		if (!Number.isInteger(parsedUserId) || parsedUserId <= 0) {
+			logger.error('handleQueueConfirm called with invalid queueUserId', {
+				queueUserId: userIdStr
+			});
+			return;
+		}
+
 		// Close queue popup and show loading modal
 		showQueueModal = false;
 		showLoadingModal = true;
 
 		try {
 			logger.userAction('queue_user', {
-				userId: queueUserId,
+				userId: userIdStr,
 				outfitNames,
 				inappropriateProfile,
 				inappropriateFriends,
@@ -63,7 +73,7 @@
 			});
 
 			const result = await apiClient.queueUser(
-				queueUserId,
+				userIdStr,
 				outfitNames ?? [],
 				inappropriateProfile,
 				inappropriateFriends,
@@ -77,14 +87,14 @@
 				showSuccessModal = true;
 
 				// Add to queue history for tracking
-				await addQueueEntry(parseInt(queueUserId, 10));
+				await addQueueEntry(parsedUserId);
 
 				// Invalidate cached status to refresh
-				userStatusService.invalidateCache(queueUserId);
+				userStatusService.invalidateCache(userIdStr);
 
 				// Refresh user status in parent component
 				if (onStatusRefresh) {
-					await onStatusRefresh(queueUserId);
+					await onStatusRefresh(userIdStr);
 				}
 			} else {
 				// Handle API error response

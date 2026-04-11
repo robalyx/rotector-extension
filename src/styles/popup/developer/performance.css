@@ -3,7 +3,7 @@
    ================================= */
 
 @utility perf-section-header {
-	@apply flex items-center gap-1.5 m-0 text-2xs font-semibold uppercase tracking-wider;
+	@apply text-2xs m-0 flex items-center gap-1.5 font-semibold tracking-wider uppercase;
 	color: var(--color-text-subtle);
 }
 
@@ -16,13 +16,13 @@
 }
 
 @utility perf-metric-card {
-	@apply flex flex-col p-2 rounded-lg border;
+	@apply flex flex-col rounded-lg border p-2;
 	background-color: var(--color-bg-content);
 	border-color: var(--color-border-subtle);
 }
 
 @utility perf-metric-label {
-	@apply text-3xs font-semibold uppercase tracking-wide;
+	@apply text-3xs font-semibold tracking-wide uppercase;
 	color: var(--color-text-subtle);
 }
 
@@ -38,9 +38,8 @@
 }
 
 @utility perf-longtasks-list {
-	@apply flex flex-col rounded-lg border overflow-hidden;
+	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
 	max-height: 80px;
-	overflow-y: auto;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	scrollbar-width: thin;
@@ -61,7 +60,7 @@
 }
 
 @utility perf-longtask-item {
-	@apply flex items-center gap-1.5 px-2 py-1 text-3xs;
+	@apply text-3xs flex items-center gap-1.5 px-2 py-1;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
@@ -81,7 +80,7 @@
 }
 
 @utility perf-longtask-duration {
-	@apply shrink-0 px-1 py-0.5 rounded font-semibold tabular-nums;
+	@apply shrink-0 rounded px-1 py-0.5 font-semibold tabular-nums;
 	background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
 	color: var(--color-warning);
 	font-size: 0.5rem;
@@ -101,19 +100,19 @@
 }
 
 @utility perf-category-row {
-	@apply flex items-center gap-2 px-2 py-1.5 rounded;
+	@apply flex items-center gap-2 rounded px-2 py-1.5;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility perf-category-label {
-	@apply shrink-0 text-3xs font-semibold uppercase tracking-wide;
+	@apply text-3xs shrink-0 font-semibold tracking-wide uppercase;
 	width: 70px;
 	color: var(--color-text);
 }
 
 @utility perf-category-bar-container {
-	@apply flex-1 h-3 rounded overflow-hidden;
+	@apply h-3 flex-1 overflow-hidden rounded;
 	background-color: var(--color-hover);
 }
 
@@ -123,9 +122,8 @@
 }
 
 @utility perf-category-stats {
-	@apply shrink-0 text-3xs font-medium tabular-nums;
+	@apply text-3xs shrink-0 text-right font-medium tabular-nums;
 	width: 90px;
-	text-align: right;
 	color: var(--color-text-subtle);
 }
 
@@ -134,9 +132,8 @@
    ================================= */
 
 @utility perf-slowest-list {
-	@apply flex flex-col rounded-lg border overflow-hidden;
+	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
 	max-height: 150px;
-	overflow-y: auto;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	scrollbar-width: thin;
@@ -157,7 +154,7 @@
 }
 
 @utility perf-slowest-item {
-	@apply flex items-center gap-2 px-2 py-1.5 text-3xs;
+	@apply text-3xs flex items-center gap-2 px-2 py-1.5;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
@@ -167,12 +164,12 @@
 }
 
 @utility perf-slowest-rank {
-	@apply shrink-0 w-4 text-center font-semibold;
+	@apply w-4 shrink-0 text-center font-semibold;
 	color: var(--color-text-subtle);
 }
 
 @utility perf-slowest-category {
-	@apply shrink-0 px-1 py-0.5 rounded text-3xs font-semibold uppercase;
+	@apply text-3xs shrink-0 rounded px-1 py-0.5 font-semibold uppercase;
 	font-size: 0.5rem;
 }
 
@@ -191,9 +188,8 @@
    ================================= */
 
 @utility perf-traces-list {
-	@apply flex flex-col rounded-lg border overflow-hidden;
+	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
 	max-height: 120px;
-	overflow-y: auto;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	scrollbar-width: thin;
@@ -214,10 +210,8 @@
 }
 
 @utility perf-trace-entry {
-	@apply flex items-center gap-1.5 px-2 py-1 text-3xs cursor-pointer transition-colors duration-150;
+	@apply text-3xs flex cursor-pointer items-center gap-1.5 border-none bg-transparent px-2 py-1 transition-colors duration-150;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-	background-color: transparent;
-	border: none;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	&:last-child {
@@ -236,7 +230,7 @@
 }
 
 @utility perf-trace-category {
-	@apply shrink-0 px-1 py-0.5 rounded text-3xs font-semibold uppercase;
+	@apply text-3xs shrink-0 rounded px-1 py-0.5 font-semibold uppercase;
 	font-size: 0.5rem;
 }
 
@@ -251,18 +245,15 @@
 }
 
 @utility perf-trace-expand {
-	@apply shrink-0 w-4 h-4 flex items-center justify-center text-3xs font-bold;
+	@apply text-3xs flex h-4 w-4 shrink-0 items-center justify-center font-bold;
 	color: var(--color-text-subtle);
 }
 
 @utility perf-trace-metadata {
-	@apply mx-2 mb-1 p-2 rounded text-3xs overflow-x-auto;
+	@apply text-3xs mx-2 mt-0 mb-1 overflow-x-auto rounded p-2 break-words whitespace-pre-wrap;
 	background-color: var(--color-bg);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text-subtle);
-	white-space: pre-wrap;
-	word-break: break-word;
 	max-height: 80px;
-	margin-top: 0;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }

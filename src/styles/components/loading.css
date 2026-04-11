@@ -3,20 +3,20 @@
    ================================= */
 
 @utility loading-spinner {
-	@apply inline-block border-2 rounded-full animate-spin-smooth;
-	border-color: var(--color-text-primary);
+	@apply animate-spin-smooth inline-block rounded-full border-2;
+	border-color: var(--color-text);
 	border-top-color: transparent;
 
 	&.small {
-		@apply w-4 h-4;
+		@apply h-4 w-4;
 	}
 
 	&.medium {
-		@apply w-6 h-6;
+		@apply h-6 w-6;
 	}
 
 	&.large {
-		@apply w-8 h-8;
+		@apply h-8 w-8;
 	}
 }
 
@@ -25,9 +25,5 @@
    ================================= */
 @utility loading-overlay {
 	@apply absolute inset-0 flex items-center justify-center rounded-[inherit] transition-opacity duration-200;
-	background-color: rgba(255, 255, 255, 0.8);
-
-	@media (prefers-color-scheme: dark) {
-		background-color: rgba(0, 0, 0, 0.8);
-	}
+	background-color: color-mix(in srgb, var(--color-bg-content) 85%, transparent);
 }

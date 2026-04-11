@@ -9,7 +9,7 @@ import type {
 	VoteResult
 } from '@/lib/types/api';
 import type { QueueStatusResponse } from '@/lib/types/queue-history';
-import type { Statistics } from '@/lib/types/statistics';
+import type { ActivityHours, StatsResponse } from '@/lib/types/stats';
 import { API_CONFIG, STATUS, VOTE_TYPES, type VoteType } from '@/lib/types/constants';
 import { makeHttpRequest } from '../http-client';
 import {
@@ -221,13 +221,11 @@ export async function getMultipleVotes(
 	return extractResponseData<VoteData[]>(response);
 }
 
-// Get extension usage statistics
-export async function getStatistics(): Promise<Statistics> {
-	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.GET_STATISTICS, {
-		method: 'GET'
-	});
-
-	return (response as { data?: Statistics }).data ?? (response as Statistics);
+// Get stats payload like totals, funding, activity time series
+export async function getStats(hours: ActivityHours): Promise<StatsResponse> {
+	const url = `${API_CONFIG.ENDPOINTS.GET_STATS}?hours=${hours}`;
+	const response = await makeHttpRequest(url, { method: 'GET' });
+	return extractResponseData<StatsResponse>(response);
 }
 
 // Get queue limits for current IP
@@ -254,7 +252,7 @@ export async function getQueueStatus(
 	return extractResponseData<QueueStatusResponse>(response);
 }
 
-// Get tracked users for a grou
+// Get tracked users for a group
 export async function getGroupTrackedUsers(
 	groupId: string | number,
 	cursor?: string,

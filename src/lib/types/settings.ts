@@ -114,7 +114,6 @@ interface SettingCategory {
 		key: SettingsKey;
 		labelKey: string;
 		helpTextKey?: string;
-		requiresConfirmation?: boolean;
 	}>;
 }
 
@@ -131,12 +130,6 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 				key: SETTINGS_KEYS.LANGUAGE_OVERRIDE,
 				labelKey: 'settings_label_language',
 				helpTextKey: 'settings_help_language'
-			},
-			{
-				key: SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED,
-				labelKey: 'settings_label_advanced_violations',
-				helpTextKey: 'settings_help_advanced_violations',
-				requiresConfirmation: true
 			},
 			{
 				key: SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED,

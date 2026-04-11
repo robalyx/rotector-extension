@@ -1,5 +1,6 @@
 import type { StatusFlag, VoteType } from './constants';
 import type { CustomApiConfig } from './custom-api';
+import type { ActivityHours } from './stats';
 
 export interface ReviewerInfo {
 	username?: string;
@@ -165,6 +166,8 @@ export interface ContentMessage {
 	exportColumns?: string[];
 	exportSort?: string;
 	exportOrder?: 'asc' | 'desc';
+
+	hours?: ActivityHours;
 }
 
 export interface CaptchaSession {

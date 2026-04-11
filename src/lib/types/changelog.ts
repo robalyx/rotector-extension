@@ -16,56 +16,85 @@ export interface Changelog {
 // Current changelog data
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.15.2',
-		version: '2.15.2',
-		date: '2026-04-10',
-		title: '',
-		summary: '',
+		id: 'v2.16.0',
+		version: '2.16.0',
+		date: '2026-04-24',
+		title: 'UI Redesign',
+		summary:
+			'This update modernizes the extension UI with redesigned pages, refreshed component styles, and real-time activity charts.',
 		changes: [
 			{
 				type: 'changed',
 				description:
-					'Auto-confirm distinction - Unsafe user tooltips now differentiate between moderator-verified and system auto-confirmed results'
+					'Stats page - New activity charts with 24h, 7d, and 30d views, a quick-glance totals bar, and a community funding progress display'
 			},
 			{
 				type: 'changed',
 				description:
-					'Tooltip notices - Replaced the reportable and outfit-only banners with compact inline indicators on reason headers'
+					'Settings page - Settings are grouped into collapsible sections that show how many options are on or off at a glance'
 			},
 			{
 				type: 'changed',
 				description:
-					'Safe reasons - Expanded the "Why wasn\'t this user flagged?" list with new entries'
+					'Report helper - Slimmed down to a compact bar that shows auto-fill status and lets you reveal evidence details on demand'
 			},
 			{
 				type: 'changed',
 				description:
-					'Neutral terminology - Replaced user-facing references from "AI" to "our system" and "analysis" to better reflect the product'
+					'Modals and buttons - Cleaner look with consistent button styles and improved checkbox designs across all popups'
+			},
+			{
+				type: 'changed',
+				description:
+					'Auto-confirm labels - Tooltips now show whether a flagged user was verified by a moderator or confirmed automatically'
+			},
+			{
+				type: 'changed',
+				description:
+					'Tooltip notices - Reportable and outfit-only banners replaced with smaller indicators next to reason headers'
+			},
+			{
+				type: 'changed',
+				description: 'Safe reasons - More explanations for why a user was not flagged'
+			},
+			{
+				type: 'changed',
+				description: 'Wording updates - References to "AI" changed to "our system" for clarity'
 			},
 			{
 				type: 'fixed',
 				description:
-					'Group members carousel - Status indicators no longer get stuck loading when quickly switching roles or changing pages'
+					'Report auto-fill - Category and comment fields now fill in correctly on the Roblox report page'
 			},
 			{
 				type: 'fixed',
 				description:
-					'Tooltip resize - Safe user and group tooltips no longer retain a large saved height, shrinking to fit their minimal content instead'
+					'Group members - Status icons no longer freeze when switching roles or pages quickly'
 			},
 			{
 				type: 'fixed',
 				description:
-					'Network errors - Connectivity failures now retry automatically and display a clear message instead of the raw browser error'
+					'Queue history - Fast submissions no longer create duplicate or invalid entries'
 			},
 			{
 				type: 'fixed',
 				description:
-					'Evidence overflow - Long text like URLs in evidence items now wraps properly instead of overflowing the container'
+					'Tooltip sizing - Safe user and group tooltips shrink to fit their content instead of staying oversized'
 			},
 			{
 				type: 'fixed',
 				description:
-					'Popover clipping - Info popovers in the tooltip no longer get cut off by the scroll container'
+					'Connection errors - Network failures now retry and show a clear message instead of a raw error'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Evidence overflow - Long text and URLs in evidence no longer run off the edge of the tooltip'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Info popovers - Hover info boxes in the tooltip no longer get clipped by the scroll area'
 			}
 		]
 	},

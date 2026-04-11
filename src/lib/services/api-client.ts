@@ -25,7 +25,7 @@ import type {
 	ZoneDetails,
 	ZoneHistoricalStats
 } from '../types/api';
-import type { Statistics } from '../types/statistics';
+import type { ActivityHours, StatsResponse } from '../types/stats';
 import { restrictedAccessStore } from '../stores/restricted-access';
 import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
@@ -214,8 +214,8 @@ class RotectorApiClient {
 		return sendMessage<VoteData[]>(API_ACTIONS.GET_MULTIPLE_VOTES, { userIds });
 	}
 
-	async getStatistics(): Promise<Statistics> {
-		return sendMessage<Statistics>(API_ACTIONS.GET_STATISTICS, {});
+	async getStats(hours: ActivityHours): Promise<StatsResponse> {
+		return sendMessage<StatsResponse>(API_ACTIONS.GET_STATS, { hours });
 	}
 
 	async initiateDiscordLogin(): Promise<void> {

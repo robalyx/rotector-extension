@@ -114,10 +114,6 @@
 			props: { userId }
 		}) as { unmount?: () => void };
 
-		// Header uses display:block so vertically center the scan bar
-		const offset = Math.round((header.offsetHeight - container.offsetHeight) / 2);
-		if (offset > 0) container.style.marginTop = `${offset}px`;
-
 		scanBarCleanup = () => {
 			component?.unmount?.();
 		};

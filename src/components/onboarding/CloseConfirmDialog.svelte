@@ -14,10 +14,10 @@
 		<h4 class="onboarding-confirm-title">{$_('onboarding_close_confirm_title')}</h4>
 		<p class="onboarding-confirm-message">{$_('onboarding_close_confirm_message')}</p>
 		<div class="onboarding-confirm-actions">
-			<button class="onboarding-button-secondary" onclick={onCancel} type="button">
+			<button class="modal-button-cancel" onclick={onCancel} type="button">
 				{$_('onboarding_close_confirm_continue')}
 			</button>
-			<button class="onboarding-button-primary" onclick={onConfirm} type="button">
+			<button class="modal-button-danger" onclick={onConfirm} type="button">
 				{$_('onboarding_close_confirm_exit')}
 			</button>
 		</div>

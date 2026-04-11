@@ -10,7 +10,7 @@ import {
 	getMultipleVotes,
 	getQueueLimits,
 	getQueueStatus,
-	getStatistics,
+	getStats,
 	getVotes,
 	lookupRobloxUserDiscord,
 	queueUser,
@@ -115,7 +115,10 @@ export const actionHandlers = {
 		if (!request.userIds) throw new Error('User IDs are required for get multiple votes');
 		return getMultipleVotes(request.userIds, request.clientId);
 	},
-	[API_ACTIONS.GET_STATISTICS]: async () => getStatistics(),
+	[API_ACTIONS.GET_STATS]: async (request: ContentMessage) => {
+		if (!request.hours) throw new Error('Hours is required for get stats');
+		return getStats(request.hours);
+	},
 
 	[API_ACTIONS.EXTENSION_GET_PROFILE]: async () => getExtensionProfile(),
 	[API_ACTIONS.EXTENSION_UPDATE_ANONYMOUS]: async (request: ContentMessage) => {

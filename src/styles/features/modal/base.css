@@ -1,12 +1,21 @@
 /* =================================
-   MODAL OVERLAY & STRUCTURE
+   MODAL OVERLAY
    ================================= */
 
-@utility modal-overlay-base {
-	@apply fixed inset-0 bg-black/75 flex items-center justify-center z-[10000] opacity-0 invisible transition-all duration-200 p-5;
+@utility modal-overlay {
+	@apply invisible fixed inset-0 z-[10000] flex items-center justify-center p-5 opacity-0;
+	background-color: var(--overlay-modal);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	transition:
+		opacity 0.25s ease,
+		visibility 0s linear 0.25s;
 
 	&.visible {
-		@apply opacity-100 visible;
+		@apply visible opacity-100;
+		transition:
+			opacity 0.25s ease,
+			visibility 0s linear 0s;
 	}
 
 	&.closing {
@@ -14,56 +23,150 @@
 	}
 }
 
-@utility modal-popup-base {
-	@apply max-w-[95%] rounded-xl shadow-2xl border border-white/5 flex flex-col;
+/* =================================
+   MODAL POPUP CONTAINER
+   ================================= */
+
+@utility modal-popup {
+	@apply flex max-w-[95%] flex-col rounded-md opacity-0;
+	width: 480px;
+	max-height: min(85vh, 720px);
 	background-color: var(--color-bg-content);
-	transform: scale(0.95) translateY(20px);
-	transition: transform 250ms cubic-bezier(0.19, 1, 0.22, 1);
-	max-height: 800px;
-
-	.modal-overlay-base.visible & {
-		transform: scale(1) translateY(0);
-	}
-}
-
-@utility modal-popup-base-small {
-	@apply modal-popup-base;
-	max-height: 640px;
-	width: 300px;
-
-	.modal-overlay-base.visible & {
-		transform: scale(1) translateY(0);
-	}
-}
-
-@utility modal-header-base {
-	@apply flex items-center p-4 border-b border-white/5 flex-shrink-0 rounded-t-xl;
-	background-color: var(--color-bg-tertiary);
-}
-
-@utility modal-close-base {
-	@apply bg-black/20 border-none text-base cursor-pointer w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200 ml-auto;
 	color: var(--color-text);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: 0 8px 24px var(--shadow-medium);
+	transform: scale(0.96) translateY(8px);
+	transition:
+		transform 0.35s cubic-bezier(0.34, 1.15, 0.64, 1),
+		opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-	&:hover {
-		@apply bg-white/10;
+	&:focus {
+		@apply outline-none;
+	}
+
+	.modal-overlay.visible & {
+		@apply opacity-100;
+		transform: scale(1) translateY(0);
 	}
 }
+
+@utility modal-popup-small {
+	@apply modal-popup;
+	width: 360px;
+}
+
+@utility modal-popup-wide {
+	@apply modal-popup;
+	width: 920px;
+	max-height: min(85vh, 800px);
+}
+
+/* =================================
+   MODAL HEADER
+   ================================= */
+
+@utility modal-header {
+	@apply flex flex-shrink-0 items-center;
+	gap: 0.625rem;
+	padding: 0.9375rem 1.125rem;
+}
+
+@utility modal-title {
+	@apply m-0 flex-grow text-left text-base font-semibold;
+	color: var(--color-text-heading);
+	letter-spacing: -0.005em;
+}
+
+/* =================================
+   MODAL STATUS CHIP
+   ================================= */
+
+@utility modal-status-chip {
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+@utility modal-status-chip-icon {
+	@apply block flex-shrink-0;
+}
+
+@utility modal-status-chip-info {
+	color: var(--color-primary);
+	background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+@utility modal-status-chip-warning {
+	color: var(--color-warning);
+	background-color: color-mix(in srgb, var(--color-warning) 14%, transparent);
+}
+
+@utility modal-status-chip-success {
+	color: var(--color-success);
+	background-color: color-mix(in srgb, var(--color-success) 14%, transparent);
+}
+
+@utility modal-status-chip-error {
+	color: var(--color-error);
+	background-color: color-mix(in srgb, var(--color-error) 12%, transparent);
+}
+
+/* =================================
+   MODAL CLOSE BUTTON
+   ================================= */
 
 @utility modal-close {
-	@apply modal-close-base text-white;
+	@apply inline-flex flex-shrink-0 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
+	width: 1.625rem;
+	height: 1.625rem;
+	color: var(--color-text-subtle);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	&:hover {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
 }
 
-@utility modal-content-base {
-	@apply p-5 overflow-y-auto flex-1;
-	min-height: 200px;
-	max-height: calc(90vh - 200px);
-	overflow-anchor: auto;
-	background-color: var(--color-bg-content);
+/* =================================
+   MODAL DIVIDER
+   ================================= */
 
-	& p {
-		@apply m-0 mb-4 text-sm leading-relaxed;
-		color: var(--color-text);
+@utility modal-divider {
+	@apply flex-shrink-0;
+	height: 1px;
+	background-color: var(--color-border-subtle);
+}
+
+/* =================================
+   MODAL CONTENT
+   ================================= */
+
+@utility modal-content {
+	@apply scrollbar-styled flex-1 overflow-x-hidden overflow-y-auto;
+	padding: 1.125rem;
+	background-color: var(--color-bg-content);
+	color: var(--color-text);
+}
+
+@utility modal-content-compact {
+	@apply modal-content;
+	padding: 0.875rem 1.125rem;
+}
+
+@utility modal-paragraph {
+	@apply m-0 text-sm leading-relaxed;
+	color: var(--color-text);
+
+	& + & {
+		margin-top: 0.5rem;
 	}
 
 	& strong {
@@ -72,215 +175,168 @@
 	}
 }
 
-@utility modal-content-base-small {
-	@apply modal-content-base;
-	min-height: 240px;
-	max-height: 400px;
-	padding: 16px;
-}
+/* =================================
+   MODAL SECTIONS
+   ================================= */
 
-@utility modal-actions-base {
-	@apply flex flex-col gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
-	background-color: var(--color-bg-content);
+@utility modal-section {
+	@apply flex flex-col;
+	gap: 0.5rem;
+	padding: 0.5rem 0;
 
-	&:has(> button:only-child) {
-		@apply items-center;
+	& + & {
+		border-top: 1px solid var(--color-border-subtle);
+		padding-top: 0.875rem;
+		margin-top: 0.25rem;
 	}
 }
 
-@utility modal-actions-horizontal {
-	@apply flex flex-row items-center justify-center gap-3 m-0 p-5 pt-5 pb-6 flex-shrink-0 border-t border-white/10 rounded-b-xl;
-	background-color: var(--color-bg-content);
+@utility modal-section-head {
+	@apply flex items-baseline justify-between;
+	gap: 0.5rem;
+}
+
+@utility modal-section-title {
+	@apply text-xs-plus m-0 font-semibold uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-text-subtle);
+}
+
+@utility modal-section-status {
+	@apply text-xs font-medium;
+	color: var(--color-text-tertiary);
+	font-variant-numeric: tabular-nums;
+}
+
+@utility modal-section-body {
+	@apply flex flex-col;
+	gap: 0.375rem;
+}
+
+/* =================================
+   MODAL LIST
+   ================================= */
+
+@utility modal-list {
+	@apply m-0 flex list-none flex-col p-0;
+	gap: 0.5rem;
+}
+
+@utility modal-list-item {
+	@apply flex items-start text-sm leading-relaxed;
+	gap: 0.5rem;
+	color: var(--color-text);
+}
+
+@utility modal-list-bullet {
+	@apply inline-block flex-shrink-0 rounded-[1px];
+	width: 0.375rem;
+	height: 0.375rem;
+	margin-top: 0.5625rem;
+	background-color: var(--color-primary);
+}
+
+@utility modal-list-bullet-info {
+	@apply modal-list-bullet;
+	background-color: var(--color-primary);
+}
+
+@utility modal-list-bullet-warning {
+	@apply modal-list-bullet;
+	background-color: var(--color-warning);
+}
+
+@utility modal-list-bullet-success {
+	@apply modal-list-bullet;
+	background-color: var(--color-success);
+}
+
+@utility modal-list-bullet-error {
+	@apply modal-list-bullet;
+	background-color: var(--color-error);
+}
+
+/* =================================
+   MODAL ACTIONS (FOOTER)
+   ================================= */
+
+@utility modal-actions {
+	@apply flex flex-shrink-0 flex-row items-center justify-end;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
+}
+
+@utility modal-actions-stacked {
+	@apply flex flex-shrink-0 flex-col-reverse items-stretch;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
 }
 
 /* =================================
    MODAL BUTTONS
    ================================= */
-@utility modal-button-base {
-	@apply px-[18px] py-2.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 border-none shadow-sm flex items-center justify-center w-full max-w-[220px] box-border min-w-0;
 
-	&:active {
-		@apply translate-y-0 shadow-sm;
-	}
-}
+@utility modal-button {
+	@apply text-sm-plus inline-flex cursor-pointer items-center justify-center rounded font-medium;
+	padding: 0.4375rem 0.875rem;
+	font-family: inherit;
+	border: 1px solid transparent;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
 
-/* =================================
-   MODAL CONTENT SECTIONS
-   ================================= */
-@utility modal-content-section {
-	@apply mb-4 bg-black/15 rounded-[10px] p-3.5 px-4 relative overflow-hidden;
-}
-
-@utility modal-content-section-info {
-	@apply modal-content-section;
-}
-
-@utility modal-content-section-warning {
-	@apply modal-content-section;
-
-	& p {
-		@apply text-sm;
-	}
-}
-
-@utility modal-content-section-recommendation {
-	@apply modal-content-section;
-}
-
-/* =================================
-   MODAL CONTENT TYPOGRAPHY
-   ================================= */
-@utility modal-content-heading {
-	@apply text-[15px] m-0 mb-2 font-semibold;
-	color: var(--color-text-heading);
-}
-
-@utility modal-content-list {
-	@apply mt-2 mb-0 pl-4 list-none;
-}
-
-@utility modal-content-list-item {
-	@apply mb-1.5 text-sm leading-relaxed flex items-start gap-3;
-	color: var(--color-text);
-}
-
-@utility modal-content-list-item-info {
-	@apply modal-content-list-item;
-
-	&::before {
-		content: '•';
-		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4287f5] text-transparent mt-[0.6em];
-	}
-}
-
-@utility modal-content-list-item-warning {
-	@apply modal-content-list-item;
-
-	&::before {
-		content: '•';
-		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#ff9800] text-transparent mt-[0.6em];
-	}
-}
-
-@utility modal-content-list-item-recommendation {
-	@apply modal-content-list-item;
-
-	&::before {
-		content: '•';
-		@apply flex-shrink-0 w-1 h-1 rounded-full bg-[#4caf50] text-transparent mt-[0.6em];
-	}
-}
-
-/* =================================
-   GENERIC MODAL CLASSES
-   ================================= */
-
-@utility modal-overlay {
-	@apply modal-overlay-base;
-}
-
-@utility modal-popup {
-	@apply modal-popup-base w-[520px];
-}
-
-@utility modal-popup-small {
-	@apply modal-popup-base-small;
-}
-
-@utility modal-popup-wide {
-	@apply modal-popup-base;
-	width: 920px;
-}
-
-@utility modal-header {
-	@apply modal-header-base;
-}
-
-@utility modal-title {
-	@apply text-lg font-semibold m-0 flex-grow;
-	color: var(--color-text-heading);
-}
-
-@utility modal-content {
-	@apply modal-content-base;
-}
-
-@utility modal-content-small {
-	@apply modal-content-base-small;
-}
-
-@utility modal-content-compact {
-	@apply p-5 overflow-y-auto;
-	background-color: var(--color-bg-content);
-
-	& p {
-		@apply m-0 text-sm leading-relaxed;
-		color: var(--color-text);
-	}
-}
-
-@utility modal-actions {
-	@apply modal-actions-horizontal;
-}
-
-@utility modal-cancel {
-	@apply modal-button-base;
-	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-primary);
-
-	&:hover {
-		background-color: var(--color-card-hover);
-		@apply shadow-md -translate-y-px;
-	}
-}
-
-@utility modal-confirm {
-	@apply modal-button-base text-white;
-	background-color: var(--color-warning);
-
-	&:hover:not(:disabled) {
-		background-color: var(--color-warning-hover);
-		@apply shadow-md -translate-y-px;
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 
 	&:disabled {
-		opacity: 0.5;
-		@apply cursor-not-allowed translate-y-0 shadow-none;
-
-		&:hover {
-			@apply translate-y-0 shadow-none;
-		}
+		@apply cursor-not-allowed opacity-50;
 	}
+}
 
-	&.modal-confirm-danger {
-		background-color: var(--color-error);
+@utility modal-button-cancel {
+	@apply modal-button;
+	background-color: var(--color-bg-tertiary);
+	border-color: var(--color-border-subtle);
+	color: var(--color-text);
 
-		&:hover:not(:disabled) {
-			filter: brightness(0.9);
-		}
-
-		&:disabled {
-			opacity: 0.5;
-
-			&:hover {
-				filter: none;
-			}
-		}
+	&:hover:not(:disabled) {
+		background-color: var(--color-bg-secondary);
+		border-color: var(--color-border);
 	}
+}
 
-	&.modal-confirm-queue {
-		background-color: var(--color-primary);
+@utility modal-button-primary {
+	@apply modal-button text-white;
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
 
-		&:hover:not(:disabled) {
-			background-color: var(--color-primary-hover);
-		}
+	&:hover:not(:disabled) {
+		background-color: var(--color-primary-hover);
+		border-color: var(--color-primary-hover);
+	}
+}
 
-		&:disabled {
-			opacity: 0.5;
+@utility modal-button-danger {
+	@apply modal-button text-white;
+	background-color: var(--color-error);
+	border-color: var(--color-error);
 
-			&:hover {
-				filter: none;
-			}
-		}
+	&:hover:not(:disabled) {
+		background-color: var(--color-error-hover);
+		border-color: var(--color-error-hover);
+	}
+}
+
+@utility modal-button-ghost {
+	@apply modal-button bg-transparent;
+	border-color: var(--color-border-subtle);
+	color: var(--color-text-subtle);
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-hover);
+		color: var(--color-text);
 	}
 }

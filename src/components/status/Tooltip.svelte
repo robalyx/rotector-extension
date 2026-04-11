@@ -307,13 +307,11 @@
 			activeUserStatus?.processed === true
 	);
 
-	const isSafeEntity = $derived(
+	// Minimal tooltip entities skip saved height (safe or queued)
+	const isMinimalEntity = $derived(
 		activeTab === ROTECTOR_API_ID &&
 			activeStatus &&
-			(activeStatus.flagType === STATUS.FLAGS.SAFE ||
-				(activeStatus.flagType === STATUS.FLAGS.QUEUED &&
-					!isGroup &&
-					(activeStatus as UserStatus).processed === true))
+			(activeStatus.flagType === STATUS.FLAGS.SAFE || activeStatus.flagType === STATUS.FLAGS.QUEUED)
 	);
 
 	let showSafeReasons = $state(false);
@@ -533,7 +531,7 @@
 				? Math.min(Math.max(customWidth, config.minWidth), config.maxWidth)
 				: undefined,
 			height:
-				customHeight && !isSafeEntity
+				customHeight && !isMinimalEntity
 					? Math.min(Math.max(customHeight, config.minHeight), config.maxHeight)
 					: undefined
 		};
@@ -1267,17 +1265,17 @@
 			{:else if activeHoverPopover.kind === 'discord-info'}
 				<strong>{$_('tooltip_discord_info_title')}</strong>
 				<p>{$_('tooltip_discord_info_message')}</p>
-				<div class="source-info-list">
-					<div class="source-info-list-item">
+				<ul class="source-info-list">
+					<li class="source-info-list-item">
 						<span><strong>Joined</strong> - {$_('tooltip_discord_info_joined')}</span>
-					</div>
-					<div class="source-info-list-item">
+					</li>
+					<li class="source-info-list-item">
 						<span><strong>First seen</strong> - {$_('tooltip_discord_info_first_seen')}</span>
-					</div>
-					<div class="source-info-list-item">
+					</li>
+					<li class="source-info-list-item">
 						<span><strong>Updated</strong> - {$_('tooltip_discord_info_updated')}</span>
-					</div>
-				</div>
+					</li>
+				</ul>
 			{/if}
 		</div>
 	{/if}
@@ -1460,7 +1458,7 @@
 		</div>
 	{:else if activeLoading}
 		<!-- Loading state -->
-		<div class="flex items-center gap-2 justify-center py-2">
+		<div class="flex items-center justify-center gap-2 py-2">
 			<LoadingSpinner size="small" />
 			<span class="text-xs">{$_('tooltip_loading_user_info')}</span>
 		</div>
@@ -1522,9 +1520,9 @@
 				{/if}
 
 				<!-- Queue button -->
-				<div class="flex gap-2 mt-2">
+				<div class="mt-2 flex gap-2">
 					{#if queueCooldownInfo.isInCooldown}
-						<button class="queue-button w-full queue-button-disabled" disabled type="button">
+						<button class="queue-button queue-button-disabled w-full" disabled type="button">
 							{$_('tooltip_queue_cooldown', {
 								values: { 0: queueCooldownInfo.daysRemaining.toString() }
 							})}
@@ -1553,7 +1551,7 @@
 
 				<!-- Status badges -->
 				{#if activeTab === ROTECTOR_API_ID && ((!isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || activeStatus?.isQueued)}
-					<div class="flex gap-1.5 mb-2 justify-center flex-wrap">
+					<div class="mb-2 flex flex-wrap justify-center gap-1.5">
 						{#if !isGroup && badgeStatus.isReportable}
 							<span class="tooltip-badge tooltip-badge-reportable">
 								{$_('tooltip_badge_reportable')}
@@ -1975,7 +1973,7 @@
 				<div
 					bind:this={scrollContentRef}
 					style:max-height={tooltipDimensions.height ? 'none' : undefined}
-					class="tooltip-scrollable-content px-5 py-4 flex-1"
+					class="tooltip-scrollable-content flex-1 px-5 py-4"
 				>
 					{@render tooltipContent()}
 				</div>

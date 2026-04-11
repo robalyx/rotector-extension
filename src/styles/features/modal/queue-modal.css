@@ -1,93 +1,130 @@
 /* =================================
-   QUEUE SUCCESS MODAL
+   QUEUE THRESHOLD CARDS
    ================================= */
 
-@utility queue-success-overlay {
-	@apply modal-overlay-base;
+@utility queue-threshold-card {
+	@apply flex flex-col rounded-md;
+	gap: 0.5rem;
+	padding: 0.75rem 0.875rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+	transition:
+		border-color 0.15s ease,
+		background-color 0.15s ease;
+
+	&:hover {
+		border-color: var(--color-border);
+	}
 }
 
-@utility queue-success-popup {
-	@apply modal-popup-base;
-	width: 480px;
-}
-
-@utility queue-success-popup-small {
-	@apply modal-popup-base-small;
-}
-
-@utility queue-success-header {
-	@apply modal-header-base;
-}
-
-@utility queue-success-title {
-	@apply text-lg font-semibold m-0 flex-grow;
+@utility queue-threshold-header {
+	@apply flex items-center;
+	gap: 0.5rem;
 	color: var(--color-text-heading);
 }
 
-@utility queue-success-content {
-	@apply modal-content-base;
+@utility queue-threshold-icon {
+	@apply inline-flex flex-shrink-0 items-center justify-center;
+	width: 1rem;
+	height: 1rem;
+	color: var(--color-text-subtle);
 }
 
-@utility queue-success-content-small {
-	@apply modal-content-base-small;
+@utility queue-threshold-title {
+	@apply m-0 text-sm font-semibold;
+	color: var(--color-text-heading);
 }
 
-@utility queue-success-actions {
-	@apply modal-actions-base;
+@utility queue-threshold-description {
+	@apply m-0 text-xs;
+	line-height: 1.5;
+	color: var(--color-text-subtle);
 }
 
-@utility queue-success-actions-horizontal {
-	@apply modal-actions-horizontal;
+@utility queue-threshold-options {
+	@apply inline-flex items-center self-start rounded-[5px];
+	gap: 0.25rem;
+	padding: 0.1875rem;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility queue-threshold-option {
+	@apply relative inline-flex cursor-pointer items-center justify-center rounded-[3px] border-none bg-transparent text-xs font-semibold;
+	padding: 0.25rem 0.6875rem;
+	color: var(--color-text-subtle);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	& input[type='radio'] {
+		@apply sr-only;
+	}
+
+	&:hover {
+		color: var(--color-text);
+	}
+
+	&:has(input[type='radio']:checked) {
+		background-color: var(--color-bg-content);
+		color: var(--color-text-heading);
+	}
+
+	&:has(input[type='radio']:focus-visible) {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
 }
 
 /* =================================
    ACKNOWLEDGMENT CHECKBOXES
    ================================= */
 
-@utility queue-ack-section {
-	@apply mb-4;
-}
-
-@utility queue-ack-heading {
-	@apply mb-3 text-base font-semibold;
-	color: var(--color-text);
-}
-
 @utility queue-ack-list {
-	@apply flex flex-col gap-2;
+	@apply flex flex-col;
+	gap: 0.25rem;
 }
 
 @utility queue-ack-item {
-	@apply flex items-start gap-3 py-1.5 cursor-pointer transition-colors duration-200;
-	padding-left: 2rem;
+	@apply flex cursor-pointer items-start;
+	gap: 0.625rem;
+	padding: 0.4375rem 0;
+
+	&:hover .queue-ack-checkmark {
+		border-color: var(--color-border-hover);
+	}
 }
 
 @utility queue-ack-item-all {
-	@apply p-3 rounded-lg;
-	padding-left: 0.75rem;
-	font-weight: 600;
-	background-color: var(--color-bg-tertiary);
+	@apply queue-ack-item;
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.125rem;
+	border-bottom: 1px solid var(--color-border-subtle);
 
-	&:hover {
-		background-color: var(--color-card-hover);
+	& .queue-ack-text {
+		@apply font-semibold;
+		color: var(--color-text-heading);
 	}
 }
 
 @utility queue-ack-checkbox {
 	@apply sr-only;
 
-	&:focus + .queue-ack-checkmark {
-		@apply ring-2 ring-offset-2;
-		--tw-ring-color: var(--color-primary);
-		--tw-ring-offset-color: var(--color-bg-tertiary);
+	&:focus-visible + .queue-ack-checkmark {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
 @utility queue-ack-checkmark {
-	@apply flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-0.5;
-	border-color: var(--color-text-subtle);
-	background-color: transparent;
-	color: white;
+	@apply inline-flex flex-shrink-0 items-center justify-center rounded bg-transparent;
+	width: 1.125rem;
+	height: 1.125rem;
+	margin-top: 0.125rem;
+	border: 1px solid var(--color-border);
+	color: var(--primitive-white);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
 
 	&.checked {
 		background-color: var(--color-primary);
@@ -96,335 +133,46 @@
 }
 
 @utility queue-ack-text {
-	@apply text-sm leading-relaxed;
+	@apply text-sm-plus;
+	line-height: 1.5;
 	color: var(--color-text);
 }
 
-@utility queue-ack-text-all {
-	@apply font-semibold;
-}
-
 /* =================================
-   QUEUE ERROR MODAL
-   ================================= */
-@utility queue-error-overlay {
-	@apply modal-overlay-base;
-}
-
-@utility queue-error-popup {
-	@apply modal-popup-base;
-	width: 480px;
-}
-
-@utility queue-error-popup-small {
-	@apply modal-popup-base-small;
-}
-
-@utility queue-error-header {
-	@apply modal-header-base;
-}
-
-@utility queue-error-title {
-	@apply text-lg font-semibold m-0 flex-grow;
-	color: var(--color-text-heading);
-}
-
-@utility queue-error-content {
-	@apply modal-content-base;
-}
-
-@utility queue-error-content-small {
-	@apply modal-content-base-small;
-}
-
-@utility queue-error-actions {
-	@apply modal-actions-base;
-}
-
-@utility queue-error-actions-horizontal {
-	@apply modal-actions-horizontal;
-}
-
-/* =================================
-   QUEUE LOADING MODAL
-   ================================= */
-@utility queue-loading-overlay {
-	@apply modal-overlay-base;
-}
-
-@utility queue-loading-popup {
-	@apply modal-popup-base;
-	width: 400px;
-}
-
-@utility queue-loading-popup-small {
-	@apply modal-popup-base-small;
-}
-
-@utility queue-loading-header {
-	@apply modal-header-base;
-}
-
-@utility queue-loading-title {
-	@apply text-lg font-semibold m-0 flex-grow;
-	color: var(--color-text-heading);
-}
-
-@utility queue-loading-content {
-	@apply modal-content-base;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem;
-}
-
-@utility queue-loading-content-small {
-	@apply modal-content-base-small;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-@utility queue-loading-actions {
-	@apply modal-actions-base;
-}
-
-@utility queue-loading-actions-horizontal {
-	@apply modal-actions-horizontal;
-}
-
-/* =================================
-   SELECTION SECTION
+   QUEUE ERROR DETAILS
    ================================= */
 
-@utility queue-selection-section {
-	@apply mb-4;
+@utility queue-error-meta {
+	@apply m-0 flex flex-col rounded;
+	gap: 0.3125rem;
+	padding: 0.625rem 0.75rem;
+	background-color: var(--color-bg-tertiary);
+	font-variant-numeric: tabular-nums;
 }
 
-@utility queue-threshold-card {
-	@apply p-4 rounded-[10px] transition-all duration-200 w-full;
-	background-color: var(--color-bg-content);
-	border: 2px solid var(--color-border);
-}
-
-@utility queue-threshold-card-profile {
-	@apply queue-threshold-card;
-	border-color: var(--color-status-profile);
-}
-
-@utility queue-threshold-card-friends {
-	@apply queue-threshold-card;
-	border-color: var(--color-status-friends);
-}
-
-@utility queue-threshold-card-groups {
-	@apply queue-threshold-card;
-	border-color: var(--color-status-groups);
-}
-
-@utility queue-threshold-header {
-	@apply flex items-center gap-3 mb-2;
-}
-
-@utility queue-threshold-title {
-	@apply text-base font-semibold;
-	color: var(--color-text);
-}
-
-@utility queue-threshold-description {
-	@apply text-sm leading-relaxed mb-3;
+@utility queue-error-meta-row {
+	@apply flex text-xs;
+	gap: 0.5rem;
 	color: var(--color-text-subtle);
-}
 
-@utility queue-threshold-options {
-	@apply flex gap-3;
-}
-
-@utility queue-threshold-option {
-	@apply flex items-center gap-2 cursor-pointer;
-
-	input[type='radio'] {
-		@apply w-4 h-4 cursor-pointer;
-		accent-color: var(--color-primary);
+	& dt {
+		@apply font-semibold uppercase;
+		letter-spacing: 0.05em;
+		color: var(--color-text-tertiary);
 	}
 
-	span {
-		@apply text-sm font-medium;
+	& dd {
+		@apply m-0;
 		color: var(--color-text);
-	}
-
-	&:hover span {
-		color: var(--color-primary);
-	}
-}
-
-@utility queue-toggle-card {
-	@apply p-4 rounded-[10px] transition-all duration-200 w-full;
-	background-color: var(--color-bg-content);
-	border: 2px solid var(--color-border);
-}
-
-@utility queue-toggle-card-outfit {
-	@apply queue-toggle-card;
-	border-color: var(--color-status-outfit);
-}
-
-@utility queue-toggle-header {
-	@apply flex items-center gap-3 mb-2;
-}
-
-@utility queue-toggle-title {
-	@apply text-base font-semibold;
-	color: var(--color-text);
-}
-
-@utility queue-toggle-description {
-	@apply text-sm leading-relaxed mb-3;
-	color: var(--color-text-subtle);
-}
-
-@utility queue-toggle-container {
-	@apply flex items-center gap-3;
-}
-
-@utility queue-toggle-label {
-	@apply text-sm font-medium;
-	color: var(--color-text);
-}
-
-@utility queue-toggle-switch {
-	@apply relative inline-block;
-	width: 48px;
-	height: 24px;
-
-	input[type='checkbox'] {
-		@apply opacity-0 w-0 h-0;
-	}
-
-	.queue-toggle-slider {
-		@apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-all duration-300;
-		background-color: var(--color-border);
-
-		&::before {
-			@apply absolute rounded-full transition-all duration-300;
-			content: '';
-			height: 18px;
-			width: 18px;
-			left: 3px;
-			bottom: 3px;
-			background-color: white;
-		}
-	}
-
-	input[type='checkbox']:checked + .queue-toggle-slider {
-		background-color: var(--color-status-outfit);
-	}
-
-	input[type='checkbox']:checked + .queue-toggle-slider::before {
-		transform: translateX(24px);
-	}
-
-	&:hover .queue-toggle-slider {
-		filter: brightness(0.95);
+		word-break: break-all;
 	}
 }
 
 /* =================================
-   QUEUE LIMITS
+   QUEUE LOADING BODY
    ================================= */
 
-@utility modal-queue-limits {
-	@apply modal-content-section;
-}
-
-@utility modal-queue-limits-title {
-	@apply modal-content-heading;
-}
-
-@utility modal-queue-limits-compact {
-	@apply space-y-3;
-}
-
-@utility modal-queue-usage-display {
-	@apply space-y-2;
-}
-
-@utility modal-queue-usage-labels {
-	@apply flex items-center justify-between gap-3;
-}
-
-@utility modal-queue-usage-label-left {
-	@apply flex flex-col items-start gap-0.5;
-}
-
-@utility modal-queue-usage-label-right {
-	@apply flex flex-col items-end text-right gap-0.5;
-}
-
-@utility modal-queue-usage-label {
-	@apply text-xs font-medium;
-	color: var(--color-text-subtle);
-}
-
-@utility modal-queue-usage-amount {
-	@apply text-base font-bold;
-	color: var(--color-text);
-}
-
-@utility modal-queue-remaining-amount {
-	@apply text-base font-bold;
-	color: var(--color-success);
-}
-
-@utility modal-queue-progress-bar {
-	@apply relative w-full h-2.5 rounded-full overflow-hidden;
-	background: var(--color-bg-secondary);
-	border: 1px solid var(--color-border-subtle);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-@utility modal-queue-progress-fill {
-	@apply h-full transition-all duration-500 ease-out rounded-full;
-
-	&.modal-queue-low-usage {
-		background: var(--color-success);
-	}
-
-	&.modal-queue-medium-usage {
-		background: var(--color-warning);
-	}
-
-	&.modal-queue-high-usage {
-		background: var(--color-error);
-	}
-}
-
-@utility modal-queue-status-info {
-	@apply flex items-center justify-between gap-3 pt-1;
-}
-
-@utility modal-queue-api-badge {
-	@apply flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-200;
-	background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-	color: white;
-
-	&.modal-queue-default-limits {
-		background: var(--color-bg-tertiary);
-		color: var(--color-text-subtle);
-		border: 1px solid var(--color-border-subtle);
-	}
-}
-
-@utility modal-queue-reset-timer {
-	@apply flex items-center gap-1.5 text-sm;
-	color: var(--color-text-subtle);
-}
-
-@utility modal-queue-reset-label {
-	@apply font-medium;
-}
-
-@utility modal-queue-reset-time {
-	@apply font-bold;
-	color: var(--color-text);
+@utility queue-loading-body {
+	@apply flex items-center justify-center;
+	padding: 1.5rem 0 1rem;
 }

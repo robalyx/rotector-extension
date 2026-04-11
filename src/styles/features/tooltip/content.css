@@ -363,6 +363,18 @@
    VIOLATION REASONS & EVIDENCE
    ================================= */
 
+@utility inline-image {
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		max-width: 1em;
+		max-height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
+}
+
 @utility reasons-container {
 	@apply mt-2 flex flex-col gap-2 text-left;
 }
@@ -408,7 +420,7 @@
 }
 
 @utility reason-message {
-	@apply mb-2 text-sm leading-normal whitespace-pre-wrap;
+	@apply inline-image mb-2 text-sm leading-normal whitespace-pre-wrap;
 	color: var(--color-reason-message);
 }
 
@@ -417,7 +429,7 @@
 }
 
 @utility evidence-item {
-	@apply rounded-md px-2 py-1 text-sm;
+	@apply inline-image rounded-md px-2 py-1 text-sm;
 	overflow-wrap: break-word;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
@@ -486,7 +498,7 @@
 }
 
 @utility source-evidence-description {
-	@apply text-sm leading-tight;
+	@apply inline-image text-sm leading-tight;
 	color: var(--color-evidence-text);
 }
 
@@ -495,7 +507,7 @@
 }
 
 @utility source-evidence-subitem {
-	@apply text-xs leading-tight;
+	@apply inline-image text-xs leading-tight;
 	color: var(--color-evidence-text);
 }
 
@@ -523,7 +535,7 @@
 }
 
 @utility outfit-reason {
-	@apply text-sm leading-tight;
+	@apply inline-image text-sm leading-tight;
 	color: var(--color-evidence-text);
 }
 

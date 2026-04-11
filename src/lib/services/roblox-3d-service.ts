@@ -145,7 +145,9 @@ class Roblox3DService {
 		let lastState = '';
 
 		for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-			const response = await fetch(apiUrl);
+			const response = await fetch(apiUrl, {
+				credentials: 'include'
+			});
 			if (!response.ok) {
 				throw new Error(`Failed to fetch 3D data: ${response.status}`);
 			}
@@ -154,7 +156,9 @@ class Roblox3DService {
 			lastState = apiResponse.state;
 
 			if (apiResponse.state === 'Completed' && apiResponse.imageUrl) {
-				const metadataResponse = await fetch(apiResponse.imageUrl);
+				const metadataResponse = await fetch(apiResponse.imageUrl, {
+					credentials: 'omit'
+				});
 				if (!metadataResponse.ok) {
 					throw new Error(`Failed to fetch 3D metadata: ${metadataResponse.status}`);
 				}

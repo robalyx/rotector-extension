@@ -1731,7 +1731,7 @@
 										{:else}
 											{#each reason.evidence as evidence, index (index)}
 												{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
-													<div class="evidence-item outfit-evidence-item">
+													<div class="outfit-evidence-item">
 														<div class="outfit-evidence-header">
 															<div class="outfit-evidence-name">
 																{getDisplayText(evidence.outfitName)}

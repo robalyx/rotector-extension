@@ -31,78 +31,40 @@
 /* =================================
    POPUP IMPORTS
    ================================= */
-/* Popup Base */
 @import './popup/base.css';
-
-/* Navbar */
+@import './popup/shared.css';
 @import './popup/navbar.css';
-
-/* Stats Page */
-@import './popup/stats/containers.css';
-@import './popup/stats/items.css';
-@import './popup/stats/financial.css';
-@import './popup/stats/queue-limits.css';
-@import './popup/stats/charts.css';
-@import './popup/stats/section.css';
+@import './popup/stats/stats.css';
 @import './popup/stats/content.css';
-
-/* Settings Page */
-@import './popup/settings/sections.css';
-@import './popup/settings/inputs.css';
-@import './popup/settings/warnings.css';
-
-/* Queue Page */
+@import './popup/settings/settings.css';
 @import './popup/queue/history.css';
-
-/* Developer Observability */
 @import './popup/developer/shared.css';
 @import './popup/developer/logs.css';
 @import './popup/developer/performance.css';
-
-/* Custom API Management */
 @import './popup/api/management.css';
 @import './popup/api/form.css';
 @import './popup/api/import.css';
 @import './popup/api/documentation.css';
-
-/* Shared Components */
 @import './popup/shared/footer.css';
 
 /* =================================
-   FEATURE IMPORTS (Content Scripts)
+   FEATURE IMPORTS
    ================================= */
-/* Modal System */
 @import './features/modal/base.css';
 @import './features/modal/friend-warning.css';
 @import './features/modal/queue-modal.css';
 @import './features/modal/outfit-picker.css';
 @import './features/modal/outfit-viewer.css';
 @import './features/modal/outfit-3d.css';
-
-/* Tooltip System */
 @import './features/tooltip/base.css';
 @import './features/tooltip/content.css';
 @import './features/tooltip/voting.css';
 @import './features/tooltip/tabs.css';
 @import './features/tooltip/discord-evidence.css';
-
-/* Report Helper */
 @import './features/report-helper/report-helper.css';
-
-/* Onboarding */
 @import './features/onboarding/onboarding.css';
-
-/* Changelog Modal */
 @import './features/changelog/modal.css';
-
-/* Content Blur */
 @import './features/blur.css';
-
-/* Group Members Carousel */
 @import './features/group-members-carousel.css';
-
-/* Export Modal */
 @import './features/export-modal.css';
-
-/* Friends Scan */
 @import './features/friend-scan.css';

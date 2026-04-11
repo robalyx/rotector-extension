@@ -3,31 +3,26 @@
    ================================= */
 
 @utility group-members-section {
-	margin-top: 12px;
+	@apply mt-3;
 }
 
 @utility group-members-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	@apply flex items-center justify-between;
 	margin: 3px 0 10px;
 }
 
 @utility group-members-title {
-	font-size: 16px;
-	font-weight: 700;
+	@apply m-0 text-base font-bold;
 	color: var(--roblox-text-heading);
-	margin: 0;
 }
 
 @utility group-members-content {
-	padding: 12px;
+	@apply rounded-lg p-3;
 	background: var(--roblox-bg-content);
-	border-radius: 8px;
 }
 
 @utility group-members-grid-container {
-	position: relative;
+	@apply relative;
 }
 
 /* =================================
@@ -35,27 +30,18 @@
    ================================= */
 
 @utility group-members-tabs {
-	display: flex;
-	gap: 4px;
-	padding: 2px;
+	@apply flex gap-1 rounded-md border p-0.5;
 	background: var(--roblox-bg-content);
-	border-radius: 6px;
-	border: 1px solid var(--roblox-border);
+	border-color: var(--roblox-border);
 }
 
 @utility group-members-tab {
-	padding: 6px 12px;
-	border-radius: 4px;
+	@apply cursor-pointer rounded border-none bg-transparent px-3 py-1.5 font-medium whitespace-nowrap;
 	font-size: 12px;
-	font-weight: 500;
-	cursor: pointer;
-	background: transparent;
 	color: var(--roblox-text-muted);
-	border: none;
 	transition:
 		background-color 0.15s,
 		color 0.15s;
-	white-space: nowrap;
 
 	&:hover:not(.active) {
 		background: var(--roblox-bg-hover);
@@ -73,9 +59,7 @@
    ================================= */
 
 @utility group-members-tracked-header {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+	@apply flex items-center gap-2;
 	padding: 0 4px 12px;
 }
 
@@ -85,15 +69,11 @@
 }
 
 @utility group-members-tracked-filter {
-	padding: 4px 8px;
-	border-radius: 4px;
+	@apply cursor-pointer rounded px-2 py-1 font-medium outline-none;
 	font-size: 12px;
-	font-weight: 500;
-	cursor: pointer;
 	background: var(--roblox-bg-surface);
 	color: var(--roblox-text-primary);
 	border: 1px solid var(--roblox-border-hover);
-	outline: none;
 
 	&:hover:not(:disabled) {
 		background-color: var(--roblox-border-hover);
@@ -104,8 +84,7 @@
 	}
 
 	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	& option {
@@ -115,9 +94,8 @@
 }
 
 @utility group-members-tracked-count {
-	margin-left: auto;
+	@apply ml-auto font-medium;
 	font-size: 13px;
-	font-weight: 500;
 	color: var(--roblox-text-primary);
 }
 
@@ -126,22 +104,15 @@
    ================================= */
 
 @utility group-members-controls {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+	@apply flex items-center gap-2;
 	padding: 0 4px 12px;
 }
 
 @utility group-members-dropdown {
-	padding: 8px 12px;
-	border-radius: 6px;
-	font-size: 14px;
-	font-weight: 500;
-	cursor: pointer;
+	@apply cursor-pointer rounded-md px-3 py-2 text-sm font-medium outline-none;
 	background: var(--roblox-bg-surface);
 	color: var(--roblox-text-primary);
 	border: 1px solid var(--roblox-border-hover);
-	outline: none;
 
 	&:hover:not(:disabled) {
 		background-color: var(--roblox-border-hover);
@@ -152,8 +123,7 @@
 	}
 
 	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	& option {
@@ -163,13 +133,11 @@
 }
 
 @utility group-members-dropdown-role {
-	flex: 1;
-	min-width: 0;
+	@apply min-w-0 flex-1;
 }
 
 @utility group-members-dropdown-sort {
-	flex-shrink: 0;
-	width: auto;
+	@apply w-auto shrink-0;
 }
 
 /* =================================
@@ -177,25 +145,16 @@
    ================================= */
 
 @utility group-members-grid {
-	display: grid;
+	@apply grid justify-center gap-2;
 	grid-template-columns: repeat(auto-fit, 102px);
 	grid-auto-flow: row;
-	justify-content: center;
-	gap: 8px;
 	padding: 0 4px;
 }
 
 @utility group-member-tile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	@apply relative flex cursor-pointer flex-col items-center rounded-lg p-1 no-underline;
 	width: 102px;
-	padding: 4px;
-	cursor: pointer;
-	border-radius: 8px;
 	transition: background-color 0.15s;
-	text-decoration: none;
-	position: relative;
 
 	&:hover {
 		background: var(--roblox-bg-surface);
@@ -203,55 +162,45 @@
 }
 
 @utility group-member-avatar {
+	@apply relative shrink-0 overflow-hidden rounded-full border;
 	width: 90px;
 	height: 90px;
-	border-radius: 50%;
-	overflow: hidden;
-	position: relative;
-	flex-shrink: 0;
-	border: 1px solid var(--roblox-border);
+	border-color: var(--roblox-border);
 
 	& img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		@apply h-full w-full object-cover;
 	}
 }
 
 @utility group-member-avatar-placeholder {
+	@apply rounded-full;
 	width: 90px;
 	height: 90px;
-	border-radius: 50%;
 	background: var(--roblox-bg-surface);
 }
 
 @utility group-member-tile-inactive {
-	opacity: 0.5;
+	@apply opacity-50;
 }
 
 @utility group-member-avatar-inactive {
-	border-style: dashed;
+	@apply border-dashed;
 
 	& img {
-		filter: grayscale(100%);
+		@apply grayscale;
 	}
 }
 
 @utility group-member-display-name {
+	@apply mt-0.5 overflow-hidden text-center font-normal text-ellipsis whitespace-nowrap;
 	font-size: 12.8px;
-	font-weight: 400;
-	color: var(--roblox-text-heading);
-	text-align: center;
-	max-width: 92px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	line-height: 22.4px;
-	margin-top: 2px;
+	max-width: 92px;
+	color: var(--roblox-text-heading);
 }
 
 @utility group-member-status {
-	position: absolute;
+	@apply absolute;
 	bottom: 26px;
 	right: 2px;
 }
@@ -261,23 +210,16 @@
    ================================= */
 
 @utility group-members-nav {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	@apply mt-3 flex items-center justify-between border-t;
 	padding: 12px 4px 0;
-	border-top: 1px solid var(--roblox-border);
-	margin-top: 12px;
+	border-color: var(--roblox-border);
 }
 
 @utility group-members-nav-btn {
-	padding: 6px 16px;
-	border-radius: 6px;
+	@apply cursor-pointer rounded-md border-none px-4 py-1.5 font-medium;
 	font-size: 12px;
-	font-weight: 500;
-	cursor: pointer;
 	background: var(--roblox-bg-surface);
 	color: var(--roblox-text-primary);
-	border: none;
 	transition:
 		background-color 0.15s,
 		opacity 0.15s;
@@ -287,22 +229,17 @@
 	}
 
 	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
+		@apply cursor-not-allowed opacity-50;
 	}
 }
 
 @utility group-members-page-info {
-	font-size: 14px;
+	@apply text-sm;
 	color: var(--roblox-text-muted);
 }
 
 @utility group-members-page-btn {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 4px 8px;
-	border-radius: 4px;
+	@apply cursor-pointer rounded border-none bg-none px-2 py-1;
 	transition: background-color 0.15s;
 
 	&:hover {
@@ -311,16 +248,13 @@
 }
 
 @utility group-members-page-input {
+	@apply rounded text-center text-sm outline-none;
 	width: 40px;
 	padding: 2px 4px;
 	margin: 0 4px;
-	border-radius: 4px;
-	font-size: 14px;
-	text-align: center;
 	background: var(--roblox-bg-surface);
 	color: var(--roblox-text-heading);
 	border: 1px solid var(--roblox-border-hover);
-	outline: none;
 
 	&:focus {
 		border-color: var(--roblox-accent);
@@ -328,17 +262,15 @@
 }
 
 @utility group-members-page-loading {
-	display: flex;
-	align-items: center;
-	gap: 6px;
+	@apply flex items-center gap-1.5;
 }
 
 @utility group-members-page-spinner {
+	@apply rounded-full;
 	width: 14px;
 	height: 14px;
 	border: 2px solid var(--roblox-border-hover);
 	border-top-color: var(--roblox-accent);
-	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
 }
 
@@ -347,52 +279,35 @@
    ================================= */
 
 @utility group-members-loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@apply flex items-center justify-center text-sm;
 	padding: 48px 0;
 	color: var(--roblox-text-muted);
-	font-size: 14px;
 }
 
 @utility group-members-loading-overlay {
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@apply absolute inset-0 z-10 flex items-center justify-center rounded-lg;
 	background: var(--roblox-overlay);
-	border-radius: 8px;
-	z-index: 10;
 }
 
 @utility group-members-spinner {
+	@apply rounded-full;
 	width: 24px;
 	height: 24px;
 	border: 2px solid var(--roblox-border-hover);
 	border-top-color: var(--roblox-accent);
-	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
 }
 
 @utility group-members-error {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 12px;
+	@apply flex flex-col items-center justify-center gap-3 text-sm;
 	padding: 32px 0;
 	color: var(--roblox-text-muted);
-	font-size: 14px;
 }
 
 @utility group-members-empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@apply flex items-center justify-center text-sm;
 	padding: 32px 0;
 	color: var(--roblox-text-muted);
-	font-size: 14px;
 }
 
 @keyframes spin {

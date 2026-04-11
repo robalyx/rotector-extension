@@ -29,7 +29,7 @@
 
 	let allOutfits = $state<OutfitWithThumbnail[]>([]);
 	let isLoading = $state(false);
-	let error = $state<string | null>(null);
+	let hasError = $state(false);
 	let currentPage = $state(1);
 	let hasLoadedOnce = $state(false);
 	let retryTimeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -143,10 +143,10 @@
 		};
 	});
 
-	// Fetch all outfits from API and sort client-side
+	// Paginate through the API to collect every outfit the user owns
 	async function loadAllOutfits() {
 		isLoading = true;
-		error = null;
+		hasError = false;
 		loadedCount = 0;
 
 		try {
@@ -167,7 +167,7 @@
 			hasLoadedOnce = true;
 			logger.debug('Loaded all outfits for viewer', { total: allOutfits.length });
 		} catch (err) {
-			error = 'Failed to load outfits';
+			hasError = true;
 			hasLoadedOnce = true;
 			logger.error('Failed to load outfits:', err);
 		} finally {
@@ -206,7 +206,7 @@
 	}
 </script>
 
-<Modal {onClose} size="wide" title={$_('outfit_viewer_title')} bind:isOpen>
+<Modal {onClose} showStatusChip={false} size="wide" title={$_('outfit_viewer_title')} bind:isOpen>
 	{#snippet headerContent()}
 		<div class="outfit-viewer-header-logo">
 			<img alt="Rotector" src={logoUrl} />
@@ -214,10 +214,9 @@
 	{/snippet}
 
 	<div class="outfit-viewer-two-panel">
-		<!-- Left panel: outfit grid -->
 		<div class="outfit-viewer-left-panel">
 			<div class="outfit-viewer-disclaimer">
-				<AlertTriangle class="outfit-viewer-disclaimer-icon" size={16} />
+				<AlertTriangle class="outfit-viewer-disclaimer-icon" size={14} />
 				<span>{$_('outfit_viewer_disclaimer')}</span>
 			</div>
 
@@ -232,9 +231,9 @@
 						</span>
 					</div>
 				</div>
-			{:else if error}
+			{:else if hasError}
 				<div class="outfit-viewer-error">
-					<AlertCircle size={24} />
+					<AlertCircle size={20} />
 					<span>{$_('outfit_viewer_error')}</span>
 					<button class="outfit-viewer-retry" onclick={loadAllOutfits} type="button">
 						{$_('outfit_viewer_retry')}
@@ -242,12 +241,12 @@
 				</div>
 			{:else if groupedOutfits.length === 0}
 				<div class="outfit-viewer-empty">
-					<Shirt size={32} />
+					<Shirt size={28} />
 					<span>{$_('outfit_viewer_empty')}</span>
 				</div>
 			{:else}
 				{#if hasFlaggedOutfits}
-					<p class="mb-3 text-xs text-text-subtle">
+					<p class="outfit-viewer-flagged-count">
 						{$_('outfit_viewer_flagged_count', { values: { 0: flaggedOutfits.size.toString() } })}
 					</p>
 				{/if}
@@ -264,37 +263,38 @@
 			{/if}
 		</div>
 
-		<!-- Right panel: 3D viewer -->
 		<Outfit3DPanel flagInfo={selectedFlagInfo} outfit={selectedOutfit} />
 	</div>
 
 	{#snippet actions()}
 		{#if showPagination}
-			<button
-				class="outfit-pagination-btn"
-				class:outfit-pagination-btn-disabled={!canGoBack}
-				aria-label={$_('outfit_viewer_prev_page')}
-				disabled={!canGoBack || isLoading}
-				onclick={() => goToPage(currentPage - 1)}
-				type="button"
-			>
-				<ChevronLeft size={16} />
-			</button>
+			<div class="outfit-pagination-bar">
+				<button
+					class="outfit-pagination-btn"
+					class:outfit-pagination-btn-disabled={!canGoBack}
+					aria-label={$_('outfit_viewer_prev_page')}
+					disabled={!canGoBack || isLoading}
+					onclick={() => goToPage(currentPage - 1)}
+					type="button"
+				>
+					<ChevronLeft size={14} />
+				</button>
 
-			<span class="outfit-pagination-info">
-				{$_('outfit_viewer_page', { values: { 0: currentPage.toString() } })}
-			</span>
+				<span class="outfit-pagination-info">
+					{$_('outfit_viewer_page', { values: { 0: currentPage.toString() } })}
+				</span>
 
-			<button
-				class="outfit-pagination-btn"
-				class:outfit-pagination-btn-disabled={!canGoForward}
-				aria-label={$_('outfit_viewer_next_page')}
-				disabled={!canGoForward || isLoading}
-				onclick={() => goToPage(currentPage + 1)}
-				type="button"
-			>
-				<ChevronRight size={16} />
-			</button>
+				<button
+					class="outfit-pagination-btn"
+					class:outfit-pagination-btn-disabled={!canGoForward}
+					aria-label={$_('outfit_viewer_next_page')}
+					disabled={!canGoForward || isLoading}
+					onclick={() => goToPage(currentPage + 1)}
+					type="button"
+				>
+					<ChevronRight size={14} />
+				</button>
+			</div>
 		{/if}
 	{/snippet}
 </Modal>

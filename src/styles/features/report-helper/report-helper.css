@@ -1,289 +1,196 @@
 /* =================================
-   REPORT HELPER CARD
+   REPORT ACTION BAR
    ================================= */
-@utility report-helper-card {
-	background-color: var(--color-bg-primary);
-	border: 1px solid var(--color-border-primary);
-	border-radius: 10px;
-	padding: 20px 24px;
-	margin: 24px 0;
-	box-shadow: var(--shadow-md);
-	transition: all 0.3s ease;
 
-	&.reportable {
-		background-color: color-mix(in srgb, var(--color-error) 5%, transparent);
-		border-top-color: color-mix(in srgb, var(--color-error) 20%, transparent);
-		border-right-color: color-mix(in srgb, var(--color-error) 20%, transparent);
-		border-bottom-color: color-mix(in srgb, var(--color-error) 20%, transparent);
-	}
-
-	&.reportable .report-helper-title {
-		color: var(--color-error);
-		font-weight: 700;
-	}
-}
-
-@utility rotector-report-helper {
-	margin-bottom: 20px;
+@utility report-bar {
+	@apply relative flex items-center rounded-md;
+	gap: 0.625rem;
+	padding: 0.5rem 0.75rem;
+	margin-bottom: 0.75rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: var(--shadow-soft);
+	min-height: 2.5rem;
 }
 
 /* =================================
-   HEADER SECTION
+   LOGO
    ================================= */
-@utility report-helper-header {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 12px;
-	margin: -20px -24px 12px -24px;
-	background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
-	border-bottom: 1px solid color-mix(in srgb, var(--color-error) 20%, transparent);
-	border-radius: 10px 10px 0 0;
+
+@utility report-bar-logo {
+	@apply inline-flex shrink-0 items-center;
+	padding-right: 0.625rem;
+	border-right: 1px solid var(--color-border-subtle);
+
+	& img {
+		@apply block w-auto;
+		height: 24px;
+	}
 }
 
-@utility report-helper-icon {
-	width: 24px;
-	height: 24px;
-	flex-shrink: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+/* =================================
+   CONTENT AREA
+   ================================= */
+
+@utility report-bar-content {
+	@apply flex min-w-0 flex-1 items-center;
+	gap: 0.5rem;
+}
+
+@utility report-bar-status {
+	@apply inline-flex items-center whitespace-nowrap;
+	gap: 0.375rem;
+	font-size: 13px;
+	font-weight: 500;
 
 	&.reportable {
 		color: var(--color-error);
 	}
 
 	&.not-reportable {
-		color: var(--color-primary);
+		color: var(--color-text-subtle);
 	}
 }
 
-@utility report-helper-title {
-	font-size: 17px;
-	font-weight: 600;
-	margin: 0;
-	color: var(--color-text-primary);
+@utility report-bar-disabled-hint {
+	@apply text-xs whitespace-nowrap;
+	color: var(--color-text-subtle);
 }
 
 /* =================================
-   CONTENT SECTION
+   ACTION BUTTONS
    ================================= */
-@utility report-helper-content {
-	color: var(--color-text-secondary);
-	font-size: 14px;
-	line-height: 1.6;
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
+
+@utility report-bar-actions {
+	@apply ml-auto flex shrink-0 items-center;
+	gap: 0.375rem;
 }
 
-@utility report-helper-subtitle {
-	font-size: 14px;
-	color: var(--color-text-secondary);
-	margin: 0;
-}
+@utility report-bar-btn-evidence {
+	@apply inline-flex cursor-pointer items-center rounded;
+	gap: 0.25rem;
+	padding: 0.3125rem 0.5rem;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--color-text-subtle);
+	background-color: transparent;
+	border: 1px solid var(--color-border-subtle);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
 
-/* =================================
-   EVIDENCE SECTION
-   ================================= */
-@utility report-helper-evidence-section {
-	background: var(--color-reason-bg);
-	border-radius: 6px;
-	padding: 14px 16px;
-	border: 1px solid var(--color-border);
-}
-
-@utility report-helper-evidence-header {
-	font-size: 14px;
-	font-weight: 600;
-	color: var(--color-reason-header);
-	margin: 0 0 10px 0;
-	padding-bottom: 6px;
-	border-bottom: 1px dashed var(--color-border-subtle);
-}
-
-@utility report-helper-evidence-details {
-	font-size: 13px;
-	color: var(--color-reason-evidence-text);
-
-	& strong {
-		color: var(--color-text-primary);
-		font-weight: 500;
-	}
-
-	& ul {
-		margin: 8px 0 0 20px;
-		padding: 0;
-	}
-
-	& li {
-		margin: 4px 0;
-	}
-
-	& .report-helper-evidence-list {
-		margin: 8px 0 0 0;
-		padding: 0;
-		list-style-type: none;
+	&:hover {
+		color: var(--color-text);
+		border-color: var(--color-border);
+		background-color: var(--color-hover);
 	}
 }
 
-@utility report-helper-evidence-item {
-	margin-bottom: 5px;
-	padding: 3px 6px 3px 10px;
-	font-family: monospace;
-	font-size: 13px;
-	color: var(--color-reason-evidence-text);
-	background-color: var(--color-reason-evidence-bg);
-	border-radius: 3px;
-	word-break: break-word;
-	line-height: 1.4;
-}
-
-/* =================================
-   ACTION SECTION
-   ================================= */
-@utility report-helper-action-section {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-
-	& p {
-		margin: 0;
-		font-size: 14px;
-		color: var(--color-text-secondary);
-	}
-}
-
-@utility report-helper-button {
-	background: var(--color-primary) !important;
-	color: var(--primitive-white) !important;
-	border: none !important;
-	border-radius: 6px;
-	padding: 10px 20px;
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	min-width: 140px;
+@utility report-bar-btn-fill {
+	@apply inline-flex cursor-pointer items-center justify-center rounded;
+	gap: 0.375rem;
+	padding: 0.3125rem 0.625rem;
+	font-size: 12px;
+	font-weight: 500;
+	color: white;
+	background-color: var(--color-primary);
+	border: 1px solid transparent;
+	transition: background-color 0.15s ease;
 
 	&:hover:not(:disabled) {
-		background: var(--color-primary-hover) !important;
-		transform: translateY(-1px);
-		box-shadow: var(--shadow-sm);
+		background-color: var(--color-primary-hover);
 	}
 
 	&:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
+		@apply cursor-not-allowed opacity-60;
 	}
 }
 
 /* =================================
-   STATUS MESSAGES
+   FOOTNOTE
    ================================= */
-@utility report-helper-success-message {
+
+@utility report-bar-footnote {
+	@apply text-2xs;
+	margin: 0.25rem 0 0.5rem;
+	padding: 0 0.25rem;
+	color: var(--color-text-subtle);
+	opacity: 0.7;
+}
+
+/* =================================
+   EVIDENCE POPOVER
+   ================================= */
+
+@utility report-bar-evidence {
+	@apply flex flex-col rounded-md;
+	gap: 0.5rem;
+	margin-bottom: 0.5rem;
+	padding: 0.625rem 0.75rem;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 	font-size: 13px;
-	padding: 10px 14px;
-	border-radius: 6px;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	margin-top: 12px;
-	background: color-mix(in srgb, var(--color-success) 10%, transparent);
-	color: var(--color-success);
-	border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
-	font-weight: 500;
+	color: var(--color-text);
+	line-height: 1.5;
+}
+
+@utility report-bar-evidence-reason {
+	font-size: 13px;
+	color: var(--color-text);
+	line-height: 1.5;
+
+	& strong {
+		@apply font-semibold;
+		color: var(--color-text-heading);
+		margin-right: 0.25rem;
+	}
+}
+
+@utility report-bar-evidence-snippets {
+	font-size: 13px;
+
+	& strong {
+		@apply block font-semibold;
+		color: var(--color-text-heading);
+		margin-bottom: 0.25rem;
+	}
+}
+
+@utility report-bar-evidence-list {
+	@apply list-none p-0;
+	margin: 0.25rem 0 0;
+}
+
+@utility report-bar-evidence-item {
+	@apply rounded break-words;
+	padding: 0.25rem 0.5rem;
+	margin-bottom: 0.25rem;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+	font-size: 12px;
+	color: var(--color-text);
+	background-color: color-mix(in srgb, var(--color-error) 6%, transparent);
+	line-height: 1.4;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+/* =================================
+   FEEDBACK OVERLAY
+   ================================= */
+
+@utility report-bar-feedback {
+	@apply flex w-full items-center font-medium;
+	gap: 0.5rem;
+	font-size: 13px;
+
+	&.success {
+		color: var(--color-success);
+	}
 
 	&.error {
-		background: color-mix(in srgb, var(--color-error) 10%, transparent);
 		color: var(--color-error);
-		border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
-	}
-}
-
-/* =================================
-   WARNING SECTION
-   ================================= */
-@utility report-helper-warning-section {
-	background: color-mix(in srgb, var(--color-warning) 10%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 20%, transparent);
-	border-radius: 6px;
-	padding: 12px;
-	display: flex;
-	gap: 10px;
-}
-
-@utility report-helper-warning-icon {
-	width: 20px;
-	height: 20px;
-	flex-shrink: 0;
-}
-
-@utility report-helper-warning-text {
-	font-size: 13px;
-	color: var(--color-warning);
-	line-height: 1.4;
-}
-
-/* =================================
-   INFO SECTION
-   ================================= */
-@utility report-helper-info-section {
-	background: var(--color-bg-secondary);
-	border-radius: 6px;
-	padding: 16px;
-	display: flex;
-	gap: 12px;
-}
-
-@utility report-helper-info-icon {
-	width: 24px;
-	height: 24px;
-	flex-shrink: 0;
-}
-
-@utility report-helper-info-text {
-	flex: 1;
-
-	& h4 {
-		margin: 0 0 8px 0;
-		font-size: 14px;
-		font-weight: 600;
-		color: var(--color-text-primary);
-	}
-
-	& p {
-		margin: 8px 0;
-		font-size: 13px;
-		color: var(--color-text-secondary);
-		line-height: 1.5;
-	}
-}
-
-/* =================================
-   LIST ITEMS
-   ================================= */
-@utility report-helper-list {
-	background: var(--color-bg-tertiary);
-	border-radius: 4px;
-	padding: 12px;
-	margin: 12px 0;
-}
-
-@utility report-helper-list-item {
-	font-size: 12px;
-	color: var(--color-text-secondary);
-	padding: 4px 0 4px 16px;
-	position: relative;
-
-	&::before {
-		content: '•';
-		position: absolute;
-		left: 0;
-		color: var(--color-text-tertiary);
 	}
 }

@@ -3,10 +3,10 @@
    ================================= */
 
 @utility outfit-3d-viewer {
-	@apply relative overflow-hidden;
+	@apply relative overflow-hidden rounded-md;
 	background-color: var(--color-bg-tertiary);
 
-	canvas {
+	& canvas {
 		@apply block;
 	}
 }
@@ -17,47 +17,52 @@
 }
 
 @utility outfit-3d-error {
-	@apply absolute inset-0 flex items-center justify-center;
+	@apply absolute inset-0 flex items-center justify-center text-xs;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-3d-blocked {
-	@apply absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-2 text-sm;
+	@apply absolute inset-0 flex flex-col items-center justify-center text-xs;
+	gap: 0.5rem;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
 
 /* =================================
-   3D MODAL
+   3D MODAL CONTENT
    ================================= */
 
 @utility outfit-3d-modal-content {
-	@apply flex flex-col items-center gap-3;
+	@apply flex flex-col items-center;
+	gap: 0.625rem;
 }
 
 @utility outfit-3d-modal-hint {
-	@apply text-xs text-center;
+	@apply m-0 text-center text-xs;
 	color: var(--color-text-subtle);
 }
 
 /* =================================
-   VIEW 3D BUTTON
+   VIEW 3D BUTTON OVERLAY
    ================================= */
 
 @utility view-3d-button {
-	@apply absolute flex items-center justify-center rounded-md transition-all cursor-pointer border-none p-0;
+	@apply absolute inline-flex cursor-pointer items-center justify-center rounded border-none p-0 text-white;
 	bottom: 4px;
 	left: 4px;
 	width: 22px;
 	height: 22px;
-	background-color: rgba(0, 0, 0, 0.6);
-	color: white;
+	background-color: var(--overlay-dialog);
 	opacity: 0;
 	transform: scale(0.9);
+	transition:
+		opacity 0.15s ease,
+		transform 0.15s ease,
+		background-color 0.15s ease;
 
 	&:hover {
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: var(--overlay-heavy);
 		transform: scale(1);
 	}
 }

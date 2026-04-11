@@ -3,23 +3,26 @@
    ================================= */
 
 @utility tooltip-status-badge {
-	@apply inline-flex items-center mt-2 px-2 py-0.5 text-base font-medium rounded-xl;
+	@apply text-sm-plus mt-2 inline-flex items-center rounded py-0.5 font-semibold;
+	padding-left: 0.5rem;
+	padding-right: 0.625rem;
+	font-variant-numeric: tabular-nums;
 
 	.status-indicator {
-		@apply inline-block w-2 h-2 rounded-full mr-1.5;
+		@apply mr-1.5 inline-block h-2 w-2 rounded-full;
 	}
 
 	&.safe {
-		@apply bg-gray-500/20;
+		background-color: color-mix(in srgb, var(--color-text-subtle) 12%, transparent);
 		color: var(--color-text-heading);
 
 		.status-indicator {
-			background-color: var(--color-text-heading);
+			background-color: var(--color-text-subtle);
 		}
 	}
 
 	&.unsafe {
-		@apply bg-red-500/15;
+		background-color: color-mix(in srgb, var(--color-status-unsafe) 12%, transparent);
 		color: var(--color-status-unsafe);
 
 		.status-indicator {
@@ -28,7 +31,7 @@
 	}
 
 	&.pending {
-		@apply bg-orange-500/15;
+		background-color: color-mix(in srgb, var(--color-status-pending) 12%, transparent);
 		color: var(--color-status-pending);
 
 		.status-indicator {
@@ -37,7 +40,7 @@
 	}
 
 	&.error {
-		@apply bg-gray-500/15;
+		background-color: color-mix(in srgb, var(--color-status-error) 12%, transparent);
 		color: var(--color-status-error);
 
 		.status-indicator {
@@ -46,7 +49,7 @@
 	}
 
 	&.integration {
-		@apply bg-teal-500/15;
+		background-color: color-mix(in srgb, var(--color-status-integration) 12%, transparent);
 		color: var(--color-status-integration);
 
 		.status-indicator {
@@ -55,7 +58,7 @@
 	}
 
 	&.past-offender {
-		@apply bg-blue-500/15;
+		background-color: color-mix(in srgb, var(--color-status-past-offender) 12%, transparent);
 		color: var(--color-status-past-offender);
 
 		.status-indicator {
@@ -64,7 +67,7 @@
 	}
 
 	&.mixed {
-		@apply bg-orange-500/15;
+		background-color: color-mix(in srgb, var(--color-status-mixed) 12%, transparent);
 		color: var(--color-status-mixed);
 
 		.status-indicator {
@@ -74,7 +77,9 @@
 }
 
 @utility tooltip-badge {
-	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-xs font-semibold uppercase tracking-wider;
+	@apply text-2xs inline-flex items-center justify-center rounded-full px-2 py-0.5 font-semibold uppercase;
+	letter-spacing: 0.08em;
+	font-variant-numeric: tabular-nums;
 }
 
 @utility tooltip-badge-reportable {
@@ -93,11 +98,13 @@
 }
 
 @utility custom-api-badges {
-	@apply flex flex-wrap gap-1.5 mt-1.5 mb-2 justify-center;
+	@apply mt-1.5 mb-2 flex flex-wrap justify-center gap-1.5;
 }
 
 @utility custom-api-badge {
-	@apply inline-flex items-center justify-center px-2 py-0.5 rounded-xl text-xs font-semibold uppercase tracking-wider;
+	@apply text-2xs inline-flex items-center justify-center rounded-full px-2 py-0.5 font-semibold uppercase;
+	letter-spacing: 0.08em;
+	font-variant-numeric: tabular-nums;
 	background-color: var(--color-status-integration);
 	color: white;
 }
@@ -108,12 +115,11 @@
 
 @utility tooltip-divider {
 	@apply my-2 border-t;
-	border-color: var(--color-tooltip-divider);
+	border-color: var(--color-border-subtle);
 }
 
 @utility reportable-pill {
-	@apply inline-flex items-center gap-1 text-xs font-medium no-underline cursor-pointer ml-auto border-none;
-	background: none;
+	@apply ml-auto inline-flex cursor-pointer items-center gap-1 border-none bg-transparent text-xs font-medium no-underline;
 	color: var(--color-status-unsafe);
 	opacity: 0.8;
 	transition: opacity 0.15s ease;
@@ -125,19 +131,17 @@
 }
 
 @utility tooltip-hover-popover {
-	@apply fixed z-[10006];
+	@apply pointer-events-auto fixed z-[10006] rounded-md;
 	width: 240px;
-	padding: 8px 10px;
-	border: 1px solid var(--color-border);
-	border-radius: 6px;
+	padding: 0.5rem 0.625rem;
+	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-content);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	pointer-events: auto;
+	box-shadow: var(--shadow-soft);
 	cursor: default;
 }
 
 @utility outfit-only-indicator {
-	@apply relative inline-flex items-center gap-1 text-xs font-medium cursor-help ml-auto border-none bg-transparent p-0;
+	@apply relative ml-auto inline-flex cursor-help items-center gap-1 border-none bg-transparent p-0 text-xs font-medium;
 	color: var(--color-status-outfit);
 	opacity: 0.8;
 
@@ -150,23 +154,24 @@
 	@apply tooltip-hover-popover;
 
 	strong {
-		@apply block text-sm font-semibold mb-0.5;
+		@apply mb-0.5 block text-sm font-semibold;
 		color: var(--color-status-outfit);
 	}
 
 	p {
-		@apply text-sm leading-normal m-0 font-normal;
+		@apply m-0 text-sm leading-normal font-normal;
 		color: var(--color-text);
 	}
 }
 
 @utility restricted-access-notice {
-	@apply flex gap-2.5 p-3 rounded mt-1.5;
-	background-color: rgba(127, 29, 29, 0.15);
+	@apply mt-1.5 flex gap-2.5 rounded-md p-3;
+	background-color: color-mix(in srgb, var(--color-status-unsafe) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-status-unsafe) 25%, transparent);
 }
 
 @utility restricted-access-icon {
-	@apply flex-shrink-0;
+	@apply shrink-0;
 	color: var(--color-status-unsafe);
 }
 
@@ -174,27 +179,29 @@
 	@apply flex-1 text-left;
 
 	strong {
-		@apply block mb-1 text-left text-base;
+		@apply mb-1 block text-left text-base;
 		color: var(--color-status-unsafe);
 	}
 
 	p {
-		@apply m-0 text-sm leading-normal text-left;
+		@apply m-0 text-left text-sm leading-normal;
 		color: var(--color-text);
 	}
 }
 
 @utility restricted-appeal-link {
-	@apply block border-none rounded px-2.5 py-1.5 mt-2 text-xs font-medium cursor-pointer no-underline text-center transition-colors duration-200 text-white;
+	@apply mt-2 block cursor-pointer rounded-md border-none px-2.5 py-1.5 text-center text-xs font-medium text-white no-underline;
 	background-color: var(--color-status-unsafe);
+	transition: background-color 0.15s ease;
 
 	&:hover {
 		@apply no-underline;
-		background-color: #ff2222;
+		background-color: color-mix(in srgb, var(--color-status-unsafe) 85%, black);
 	}
 
-	&:active {
-		background-color: #e03333;
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
@@ -203,14 +210,14 @@
    ================================= */
 
 @utility tooltip-metadata {
-	@apply flex flex-wrap gap-2 mt-3 justify-center;
+	@apply mt-3 flex flex-wrap justify-center gap-2;
 	padding: 4px 0;
 }
 
 @utility tooltip-metadata-item {
-	@apply flex items-center gap-1.5 text-2xs font-normal px-2 py-1;
+	@apply text-2xs flex items-center gap-1.5 px-2 py-1 font-normal;
 	color: var(--color-text-tertiary);
-	opacity: 0.8;
+	font-variant-numeric: tabular-nums;
 
 	&.processing {
 		color: var(--color-status-checking);
@@ -218,7 +225,7 @@
 }
 
 @utility tooltip-metadata-icon {
-	@apply flex-shrink-0;
+	@apply shrink-0;
 	opacity: 0.7;
 }
 
@@ -228,25 +235,23 @@
 
 @utility tooltip-metadata-value {
 	@apply text-2xs font-medium;
+	font-variant-numeric: tabular-nums;
 }
 
 @utility tooltip-metadata-reprocess {
-	@apply flex items-center gap-1.5 text-2xs font-medium px-2 py-1;
+	@apply text-2xs flex cursor-pointer items-center gap-1.5 rounded border-none bg-transparent px-2 py-1 font-medium;
 	color: var(--color-warning);
-	background: transparent;
-	border: none;
-	cursor: pointer;
-	transition: all 0.15s ease;
-	opacity: 0.9;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
 
 	&:hover {
-		opacity: 1;
-		background: rgba(255, 152, 0, 0.15);
-		border-radius: 3px;
+		background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
 	}
 
-	&:active {
-		background: rgba(255, 152, 0, 0.25);
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
@@ -255,10 +260,7 @@
    ================================= */
 
 @utility safe-reasons-toggle {
-	@apply w-full flex items-center justify-center gap-1.5 mb-2 text-sm font-medium cursor-pointer;
-	background: transparent;
-	border: none;
-	padding: 0;
+	@apply mb-2 flex w-full cursor-pointer items-center justify-center gap-1.5 border-none bg-transparent p-0 text-sm font-medium;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 
@@ -268,21 +270,22 @@
 }
 
 @utility safe-reasons-list {
-	@apply list-disc m-0 px-5 py-3 mt-2 space-y-1.5 rounded;
+	@apply m-0 mt-2 list-disc space-y-1.5 rounded-md px-5 py-3;
 	background-color: var(--color-reason-bg);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility safe-reasons-item {
-	@apply text-sm leading-relaxed;
+	@apply text-sm-plus leading-relaxed;
 	color: var(--color-text);
 }
 
 @utility safe-reasons-link {
+	@apply underline;
 	color: var(--color-primary);
-	text-decoration: underline;
 
 	&:hover {
-		text-decoration: none;
+		@apply no-underline;
 	}
 }
 
@@ -291,32 +294,31 @@
    ================================= */
 
 @utility queue-button {
-	@apply text-white border rounded-lg px-3 py-1.5 text-sm font-medium cursor-pointer transition-all duration-200 text-center flex-1 m-0;
-	background: linear-gradient(135deg, #3f7ee3, #2c5eb8);
-	border-color: #3f7ee3;
+	@apply text-sm-plus m-0 flex-1 cursor-pointer rounded-md border-none px-3 py-2 text-center font-medium text-white;
+	background-color: var(--color-primary);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+	font-variant-numeric: tabular-nums;
 
 	&:hover {
-		background: linear-gradient(135deg, #5da0ff, #3f7ee3);
-		border-color: #5da0ff;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		background-color: var(--color-primary-hover);
 	}
 
-	&:active {
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
 	}
 }
 
 @utility queue-button-disabled {
 	@apply cursor-not-allowed;
-	background: linear-gradient(135deg, #6b7280, #4b5563);
-	border-color: #6b7280;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-subtle);
 	opacity: 0.7;
 
 	&:hover {
-		@apply translate-y-0;
-		background: linear-gradient(135deg, #6b7280, #4b5563);
-		border-color: #6b7280;
-		box-shadow: none;
+		background-color: var(--color-bg-tertiary);
 	}
 }
 
@@ -325,7 +327,7 @@
    ================================= */
 
 @utility translate-status-container {
-	@apply flex items-center gap-1.5 justify-center mb-2;
+	@apply mb-2 flex items-center justify-center gap-1.5;
 }
 
 @utility translate-status-text {
@@ -339,21 +341,21 @@
 }
 
 @utility translation-toggle-container {
-	@apply flex justify-center mb-2;
+	@apply mb-2 flex justify-center;
 }
 
 @utility translation-toggle-button {
-	@apply flex items-center gap-1 px-2 py-0.5 text-3xs font-normal border-none cursor-pointer transition-all duration-200;
-	background: transparent;
-	color: var(--color-text-tertiary);
-	opacity: 0.7;
+	@apply text-2xs flex cursor-pointer items-center gap-1 rounded border-none bg-transparent px-2 py-0.5 font-medium;
+	color: var(--color-text-subtle);
+	transition: color 0.15s ease;
 
 	&:hover {
-		opacity: 1;
+		color: var(--color-text);
 	}
 
-	&:active {
-		opacity: 0.8;
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
@@ -362,22 +364,21 @@
    ================================= */
 
 @utility reasons-container {
-	@apply text-left mt-2;
+	@apply mt-2 flex flex-col gap-2 text-left;
 }
 
 @utility reason-item {
-	@apply mb-3 rounded-md p-2.5;
+	@apply rounded-md p-2.5;
 	background-color: var(--color-reason-bg);
-
-	&:last-child {
-		@apply mb-0;
-	}
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility reason-header {
-	@apply font-semibold mb-1 flex items-center gap-2;
+	@apply mb-1 flex items-center gap-2 font-semibold;
 	color: var(--color-reason-header);
-	font-size: 17px;
+	font-size: 0.9375rem;
+	letter-spacing: -0.005em;
+	font-variant-numeric: tabular-nums;
 
 	&.integration {
 		color: var(--color-status-integration);
@@ -385,7 +386,7 @@
 }
 
 @utility cross-signal-indicator {
-	@apply relative inline-flex items-center cursor-help border-none bg-transparent p-0;
+	@apply relative inline-flex cursor-help items-center border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
 	font: inherit;
 	line-height: inherit;
@@ -401,13 +402,13 @@
 	}
 
 	p {
-		@apply text-sm leading-normal m-0 font-normal;
+		@apply m-0 text-sm leading-normal font-normal;
 		color: var(--color-text);
 	}
 }
 
 @utility reason-message {
-	@apply text-base leading-normal mb-2 whitespace-pre-wrap;
+	@apply mb-2 text-sm leading-normal whitespace-pre-wrap;
 	color: var(--color-reason-message);
 }
 
@@ -416,11 +417,11 @@
 }
 
 @utility evidence-item {
-	@apply text-base px-2 py-1 rounded;
+	@apply rounded-md px-2 py-1 text-sm;
 	overflow-wrap: break-word;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
-	border: 1px solid var(--color-evidence-border);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility source-evidence-item {
@@ -428,17 +429,17 @@
 }
 
 @utility source-evidence-header {
-	@apply flex items-center mb-1;
+	@apply mb-1 flex items-center;
 }
 
 @utility source-evidence-badge {
-	@apply px-1.5 py-0.5 rounded text-xs font-bold uppercase;
+	@apply rounded px-1.5 py-0.5 text-xs font-bold uppercase;
 	background-color: var(--color-evidence-border);
 	color: var(--color-text);
 }
 
 @utility source-info-indicator {
-	@apply relative inline-flex items-center cursor-help ml-auto border-none bg-transparent p-0;
+	@apply relative ml-auto inline-flex cursor-help items-center border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
 	font: inherit;
 	line-height: inherit;
@@ -454,27 +455,19 @@
 	}
 
 	p {
-		@apply text-sm leading-normal m-0 font-normal;
+		@apply m-0 text-sm leading-normal font-normal;
 		color: var(--color-text);
 	}
 
 	.source-info-list {
+		@apply m-0 flex list-disc flex-col pl-4;
 		margin-top: 4px;
-		display: flex;
-		flex-direction: column;
 		gap: 2px;
 	}
 
 	.source-info-list-item {
 		@apply text-sm leading-normal font-normal;
 		color: var(--color-text);
-		display: flex;
-		gap: 4px;
-
-		&::before {
-			content: '•';
-			flex-shrink: 0;
-		}
 
 		strong {
 			@apply inline text-sm font-semibold;
@@ -493,7 +486,7 @@
 }
 
 @utility source-evidence-description {
-	@apply text-base leading-tight;
+	@apply text-sm leading-tight;
 	color: var(--color-evidence-text);
 }
 
@@ -502,33 +495,35 @@
 }
 
 @utility source-evidence-subitem {
-	@apply text-sm leading-tight;
+	@apply text-xs leading-tight;
 	color: var(--color-evidence-text);
 }
 
 @utility outfit-evidence-item {
 	@apply evidence-item;
 	background-color: var(--color-outfit-evidence-bg);
-	border-color: var(--color-status-outfit);
+	border-color: color-mix(in srgb, var(--color-status-outfit) 35%, transparent);
 }
 
 @utility outfit-evidence-header {
-	@apply flex justify-between items-center mb-1;
+	@apply mb-1 flex items-center justify-between;
 }
 
 @utility outfit-evidence-name {
-	@apply font-semibold text-base text-left;
+	@apply text-left text-sm font-semibold;
 	color: var(--color-text);
 }
 
 @utility outfit-confidence-badge {
-	@apply px-1.5 py-0.5 rounded text-xs font-bold;
+	@apply text-2xs rounded px-1.5 py-0.5 font-bold;
 	background-color: var(--color-status-outfit);
 	color: white;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.02em;
 }
 
 @utility outfit-reason {
-	@apply text-base leading-tight;
+	@apply text-sm leading-tight;
 	color: var(--color-evidence-text);
 }
 
@@ -537,16 +532,16 @@
    ================================= */
 
 @utility moderators-text {
+	@apply font-semibold;
 	color: var(--color-status-unsafe);
-	font-weight: 600;
 }
 
 @utility reviewer-section {
-	@apply p-0 pb-2 my-2 flex items-center gap-1.5 bg-transparent border-none text-center justify-center;
+	@apply my-2 flex items-center justify-center gap-1.5 border-none bg-transparent p-0 pb-2 text-center;
 }
 
 @utility reviewer-text {
-	@apply text-xs-plus font-normal leading-tight;
+	@apply text-xs-plus leading-tight font-normal;
 	color: var(--color-text-subtle);
 }
 
@@ -556,7 +551,7 @@
 }
 
 @utility reviewer-anonymous-indicator {
-	@apply relative inline-flex items-center cursor-help;
+	@apply relative inline-flex cursor-help items-center;
 	color: var(--color-text-subtle);
 
 	&:hover .reviewer-anonymous-popover {
@@ -565,7 +560,7 @@
 }
 
 @utility reviewer-anonymous-popover {
-	@apply absolute invisible opacity-0 z-10;
+	@apply invisible absolute z-10 rounded-md opacity-0;
 	transition:
 		opacity 0.15s ease,
 		visibility 0.15s ease;
@@ -573,26 +568,25 @@
 	left: 50%;
 	transform: translateX(-50%);
 	width: 240px;
-	padding: 8px 10px;
+	padding: 0.5rem 0.625rem;
 	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border);
-	border-radius: 6px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: var(--shadow-soft);
 
 	strong {
-		@apply block text-sm font-semibold;
+		@apply text-sm-plus block font-semibold;
 		color: var(--color-primary);
 		margin-bottom: 2px;
 	}
 
 	p {
-		@apply text-sm leading-normal m-0 font-normal;
+		@apply text-sm-plus m-0 leading-normal font-normal;
 		color: var(--color-text);
 	}
 }
 
 @utility error-details {
-	@apply mt-1.5 pt-1.5 text-xs-plus whitespace-pre-wrap break-words border-t text-left;
-	border-color: var(--color-border);
+	@apply text-xs-plus mt-1.5 border-t pt-1.5 text-left break-words whitespace-pre-wrap;
+	border-color: var(--color-border-subtle);
 	color: var(--color-text-subtle);
 }

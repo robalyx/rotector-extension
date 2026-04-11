@@ -2,7 +2,6 @@
 	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueSuccessData } from '@/lib/types/api';
-	import { Check } from '@lucide/svelte';
 
 	interface Props {
 		isOpen: boolean;
@@ -22,37 +21,34 @@
 </script>
 
 <Modal
-	actionsLayout="horizontal"
 	confirmText={$_('queue_success_modal_close_button')}
-	confirmVariant="primary"
-	icon="success"
-	modalType="queue-success"
 	onConfirm={handleClose}
 	showCancel={false}
+	status="success"
 	title={$_('queue_success_modal_title')}
 	bind:isOpen
 >
-	<div>
-		<p class="text-text mb-4!">
-			{$_('queue_success_modal_success_message', { values: { 0: String(successData.queued) } })}
-		</p>
+	<p class="modal-paragraph">
+		{$_('queue_success_modal_success_message', { values: { 0: String(successData.queued) } })}
+	</p>
 
-		<div class="modal-content-section">
-			<h3 class="modal-content-heading">
-				<Check class="mr-2 text-blue-500" size={18} />
-				{$_('queue_success_modal_next_steps_heading')}
-			</h3>
-			<ul class="modal-content-list">
-				<li class="modal-content-list-item-info">
-					{$_('queue_success_modal_step1')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_success_modal_step2')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_success_modal_step3')}
-				</li>
-			</ul>
-		</div>
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_success_modal_next_steps_heading')}</h3>
+		</header>
+		<ul class="modal-list">
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('queue_success_modal_step1')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('queue_success_modal_step2')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-success" aria-hidden="true"></span>
+				{$_('queue_success_modal_step3')}
+			</li>
+		</ul>
 	</div>
 </Modal>

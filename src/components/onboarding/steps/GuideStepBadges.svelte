@@ -5,19 +5,19 @@
 	const badgeTypes = [
 		{
 			icon: Flag,
-			color: '#ff4444',
+			color: 'var(--color-status-unsafe)',
 			nameKey: 'onboarding_badge_reportable',
 			descKey: 'onboarding_badge_reportable_desc'
 		},
 		{
 			icon: Hourglass,
-			color: '#4f46e5',
+			color: 'var(--color-status-queued)',
 			nameKey: 'onboarding_badge_queue',
 			descKey: 'onboarding_badge_queue_desc'
 		},
 		{
 			icon: Hash,
-			color: '#14b8a6',
+			color: 'var(--color-status-integration)',
 			nameKey: 'onboarding_badge_integration',
 			descKey: 'onboarding_badge_integration_desc'
 		}

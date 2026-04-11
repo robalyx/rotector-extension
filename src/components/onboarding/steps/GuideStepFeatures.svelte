@@ -6,14 +6,14 @@
 	const features = [
 		{
 			icon: Info,
-			color: '#3b82f6',
+			color: 'var(--color-primary)',
 			titleKey: 'onboarding_feature_tooltips_title',
 			descKey: 'onboarding_feature_tooltips_desc',
 			images: [getAssetUrl('/assets/onboarding/feature-tooltips.webp')]
 		},
 		{
 			icon: ListPlus,
-			color: '#f97316',
+			color: 'var(--color-warning)',
 			titleKey: 'onboarding_feature_queue_title',
 			descKey: 'onboarding_feature_queue_desc',
 			images: [
@@ -23,7 +23,7 @@
 		},
 		{
 			icon: Vote,
-			color: '#22c55e',
+			color: 'var(--color-success)',
 			titleKey: 'onboarding_feature_voting_title',
 			descKey: 'onboarding_feature_voting_desc',
 			images: [getAssetUrl('/assets/onboarding/feature-voting.webp')]

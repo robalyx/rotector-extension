@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import { Check, X } from '@lucide/svelte';
 	import ChangelogContent from '@/components/popup/stats/ChangelogContent.svelte';
 	import {
 		unreadChangelogs,
@@ -21,6 +22,7 @@
 	let dontShowAgain = $state(false);
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
+	let closeButtonEl = $state<HTMLButtonElement>();
 	const headingId = `changelog-modal-title-${Math.random().toString(36).slice(2)}`;
 
 	const lightLogoUrl = getAssetUrl('/assets/rotector-logo-light.webp');
@@ -55,38 +57,49 @@
 			isOpen = false;
 			isClosing = false;
 			onClose();
-		}, 300);
+		}, 250);
 	}
 
 	// Initialize modal visibility on mount
 	$effect(() => {
 		if (isOpen && overlayElement && popupElement) {
 			const overlay = overlayElement;
-			const popup = popupElement;
+			const closeButton = closeButtonEl;
 			requestAnimationFrame(() => {
 				overlay.classList.add('visible');
-				popup.focus();
+				closeButton?.focus();
 			});
 		}
 	});
 </script>
 
 {#if isOpen}
-	<div bind:this={overlayElement} class="changelog-modal-overlay" class:closing={isClosing}>
+	<div bind:this={overlayElement} class="modal-overlay" class:closing={isClosing}>
 		<div
 			bind:this={popupElement}
-			class="changelog-modal-popup"
+			class="modal-popup"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="changelog-modal-header">
-				<h2 id={headingId}>{$_('changelog_modal_title')}</h2>
+			<div class="modal-header">
+				<h2 id={headingId} class="modal-title">{$_('changelog_modal_title')}</h2>
+				<button
+					bind:this={closeButtonEl}
+					class="modal-close"
+					aria-label="Close dialog"
+					onclick={handleClose}
+					type="button"
+				>
+					<X aria-hidden="true" size={16} />
+				</button>
 			</div>
 
-			<div class="changelog-modal-content">
-				<div class="changelog-modal-logo">
+			<div class="modal-divider"></div>
+
+			<div class="modal-content">
+				<div class="onboarding-hero-logo">
 					{#if currentTheme === 'dark'}
 						<img alt="Rotector" src={darkLogoUrl} />
 					{:else}
@@ -100,12 +113,19 @@
 				{/each}
 			</div>
 
-			<div class="changelog-modal-footer">
-				<label class="changelog-modal-checkbox">
-					<input type="checkbox" bind:checked={dontShowAgain} />
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
+				<label class="changelog-modal-disable">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={dontShowAgain} />
+					<span class="queue-ack-checkmark" class:checked={dontShowAgain}>
+						{#if dontShowAgain}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
 					<span>{$_('changelog_modal_disable_checkbox')}</span>
 				</label>
-				<button class="changelog-modal-close-button" onclick={handleClose} type="button">
+				<button class="modal-button-primary" onclick={handleClose} type="button">
 					{$_('changelog_modal_close')}
 				</button>
 			</div>

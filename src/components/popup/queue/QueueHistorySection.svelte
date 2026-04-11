@@ -1,27 +1,42 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import { flip } from 'svelte/animate';
+	import { crossfade } from 'svelte/transition';
 	import {
 		queueHistory,
 		loadQueueHistory,
 		removeQueueEntry,
 		clearQueueHistory
 	} from '@/lib/stores/queue-history';
-	import {
-		ExternalLink,
-		Trash2,
-		Clock,
-		CheckCircle,
-		AlertTriangle,
-		Loader,
-		ListX
-	} from '@lucide/svelte';
+	import type { QueueHistoryEntry } from '@/lib/types/queue-history';
+	import { ListX } from '@lucide/svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
+	import QueueRow from './QueueRow.svelte';
 
 	let isLoading = $state(true);
+	let mounted = $state(false);
+
+	const [send, receive] = crossfade({
+		duration: 220,
+		fallback() {
+			return {
+				duration: 160,
+				css: (t: number) => `opacity: ${t}; transform: translateY(${(1 - t) * 4}px);`
+			};
+		}
+	});
+
+	const processingEntries = $derived($queueHistory.filter((e) => !e.processed));
+	const flaggedEntries = $derived($queueHistory.filter((e) => e.processed && e.flagged));
+	const safeEntries = $derived($queueHistory.filter((e) => e.processed && !e.flagged));
+
+	const processedCount = $derived($queueHistory.filter((e) => e.processed).length);
+	const pendingCount = $derived(processingEntries.length);
 
 	$effect(() => {
 		void loadQueueHistory().finally(() => {
 			isLoading = false;
+			mounted = true;
 		});
 	});
 
@@ -43,6 +58,16 @@
 		return date.toLocaleDateString();
 	}
 
+	function entryTimeText(entry: QueueHistoryEntry): string {
+		if (entry.processed && entry.processedAt) {
+			return formatTime(entry.processedAt);
+		}
+		if (entry.processing) {
+			return $_('queue_history_processing');
+		}
+		return formatTime(entry.queuedAt);
+	}
+
 	function openProfile(userId: number): void {
 		void browser.tabs.create({ url: `https://www.roblox.com/users/${userId}/profile` });
 	}
@@ -56,116 +81,120 @@
 	}
 </script>
 
-<div class="queue-history-container">
-	<div
-		class="
-		border-border mb-3 flex items-center justify-between border-b pb-1.5
-		dark:border-border-dark
-	"
-	>
-		<h2
-			class="
-			text-text-heading m-0 flex items-center gap-1.5 text-base font-semibold
-			tracking-tight
-			dark:text-text-heading-dark
-		"
-		>
-			{$_('queue_history_title')}
-		</h2>
+<section class="queue-section-root">
+	<header class="queue-section-header">
+		<h2 class="queue-section-title">{$_('queue_history_title')}</h2>
 		{#if $queueHistory.length > 0}
-			<button
-				class="queue-history-clear-button"
-				onclick={handleClearAll}
-				title={$_('queue_history_clear_all')}
-				type="button"
-			>
-				<Trash2 size={12} />
-				<span>{$_('queue_history_clear_all')}</span>
-			</button>
+			<div class="queue-section-summary">
+				<span>
+					{$_('queue_history_summary_counts', {
+						values: { pending: pendingCount, processed: processedCount }
+					})}
+				</span>
+				<button
+					class="queue-section-clear"
+					onclick={handleClearAll}
+					title={$_('queue_history_clear_all')}
+					type="button"
+				>
+					{$_('queue_history_clear_all')}
+				</button>
+			</div>
 		{/if}
-	</div>
+	</header>
 
 	{#if isLoading}
-		<div
-			class="
-			text-text-subtle flex flex-col items-center gap-3 py-8 text-sm
-			dark:text-text-subtle-dark
-		"
-		>
+		<div class="queue-loading">
 			<LoadingSpinner size="medium" />
 			<span>{$_('queue_history_loading')}</span>
 		</div>
 	{:else if $queueHistory.length === 0}
-		<div class="queue-history-empty">
-			<div class="queue-history-empty-icon">
-				<ListX size={32} strokeWidth={1.5} />
+		<div class="queue-empty">
+			<div class="queue-empty-icon">
+				<ListX size={28} strokeWidth={1.5} />
 			</div>
-			<p class="queue-history-empty-title">{$_('queue_history_empty')}</p>
-			<p class="queue-history-empty-hint">{$_('queue_history_empty_hint')}</p>
+			<p class="queue-empty-title">{$_('queue_history_empty')}</p>
+			<p class="queue-empty-hint">{$_('queue_history_empty_hint')}</p>
 		</div>
 	{:else}
-		<div class="queue-history-list">
-			{#each $queueHistory as entry (entry.userId)}
-				<div
-					class="queue-history-item"
-					class:flagged={entry.processed && entry.flagged}
-					class:processing={entry.processing}
-				>
-					<div class="queue-history-item-status">
-						{#if entry.processing}
-							<Loader class="queue-history-icon-processing" size={16} />
-						{:else if entry.processed && entry.flagged}
-							<AlertTriangle class="queue-history-icon-flagged" size={16} />
-						{:else if entry.processed}
-							<CheckCircle class="queue-history-icon-complete" size={16} />
-						{:else}
-							<Clock class="queue-history-icon-pending" size={16} />
-						{/if}
+		<div class="queue-groups">
+			{#if processingEntries.length > 0}
+				<div class="queue-group">
+					<div class="queue-group-label">
+						<span>{$_('queue_section_processing')}</span>
+						<span class="queue-group-count">{processingEntries.length}</span>
 					</div>
-
-					<div class="queue-history-item-info">
-						<div class="queue-history-item-user-id">{entry.userId}</div>
-						<div class="queue-history-item-time">
-							{#if entry.processed && entry.processedAt}
-								{$_('queue_history_processed_at', { values: { 0: formatTime(entry.processedAt) } })}
-							{:else if entry.processing}
-								{$_('queue_history_processing')}
-							{:else}
-								{$_('queue_history_queued_at', { values: { 0: formatTime(entry.queuedAt) } })}
-							{/if}
-						</div>
-					</div>
-
-					<div class="queue-history-item-result">
-						{#if entry.processed}
-							<span class="queue-history-result-badge" class:flagged={entry.flagged}>
-								{entry.flagged
-									? $_('queue_history_result_flagged')
-									: $_('queue_history_result_safe')}
-							</span>
-						{/if}
-					</div>
-
-					<div class="queue-history-item-actions">
-						<button
-							class="queue-history-action-button"
-							onclick={() => openProfile(entry.userId)}
-							title={$_('queue_history_view_profile')}
-							type="button"
-						>
-							<ExternalLink size={14} />
-						</button>
-						<button
-							class="queue-history-action-button queue-history-action-remove"
-							onclick={() => handleRemove(entry.userId)}
-							title={$_('queue_history_remove')}
-							type="button"
-						>
-							<Trash2 size={14} />
-						</button>
-					</div>
+					<ul class="queue-list">
+						{#each processingEntries as entry (entry.userId)}
+							<li
+								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								animate:flip={{ duration: 220 }}
+							>
+								<QueueRow
+									{entry}
+									onRemove={handleRemove}
+									onView={openProfile}
+									timeText={entryTimeText(entry)}
+									variant="processing"
+								/>
+							</li>
+						{/each}
+					</ul>
 				</div>
-			{/each}
+			{/if}
+
+			{#if flaggedEntries.length > 0}
+				<div class="queue-group">
+					<div class="queue-group-label">
+						<span>{$_('queue_section_flagged')}</span>
+						<span class="queue-group-count">{flaggedEntries.length}</span>
+					</div>
+					<ul class="queue-list">
+						{#each flaggedEntries as entry (entry.userId)}
+							<li
+								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								animate:flip={{ duration: 220 }}
+							>
+								<QueueRow
+									{entry}
+									onRemove={handleRemove}
+									onView={openProfile}
+									timeText={entryTimeText(entry)}
+									variant="flagged"
+								/>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
+
+			{#if safeEntries.length > 0}
+				<div class="queue-group">
+					<div class="queue-group-label">
+						<span>{$_('queue_section_safe')}</span>
+						<span class="queue-group-count">{safeEntries.length}</span>
+					</div>
+					<ul class="queue-list">
+						{#each safeEntries as entry (entry.userId)}
+							<li
+								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+								animate:flip={{ duration: 220 }}
+							>
+								<QueueRow
+									{entry}
+									onRemove={handleRemove}
+									onView={openProfile}
+									timeText={entryTimeText(entry)}
+									variant="safe"
+								/>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		</div>
 	{/if}
-</div>
+</section>

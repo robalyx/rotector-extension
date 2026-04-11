@@ -3,7 +3,7 @@
    ================================= */
 
 @utility rotector-friends-scan {
-	@apply inline-flex items-center;
+	@apply inline-flex items-center align-middle;
 }
 
 /* =================================
@@ -11,7 +11,7 @@
    ================================= */
 
 @utility rotector-scan-progress-wrapper {
-	@apply inline-flex items-center gap-1.5 !ml-3 align-middle;
+	@apply !ml-3 inline-flex items-center gap-1.5 align-middle;
 
 	& img {
 		@apply shrink-0;
@@ -19,10 +19,10 @@
 }
 
 @utility rotector-scan-progress {
-	@apply inline-flex items-center rounded-full overflow-hidden align-middle;
+	@apply inline-flex items-center overflow-hidden rounded-full align-middle;
 	width: 120px;
 	height: 16px;
-	background-color: rgba(128, 128, 128, 0.2);
+	background-color: var(--color-bg-tertiary);
 }
 
 @utility rotector-scan-progress-fill {
@@ -32,7 +32,7 @@
 }
 
 @utility rotector-scan-progress-text {
-	@apply !text-[12px] !font-medium !ml-1.5 align-middle whitespace-nowrap;
+	@apply !ml-1.5 align-middle !text-[12px] !font-medium whitespace-nowrap;
 	color: var(--color-text-subtle);
 }
 
@@ -41,7 +41,7 @@
    ================================= */
 
 @utility rotector-scan-results {
-	@apply inline-flex items-center gap-2 !ml-3 align-middle;
+	@apply !ml-3 inline-flex items-center gap-2 align-middle;
 
 	& img {
 		@apply shrink-0;
@@ -49,7 +49,7 @@
 }
 
 @utility rotector-scan-bar {
-	@apply inline-flex rounded-full overflow-hidden align-middle;
+	@apply inline-flex overflow-hidden rounded-full align-middle;
 	width: 100px;
 	height: 14px;
 }
@@ -68,6 +68,6 @@
    ================================= */
 
 @utility rotector-scan-error {
-	@apply inline-flex items-center gap-1 !ml-3 !text-[12px] align-middle;
+	@apply !ml-3 inline-flex items-center gap-1 align-middle !text-[12px];
 	color: var(--color-status-error);
 }

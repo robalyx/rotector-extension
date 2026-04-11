@@ -11,69 +11,63 @@
 </script>
 
 <div class="footer-container">
-	<!-- Social Media / Community Links -->
-	<div class="footer-social-section">
+	<!-- Community links -->
+	<div class="footer-link-row">
 		<a
-			class="footer-social-link footer-social-link-discord"
+			class="footer-link"
 			href="https://discord.gg/2Cn7kXqqhY"
 			rel="noopener noreferrer"
 			target="_blank"
 		>
-			<SiDiscord size={14} />
+			<SiDiscord class="footer-link-icon" size={14} />
 			{$_('footer_discord')}
 		</a>
-
+		<span class="footer-link-dot">&middot;</span>
 		<a
-			class="footer-social-link footer-social-link-github"
+			class="footer-link"
 			href="https://github.com/robalyx"
 			rel="noopener noreferrer"
 			target="_blank"
 		>
-			<SiGithub size={14} />
+			<SiGithub class="footer-link-icon" size={14} />
 			{$_('footer_github')}
 		</a>
-	</div>
-
-	<!-- Source Code Link -->
-	<div class="footer-social-section">
+		<span class="footer-link-dot">&middot;</span>
 		<a
-			class="footer-social-link footer-social-link-github"
+			class="footer-link"
 			href="https://github.com/robalyx/rotector-extension"
 			rel="noopener noreferrer"
 			target="_blank"
 		>
-			<ExternalLink class="footer-social-icon-stroke" />
+			<ExternalLink class="footer-link-icon" />
 			{$_('footer_source_code')}
 		</a>
 	</div>
 
-	<!-- Help Link -->
-	<div class="footer-help-section">
-		<button class="footer-help-link" onclick={handleViewGuide} type="button">
-			<BookOpen class="footer-help-icon-stroke" />
+	<!-- Help links -->
+	<div class="footer-link-row">
+		<button class="footer-link" onclick={handleViewGuide} type="button">
+			<BookOpen class="footer-link-icon" />
 			{$_('footer_view_guide')}
 		</button>
+		<span class="footer-link-dot">&middot;</span>
 		<a
-			class="footer-help-link"
+			class="footer-link"
 			href="https://roscoe.rotector.com/docs"
 			rel="noopener noreferrer"
 			target="_blank"
 		>
-			<FileText class="footer-help-icon-stroke" />
+			<FileText class="footer-link-icon" />
 			{$_('footer_docs')}
 		</a>
-		<a
-			class="footer-help-link"
-			href="https://rotector.com"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
-			<CircleHelp class="footer-help-icon-stroke" />
+		<span class="footer-link-dot">&middot;</span>
+		<a class="footer-link" href="https://rotector.com" rel="noopener noreferrer" target="_blank">
+			<CircleHelp class="footer-link-icon" />
 			{$_('footer_help')}
 		</a>
 	</div>
 
-	<!-- Legal Links -->
+	<!-- Legal links -->
 	<div class="footer-legal-section">
 		<a
 			class="footer-legal-link"
@@ -90,6 +84,6 @@
 		>
 	</div>
 
-	<!-- Creator Credit -->
+	<!-- Creator credit -->
 	<p class="footer-credit">{$_('footer_made_by')}</p>
 </div>

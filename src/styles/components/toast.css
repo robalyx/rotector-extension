@@ -2,16 +2,13 @@
    TOAST CONTAINER
    ================================= */
 @utility toast-container {
-	@apply fixed top-3 left-3 right-3 z-[1000];
-	@apply flex items-start gap-2.5 p-3;
-	@apply rounded-[10px] overflow-hidden;
-	@apply transition-all duration-200;
+	@apply fixed top-3 right-3 left-3 z-[1000] flex items-start gap-2.5 overflow-hidden rounded-md p-3 transition-all duration-200;
 
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-border);
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
 	box-shadow:
-		0 4px 16px rgba(0, 0, 0, 0.08),
-		0 1px 3px rgba(0, 0, 0, 0.04);
+		0 4px 16px var(--shadow-subtle),
+		0 1px 3px var(--shadow-faint);
 	backdrop-filter: blur(8px);
 	animation: toast-enter 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -43,26 +40,23 @@
    TOAST ELEMENTS
    ================================= */
 @utility toast-icon {
-	@apply shrink-0 flex items-center justify-center;
+	@apply flex shrink-0 items-center justify-center;
 	color: var(--toast-accent);
 }
 
 @utility toast-message {
 	@apply flex-1 text-[13px] leading-[1.45];
-	color: var(--color-text-primary);
+	color: var(--color-text);
 }
 
 @utility toast-dismiss {
-	@apply shrink-0 flex items-center justify-center;
-	@apply w-6 h-6 -my-1 -mr-1.5;
-	@apply bg-transparent border-none rounded-md cursor-pointer;
-	@apply transition-colors duration-150;
+	@apply -my-1 -mr-1.5 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-transparent transition-colors duration-150;
 
 	color: var(--color-text-subtle);
 
 	&:hover {
 		background-color: var(--color-border);
-		color: var(--color-text-primary);
+		color: var(--color-text);
 	}
 
 	&:active {
@@ -71,7 +65,7 @@
 }
 
 @utility toast-progress {
-	@apply absolute bottom-0 left-0 right-0 h-0.5;
+	@apply absolute right-0 bottom-0 left-0 h-0.5;
 
 	background-color: var(--toast-accent);
 	opacity: 0.4;

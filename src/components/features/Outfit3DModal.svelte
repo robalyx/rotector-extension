@@ -15,11 +15,10 @@
 </script>
 
 <Modal
-	actionsLayout="horizontal"
 	{onClose}
 	showCancel={false}
 	showConfirm={false}
-	size="normal"
+	showStatusChip={false}
 	title={outfitName}
 	bind:isOpen
 >

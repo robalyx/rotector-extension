@@ -11,17 +11,18 @@
    ================================= */
 
 @utility discord-loading {
-	@apply relative flex items-center gap-2 p-3 rounded-md overflow-hidden;
+	@apply relative flex items-center gap-2 overflow-hidden rounded-md p-3;
 	background-color: var(--color-reason-bg);
+	border: 1px solid var(--color-border-subtle);
 }
 
 @utility discord-loading-shimmer {
-	@apply absolute inset-0 shimmer;
+	@apply shimmer absolute inset-0;
 	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
 }
 
 @utility discord-loading-text {
-	@apply relative text-sm z-10;
+	@apply text-sm-plus relative z-10;
 	color: var(--color-text-secondary);
 }
 
@@ -30,8 +31,12 @@
    ================================= */
 
 @utility discord-summary {
-	@apply flex items-center justify-center gap-2 flex-wrap mb-2 py-1.5 px-2 rounded-md text-xs;
+	@apply text-xs-plus mb-2 flex flex-wrap items-center justify-center gap-2 rounded-md;
+	padding: 0.375rem 0.5rem;
+	color: var(--color-text-secondary);
 	background-color: var(--color-reason-bg);
+	border: 1px solid var(--color-border-subtle);
+	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-summary-item {
@@ -40,8 +45,8 @@
 }
 
 @utility discord-summary-separator {
-	@apply w-px h-3;
-	background-color: var(--color-border);
+	@apply h-3 w-px;
+	background-color: var(--color-border-subtle);
 }
 
 @utility discord-summary-actions {
@@ -49,15 +54,20 @@
 }
 
 @utility discord-copy-btn {
-	@apply p-0.5 rounded transition-colors duration-150;
-	background: transparent;
-	border: none;
+	@apply cursor-pointer rounded border-none bg-transparent p-1;
 	color: var(--color-text-tertiary);
-	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
 
 	&:hover {
-		color: var(--color-text-secondary);
-		background-color: rgba(255, 255, 255, 0.05);
+		color: var(--color-text);
+		background-color: var(--color-hover);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 
 	&.error {
@@ -66,15 +76,20 @@
 }
 
 @utility discord-expand-all-btn {
-	@apply p-0.5 rounded transition-colors duration-150;
-	background: transparent;
-	border: none;
+	@apply cursor-pointer rounded border-none bg-transparent p-1;
 	color: var(--color-text-tertiary);
-	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
 
 	&:hover {
-		color: var(--color-text-secondary);
-		background-color: rgba(255, 255, 255, 0.05);
+		color: var(--color-text);
+		background-color: var(--color-hover);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
 	}
 }
 
@@ -83,28 +98,45 @@
    ================================= */
 
 @utility discord-account-card {
-	@apply mb-2 rounded-md overflow-hidden;
+	@apply mb-2 overflow-hidden rounded-md;
 	background-color: var(--color-reason-bg);
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--color-border-subtle);
+	transition: border-color 0.15s ease;
 
 	&:last-child {
 		@apply mb-0;
 	}
 
 	&.expanded {
-		border-color: var(--color-text-tertiary);
+		border-color: var(--color-border);
 	}
 }
 
 @utility discord-account-header {
-	@apply w-full flex items-center gap-2 p-2 text-left cursor-pointer transition-colors duration-150;
-	background: transparent;
-	border: none;
+	@apply flex w-full cursor-pointer items-center gap-2 border-none bg-transparent p-2 text-left;
 	color: var(--color-text);
 	user-select: none;
+	transition: color 0.15s ease;
 
 	&:hover {
-		background-color: rgba(255, 255, 255, 0.03);
+		color: var(--color-text-heading);
+
+		.discord-chevron {
+			color: var(--color-text);
+		}
+
+		.discord-account-id {
+			color: var(--color-text-heading);
+		}
+
+		.discord-server-count {
+			color: var(--color-text);
+		}
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: -2px;
 	}
 }
 
@@ -128,15 +160,17 @@
 }
 
 @utility discord-account-id {
-	@apply text-sm font-mono truncate;
+	@apply text-sm-plus truncate font-mono;
 	color: var(--color-text);
+	font-variant-numeric: tabular-nums;
 	user-select: text;
 	cursor: text;
 }
 
 @utility discord-server-count {
-	@apply ml-auto text-xs;
+	@apply text-xs-plus ml-auto;
 	color: var(--color-text-tertiary);
+	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-account-content {
@@ -144,16 +178,13 @@
 }
 
 @utility discord-alt-header-static {
-	@apply w-full flex items-center gap-2 p-2 text-left;
-	background: transparent;
-	border: none;
+	@apply flex w-full items-center gap-2 border-none bg-transparent p-2 text-left;
 	color: var(--color-text);
 }
 
 @utility discord-alt-link {
-	@apply text-sm font-medium truncate;
+	@apply text-sm-plus truncate font-medium no-underline;
 	color: var(--color-text);
-	text-decoration: none;
 
 	&:hover {
 		text-decoration: underline;
@@ -161,8 +192,9 @@
 }
 
 @utility discord-alt-id {
-	@apply text-sm font-mono flex-shrink-0;
+	@apply text-sm-plus flex-shrink-0 font-mono;
 	color: var(--color-text-tertiary);
+	font-variant-numeric: tabular-nums;
 }
 
 /* =================================
@@ -170,9 +202,9 @@
    ================================= */
 
 @utility discord-server-item {
-	@apply flex items-center justify-between gap-2 p-1.5 mb-1 rounded text-sm;
+	@apply text-sm-plus mb-1 flex items-center justify-between gap-2 rounded-md p-1.5;
 	background-color: var(--color-evidence-bg);
-	border: 1px solid var(--color-evidence-border);
+	border: 1px solid var(--color-border-subtle);
 
 	&:last-child {
 		@apply mb-0;
@@ -180,21 +212,22 @@
 }
 
 @utility discord-server-info {
-	@apply flex items-center gap-1.5 flex-1 min-w-0;
+	@apply flex min-w-0 flex-1 items-center gap-1.5;
 }
 
 @utility discord-server-name {
-	@apply truncate text-sm;
+	@apply text-sm-plus truncate;
 	color: var(--color-text);
 }
 
 @utility discord-server-date {
-	@apply flex items-center gap-1 text-2xs flex-shrink-0;
+	@apply text-2xs flex flex-shrink-0 items-center gap-1;
 	color: var(--color-text-tertiary);
+	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-date-separator {
-	opacity: 0.5;
+	@apply opacity-50;
 }
 
 /* =================================
@@ -216,9 +249,8 @@
    ================================= */
 
 @utility discord-source-link {
-	@apply inline-flex items-center flex-shrink-0 transition-colors duration-150;
+	@apply inline-flex flex-shrink-0 items-center no-underline transition-colors duration-150;
 	color: var(--color-text-tertiary);
-	text-decoration: none;
 
 	&:hover {
 		color: var(--color-text-secondary);

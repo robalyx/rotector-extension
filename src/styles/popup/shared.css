@@ -1,0 +1,44 @@
+/* =================================
+   SHARED UTILITIES
+   ================================= */
+
+@utility popup-section {
+	@apply flex flex-col;
+	gap: 0.5rem;
+	padding: 0.25rem 0;
+}
+
+@utility popup-section-head {
+	@apply flex items-baseline justify-between;
+	gap: 0.5rem;
+}
+
+@utility popup-section-title {
+	@apply text-2xs m-0 font-semibold uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-text-subtle);
+}
+
+@utility popup-section-status {
+	@apply text-xs-plus font-medium;
+	color: var(--color-text-tertiary);
+	font-variant-numeric: tabular-nums;
+}
+
+@utility popup-section-body {
+	@apply flex flex-col;
+	gap: 0.25rem;
+}
+
+@utility popup-divider {
+	@apply flex-shrink-0;
+	height: 1px;
+	background-color: var(--color-border-subtle);
+	margin: 0.5rem 0;
+}
+
+@utility popup-small-caps-label {
+	@apply text-2xs font-semibold uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-text-subtle);
+}

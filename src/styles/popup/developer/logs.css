@@ -3,17 +3,14 @@
    ================================= */
 
 @utility developer-logs-filters {
-	@apply flex items-center gap-1;
+	@apply flex items-center gap-1 rounded-md;
 	padding: 0.25rem;
-	border-radius: 0.375rem;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility developer-logs-filter-tab {
-	@apply flex items-center justify-center gap-1 flex-1 px-2 py-1.5 rounded text-2xs font-medium cursor-pointer transition-all duration-200;
-	background-color: transparent;
-	border: none;
+	@apply text-2xs flex flex-1 cursor-pointer items-center justify-center gap-1 rounded border-none bg-transparent px-2 py-1.5 font-medium transition-all duration-200;
 	color: var(--color-text-subtle);
 
 	&:hover:not(.active) {
@@ -24,7 +21,7 @@
 	&.active {
 		background-color: var(--color-primary);
 		color: white;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 1px 2px var(--shadow-light);
 	}
 
 	&.developer-logs-filter-error.active {
@@ -38,7 +35,7 @@
 }
 
 @utility developer-logs-filter-count {
-	@apply px-1.5 py-0.5 rounded-full text-3xs font-semibold;
+	@apply text-3xs rounded-full px-1.5 py-0.5 font-semibold;
 	background-color: color-mix(in srgb, currentColor 15%, transparent);
 
 	.active & {
@@ -51,9 +48,8 @@
    ================================= */
 
 @utility developer-logs-list {
-	@apply flex flex-col rounded-lg border overflow-hidden;
+	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
 	max-height: 300px;
-	overflow-y: auto;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	scrollbar-width: thin;
@@ -78,7 +74,7 @@
    ================================= */
 
 @utility developer-logs-entry {
-	@apply flex items-start gap-1.5 px-2 py-1.5 text-3xs;
+	@apply text-3xs flex items-start gap-1.5 px-2 py-1.5;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
@@ -102,8 +98,7 @@
 }
 
 @utility developer-logs-entry-level {
-	@apply shrink-0 px-1 rounded font-semibold uppercase;
-	font-size: 0.5625rem;
+	@apply text-3xs shrink-0 rounded px-1 font-semibold uppercase;
 	letter-spacing: 0.05em;
 	background-color: color-mix(in srgb, var(--color-text-subtle) 15%, transparent);
 	color: var(--color-text-subtle);
@@ -135,8 +130,7 @@
 }
 
 @utility developer-logs-entry-source {
-	@apply shrink-0 px-1 rounded;
-	font-size: 0.5625rem;
+	@apply text-3xs shrink-0 rounded px-1;
 	background-color: var(--color-hover);
 	color: var(--color-text-subtle);
 }
@@ -147,11 +141,8 @@
 }
 
 @utility developer-logs-entry-data-toggle {
-	@apply shrink-0 w-4 h-4 flex items-center justify-center rounded cursor-pointer transition-all duration-200;
-	background-color: transparent;
-	border: none;
+	@apply flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded border-none bg-transparent font-semibold transition-all duration-200;
 	color: var(--color-text-subtle);
-	font-weight: 600;
 
 	&:hover {
 		background-color: var(--color-hover);
@@ -160,12 +151,10 @@
 }
 
 @utility developer-logs-entry-data {
-	@apply mx-2 mb-2 p-2 rounded text-3xs overflow-x-auto;
+	@apply text-3xs mx-2 mb-2 overflow-x-auto rounded p-2 break-words whitespace-pre-wrap;
 	background-color: var(--color-bg);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text-subtle);
-	white-space: pre-wrap;
-	word-break: break-word;
 	max-height: 150px;
 	margin-top: 0;
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
@@ -176,7 +165,7 @@
    ================================= */
 
 @utility developer-logs-error-badge {
-	@apply px-1.5 py-0.5 rounded-full text-3xs font-semibold;
+	@apply text-3xs rounded-full px-1.5 py-0.5 font-semibold;
 	background-color: var(--color-error);
 	color: white;
 }

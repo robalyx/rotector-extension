@@ -3,7 +3,6 @@
 	import { _ } from 'svelte-i18n';
 	import Modal from '../ui/Modal.svelte';
 	import type { QueueErrorData } from '@/lib/types/api';
-	import { AlertTriangle, Info } from '@lucide/svelte';
 
 	interface Props {
 		isOpen: boolean;
@@ -15,79 +14,62 @@
 	let { isOpen = $bindable(), userId, errorData, onClose }: Props = $props();
 
 	// Computed values
-	const sanitizedUserId = $derived.by(() => {
-		const id = sanitizeEntityId(userId);
-		return id ? id.toString() : '';
-	});
-
-	const errorMessage = $derived(errorData.error || $_('queue_error_modal_unknown_error'));
-
-	const requestId = $derived(errorData.requestId || 'N/A');
-
-	const errorCode = $derived(errorData.code || 'UNKNOWN_ERROR');
+	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
 	// Handle close
 	function handleClose() {
-		if (onClose) {
-			onClose();
-		}
+		onClose?.();
 		isOpen = false;
 	}
 </script>
 
 <Modal
-	actionsLayout="horizontal"
+	confirmDanger
 	confirmText={$_('queue_error_modal_close_button')}
-	confirmVariant="danger"
-	icon="error"
-	modalType="queue-error"
 	onConfirm={handleClose}
 	showCancel={false}
+	status="error"
 	title={$_('queue_error_modal_title')}
 	bind:isOpen
 >
-	<div>
-		<p class="text-text mb-4!">
-			{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId } })}
-		</p>
+	<p class="modal-paragraph">
+		{$_('queue_error_modal_failed_message', { values: { 0: sanitizedUserId } })}
+	</p>
 
-		<div class="modal-content-section-warning">
-			<h3 class="modal-content-heading">
-				<AlertTriangle class="mr-2 text-orange-500" size={18} />
-				{$_('queue_error_modal_details_heading')}
-			</h3>
-			<div>
-				<p class="text-text">
-					{errorMessage}
-				</p>
-				<br />
-				<p class="text-text-subtle text-sm">
-					<strong>{$_('queue_error_modal_error_code_label')}</strong>
-					{errorCode}
-				</p>
-				<p class="text-text-subtle text-sm">
-					<strong>{$_('queue_error_modal_request_id_label')}</strong>
-					{requestId}
-				</p>
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_error_modal_details_heading')}</h3>
+		</header>
+		<p class="modal-paragraph">{errorData.error}</p>
+		<dl class="queue-error-meta">
+			<div class="queue-error-meta-row">
+				<dt>{$_('queue_error_modal_error_code_label')}</dt>
+				<dd>{errorData.code}</dd>
 			</div>
-		</div>
+			<div class="queue-error-meta-row">
+				<dt>{$_('queue_error_modal_request_id_label')}</dt>
+				<dd>{errorData.requestId}</dd>
+			</div>
+		</dl>
+	</div>
 
-		<div class="modal-content-section-info">
-			<h3 class="modal-content-heading">
-				<Info class="mr-2 text-blue-500" size={18} />
-				{$_('queue_error_modal_next_steps_heading')}
-			</h3>
-			<ul class="modal-content-list">
-				<li class="modal-content-list-item-info">
-					{$_('queue_error_modal_step1')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_error_modal_step2')}
-				</li>
-				<li class="modal-content-list-item-info">
-					{$_('queue_error_modal_step3')}
-				</li>
-			</ul>
-		</div>
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_error_modal_next_steps_heading')}</h3>
+		</header>
+		<ul class="modal-list">
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-info" aria-hidden="true"></span>
+				{$_('queue_error_modal_step1')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-info" aria-hidden="true"></span>
+				{$_('queue_error_modal_step2')}
+			</li>
+			<li class="modal-list-item">
+				<span class="modal-list-bullet-info" aria-hidden="true"></span>
+				{$_('queue_error_modal_step3')}
+			</li>
+		</ul>
 	</div>
 </Modal>

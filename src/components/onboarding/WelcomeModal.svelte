@@ -50,7 +50,7 @@
 			isOpen = false;
 			isClosing = false;
 			callback();
-		}, 300);
+		}, 250);
 	}
 
 	// Close modal and trigger dismiss callback
@@ -111,35 +111,37 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		bind:this={overlayElement}
-		class="onboarding-overlay"
+		class="modal-overlay"
 		class:closing={isClosing}
 		onclick={handleOverlayClick}
 	>
 		<div
 			bind:this={popupElement}
-			class="onboarding-popup"
+			class="modal-popup"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="onboarding-header">
-				<h3 id={headingId} class="onboarding-title">
+			<div class="modal-header">
+				<h3 id={headingId} class="modal-title">
 					{$_('onboarding_welcome_title')}
 				</h3>
 				<button
 					bind:this={closeButtonEl}
-					class="onboarding-close"
+					class="modal-close"
 					aria-label="Close dialog"
 					onclick={requestClose}
 					type="button"
 				>
-					<X aria-hidden="true" color="var(--color-error)" size={24} />
+					<X aria-hidden="true" size={16} />
 				</button>
 			</div>
 
-			<div class="onboarding-content">
-				<div class="onboarding-welcome-logo">
+			<div class="modal-divider"></div>
+
+			<div class="modal-content">
+				<div class="onboarding-hero-logo">
 					{#if currentTheme === 'dark'}
 						<img alt="Rotector" src={darkLogoUrl} />
 					{:else}
@@ -147,73 +149,65 @@
 					{/if}
 				</div>
 
-				<div class="onboarding-welcome-content">
-					<p class="onboarding-welcome-description">
-						{$_('onboarding_welcome_description')}
-					</p>
+				<p class="modal-paragraph">
+					{$_('onboarding_welcome_description')}
+				</p>
 
-					<div class="onboarding-welcome-agreements">
-						<label class="onboarding-agreement-item">
-							<input
-								class="onboarding-agreement-checkbox"
-								type="checkbox"
-								bind:checked={tosAccepted}
-							/>
-							<span class="onboarding-agreement-checkmark" class:checked={tosAccepted}>
-								{#if tosAccepted}
-									<Check aria-hidden="true" size={14} strokeWidth={3} />
-								{/if}
-							</span>
-							<span class="onboarding-agreement-text">
-								{$_('onboarding_welcome_agree_tos')}
-								<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
-									{$_('onboarding_welcome_terms')}
-								</a>
-								{$_('onboarding_welcome_and')}
-								<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
-									{$_('onboarding_welcome_privacy')}
-								</a>
-							</span>
-						</label>
+				<div class="queue-ack-list">
+					<label class="queue-ack-item">
+						<input class="queue-ack-checkbox" type="checkbox" bind:checked={tosAccepted} />
+						<span class="queue-ack-checkmark" class:checked={tosAccepted}>
+							{#if tosAccepted}
+								<Check aria-hidden="true" size={14} strokeWidth={3} />
+							{/if}
+						</span>
+						<span class="onboarding-agreement-text">
+							{$_('onboarding_welcome_agree_tos')}
+							<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
+								{$_('onboarding_welcome_terms')}
+							</a>
+							{$_('onboarding_welcome_and')}
+							<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
+								{$_('onboarding_welcome_privacy')}
+							</a>
+						</span>
+					</label>
 
-						<label class="onboarding-agreement-item">
-							<input
-								class="onboarding-agreement-checkbox"
-								type="checkbox"
-								bind:checked={responsibleUseAccepted}
-							/>
-							<span class="onboarding-agreement-checkmark" class:checked={responsibleUseAccepted}>
-								{#if responsibleUseAccepted}
-									<Check aria-hidden="true" size={14} strokeWidth={3} />
-								{/if}
-							</span>
-							<span class="onboarding-agreement-text">
-								{$_('onboarding_welcome_agree_responsible_use')}
-							</span>
-						</label>
+					<label class="queue-ack-item">
+						<input
+							class="queue-ack-checkbox"
+							type="checkbox"
+							bind:checked={responsibleUseAccepted}
+						/>
+						<span class="queue-ack-checkmark" class:checked={responsibleUseAccepted}>
+							{#if responsibleUseAccepted}
+								<Check aria-hidden="true" size={14} strokeWidth={3} />
+							{/if}
+						</span>
+						<span class="onboarding-agreement-text">
+							{$_('onboarding_welcome_agree_responsible_use')}
+						</span>
+					</label>
 
-						<label class="onboarding-agreement-item">
-							<input
-								class="onboarding-agreement-checkbox"
-								type="checkbox"
-								bind:checked={accuracyAccepted}
-							/>
-							<span class="onboarding-agreement-checkmark" class:checked={accuracyAccepted}>
-								{#if accuracyAccepted}
-									<Check aria-hidden="true" size={14} strokeWidth={3} />
-								{/if}
-							</span>
-							<span class="onboarding-agreement-text">
-								{$_('onboarding_welcome_agree_accuracy')}
-							</span>
-						</label>
-					</div>
+					<label class="queue-ack-item">
+						<input class="queue-ack-checkbox" type="checkbox" bind:checked={accuracyAccepted} />
+						<span class="queue-ack-checkmark" class:checked={accuracyAccepted}>
+							{#if accuracyAccepted}
+								<Check aria-hidden="true" size={14} strokeWidth={3} />
+							{/if}
+						</span>
+						<span class="onboarding-agreement-text">
+							{$_('onboarding_welcome_agree_accuracy')}
+						</span>
+					</label>
 				</div>
 			</div>
 
-			<div class="onboarding-actions">
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
 				<button
-					class="onboarding-button-secondary"
+					class="modal-button-cancel"
 					disabled={!canProceed}
 					onclick={() => closeModal(onSkip)}
 					type="button"
@@ -221,7 +215,7 @@
 					{$_('onboarding_welcome_skip')}
 				</button>
 				<button
-					class="onboarding-button-primary"
+					class="modal-button-primary"
 					disabled={!canProceed}
 					onclick={() => closeModal(onContinue)}
 					type="button"

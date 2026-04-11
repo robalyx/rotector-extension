@@ -11,16 +11,6 @@
 	const lightLogoUrl = getAssetUrl('/assets/rotector-logo-light.webp');
 	const darkLogoUrl = getAssetUrl('/assets/rotector-logo-dark.webp');
 
-	let currentTheme = $state<'light' | 'dark'>('light');
-
-	// Subscribe to theme changes for logo switching
-	$effect(() => {
-		const unsubscribe = themeManager.effectiveTheme.subscribe((theme) => {
-			currentTheme = theme;
-		});
-		return unsubscribe;
-	});
-
 	interface GuideModalProps {
 		onDismiss: () => void;
 		onFinish: () => void;
@@ -35,7 +25,16 @@
 	let overlayElement = $state<HTMLDivElement>();
 	let popupElement = $state<HTMLDivElement>();
 	let closeButtonEl = $state<HTMLButtonElement>();
+	let currentTheme = $state<'light' | 'dark'>('light');
 	const headingId = `guide-modal-title-${Math.random().toString(36).slice(2)}`;
+
+	// Subscribe to theme changes for logo switching
+	$effect(() => {
+		const unsubscribe = themeManager.effectiveTheme.subscribe((theme) => {
+			currentTheme = theme;
+		});
+		return unsubscribe;
+	});
 
 	// Animate modal close and execute callback
 	function closeModal(callback: () => void) {
@@ -44,7 +43,7 @@
 			isOpen = false;
 			isClosing = false;
 			callback();
-		}, 300);
+		}, 250);
 	}
 
 	// Handle escape key to close
@@ -102,27 +101,20 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		bind:this={overlayElement}
-		class="onboarding-overlay"
+		class="modal-overlay"
 		class:closing={isClosing}
 		onclick={handleOverlayClick}
 	>
 		<div
 			bind:this={popupElement}
-			class="onboarding-popup"
+			class="modal-popup"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="onboarding-header">
-				<div class="onboarding-header-logo">
-					{#if currentTheme === 'dark'}
-						<img alt="Rotector" src={darkLogoUrl} />
-					{:else}
-						<img alt="Rotector" src={lightLogoUrl} />
-					{/if}
-				</div>
-				<h3 id={headingId} class="onboarding-title">
+			<div class="modal-header">
+				<h3 id={headingId} class="modal-title">
 					{$_('onboarding_guide_title')}
 				</h3>
 				<div class="onboarding-progress">
@@ -136,16 +128,25 @@
 				</div>
 				<button
 					bind:this={closeButtonEl}
-					class="onboarding-close"
+					class="modal-close"
 					aria-label="Close dialog"
 					onclick={() => closeModal(onDismiss)}
 					type="button"
 				>
-					<X aria-hidden="true" color="var(--color-error)" size={24} />
+					<X aria-hidden="true" size={16} />
 				</button>
 			</div>
 
-			<div class="onboarding-content">
+			<div class="modal-divider"></div>
+
+			<div class="modal-content">
+				<div class="onboarding-hero-logo">
+					{#if currentTheme === 'dark'}
+						<img alt="Rotector" src={darkLogoUrl} />
+					{:else}
+						<img alt="Rotector" src={lightLogoUrl} />
+					{/if}
+				</div>
 				{#if currentStepIndex === 0}
 					<GuideStepStatus />
 				{:else if currentStepIndex === 1}
@@ -157,13 +158,15 @@
 				{/if}
 			</div>
 
-			<div class="onboarding-actions">
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
 				{#if currentStepIndex > 0}
-					<button class="onboarding-button-secondary" onclick={handleBack} type="button">
+					<button class="modal-button-cancel" onclick={handleBack} type="button">
 						{$_('onboarding_guide_back')}
 					</button>
 				{/if}
-				<button class="onboarding-button-primary" onclick={handleNext} type="button">
+				<button class="modal-button-primary" onclick={handleNext} type="button">
 					{#if currentStepIndex === TOTAL_STEPS - 1}
 						{$_('onboarding_guide_finish')}
 					{:else}

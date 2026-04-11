@@ -34,7 +34,7 @@
 			isOpen = false;
 			isClosing = false;
 			onFinish();
-		}, 300);
+		}, 250);
 	}
 
 	// Initialize modal visibility on mount
@@ -51,17 +51,17 @@
 </script>
 
 {#if isOpen}
-	<div bind:this={overlayElement} class="onboarding-overlay" class:closing={isClosing}>
+	<div bind:this={overlayElement} class="modal-overlay" class:closing={isClosing}>
 		<div
 			bind:this={popupElement}
-			class="onboarding-popup"
+			class="modal-popup-small"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="onboarding-content">
-				<div class="onboarding-welcome-logo">
+			<div class="modal-content">
+				<div class="onboarding-hero-logo">
 					{#if currentTheme === 'dark'}
 						<img alt="Rotector" src={darkLogoUrl} />
 					{:else}
@@ -69,33 +69,24 @@
 					{/if}
 				</div>
 
-				<div class="onboarding-welcome-content">
-					<h3 id={headingId} class="onboarding-finish-title">
-						{$_('onboarding_finish_title')}
-					</h3>
+				<h3 id={headingId} class="onboarding-finish-title">
+					{$_('onboarding_finish_title')}
+				</h3>
 
-					<p class="onboarding-welcome-description">
-						{$_('onboarding_finish_protection')}
-					</p>
+				<p class="modal-paragraph">{$_('onboarding_finish_protection')}</p>
 
-					<div class="onboarding-welcome-tos">
-						<p>
-							{$_('onboarding_finish_feedback')}
-							<a
-								class="onboarding-welcome-link"
-								href="https://discord.gg/2Cn7kXqqhY"
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								{$_('onboarding_finish_discord')}
-							</a>.
-						</p>
-					</div>
-				</div>
+				<p class="onboarding-agreement-text">
+					{$_('onboarding_finish_feedback')}
+					<a href="https://discord.gg/2Cn7kXqqhY" rel="noopener noreferrer" target="_blank">
+						{$_('onboarding_finish_discord')}
+					</a>.
+				</p>
 			</div>
 
-			<div class="onboarding-actions">
-				<button class="onboarding-button-primary" onclick={handleFinish} type="button">
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
+				<button class="modal-button-primary" onclick={handleFinish} type="button">
 					{$_('onboarding_finish_button')}
 				</button>
 			</div>

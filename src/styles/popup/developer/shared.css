@@ -3,27 +3,22 @@
    ================================= */
 
 @utility developer-panel-container {
-	@apply flex flex-col w-full relative;
+	@apply relative flex w-full flex-col;
 	gap: 0.75rem;
 }
 
 @utility developer-panel-header {
 	@apply flex items-center justify-between;
 	padding-bottom: 0.5rem;
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--color-border-subtle);
 }
 
 @utility developer-panel-back-button {
-	@apply flex items-center;
+	@apply flex cursor-pointer items-center rounded bg-transparent text-xs font-medium;
 	gap: 0.25rem;
 	padding: 0.25rem 0.5rem;
-	font-size: 0.75rem;
-	font-weight: 500;
 	color: var(--color-text-subtle);
-	background-color: transparent;
 	border: 1px solid var(--color-border);
-	border-radius: 0.25rem;
-	cursor: pointer;
 	transition: all 0.2s ease;
 
 	&:hover {
@@ -42,7 +37,7 @@
 }
 
 @utility developer-panel-action-button {
-	@apply flex items-center justify-center w-7 h-7 rounded border cursor-pointer transition-all duration-200;
+	@apply flex h-7 w-7 cursor-pointer items-center justify-center rounded border transition-all duration-200;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
 	color: var(--color-text-subtle);
@@ -55,7 +50,7 @@
 
 	&:disabled {
 		opacity: 0.4;
-		cursor: not-allowed;
+		@apply cursor-not-allowed;
 	}
 
 	&.developer-panel-action-danger:hover:not(:disabled) {
@@ -66,9 +61,7 @@
 }
 
 @utility developer-panel-title {
-	@apply m-0 text-center;
-	font-size: 1rem;
-	font-weight: 600;
+	@apply m-0 text-center text-base font-semibold;
 	color: var(--color-text-heading);
 }
 
@@ -82,7 +75,7 @@
 }
 
 @utility developer-panel-empty-hint {
-	@apply m-0 text-2xs;
+	@apply text-2xs m-0;
 	color: var(--color-text-subtle);
 }
 
@@ -92,7 +85,7 @@
 }
 
 @utility developer-panel-toast {
-	@apply absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium shadow-lg;
+	@apply absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium shadow-lg;
 	background-color: var(--color-success);
 	color: white;
 	animation: developer-panel-toast-slide-up 0.3s ease;

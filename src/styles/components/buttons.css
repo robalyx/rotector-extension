@@ -3,7 +3,7 @@
    ================================= */
 
 @utility btn-focus {
-	@apply outline-none transition-all duration-200 ease-in-out focus:outline-2 focus:outline-offset-2;
+	@apply transition-all duration-200 ease-in-out outline-none focus:outline-2 focus:outline-offset-2;
 
 	&:focus {
 		outline-color: var(--color-primary);

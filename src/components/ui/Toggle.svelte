@@ -3,29 +3,15 @@
 		checked: boolean;
 		disabled?: boolean;
 		onchange: (checked: boolean) => void;
-		preventChange?: boolean;
 	}
 
-	let {
-		checked = $bindable(),
-		disabled = false,
-		onchange,
-		preventChange = false
-	}: Props = $props();
+	let { checked = $bindable(), disabled = false, onchange }: Props = $props();
 
 	function handleChange(event: Event) {
 		if (!(event.target instanceof HTMLInputElement)) {
 			return;
 		}
-		const target = event.target;
-
-		if (preventChange) {
-			target.checked = checked;
-			onchange(!checked);
-			return;
-		}
-
-		checked = target.checked;
+		checked = event.target.checked;
 		onchange(checked);
 	}
 </script>
@@ -34,9 +20,9 @@
 	<input
 		name="toggle"
 		class="
-        peer size-0 opacity-0
-        focus:outline-none
-      "
+	        peer size-0 opacity-0
+	        focus:outline-none
+	      "
 		{checked}
 		{disabled}
 		onchange={handleChange}

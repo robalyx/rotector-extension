@@ -2,24 +2,34 @@
 	import { _ } from 'svelte-i18n';
 	import { apiClient } from '@/lib/services/api-client';
 	import { logger } from '@/lib/utils/logger';
+	import { calculatePercentage } from '@/lib/utils/format';
 	import type { QueueLimitsData } from '@/lib/types/api';
-	import { Key } from '@lucide/svelte';
-	import LoadingSpinner from './LoadingSpinner.svelte';
 
 	interface Props {
-		variant?: 'popup' | 'modal';
 		autoLoad?: boolean;
 	}
 
-	let { variant = 'popup', autoLoad = true }: Props = $props();
+	let { autoLoad = true }: Props = $props();
 
 	// Queue limits state
 	let queueLimits = $state<QueueLimitsData | null>(null);
 	let isLoading = $state(true);
 	let error = $state<string | null>(null);
 
+	// Calculate usage percentage
+	const queuePercentage = $derived(
+		queueLimits ? calculatePercentage(queueLimits.current_usage, queueLimits.limit) : 0
+	);
+
+	// Calculate outfit usage percentage
+	const outfitPercentage = $derived(
+		queueLimits
+			? calculatePercentage(queueLimits.outfit.current_usage, queueLimits.outfit.limit)
+			: 0
+	);
+
 	// Calculate time until reset
-	const timeUntilReset = $derived.by(() => {
+	const resetText = $derived.by(() => {
 		if (!queueLimits) return '';
 
 		const now = Math.floor(Date.now() / 1000);
@@ -38,35 +48,13 @@
 		return $_('stats_queue_time_minutes', { values: { 0: minutesLeft.toString() } });
 	});
 
-	// Calculate usage percentage
-	const usagePercentage = $derived.by(() => {
-		if (!queueLimits || queueLimits.limit === 0) return 0;
-		const pct = Math.round((queueLimits.current_usage / queueLimits.limit) * 100);
-		return Math.max(0, Math.min(100, pct));
-	});
-
-	// Calculate outfit usage percentage
-	const outfitUsagePercentage = $derived.by(() => {
-		if (!queueLimits || queueLimits.outfit.limit === 0) return 0;
-		const pct = Math.round((queueLimits.outfit.current_usage / queueLimits.outfit.limit) * 100);
-		return Math.max(0, Math.min(100, pct));
-	});
-
-	// Determine usage class based on percentage
-	function getUsageClass(percentage: number): string {
-		if (percentage < 50) return classes.lowUsage;
-		if (percentage < 80) return classes.mediumUsage;
-		return classes.highUsage;
-	}
-
 	// Load queue limits
 	async function loadQueueLimits() {
 		isLoading = true;
 		error = null;
 
 		try {
-			const limits = await apiClient.getQueueLimits();
-			queueLimits = limits;
+			queueLimits = await apiClient.getQueueLimits();
 		} catch (err) {
 			error = $_('stats_queue_error');
 			logger.error('Failed to load queue limits:', err);
@@ -100,176 +88,74 @@
 			});
 		}
 	});
-
-	// CSS class mappings based on variant
-	const classes = $derived({
-		container: variant === 'modal' ? 'modal-queue-limits' : 'queue-limits-section',
-		title: variant === 'modal' ? 'modal-queue-limits-title' : 'queue-limits-section-title',
-		compact: variant === 'modal' ? 'modal-queue-limits-compact' : 'queue-limits-compact',
-		usageDisplay: variant === 'modal' ? 'modal-queue-usage-display' : 'queue-usage-display',
-		usageLabels: variant === 'modal' ? 'modal-queue-usage-labels' : 'queue-usage-labels',
-		usageLabelLeft: variant === 'modal' ? 'modal-queue-usage-label-left' : 'queue-usage-label-left',
-		usageLabelRight:
-			variant === 'modal' ? 'modal-queue-usage-label-right' : 'queue-usage-label-right',
-		usageLabel: variant === 'modal' ? 'modal-queue-usage-label' : 'queue-usage-label',
-		usageAmount: variant === 'modal' ? 'modal-queue-usage-amount' : 'queue-usage-amount',
-		remainingAmount:
-			variant === 'modal' ? 'modal-queue-remaining-amount' : 'queue-remaining-amount',
-		progressBar: variant === 'modal' ? 'modal-queue-progress-bar' : 'queue-progress-bar',
-		progressFill: variant === 'modal' ? 'modal-queue-progress-fill' : 'queue-progress-fill',
-		lowUsage: variant === 'modal' ? 'modal-queue-low-usage' : 'queue-low-usage',
-		mediumUsage: variant === 'modal' ? 'modal-queue-medium-usage' : 'queue-medium-usage',
-		highUsage: variant === 'modal' ? 'modal-queue-high-usage' : 'queue-high-usage',
-		statusInfo: variant === 'modal' ? 'modal-queue-status-info' : 'queue-status-info',
-		apiBadge: variant === 'modal' ? 'modal-queue-api-badge' : 'queue-api-key-badge',
-		defaultLimits: variant === 'modal' ? 'modal-queue-default-limits' : 'queue-default-limits',
-		resetTimer: variant === 'modal' ? 'modal-queue-reset-timer' : 'queue-reset-timer',
-		resetLabel: variant === 'modal' ? 'modal-queue-reset-label' : 'queue-reset-label',
-		resetTime: variant === 'modal' ? 'modal-queue-reset-time' : 'queue-reset-time'
-	});
-
-	// Icon and spinner sizes based on variant
-	const iconSize = $derived(variant === 'modal' ? 'size-4' : 'size-3');
-	const spinnerSize = $derived(variant === 'modal' ? 'small' : 'medium');
 </script>
 
-<div class={classes.container}>
-	<h3 class={classes.title}>{$_('stats_queue_title')}</h3>
+<section class="rate-limits-section">
+	<header class="rate-limits-head">
+		<h3 class="popup-section-title">{$_('stats_queue_title')}</h3>
+		{#if queueLimits}
+			<span class="rate-limits-reset">{resetText}</span>
+		{/if}
+	</header>
 
 	{#if isLoading}
-		<div
-			class="
-				text-text-subtle flex items-center justify-center gap-2 text-sm
-				dark:text-text-subtle-dark
-				{variant === 'modal' ? 'py-3' : 'flex-col gap-3 py-4'}
-			"
-		>
-			<LoadingSpinner size={spinnerSize} />
-			<span>{$_('stats_queue_loading')}</span>
-		</div>
+		<div class="rate-limits-loading">{$_('stats_queue_loading')}</div>
 	{:else if error}
-		<div class="{variant === 'modal' ? 'py-3' : 'py-4'} text-center">
-			<div class="text-error mb-{variant === 'modal' ? '2' : '3'} text-sm font-medium">
-				{$_('stats_queue_error')}
-			</div>
-			<button
-				class="bg-primary
-					rounded-md px-{variant === 'modal' ? '3' : '4'} py-{variant === 'modal'
-					? '1.5'
-					: '2'} text-sm font-medium text-white
-					btn-focus
-					transition-colors duration-200
-					hover:bg-(--color-primary-hover)
-				"
-				onclick={() => loadQueueLimits()}
-				type="button"
-			>
+		<div class="rate-limits-error">
+			{error}
+			<button class="rate-limits-retry" onclick={() => loadQueueLimits()} type="button">
 				{$_('stats_queue_retry')}
 			</button>
 		</div>
 	{:else if queueLimits}
-		<div class={classes.compact}>
-			<!-- Usage Display -->
-			<div class={classes.usageDisplay}>
-				<div class={classes.usageLabels}>
-					<div class={classes.usageLabelLeft}>
-						<span class={classes.usageLabel}>{$_('stats_queue_usage')}</span>
-						<span class={classes.usageAmount}>
-							{queueLimits.current_usage} / {queueLimits.limit}
-						</span>
-					</div>
-					<div class={classes.usageLabelRight}>
-						<span class={classes.usageLabel}>{$_('stats_queue_remaining')}</span>
-						<span class={classes.remainingAmount} class:text-error={queueLimits.remaining === 0}>
-							{queueLimits.remaining}
-						</span>
-					</div>
-				</div>
-
-				<!-- Progress Bar -->
-				<div
-					class={classes.progressBar}
-					aria-label={$_('stats_queue_aria_progress', {
-						values: {
-							0: queueLimits.current_usage.toString(),
-							1: queueLimits.limit.toString(),
-							2: queueLimits.remaining.toString()
-						}
-					})}
-					aria-valuemax="100"
-					aria-valuemin="0"
-					aria-valuenow={usagePercentage}
-					role="progressbar"
-				>
-					<div
-						style:width="{usagePercentage}%"
-						class="{classes.progressFill} {getUsageClass(usagePercentage)}"
-					></div>
-				</div>
+		<div class="rate-limits-row">
+			<div class="rate-limits-label">
+				<span>{$_('stats_rate_limits_queue')}</span>
+				<span class="rate-limits-count">
+					{queueLimits.current_usage} / {queueLimits.limit}
+				</span>
 			</div>
-
-			<!-- Outfit Usage Display -->
-			<div class={classes.usageDisplay}>
-				<div class={classes.usageLabels}>
-					<div class={classes.usageLabelLeft}>
-						<span class={classes.usageLabel}>{$_('stats_outfit_usage')}</span>
-						<span class={classes.usageAmount}>
-							{queueLimits.outfit.current_usage} / {queueLimits.outfit.limit}
-						</span>
-					</div>
-					<div class={classes.usageLabelRight}>
-						<span class={classes.usageLabel}>{$_('stats_outfit_remaining')}</span>
-						<span
-							class={classes.remainingAmount}
-							class:text-error={queueLimits.outfit.remaining === 0}
-						>
-							{queueLimits.outfit.remaining}
-						</span>
-					</div>
-				</div>
-
-				<!-- Outfit Progress Bar -->
-				<div
-					class={classes.progressBar}
-					aria-label={$_('stats_outfit_aria_progress', {
-						values: {
-							0: queueLimits.outfit.current_usage.toString(),
-							1: queueLimits.outfit.limit.toString(),
-							2: queueLimits.outfit.remaining.toString()
-						}
-					})}
-					aria-valuemax="100"
-					aria-valuemin="0"
-					aria-valuenow={outfitUsagePercentage}
-					role="progressbar"
-				>
-					<div
-						style:width="{outfitUsagePercentage}%"
-						class="{classes.progressFill} {getUsageClass(outfitUsagePercentage)}"
-					></div>
-				</div>
+			<div
+				class="rate-limits-bar"
+				aria-label={$_('stats_queue_aria_progress', {
+					values: {
+						0: queueLimits.current_usage.toString(),
+						1: queueLimits.limit.toString(),
+						2: queueLimits.remaining.toString()
+					}
+				})}
+				aria-valuemax="100"
+				aria-valuemin="0"
+				aria-valuenow={queuePercentage}
+				role="progressbar"
+			>
+				<div style:width="{queuePercentage}%" class="rate-limits-bar-fill"></div>
 			</div>
+		</div>
 
-			<!-- Status Info -->
-			<div class={classes.statusInfo}>
-				<!-- API Key Status -->
-				{#if queueLimits.has_api_key}
-					<div class={classes.apiBadge}>
-						<Key class={iconSize} />
-						<span>{$_('stats_queue_enhanced')}</span>
-					</div>
-				{:else}
-					<div class="{classes.apiBadge} {classes.defaultLimits}">
-						<span>{$_('stats_queue_default')}</span>
-					</div>
-				{/if}
-
-				<!-- Reset Timer -->
-				<div class={classes.resetTimer}>
-					<span class={classes.resetLabel}>{$_('stats_queue_resets_in')}</span>
-					<span class={classes.resetTime}>{timeUntilReset}</span>
-				</div>
+		<div class="rate-limits-row">
+			<div class="rate-limits-label">
+				<span>{$_('stats_rate_limits_outfits')}</span>
+				<span class="rate-limits-count">
+					{queueLimits.outfit.current_usage} / {queueLimits.outfit.limit}
+				</span>
+			</div>
+			<div
+				class="rate-limits-bar"
+				aria-label={$_('stats_outfit_aria_progress', {
+					values: {
+						0: queueLimits.outfit.current_usage.toString(),
+						1: queueLimits.outfit.limit.toString(),
+						2: queueLimits.outfit.remaining.toString()
+					}
+				})}
+				aria-valuemax="100"
+				aria-valuemin="0"
+				aria-valuenow={outfitPercentage}
+				role="progressbar"
+			>
+				<div style:width="{outfitPercentage}%" class="rate-limits-bar-fill"></div>
 			</div>
 		</div>
 	{/if}
-</div>
+</section>

@@ -26,7 +26,7 @@
 			isOpen = false;
 			isClosing = false;
 			callback();
-		}, 300);
+		}, 250);
 	}
 
 	// Select a preset
@@ -80,83 +80,83 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		bind:this={overlayElement}
-		class="onboarding-overlay"
+		class="modal-overlay"
 		class:closing={isClosing}
 		onclick={handleOverlayClick}
 	>
 		<div
 			bind:this={popupElement}
-			class="onboarding-popup"
+			class="modal-popup"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="onboarding-header">
-				<h3 id={headingId} class="onboarding-title">
+			<div class="modal-header">
+				<h3 id={headingId} class="modal-title">
 					{$_('onboarding_preset_title')}
 				</h3>
 				<button
 					bind:this={closeButtonEl}
-					class="onboarding-close"
+					class="modal-close"
 					aria-label="Close dialog"
 					onclick={() => closeModal(onDismiss)}
 					type="button"
 				>
-					<X aria-hidden="true" color="var(--color-error)" size={24} />
+					<X aria-hidden="true" size={16} />
 				</button>
 			</div>
 
-			<div class="onboarding-content">
-				<div class="onboarding-preset-intro">
-					<p>{$_('onboarding_preset_description')}</p>
-				</div>
+			<div class="modal-divider"></div>
+
+			<div class="modal-content">
+				<p class="modal-paragraph">{$_('onboarding_preset_description')}</p>
 
 				<div class="onboarding-preset-cards">
 					<button
-						class="onboarding-preset-card"
-						class:selected={selectedPreset === AGE_PRESETS.MINOR}
+						class="preset-card"
+						class:active={selectedPreset === AGE_PRESETS.MINOR}
+						aria-pressed={selectedPreset === AGE_PRESETS.MINOR}
 						onclick={() => selectPreset(AGE_PRESETS.MINOR)}
 						type="button"
 					>
 						<div class="onboarding-preset-icon">
-							<EyeOff size={28} />
+							<EyeOff size={20} />
 						</div>
-						<div class="onboarding-preset-title">
-							{$_('onboarding_preset_minor_title')}
-						</div>
-						<div class="onboarding-preset-description">
+						<span class="preset-card-label">{$_('onboarding_preset_minor_title')}</span>
+						<span class="preset-card-description">
 							{$_('onboarding_preset_minor_description')}
-						</div>
+						</span>
 					</button>
 
 					<button
-						class="onboarding-preset-card"
-						class:selected={selectedPreset === AGE_PRESETS.ADULT}
+						class="preset-card"
+						class:active={selectedPreset === AGE_PRESETS.ADULT}
+						aria-pressed={selectedPreset === AGE_PRESETS.ADULT}
 						onclick={() => selectPreset(AGE_PRESETS.ADULT)}
 						type="button"
 					>
 						<div class="onboarding-preset-icon">
-							<Eye size={28} />
+							<Eye size={20} />
 						</div>
-						<div class="onboarding-preset-title">
-							{$_('onboarding_preset_adult_title')}
-						</div>
-						<div class="onboarding-preset-description">
+						<span class="preset-card-label">{$_('onboarding_preset_adult_title')}</span>
+						<span class="preset-card-description">
 							{$_('onboarding_preset_adult_description')}
-						</div>
+						</span>
 					</button>
 				</div>
 
 				<div class="onboarding-preset-notice">
-					<Info size={14} />
+					<Info size={12} />
 					<span>{$_('onboarding_preset_notice')}</span>
 				</div>
 			</div>
 
-			<div class="onboarding-actions">
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
 				<button
-					class="onboarding-button-primary"
+					class="modal-button-primary"
 					disabled={!selectedPreset}
 					onclick={handleContinue}
 					type="button"

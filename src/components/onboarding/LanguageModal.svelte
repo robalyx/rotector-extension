@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { X, Globe, Languages, ChevronDown } from '@lucide/svelte';
+	import { X, Globe, Languages } from '@lucide/svelte';
 	import { getAvailableLocales, setLanguage } from '@/lib/stores/i18n';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { hasTranslatePermission, requestTranslatePermission } from '@/lib/utils/permissions';
+	import Toggle from '@/components/ui/Toggle.svelte';
 
 	interface LanguageModalProps {
 		onContinue: () => void;
@@ -30,7 +31,7 @@
 			isOpen = false;
 			isClosing = false;
 			callback();
-		}, 300);
+		}, 250);
 	}
 
 	// Handle language change
@@ -38,7 +39,7 @@
 		await setLanguage(value);
 	}
 
-	// Request translate permission if not already granted
+	// Request translate permission when toggle is enabled by user action
 	async function ensureTranslatePermission(): Promise<void> {
 		const hasPermission = await hasTranslatePermission();
 		if (!hasPermission) {
@@ -47,14 +48,11 @@
 	}
 
 	// Handle translate toggle change
-	function handleTranslateChange(e: Event) {
-		const target = e.target as HTMLInputElement;
-		const newValue = target.checked;
+	function handleTranslateChange(checked: boolean) {
+		translateEnabled = checked;
+		void updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, checked);
 
-		translateEnabled = newValue;
-		void updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, newValue);
-
-		if (newValue) {
+		if (checked) {
 			void ensureTranslatePermission();
 		}
 	}
@@ -98,101 +96,74 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		bind:this={overlayElement}
-		class="onboarding-overlay"
+		class="modal-overlay"
 		class:closing={isClosing}
 		onclick={handleOverlayClick}
 	>
 		<div
 			bind:this={popupElement}
-			class="onboarding-popup"
+			class="modal-popup"
 			aria-labelledby={headingId}
 			aria-modal="true"
 			role="dialog"
 			tabindex="-1"
 		>
-			<div class="onboarding-header">
-				<h3 id={headingId} class="onboarding-title">
+			<div class="modal-header">
+				<h3 id={headingId} class="modal-title">
 					{$_('onboarding_language_title')}
 				</h3>
 				<button
 					bind:this={closeButtonEl}
-					class="onboarding-close"
+					class="modal-close"
 					aria-label="Close dialog"
 					onclick={() => closeModal(onDismiss)}
 					type="button"
 				>
-					<X aria-hidden="true" color="var(--color-error)" size={24} />
+					<X aria-hidden="true" size={16} />
 				</button>
 			</div>
 
-			<div class="onboarding-content">
-				<div class="onboarding-language-intro">
-					<p>{$_('onboarding_language_description')}</p>
+			<div class="modal-divider"></div>
+
+			<div class="modal-content">
+				<p class="modal-paragraph">{$_('onboarding_language_description')}</p>
+
+				<div class="modal-section">
+					<header class="onboarding-language-label-row">
+						<Languages class="onboarding-language-icon" />
+						<h4 class="modal-section-title">{$_('onboarding_language_label')}</h4>
+					</header>
+					<select
+						id="language-select"
+						class="onboarding-language-select"
+						onchange={(e) => handleLanguageChange(e.currentTarget.value)}
+						value={$settings[SETTINGS_KEYS.LANGUAGE_OVERRIDE]}
+					>
+						<option value="auto">{$_('onboarding_language_auto')}</option>
+						{#each availableLocales as locale (locale.code)}
+							<option value={locale.code}>{locale.name}</option>
+						{/each}
+					</select>
 				</div>
 
-				<div class="onboarding-language-sections">
-					<div class="onboarding-language-section">
-						<div class="onboarding-language-section-header">
-							<div class="onboarding-language-icon">
-								<Languages size={20} />
-							</div>
-							<label class="onboarding-language-label" for="language-select">
-								{$_('onboarding_language_label')}
-							</label>
-						</div>
-						<div class="onboarding-select-wrapper">
-							<select
-								id="language-select"
-								class="onboarding-language-select"
-								onchange={(e) => handleLanguageChange(e.currentTarget.value)}
-								value={$settings[SETTINGS_KEYS.LANGUAGE_OVERRIDE]}
-							>
-								<option value="auto">{$_('onboarding_language_auto')}</option>
-								{#each availableLocales as locale (locale.code)}
-									<option value={locale.code}>{locale.name}</option>
-								{/each}
-							</select>
-							<ChevronDown class="onboarding-select-chevron" size={16} />
-						</div>
-					</div>
-
-					<div class="onboarding-language-section">
-						<div class="onboarding-language-section-header">
-							<div class="onboarding-language-icon">
-								<Globe size={20} />
-							</div>
-							<label class="onboarding-language-label" for="translate-toggle">
-								{$_('onboarding_translate_label')}
-							</label>
-						</div>
+				<div class="modal-section">
+					<header class="onboarding-language-label-row">
+						<Globe class="onboarding-language-icon" />
+						<h4 class="modal-section-title">{$_('onboarding_translate_label')}</h4>
+					</header>
+					<div class="onboarding-translate-row">
 						<p class="onboarding-translate-description">
 							{$_('onboarding_translate_description')}
 						</p>
-						<label class="onboarding-toggle-wrapper">
-							<input
-								id="translate-toggle"
-								class="onboarding-toggle-input"
-								checked={translateEnabled}
-								onchange={handleTranslateChange}
-								type="checkbox"
-							/>
-							<span class="onboarding-toggle-slider"></span>
-							<span class="onboarding-toggle-label">
-								{translateEnabled
-									? $_('onboarding_translate_enabled')
-									: $_('onboarding_translate_disabled')}
-							</span>
-						</label>
+						<Toggle checked={translateEnabled} onchange={handleTranslateChange} />
 					</div>
 				</div>
 			</div>
 
-			<div class="onboarding-actions">
-				<button
-					class="onboarding-button-primary"
-					onclick={() => closeModal(onContinue)}
-					type="button"
-				>
+			<div class="modal-divider"></div>
+
+			<div class="modal-actions">
+				<button class="modal-button-primary" onclick={() => closeModal(onContinue)} type="button">
 					{$_('onboarding_language_continue')}
 				</button>
 			</div>

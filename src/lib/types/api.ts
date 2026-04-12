@@ -123,6 +123,17 @@ export interface TranslationResult {
 	translations: Record<string, string>;
 }
 
+export interface OutfitSnapshotResult {
+	name: string;
+	primaryDataUrl: string | null;
+	rawUrls: string[];
+	primaryFailed: boolean;
+}
+
+export interface OutfitSnapshotResponse {
+	results: OutfitSnapshotResult[];
+}
+
 // Content script message data
 export interface ContentMessage {
 	action: string;
@@ -133,6 +144,8 @@ export interface ContentMessage {
 	groupIds?: Array<string | number>;
 	voteType?: VoteType;
 	outfitNames?: string[];
+	names?: string[];
+	imageUrls?: string[];
 	inappropriateProfile?: boolean;
 	inappropriateFriends?: boolean;
 	inappropriateGroups?: boolean;

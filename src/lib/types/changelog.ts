@@ -23,6 +23,16 @@ export const CHANGELOGS: Changelog[] = [
 		summary:
 			'This update modernizes the extension UI with redesigned pages, refreshed component styles, and real-time activity charts.',
 		changes: [
+  		{
+  			type: 'added',
+  			description:
+  				'Outfit thumbnails - Flagged outfit evidence in tooltips shows a preview of what the outfit looked like when it was detected'
+  		},
+  		{
+  			type: 'added',
+  			description:
+  				'Outfit image viewer - Click any outfit thumbnail to see it full size'
+  		},
 			{
 				type: 'changed',
 				description:
@@ -60,6 +70,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description: 'Wording updates - References to "AI" changed to "our system" for clarity'
+			},
+			{
+				type: 'changed',
+				description:
+					'Outfit viewer layout - Warning and reason details below the 3D viewer use a cleaner text-based design'
 			},
 			{
 				type: 'fixed',

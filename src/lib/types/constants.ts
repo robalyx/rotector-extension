@@ -47,7 +47,8 @@ export const API_CONFIG = {
 		WAR_ORDERS: '/v1/war/orders',
 		WAR_STATS_HISTORY: '/v1/war/stats/history',
 		QUEUE_STATUS: '/v1/queue/roblox/user/status',
-		EXPORT_GROUP_TRACKED_USERS: '/v1/export/roblox/group'
+		EXPORT_GROUP_TRACKED_USERS: '/v1/export/roblox/group',
+		LOOKUP_OUTFITS_BY_NAME: '/v1/lookup/outfits/by-name'
 	},
 	BATCH_SIZE: 100,
 	BATCH_DELAY: 250, // ms between batches
@@ -89,7 +90,9 @@ export const API_ACTIONS = {
 	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission',
 	GET_GROUP_TRACKED_USERS: 'getGroupTrackedUsers',
 	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord',
-	EXPORT_GROUP_TRACKED_USERS: 'exportGroupTrackedUsers'
+	EXPORT_GROUP_TRACKED_USERS: 'exportGroupTrackedUsers',
+	LOOKUP_OUTFITS_BY_NAME: 'lookupOutfitsByName',
+	FETCH_OUTFIT_IMAGES: 'fetchOutfitImages'
 } as const;
 
 // Captcha external message types

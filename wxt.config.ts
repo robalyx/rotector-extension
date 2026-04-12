@@ -60,7 +60,7 @@ export default defineConfig({
 		default_locale: 'en',
 		version: '2.16.0',
 		permissions: ['storage', 'notifications'],
-		host_permissions: [`https://${apiDomain}/*`],
+		host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
 		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],
 		...(browser !== 'firefox' && {
 			externally_connectable: {

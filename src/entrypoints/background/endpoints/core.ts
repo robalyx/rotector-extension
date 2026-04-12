@@ -1,6 +1,7 @@
 import type {
 	GroupStatus,
 	GroupTrackedUsersResponse,
+	OutfitSnapshotResponse,
 	QueueLimitsData,
 	QueueResult,
 	RobloxUserDiscordLookup,
@@ -11,6 +12,7 @@ import type {
 import type { QueueStatusResponse } from '@/lib/types/queue-history';
 import type { ActivityHours, StatsResponse } from '@/lib/types/stats';
 import { API_CONFIG, STATUS, VOTE_TYPES, type VoteType } from '@/lib/types/constants';
+import { logger } from '@/lib/utils/logger';
 import { makeHttpRequest } from '../http-client';
 import {
 	extractResponseData,
@@ -18,6 +20,18 @@ import {
 	processBatchEntityIds,
 	validateEntityId
 } from '../utils';
+
+// Backend cap on names per request
+const OUTFIT_SNAPSHOT_MAX_NAMES = 50;
+
+interface RawOutfitSnapshotApiResult {
+	name: string;
+	urls: string[];
+}
+
+interface RawOutfitSnapshotApiResponse {
+	results: RawOutfitSnapshotApiResult[];
+}
 
 // Check the status of a single user by ID
 export async function checkUserStatus(
@@ -287,4 +301,98 @@ export async function lookupRobloxUserDiscord(
 	const response = await makeHttpRequest(url, { method: 'GET', clientId });
 
 	return extractResponseData<RobloxUserDiscordLookup>(response);
+}
+
+// Fetch an image URL and encode as a base64 data URL
+async function fetchImageAsDataUrl(url: string): Promise<string> {
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error(`Image fetch failed with status ${response.status}`);
+	}
+
+	const buffer = await response.arrayBuffer();
+	const bytes = new Uint8Array(buffer);
+
+	const chunkSize = 0x8000;
+	let binary = '';
+	for (let i = 0; i < bytes.length; i += chunkSize) {
+		const chunk = bytes.subarray(i, i + chunkSize);
+		binary += String.fromCharCode(...chunk);
+	}
+
+	return `data:image/webp;base64,${btoa(binary)}`;
+}
+
+// Look up R2 snapshot URLs for a user's outfits by name and eagerly inline
+// only the primary (collapsed-state) thumbnail as a data URL.
+export async function lookupOutfitsByName(
+	userId: string | number,
+	names: string[],
+	clientId?: string
+): Promise<OutfitSnapshotResponse> {
+	const sanitizedUserId = validateEntityId(userId);
+
+	const requestBody = {
+		userId: sanitizedUserId,
+		names: names.slice(0, OUTFIT_SNAPSHOT_MAX_NAMES)
+	};
+
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.LOOKUP_OUTFITS_BY_NAME, {
+		method: 'POST',
+		body: JSON.stringify(requestBody),
+		clientId
+	});
+
+	const apiResponse = extractResponseData<RawOutfitSnapshotApiResponse>(response);
+
+	// Fetch the first URL per name, leaving the rest as raw CDN URLs
+	const transformed = await Promise.all(
+		apiResponse.results.map(async (result) => {
+			if (result.urls.length === 0) {
+				return {
+					name: result.name,
+					primaryDataUrl: null,
+					rawUrls: [],
+					primaryFailed: false
+				};
+			}
+
+			let primaryDataUrl: string | null = null;
+			let primaryFailed = false;
+			try {
+				primaryDataUrl = await fetchImageAsDataUrl(result.urls[0]);
+			} catch (error) {
+				logger.error('Failed to inline primary outfit snapshot', {
+					url: result.urls[0],
+					error
+				});
+				primaryFailed = true;
+			}
+
+			return {
+				name: result.name,
+				primaryDataUrl,
+				rawUrls: result.urls,
+				primaryFailed
+			};
+		})
+	);
+
+	return { results: transformed };
+}
+
+// Lazy bulk fetcher used by the lightbox to inline additional duplicate-name
+// outfit snapshots after the user expands a multi-outfit entry. Returns a
+// parallel array where each slot is either a data URL or null on failure.
+export async function fetchOutfitImages(urls: string[]): Promise<Array<string | null>> {
+	return Promise.all(
+		urls.map(async (url) => {
+			try {
+				return await fetchImageAsDataUrl(url);
+			} catch (error) {
+				logger.error('Failed to fetch outfit image on demand', { url, error });
+				return null;
+			}
+		})
+	);
 }

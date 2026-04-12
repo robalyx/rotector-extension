@@ -8,7 +8,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
-	import { AlertTriangle, AlertCircle, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
+	import { AlertCircle, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 	import OutfitStack from './OutfitStack.svelte';
 	import Outfit3DPanel from './Outfit3DPanel.svelte';
@@ -215,11 +215,6 @@
 
 	<div class="outfit-viewer-two-panel">
 		<div class="outfit-viewer-left-panel">
-			<div class="outfit-viewer-disclaimer">
-				<AlertTriangle class="outfit-viewer-disclaimer-icon" size={14} />
-				<span>{$_('outfit_viewer_disclaimer')}</span>
-			</div>
-
 			{#if isLoading && allOutfits.length === 0}
 				<div class="outfit-viewer-loading">
 					<div class="outfit-viewer-progress">

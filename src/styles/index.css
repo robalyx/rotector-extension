@@ -56,6 +56,7 @@
 @import './features/modal/outfit-picker.css';
 @import './features/modal/outfit-viewer.css';
 @import './features/modal/outfit-3d.css';
+@import './features/modal/outfit-snapshot-lightbox.css';
 @import './features/tooltip/base.css';
 @import './features/tooltip/content.css';
 @import './features/tooltip/voting.css';

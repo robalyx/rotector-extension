@@ -23,16 +23,15 @@ export const CHANGELOGS: Changelog[] = [
 		summary:
 			'This update modernizes the extension UI with redesigned pages, refreshed component styles, and real-time activity charts.',
 		changes: [
-  		{
-  			type: 'added',
-  			description:
-  				'Outfit thumbnails - Flagged outfit evidence in tooltips shows a preview of what the outfit looked like when it was detected'
-  		},
-  		{
-  			type: 'added',
-  			description:
-  				'Outfit image viewer - Click any outfit thumbnail to see it full size'
-  		},
+			{
+				type: 'added',
+				description:
+					'Outfit thumbnails - Flagged outfit evidence in tooltips shows a preview of what the outfit looked like when it was detected'
+			},
+			{
+				type: 'added',
+				description: 'Outfit image viewer - Click any outfit thumbnail to see it full size'
+			},
 			{
 				type: 'changed',
 				description:

@@ -30,6 +30,11 @@ export const CHANGELOGS: Changelog[] = [
 			},
 			{
 				type: 'added',
+				description:
+					'Outfit viewer everywhere - The 3D outfit viewer is accessible from all tooltip contexts, not just the profile page'
+			},
+			{
+				type: 'added',
 				description: 'Outfit image viewer - Click any outfit thumbnail to see it full size'
 			},
 			{

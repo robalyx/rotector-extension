@@ -9,6 +9,11 @@
 	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
+	import {
+		extractFlaggedOutfitNames,
+		type FlaggedOutfitInfo
+	} from '@/lib/utils/violation-formatter';
+	import { openOutfitViewer } from '@/lib/stores/outfit-viewer';
 	import { Flag, Hourglass } from '@lucide/svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
@@ -26,7 +31,6 @@
 		skipAutoFetch?: boolean;
 		onClick?: (entityId: string) => void;
 		onQueue?: (entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void;
-		onViewOutfits?: () => void;
 		userUsername?: string;
 		userDisplayName?: string;
 		userAvatarUrl?: string;
@@ -41,7 +45,6 @@
 		skipAutoFetch = false,
 		onClick,
 		onQueue,
-		onViewOutfits,
 		userUsername,
 		userDisplayName,
 		userAvatarUrl
@@ -97,6 +100,16 @@
 	});
 
 	const isGroup = $derived(entityType === 'group');
+
+	// Flagged outfit evidence
+	const flaggedOutfits = $derived.by(() => {
+		if (isGroup || !entityStatus) return null;
+
+		const evidence = entityStatus.get(ROTECTOR_API_ID)?.data?.reasons?.['Avatar Outfit']?.evidence;
+		if (!evidence) return null;
+
+		return extractFlaggedOutfitNames(evidence);
+	});
 
 	// Count custom API flags
 	const customApiFlagCount = $derived.by(() => {
@@ -230,6 +243,11 @@
 	function closeExpandedTooltip() {
 		showExpandedTooltip = false;
 		showBadgeExpansion = false;
+	}
+
+	// Open outfit viewer modal
+	function handleViewOutfits() {
+		openOutfitViewer(entityId, flaggedOutfits ?? new Map<string, FlaggedOutfitInfo>());
 	}
 
 	// Fetch and cache user status
@@ -378,7 +396,7 @@
 			onMouseEnter={handleTooltipMouseEnter}
 			onMouseLeave={handleTooltipMouseLeave}
 			onQueue={handleQueue}
-			{onViewOutfits}
+			onViewOutfits={isGroup ? undefined : handleViewOutfits}
 			{userAvatarUrl}
 			{userDisplayName}
 			userId={entityId}
@@ -398,7 +416,7 @@
 			mode="expanded"
 			onClose={closeExpandedTooltip}
 			onQueue={handleExpandedQueue}
-			{onViewOutfits}
+			onViewOutfits={isGroup ? undefined : handleViewOutfits}
 			{userAvatarUrl}
 			{userDisplayName}
 			userId={entityId}

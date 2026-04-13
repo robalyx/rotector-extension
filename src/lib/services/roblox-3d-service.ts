@@ -156,9 +156,7 @@ class Roblox3DService {
 			lastState = apiResponse.state;
 
 			if (apiResponse.state === 'Completed' && apiResponse.imageUrl) {
-				const metadataResponse = await fetch(apiResponse.imageUrl, {
-					credentials: 'omit'
-				});
+				const metadataResponse = await fetch(apiResponse.imageUrl);
 				if (!metadataResponse.ok) {
 					throw new Error(`Failed to fetch 3D metadata: ${metadataResponse.status}`);
 				}

@@ -76,27 +76,6 @@
 	}
 }
 
-@utility tooltip-badge {
-	@apply text-2xs inline-flex items-center justify-center rounded-full px-2 py-0.5 font-semibold uppercase;
-	letter-spacing: 0.08em;
-	font-variant-numeric: tabular-nums;
-}
-
-@utility tooltip-badge-reportable {
-	@apply tooltip-badge text-white;
-	background-color: var(--color-status-unsafe);
-}
-
-@utility tooltip-badge-queued {
-	@apply tooltip-badge text-white;
-	background-color: var(--color-status-queued);
-}
-
-@utility tooltip-badge-integration {
-	@apply tooltip-badge text-white;
-	background-color: var(--color-status-integration);
-}
-
 @utility custom-api-badges {
 	@apply mt-1.5 mb-2 flex flex-wrap justify-center gap-1.5;
 }

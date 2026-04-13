@@ -1618,20 +1618,6 @@
 				<!-- Custom API Badges -->
 				{@render customBadgesSection()}
 
-				<!-- Status badges -->
-				{#if activeTab === ROTECTOR_API_ID && ((!isGroup && (badgeStatus.isReportable || badgeStatus.isOutfitOnly)) || activeStatus?.isQueued)}
-					<div class="mb-2 flex flex-wrap justify-center gap-1.5">
-						{#if !isGroup && badgeStatus.isReportable}
-							<span class="tooltip-badge tooltip-badge-reportable">
-								{$_('tooltip_badge_reportable')}
-							</span>
-						{/if}
-						{#if activeStatus?.isQueued}
-							<span class="tooltip-badge tooltip-badge-queued"> {$_('tooltip_badge_queued')} </span>
-						{/if}
-					</div>
-				{/if}
-
 				<!-- Voting widget for unsafe/pending users -->
 				{#if shouldShowVoting}
 					<VotingWidget

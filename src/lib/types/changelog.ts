@@ -114,6 +114,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Info popovers - Hover info boxes in the tooltip no longer get clipped by the scroll area'
+			},
+			{
+				type: 'removed',
+				description:
+					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'
 			}
 		]
 	},

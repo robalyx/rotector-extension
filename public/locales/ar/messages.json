@@ -575,8 +575,6 @@
 	"stats_totals_users": "المستخدمون",
 	"tooltip_aria_close": "انقر لإغلاق التلميح",
 	"tooltip_aria_expand": "انقر لتوسيع التلميح",
-	"tooltip_badge_queued": "في قائمة الانتظار",
-	"tooltip_badge_reportable": "قابل للإبلاغ",
 	"tooltip_copy_link": "نسخ الرابط",
 	"tooltip_cross_signal_message": "كان النظام أكثر صرامة في تقييمه لأن أدلة داعمة تم كشفها في مناطق أخرى. قد يبدو المحتوى المميز هنا على الحدود بحد ذاته.",
 	"tooltip_cross_signal_title": "تقييم أكثر صرامة",

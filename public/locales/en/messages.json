@@ -575,8 +575,6 @@
 	"stats_totals_users": "Users",
 	"tooltip_aria_close": "Click to close tooltip",
 	"tooltip_aria_expand": "Click to expand tooltip",
-	"tooltip_badge_queued": "Queued",
-	"tooltip_badge_reportable": "Reportable",
 	"tooltip_copy_link": "Copy Link",
 	"tooltip_cross_signal_message": "The system was more aggressive in its evaluation because supporting evidence was detected in other areas. Content flagged here may seem borderline on its own.",
 	"tooltip_cross_signal_title": "Stricter Evaluation",

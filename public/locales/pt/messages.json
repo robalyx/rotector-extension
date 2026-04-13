@@ -575,8 +575,6 @@
 	"stats_totals_users": "Usuários",
 	"tooltip_aria_close": "Clique para fechar tooltip",
 	"tooltip_aria_expand": "Clique para expandir tooltip",
-	"tooltip_badge_queued": "Na Fila",
-	"tooltip_badge_reportable": "Denunciável",
 	"tooltip_copy_link": "Copiar Link",
 	"tooltip_cross_signal_message": "O sistema foi mais agressivo em sua avaliação porque evidências de suporte foram detectadas em outras áreas. O conteúdo sinalizado aqui pode parecer borderline por conta própria.",
 	"tooltip_cross_signal_title": "Avaliação Mais Rigorosa",

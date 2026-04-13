@@ -575,8 +575,6 @@
 	"stats_totals_users": "ผู้ใช้",
 	"tooltip_aria_close": "คลิกเพื่อปิดคำอธิบายเครื่องมือ",
 	"tooltip_aria_expand": "คลิกเพื่อขยายคำอธิบายเครื่องมือ",
-	"tooltip_badge_queued": "อยู่ในคิว",
-	"tooltip_badge_reportable": "สามารถรายงานได้",
 	"tooltip_copy_link": "คัดลอกลิงก์",
 	"tooltip_cross_signal_message": "ระบบมีการประเมินที่ก้าวร้าวมากขึ้นเพราะพบหลักฐานสนับสนุนในพื้นที่อื่น เนื้อหาที่ถูกทำเครื่องหมายไว้ที่นี่อาจดูเหมือนขอบเขตเพียงอย่างเดียว",
 	"tooltip_cross_signal_title": "การประเมินที่เข้มงวดมากขึ้น",

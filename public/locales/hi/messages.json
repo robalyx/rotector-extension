@@ -575,8 +575,6 @@
 	"stats_totals_users": "उपयोगकर्ता",
 	"tooltip_aria_close": "टूलटिप बंद करने के लिए क्लिक करें",
 	"tooltip_aria_expand": "टूलटिप विस्तृत करने के लिए क्लिक करें",
-	"tooltip_badge_queued": "कतार में",
-	"tooltip_badge_reportable": "रिपोर्ट योग्य",
 	"tooltip_copy_link": "लिंक कॉपी करें",
 	"tooltip_cross_signal_message": "अन्य क्षेत्रों में समर्थक साक्ष्य का पता चलने के कारण सिस्टम अपने मूल्यांकन में अधिक आक्रामक था। यहां फ्लैग की गई सामग्री अपने आप में सीमावर्ती लग सकती है।",
 	"tooltip_cross_signal_title": "सख्त मूल्यांकन",

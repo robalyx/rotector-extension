@@ -575,8 +575,6 @@
 	"stats_totals_users": "Người dùng",
 	"tooltip_aria_close": "Nhấp để đóng chú giải công cụ",
 	"tooltip_aria_expand": "Nhấp để mở rộng chú giải công cụ",
-	"tooltip_badge_queued": "Đã xếp hàng",
-	"tooltip_badge_reportable": "Có thể Báo cáo",
 	"tooltip_copy_link": "Sao chép Liên kết",
 	"tooltip_cross_signal_message": "Hệ thống đã tích cực hơn trong đánh giá vì có bằng chứng hỗ trợ được phát hiện ở các khu vực khác. Nội dung được đánh dấu ở đây có thể có vẻ mơ hồ khi xét riêng lẻ.",
 	"tooltip_cross_signal_title": "Đánh Giá Nghiêm Ngặt Hơn",

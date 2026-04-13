@@ -575,8 +575,6 @@
 	"stats_totals_users": "Usuarios",
 	"tooltip_aria_close": "Haz clic para cerrar tooltip",
 	"tooltip_aria_expand": "Haz clic para expandir tooltip",
-	"tooltip_badge_queued": "En Cola",
-	"tooltip_badge_reportable": "Reportable",
 	"tooltip_copy_link": "Copiar Enlace",
 	"tooltip_cross_signal_message": "El sistema fue más agresivo en su evaluación porque se detectó evidencia de apoyo en otras áreas. El contenido marcado aquí puede parecer dudoso por sí solo.",
 	"tooltip_cross_signal_title": "Evaluación Más Estricta",

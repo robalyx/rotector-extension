@@ -575,8 +575,6 @@
 	"stats_totals_users": "Kullanıcılar",
 	"tooltip_aria_close": "Araç ipucunu kapatmak için tıklayın",
 	"tooltip_aria_expand": "Araç ipucunu genişletmek için tıklayın",
-	"tooltip_badge_queued": "Kuyrukta",
-	"tooltip_badge_reportable": "Raporlanabilir",
 	"tooltip_copy_link": "Bağlantıyı Kopyala",
 	"tooltip_cross_signal_message": "Sistem, diğer alanlarda destekleyici kanıt bulunduğu için değerlendirmesinde daha agresif davranmıştır. Burada işaretlenen içerik, kendi başına sınırda görünebilir.",
 	"tooltip_cross_signal_title": "Daha Katı Değerlendirme",

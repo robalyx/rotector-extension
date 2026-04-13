@@ -575,8 +575,6 @@
 	"stats_totals_users": "Pengguna",
 	"tooltip_aria_close": "Klik untuk menutup tooltip",
 	"tooltip_aria_expand": "Klik untuk memperluas tooltip",
-	"tooltip_badge_queued": "Diantrikan",
-	"tooltip_badge_reportable": "Dapat Dilaporkan",
 	"tooltip_copy_link": "Salin Tautan",
 	"tooltip_cross_signal_message": "Sistem lebih agresif dalam evaluasinya karena bukti pendukung terdeteksi di area lain. Konten yang ditandai di sini mungkin terlihat borderline jika dilihat sendiri.",
 	"tooltip_cross_signal_title": "Evaluasi Lebih Ketat",

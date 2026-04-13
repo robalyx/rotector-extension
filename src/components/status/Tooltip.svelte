@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { STATUS } from '@/lib/types/constants';
-	import type { ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
+	import type { OutfitSnapshotResult, ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { calculateStatusBadges } from '@/lib/utils/status-utils';
 	import { apiClient } from '@/lib/services/api-client';
+	import { outfitSnapshotService } from '@/lib/services/outfit-snapshot-service';
 	import { voteDataService } from '@/lib/services/vote-data-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {
+		extractFlaggedOutfitNames,
 		type FormattedReasonEntry,
 		formatViolationReasons,
 		groupSourceLines
@@ -53,6 +55,7 @@
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import DiscordAccountsEvidence from './DiscordAccountsEvidence.svelte';
+	import OutfitSnapshotLightbox from '../features/OutfitSnapshotLightbox.svelte';
 	import { get } from 'svelte/store';
 	import { _, locale } from 'svelte-i18n';
 	import { SETTINGS_KEYS, type SettingsKey } from '@/lib/types/settings';
@@ -147,6 +150,18 @@
 	let activeTab = $state<string>(ROTECTOR_API_ID);
 	let activeHoverPopover = $state<HoverPopoverState | null>(null);
 	let hoverPopoverPosition = $state({ left: 0, top: 0 });
+
+	// Outfit snapshot state
+	let outfitSnapshotMap: Map<string, OutfitSnapshotResult> | null = $state(null);
+	let loadingOutfitSnapshots = $state(false);
+	let latestSnapshotLoadId = 0;
+	let lightboxState = $state<{
+		name: string;
+		reason: string;
+		confidence: number | null;
+		primaryDataUrl: string | null;
+		rawUrls: string[];
+	} | null>(null);
 
 	// Translation state
 	let translationsMap = $state<Record<string, string>>({});
@@ -280,6 +295,20 @@
 		const status = activeStatus;
 		return !isGroup && status ? (status as UserStatus) : null;
 	});
+
+	// Distinct outfit names from Rotector's Avatar Outfit evidence
+	const flaggedOutfitNames = $derived.by(() => {
+		if (isGroup) return [] as string[];
+		const rotectorData = userStatus?.get(ROTECTOR_API_ID)?.data as UserStatus | undefined;
+		const evidence = rotectorData?.reasons?.['Avatar Outfit']?.evidence;
+		if (!evidence || evidence.length === 0) return [] as string[];
+		return Array.from(extractFlaggedOutfitNames(evidence).keys());
+	});
+
+	// Signature for the current flagged-outfit set
+	const flaggedOutfitNamesKey = $derived(
+		flaggedOutfitNames.length > 0 ? [...flaggedOutfitNames].sort().join('\x00') : ''
+	);
 
 	const shouldShowVoting = $derived(
 		!isGroup &&
@@ -767,6 +796,40 @@
 		}
 	}
 
+	// Load R2 snapshot URLs for the currently flagged outfits
+	async function loadOutfitSnapshots() {
+		const loadId = ++latestSnapshotLoadId;
+		loadingOutfitSnapshots = true;
+		try {
+			const map = await outfitSnapshotService.getSnapshots(sanitizedUserId, flaggedOutfitNames);
+			if (loadId !== latestSnapshotLoadId) return;
+			outfitSnapshotMap = map;
+		} catch (err) {
+			logger.error('Failed to load outfit snapshots:', err);
+		} finally {
+			if (loadId === latestSnapshotLoadId) {
+				loadingOutfitSnapshots = false;
+			}
+		}
+	}
+
+	// Open the snapshot lightbox for a single outfit evidence item
+	function openOutfitLightbox(
+		outfitName: string,
+		outfitReason: string,
+		outfitConfidence: number | null
+	) {
+		const result = outfitSnapshotMap?.get(outfitName);
+		if (!result) return;
+		lightboxState = {
+			name: getDisplayText(outfitName),
+			reason: getDisplayText(outfitReason),
+			confidence: outfitConfidence,
+			primaryDataUrl: result.primaryDataUrl,
+			rawUrls: result.rawUrls
+		};
+	}
+
 	// Handle vote submission
 	async function handleVoteSubmit(voteType: number) {
 		if (loadingVotes) return;
@@ -1171,6 +1234,12 @@
 				logger.error('Failed to load vote data:', error);
 			});
 		}
+	});
+
+	// Refetch snapshots whenever the active flagged-outfit set changes
+	$effect(() => {
+		if (!flaggedOutfitNamesKey) return;
+		void loadOutfitSnapshots();
 	});
 
 	// Setup and cleanup
@@ -1729,19 +1798,66 @@
 										{:else}
 											{#each reason.evidence as evidence, index (index)}
 												{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
+													{@const outfitName = evidence.outfitName}
+													{@const outfitReason = evidence.outfitReason}
+													{@const snapshot = outfitSnapshotMap?.get(outfitName)}
+													{@const snapshotCount = snapshot?.rawUrls.length ?? 0}
+													{@const primaryDataUrl = snapshot?.primaryDataUrl ?? null}
+													{@const hasPrimary = primaryDataUrl !== null}
+													{@const isMultiSnapshot = snapshotCount > 1}
 													<div class="outfit-evidence-item">
-														<div class="outfit-evidence-header">
-															<div class="outfit-evidence-name">
-																{getDisplayText(evidence.outfitName)}
-															</div>
-															{#if evidence.outfitConfidence !== null}
-																<div class="outfit-confidence-badge">
-																	{evidence.outfitConfidence}
-																	%
-																</div>
+														<button
+															class="outfit-snapshot-thumb"
+															class:outfit-snapshot-thumb-empty={!hasPrimary}
+															disabled={!hasPrimary}
+															onclick={(e) => {
+																e.stopPropagation();
+																openOutfitLightbox(
+																	outfitName,
+																	outfitReason,
+																	evidence.outfitConfidence ?? null
+																);
+															}}
+															type="button"
+														>
+															{#if loadingOutfitSnapshots && !outfitSnapshotMap}
+																<div class="outfit-snapshot-skeleton"></div>
+															{:else if hasPrimary}
+																<img
+																	class="outfit-snapshot-img"
+																	alt={getDisplayText(outfitName)}
+																	decoding="async"
+																	loading="lazy"
+																	src={primaryDataUrl}
+																/>
+																{#if isMultiSnapshot}
+																	<div class="outfit-snapshot-multi-overlay">
+																		<span class="outfit-snapshot-count">
+																			{snapshotCount}
+																		</span>
+																		<span class="outfit-snapshot-count-label">
+																			{$_('tooltip_outfit_snapshot_count_label')}
+																		</span>
+																	</div>
+																{/if}
+															{:else}
+																<Shirt class="outfit-snapshot-placeholder-icon" size={20} />
 															{/if}
+														</button>
+														<div class="outfit-evidence-body">
+															<div class="outfit-evidence-header">
+																<div class="outfit-evidence-name">
+																	{getDisplayText(outfitName)}
+																</div>
+																{#if evidence.outfitConfidence !== null}
+																	<div class="outfit-confidence-badge">
+																		{evidence.outfitConfidence}
+																		%
+																	</div>
+																{/if}
+															</div>
+															<div class="outfit-reason">{getDisplayText(outfitReason)}</div>
 														</div>
-														<div class="outfit-reason">{getDisplayText(evidence.outfitReason)}</div>
 													</div>
 												{:else}
 													<div class="evidence-item">{getDisplayText(evidence.content)}</div>
@@ -2058,4 +2174,16 @@
 
 		{@render hoverPopover()}
 	</div>
+{/if}
+
+{#if lightboxState}
+	<OutfitSnapshotLightbox
+		name={lightboxState.name}
+		confidence={lightboxState.confidence}
+		isOpen={lightboxState !== null}
+		onClose={() => (lightboxState = null)}
+		primaryDataUrl={lightboxState.primaryDataUrl}
+		rawUrls={lightboxState.rawUrls}
+		reason={lightboxState.reason}
+	/>
 {/if}

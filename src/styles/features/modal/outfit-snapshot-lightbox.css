@@ -1,0 +1,130 @@
+/* =================================
+   OUTFIT SNAPSHOT LIGHTBOX
+   ================================= */
+
+@utility outfit-snapshot-lightbox-body {
+	@apply flex flex-col items-center gap-3;
+}
+
+@utility outfit-snapshot-lightbox-position {
+	@apply mr-2 rounded px-2 py-1 text-xs font-semibold uppercase;
+	letter-spacing: 0.1em;
+	color: var(--color-text-subtle);
+	font-variant-numeric: tabular-nums;
+	font-family: ui-monospace, monospace;
+	background-color: color-mix(in srgb, var(--color-status-outfit) 12%, transparent);
+}
+
+@utility outfit-snapshot-lightbox-stage {
+	@apply relative flex w-full items-center justify-center;
+}
+
+@utility outfit-snapshot-lightbox-image-frame {
+	@apply relative flex aspect-square w-full max-w-[420px] items-center justify-center overflow-hidden rounded-md border;
+	background-color: color-mix(in srgb, var(--color-status-outfit) 8%, transparent);
+	border-color: color-mix(in srgb, var(--color-status-outfit) 30%, transparent);
+}
+
+@utility outfit-snapshot-lightbox-image {
+	@apply block h-full w-full object-contain;
+}
+
+@utility outfit-snapshot-lightbox-loading {
+	@apply flex h-full w-full items-center justify-center;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-snapshot-lightbox-failed {
+	@apply flex h-full w-full items-center justify-center opacity-60;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-snapshot-lightbox-nav {
+	@apply absolute top-1/2 z-[2] flex cursor-pointer items-center justify-center rounded-full border-0 p-0;
+	width: 38px;
+	height: 38px;
+	transform: translateY(-50%);
+	color: var(--primitive-white);
+	background-color: var(--overlay-dialog);
+	transition:
+		background-color 150ms ease,
+		transform 150ms ease;
+
+	&:hover {
+		background-color: var(--overlay-heavy);
+		transform: translateY(-50%) scale(1.06);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-status-outfit);
+		outline-offset: 2px;
+	}
+}
+
+@utility outfit-snapshot-lightbox-nav-prev {
+	@apply left-2;
+}
+
+@utility outfit-snapshot-lightbox-nav-next {
+	@apply right-2;
+}
+
+@utility outfit-snapshot-lightbox-dots {
+	@apply flex items-center justify-center gap-2;
+}
+
+@utility outfit-snapshot-lightbox-dot {
+	@apply h-2 w-2 cursor-pointer rounded-full border-0 p-0;
+	background-color: color-mix(in srgb, var(--color-text-subtle) 35%, transparent);
+	transition:
+		background-color 150ms ease,
+		transform 150ms ease;
+
+	&:hover {
+		background-color: color-mix(in srgb, var(--color-status-outfit) 65%, transparent);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-status-outfit);
+		outline-offset: 2px;
+	}
+}
+
+@utility outfit-snapshot-lightbox-dot-active {
+	background-color: var(--color-status-outfit);
+	transform: scale(1.2);
+
+	&:hover {
+		background-color: var(--color-status-outfit);
+	}
+}
+
+@utility outfit-snapshot-lightbox-meta-stack {
+	@apply flex w-full max-w-[420px] flex-col gap-4;
+}
+
+@utility outfit-snapshot-lightbox-meta {
+	@apply flex flex-col gap-1;
+}
+
+@utility outfit-snapshot-lightbox-meta-label-row {
+	@apply flex items-baseline justify-between gap-2;
+}
+
+@utility outfit-snapshot-lightbox-meta-label {
+	@apply text-2xs font-semibold uppercase;
+	letter-spacing: 0.18em;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-snapshot-lightbox-meta-content {
+	@apply m-0 text-sm leading-snug;
+	color: var(--color-text);
+}
+
+@utility outfit-snapshot-lightbox-meta-confidence {
+	@apply text-xs font-semibold;
+	color: var(--color-text);
+	font-variant-numeric: tabular-nums;
+	font-family: ui-monospace, monospace;
+}

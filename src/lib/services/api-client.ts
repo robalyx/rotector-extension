@@ -12,6 +12,7 @@ import type {
 	GroupTrackedUsersResponse,
 	LeaderboardResponse,
 	MajorOrder,
+	OutfitSnapshotResponse,
 	QueueLimitsData,
 	QueueResult,
 	ReportableUserResponse,
@@ -339,6 +340,22 @@ class RotectorApiClient {
 	async lookupRobloxUserDiscord(userId: string | number): Promise<RobloxUserDiscordLookup> {
 		return sendMessage<RobloxUserDiscordLookup>(API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD, {
 			userId
+		});
+	}
+
+	async lookupOutfitsByName(
+		userId: string | number,
+		names: string[]
+	): Promise<OutfitSnapshotResponse> {
+		return sendMessage<OutfitSnapshotResponse>(API_ACTIONS.LOOKUP_OUTFITS_BY_NAME, {
+			userId,
+			names
+		});
+	}
+
+	async fetchOutfitImages(imageUrls: string[]): Promise<Array<string | null>> {
+		return sendMessage<Array<string | null>>(API_ACTIONS.FETCH_OUTFIT_IMAGES, {
+			imageUrls
 		});
 	}
 }

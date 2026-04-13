@@ -30,24 +30,39 @@
 	}
 }
 
-@utility outfit-viewer-disclaimer {
-	@apply flex items-center rounded text-xs;
-	gap: 0.5rem;
-	padding: 0.625rem 0.75rem;
-	line-height: 1.5;
-	color: var(--color-warning);
-	background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
-}
-
-@utility outfit-viewer-disclaimer-icon {
-	@apply flex-shrink-0;
-	color: var(--color-warning);
-}
-
 @utility outfit-viewer-flagged-count {
 	@apply m-0 text-xs;
 	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-meta-stack {
+	@apply flex w-full flex-col gap-4;
+}
+
+@utility outfit-viewer-meta {
+	@apply flex flex-col gap-1;
+}
+
+@utility outfit-viewer-meta-label-row {
+	@apply flex items-baseline justify-between gap-2;
+}
+
+@utility outfit-viewer-meta-label {
+	@apply text-2xs font-semibold uppercase;
+	letter-spacing: 0.18em;
+	color: var(--color-text-subtle);
+}
+
+@utility outfit-viewer-meta-content {
+	@apply m-0 text-sm leading-snug;
+	color: var(--color-text);
+}
+
+@utility outfit-viewer-meta-confidence {
+	@apply text-xs font-semibold;
+	color: var(--color-text);
+	font-variant-numeric: tabular-nums;
+	font-family: ui-monospace, monospace;
 }
 
 /* =================================
@@ -74,25 +89,6 @@
 
 @utility outfit-viewer-3d-hint {
 	@apply m-0 text-center text-xs;
-	color: var(--color-text-subtle);
-}
-
-@utility outfit-viewer-flagged-box {
-	@apply rounded text-xs;
-	padding: 0.625rem 0.75rem;
-	line-height: 1.5;
-	background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
-	border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
-}
-
-@utility outfit-viewer-flagged-reason {
-	@apply font-semibold;
-	color: var(--color-warning);
-}
-
-@utility outfit-viewer-flagged-confidence {
-	@apply text-2xs;
-	margin-top: 0.125rem;
 	color: var(--color-text-subtle);
 }
 

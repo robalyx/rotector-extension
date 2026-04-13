@@ -512,9 +512,13 @@
 }
 
 @utility outfit-evidence-item {
-	@apply evidence-item;
+	@apply evidence-item flex items-start gap-2;
 	background-color: var(--color-outfit-evidence-bg);
 	border-color: color-mix(in srgb, var(--color-status-outfit) 35%, transparent);
+}
+
+@utility outfit-evidence-body {
+	@apply flex min-w-0 flex-1 flex-col;
 }
 
 @utility outfit-evidence-header {
@@ -537,6 +541,73 @@
 @utility outfit-reason {
 	@apply inline-image text-sm leading-tight;
 	color: var(--color-evidence-text);
+}
+
+@utility outfit-snapshot-thumb {
+	@apply relative flex h-14 w-14 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border bg-transparent p-0;
+	border-color: color-mix(in srgb, var(--color-status-outfit) 35%, transparent);
+	transition: border-color 180ms ease;
+
+	&:hover:not(:disabled) {
+		border-color: color-mix(in srgb, var(--color-status-outfit) 80%, transparent);
+	}
+
+	&:hover:not(:disabled) .outfit-snapshot-img {
+		transform: scale(1.12);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-status-outfit);
+		outline-offset: 2px;
+	}
+}
+
+@utility outfit-snapshot-thumb-empty {
+	@apply cursor-default opacity-[0.55];
+}
+
+@utility outfit-snapshot-img {
+	@apply block h-full w-full object-cover;
+	transition: transform 320ms ease-out;
+}
+
+@utility outfit-snapshot-skeleton {
+	@apply relative h-full w-full overflow-hidden;
+	background-color: color-mix(in srgb, var(--color-status-outfit) 12%, transparent);
+
+	&::after {
+		@apply shimmer absolute inset-0;
+		content: '';
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+		background-size: 200% 100%;
+	}
+}
+
+@utility outfit-snapshot-multi-overlay {
+	@apply absolute inset-0 flex flex-col items-center justify-center backdrop-blur-[2px];
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--primitive-black) 15%, transparent) 0%,
+		color-mix(in srgb, var(--primitive-black) 60%, transparent) 100%
+	);
+}
+
+@utility outfit-snapshot-count {
+	@apply text-base leading-none font-bold;
+	color: var(--primitive-white);
+	font-variant-numeric: tabular-nums;
+	font-family: ui-monospace, monospace;
+}
+
+@utility outfit-snapshot-count-label {
+	@apply text-2xs mt-0.5 uppercase;
+	letter-spacing: 0.1em;
+	color: color-mix(in srgb, var(--primitive-white) 80%, transparent);
+}
+
+@utility outfit-snapshot-placeholder-icon {
+	@apply opacity-50;
+	color: var(--color-text-subtle);
 }
 
 /* =================================

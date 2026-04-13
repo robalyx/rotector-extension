@@ -18,7 +18,7 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import { queryUserProgressive, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
+	import { queryUserProgressive } from '@/lib/services/unified-query-service';
 	import {
 		markProfileElementsForBlur,
 		revealProfileElements,
@@ -29,14 +29,9 @@
 		observeProfileHeader
 	} from '@/lib/services/blur-service';
 	import { isFlagged } from '@/lib/utils/status-utils';
-	import {
-		extractFlaggedOutfitNames,
-		type FlaggedOutfitInfo
-	} from '@/lib/utils/violation-formatter';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
-	import OutfitViewerModal from './OutfitViewerModal.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import UserListManager from './UserListManager.svelte';
 	import GroupListManager from './GroupListManager.svelte';
@@ -56,7 +51,6 @@
 
 	// Component state
 	let friendWarningOpen = $state(false);
-	let outfitViewerOpen = $state(false);
 	let showCarousel = $state(false);
 	let showGroupsShowcase = $state(false);
 	let profileElementsReady = $state(false);
@@ -72,18 +66,6 @@
 	let outfitObserverCleanup: (() => void) | null = null;
 	let descriptionObserverCleanup: (() => void) | null = null;
 	let headerObserverCleanup: (() => void) | null = null;
-
-	// Extract flagged outfit names from user status
-	const flaggedOutfits = $derived.by(() => {
-		if (!userStatus) return new Map<string, FlaggedOutfitInfo>();
-
-		const rotectorStatus = userStatus.get(ROTECTOR_API_ID)?.data;
-		if (!rotectorStatus?.reasons?.['Avatar Outfit']?.evidence) {
-			return new Map<string, FlaggedOutfitInfo>();
-		}
-
-		return extractFlaggedOutfitNames(rotectorStatus.reasons['Avatar Outfit'].evidence);
-	});
 
 	// Returns true if outfit should be blurred
 	function shouldBlurOutfit(status: CombinedStatus): boolean {
@@ -215,8 +197,7 @@
 					},
 					skipAutoFetch: true,
 					onClick: handleStatusClick,
-					onQueue: handleQueueUser,
-					onViewOutfits: handleViewOutfits
+					onQueue: handleQueueUser
 				}
 			});
 
@@ -382,11 +363,6 @@
 	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
 		queueModalManager?.showQueue(clickedUserId, isReprocess, status);
-	}
-
-	// Handle view outfits request
-	function handleViewOutfits() {
-		outfitViewerOpen = true;
 	}
 
 	// Refresh status after queue completion
@@ -564,14 +540,6 @@
 
 <!-- Queue Modal Manager -->
 <QueueModalManager bind:this={queueModalManager} onStatusRefresh={handleStatusRefresh} />
-
-<!-- Outfit Viewer Modal -->
-<OutfitViewerModal
-	{flaggedOutfits}
-	onClose={() => (outfitViewerOpen = false)}
-	{userId}
-	bind:isOpen={outfitViewerOpen}
-/>
 
 <!-- Carousel Manager -->
 {#if showCarousel}

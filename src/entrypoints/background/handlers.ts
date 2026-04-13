@@ -6,12 +6,14 @@ import {
 	checkMultipleGroups,
 	checkMultipleUsers,
 	checkUserStatus,
+	fetchOutfitImages,
 	getGroupTrackedUsers,
 	getMultipleVotes,
 	getQueueLimits,
 	getQueueStatus,
 	getStats,
 	getVotes,
+	lookupOutfitsByName,
 	lookupRobloxUserDiscord,
 	queueUser,
 	submitVote
@@ -177,6 +179,19 @@ export const actionHandlers = {
 	[API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD]: async (request: ContentMessage) => {
 		if (!request.userId) throw new Error('User ID is required for Discord lookup');
 		return lookupRobloxUserDiscord(request.userId, request.clientId);
+	},
+	[API_ACTIONS.LOOKUP_OUTFITS_BY_NAME]: async (request: ContentMessage) => {
+		if (!request.userId) throw new Error('User ID is required for outfit snapshot lookup');
+		if (!request.names || request.names.length === 0) {
+			throw new Error('At least one outfit name is required for outfit snapshot lookup');
+		}
+		return lookupOutfitsByName(request.userId, request.names, request.clientId);
+	},
+	[API_ACTIONS.FETCH_OUTFIT_IMAGES]: async (request: ContentMessage) => {
+		if (!request.imageUrls || request.imageUrls.length === 0) {
+			throw new Error('At least one image URL is required for outfit image fetch');
+		}
+		return fetchOutfitImages(request.imageUrls);
 	},
 	[API_ACTIONS.EXPORT_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
 		if (!request.groupId) throw new Error('Group ID is required for export');

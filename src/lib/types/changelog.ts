@@ -116,6 +116,16 @@ export const CHANGELOGS: Changelog[] = [
 					'Info popovers - Hover info boxes in the tooltip no longer get clipped by the scroll area'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Bio emojis - Emojis from roseal extension in flagged bios now render at text size instead of stretching to full image dimensions'
+			},
+			{
+				type: 'fixed',
+				description:
+					'3D outfit viewer - Outfit models now load correctly instead of failing with authentication errors'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'

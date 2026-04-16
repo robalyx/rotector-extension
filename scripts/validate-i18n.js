@@ -227,9 +227,9 @@ function extractUsedKeys() {
 		}
 
 		// Pattern 2: Keys used as property values in objects
-		// Matches: titleKey: 'key', labelKey: "key", helpTextKey: 'key', nameKey: 'key', descKey: 'key'
+		// Matches: titleKey: 'key', labelKey: "key", helpTextKey: 'key', nameKey: 'key', descKey: 'key', messageKey: 'key'
 		const keyPropertyRegex =
-			/\b(?:titleKey|labelKey|helpTextKey|nameKey|descKey)\s*:\s*['"]([a-z][a-z0-9_]*)['"](?:\s*,|\s*})/g;
+			/\b(?:titleKey|labelKey|helpTextKey|nameKey|descKey|messageKey)\s*:\s*['"]([a-z][a-z0-9_]*)['"](?:\s*,|\s*})/g;
 		let match;
 
 		while ((match = keyPropertyRegex.exec(content)) !== null) {

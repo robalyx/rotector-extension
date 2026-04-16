@@ -83,12 +83,80 @@
 	const HOVER_POPOVER_VIEWPORT_PADDING = 12;
 	const HOVER_POPOVER_HIDE_DELAY = 80;
 
-	type HoverPopoverKind = 'cross-signal' | 'outfit-only' | 'trap-info' | 'discord-info';
+	type HoverPopoverKind =
+		| 'cross-signal'
+		| 'outfit-only'
+		| 'trap-info'
+		| 'discord-info'
+		| 'trapv2-info'
+		| 'trap3-info'
+		| 'matchmaking-info'
+		| 'monitor-info'
+		| 'purchase-info'
+		| 'listdata-info'
+		| 'gamedata-info'
+		| 'ferns-info';
 
 	interface HoverPopoverState {
 		anchor: HTMLElement;
 		kind: HoverPopoverKind;
 	}
+
+	const SOURCE_INFO_MAP: Record<
+		string,
+		{ kind: HoverPopoverKind; titleKey: string; messageKey: string }
+	> = {
+		discord: {
+			kind: 'discord-info',
+			titleKey: 'tooltip_discord_info_title',
+			messageKey: 'tooltip_discord_info_message'
+		},
+		ferns: {
+			kind: 'ferns-info',
+			titleKey: 'tooltip_ferns_info_title',
+			messageKey: 'tooltip_ferns_info_message'
+		},
+		gamedata: {
+			kind: 'gamedata-info',
+			titleKey: 'tooltip_gamedata_info_title',
+			messageKey: 'tooltip_gamedata_info_message'
+		},
+		listdata: {
+			kind: 'listdata-info',
+			titleKey: 'tooltip_listdata_info_title',
+			messageKey: 'tooltip_listdata_info_message'
+		},
+		matchmaking: {
+			kind: 'matchmaking-info',
+			titleKey: 'tooltip_matchmaking_info_title',
+			messageKey: 'tooltip_matchmaking_info_message'
+		},
+		monitor: {
+			kind: 'monitor-info',
+			titleKey: 'tooltip_monitor_info_title',
+			messageKey: 'tooltip_monitor_info_message'
+		},
+		purchase: {
+			kind: 'purchase-info',
+			titleKey: 'tooltip_purchase_info_title',
+			messageKey: 'tooltip_purchase_info_message'
+		},
+		trap: {
+			kind: 'trap-info',
+			titleKey: 'tooltip_trap_info_title',
+			messageKey: 'tooltip_trap_info_message'
+		},
+		trap3: {
+			kind: 'trap3-info',
+			titleKey: 'tooltip_trap3_info_title',
+			messageKey: 'tooltip_trap3_info_message'
+		},
+		trapv2: {
+			kind: 'trapv2-info',
+			titleKey: 'tooltip_trapv2_info_title',
+			messageKey: 'tooltip_trapv2_info_message'
+		}
+	};
 
 	interface Props {
 		userId: string | number;
@@ -1308,8 +1376,7 @@
 			class="tooltip-hover-popover"
 			class:cross-signal-popover={activeHoverPopover.kind === 'cross-signal'}
 			class:outfit-only-popover={activeHoverPopover.kind === 'outfit-only'}
-			class:source-info-popover={activeHoverPopover.kind === 'trap-info' ||
-				activeHoverPopover.kind === 'discord-info'}
+			class:source-info-popover={activeHoverPopover.kind.endsWith('-info')}
 			onmouseenter={handleHoverPopoverEnter}
 			onmouseleave={handleHoverPopoverLeave}
 			role="tooltip"
@@ -1345,6 +1412,12 @@
 						<span><strong>Updated</strong> - {$_('tooltip_discord_info_updated')}</span>
 					</li>
 				</ul>
+			{:else if activeHoverPopover.kind.endsWith('-info')}
+				{@const entry = SOURCE_INFO_MAP[activeHoverPopover.kind.slice(0, -'-info'.length)]}
+				{#if entry}
+					<strong>{$_(entry.titleKey)}</strong>
+					<p>{$_(entry.messageKey)}</p>
+				{/if}
 			{/if}
 		</div>
 	{/if}
@@ -1727,28 +1800,17 @@
 										<div class="reason-evidence">
 											{#each grouped as group, i (i)}
 												{#if group.kind === 'source'}
+													{@const sourceInfo = SOURCE_INFO_MAP[group.source.toLowerCase()]}
 													<div class="source-evidence-item">
 														<div class="source-evidence-header">
 															<span class="source-evidence-badge">{group.source}</span>
-															{#if group.source.toLowerCase() === 'trap'}
+															{#if sourceInfo}
 																<button
 																	class="source-info-indicator"
-																	aria-label={$_('tooltip_trap_info_title')}
+																	aria-label={$_(sourceInfo.titleKey)}
 																	onclick={(event) => event.stopPropagation()}
 																	onmouseenter={(event) =>
-																		handleHoverPopoverTriggerEnter('trap-info', event)}
-																	onmouseleave={handleHoverPopoverTriggerLeave}
-																	type="button"
-																>
-																	<Info size={12} />
-																</button>
-															{:else if group.source.toLowerCase() === 'discord'}
-																<button
-																	class="source-info-indicator"
-																	aria-label={$_('tooltip_discord_info_title')}
-																	onclick={(event) => event.stopPropagation()}
-																	onmouseenter={(event) =>
-																		handleHoverPopoverTriggerEnter('discord-info', event)}
+																		handleHoverPopoverTriggerEnter(sourceInfo.kind, event)}
 																	onmouseleave={handleHoverPopoverTriggerLeave}
 																	type="button"
 																>

@@ -1791,7 +1791,7 @@
 													{@const primaryDataUrl = snapshot?.primaryDataUrl ?? null}
 													{@const hasPrimary = primaryDataUrl !== null}
 													{@const isMultiSnapshot = snapshotCount > 1}
-													<div class="evidence-item outfit-evidence-item">
+													<div class="outfit-evidence-item">
 														<button
 															class="outfit-snapshot-thumb"
 															class:outfit-snapshot-thumb-empty={!hasPrimary}

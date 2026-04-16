@@ -344,6 +344,14 @@
 
 @utility reasons-container {
 	@apply mt-2 flex flex-col gap-2 text-left;
+
+	img {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		vertical-align: -0.125em;
+		object-fit: contain;
+	}
 }
 
 @utility reason-item {

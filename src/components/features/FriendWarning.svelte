@@ -2,9 +2,10 @@
 	import { _ } from 'svelte-i18n';
 	import { PROFILE_SELECTORS, SEARCH_SELECTORS, STATUS_SELECTORS } from '@/lib/types/constants';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
+	import { getFlaggingResult } from '@/lib/utils/status-utils';
+	import { formatViolationReasons } from '@/lib/utils/violation-formatter';
 	import Modal from '../ui/Modal.svelte';
 
 	interface Props {
@@ -33,23 +34,29 @@
 		onBlock
 	}: Props = $props();
 
-	// Local state
+	// User display info
 	let userInfo: UserInfo | null = $state(null);
 
-	// Computed values
+	// Display fields
 	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
-
 	const displayName = $derived(username || `User ${sanitizedUserId}`);
 
-	const confidence = $derived(
-		Math.round((userStatus?.get(ROTECTOR_API_ID)?.data?.confidence ?? 0) * 100)
-	);
+	// Flagging API data and derived figures
+	const flaggingData = $derived(getFlaggingResult(userStatus ?? null)?.data);
+	const confidence = $derived(Math.round((flaggingData?.confidence ?? 0) * 100));
+	const violations = $derived.by(() => {
+		const reasons = flaggingData?.reasons;
+		if (!reasons) return [];
+		return formatViolationReasons(reasons)
+			.sort((a, b) => b.confidence - a.confidence)
+			.slice(0, 3);
+	});
 
 	// Handle proceed with friend request
 	function handleProceed() {
 		logger.userAction('friend_warning_proceed', {
 			userId: sanitizedUserId,
-			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
+			statusFlag: flaggingData?.flagType
 		});
 		onProceed?.();
 		isOpen = false;
@@ -59,7 +66,7 @@
 	function handleCancel() {
 		logger.userAction('friend_warning_cancel', {
 			userId: sanitizedUserId,
-			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
+			statusFlag: flaggingData?.flagType
 		});
 		onCancel?.();
 		isOpen = false;
@@ -69,7 +76,7 @@
 	function handleBlock() {
 		logger.userAction('friend_warning_block', {
 			userId: sanitizedUserId,
-			statusFlag: userStatus?.get(ROTECTOR_API_ID)?.data?.flagType
+			statusFlag: flaggingData?.flagType
 		});
 		onBlock?.();
 		isOpen = false;
@@ -125,7 +132,6 @@
 		return { userId: sanitizedUserId, username, avatarUrl };
 	}
 
-	// Update user info when component mounts
 	$effect(() => {
 		if (isOpen) {
 			userInfo = extractUserInfo();
@@ -133,19 +139,7 @@
 	});
 </script>
 
-<Modal
-	blockText={$_('friend_warning_block_button')}
-	cancelText={$_('friend_warning_cancel_button')}
-	confirmDanger
-	confirmText={$_('friend_warning_proceed_button')}
-	onBlock={handleBlock}
-	onCancel={handleCancel}
-	onConfirm={handleProceed}
-	showBlock={true}
-	status="warning"
-	title={$_('friend_warning_title')}
-	bind:isOpen
->
+<Modal onCancel={handleCancel} status="warning" title={$_('friend_warning_title')} bind:isOpen>
 	<div class="friend-warning-user-card">
 		<div class="friend-warning-avatar">
 			{#if userInfo?.avatarUrl}
@@ -159,69 +153,61 @@
 			<div class="friend-warning-user-name">
 				{userInfo?.username || displayName}
 			</div>
-			<div class="friend-warning-user-id">
-				{$_('friend_warning_user_id_label', { values: { 0: sanitizedUserId } })}
+			<div class="friend-warning-user-confidence">
+				{$_('friend_warning_user_confidence', { values: { 0: String(confidence) } })}
 			</div>
 		</div>
 	</div>
 
-	<div class="modal-section">
-		<header class="modal-section-head">
-			<h3 class="modal-section-title">{$_('friend_warning_risk_title')}</h3>
-			{#if confidence > 0}
-				<span class="modal-section-status">
-					{$_('friend_warning_confidence_label', { values: { 0: String(confidence) } })}
-				</span>
-			{/if}
-		</header>
-		<p class="modal-paragraph">{$_('friend_warning_risk_message')}</p>
-	</div>
-
-	<div class="modal-section">
-		<header class="modal-section-head">
-			<h3 class="modal-section-title">{$_('friend_warning_why_matters_heading')}</h3>
-		</header>
-		<ul class="modal-list">
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
-				{$_('friend_warning_why_matters_item1')}
-			</li>
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
-				{$_('friend_warning_why_matters_item2')}
-			</li>
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
-				{$_('friend_warning_why_matters_item3')}
-			</li>
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-warning" aria-hidden="true"></span>
-				{$_('friend_warning_why_matters_item4')}
-			</li>
-		</ul>
-	</div>
-
-	<div class="modal-section">
-		<header class="modal-section-head">
-			<h3 class="modal-section-title">{$_('friend_warning_recommendations_heading')}</h3>
-		</header>
-		<ul class="modal-list">
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-success" aria-hidden="true"></span>
-				{$_('friend_warning_recommendations_item1')}
-			</li>
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-success" aria-hidden="true"></span>
-				{$_('friend_warning_recommendations_item2')}
-			</li>
-			<li class="modal-list-item">
-				<span class="modal-list-bullet-success" aria-hidden="true"></span>
-				{$_('friend_warning_recommendations_item3')}
-			</li>
-		</ul>
-	</div>
+	{#if violations.length > 0}
+		<div class="modal-section">
+			<header class="modal-section-head">
+				<h3 class="modal-section-title">{$_('friend_warning_flagged_for_heading')}</h3>
+			</header>
+			<ul class="modal-list">
+				{#each violations as violation (violation.typeName)}
+					<li class="friend-warning-violation">
+						<span class="modal-list-bullet-warning" aria-hidden="true"></span>
+						<div class="friend-warning-violation-body">
+							<div class="friend-warning-violation-head">
+								<span class="friend-warning-violation-name">{violation.typeName}</span>
+								<span class="friend-warning-violation-confidence">{violation.confidence}%</span>
+							</div>
+							{#if violation.message}
+								{@const lines = violation.message
+									.split('\n')
+									.map((l) => l.trim())
+									.filter(Boolean)}
+								{#if lines.length > 1}
+									<ul class="friend-warning-violation-sources">
+										{#each lines as line, i (i)}
+											<li>{line}</li>
+										{/each}
+									</ul>
+								{:else}
+									<p class="friend-warning-violation-message">{violation.message}</p>
+								{/if}
+							{/if}
+						</div>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
 
 	<div class="friend-warning-high-risk">
 		{$_('friend_warning_high_risk_message')}
 	</div>
+
+	{#snippet actions()}
+		<button class="modal-button-danger-outline" onclick={handleBlock} type="button">
+			{$_('friend_warning_block_button')}
+		</button>
+		<button class="modal-button-cancel ml-auto" onclick={handleCancel} type="button">
+			{$_('friend_warning_cancel_button')}
+		</button>
+		<button class="modal-button-danger" onclick={handleProceed} type="button">
+			{$_('friend_warning_proceed_button')}
+		</button>
+	{/snippet}
 </Modal>

@@ -81,6 +81,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Outfit viewer layout - Warning and reason details below the 3D viewer use a cleaner text-based design'
 			},
 			{
+				type: 'changed',
+				description:
+					'Friend warning - Redesigned with a user card, per-violation confidence, and source evidence bullets'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Report auto-fill - Category and comment fields now fill in correctly on the Roblox report page'
@@ -124,6 +129,26 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'3D outfit viewer - Outfit models now load correctly instead of failing with authentication errors'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Add friend warning - Modal now appears on flagged profiles again after a Roblox UI update broke detection of the Add Friend button'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Block from warning - Blocking a user from the warning modal works again and refreshes the profile afterward'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Custom API warnings - Friend warning modal shows the correct confidence and reasons when a user is flagged only by a custom API'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Translation fallback - Missing translations fall back to English text instead of showing raw message IDs'
 			},
 			{
 				type: 'removed',

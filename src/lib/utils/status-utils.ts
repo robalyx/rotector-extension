@@ -1,8 +1,20 @@
 import type { UserStatus, GroupStatus } from '../types/api';
-import type { CombinedStatus } from '../types/custom-api';
+import type { CombinedStatus, CustomApiResult } from '../types/custom-api';
 import { ROTECTOR_API_ID } from '../services/unified-query-service';
 import { getAssetUrl } from './assets';
 import { STATUS } from '../types/constants';
+
+// Flag types that represent an actionable (non-safe) state
+const ACTIONABLE_FLAG_TYPES = new Set<number>([
+	STATUS.FLAGS.UNSAFE,
+	STATUS.FLAGS.PENDING,
+	STATUS.FLAGS.MIXED
+]);
+
+// Check if an individual API result has flagged the entity
+function isActionableResult(result: CustomApiResult): boolean {
+	return !!result.data && ACTIONABLE_FLAG_TYPES.has(result.data.flagType);
+}
 
 interface StatusBadges {
 	isReportable: boolean;
@@ -109,11 +121,24 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
  */
 export function isFlagged(status: CombinedStatus | null): boolean {
 	if (!status) return false;
-	return Array.from(status.values()).some(
-		(result) =>
-			result.data &&
-			(result.data.flagType === STATUS.FLAGS.UNSAFE ||
-				result.data.flagType === STATUS.FLAGS.PENDING ||
-				result.data.flagType === STATUS.FLAGS.MIXED)
-	);
+	return Array.from(status.values()).some(isActionableResult);
+}
+
+/**
+ * Return the API result that flagged this entity. Prefers Rotector when it has
+ * flagged, otherwise returns the first custom API with an actionable status.
+ */
+export function getFlaggingResult(status: CombinedStatus | null): CustomApiResult | undefined {
+	if (!status) return undefined;
+
+	const rotector = status.get(ROTECTOR_API_ID);
+	if (rotector && isActionableResult(rotector)) {
+		return rotector;
+	}
+
+	for (const result of status.values()) {
+		if (isActionableResult(result)) return result;
+	}
+
+	return undefined;
 }

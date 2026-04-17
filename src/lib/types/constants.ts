@@ -133,8 +133,7 @@ export const PROFILE_SELECTORS = {
 	HEADER: '.user-profile-header',
 	HEADER_TITLE: '#profile-header-title-container-name',
 	HEADER_TITLE_WRAPPER: '.items-center.gap-xsmall.flex',
-	HEADER_FRIEND_BUTTON: 'button.foundation-web-button',
-	HEADER_DROPDOWN_BUTTON: '#user-profile-header-contextual-menu-button',
+	HEADER_FRIEND_BUTTON: '#user-profile-header-AddFriend',
 	USERNAME: '.stylistic-alts-username',
 	AVATAR_IMG: '.user-profile-header-details-avatar-container .avatar-card-image img'
 } as const;

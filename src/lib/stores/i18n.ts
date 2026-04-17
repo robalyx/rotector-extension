@@ -44,6 +44,9 @@ async function applyLocale(localeCode: string): Promise<void> {
 		targetLocale = normalizeLocale(localeCode);
 	}
 
+	if (targetLocale !== 'en') {
+		await loadLocale('en');
+	}
 	await loadLocale(targetLocale);
 	void locale.set(targetLocale);
 }

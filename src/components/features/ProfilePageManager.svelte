@@ -18,6 +18,7 @@
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
+	import { blockUser } from '@/lib/services/roblox-actions';
 	import { queryUserProgressive } from '@/lib/services/unified-query-service';
 	import {
 		markProfileElementsForBlur,
@@ -213,10 +214,9 @@
 	// Set up friend warning if applicable
 	async function setupFriendWarning() {
 		try {
-			if (!userIsFlagged) return;
-
-			// Get the active friend button based on header version
-			const friendButton = await getActiveFriendButton();
+			const { element: friendButton } = await waitForElement<HTMLElement>(
+				PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
+			);
 
 			if (!friendButton) {
 				logger.debug('No friend button found for warning setup');
@@ -225,15 +225,11 @@
 
 			// Set up click interception
 			friendButtonHandler = (event: Event) => {
-				// Check if user specifically wants to skip the warning
+				// Status may not be loaded at setup time so gate on the flag per click
+				if (!userIsFlagged) return;
+
 				if (friendButton.dataset.skipWarning) {
 					delete friendButton.dataset.skipWarning;
-					return;
-				}
-
-				// Only intercept if this is an "Add Connection" or "Add" button
-				const buttonText = friendButton.textContent?.trim().toLowerCase() || '';
-				if (!buttonText.includes('add connection') && !buttonText.includes('add')) {
 					return;
 				}
 
@@ -381,7 +377,9 @@
 		logger.userAction(USER_ACTIONS.FRIEND_PROCEED, { userId });
 
 		// Find the active friend button and simulate click to proceed with friend request
-		const friendButton = getActiveFriendButtonSync();
+		const friendButton = document.querySelector<HTMLElement>(
+			PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
+		);
 
 		if (friendButton) {
 			friendButton.dataset.skipWarning = 'true';
@@ -403,45 +401,16 @@
 	}
 
 	// Handle block user action
-	function handleFriendBlock() {
+	async function handleFriendBlock() {
 		logger.userAction(USER_ACTIONS.FRIEND_BLOCK, { userId });
+		friendWarningOpen = false;
 
 		try {
-			// Find the more options button (three dots)
-			const moreButton = document.querySelector(PROFILE_SELECTORS.HEADER_DROPDOWN_BUTTON);
-
-			if (moreButton instanceof HTMLElement) {
-				// Click the more button to open dropdown
-				moreButton.click();
-
-				// Wait for dropdown to appear and find block option
-				void (async () => {
-					try {
-						const result = await waitForElement('#block-button', {
-							maxRetries: 5,
-							baseDelay: 100,
-							maxDelay: 1000
-						});
-
-						if (result.success && result.element instanceof HTMLElement) {
-							result.element.click();
-							logger.debug('Block user action triggered');
-						} else {
-							logger.warn('Could not find block button in dropdown after waiting');
-						}
-					} catch (error) {
-						logger.error('Error waiting for block button:', error);
-					}
-				})();
-			} else {
-				logger.warn('Could not find more options button for blocking');
-			}
+			await blockUser(userId);
+			window.location.reload();
 		} catch (error) {
-			logger.error('Error blocking user:', error);
+			logger.error('Failed to block user:', error);
 		}
-
-		// Hide the modal
-		friendWarningOpen = false;
 	}
 
 	// Handle carousel user processed event
@@ -469,7 +438,9 @@
 			clearProfileBlurState();
 
 			// Clean up friend button event listener
-			const friendButton = getActiveFriendButtonSync();
+			const friendButton = document.querySelector<HTMLElement>(
+				PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
+			);
 
 			if (friendButton && friendButtonHandler) {
 				friendButton.removeEventListener('click', friendButtonHandler, true);
@@ -504,25 +475,6 @@
 		} catch (error) {
 			logger.error('Failed to cleanup ProfilePageManager:', error);
 		}
-	}
-
-	// Get the active friend button (sync version)
-	function getActiveFriendButtonSync(): HTMLElement | null {
-		const buttons = document.querySelectorAll(PROFILE_SELECTORS.HEADER_FRIEND_BUTTON);
-		for (const button of buttons) {
-			const text = button.textContent?.trim().toLowerCase() || '';
-			if (text === 'add' || text.includes('add connection')) {
-				return button as HTMLElement;
-			}
-		}
-		return null;
-	}
-
-	// Get the active friend button (async version)
-	async function getActiveFriendButton(): Promise<HTMLElement | null> {
-		const result = await waitForElement(PROFILE_SELECTORS.HEADER_FRIEND_BUTTON);
-		if (!result.success || !result.element) return null;
-		return getActiveFriendButtonSync();
 	}
 </script>
 

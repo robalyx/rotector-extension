@@ -330,6 +330,16 @@
 	}
 }
 
+@utility modal-button-danger-outline {
+	@apply modal-button bg-transparent;
+	border-color: var(--color-error);
+	color: var(--color-error);
+
+	&:hover:not(:disabled) {
+		background-color: color-mix(in srgb, var(--color-error) 12%, transparent);
+	}
+}
+
 @utility modal-button-ghost {
 	@apply modal-button bg-transparent;
 	border-color: var(--color-border-subtle);

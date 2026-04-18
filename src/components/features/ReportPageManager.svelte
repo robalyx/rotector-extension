@@ -64,8 +64,8 @@
 
 	// Report submission logging
 	async function handleReportSubmit(): Promise<void> {
-		const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
-		const category = categoryElement?.textContent?.trim() || '';
+		const categoryButton = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_BUTTON);
+		const category = categoryButton?.textContent?.trim() || '';
 
 		const commentTextarea = document.querySelector(
 			REPORT_PAGE_SELECTORS.COMMENT_TEXTAREA
@@ -104,23 +104,28 @@
 		return { categoryButton, commentTextarea };
 	}
 
-	// Dropdown appearance detection via MutationObserver
-	function waitForDropdown(): Promise<boolean> {
+	// Wait for a specific Radix listbox to appear and open
+	function waitForDropdown(listboxId: string): Promise<boolean> {
+		const selector = `#${CSS.escape(listboxId)}`;
+
 		return new Promise((resolve) => {
-			const existing = document.querySelector(REPORT_PAGE_SELECTORS.DROPDOWN_LISTBOX);
+			// Already-open dropdown
+			const existing = document.querySelector(selector);
 			if (existing?.getAttribute('data-state') === 'open') {
 				resolve(true);
 				return;
 			}
 
+			// Timeout guard
 			pendingTimeout = setTimeout(() => {
 				pendingObserver?.disconnect();
 				pendingObserver = null;
 				resolve(false);
 			}, 3000);
 
+			// DOM mutation watcher for listbox insertion or state change
 			pendingObserver = new MutationObserver(() => {
-				const listbox = document.querySelector(REPORT_PAGE_SELECTORS.DROPDOWN_LISTBOX);
+				const listbox = document.querySelector(selector);
 				if (listbox?.getAttribute('data-state') === 'open') {
 					clearTimeout(pendingTimeout);
 					pendingObserver?.disconnect();
@@ -139,13 +144,24 @@
 	}
 
 	// Category selection in Roblox's Radix dropdown
-	async function selectInappropriateLanguageCategory(): Promise<void> {
-		const isOpen = await waitForDropdown();
+	async function selectInappropriateLanguageCategory(
+		categoryButton: HTMLButtonElement
+	): Promise<void> {
+		// Listbox ID from combobox aria-controls
+		const listboxId = categoryButton.getAttribute('aria-controls');
+		if (!listboxId) {
+			logger.warn('Category combobox missing aria-controls');
+			return;
+		}
+
+		// Wait for dropdown to open
+		const isOpen = await waitForDropdown(listboxId);
 		if (!isOpen) {
 			logger.warn('Dropdown did not open after waiting');
 			return;
 		}
 
+		// Match option by category label
 		const option = Array.from(
 			document.querySelectorAll(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
 		).find((el) => {
@@ -153,6 +169,7 @@
 			return text?.textContent?.includes(REPORT_CATEGORY);
 		}) as HTMLElement | undefined;
 
+		// Select the matched option
 		if (option) {
 			option.click();
 		} else {
@@ -162,17 +179,18 @@
 
 	// Report helper bar mount
 	async function mountReportHelper(): Promise<void> {
-		const innerForm = document.querySelector(REPORT_PAGE_SELECTORS.INNER_FORM);
-		if (!innerForm) {
-			logger.warn('Inner form container not found');
-			return;
-		}
+		const { element: innerForm, success } = await waitForElement<HTMLElement>(
+			REPORT_PAGE_SELECTORS.INNER_FORM
+		);
+		if (!success || !innerForm) return;
 
+		// Wrapper element injected before form content
 		const container = document.createElement('div');
 		container.className = COMPONENT_CLASSES.REPORT_HELPER;
 		innerForm.insertBefore(container, innerForm.firstChild);
 
-		const { mount } = await import('svelte');
+		// Svelte component mount
+		const { mount, unmount } = await import('svelte');
 		const component = mount(ReportHelper, {
 			target: container,
 			props: {
@@ -182,12 +200,11 @@
 			}
 		});
 
+		// Cleanup handle
 		reportHelper = {
 			element: container,
 			cleanup: () => {
-				if ('unmount' in component && typeof component.unmount === 'function') {
-					(component as { unmount: () => void }).unmount();
-				}
+				void unmount(component);
 				container.remove();
 			}
 		};
@@ -195,7 +212,7 @@
 
 	// Auto-fill handler
 	async function handleFillForm(): Promise<void> {
-		// Build comment text
+		// Report comment body
 		let commentText =
 			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
 
@@ -205,7 +222,7 @@
 			commentText += 'Detected Issue:\n' + profileReason.message + '\n\n';
 		}
 
-		// Add evidence if advanced info is enabled
+		// Evidence snippets
 		const currentSettings = get(settings);
 		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
 			commentText += 'Evidence Snippets:\n';
@@ -221,17 +238,21 @@
 			const { categoryButton, commentTextarea } = findFormElements();
 
 			// Open Radix dropdown
-			categoryButton.click();
-			await selectInappropriateLanguageCategory();
+			categoryButton.dispatchEvent(
+				new PointerEvent('pointerdown', { bubbles: true, button: 0, pointerType: 'mouse' })
+			);
+			await selectInappropriateLanguageCategory(categoryButton);
 
 			// Fill comment textarea
 			commentTextarea.value = commentText;
 			commentTextarea.dispatchEvent(new Event('input', { bubbles: true }));
 			commentTextarea.dispatchEvent(new Event('change', { bubbles: true }));
 
+			// React render flush before validation
+			await new Promise((r) => requestAnimationFrame(r));
+
 			// Validate form state
-			const categoryElement = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_SELECTED_TEXT);
-			const categoryText = categoryElement?.textContent?.trim() || '';
+			const categoryText = categoryButton.textContent?.trim() || '';
 
 			if (!categoryText.includes(REPORT_CATEGORY) || commentTextarea.value !== commentText) {
 				throw new Error('Form validation failed');

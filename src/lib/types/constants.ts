@@ -257,11 +257,9 @@ export const REPORT_PAGE_SELECTORS = {
 	INNER_FORM: '.single-step-container',
 	FOOTER: '.single-step-footer',
 	CATEGORY_BUTTON: 'button[role="combobox"]',
-	CATEGORY_SELECTED_TEXT: 'button[role="combobox"] .foundation-web-menu-item-title',
 	COMMENT_TEXTAREA: 'textarea.foundation-web-text-area',
 	DROPDOWN_OPTION: '.foundation-web-menu-item[data-radix-collection-item]',
 	DROPDOWN_OPTION_TEXT: '.foundation-web-menu-item-title',
-	DROPDOWN_LISTBOX: '[role="listbox"]',
 	SUBMIT_BUTTON: '.single-step-footer button[type="button"]'
 } as const;
 

@@ -68,6 +68,10 @@
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
 	import { settings, updateSetting, removeSetting } from '@/lib/stores/settings';
+	import { themeManager } from '@/lib/utils/theme';
+	import { guardWatermark, renderWatermarkTile } from '@/lib/utils/watermark';
+
+	const effectiveTheme = themeManager.effectiveTheme;
 
 	const TOOLTIP_SIZE = {
 		MIN_WIDTH: 400,
@@ -219,6 +223,8 @@
 	let tooltipRef = $state<HTMLElement>();
 	let overlayRef = $state<HTMLElement>();
 	let scrollContentRef = $state<HTMLElement>();
+	let stickyHeaderRef = $state<HTMLElement>();
+	let profileHeaderRef = $state<HTMLElement>();
 	let hoverPopoverRef = $state<HTMLElement>();
 	let voteData: VoteData | null = $state(null);
 	let loadingVotes = $state(false);
@@ -1389,6 +1395,25 @@
 		void loadOutfitSnapshots();
 	});
 
+	// Anti-forgery watermark covering every user-visible zone of the tooltip
+	$effect(() => {
+		if (!activeStatus) return;
+
+		const dataUri = renderWatermarkTile(
+			sanitizedUserId,
+			activeStatus.flagType,
+			Math.floor(Date.now() / 1000),
+			$effectiveTheme
+		);
+
+		const targets = [tooltipRef, stickyHeaderRef, profileHeaderRef].filter(
+			(el): el is HTMLElement => !!el
+		);
+		const cleanups = targets.map((el) => guardWatermark(el, dataUri));
+
+		return () => cleanups.forEach((fn) => fn());
+	});
+
 	// Setup and cleanup
 	$effect(() => {
 		if (isGroup) {
@@ -2093,7 +2118,7 @@
 				style:max-height={tooltipDimensions.height ? 'none' : undefined}
 				class="expanded-tooltip-content"
 			>
-				<div class="tooltip-sticky-header">
+				<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
 					<!-- Options Menu -->
 					{#if activeTab === ROTECTOR_API_ID && !isGroup}
 						<div bind:this={optionsMenuRef} class="tooltip-options-container">
@@ -2152,7 +2177,11 @@
 					<!-- Profile Header -->
 					{#if isGroup && groupInfo}
 						<!-- Group Header -->
-						<div class="tooltip-profile-header" class:compact={headerCompact}>
+						<div
+							bind:this={profileHeaderRef}
+							class="tooltip-profile-header"
+							class:compact={headerCompact}
+						>
 							<div class="tooltip-avatar">
 								<img alt="" src={groupInfo.groupImageUrl} />
 							</div>
@@ -2184,7 +2213,11 @@
 						</div>
 					{:else if !isGroup && userInfo}
 						<!-- User Header -->
-						<div class="tooltip-profile-header" class:compact={headerCompact}>
+						<div
+							bind:this={profileHeaderRef}
+							class="tooltip-profile-header"
+							class:compact={headerCompact}
+						>
 							<div class="tooltip-avatar">
 								<img alt="" src={userInfo.avatarUrl} />
 							</div>
@@ -2303,7 +2336,7 @@
 		{@render tabNavigation()}
 
 		<!-- Sticky header -->
-		<div class="tooltip-sticky-header">
+		<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
 			<!-- Simple header -->
 			<div id="tooltip-header" class="tooltip-header">
 				<div class="header-message">

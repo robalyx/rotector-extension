@@ -27,13 +27,13 @@
 }
 
 @utility perf-metric-value {
-	@apply text-base font-semibold tabular-nums;
+	@apply text-base font-semibold;
 	color: var(--color-text);
 	line-height: 1.2;
 }
 
 @utility perf-metric-detail {
-	@apply text-3xs tabular-nums;
+	@apply text-3xs;
 	color: var(--color-text-subtle);
 }
 
@@ -75,12 +75,12 @@
 }
 
 @utility perf-longtask-time {
-	@apply shrink-0 tabular-nums;
+	@apply shrink-0;
 	color: var(--color-text-subtle);
 }
 
 @utility perf-longtask-duration {
-	@apply shrink-0 rounded px-1 py-0.5 font-semibold tabular-nums;
+	@apply shrink-0 rounded px-1 py-0.5 font-semibold;
 	background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
 	color: var(--color-warning);
 	font-size: 0.5rem;
@@ -122,7 +122,7 @@
 }
 
 @utility perf-category-stats {
-	@apply text-3xs shrink-0 text-right font-medium tabular-nums;
+	@apply text-3xs shrink-0 text-right font-medium;
 	width: 90px;
 	color: var(--color-text-subtle);
 }
@@ -179,7 +179,7 @@
 }
 
 @utility perf-slowest-duration {
-	@apply shrink-0 font-medium tabular-nums;
+	@apply shrink-0 font-medium;
 	color: var(--color-text-subtle);
 }
 
@@ -226,7 +226,6 @@
 @utility perf-trace-time {
 	@apply shrink-0;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility perf-trace-category {
@@ -240,7 +239,7 @@
 }
 
 @utility perf-trace-duration {
-	@apply shrink-0 font-medium tabular-nums;
+	@apply shrink-0 font-medium;
 	color: var(--color-text-subtle);
 }
 

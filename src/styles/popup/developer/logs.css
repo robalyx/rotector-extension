@@ -94,7 +94,6 @@
 @utility developer-logs-entry-time {
 	@apply shrink-0;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility developer-logs-entry-level {

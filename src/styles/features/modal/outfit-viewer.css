@@ -61,7 +61,6 @@
 @utility outfit-viewer-meta-confidence {
 	@apply text-xs font-semibold;
 	color: var(--color-text);
-	font-variant-numeric: tabular-nums;
 	font-family: ui-monospace, monospace;
 }
 
@@ -293,7 +292,6 @@
 	gap: 0.125rem;
 	padding: 1px 6px;
 	background-color: var(--color-primary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility outfit-stack-name {

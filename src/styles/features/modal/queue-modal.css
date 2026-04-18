@@ -147,7 +147,6 @@
 	gap: 0.3125rem;
 	padding: 0.625rem 0.75rem;
 	background-color: var(--color-bg-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility queue-error-meta-row {

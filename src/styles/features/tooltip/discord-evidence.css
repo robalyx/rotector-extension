@@ -36,7 +36,6 @@
 	color: var(--color-text-secondary);
 	background-color: var(--color-reason-bg);
 	border: 1px solid var(--color-border-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-summary-item {
@@ -162,7 +161,6 @@
 @utility discord-account-id {
 	@apply text-sm-plus truncate font-mono;
 	color: var(--color-text);
-	font-variant-numeric: tabular-nums;
 	user-select: text;
 	cursor: text;
 }
@@ -170,7 +168,6 @@
 @utility discord-server-count {
 	@apply text-xs-plus ml-auto;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-account-content {
@@ -194,7 +191,6 @@
 @utility discord-alt-id {
 	@apply text-sm-plus flex-shrink-0 font-mono;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 /* =================================
@@ -223,7 +219,6 @@
 @utility discord-server-date {
 	@apply text-2xs flex flex-shrink-0 items-center gap-1;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility discord-date-separator {

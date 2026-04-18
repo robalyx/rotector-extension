@@ -13,7 +13,6 @@
 	padding: 0.3125rem 0.5rem;
 	letter-spacing: 0.02em;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 	transition:
 		background-color 0.15s ease,
 		color 0.15s ease;

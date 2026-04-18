@@ -205,7 +205,6 @@
 @utility modal-section-status {
 	@apply text-xs font-medium;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility modal-section-body {

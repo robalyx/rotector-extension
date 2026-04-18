@@ -25,7 +25,6 @@
 	@apply flex items-center justify-between text-xs;
 	gap: 0.5rem;
 	color: var(--color-text);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility queue-section-clear {
@@ -91,7 +90,6 @@
 }
 
 @utility queue-group-count {
-	font-variant-numeric: tabular-nums;
 	color: var(--color-text-tertiary);
 	letter-spacing: 0;
 }
@@ -155,7 +153,6 @@
 @utility queue-row-id {
 	@apply overflow-hidden text-xs font-semibold text-ellipsis whitespace-nowrap;
 	color: var(--color-text-heading);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility queue-row-time {

@@ -35,7 +35,6 @@
 @utility voting-count {
 	@apply text-xs-plus font-medium;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility voting-bar {
@@ -57,7 +56,6 @@
 @utility voting-stats {
 	@apply text-xs-plus flex justify-between font-medium;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility voting-buttons {
@@ -149,7 +147,6 @@
 	@apply text-xs-plus inline-flex cursor-help items-center justify-center rounded leading-none font-semibold whitespace-nowrap select-none;
 	padding: 0.1875rem 0.5rem;
 	letter-spacing: 0.02em;
-	font-variant-numeric: tabular-nums;
 	border: 1px solid transparent;
 	transition:
 		background-color 0.15s ease,
@@ -384,7 +381,6 @@
 	@apply text-2xs inline-flex items-center justify-center gap-1 rounded leading-none font-semibold;
 	padding: 0.1875rem 0.4375rem;
 	letter-spacing: 0.02em;
-	font-variant-numeric: tabular-nums;
 
 	&.latest {
 		background-color: color-mix(in srgb, var(--color-success) 18%, transparent);

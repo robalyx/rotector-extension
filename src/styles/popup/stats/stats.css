@@ -20,7 +20,6 @@
 	letter-spacing: -0.02em;
 	line-height: 1.1;
 	color: var(--color-text-heading);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility totals-band-label {
@@ -136,7 +135,6 @@
 
 @utility activity-legend-value {
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility activity-community {
@@ -152,7 +150,6 @@
 @utility activity-community-value {
 	@apply text-sm font-bold;
 	color: var(--color-text-heading);
-	font-variant-numeric: tabular-nums;
 	letter-spacing: -0.01em;
 }
 
@@ -204,7 +201,6 @@
 @utility rate-limits-reset {
 	@apply text-xs-plus;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility rate-limits-row {
@@ -219,7 +215,6 @@
 }
 
 @utility rate-limits-count {
-	font-variant-numeric: tabular-nums;
 	color: var(--color-text-subtle);
 }
 
@@ -274,7 +269,6 @@
 @utility funding-percentage {
 	@apply text-sm font-semibold;
 	color: var(--color-text-heading);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility funding-bar {
@@ -296,7 +290,6 @@
 @utility funding-amounts {
 	@apply m-0 text-xs;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility funding-button {
@@ -357,7 +350,6 @@
 @utility changelog-compact-version {
 	@apply text-xs-plus font-medium;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility changelog-compact-spacer {

@@ -35,7 +35,6 @@
 @utility friend-warning-user-confidence {
 	@apply text-xs;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 /* =================================
@@ -65,7 +64,6 @@
 @utility friend-warning-violation-confidence {
 	@apply flex-shrink-0 text-sm;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility friend-warning-violation-message {

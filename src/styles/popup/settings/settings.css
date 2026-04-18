@@ -159,7 +159,6 @@
 	height: 1rem;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility settings-section-collapser {

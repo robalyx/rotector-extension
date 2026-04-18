@@ -176,7 +176,6 @@
 @utility tooltip-user-id {
 	@apply text-sm-plus font-medium;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 }
 
 @utility tooltip-header {

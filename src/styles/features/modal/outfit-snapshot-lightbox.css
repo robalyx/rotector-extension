@@ -10,7 +10,6 @@
 	@apply mr-2 rounded px-2 py-1 text-xs font-semibold uppercase;
 	letter-spacing: 0.1em;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 	font-family: ui-monospace, monospace;
 	background-color: color-mix(in srgb, var(--color-status-outfit) 12%, transparent);
 }
@@ -125,6 +124,5 @@
 @utility outfit-snapshot-lightbox-meta-confidence {
 	@apply text-xs font-semibold;
 	color: var(--color-text);
-	font-variant-numeric: tabular-nums;
 	font-family: ui-monospace, monospace;
 }

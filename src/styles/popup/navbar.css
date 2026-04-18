@@ -51,7 +51,6 @@
 
 @utility navbar-tab-count {
 	@apply text-xs-plus font-medium;
-	font-variant-numeric: tabular-nums;
 	color: var(--color-text-subtle);
 }
 

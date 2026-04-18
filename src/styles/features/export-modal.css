@@ -173,5 +173,4 @@
 @utility export-cooldown {
 	@apply mr-auto text-xs;
 	color: var(--color-text-subtle);
-	font-variant-numeric: tabular-nums;
 }

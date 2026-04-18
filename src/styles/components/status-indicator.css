@@ -44,7 +44,6 @@
    ================================= */
 @utility status-text-base {
 	@apply text-sm-plus font-medium whitespace-nowrap;
-	font-variant-numeric: tabular-nums;
 	letter-spacing: -0.005em;
 }
 
@@ -180,7 +179,6 @@
 @utility badge-bg-integration {
 	@apply text-2xs leading-none font-bold text-white;
 	background-color: var(--color-status-integration);
-	font-variant-numeric: tabular-nums;
 }
 
 /* =================================

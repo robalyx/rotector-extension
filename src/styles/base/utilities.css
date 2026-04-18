@@ -4,10 +4,8 @@
 
 @font-face {
 	font-family: 'Builder Sans';
-	src:
-		url('/fonts/builder-sans/BuilderSans.woff2') format('woff2-variations'),
-		url('/fonts/builder-sans/BuilderSans.woff2') format('woff2');
-	font-weight: 100 900;
+	src: url('/fonts/builder-sans/BuilderSans.woff2') format('woff2');
+	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
@@ -18,6 +16,7 @@
 
 :host {
 	font-family: var(--font-system) !important;
+	font-variant-numeric: proportional-nums !important;
 	font-size: 14px !important;
 	line-height: 1.5 !important;
 	color: var(--color-text) !important;

@@ -6,7 +6,6 @@
 	@apply text-sm-plus mt-2 inline-flex items-center rounded py-0.5 font-semibold;
 	padding-left: 0.5rem;
 	padding-right: 0.625rem;
-	font-variant-numeric: tabular-nums;
 
 	.status-indicator {
 		@apply mr-1.5 inline-block h-2 w-2 rounded-full;
@@ -83,7 +82,6 @@
 @utility custom-api-badge {
 	@apply text-2xs inline-flex items-center justify-center rounded-full px-2 py-0.5 font-semibold uppercase;
 	letter-spacing: 0.08em;
-	font-variant-numeric: tabular-nums;
 	background-color: var(--color-status-integration);
 	color: white;
 }
@@ -196,7 +194,6 @@
 @utility tooltip-metadata-item {
 	@apply text-2xs flex items-center gap-1.5 px-2 py-1 font-normal;
 	color: var(--color-text-tertiary);
-	font-variant-numeric: tabular-nums;
 
 	&.processing {
 		color: var(--color-status-checking);
@@ -214,7 +211,6 @@
 
 @utility tooltip-metadata-value {
 	@apply text-2xs font-medium;
-	font-variant-numeric: tabular-nums;
 }
 
 @utility tooltip-metadata-reprocess {
@@ -278,7 +274,6 @@
 	transition:
 		background-color 0.15s ease,
 		color 0.15s ease;
-	font-variant-numeric: tabular-nums;
 
 	&:hover {
 		background-color: var(--color-primary-hover);
@@ -367,7 +362,6 @@
 	color: var(--color-reason-header);
 	font-size: 0.9375rem;
 	letter-spacing: -0.005em;
-	font-variant-numeric: tabular-nums;
 
 	&.integration {
 		color: var(--color-status-integration);
@@ -560,7 +554,6 @@
 	@apply text-2xs rounded px-1.5 py-0.5 font-bold;
 	background-color: var(--color-status-outfit);
 	color: white;
-	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.02em;
 }
 
@@ -621,7 +614,6 @@
 @utility outfit-snapshot-count {
 	@apply text-base leading-none font-bold;
 	color: var(--primitive-white);
-	font-variant-numeric: tabular-nums;
 	font-family: ui-monospace, monospace;
 }
 

@@ -21,6 +21,7 @@ export const SETTINGS_KEYS = {
 	CUSTOM_APIS: 'customApis',
 	LAST_SELECTED_CUSTOM_API_TAB: 'lastSelectedCustomApiTab',
 	TRANSLATE_VIOLATIONS_ENABLED: 'translateViolationsEnabled',
+	CIPHER_DECODING_ENABLED: 'cipherDecodingEnabled',
 	ONBOARDING_COMPLETED: 'onboardingCompleted',
 	BLUR_DISPLAY_NAMES: 'blurDisplayNames',
 	BLUR_USERNAMES: 'blurUsernames',
@@ -67,6 +68,7 @@ export interface Settings {
 	[SETTINGS_KEYS.CUSTOM_APIS]?: string;
 	[SETTINGS_KEYS.LAST_SELECTED_CUSTOM_API_TAB]?: string;
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: boolean;
+	[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]: boolean;
 	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: boolean;
 	[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: boolean;
 	[SETTINGS_KEYS.BLUR_USERNAMES]: boolean;
@@ -99,6 +101,7 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION]: CHANGELOGS[1]?.version ?? '',
 	[SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED]: false,
 	[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED]: false,
+	[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]: true,
 	[SETTINGS_KEYS.ONBOARDING_COMPLETED]: false,
 	[SETTINGS_KEYS.BLUR_DISPLAY_NAMES]: false,
 	[SETTINGS_KEYS.BLUR_USERNAMES]: false,
@@ -135,6 +138,11 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 				key: SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED,
 				labelKey: 'settings_label_translate_violations',
 				helpTextKey: 'settings_help_translate_violations'
+			},
+			{
+				key: SETTINGS_KEYS.CIPHER_DECODING_ENABLED,
+				labelKey: 'settings_label_cipher_decoding',
+				helpTextKey: 'settings_help_cipher_decoding'
 			}
 		]
 	},

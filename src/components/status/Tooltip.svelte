@@ -612,6 +612,7 @@
 	// Decode map keyed by raw evidence content
 	const evidenceEncodingMap = $derived.by(() => {
 		const map = new SvelteMap<string, EvidenceDecodeEntry>();
+		if (!$settings[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]) return map;
 		for (const reason of reasonEntries) {
 			if (!reason.evidence) continue;
 			for (const evidence of reason.evidence) {

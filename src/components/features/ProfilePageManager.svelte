@@ -314,6 +314,12 @@
 
 	// Mount cipher decode indicator on the profile bio
 	async function setupCipherIndicator() {
+		const currentSettings = get(settings);
+		if (!currentSettings[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]) {
+			logger.debug('Cipher decoding disabled, skipping indicator setup');
+			return;
+		}
+
 		const { element: descEl } = await waitForElement<HTMLElement>(
 			BLUR_SELECTORS.PROFILE_DESCRIPTION
 		);

@@ -40,7 +40,7 @@ export interface ActivityData {
 	entries: HourlyStatEntry[];
 }
 
-// Full response shape from GET /v1/stats?hours=N
+// Full response shape from GET /v2/stats?hours=N
 export interface StatsResponse {
 	totals: StatTotals;
 	funding: FundingSnapshot;

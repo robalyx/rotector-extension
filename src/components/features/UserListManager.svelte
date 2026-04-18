@@ -3,6 +3,7 @@
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import type { Observer } from '@/lib/utils/observer';
 	import { observerFactory } from '@/lib/utils/observer';
+	import { waitForElement } from '@/lib/utils/element-waiter';
 	import {
 		COMPONENT_CLASSES,
 		ENTITY_TYPES,
@@ -50,7 +51,6 @@
 	let modalObserver: Observer | null = null;
 	let modalContainerWatcher: Observer | null = null;
 	let modalCloseObserver: MutationObserver | null = null;
-	let vlistWaitObserver: MutationObserver | null = null;
 	let processedUsers = new SvelteSet<string>();
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let loadingUsers = new SvelteSet<string>();
@@ -301,35 +301,9 @@
 			modalObserver = null;
 		}
 
-		// Wait for virtual list container if not present
-		const vlist = modal.querySelector(GROUPS_MODAL_SELECTORS.VLIST);
-		logger.debug('Modal vlist search result', {
-			found: !!vlist,
-			selector: GROUPS_MODAL_SELECTORS.VLIST
-		});
-
-		if (!vlist) {
-			logger.debug('Waiting for vlist to appear in modal');
-			if (vlistWaitObserver) {
-				vlistWaitObserver.disconnect();
-				vlistWaitObserver = null;
-			}
-			vlistWaitObserver = new MutationObserver((_, obs) => {
-				if (destroyed) {
-					obs.disconnect();
-					return;
-				}
-				const foundVlist = modal.querySelector(GROUPS_MODAL_SELECTORS.VLIST);
-				if (foundVlist) {
-					logger.debug('Vlist appeared in modal');
-					obs.disconnect();
-					vlistWaitObserver = null;
-					void createModalListObserver(modal);
-				}
-			});
-			vlistWaitObserver.observe(modal, { childList: true, subtree: true });
-			return;
-		}
+		// Wait for virtual list container
+		const { success } = await waitForElement(GROUPS_MODAL_SELECTORS.VLIST);
+		if (!success || destroyed || !document.contains(modal)) return;
 
 		await createModalListObserver(modal);
 	}
@@ -386,11 +360,6 @@
 		if (modalCloseObserver) {
 			modalCloseObserver.disconnect();
 			modalCloseObserver = null;
-		}
-
-		if (vlistWaitObserver) {
-			vlistWaitObserver.disconnect();
-			vlistWaitObserver = null;
 		}
 	}
 

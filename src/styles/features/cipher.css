@@ -1,0 +1,26 @@
+/* =================================
+   CIPHER INDICATOR CHIP
+   ================================= */
+
+@utility cipher-indicator-chip {
+	@apply !inline-flex !cursor-pointer !items-center !gap-1.5 !rounded-lg !border !px-2.5 !py-0.5 !text-[11px] !font-medium;
+	background-color: var(--roblox-bg-surface) !important;
+	border-color: var(--roblox-border) !important;
+	color: var(--roblox-text-muted) !important;
+	margin-top: 6px !important;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease !important;
+
+	&:hover {
+		background-color: var(--roblox-bg-hover) !important;
+		border-color: var(--roblox-border-hover) !important;
+		color: var(--roblox-text-primary) !important;
+	}
+}
+
+@utility cipher-indicator-action {
+	@apply !font-semibold;
+	color: var(--roblox-accent) !important;
+}

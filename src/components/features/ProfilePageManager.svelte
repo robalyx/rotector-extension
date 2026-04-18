@@ -6,6 +6,7 @@
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import type { ProfileQuerySubscription } from '@/lib/utils/profile-query';
 	import {
+		BLUR_SELECTORS,
 		BTROBLOX_GROUPS_SELECTORS,
 		COMPONENT_CLASSES,
 		ENTITY_TYPES,
@@ -30,12 +31,14 @@
 		observeProfileHeader
 	} from '@/lib/services/blur-service';
 	import { isFlagged } from '@/lib/utils/status-utils';
+	import { detectEncoding } from '@/lib/utils/encoding-detector';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import UserListManager from './UserListManager.svelte';
 	import GroupListManager from './GroupListManager.svelte';
+	import CipherIndicator from './CipherIndicator.svelte';
 
 	interface Props {
 		userId: string;
@@ -67,6 +70,7 @@
 	let outfitObserverCleanup: (() => void) | null = null;
 	let descriptionObserverCleanup: (() => void) | null = null;
 	let headerObserverCleanup: (() => void) | null = null;
+	let cipherContainer: HTMLElement | null = null;
 
 	// Returns true if outfit should be blurred
 	function shouldBlurOutfit(status: CombinedStatus): boolean {
@@ -120,7 +124,12 @@
 			// NOTE: We mark profile elements ready early so blur marking and observers start immediately
 			profileElementsReady = true;
 
-			await Promise.all([setupFriendWarning(), setupCarousel(), setupGroupsShowcase()]);
+			await Promise.all([
+				setupFriendWarning(),
+				setupCarousel(),
+				setupGroupsShowcase(),
+				setupCipherIndicator()
+			]);
 
 			logger.debug('ProfilePageManager initialized successfully');
 		} catch (error) {
@@ -303,6 +312,44 @@
 		}
 	}
 
+	// Mount cipher decode indicator on the profile bio
+	async function setupCipherIndicator() {
+		const { element: descEl } = await waitForElement<HTMLElement>(
+			BLUR_SELECTORS.PROFILE_DESCRIPTION
+		);
+
+		if (!descEl) {
+			logger.debug('No profile description found for cipher detection');
+			return;
+		}
+
+		const result = detectEncoding(descEl.textContent);
+		if (!result) return;
+
+		const existing = mountedComponents.get('cipher-indicator');
+		if (existing) {
+			existing.unmount?.();
+			mountedComponents.delete('cipher-indicator');
+		}
+
+		const container = document.createElement('div');
+		container.className = COMPONENT_CLASSES.CIPHER_INDICATOR;
+		container.dataset.rotectorOwned = 'true';
+		descEl.insertAdjacentElement('afterend', container);
+		cipherContainer = container;
+
+		const component = mount(CipherIndicator, {
+			target: container,
+			props: {
+				descEl,
+				encoding: result
+			}
+		});
+
+		mountedComponents.set('cipher-indicator', component);
+		logger.debug('CipherIndicator mounted', { type: result.type });
+	}
+
 	// Get the currently visible header element
 	function getActiveHeader(): HTMLElement | null {
 		const header = document.querySelector(PROFILE_SELECTORS.HEADER);
@@ -469,6 +516,12 @@
 					statusContainer.innerHTML = '';
 				}
 				statusContainer = null;
+			}
+
+			// Clean up cipher indicator
+			if (cipherContainer) {
+				cipherContainer.remove();
+				cipherContainer = null;
 			}
 
 			logger.debug('ProfilePageManager cleanup completed');

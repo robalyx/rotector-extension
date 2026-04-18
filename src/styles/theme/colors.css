@@ -24,7 +24,7 @@
 
 	/* Blues */
 	--primitive-blue-400: #58a6ff;
-	--primitive-blue-500: #2196f3;
+	--primitive-blue-500: #3c91e6;
 	--primitive-blue-600: #1976d2;
 	--primitive-blue-700: #1565c0;
 	--primitive-blue-classic: #007bff;
@@ -148,7 +148,7 @@
 	/* Brand */
 	--color-primary: var(--primitive-blue-500);
 	--color-primary-hover: var(--primitive-blue-600);
-	--color-primary-alpha: rgba(33, 150, 243, 0.1);
+	--color-primary-alpha: rgba(60, 145, 230, 0.1);
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
 	--color-success: var(--primitive-green-500);
@@ -465,7 +465,7 @@
 
 	/* Brand */
 	--color-primary-hover: var(--primitive-blue-600);
-	--color-primary-alpha: rgba(33, 150, 243, 0.1);
+	--color-primary-alpha: rgba(60, 145, 230, 0.1);
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
 

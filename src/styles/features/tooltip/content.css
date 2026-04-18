@@ -417,6 +417,51 @@
 	@apply evidence-chrome inline-image;
 }
 
+@utility decoded-evidence-item {
+	@apply evidence-chrome flex flex-col gap-1;
+}
+
+@utility decoded-evidence-text {
+	@apply inline-image text-sm leading-normal;
+	color: var(--color-evidence-text);
+	overflow-wrap: break-word;
+}
+
+@utility decoded-evidence-chip {
+	@apply text-2xs inline-flex cursor-pointer items-center gap-1 rounded border-none font-medium;
+	padding: 0.1875rem 0.4375rem;
+	letter-spacing: 0.02em;
+	color: var(--color-text-subtle);
+	background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	&:hover {
+		background-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+		color: var(--color-text);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+@utility decoded-evidence-action {
+	color: var(--color-primary);
+}
+
+@utility decoded-evidence-original {
+	@apply text-xs leading-normal;
+	color: var(--color-text-subtle);
+	overflow-wrap: break-word;
+	font-family: ui-monospace, monospace;
+	border-top: 1px solid var(--color-border-subtle);
+	padding-top: 0.25rem;
+	margin-top: 0.125rem;
+}
+
 @utility source-evidence-item {
 	@apply evidence-chrome;
 }

@@ -128,6 +128,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Profile tooltip name - Expanded tooltip no longer shows "Unknown User" when opened before Roblox finishes loading the profile header'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Bio emojis - Emojis from roseal extension in flagged bios now render at text size instead of stretching to full image dimensions'
 			},
 			{

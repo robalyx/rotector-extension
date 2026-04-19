@@ -50,6 +50,11 @@
 	// Status state owned by this component
 	let userStatus = $state<CombinedStatus | null>(null);
 
+	// Forwarded to the tooltip so it doesn't show "Unknown User" when Roblox fills the header async
+	let userDisplayName = $state<string | undefined>(undefined);
+	let userUsername = $state<string | undefined>(undefined);
+	let userAvatarUrl = $state<string | undefined>(undefined);
+
 	// Check if user is flagged by any API
 	const userIsFlagged = $derived(isFlagged(userStatus));
 
@@ -70,6 +75,7 @@
 	let outfitObserverCleanup: (() => void) | null = null;
 	let descriptionObserverCleanup: (() => void) | null = null;
 	let headerObserverCleanup: (() => void) | null = null;
+	let nameObserverCleanup: (() => void) | null = null;
 	let cipherContainer: HTMLElement | null = null;
 
 	// Returns true if outfit should be blurred
@@ -137,6 +143,52 @@
 		}
 	}
 
+	// Populate identity fields from the profile header
+	function readProfileUserInfo(header: Element) {
+		if (!userDisplayName) {
+			const el = header.querySelector(PROFILE_SELECTORS.HEADER_TITLE);
+			const text = el?.textContent?.trim();
+			if (text) userDisplayName = text;
+		}
+
+		if (!userUsername) {
+			const el = header.querySelector(PROFILE_SELECTORS.USERNAME);
+			const raw = el?.textContent?.trim();
+			if (raw) userUsername = raw.startsWith('@') ? raw.slice(1) : raw;
+		}
+
+		if (!userAvatarUrl) {
+			const el = header.querySelector(PROFILE_SELECTORS.AVATAR_IMG);
+			if (el instanceof HTMLImageElement && el.src) {
+				userAvatarUrl = el.src;
+			}
+		}
+	}
+
+	// Capture identity fields as Roblox hydrates the header async
+	function observeProfileUserInfo(header: Element) {
+		nameObserverCleanup?.();
+
+		if (userDisplayName && userUsername && userAvatarUrl) return;
+
+		const observer = new MutationObserver(() => {
+			readProfileUserInfo(header);
+			if (userDisplayName && userUsername && userAvatarUrl) {
+				observer.disconnect();
+			}
+		});
+
+		observer.observe(header, {
+			childList: true,
+			characterData: true,
+			subtree: true,
+			attributes: true,
+			attributeFilter: ['src']
+		});
+
+		nameObserverCleanup = () => observer.disconnect();
+	}
+
 	// Set up status indicator in profile header
 	async function setupStatusIndicator() {
 		try {
@@ -146,6 +198,13 @@
 			if (!titleResult.success || !titleResult.element) {
 				logger.warn('Could not find profile header title container');
 				return;
+			}
+
+			// Seed tooltip identity props and observe the header if fields aren't filled yet
+			const header = document.querySelector(PROFILE_SELECTORS.HEADER);
+			if (header) {
+				readProfileUserInfo(header);
+				observeProfileUserInfo(header);
 			}
 
 			// Inject status indicator after the title span
@@ -204,6 +263,15 @@
 					entityType: ENTITY_TYPES.USER,
 					get entityStatus() {
 						return userStatus;
+					},
+					get userDisplayName() {
+						return userDisplayName;
+					},
+					get userUsername() {
+						return userUsername;
+					},
+					get userAvatarUrl() {
+						return userAvatarUrl;
 					},
 					skipAutoFetch: true,
 					onClick: handleStatusClick,
@@ -505,6 +573,10 @@
 				clearInterval(headerCheckInterval);
 				headerCheckInterval = null;
 			}
+
+			// Clean up profile name observer
+			nameObserverCleanup?.();
+			nameObserverCleanup = null;
 
 			// Clean up any active refresh query
 			refreshCancelQuery?.();

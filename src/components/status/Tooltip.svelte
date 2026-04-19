@@ -96,6 +96,7 @@
 	type HoverPopoverKind =
 		| 'cross-signal'
 		| 'outfit-only'
+		| 'reviewer-anonymous'
 		| 'trap-info'
 		| 'discord-info'
 		| 'trapv2-info'
@@ -235,6 +236,9 @@
 	let activeTab = $state<string>(ROTECTOR_API_ID);
 	let activeHoverPopover = $state<HoverPopoverState | null>(null);
 	let hoverPopoverPosition = $state({ left: 0, top: 0 });
+
+	const hintsSeen = $derived(new Set<string>($settings[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]));
+	let hintWriteQueue: Promise<unknown> = Promise.resolve();
 
 	// Outfit snapshot state
 	let outfitSnapshotMap: Map<string, OutfitSnapshotResult> | null = $state(null);
@@ -898,6 +902,20 @@
 		clearHoverPopoverHideTimeout();
 		activeHoverPopover = { anchor, kind };
 		queueHoverPopoverPosition();
+		markInfoHintSeen(kind);
+	}
+
+	function markInfoHintSeen(kind: HoverPopoverKind) {
+		if (hintsSeen.has(kind)) return;
+		hintWriteQueue = hintWriteQueue
+			.then(() => {
+				const existing = $settings[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN];
+				if (existing.includes(kind)) return;
+				return updateSetting(SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN, [...existing, kind]);
+			})
+			.catch((err) => {
+				logger.error('Failed to mark info hint seen:', err);
+			});
 	}
 
 	function scheduleHoverPopoverClose() {
@@ -1545,7 +1563,12 @@
 					</span>
 				</span>
 				{#if reviewer.username === 'Anonymous' && reviewer.displayName === 'Anonymous'}
-					<div class="reviewer-anonymous-indicator">
+					<!-- svelte-ignore a11y_no_static_element_interactions -->
+					<div
+						class="reviewer-anonymous-indicator"
+						class:info-hint-unseen={!hintsSeen.has('reviewer-anonymous')}
+						onmouseenter={() => markInfoHintSeen('reviewer-anonymous')}
+					>
 						<Info size={12} />
 						<div class="reviewer-anonymous-popover">
 							<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
@@ -1859,6 +1882,7 @@
 									{#if reason.typeName === 'User Profile' && badgeStatus.hasCrossSignal}
 										<button
 											class="cross-signal-indicator"
+											class:info-hint-unseen={!hintsSeen.has('cross-signal')}
 											aria-label={$_('tooltip_cross_signal_title')}
 											onclick={(event) => event.stopPropagation()}
 											onmouseenter={(event) =>
@@ -1885,6 +1909,7 @@
 										{#if reason.typeName === 'Avatar Outfit' && badgeStatus.isOutfitOnly}
 											<button
 												class="outfit-only-indicator"
+												class:info-hint-unseen={!hintsSeen.has('outfit-only')}
 												onclick={(event) => event.stopPropagation()}
 												onmouseenter={(event) =>
 													handleHoverPopoverTriggerEnter('outfit-only', event)}
@@ -1912,6 +1937,7 @@
 															{#if sourceInfo}
 																<button
 																	class="source-info-indicator"
+																	class:info-hint-unseen={!hintsSeen.has(sourceInfo.kind)}
 																	aria-label={$_(sourceInfo.titleKey)}
 																	onclick={(event) => event.stopPropagation()}
 																	onmouseenter={(event) =>

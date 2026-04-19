@@ -40,6 +40,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Info icon hints - Unseen info icons in tooltips pulse gently until hovered, making extra context easier to discover'
+			},
+			{
+				type: 'added',
+				description:
 					'Outfit viewer everywhere - The 3D outfit viewer is accessible from all tooltip contexts, not just the profile page'
 			},
 			{

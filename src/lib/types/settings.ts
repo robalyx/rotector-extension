@@ -32,7 +32,8 @@ export const SETTINGS_KEYS = {
 	EXPANDED_TOOLTIP_HEIGHT: 'expandedTooltipHeight',
 	PREVIEW_TOOLTIP_WIDTH: 'previewTooltipWidth',
 	PREVIEW_TOOLTIP_HEIGHT: 'previewTooltipHeight',
-	EXPANDED_HEADER_HEIGHT: 'expandedHeaderHeight'
+	EXPANDED_HEADER_HEIGHT: 'expandedHeaderHeight',
+	INFO_POPOVER_HINTS_SEEN: 'infoPopoverHintsSeen'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -80,6 +81,7 @@ export interface Settings {
 	[SETTINGS_KEYS.PREVIEW_TOOLTIP_WIDTH]?: number;
 	[SETTINGS_KEYS.PREVIEW_TOOLTIP_HEIGHT]?: number;
 	[SETTINGS_KEYS.EXPANDED_HEADER_HEIGHT]?: number;
+	[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]: string[];
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -107,7 +109,8 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.BLUR_USERNAMES]: false,
 	[SETTINGS_KEYS.BLUR_DESCRIPTIONS]: false,
 	[SETTINGS_KEYS.BLUR_AVATARS]: false,
-	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false
+	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false,
+	[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]: []
 };
 
 interface SettingCategory {

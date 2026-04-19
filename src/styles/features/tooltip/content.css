@@ -87,6 +87,46 @@
 }
 
 /* =================================
+   INDICATOR HINTS
+   ================================= */
+
+@utility info-hint-unseen {
+	color: var(--color-primary);
+
+	&::after {
+		@apply pointer-events-none absolute rounded-full;
+		content: '';
+		top: 50%;
+		left: 50%;
+		width: 1rem;
+		height: 1rem;
+		margin-top: -0.5rem;
+		margin-left: -0.5rem;
+		border: 1.5px solid color-mix(in srgb, var(--color-primary) 60%, transparent);
+		animation: info-hint-ping 2.4s ease-out infinite;
+	}
+
+	&.outfit-only-indicator::after {
+		left: 0.375rem;
+	}
+}
+
+@keyframes info-hint-ping {
+	0% {
+		transform: scale(0.8);
+		opacity: 0.55;
+	}
+	80% {
+		transform: scale(2.2);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(2.2);
+		opacity: 0;
+	}
+}
+
+/* =================================
    CONTENT SECTIONS
    ================================= */
 

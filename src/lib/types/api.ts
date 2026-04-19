@@ -105,6 +105,7 @@ export interface RequestOptions {
 	timeout?: number;
 	apiConfig?: CustomApiConfig;
 	lookupContext?: string;
+	signal?: AbortSignal;
 }
 
 // Page types for content script controllers

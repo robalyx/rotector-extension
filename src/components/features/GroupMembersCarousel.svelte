@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mount, onMount } from 'svelte';
+	import { mount, onMount, unmount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
 	import { _ } from 'svelte-i18n';
 	import { get } from 'svelte/store';
@@ -45,7 +45,8 @@
 	// Shared state
 	let activeTab = $state<ViewTab>('by-role');
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
-	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
+	let mountedComponents = new SvelteMap<string, ReturnType<typeof mount>>();
+	let batchController: AbortController | null = null;
 
 	// By-role view state
 	let roles = $state<GroupRole[]>([]);
@@ -247,13 +248,16 @@
 
 	// Load Rotector statuses for members
 	async function loadStatuses(userIds: string[]) {
+		batchController?.abort();
+		batchController = new AbortController();
 		try {
-			const statuses = await queryMultipleUsers(userIds);
+			const statuses = await queryMultipleUsers(userIds, { signal: batchController.signal });
 			statuses.forEach((status, userId) => {
 				userStatuses.set(userId, status);
 				onUserProcessed?.(userId, status);
 			});
 		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') return;
 			logger.error('Failed to load user statuses:', error);
 		}
 	}
@@ -479,7 +483,7 @@
 		// Cleanup existing
 		const existing = mountedComponents.get(userId);
 		if (existing) {
-			existing.unmount?.();
+			void unmount(existing);
 			mountedComponents.delete(userId);
 		}
 
@@ -752,7 +756,7 @@
 	function cleanupMountedComponents() {
 		for (const component of mountedComponents.values()) {
 			try {
-				component.unmount?.();
+				void unmount(component);
 			} catch (error) {
 				logger.error('Failed to unmount component:', error);
 			}
@@ -762,6 +766,7 @@
 
 	// Full cleanup
 	function cleanup() {
+		batchController = null;
 		cleanupMountedComponents();
 		userStatuses.clear();
 	}

@@ -66,7 +66,7 @@
 	import { SETTINGS_KEYS, type SettingsKey } from '@/lib/types/settings';
 
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import { ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
+	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 	import { settings, updateSetting, removeSetting } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
 	import { guardWatermark, renderWatermarkTile } from '@/lib/utils/watermark';
@@ -234,6 +234,7 @@
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
+	let lastSelectedForUserId = $state<string | number | null>(null);
 	let activeHoverPopover = $state<HoverPopoverState | null>(null);
 	let hoverPopoverPosition = $state({ left: 0, top: 0 });
 
@@ -337,28 +338,27 @@
 	// Set default active tab
 	$effect(() => {
 		if (!userStatus) return;
+		if (lastSelectedForUserId === userId) return;
 
-		// First priority: Check if user has a preferred tab and if it exists in current results
+		// Persisted user preference wins if available
 		const preferredTab = get(settings).lastSelectedCustomApiTab;
 		if (preferredTab && userStatus.has(preferredTab)) {
 			activeTab = preferredTab;
+			lastSelectedForUserId = userId;
 			return;
 		}
 
-		// Second priority: If Rotector returns Safe (flagType 0) and custom APIs exist
+		// Smart selection requires all APIs to have settled
+		const values = Array.from(userStatus.values());
+		const allSettled = values.every((result) => !result.loading);
+		if (!allSettled) return;
+
 		const rotector = userStatus.get(ROTECTOR_API_ID);
-		const allApisSafe = Array.from(userStatus.values()).every(
+		const allApisSafe = values.every(
 			(result) => !result.data || result.data.flagType === STATUS.FLAGS.SAFE
 		);
 
-		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.size > 1) {
-			// If ALL APIs are safe, show Rotector tab
-			if (allApisSafe) {
-				activeTab = ROTECTOR_API_ID;
-				return;
-			}
-
-			// Or else open first custom API that detected something
+		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.size > 1 && !allApisSafe) {
 			const firstCustomWithDetection = Array.from(userStatus.entries()).find(
 				([id, result]) =>
 					id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
@@ -366,12 +366,13 @@
 
 			if (firstCustomWithDetection) {
 				activeTab = firstCustomWithDetection[0];
+				lastSelectedForUserId = userId;
 				return;
 			}
 		}
 
-		// Third priority: Open Rotector tab
 		activeTab = ROTECTOR_API_ID;
+		lastSelectedForUserId = userId;
 	});
 
 	// Computed values

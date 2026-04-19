@@ -3,6 +3,7 @@
 	import { _ } from 'svelte-i18n';
 	import { apiClient } from '@/lib/services/api-client';
 	import { fetchAllFriendIds } from '@/lib/services/roblox-friends-api';
+	import { abortableSleep } from '@/lib/utils/abort';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { chunkArray } from '@/lib/utils/array';
 	import { logger } from '@/lib/utils/logger';
@@ -82,27 +83,6 @@
 		}
 	}
 
-	function abortableDelay(ms: number, signal: AbortSignal): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			if (signal.aborted) {
-				reject(new DOMException('Aborted', 'AbortError'));
-				return;
-			}
-
-			const timer = setTimeout(() => {
-				signal.removeEventListener('abort', onAbort);
-				resolve();
-			}, ms);
-
-			function onAbort() {
-				clearTimeout(timer);
-				reject(new DOMException('Aborted', 'AbortError'));
-			}
-
-			signal.addEventListener('abort', onAbort, { once: true });
-		});
-	}
-
 	async function startScan() {
 		const controller = new AbortController();
 		abortController = controller;
@@ -155,7 +135,7 @@
 				progress = 30 + ((i + 1) / chunks.length) * 70;
 
 				if (i < chunks.length - 1) {
-					await abortableDelay(API_CONFIG.BATCH_DELAY, signal);
+					await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
 				}
 			}
 

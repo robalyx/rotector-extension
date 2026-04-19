@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mount } from 'svelte';
+	import { mount, unmount } from 'svelte';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import type { Observer } from '@/lib/utils/observer';
 	import { observerFactory } from '@/lib/utils/observer';
@@ -54,8 +54,9 @@
 	let processedUsers = new SvelteSet<string>();
 	let userStatuses = new SvelteMap<string, CombinedStatus>();
 	let loadingUsers = new SvelteSet<string>();
-	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
+	let mountedComponents = new SvelteMap<string, ReturnType<typeof mount>>();
 	let destroyed = $state(false);
+	let batchController: AbortController | null = null;
 
 	// Queue modal manager reference
 	let queueModalManager: QueueModalManagerInstance;
@@ -419,7 +420,7 @@
 					const oldComponent = mountedComponents.get(oldUserId);
 					if (oldComponent) {
 						try {
-							oldComponent.unmount?.();
+							void unmount(oldComponent);
 						} catch (error) {
 							logger.error('Failed to unmount old component for reused element:', error);
 						}
@@ -620,7 +621,12 @@
 
 			// Query all APIs
 			const lookupContext = isOwnFriendsLookup() ? LOOKUP_CONTEXT.FRIENDS : undefined;
-			const customApiResults = await queryMultipleUsers(userIds, lookupContext);
+			batchController?.abort();
+			batchController = new AbortController();
+			const customApiResults = await queryMultipleUsers(userIds, {
+				lookupContext,
+				signal: batchController.signal
+			});
 
 			// Store combined statuses
 			customApiResults.forEach((combinedStatus, userId) => {
@@ -632,6 +638,11 @@
 
 			logger.debug(`Loaded ${customApiResults.size} user statuses for ${pageType}`);
 		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') {
+				users.forEach((u) => loadingUsers.delete(u.userId));
+				return;
+			}
+
 			logger.error('Failed to load user statuses:', error);
 
 			// Clear loading state
@@ -660,7 +671,7 @@
 
 			const existingComponent = mountedComponents.get(user.userId);
 			if (existingComponent) {
-				existingComponent.unmount?.();
+				void unmount(existingComponent);
 				mountedComponents.delete(user.userId);
 			}
 
@@ -796,7 +807,7 @@
 				const component = mountedComponents.get(userId);
 				if (component) {
 					try {
-						component.unmount?.();
+						void unmount(component);
 					} catch (error) {
 						logger.error('Failed to unmount orphaned component:', error);
 					}
@@ -842,6 +853,7 @@
 	// Cleanup resources
 	function cleanup() {
 		destroyed = true;
+		batchController = null;
 
 		if (observer) {
 			observer.stop();
@@ -861,7 +873,7 @@
 		// Cleanup mounted components
 		for (const component of mountedComponents.values()) {
 			try {
-				component.unmount?.();
+				void unmount(component);
 			} catch (error) {
 				logger.error('Failed to unmount component:', error);
 			}

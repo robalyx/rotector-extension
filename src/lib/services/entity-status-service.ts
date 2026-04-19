@@ -3,6 +3,7 @@ import type { GroupStatus, UserStatus } from '../types/api';
 import { API_CONFIG } from '../types/constants';
 import { settings } from '../stores/settings';
 import { SETTINGS_KEYS } from '../types/settings';
+import { abortableSleep, getAbortError } from '../utils/abort';
 import { logger } from '../utils/logger';
 import { chunkArray } from '../utils/array';
 import { apiClient } from './api-client';
@@ -17,40 +18,95 @@ interface StatusRequest<T> {
 	reject: (error: Error) => void;
 }
 
+interface GetStatusOptions {
+	signal?: AbortSignal;
+}
+
+interface GetStatusesOptions {
+	lookupContext?: string;
+	signal?: AbortSignal;
+}
+
+// The controller short-circuits the shared fetch only when every queued waiter has aborted,
+// so one caller's cancel can never reject another caller's still-active request.
+interface PendingEntry<T> {
+	queue: Array<StatusRequest<T>>;
+	controller: AbortController;
+}
+
 type EntityStatus = UserStatus | GroupStatus;
 
 class EntityStatusService<T extends EntityStatus> {
 	private readonly cache = new Map<string, CacheEntry<T>>();
-	private readonly pendingRequests = new Map<string, Array<StatusRequest<T>>>();
+	private readonly pendingRequests = new Map<string, PendingEntry<T>>();
 
 	constructor(
 		private readonly entityType: 'user' | 'group',
-		private readonly fetchSingle: (id: string) => Promise<T>,
-		private readonly fetchMultiple?: (ids: string[], lookupContext?: string) => Promise<T[]>
+		private readonly fetchSingle: (id: string, options?: GetStatusOptions) => Promise<T>,
+		private readonly fetchMultiple: (ids: string[], lookupContext?: string) => Promise<T[]>
 	) {}
 
 	// Gets entity status from cache or fetches from API
-	public async getStatus(entityId: string): Promise<T | null> {
+	public async getStatus(entityId: string, options?: GetStatusOptions): Promise<T | null> {
+		if (options?.signal?.aborted) {
+			throw getAbortError(options.signal);
+		}
+
 		const cached = this.getCachedStatus(entityId);
 		if (cached) {
 			logger.info(`${this.entityType}StatusService`, 'Returning cached status', { entityId });
 			return cached;
 		}
 
-		const pending = this.pendingRequests.get(entityId);
-		if (pending) {
-			logger.info(`${this.entityType}StatusService`, 'Request already pending, waiting...', {
-				entityId
-			});
-			return new Promise((resolve, reject) => {
-				pending.push({ resolve, reject });
-			});
-		}
+		return new Promise<T | null>((resolve, reject) => {
+			const signal = options?.signal;
+			let onAbort: (() => void) | undefined;
 
-		logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', {
-			entityId
+			// Manually remove the abort listener on settle
+			const request: StatusRequest<T> = {
+				resolve: (value) => {
+					if (onAbort) signal?.removeEventListener('abort', onAbort);
+					resolve(value);
+				},
+				reject: (error) => {
+					if (onAbort) signal?.removeEventListener('abort', onAbort);
+					reject(error);
+				}
+			};
+
+			// Join an existing pending fetch or create a new one
+			let entry = this.pendingRequests.get(entityId);
+			const isPrimary = !entry;
+			if (!entry) {
+				entry = { queue: [], controller: new AbortController() };
+				this.pendingRequests.set(entityId, entry);
+			}
+			const pendingEntry = entry;
+
+			if (signal) {
+				onAbort = () => {
+					const idx = pendingEntry.queue.indexOf(request);
+					if (idx !== -1) pendingEntry.queue.splice(idx, 1);
+					// Short-circuit the shared fetch only when every caller has abandoned it
+					if (pendingEntry.queue.length === 0) {
+						pendingEntry.controller.abort();
+					}
+					reject(getAbortError(signal));
+				};
+				signal.addEventListener('abort', onAbort, { once: true });
+			}
+
+			pendingEntry.queue.push(request);
+
+			if (isPrimary) {
+				logger.info(`${this.entityType}StatusService`, 'Fetching fresh status', { entityId });
+				void this.runFetch(entityId, pendingEntry);
+			} else {
+				logger.info(`${this.entityType}StatusService`, 'Request already pending, waiting...', {
+					entityId
+				});
+			}
 		});
-		return this.fetchStatus(entityId);
 	}
 
 	// Returns cached status if valid, null if expired or not found
@@ -69,16 +125,13 @@ class EntityStatusService<T extends EntityStatus> {
 	// Gets multiple entity statuses with batch fetching optimization
 	public async getStatuses(
 		entityIds: string[],
-		lookupContext?: string
+		options?: GetStatusesOptions
 	): Promise<Map<string, T | null>> {
-		if (!this.fetchMultiple) {
-			const results = new Map<string, T | null>();
-			for (const id of entityIds) {
-				results.set(id, await this.getStatus(id));
-			}
-			return results;
+		if (options?.signal?.aborted) {
+			throw getAbortError(options.signal);
 		}
 
+		// Partition requests into cached and uncached
 		const results = new Map<string, T | null>();
 		const toFetch: string[] = [];
 
@@ -104,11 +157,21 @@ class EntityStatusService<T extends EntityStatus> {
 
 				// Delay between batches
 				if (i > 0) {
-					await new Promise((resolve) => setTimeout(resolve, API_CONFIG.BATCH_DELAY));
+					await abortableSleep(API_CONFIG.BATCH_DELAY, options?.signal);
+				}
+
+				if (options?.signal?.aborted) {
+					throw getAbortError(options.signal);
 				}
 
 				try {
-					const batchStatuses = await this.fetchMultiple(chunk, lookupContext);
+					const batchStatuses = await this.fetchMultiple(chunk, options?.lookupContext);
+
+					// Drop results if the caller aborted while the request was in flight. Otherwise a
+					// superseded scan could still populate the cache and let stale indicators win.
+					if (options?.signal?.aborted) {
+						throw getAbortError(options.signal);
+					}
 
 					batchStatuses.forEach((status) => {
 						if (status && status.id) {
@@ -121,6 +184,9 @@ class EntityStatusService<T extends EntityStatus> {
 						}
 					});
 				} catch (error) {
+					if (error instanceof DOMException && error.name === 'AbortError') {
+						throw error;
+					}
 					logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
 						error,
 						chunkIndex: i,
@@ -158,42 +224,24 @@ class EntityStatusService<T extends EntityStatus> {
 
 	private getCacheTTL(): number {
 		const currentSettings = get(settings);
-		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
-		return cacheDurationMinutes * 60 * 1000;
+		return currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] * 60 * 1000;
 	}
 
-	// Fetches status from API with request deduplication
-	private async fetchStatus(entityId: string): Promise<T | null> {
-		const requestQueue: Array<StatusRequest<T>> = [];
-		this.pendingRequests.set(entityId, requestQueue);
-
+	// Runs the shared fetch for a pending entry and distributes the result to every queued waiter
+	private async runFetch(entityId: string, entry: PendingEntry<T>): Promise<void> {
 		try {
-			const status = await this.fetchSingle(entityId);
-
+			const status = await this.fetchSingle(entityId, { signal: entry.controller.signal });
+			const snapshot = [...entry.queue];
+			this.pendingRequests.delete(entityId);
 			if (status) {
-				this.cache.set(entityId, {
-					data: status,
-					timestamp: Date.now()
-				});
-
-				requestQueue.forEach(({ resolve }) => {
-					resolve(status);
-				});
-				return status;
-			} else {
-				requestQueue.forEach(({ resolve }) => {
-					resolve(null);
-				});
-				return null;
+				this.cache.set(entityId, { data: status, timestamp: Date.now() });
 			}
+			for (const request of snapshot) request.resolve(status ?? null);
 		} catch (error) {
 			const err = error instanceof Error ? error : new Error('Unknown error');
-			requestQueue.forEach(({ reject }) => {
-				reject(err);
-			});
-			throw err;
-		} finally {
+			const snapshot = [...entry.queue];
 			this.pendingRequests.delete(entityId);
+			for (const request of snapshot) request.reject(err);
 		}
 	}
 }
@@ -201,13 +249,13 @@ class EntityStatusService<T extends EntityStatus> {
 // Create service instances
 export const userStatusService = new EntityStatusService<UserStatus>(
 	'user',
-	async (id: string) => apiClient.checkUser(id),
+	async (id, options) => apiClient.checkUser(id, options),
 	async (ids: string[]) => apiClient.checkMultipleUsers(ids)
 );
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(
 	'group',
-	async (id: string) => apiClient.checkGroup(id),
+	async (id, options) => apiClient.checkGroup(id, options),
 	async (ids: string[], lookupContext?: string) =>
 		apiClient.checkMultipleGroups(ids, { lookupContext })
 );

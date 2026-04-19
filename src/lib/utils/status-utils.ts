@@ -1,6 +1,6 @@
 import type { UserStatus, GroupStatus } from '../types/api';
 import type { CombinedStatus, CustomApiResult } from '../types/custom-api';
-import { ROTECTOR_API_ID } from '../services/unified-query-service';
+import { ROTECTOR_API_ID } from '../stores/custom-apis';
 import { getAssetUrl } from './assets';
 import { STATUS } from '../types/constants';
 

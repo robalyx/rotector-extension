@@ -6,7 +6,8 @@
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { getStatusConfig } from '@/lib/utils/status-config';
 	import { groupStatusService, userStatusService } from '@/lib/services/entity-status-service';
-	import { countCustomApiFlags, ROTECTOR_API_ID } from '@/lib/services/unified-query-service';
+	import { countCustomApiFlags } from '@/lib/services/unified-query-service';
+	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {

@@ -28,6 +28,7 @@ import type {
 } from '../types/api';
 import type { ActivityHours, StatsResponse } from '../types/stats';
 import { restrictedAccessStore } from '../stores/restricted-access';
+import { abortableSleep, getAbortError } from '../utils/abort';
 import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
 import { get } from 'svelte/store';
@@ -43,6 +44,10 @@ async function sendMessage<T>(
 	let attempt = 0;
 
 	while (attempt <= maxRetries) {
+		if (options.signal?.aborted) {
+			throw getAbortError(options.signal);
+		}
+
 		try {
 			const clientId = getLoggedInUserId();
 			const message: ContentMessage = { action, ...(clientId && { clientId }), ...data };
@@ -95,7 +100,7 @@ async function sendMessage<T>(
 					`API request failed, retrying in ${delay}ms (attempt ${attempt}/${maxRetries}):`,
 					error
 				);
-				await new Promise((resolve) => setTimeout(resolve, delay));
+				await abortableSleep(delay, options.signal);
 				continue;
 			}
 

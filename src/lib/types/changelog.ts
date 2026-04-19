@@ -96,6 +96,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Friend warning - Redesigned with a user card, per-violation confidence, and source evidence bullets'
 			},
 			{
+				type: 'changed',
+				description:
+					'Status lookups - List pages warm a shared cache so opening a tooltip or profile for a user you just scrolled past skips the network round trip, and pending lookups cancel when you navigate away'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Report auto-fill - Category and comment fields now fill in correctly on the Roblox report page'
@@ -164,6 +169,16 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Translation fallback - Missing translations fall back to English text instead of showing raw message IDs'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Tooltip tab jitter - Active tab no longer switches under you as custom API responses arrive out of order'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Tooltip loading timeout - Stalled requests surface an error after 15 seconds instead of spinning forever'
 			},
 			{
 				type: 'removed',

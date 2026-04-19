@@ -71,8 +71,7 @@ class VoteDataService {
 
 	private getCacheTTL(): number {
 		const currentSettings = get(settings);
-		const cacheDurationMinutes = currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] || 5;
-		return cacheDurationMinutes * 60 * 1000;
+		return currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] * 60 * 1000;
 	}
 
 	private normalizeUserId(userId: string | number): string {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mount } from 'svelte';
+	import { mount, unmount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
 	import type { Observer } from '@/lib/utils/observer';
 	import { observerFactory } from '@/lib/utils/observer';
@@ -40,8 +40,9 @@
 	let carouselObserver: Observer | null = null;
 	let containerWatcher: Observer | null = null;
 	let groupStatuses = new SvelteMap<string, GroupStatus>();
-	let mountedComponents = new SvelteMap<string, { unmount?: () => void }>();
+	let mountedComponents = new SvelteMap<string, ReturnType<typeof mount>>();
 	let destroyed = $state(false);
+	let batchController: AbortController | null = null;
 
 	// Initialize observer and cleanup on unmount
 	$effect(() => {
@@ -223,10 +224,12 @@
 			const groupsToFetch = groupDetails.filter(({ groupId }) => !groupStatuses.has(groupId));
 			if (groupsToFetch.length > 0) {
 				const groupIds = groupsToFetch.map(({ groupId }) => groupId);
-				const fetchedResults = await groupStatusService.getStatuses(
-					groupIds,
-					LOOKUP_CONTEXT.GROUPS
-				);
+				batchController?.abort();
+				batchController = new AbortController();
+				const fetchedResults = await groupStatusService.getStatuses(groupIds, {
+					lookupContext: LOOKUP_CONTEXT.GROUPS,
+					signal: batchController.signal
+				});
 
 				for (const [groupId, status] of fetchedResults.entries()) {
 					if (status) {
@@ -240,6 +243,7 @@
 				updateStatusIndicator(groupId, status, element, false);
 			}
 		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') return;
 			onError?.(
 				`Failed to process groups: ${error instanceof Error ? error.message : 'Unknown error'}`
 			);
@@ -256,7 +260,7 @@
 	): void {
 		const existingComponent = mountedComponents.get(groupId);
 		if (existingComponent) {
-			existingComponent.unmount?.();
+			void unmount(existingComponent);
 			mountedComponents.delete(groupId);
 		}
 
@@ -304,6 +308,7 @@
 	// Clean up resources
 	function cleanup(): void {
 		destroyed = true;
+		batchController = null;
 
 		stopObserver(btrobloxObserver);
 		stopObserver(carouselObserver);
@@ -313,7 +318,7 @@
 		containerWatcher = null;
 
 		for (const component of mountedComponents.values()) {
-			component.unmount?.();
+			void unmount(component);
 		}
 		mountedComponents.clear();
 		groupStatuses.clear();

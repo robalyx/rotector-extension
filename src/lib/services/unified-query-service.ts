@@ -9,12 +9,17 @@ import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
 import { startTrace, traceAsync, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { chunkArray } from '../utils/array';
+import { abortableSleep, getAbortError } from '../utils/abort';
 import { API_CONFIG, STATUS } from '../types/constants';
 import { SETTINGS_KEYS } from '../types/settings';
 import { get } from 'svelte/store';
 
-// Re-export for components
-export { ROTECTOR_API_ID };
+interface QueryMultipleUsersOptions {
+	lookupContext?: string;
+	signal?: AbortSignal;
+}
+
+const PROGRESSIVE_API_TIMEOUT_MS = 15_000;
 
 // Check if lookup should be blocked due to restricted access
 function shouldBlockLookup(userId: string): boolean {
@@ -60,7 +65,7 @@ function getEnabledCustomApis(): CustomApiConfig[] {
 // Format API result from Promise settlement
 function formatApiResult(
 	api: CustomApiConfig,
-	result: PromiseSettledResult<UserStatus>
+	result: PromiseSettledResult<UserStatus | null>
 ): CustomApiResult {
 	const base = {
 		apiId: api.id,
@@ -71,7 +76,7 @@ function formatApiResult(
 	};
 
 	if (result.status === 'fulfilled') {
-		return { ...base, data: result.value };
+		return { ...base, data: result.value ?? undefined };
 	}
 
 	const errorMessage = result.reason instanceof Error ? result.reason.message : 'Unknown error';
@@ -94,7 +99,7 @@ export async function queryUser(userId: string): Promise<CombinedStatus> {
 			const results = await Promise.allSettled(
 				enabledApis.map(async (api) =>
 					api.isSystem && api.id === ROTECTOR_API_ID
-						? apiClient.checkUser(userId)
+						? userStatusService.getStatus(userId)
 						: apiClient.checkUser(userId, { apiConfig: api })
 				)
 			);
@@ -127,7 +132,7 @@ export function queryUserProgressive(
 	}
 
 	const enabledApis = getEnabledCustomApis();
-	let cancelled = false;
+	const controller = new AbortController();
 
 	// Initialize with loading state for all APIs
 	const apiResults = new Map<string, CustomApiResult>(
@@ -145,13 +150,20 @@ export function queryUserProgressive(
 
 	// Fire all requests in parallel then update on each completion
 	enabledApis.forEach(async (api) => {
+		const apiSignal = AbortSignal.any([
+			controller.signal,
+			AbortSignal.timeout(PROGRESSIVE_API_TIMEOUT_MS)
+		]);
 		try {
 			const result =
 				api.isSystem && api.id === ROTECTOR_API_ID
-					? await userStatusService.getStatus(userId)
-					: await apiClient.checkUser(userId, { apiConfig: api });
+					? await userStatusService.getStatus(userId, { signal: apiSignal })
+					: await apiClient.checkUser(userId, {
+							apiConfig: api,
+							signal: apiSignal
+						});
 
-			if (cancelled) return;
+			if (controller.signal.aborted) return;
 
 			apiResults.set(api.id, {
 				apiId: api.id,
@@ -163,7 +175,7 @@ export function queryUserProgressive(
 			});
 			onUpdate(new Map(apiResults));
 		} catch (error) {
-			if (cancelled) return;
+			if (controller.signal.aborted) return;
 
 			apiResults.set(api.id, {
 				apiId: api.id,
@@ -178,15 +190,22 @@ export function queryUserProgressive(
 	});
 
 	return () => {
-		cancelled = true;
+		controller.abort();
 	};
 }
 
 // Query multiple users with batch chunking
 export async function queryMultipleUsers(
 	userIds: string[],
-	lookupContext?: string
+	options?: QueryMultipleUsersOptions
 ): Promise<Map<string, CombinedStatus>> {
+	const lookupContext = options?.lookupContext;
+	const signal = options?.signal;
+
+	if (signal?.aborted) {
+		throw getAbortError(signal);
+	}
+
 	// Block batch lookups when restricted unless it's own friends lookup
 	const { isRestricted } = get(restrictedAccessStore);
 	if (isRestricted && lookupContext !== 'friends') {
@@ -219,18 +238,27 @@ export async function queryMultipleUsers(
 	let isFirstChunk = true;
 	for (const chunk of chunks) {
 		if (!isFirstChunk) {
-			await new Promise((resolve) => setTimeout(resolve, API_CONFIG.BATCH_DELAY));
+			await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
 		}
 		isFirstChunk = false;
+
+		if (signal?.aborted) {
+			throw getAbortError(signal);
+		}
 
 		// Query APIs in parallel
 		const apiResults = await Promise.allSettled(
 			enabledApis.map(async (api) =>
 				api.isSystem && api.id === ROTECTOR_API_ID
-					? apiClient.checkMultipleUsers(chunk, { lookupContext })
-					: apiClient.checkMultipleUsers(chunk, { apiConfig: api })
+					? apiClient.checkMultipleUsers(chunk, { lookupContext, signal })
+					: apiClient.checkMultipleUsers(chunk, { apiConfig: api, signal })
 			)
 		);
+
+		// Drop results if the caller aborted while requests were in flight
+		if (signal?.aborted) {
+			throw getAbortError(signal);
+		}
 
 		// Process each API's results
 		enabledApis.forEach((api, apiIndex) => {
@@ -239,6 +267,13 @@ export async function queryMultipleUsers(
 			if (result.status === 'fulfilled') {
 				// Map successful responses by user ID
 				const userMap = new Map(result.value.map((status) => [status.id.toString(), status]));
+
+				// Warm the shared cache for Rotector so per-user lookups hit cache
+				if (api.isSystem && api.id === ROTECTOR_API_ID) {
+					for (const status of result.value) {
+						userStatusService.updateStatus(status.id.toString(), status);
+					}
+				}
 
 				chunk.forEach((userId) => {
 					const combined = results.get(userId);

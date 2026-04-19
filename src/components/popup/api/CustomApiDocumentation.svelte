@@ -1,11 +1,26 @@
 <script lang="ts">
-	import { Copy, Check } from '@lucide/svelte';
+	import { Copy, Check, ExternalLink } from '@lucide/svelte';
 	import Highlight from 'svelte-highlight';
 	import json from 'svelte-highlight/languages/json';
 	import 'svelte-highlight/styles/github-dark.css';
 	import TurndownService from 'turndown';
 	import { _ } from 'svelte-i18n';
 	import { logger } from '@/lib/utils/logger';
+
+	const ROTECTOR_DOCS_URL = 'https://roscoe.rotector.com/docs';
+
+	const SECTIONS = [
+		{ id: 'overview', labelKey: 'custom_api_docs_toc_overview' },
+		{ id: 'authentication', labelKey: 'custom_api_docs_toc_authentication' },
+		{ id: 'url-config', labelKey: 'custom_api_docs_toc_url_config' },
+		{ id: 'endpoints', labelKey: 'custom_api_docs_toc_endpoints' },
+		{ id: 'schema', labelKey: 'custom_api_docs_toc_schema' },
+		{ id: 'flag-types', labelKey: 'custom_api_docs_toc_flag_types' },
+		{ id: 'reason-types', labelKey: 'custom_api_docs_toc_reason_types' },
+		{ id: 'errors', labelKey: 'custom_api_docs_toc_errors' },
+		{ id: 'requirements', labelKey: 'custom_api_docs_toc_requirements' },
+		{ id: 'differences', labelKey: 'custom_api_docs_toc_differences' }
+	] as const;
 
 	const SINGLE_SUCCESS_EXAMPLE = JSON.stringify(
 		{
@@ -15,10 +30,10 @@
 				flagType: 2,
 				confidence: 0.85,
 				reasons: {
-					'High Risk Pattern': {
-						message: 'Account exhibits high-risk behavioral patterns',
+					'User Profile': {
+						message: 'Inappropriate content detected in profile description',
 						confidence: 0.9,
-						evidence: ['Pattern indicator 1', 'Pattern indicator 2']
+						evidence: ['Evidence snippet 1', 'Evidence snippet 2']
 					}
 				},
 				reviewer: {
@@ -26,6 +41,9 @@
 					displayName: 'Reviewer Display Name'
 				},
 				engineVersion: '2.17',
+				versionCompatibility: 'current',
+				isReportable: true,
+				isLocked: false,
 				lastUpdated: 1762158166,
 				badges: [
 					{
@@ -60,7 +78,9 @@
 	const ERROR_EXAMPLE = JSON.stringify({ success: false, error: 'Internal server error' }, null, 2);
 
 	let docContainer: HTMLDivElement;
+	let contentRoot: HTMLDivElement;
 	let copySuccess = $state(false);
+	let activeSection = $state<string>(SECTIONS[0].id);
 	let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 	const turndownService = new TurndownService({
@@ -73,20 +93,15 @@
 		if (!docContainer) return;
 
 		try {
-			// Clone the container to avoid modifying the original
 			const clone = docContainer.cloneNode(true) as HTMLElement;
 
-			// Remove the page header from the clipboard output
-			const header = clone.querySelector('.docs-page-header');
-			if (header) {
-				header.remove();
-			}
+			clone.querySelector('.docs-page-header')?.remove();
+			clone.querySelector('.docs-toc')?.remove();
 
 			const html = clone.innerHTML || '';
 			const markdown = turndownService.turndown(html);
 			await navigator.clipboard.writeText(markdown);
 
-			// Clear any existing timeout
 			if (timeoutId !== null) {
 				clearTimeout(timeoutId);
 			}
@@ -101,7 +116,44 @@
 		}
 	}
 
-	// Cleanup on unmount
+	function scrollToSection(id: string) {
+		const target = contentRoot?.querySelector(`#section-${id}`);
+		if (target instanceof HTMLElement) {
+			target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			activeSection = id;
+		}
+	}
+
+	// Highlight the section currently near the top of the viewport
+	$effect(() => {
+		if (!contentRoot) return;
+
+		const observed = SECTIONS.map((section) =>
+			contentRoot.querySelector<HTMLElement>(`#section-${section.id}`)
+		).filter((el): el is HTMLElement => el !== null);
+
+		if (observed.length === 0) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries
+					.filter((entry) => entry.isIntersecting)
+					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+				if (visible.length > 0) {
+					const id = visible[0].target.id.replace(/^section-/, '');
+					activeSection = id;
+				}
+			},
+			{ rootMargin: '0px 0px -70% 0px', threshold: 0 }
+		);
+
+		for (const el of observed) {
+			observer.observe(el);
+		}
+
+		return () => observer.disconnect();
+	});
+
 	$effect(() => {
 		return () => {
 			if (timeoutId !== null) {
@@ -133,179 +185,245 @@
 		</button>
 	</header>
 
-	<!-- Authentication Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_authentication')}</h4>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_auth_optional')}
-		</p>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_auth_header')}
-		</p>
-	</div>
+	<div class="docs-layout">
+		<!-- TOC sidebar -->
+		<nav class="docs-toc" aria-label={$_('custom_api_docs_toc_aria_label')}>
+			{#each SECTIONS as section (section.id)}
+				<button
+					class="docs-toc-link"
+					class:active={activeSection === section.id}
+					onclick={() => scrollToSection(section.id)}
+					type="button"
+				>
+					{$_(section.labelKey)}
+				</button>
+			{/each}
+		</nav>
 
-	<!-- API URL Configuration Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_url_config')}</h4>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_url_overview')}
-		</p>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_url_single')}
-		</p>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_url_batch')}
-		</p>
-	</div>
+		<!-- Main content -->
+		<div bind:this={contentRoot} class="docs-content">
+			<!-- Overview -->
+			<section id="section-overview" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_overview')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_overview_what')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_overview_scope')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_overview_reference')}</p>
+				<a
+					class="docs-external-link-block"
+					href={ROTECTOR_DOCS_URL}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<span>{ROTECTOR_DOCS_URL}</span>
+					<ExternalLink size={11} />
+				</a>
+			</section>
 
-	<!-- HTTP Status Codes Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_http_status')}</h4>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_http_status')}
-		</p>
-	</div>
+			<!-- Authentication -->
+			<section id="section-authentication" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_authentication')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_auth_optional')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_auth_choose')}</p>
 
-	<!-- CORS Requirements Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_cors')}</h4>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_cors')}
-		</p>
-	</div>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_auth_x_token')}</h5>
+				<pre class="code-block"><code>X-Auth-Token: your-api-key</code></pre>
 
-	<!-- Single Lookup Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_single_lookup')}</h4>
-		<div class="docs-endpoint">
-			<span class="api-http-method get">{$_('custom_api_mgmt_http_method_get')}</span>
-			<code class="endpoint-url">{'{single-lookup-url}'}</code>
-		</div>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_auth_bearer')}</h5>
+				<pre class="code-block"><code>Authorization: Bearer your-api-key</code></pre>
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_example_request')}</h5>
-		<pre class="code-block"><code>GET https://api.example.com/v1/lookup/roblox/user/123456789</code
-			></pre>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_auth_plain')}</h5>
+				<pre class="code-block"><code>Authorization: your-api-key</code></pre>
+			</section>
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_success_response')}</h5>
-		<Highlight code={SINGLE_SUCCESS_EXAMPLE} language={json} />
+			<!-- URL Configuration -->
+			<section id="section-url-config" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_url_config')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_url_overview')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_url_single')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_url_batch')}</p>
+			</section>
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_error_response')}</h5>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_error_note')}
-		</p>
-		<Highlight code={ERROR_EXAMPLE} language={json} />
+			<!-- Endpoints -->
+			<section id="section-endpoints" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_endpoints')}</h4>
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_required_fields')}</h5>
-		<ul class="docs-list">
-			<li><code>id</code> - {$_('custom_api_docs_field_id')}</li>
-			<li><code>flagType</code> - {$_('custom_api_docs_field_flag_type')}</li>
-		</ul>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_single_lookup')}</h5>
+				<div class="docs-endpoint">
+					<span class="api-http-method get">{$_('custom_api_mgmt_http_method_get')}</span>
+					<code class="endpoint-url">{'{single-lookup-url}'}</code>
+				</div>
+				<p class="docs-note">{$_('custom_api_docs_note_single_example')}</p>
+				<pre class="code-block"><code
+						>GET https://api.example.com/v1/lookup/roblox/user/123456789</code
+					></pre>
+				<h6 class="docs-inline-heading">{$_('custom_api_docs_subtitle_success_response')}</h6>
+				<Highlight code={SINGLE_SUCCESS_EXAMPLE} language={json} />
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_optional_fields')}</h5>
-		<ul class="docs-list">
-			<li><code>confidence</code> - {$_('custom_api_docs_field_confidence')}</li>
-			<li>
-				<code>reasons</code> - {$_('custom_api_docs_field_reasons')}
-				<ul class="docs-list mt-2 ml-6">
-					<li><code>message</code> - {$_('custom_api_docs_field_message')}</li>
-					<li><code>confidence</code> - {$_('custom_api_docs_field_confidence_reason')}</li>
-					<li><code>evidence</code> - {$_('custom_api_docs_field_evidence')}</li>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_batch_lookup')}</h5>
+				<div class="docs-endpoint">
+					<span class="api-http-method post">{$_('custom_api_mgmt_http_method_post')}</span>
+					<code class="endpoint-url">{'{batch-url}'}</code>
+				</div>
+				<p class="docs-note">{$_('custom_api_docs_note_batch_example')}</p>
+				<pre class="code-block"><code>POST https://api.example.com/v1/lookup/roblox/user</code
+					></pre>
+				<h6 class="docs-inline-heading">{$_('custom_api_docs_subtitle_request_body')}</h6>
+				<Highlight code={BATCH_REQUEST_EXAMPLE} language={json} />
+				<h6 class="docs-inline-heading">{$_('custom_api_docs_subtitle_success_response')}</h6>
+				<Highlight code={BATCH_SUCCESS_EXAMPLE} language={json} />
+				<p class="docs-note">{$_('custom_api_docs_note_batch_data')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_batch_partial')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_batch_limit')}</p>
+			</section>
+
+			<!-- Response Schema -->
+			<section id="section-schema" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_schema')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_wrapper')}</p>
+
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_required_fields')}</h5>
+				<ul class="docs-list">
+					<li><code>id</code> &mdash; {$_('custom_api_docs_field_id')}</li>
+					<li><code>flagType</code> &mdash; {$_('custom_api_docs_field_flag_type')}</li>
 				</ul>
-			</li>
-			<li>
-				<code>reviewer</code> - {$_('custom_api_docs_field_reviewer')}
-			</li>
-			<li><code>engineVersion</code> - {$_('custom_api_docs_field_engine_version')}</li>
-			<li><code>lastUpdated</code> - {$_('custom_api_docs_field_last_updated')}</li>
-			<li>
-				<code>badges</code> - {$_('custom_api_docs_field_badges')}
-				<ul class="docs-list mt-2 ml-6">
-					<li><code>text</code> - {$_('custom_api_docs_field_badge_text')}</li>
+
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_optional_fields')}</h5>
+				<ul class="docs-list">
+					<li><code>confidence</code> &mdash; {$_('custom_api_docs_field_confidence')}</li>
 					<li>
-						<code>color</code> - {$_('custom_api_docs_field_badge_color')}
+						<code>reasons</code> &mdash; {$_('custom_api_docs_field_reasons')}
+						<ul class="docs-list mt-2 ml-6">
+							<li><code>message</code> &mdash; {$_('custom_api_docs_field_message')}</li>
+							<li>
+								<code>confidence</code> &mdash; {$_('custom_api_docs_field_confidence_reason')}
+							</li>
+							<li><code>evidence</code> &mdash; {$_('custom_api_docs_field_evidence')}</li>
+						</ul>
 					</li>
-					<li><code>textColor</code> - {$_('custom_api_docs_field_badge_text_color')}</li>
+					<li><code>reviewer</code> &mdash; {$_('custom_api_docs_field_reviewer')}</li>
+					<li><code>engineVersion</code> &mdash; {$_('custom_api_docs_field_engine_version')}</li>
+					<li>
+						<code>versionCompatibility</code> &mdash; {$_(
+							'custom_api_docs_field_version_compatibility'
+						)}
+					</li>
+					<li><code>isReportable</code> &mdash; {$_('custom_api_docs_field_is_reportable')}</li>
+					<li><code>isLocked</code> &mdash; {$_('custom_api_docs_field_is_locked')}</li>
+					<li><code>lastUpdated</code> &mdash; {$_('custom_api_docs_field_last_updated')}</li>
+					<li>
+						<code>badges</code> &mdash; {$_('custom_api_docs_field_badges')}
+						<ul class="docs-list mt-2 ml-6">
+							<li><code>text</code> &mdash; {$_('custom_api_docs_field_badge_text')}</li>
+							<li><code>color</code> &mdash; {$_('custom_api_docs_field_badge_color')}</li>
+							<li><code>textColor</code> &mdash; {$_('custom_api_docs_field_badge_text_color')}</li>
+						</ul>
+					</li>
 				</ul>
-			</li>
-		</ul>
+			</section>
 
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_flag_types')}</h5>
-		<ul class="docs-list">
-			<li><code>0</code> - {$_('custom_api_docs_flag_type_0')}</li>
-			<li><code>1</code> - {$_('custom_api_docs_flag_type_1')}</li>
-			<li><code>2</code> - {$_('custom_api_docs_flag_type_2')}</li>
-			<li><code>3</code> - {$_('custom_api_docs_flag_type_3')}</li>
-			<li><code>4</code> - {$_('custom_api_docs_flag_type_4')}</li>
-			<li><code>5</code> - {$_('custom_api_docs_flag_type_5')}</li>
-			<li><code>6</code> - {$_('custom_api_docs_flag_type_6')}</li>
-		</ul>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_flag_type_2_note')}
-		</p>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_flag_type_0')}
-		</p>
-	</div>
+			<!-- Flag Types -->
+			<section id="section-flag-types" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_flag_types')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_flag_types_intro')}</p>
+				<div class="docs-table-wrapper">
+					<table class="docs-table">
+						<thead>
+							<tr>
+								<th>{$_('custom_api_docs_table_flag_value')}</th>
+								<th>{$_('custom_api_docs_table_flag_name')}</th>
+								<th>{$_('custom_api_docs_table_flag_actionable')}</th>
+								<th>{$_('custom_api_docs_table_flag_description')}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>0</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_0')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_0')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_0')}</td>
+							</tr>
+							<tr>
+								<td><code>1</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_1')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_1')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_1')}</td>
+							</tr>
+							<tr>
+								<td><code>2</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_2')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_2')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_2')}</td>
+							</tr>
+							<tr>
+								<td><code>3</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_3')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_3')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_3')}</td>
+							</tr>
+							<tr>
+								<td><code>5</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_5')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_5')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_5')}</td>
+							</tr>
+							<tr>
+								<td><code>6</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_6')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_6')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_6')}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="docs-note">{$_('custom_api_docs_note_flag_type_warning')}</p>
+			</section>
 
-	<!-- Batch Lookup Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_batch_lookup')}</h4>
-		<div class="docs-endpoint">
-			<span class="api-http-method post">{$_('custom_api_mgmt_http_method_post')}</span>
-			<code class="endpoint-url">{'{batch-url}'}</code>
+			<!-- Reason Types -->
+			<section id="section-reason-types" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_reason_types')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_reason_types_intro')}</p>
+				<ul class="docs-list">
+					<li><code>User Profile</code> &mdash; {$_('custom_api_docs_reason_user_profile')}</li>
+					<li><code>Friend Network</code> &mdash; {$_('custom_api_docs_reason_friend_network')}</li>
+					<li><code>Avatar Outfit</code> &mdash; {$_('custom_api_docs_reason_avatar_outfit')}</li>
+					<li>
+						<code>Group Membership</code> &mdash; {$_('custom_api_docs_reason_group_membership')}
+					</li>
+					<li><code>Condo Activity</code> &mdash; {$_('custom_api_docs_reason_condo_activity')}</li>
+					<li><code>Chat Messages</code> &mdash; {$_('custom_api_docs_reason_chat_messages')}</li>
+					<li><code>Game Favorites</code> &mdash; {$_('custom_api_docs_reason_game_favorites')}</li>
+					<li><code>Earned Badges</code> &mdash; {$_('custom_api_docs_reason_earned_badges')}</li>
+					<li><code>User Creations</code> &mdash; {$_('custom_api_docs_reason_user_creations')}</li>
+					<li><code>Other Reasons</code> &mdash; {$_('custom_api_docs_reason_other')}</li>
+				</ul>
+				<p class="docs-note">{$_('custom_api_docs_note_reason_types_custom')}</p>
+			</section>
+
+			<!-- Errors & Status Codes -->
+			<section id="section-errors" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_errors')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_errors_intro')}</p>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_error_response')}</h5>
+				<Highlight code={ERROR_EXAMPLE} language={json} />
+				<p class="docs-note">{$_('custom_api_docs_note_http_status')}</p>
+			</section>
+
+			<!-- Requirements -->
+			<section id="section-requirements" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_requirements')}</h4>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_https')}</h5>
+				<p class="docs-note">{$_('custom_api_docs_note_https')}</p>
+				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_cors')}</h5>
+				<p class="docs-note">{$_('custom_api_docs_note_cors')}</p>
+			</section>
+
+			<!-- Differences vs Rotector API -->
+			<section id="section-differences" class="docs-section">
+				<h4 class="docs-section-title">{$_('custom_api_docs_section_differences')}</h4>
+				<p class="docs-note">{$_('custom_api_docs_note_differences_badges')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_differences_fields')}</p>
+				<p class="docs-note">{$_('custom_api_docs_note_differences_endpoints')}</p>
+			</section>
 		</div>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_example_request')}</h5>
-		<pre class="code-block"><code>POST https://api.example.com/v1/lookup/roblox/user</code></pre>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_request_body')}</h5>
-		<Highlight code={BATCH_REQUEST_EXAMPLE} language={json} />
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_success_response')}</h5>
-		<Highlight code={BATCH_SUCCESS_EXAMPLE} language={json} />
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_error_response')}</h5>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_error_note')}
-		</p>
-		<Highlight code={ERROR_EXAMPLE} language={json} />
-
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_batch_data')}
-		</p>
-		<p class="docs-note mb-3">
-			{$_('custom_api_docs_note_batch_partial')}
-		</p>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_batch_limit')}
-		</p>
-	</div>
-
-	<!-- Notes Section -->
-	<div class="docs-section">
-		<h4 class="docs-section-title">{$_('custom_api_docs_section_notes')}</h4>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_https')}</h5>
-		<p class="docs-note">{$_('custom_api_docs_note_https')}</p>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_wrapper')}</h5>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_wrapper')}
-		</p>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_reason_keys')}</h5>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_reason_keys')}
-		</p>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_badges')}</h5>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_badges')}
-		</p>
-
-		<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_badge_colors')}</h5>
-		<p class="docs-note">
-			{$_('custom_api_docs_note_badge_colors')}
-		</p>
 	</div>
 </div>

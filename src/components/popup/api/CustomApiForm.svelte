@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CustomApiConfig } from '@/lib/types/custom-api';
+	import type { CustomApiAuthHeaderType, CustomApiConfig } from '@/lib/types/custom-api';
 	import { addCustomApi, updateCustomApi } from '@/lib/stores/custom-apis';
 	import { showError, showWarning } from '@/lib/stores/toast';
 	import { logger } from '@/lib/utils/logger';
@@ -22,6 +22,9 @@
 	let timeout = $state(untrack(() => editingApi?.timeout || 5000));
 	let landscapeImageDataUrl = $state(untrack(() => editingApi?.landscapeImageDataUrl || ''));
 	let apiKey = $state(untrack(() => editingApi?.apiKey || ''));
+	let authHeaderType = $state<CustomApiAuthHeaderType>(
+		untrack(() => editingApi?.authHeaderType ?? 'x-auth-token')
+	);
 
 	// Validation state
 	let nameError = $state('');
@@ -217,7 +220,8 @@
 					timeout,
 					...(urlChanged ? { enabled: false } : {}),
 					landscapeImageDataUrl: landscapeImageDataUrl || undefined,
-					apiKey: apiKey.trim() || undefined
+					apiKey: apiKey.trim() || undefined,
+					authHeaderType: apiKey.trim() ? authHeaderType : undefined
 				});
 
 				logger.userAction('custom_api_updated', {
@@ -240,7 +244,8 @@
 					timeout,
 					enabled: false,
 					landscapeImageDataUrl: landscapeImageDataUrl || undefined,
-					apiKey: apiKey.trim() || undefined
+					apiKey: apiKey.trim() || undefined,
+					authHeaderType: apiKey.trim() ? authHeaderType : undefined
 				});
 
 				logger.userAction('custom_api_added', {
@@ -363,6 +368,29 @@
 				{$_('custom_api_form_hint_api_key')}
 			</div>
 		</div>
+
+		<!-- Auth Header Format Field -->
+		{#if apiKey.trim()}
+			<div class="form-field">
+				<label class="form-label" for="api-auth-header">
+					{$_('custom_api_form_label_auth_header')}
+				</label>
+				<select id="api-auth-header" class="form-input" bind:value={authHeaderType}>
+					<option value="x-auth-token">
+						{$_('custom_api_form_option_x_auth_token')}
+					</option>
+					<option value="authorization-bearer">
+						{$_('custom_api_form_option_authorization_bearer')}
+					</option>
+					<option value="authorization-plain">
+						{$_('custom_api_form_option_authorization_plain')}
+					</option>
+				</select>
+				<div class="form-hint">
+					{$_('custom_api_form_hint_auth_header')}
+				</div>
+			</div>
+		{/if}
 
 		<!-- Timeout Field -->
 		<div class="form-field">

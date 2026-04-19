@@ -1,6 +1,7 @@
 import { API_CONFIG } from '@/lib/types/constants';
 import { SETTINGS_KEYS } from '@/lib/types/settings';
 import type { CustomApiConfig } from '@/lib/types/custom-api';
+import { buildCustomApiAuthHeaders } from '@/lib/stores/custom-apis';
 import { logger } from '@/lib/utils/logger';
 
 const ACCESS_STATE_KEY = '_session_cache';
@@ -242,8 +243,9 @@ export async function makeHttpRequest(
 
 	// Add authentication headers
 	if (isCustomApi) {
-		if (customApi.apiKey?.trim()) {
-			headers.set('X-Auth-Token', customApi.apiKey.trim());
+		const authHeaders = buildCustomApiAuthHeaders(customApi);
+		for (const [name, value] of Object.entries(authHeaders)) {
+			headers.set(name, value);
 		}
 	} else {
 		const apiKey = await getApiKey();

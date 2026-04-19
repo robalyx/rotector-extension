@@ -1,5 +1,10 @@
 import type { UserStatus, GroupStatus } from './api';
 
+export type CustomApiAuthHeaderType =
+	| 'x-auth-token'
+	| 'authorization-bearer'
+	| 'authorization-plain';
+
 export interface CustomApiConfig {
 	id: string; // UUID
 	name: string; // Max 12 chars
@@ -14,7 +19,8 @@ export interface CustomApiConfig {
 	isSystem?: boolean;
 	reasonFormat?: 'numeric' | 'string';
 	landscapeImageDataUrl?: string; // Optional base64 data URL for tab image
-	apiKey?: string; // Optional API key sent via X-Auth-Token header
+	apiKey?: string; // Optional API key
+	authHeaderType?: CustomApiAuthHeaderType; // Defaults to 'x-auth-token' when omitted
 }
 
 export interface CustomApiResult {

@@ -1,5 +1,11 @@
 import LZString from 'lz-string';
-import type { CustomApiConfig } from '../types/custom-api';
+import type { CustomApiAuthHeaderType, CustomApiConfig } from '../types/custom-api';
+
+const AUTH_HEADER_TYPES: readonly CustomApiAuthHeaderType[] = [
+	'x-auth-token',
+	'authorization-bearer',
+	'authorization-plain'
+];
 
 // Exportable API configuration
 interface ExportableApiConfig {
@@ -10,6 +16,7 @@ interface ExportableApiConfig {
 	timeout: number;
 	reasonFormat?: 'numeric' | 'string';
 	landscapeImageDataUrl?: string;
+	authHeaderType?: CustomApiAuthHeaderType;
 }
 
 // Export a custom API configuration to a compressed base64 string
@@ -22,7 +29,8 @@ export function exportCustomApi(config: CustomApiConfig): string {
 		enabled: config.enabled,
 		timeout: config.timeout,
 		reasonFormat: config.reasonFormat,
-		landscapeImageDataUrl: config.landscapeImageDataUrl
+		landscapeImageDataUrl: config.landscapeImageDataUrl,
+		authHeaderType: config.authHeaderType
 	};
 
 	// Serialize to JSON
@@ -115,6 +123,17 @@ export function importCustomApi(
 		}
 	}
 
+	if (data.authHeaderType !== undefined) {
+		if (
+			typeof data.authHeaderType !== 'string' ||
+			!AUTH_HEADER_TYPES.includes(data.authHeaderType as CustomApiAuthHeaderType)
+		) {
+			throw new Error(
+				'Invalid API data: authHeaderType must be one of x-auth-token, authorization-bearer, authorization-plain'
+			);
+		}
+	}
+
 	// Return validated config (apiKey is never exported/imported; users enter it locally)
 	return {
 		name: data.name,
@@ -123,6 +142,7 @@ export function importCustomApi(
 		enabled: data.enabled,
 		timeout: data.timeout,
 		reasonFormat: data.reasonFormat,
-		landscapeImageDataUrl: data.landscapeImageDataUrl
+		landscapeImageDataUrl: data.landscapeImageDataUrl,
+		authHeaderType: data.authHeaderType as CustomApiAuthHeaderType | undefined
 	};
 }

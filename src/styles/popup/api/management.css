@@ -214,12 +214,21 @@
 	word-wrap: break-word;
 }
 
-@utility api-system-pill {
-	@apply text-3xs inline-flex items-center rounded font-semibold uppercase;
-	padding: 0.1875rem 0.4375rem;
-	letter-spacing: 0.06em;
-	color: var(--color-primary);
-	background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+@utility api-status-indicator {
+	@apply inline-flex items-center text-xs font-medium;
+	gap: 0.375rem;
+	color: var(--color-text-subtle);
+
+	&.system {
+		color: var(--color-primary);
+	}
+}
+
+@utility api-status-dot {
+	@apply block shrink-0 rounded-full;
+	width: 6px;
+	height: 6px;
+	background-color: currentColor;
 }
 
 /* =================================

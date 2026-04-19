@@ -28,7 +28,7 @@
 		extractApiOrigins,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
-	import { showError, showSuccess } from '@/lib/stores/toast';
+	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
 	import { hasPermissionsForOrigins, requestPermissionsForOrigins } from '@/lib/utils/permissions';
 	import { logger } from '@/lib/utils/logger';
 	import { formatTimestamp } from '@/lib/utils/time';
@@ -45,10 +45,12 @@
 	let editingApi = $state<CustomApiConfig | null>(null);
 	let apiToDelete = $state<CustomApiConfig | null>(null);
 	let testingApiId = $state<string | null>(null);
+	let togglingApiId = $state<string | null>(null);
 	let openExportDropdown = $state<string | null>(null);
 	let loading = $state(true);
 	let grantingPermissions = $state(false);
 	let hasPermissions = $state(false);
+	let perApiPermissions = $state<Record<string, boolean>>({});
 
 	// Computed
 	const canAddMore = $derived($customApis.filter((api) => !api.isSystem).length < MAX_CUSTOM_APIS);
@@ -112,7 +114,12 @@
 	async function handleTest(api: CustomApiConfig) {
 		testingApiId = api.id;
 		try {
-			const success = await testCustomApiConnection(api.singleUrl, api.batchUrl, api.apiKey);
+			const success = await testCustomApiConnection(
+				api.singleUrl,
+				api.batchUrl,
+				api.apiKey,
+				api.authHeaderType
+			);
 			await updateTestResult(api.id, success);
 
 			if (success) {
@@ -141,19 +148,63 @@
 
 	// Handle toggle API
 	async function handleToggle(api: CustomApiConfig, enabled: boolean) {
+		// Disabling path: straightforward store update
+		if (!enabled) {
+			try {
+				await updateCustomApi(api.id, { enabled: false });
+				logger.userAction('custom_api_toggled', {
+					apiId: api.id,
+					apiName: api.name,
+					enabled: false
+				});
+			} catch (error) {
+				logger.error('Failed to disable custom API:', error);
+				showError(
+					$_('custom_api_mgmt_alert_toggle_error', {
+						values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+					})
+				);
+			}
+			return;
+		}
+
+		// Enabling path: pre-flight permission check
+		const origins = extractApiOrigins(api);
+		if (origins.length === 0) {
+			showError($_('custom_api_mgmt_alert_invalid_url'));
+			return;
+		}
+
+		togglingApiId = api.id;
 		try {
-			await updateCustomApi(api.id, { enabled });
+			const hasPerms = await hasPermissionsForOrigins(origins);
+			if (!hasPerms) {
+				const granted = await requestPermissionsForOrigins(origins);
+				perApiPermissions = { ...perApiPermissions, [api.id]: granted };
+				if (!granted) {
+					showWarning($_('custom_api_mgmt_alert_permission_denied'));
+					return;
+				}
+			} else {
+				perApiPermissions = { ...perApiPermissions, [api.id]: true };
+			}
+
+			await updateCustomApi(api.id, { enabled: true });
 			logger.userAction('custom_api_toggled', {
 				apiId: api.id,
 				apiName: api.name,
-				enabled
+				enabled: true
 			});
+			showSuccess($_('custom_api_mgmt_alert_enabled', { values: { 0: api.name } }));
 		} catch (error) {
-			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
-				await requestPermissionsForOrigins(extractApiOrigins(api));
-			} else {
-				logger.error('Failed to toggle custom API:', error);
-			}
+			logger.error('Failed to enable custom API:', error);
+			showError(
+				$_('custom_api_mgmt_alert_toggle_error', {
+					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+				})
+			);
+		} finally {
+			togglingApiId = null;
 		}
 	}
 
@@ -257,12 +308,27 @@
 		}
 	}
 
+	// Refresh per-API permission status for the "needs permission"
+	async function refreshPerApiPermissions() {
+		const userApis = $customApis.filter((api) => !api.isSystem);
+		const entries = await Promise.all(
+			userApis.map(async (api) => {
+				const origins = extractApiOrigins(api);
+				if (origins.length === 0) return [api.id, false] as const;
+				const granted = await hasPermissionsForOrigins(origins);
+				return [api.id, granted] as const;
+			})
+		);
+		perApiPermissions = Object.fromEntries(entries);
+	}
+
 	// Handle grant permissions button click
 	async function handleGrantPermissions() {
 		grantingPermissions = true;
 		try {
 			if (await requestPermissionsForOrigins(uniqueOrigins)) {
 				hasPermissions = true;
+				await refreshPerApiPermissions();
 			}
 		} catch (error) {
 			logger.error('Failed to request permissions:', error);
@@ -302,6 +368,16 @@
 		return () => {
 			cancelled = true;
 		};
+	});
+
+	// Per-API permission status sync for the "needs permission"
+	$effect(() => {
+		if (loading) return;
+
+		void $customApis;
+		refreshPerApiPermissions().catch((error) => {
+			logger.error('Failed to check per-API permissions:', error);
+		});
 	});
 </script>
 
@@ -351,6 +427,8 @@
 		{:else}
 			{#each $customApis as api, index (api.id)}
 				{@const endpoints = getEndpoints(api)}
+				{@const needsPermission =
+					!api.isSystem && !api.enabled && perApiPermissions[api.id] === false}
 				<article class="api-card" class:disabled={!api.enabled}>
 					<!-- Header: name/badge/toggle -->
 					<div class="api-card-header">
@@ -362,12 +440,25 @@
 							{/if}
 							<h3 class="api-card-name">{api.name}</h3>
 							{#if api.isSystem}
-								<span class="api-system-pill">{$_('custom_api_mgmt_badge_system')}</span>
+								<span class="api-status-indicator system">
+									<span class="api-status-dot"></span>
+									<span>{$_('custom_api_mgmt_badge_system')}</span>
+								</span>
+							{/if}
+							{#if needsPermission}
+								<span
+									class="api-status-indicator"
+									title={$_('custom_api_mgmt_pill_needs_permission_hint')}
+								>
+									<span class="api-status-dot"></span>
+									<span>{$_('custom_api_mgmt_pill_needs_permission')}</span>
+								</span>
 							{/if}
 						</div>
 						{#if !api.isSystem}
 							<Toggle
 								checked={api.enabled}
+								loading={togglingApiId === api.id}
 								onchange={(value: boolean) => handleToggle(api, value)}
 							/>
 						{/if}
@@ -398,32 +489,38 @@
 					</div>
 
 					<!-- Meta line -->
-					<div class="api-meta-line">
-						<span class="api-meta-item">
-							{api.timeout}{$_('custom_api_mgmt_suffix_ms')}
-						</span>
-						<span class="api-meta-separator" aria-hidden="true">·</span>
-						<span class="api-meta-item">
-							{$_('custom_api_mgmt_label_created')}
-							{formatTimestamp(api.createdAt / 1000)}
-						</span>
-						{#if api.lastTested}
-							<span class="api-meta-separator" aria-hidden="true">·</span>
-							<span class="api-meta-item">
-								{$_('custom_api_mgmt_label_last_tested')}
-								{formatTimestamp(api.lastTested / 1000)}
-								{#if api.lastTestSuccess}
-									<span class="api-meta-status success" aria-label="Success">
-										<Check size={12} />
-									</span>
-								{:else}
-									<span class="api-meta-status error" aria-label="Failed">
-										<X size={12} />
-									</span>
+					{#if !api.isSystem || api.lastTested}
+						<div class="api-meta-line">
+							{#if !api.isSystem}
+								<span class="api-meta-item">
+									{api.timeout}{$_('custom_api_mgmt_suffix_ms')}
+								</span>
+								<span class="api-meta-separator" aria-hidden="true">·</span>
+								<span class="api-meta-item">
+									{$_('custom_api_mgmt_label_created')}
+									{formatTimestamp(api.createdAt / 1000)}
+								</span>
+							{/if}
+							{#if api.lastTested}
+								{#if !api.isSystem}
+									<span class="api-meta-separator" aria-hidden="true">·</span>
 								{/if}
-							</span>
-						{/if}
-					</div>
+								<span class="api-meta-item">
+									{$_('custom_api_mgmt_label_last_tested')}
+									{formatTimestamp(api.lastTested / 1000)}
+									{#if api.lastTestSuccess}
+										<span class="api-meta-status success" aria-label="Success">
+											<Check size={12} />
+										</span>
+									{:else}
+										<span class="api-meta-status error" aria-label="Failed">
+											<X size={12} />
+										</span>
+									{/if}
+								</span>
+							{/if}
+						</div>
+					{/if}
 
 					{#if !api.isSystem}
 						<!-- Actions -->

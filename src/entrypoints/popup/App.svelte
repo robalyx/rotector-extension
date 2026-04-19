@@ -133,7 +133,7 @@
 
 <div
 	class={isOptionsSurface
-		? 'app mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 overflow-x-hidden px-4 py-6'
+		? 'app mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 overflow-x-clip px-4 py-6'
 		: 'app flex min-h-[400px] w-[350px] flex-col gap-3 p-3'}
 >
 	<!-- Toast Notifications -->

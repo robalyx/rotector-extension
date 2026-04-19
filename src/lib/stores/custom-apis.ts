@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store';
-import type { CustomApiConfig } from '../types/custom-api';
+import type { CustomApiAuthHeaderType, CustomApiConfig } from '../types/custom-api';
 import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
@@ -28,6 +28,24 @@ function createRotectorApiConfig(): CustomApiConfig {
 		reasonFormat: 'numeric',
 		landscapeImageDataUrl: getAssetUrl('/assets/rotector-tab.webp')
 	};
+}
+
+// Build auth headers for a custom API based on its configured header type
+export function buildCustomApiAuthHeaders(
+	api: Pick<CustomApiConfig, 'apiKey' | 'authHeaderType'>
+): Record<string, string> {
+	const key = api.apiKey?.trim();
+	if (!key) return {};
+
+	switch (api.authHeaderType ?? 'x-auth-token') {
+		case 'authorization-bearer':
+			return { Authorization: `Bearer ${key}` };
+		case 'authorization-plain':
+			return { Authorization: key };
+		case 'x-auth-token':
+		default:
+			return { 'X-Auth-Token': key };
+	}
 }
 
 // Extract unique origins from a custom API's URLs
@@ -263,10 +281,11 @@ export async function reorderCustomApi(id: string, direction: 'up' | 'down'): Pr
 export async function testCustomApiConnection(
 	singleUrl: string,
 	batchUrl: string,
-	apiKey?: string
+	apiKey?: string,
+	authHeaderType?: CustomApiAuthHeaderType
 ): Promise<boolean> {
 	const testUserId = '1';
-	const authHeaders: HeadersInit = apiKey?.trim() ? { 'X-Auth-Token': apiKey.trim() } : {};
+	const authHeaders: HeadersInit = buildCustomApiAuthHeaders({ apiKey, authHeaderType });
 
 	try {
 		// Test 1: Single user lookup (GET)

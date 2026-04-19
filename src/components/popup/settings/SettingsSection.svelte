@@ -30,10 +30,12 @@
 	} from '@/lib/types/settings';
 	import { logger } from '@/lib/utils/logger';
 	import {
+		hasPermissionsForOrigins,
 		hasTranslatePermission,
 		requestPermissionsForOrigins,
 		requestTranslatePermission
 	} from '@/lib/utils/permissions';
+	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
 
 	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 	const availableLocales = getAvailableLocales();
@@ -49,6 +51,7 @@
 
 	let apiKeyVisible = $state(false);
 	let developerExpanded = $state(false);
+	let togglingApiId = $state<string | null>(null);
 
 	const userApis = $derived($customApis.filter((api) => !api.isSystem));
 
@@ -116,30 +119,56 @@
 
 	// Handle custom API toggle changes
 	async function handleApiToggle(apiId: string, enabled: boolean) {
-		try {
-			await updateCustomApi(apiId, { enabled });
-			logger.userAction('custom_api_toggled', { apiId, enabled });
-		} catch (error) {
-			if (error instanceof Error && error.message === 'PERMISSIONS_REQUIRED') {
-				// Look up the API configuration to get the URLs
-				const api = $customApis.find((a) => a.id === apiId);
-				if (!api) {
-					logger.error('Failed to find API for permission request:', { apiId });
-					return;
-				}
-
-				// Extract origins from the API's URLs
-				const origins = extractApiOrigins(api);
-				if (origins.length === 0) {
-					logger.error('Failed to extract origins from API URLs:', { apiId });
-					return;
-				}
-
-				// Request permissions for API origins
-				await requestPermissionsForOrigins(origins);
-			} else {
-				logger.error('Failed to toggle custom API:', error);
+		if (!enabled) {
+			try {
+				await updateCustomApi(apiId, { enabled: false });
+				logger.userAction('custom_api_toggled', { apiId, enabled: false });
+			} catch (error) {
+				logger.error('Failed to disable custom API:', error);
+				showError(
+					$_('custom_api_mgmt_alert_toggle_error', {
+						values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+					})
+				);
 			}
+			return;
+		}
+
+		const api = $customApis.find((a) => a.id === apiId);
+		if (!api) {
+			logger.error('Failed to find API for permission request:', { apiId });
+			return;
+		}
+
+		const origins = extractApiOrigins(api);
+		if (origins.length === 0) {
+			showError($_('custom_api_mgmt_alert_invalid_url'));
+			return;
+		}
+
+		togglingApiId = apiId;
+		try {
+			const hasPerms = await hasPermissionsForOrigins(origins);
+			if (!hasPerms) {
+				const granted = await requestPermissionsForOrigins(origins);
+				if (!granted) {
+					showWarning($_('custom_api_mgmt_alert_permission_denied'));
+					return;
+				}
+			}
+
+			await updateCustomApi(apiId, { enabled: true });
+			logger.userAction('custom_api_toggled', { apiId, enabled: true });
+			showSuccess($_('custom_api_mgmt_alert_enabled', { values: { 0: api.name } }));
+		} catch (error) {
+			logger.error('Failed to enable custom API:', error);
+			showError(
+				$_('custom_api_mgmt_alert_toggle_error', {
+					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
+				})
+			);
+		} finally {
+			togglingApiId = null;
 		}
 	}
 
@@ -313,6 +342,7 @@
 						<div class="settings-row-label">{api.name}</div>
 						<Toggle
 							checked={api.enabled}
+							loading={togglingApiId === api.id}
 							onchange={(value: boolean) => handleApiToggle(api.id, value)}
 						/>
 					</div>

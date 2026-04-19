@@ -19,9 +19,9 @@ export const CHANGELOGS: Changelog[] = [
 		id: 'v2.16.0',
 		version: '2.16.0',
 		date: '2026-04-24',
-		title: 'UI Redesign',
+		title: 'UI Redesign & Feature Expansion',
 		summary:
-			'This update modernizes the extension UI with redesigned pages, refreshed component styles, and real-time activity charts.',
+			'A major UI refresh across the stats, settings, report helper, modals, and friend warning, alongside new detection tools, quality-of-life improvements, and a broad set of bug fixes.',
 		changes: [
 			{
 				type: 'added',
@@ -46,6 +46,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Outfit viewer everywhere - The 3D outfit viewer is accessible from all tooltip contexts, not just the profile page'
+			},
+			{
+				type: 'added',
+				description:
+					'Custom API auth header - Pick X-Auth-Token, Authorization Bearer, or plain Authorization when configuring an API key. Header choice is preserved in exported configs.'
 			},
 			{
 				type: 'changed',
@@ -99,6 +104,16 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'changed',
 				description:
 					'Status lookups - List pages warm a shared cache so opening a tooltip or profile for a user you just scrolled past skips the network round trip, and pending lookups cancel when you navigate away'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Custom API toggle - Enabling an API that needs browser permission no longer leaves the toggle in a stuck state. Accept to enable, deny to keep disabled; no refresh needed.'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Custom API meta - Rotector system card no longer shows a meaningless Jan 1, 1970 creation date and fixed timeout'
 			},
 			{
 				type: 'fixed',

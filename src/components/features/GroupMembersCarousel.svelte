@@ -493,7 +493,7 @@
 		) as HTMLElement;
 		if (!container) {
 			container = document.createElement('div');
-			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} group-member-status`;
+			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} ${COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE} group-member-status`;
 			tileElement.appendChild(container);
 		}
 

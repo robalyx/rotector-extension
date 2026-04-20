@@ -200,7 +200,7 @@
 }
 
 @utility group-member-status {
-	@apply absolute;
+	top: auto;
 	bottom: 26px;
 	right: 2px;
 }

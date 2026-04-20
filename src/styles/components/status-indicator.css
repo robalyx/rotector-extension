@@ -10,9 +10,8 @@
 
 @utility status-positioned-absolute {
 	@apply pointer-events-auto absolute top-1 right-1 z-[1000] flex h-5 w-5 items-center justify-center rounded-full p-0;
-	background-color: var(--overlay-scrim);
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
+	background-color: var(--status-badge-bg);
+	box-shadow: var(--status-badge-shadow);
 
 	& [class*='status-icon-'] {
 		@apply mr-0;

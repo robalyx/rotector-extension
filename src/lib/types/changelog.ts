@@ -106,6 +106,16 @@ export const CHANGELOGS: Changelog[] = [
 					'Status lookups - List pages warm a shared cache so opening a tooltip or profile for a user you just scrolled past skips the network round trip, and pending lookups cancel when you navigate away'
 			},
 			{
+				type: 'changed',
+				description:
+					'Status indicators - Avatar tile badges render on a solid dark disc with a subtle drop shadow so they stay legible against any avatar'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Custom API toggle - Enabling an API that needs browser permission no longer leaves the toggle in a stuck state. Accept to enable, deny to keep disabled; no refresh needed.'

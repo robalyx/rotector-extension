@@ -114,6 +114,10 @@
 	--overlay-dialog: rgba(0, 0, 0, 0.55);
 	--overlay-heavy: rgba(0, 0, 0, 0.75);
 
+	/* Status badge surface  */
+	--status-badge-bg: var(--primitive-dark-bg);
+	--status-badge-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+
 	/* =================================
 	   LIGHT THEME (Default)
 	   ================================= */

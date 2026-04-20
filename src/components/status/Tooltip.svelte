@@ -277,6 +277,7 @@
 	let headerCompact = $state(false);
 	let hoverPopoverHideTimeout: ReturnType<typeof setTimeout> | null = null;
 	let hoverPopoverFrame: number | null = null;
+	let previewPositionFrame: number | null = null;
 
 	// Engine version status for options menu display
 	const engineVersionStatus = $derived.by(() => {
@@ -824,6 +825,11 @@
 	// Positioning for preview tooltips
 	function positionTooltip() {
 		if (!tooltipRef || !anchorElement || isExpanded) return;
+
+		if (!anchorElement.isConnected) {
+			onClose?.();
+			return;
+		}
 
 		const position = calculateTooltipPosition(tooltipRef, anchorElement);
 		applyTooltipPosition(tooltipRef, position);
@@ -1474,7 +1480,8 @@
 			};
 		} else {
 			// Preview tooltip setup
-			requestAnimationFrame(() => {
+			previewPositionFrame = requestAnimationFrame(() => {
+				previewPositionFrame = null;
 				positionTooltip();
 			});
 
@@ -1483,6 +1490,10 @@
 			window.addEventListener('resize', positionTooltip);
 
 			return () => {
+				if (previewPositionFrame !== null) {
+					cancelAnimationFrame(previewPositionFrame);
+					previewPositionFrame = null;
+				}
 				document.removeEventListener('keydown', handleKeydown);
 				document.removeEventListener('click', handleClickOutside);
 				window.removeEventListener('resize', positionTooltip);

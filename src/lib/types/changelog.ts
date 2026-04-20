@@ -153,6 +153,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Tooltip position - Preview tooltip no longer snaps to the top-left corner when navigating carousels or member lists quickly'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Profile tooltip name - Expanded tooltip no longer shows "Unknown User" when opened before Roblox finishes loading the profile header'
 			},
 			{

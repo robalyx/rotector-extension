@@ -52,23 +52,25 @@
 	let groupsCheck = $state<CheckThreshold>('quick');
 	let selectedOutfitNames = $state<string[]>([]);
 
-	// Acknowledgment states
-	let ackScope = $state(false);
-	let ackNotInnocent = $state(false);
-	let ackDynamicLimits = $state(false);
-	let ackReviewProcess = $state(false);
-	let ackAccuracy = $state(false);
-	let ackNotIdentity = $state(false);
-	let ackMisuse = $state(false);
-	const allAcknowledged = $derived(
-		ackScope &&
-			ackNotInnocent &&
-			ackDynamicLimits &&
-			ackReviewProcess &&
-			ackAccuracy &&
-			ackNotIdentity &&
-			ackMisuse
+	// Acknowledgment items
+	const ackItems = [
+		{ key: 'scope', labelKey: 'queue_popup_ack_scope' },
+		{ key: 'notInnocent', labelKey: 'queue_popup_ack_not_innocent' },
+		{ key: 'dynamicLimits', labelKey: 'queue_popup_ack_dynamic_limits' },
+		{ key: 'reviewProcess', labelKey: 'queue_popup_ack_review_process' },
+		{ key: 'accuracy', labelKey: 'queue_popup_ack_accuracy' },
+		{ key: 'notIdentity', labelKey: 'queue_popup_ack_not_identity' },
+		{ key: 'noRetaliation', labelKey: 'queue_popup_ack_no_retaliation' },
+		{ key: 'noExploit', labelKey: 'queue_popup_ack_no_exploit' },
+		{ key: 'confidentiality', labelKey: 'queue_popup_ack_confidentiality' },
+		{ key: 'inaccuracyRestriction', labelKey: 'queue_popup_ack_inaccuracy_restriction' },
+		{ key: 'misuse', labelKey: 'queue_popup_ack_misuse' }
+	] as const;
+	type AckKey = (typeof ackItems)[number]['key'];
+	let ackState = $state<Record<AckKey, boolean>>(
+		Object.fromEntries(ackItems.map((i) => [i.key, false])) as Record<AckKey, boolean>
 	);
+	const allAcknowledged = $derived(ackItems.every((i) => ackState[i.key]));
 
 	// UI state
 	let ackSectionEl = $state<HTMLDivElement>();
@@ -120,13 +122,9 @@
 
 	function toggleAll() {
 		const newValue = !allAcknowledged;
-		ackScope = newValue;
-		ackNotInnocent = newValue;
-		ackDynamicLimits = newValue;
-		ackReviewProcess = newValue;
-		ackAccuracy = newValue;
-		ackNotIdentity = newValue;
-		ackMisuse = newValue;
+		for (const item of ackItems) {
+			ackState[item.key] = newValue;
+		}
 	}
 
 	// Handle form submission which starts captcha flow
@@ -188,13 +186,9 @@
 		friendsCheck = 'quick';
 		groupsCheck = 'quick';
 		selectedOutfitNames = [];
-		ackScope = false;
-		ackNotInnocent = false;
-		ackDynamicLimits = false;
-		ackReviewProcess = false;
-		ackAccuracy = false;
-		ackNotIdentity = false;
-		ackMisuse = false;
+		for (const item of ackItems) {
+			ackState[item.key] = false;
+		}
 		submitting = false;
 		awaitingCaptcha = false;
 		captchaSessionId = null;
@@ -426,75 +420,17 @@
 				<span class="queue-ack-text">{$_('queue_popup_ack_all')}</span>
 			</label>
 
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackScope} />
-				<span class="queue-ack-checkmark" class:checked={ackScope}>
-					{#if ackScope}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_scope')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotInnocent} />
-				<span class="queue-ack-checkmark" class:checked={ackNotInnocent}>
-					{#if ackNotInnocent}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_not_innocent')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackDynamicLimits} />
-				<span class="queue-ack-checkmark" class:checked={ackDynamicLimits}>
-					{#if ackDynamicLimits}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_dynamic_limits')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackReviewProcess} />
-				<span class="queue-ack-checkmark" class:checked={ackReviewProcess}>
-					{#if ackReviewProcess}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_review_process')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackAccuracy} />
-				<span class="queue-ack-checkmark" class:checked={ackAccuracy}>
-					{#if ackAccuracy}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_accuracy')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackNotIdentity} />
-				<span class="queue-ack-checkmark" class:checked={ackNotIdentity}>
-					{#if ackNotIdentity}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_not_identity')}</span>
-			</label>
-
-			<label class="queue-ack-item">
-				<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackMisuse} />
-				<span class="queue-ack-checkmark" class:checked={ackMisuse}>
-					{#if ackMisuse}
-						<Check aria-hidden="true" size={14} strokeWidth={3} />
-					{/if}
-				</span>
-				<span class="queue-ack-text">{$_('queue_popup_ack_misuse')}</span>
-			</label>
+			{#each ackItems as item (item.key)}
+				<label class="queue-ack-item">
+					<input class="queue-ack-checkbox" type="checkbox" bind:checked={ackState[item.key]} />
+					<span class="queue-ack-checkmark" class:checked={ackState[item.key]}>
+						{#if ackState[item.key]}
+							<Check aria-hidden="true" size={14} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="queue-ack-text">{$_(item.labelKey)}</span>
+				</label>
+			{/each}
 		</div>
 	</div>
 

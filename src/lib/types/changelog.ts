@@ -116,6 +116,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Status indicators - Avatar tile badges render on a solid dark disc with a subtle drop shadow so they stay legible against any avatar'
 			},
 			{
+				type: 'changed',
+				description:
+					'Queue submission acknowledgments - Expanded the required checks to better communicate expectations around accuracy and responsible use'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'

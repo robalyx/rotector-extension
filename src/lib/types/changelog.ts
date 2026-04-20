@@ -118,6 +118,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					"Custom API empty results - Users omitted from a batch response now show as 'No data available for this API' in the tooltip header instead of displaying as an error. Empty-result tabs appear slightly dimmed."
+			},
+			{
+				type: 'fixed',
+				description:
 					'Report auto-fill - Category and comment fields now fill in correctly on the Roblox report page'
 			},
 			{

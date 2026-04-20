@@ -332,6 +332,7 @@
 			name: result.apiName,
 			loading: result.loading,
 			error: !!result.error && !result.data,
+			noData: !result.loading && !result.error && !result.data,
 			landscapeImageDataUrl: result.landscapeImageDataUrl
 		}));
 	});
@@ -469,6 +470,11 @@
 			(isRestricted && !isSelfLookup && !activeStatus && !activeLoading && !activeError)
 	);
 
+	// Batch resolved with this user omitted from the response
+	const isNoData = $derived(
+		!!userStatus && !activeLoading && !activeError && !effectivelyRestricted && !activeStatus
+	);
+
 	// Get custom API badges for active tab
 	const customApiBadges = $derived.by(() => {
 		if (activeTab === ROTECTOR_API_ID || isGroup || !userStatus) return [];
@@ -539,7 +545,8 @@
 	const headerMessage = $derived.by(() => {
 		if (effectivelyRestricted) return { full: $_('tooltip_restricted_header') };
 		if (activeError) return { full: $_('tooltip_error_details') };
-		if (!activeStatus) return { full: $_('tooltip_loading') };
+		if (activeLoading || !userStatus) return { full: $_('tooltip_loading') };
+		if (!activeStatus) return { full: $_('tooltip_no_data_available') };
 
 		const currentStatus = activeStatus;
 		const confidence = currentStatus.confidence || 0;
@@ -1658,6 +1665,7 @@
 					class:active={activeTab === tab.id}
 					class:error={!hasImage && tab.error}
 					class:loading={!hasImage && tab.loading}
+					class:no-data={!hasImage && tab.noData}
 					class:tooltipTabHasImage={hasImage}
 					onclick={(e) => {
 						e.stopPropagation();
@@ -1738,15 +1746,14 @@
 		<div class="error-details">
 			{extractErrorMessage(activeError)}
 		</div>
-	{:else if activeLoading}
+	{:else if activeLoading || !userStatus}
 		<!-- Loading state -->
 		<div class="flex items-center justify-center gap-2 py-2">
 			<LoadingSpinner size="small" />
 			<span class="text-xs">{$_('tooltip_loading_user_info')}</span>
 		</div>
 	{:else if !activeStatus}
-		<!-- No data state -->
-		<div class="error-details">{$_('tooltip_no_data_available')}</div>
+		<!-- No-data state -->
 	{:else}
 		<!-- Status information -->
 		<div>
@@ -2230,7 +2237,7 @@
 									{$_('tooltip_profile_group_id')}
 									{sanitizedUserId}
 								</div>
-								{#if !effectivelyRestricted && !activeError}
+								{#if !effectivelyRestricted && !activeError && activeStatus}
 									<div class="tooltip-status-badge {statusBadgeClass}">
 										<span class="status-indicator"></span>
 										{statusBadgeText}
@@ -2239,7 +2246,7 @@
 							</div>
 							{#if showCompactColumns}
 								<div class="tooltip-header-right">
-									{#if activeStatus}
+									{#if activeStatus || isNoData}
 										<div class="tooltip-inline-message">
 											<div class="header-message">
 												{@render headerMessageSection(headerMessage)}
@@ -2269,7 +2276,7 @@
 									{/if}
 								</div>
 								<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
-								{#if !effectivelyRestricted && !activeError}
+								{#if !effectivelyRestricted && !activeError && activeStatus}
 									<div class="tooltip-status-badge {statusBadgeClass}">
 										<span class="status-indicator"></span>
 										{statusBadgeText}
@@ -2278,7 +2285,7 @@
 							</div>
 							{#if showCompactColumns}
 								<div class="tooltip-header-right">
-									{#if activeStatus}
+									{#if activeStatus || isNoData}
 										<div class="tooltip-inline-message">
 											<div class="header-message">
 												{@render headerMessageSection(headerMessage)}
@@ -2292,7 +2299,7 @@
 					{:else}
 						<!-- Fallback header -->
 						<div class="tooltip-header">
-							<div>{error ? $_('tooltip_error_details') : $_('tooltip_loading')}</div>
+							<div>{@render headerMessageSection(headerMessage)}</div>
 							<div class="tooltip-user-id">
 								{isGroup ? $_('tooltip_entity_group') : $_('tooltip_profile_user')}
 								{$_('tooltip_profile_id')}
@@ -2303,7 +2310,7 @@
 
 					<!-- Header message and reviewer -->
 					{#if !showCompactColumns}
-						{#if (userInfo || groupInfo) && activeStatus}
+						{#if (userInfo || groupInfo) && (activeStatus || isNoData)}
 							<div class="tooltip-header">
 								<div class="header-message">
 									{@render headerMessageSection(headerMessage)}

@@ -295,7 +295,6 @@ export async function queryMultipleUsers(
 							: {
 									apiId: api.id,
 									apiName: api.name,
-									error: 'User not found in response',
 									loading: false,
 									timestamp: Date.now(),
 									landscapeImageDataUrl: api.landscapeImageDataUrl

@@ -49,6 +49,10 @@
 		opacity: 0.85;
 	}
 
+	&.no-data:not(.active) {
+		opacity: 0.55;
+	}
+
 	&:disabled {
 		@apply cursor-not-allowed opacity-50;
 	}

@@ -727,7 +727,6 @@
 }
 
 @utility error-details {
-	@apply text-xs-plus mt-1.5 border-t pt-1.5 text-left break-words whitespace-pre-wrap;
-	border-color: var(--color-border-subtle);
+	@apply text-xs-plus text-left break-words whitespace-pre-wrap;
 	color: var(--color-text-subtle);
 }

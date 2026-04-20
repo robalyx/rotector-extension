@@ -241,6 +241,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Tooltip loading timeout - Stalled requests surface an error after 15 seconds instead of spinning forever'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Condo Activity evidence - Custom API evidence alongside the Discord lookup is preserved instead of being replaced'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'

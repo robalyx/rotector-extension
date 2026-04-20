@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Проверка...",
 	"tooltip_status_integration": "Интеграция",
 	"tooltip_status_mixed": "Смешанный",
+	"tooltip_status_not_checked": "Не проверено",
 	"tooltip_status_not_flagged": "Не отмечено",
 	"tooltip_status_outfit_detected": "Обнаружен наряд",
 	"tooltip_status_past_offender": "Бывший нарушитель",

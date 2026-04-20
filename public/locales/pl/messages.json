@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Sprawdzanie...",
 	"tooltip_status_integration": "Integracja",
 	"tooltip_status_mixed": "Mieszany",
+	"tooltip_status_not_checked": "Nie sprawdzony",
 	"tooltip_status_not_flagged": "Nie oznaczony",
 	"tooltip_status_outfit_detected": "Outfit Wykryty",
 	"tooltip_status_past_offender": "Poprzedni naruszyciel",

@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "กำลังตรวจสอบ...",
 	"tooltip_status_integration": "การเชื่อมต่อ",
 	"tooltip_status_mixed": "ผสม",
+	"tooltip_status_not_checked": "ยังไม่ตรวจสอบ",
 	"tooltip_status_not_flagged": "ไม่ได้ถูกตั้งค่าสถานะ",
 	"tooltip_status_outfit_detected": "ชุดสวมใส่ที่ตรวจพบ",
 	"tooltip_status_past_offender": "ผู้กระทำผิดในอดีต",

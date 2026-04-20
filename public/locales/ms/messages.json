@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Memeriksa...",
 	"tooltip_status_integration": "Integrasi",
 	"tooltip_status_mixed": "Bercampur",
+	"tooltip_status_not_checked": "Belum Disemak",
 	"tooltip_status_not_flagged": "Tidak Dibenderakan",
 	"tooltip_status_outfit_detected": "Pakaian Dikesan",
 	"tooltip_status_past_offender": "Pelanggar Dahulu",

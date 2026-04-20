@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Checking...",
 	"tooltip_status_integration": "Integration",
 	"tooltip_status_mixed": "Mixed",
+	"tooltip_status_not_checked": "Not Checked",
 	"tooltip_status_not_flagged": "Not Flagged",
 	"tooltip_status_outfit_detected": "Outfit Detected",
 	"tooltip_status_past_offender": "Past Offender",

@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Controleren...",
 	"tooltip_status_integration": "Integratie",
 	"tooltip_status_mixed": "Gemengd",
+	"tooltip_status_not_checked": "Niet Gecontroleerd",
 	"tooltip_status_not_flagged": "Niet Gemarkeerd",
 	"tooltip_status_outfit_detected": "Outfit Gedetecteerd",
 	"tooltip_status_past_offender": "Voormalige Overtreder",

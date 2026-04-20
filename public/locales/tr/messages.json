@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Kontrol ediliyor...",
 	"tooltip_status_integration": "Entegrasyon",
 	"tooltip_status_mixed": "Karışık",
+	"tooltip_status_not_checked": "Kontrol Edilmedi",
 	"tooltip_status_not_flagged": "İşaretlenmedi",
 	"tooltip_status_outfit_detected": "Kıyafet Tespit Edildi",
 	"tooltip_status_past_offender": "Geçmiş İhlalci",

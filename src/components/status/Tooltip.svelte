@@ -596,7 +596,7 @@
 
 		switch (currentStatus.flagType) {
 			case STATUS.FLAGS.SAFE:
-				return $_('tooltip_status_not_flagged');
+				return $_('tooltip_status_not_checked');
 			case STATUS.FLAGS.UNSAFE:
 				return $_('tooltip_status_unsafe');
 			case STATUS.FLAGS.PENDING:

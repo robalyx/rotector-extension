@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "チェック中...",
 	"tooltip_status_integration": "統合",
 	"tooltip_status_mixed": "混在",
+	"tooltip_status_not_checked": "未確認",
 	"tooltip_status_not_flagged": "フラグなし",
 	"tooltip_status_outfit_detected": "衣装検出",
 	"tooltip_status_past_offender": "過去の違反者",

@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "جارٍ الفحص...",
 	"tooltip_status_integration": "تكامل",
 	"tooltip_status_mixed": "مختلط",
+	"tooltip_status_not_checked": "غير مفحوص",
 	"tooltip_status_not_flagged": "غير مُبلغ عنه",
 	"tooltip_status_outfit_detected": "ملابس مكتشفة",
 	"tooltip_status_past_offender": "مخالف سابق",

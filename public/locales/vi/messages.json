@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Đang kiểm tra...",
 	"tooltip_status_integration": "Tích hợp",
 	"tooltip_status_mixed": "Hỗn hợp",
+	"tooltip_status_not_checked": "Chưa Kiểm tra",
 	"tooltip_status_not_flagged": "Chưa Gắn cờ",
 	"tooltip_status_outfit_detected": "Phát hiện trang phục",
 	"tooltip_status_past_offender": "Kẻ Vi phạm Trước đây",

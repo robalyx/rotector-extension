@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Controllo...",
 	"tooltip_status_integration": "Integrazione",
 	"tooltip_status_mixed": "Misto",
+	"tooltip_status_not_checked": "Non Verificato",
 	"tooltip_status_not_flagged": "Non Segnalato",
 	"tooltip_status_outfit_detected": "Abbigliamento Rilevato",
 	"tooltip_status_past_offender": "Trasgressore Passato",

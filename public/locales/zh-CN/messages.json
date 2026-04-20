@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "检查中...",
 	"tooltip_status_integration": "集成",
 	"tooltip_status_mixed": "混合",
+	"tooltip_status_not_checked": "未检查",
 	"tooltip_status_not_flagged": "未标记",
 	"tooltip_status_outfit_detected": "检测到衣装",
 	"tooltip_status_past_offender": "过去的违规者",

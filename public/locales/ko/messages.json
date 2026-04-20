@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "확인 중...",
 	"tooltip_status_integration": "통합",
 	"tooltip_status_mixed": "혼합",
+	"tooltip_status_not_checked": "미검토",
 	"tooltip_status_not_flagged": "신고 안 됨",
 	"tooltip_status_outfit_detected": "의상 감지됨",
 	"tooltip_status_past_offender": "과거 위반자",

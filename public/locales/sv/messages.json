@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Kontrollerar...",
 	"tooltip_status_integration": "Integration",
 	"tooltip_status_mixed": "Blandad",
+	"tooltip_status_not_checked": "Ej granskad",
 	"tooltip_status_not_flagged": "Inte flaggad",
 	"tooltip_status_outfit_detected": "Outfit upptäckt",
 	"tooltip_status_past_offender": "Tidigare förbrytare",

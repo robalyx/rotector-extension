@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Verificando...",
 	"tooltip_status_integration": "Integração",
 	"tooltip_status_mixed": "Misto",
+	"tooltip_status_not_checked": "Não Verificado",
 	"tooltip_status_not_flagged": "Não Sinalizado",
 	"tooltip_status_outfit_detected": "Roupa Detectada",
 	"tooltip_status_past_offender": "Infrator Anterior",

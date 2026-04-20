@@ -23,7 +23,7 @@
 
 	const CATEGORIES: Record<string, CategoryConfig> = {
 		safe: {
-			labelKey: 'tooltip_status_not_flagged',
+			labelKey: 'tooltip_status_not_checked',
 			icon: 'safe',
 			color: 'var(--color-status-safe)'
 		},

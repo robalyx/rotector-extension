@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "जांच हो रही है...",
 	"tooltip_status_integration": "एकीकरण",
 	"tooltip_status_mixed": "मिश्रित",
+	"tooltip_status_not_checked": "जाँच नहीं हुई",
 	"tooltip_status_not_flagged": "फ्लैग नहीं किया गया",
 	"tooltip_status_outfit_detected": "पोशाक का पता चला",
 	"tooltip_status_past_offender": "पूर्व अपराधी",

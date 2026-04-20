@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "পরীক্ষা করা হচ্ছে...",
 	"tooltip_status_integration": "ইন্টিগ্রেশন",
 	"tooltip_status_mixed": "মিশ্র",
+	"tooltip_status_not_checked": "পরীক্ষিত নয়",
 	"tooltip_status_not_flagged": "ফ্ল্যাগ করা হয়নি",
 	"tooltip_status_outfit_detected": "পোশাক শনাক্ত করা হয়েছে",
 	"tooltip_status_past_offender": "পূর্ববর্তী অপরাধী",

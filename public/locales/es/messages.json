@@ -746,6 +746,7 @@
 	"tooltip_status_checking": "Verificando...",
 	"tooltip_status_integration": "Integración",
 	"tooltip_status_mixed": "Mixto",
+	"tooltip_status_not_checked": "Sin Revisar",
 	"tooltip_status_not_flagged": "No Marcado",
 	"tooltip_status_outfit_detected": "Atuendo Detectado",
 	"tooltip_status_past_offender": "Infractor Pasado",

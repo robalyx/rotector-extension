@@ -96,7 +96,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'safe',
 				iconColor: '#888888',
-				textContent: t('tooltip_status_not_flagged'),
+				textContent: t('tooltip_status_not_checked'),
 				textClass: 'status-text-safe'
 			};
 		case STATUS.FLAGS.UNSAFE:

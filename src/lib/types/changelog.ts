@@ -121,6 +121,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Queue submission acknowledgments - Expanded the required checks to better communicate expectations around accuracy and responsible use'
 			},
 			{
+				type: 'changed',
+				description:
+					'Status label - Users the system has never reviewed now show "Not Checked" instead of "Not Flagged", which is reserved for users that were queued and cleared'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'

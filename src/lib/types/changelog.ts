@@ -246,6 +246,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Condo Activity evidence - Custom API evidence alongside the Discord lookup is preserved instead of being replaced'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Discord lookup - Linked Discord accounts with no monitored server memberships are hidden instead of appearing with an empty 0-server entry'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'

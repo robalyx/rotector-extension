@@ -161,7 +161,7 @@
 				isLoading = true;
 				error = null;
 				const result = await discordDataService.getDiscordData(robloxUserId);
-				discordAccounts = result.discordAccounts;
+				discordAccounts = result.discordAccounts.filter((account) => account.servers.length > 0);
 				altAccounts = result.altAccounts;
 			} catch (err) {
 				error = err instanceof Error ? err.message : 'Failed to fetch Discord data';

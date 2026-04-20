@@ -31,6 +31,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Group members presence - Member tiles now show online, in-game, and studio presence icons at the bottom-right of each avatar'
+			},
+			{
+				type: 'added',
+				description:
 					'Bio decoder - Detects Caesar cipher, Morse code, and binary-encoded text in profile bios and shows a one-click decode chip'
 			},
 			{
@@ -114,6 +119,16 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Group members status position - Status badge now sits at the top-right of each avatar, matching every other carousel instead of floating at the bottom-right'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Roblox API credentials - Various requests through the Roblox API now send session cookies so data loads correctly with extended rate limits'
 			},
 			{
 				type: 'fixed',

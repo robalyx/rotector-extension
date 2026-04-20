@@ -7,9 +7,13 @@
 		getGroupRoles,
 		getGroupMembers,
 		getMemberThumbnails,
+		getUserPresences,
+		PRESENCE_TYPE,
 		type GroupRole,
 		type GroupMember,
-		type SortOrder
+		type PresenceType,
+		type SortOrder,
+		type UserPresence
 	} from '@/lib/services/roblox-groups-api';
 	import { apiClient } from '@/lib/services/api-client';
 	import { queryMultipleUsers } from '@/lib/services/unified-query-service';
@@ -51,8 +55,11 @@
 	// By-role view state
 	let roles = $state<GroupRole[]>([]);
 	let selectedRoleId = $state<number | null>(null);
+	const selectedRole = $derived(roles.find((r) => r.id === selectedRoleId));
 	let members = $state<GroupMember[]>([]);
 	let thumbnails = $state(new Map<number, string>());
+	let presences = $state(new Map<number, UserPresence>());
+	let trackedPresences = $state(new Map<number, UserPresence>());
 	let isLoadingRoles = $state(true);
 	let isLoadingMembers = $state(false);
 	let errorMessage = $state<string | null>(null);
@@ -220,6 +227,17 @@
 			if (requestId !== membersRequestId) return;
 			thumbnails = fetchedThumbnails;
 
+			// Load Roblox presences
+			try {
+				const fetchedPresences = await getUserPresences(userIds);
+				if (requestId !== membersRequestId) return;
+				presences = fetchedPresences;
+			} catch (error) {
+				logger.warn('Failed to load member presences:', error);
+			}
+
+			if (requestId !== membersRequestId) return;
+
 			// Load Rotector statuses
 			await loadStatuses(userIds.map(String));
 		} catch (error) {
@@ -297,6 +315,17 @@
 			hasLoadedTracked = true;
 
 			if (trackedUsers.length > 0) {
+				// Load Roblox presences
+				try {
+					const fetchedPresences = await getUserPresences(trackedUsers.map((u) => u.id));
+					if (requestId !== trackedRequestId) return;
+					trackedPresences = fetchedPresences;
+				} catch (error) {
+					logger.warn('Failed to load tracked presences:', error);
+				}
+
+				if (requestId !== trackedRequestId) return;
+
 				await loadStatuses(trackedUsers.map((u) => String(u.id)));
 			}
 		} catch (error) {
@@ -328,6 +357,7 @@
 		trackedPreviousCursors = [];
 		trackedCursorCache = [null];
 		userStatuses.clear();
+		trackedPresences.clear();
 		void loadTrackedUsers();
 	}
 
@@ -493,7 +523,7 @@
 		) as HTMLElement;
 		if (!container) {
 			container = document.createElement('div');
-			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} ${COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE} group-member-status`;
+			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} ${COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE}`;
 			tileElement.appendChild(container);
 		}
 
@@ -531,6 +561,7 @@
 		currentSortOrder = 'Desc';
 		showPageInput = false;
 		userStatuses.clear();
+		presences.clear();
 		void loadMembers();
 	}
 
@@ -547,6 +578,7 @@
 		previousCursors = [];
 		carryoverHistory = [];
 		userStatuses.clear();
+		presences.clear();
 		void loadMembers();
 	}
 
@@ -656,6 +688,7 @@
 				previousCursors = [];
 				carryoverHistory = [];
 				userStatuses.clear();
+				presences.clear();
 				currentPage = oppositeRequestsNeeded;
 
 				const success = await fetchCursorsToPage(oppositeRequestsNeeded);
@@ -769,11 +802,31 @@
 		batchController = null;
 		cleanupMountedComponents();
 		userStatuses.clear();
+		presences.clear();
+		trackedPresences.clear();
 	}
 
-	// Get selected role info
-	const selectedRole = $derived(roles.find((r) => r.id === selectedRoleId));
+	// Map Roblox presence type to its native CSS icon class
+	function presenceIconClass(type: PresenceType): string | null {
+		if (type === PRESENCE_TYPE.ONLINE) return 'icon-online';
+		if (type === PRESENCE_TYPE.IN_GAME) return 'icon-game';
+		if (type === PRESENCE_TYPE.IN_STUDIO) return 'icon-studio';
+		return null;
+	}
 </script>
+
+{#snippet presenceIcon(presence: UserPresence | undefined)}
+	{#if presence}
+		{@const iconClass = presenceIconClass(presence.userPresenceType)}
+		{#if iconClass}
+			<span
+				class="rotector-member-presence {iconClass}"
+				data-testid="presence-icon"
+				title={presence.lastLocation}
+			></span>
+		{/if}
+	{/if}
+{/snippet}
 
 <!-- content that will be portaled -->
 <div bind:this={contentWrapper} class="group-members-section">
@@ -882,6 +935,7 @@
 										{:else}
 											<div class="group-member-avatar-placeholder"></div>
 										{/if}
+										{@render presenceIcon(presences.get(member.userId))}
 									</div>
 									<span class="group-member-display-name rotector-member-display-name">
 										{member.displayName}
@@ -1012,6 +1066,7 @@
 									{:else}
 										<div class="group-member-avatar-placeholder"></div>
 									{/if}
+									{@render presenceIcon(trackedPresences.get(user.id))}
 								</div>
 								<span class="group-member-display-name rotector-member-display-name">
 									{user.displayName}

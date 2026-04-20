@@ -23,7 +23,7 @@ export async function fetchAllFriendIds(
 
 		const response = await fetch(
 			`https://friends.roblox.com/v1/users/${userId}/friends/find?${params}`,
-			{ signal }
+			{ credentials: 'include', signal }
 		);
 
 		if (!response.ok) {

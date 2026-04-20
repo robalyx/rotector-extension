@@ -162,20 +162,18 @@
 }
 
 @utility group-member-avatar {
-	@apply relative shrink-0 overflow-hidden rounded-full border;
+	@apply relative shrink-0 rounded-full border;
 	width: 90px;
 	height: 90px;
 	border-color: var(--roblox-border);
 
-	& img {
-		@apply h-full w-full object-cover;
+	& img,
+	& .group-member-avatar-placeholder {
+		@apply h-full w-full rounded-full object-cover;
 	}
 }
 
 @utility group-member-avatar-placeholder {
-	@apply rounded-full;
-	width: 90px;
-	height: 90px;
 	background: var(--roblox-bg-surface);
 }
 
@@ -199,10 +197,8 @@
 	color: var(--roblox-text-heading);
 }
 
-@utility group-member-status {
-	top: auto;
-	bottom: 26px;
-	right: 2px;
+@utility rotector-member-presence {
+	@apply absolute right-0 bottom-0 z-[2];
 }
 
 /* =================================

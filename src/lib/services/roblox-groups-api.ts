@@ -48,9 +48,30 @@ interface RolesApiResponse {
 	roles: GroupRole[];
 }
 
+export interface UserPresence {
+	userPresenceType: PresenceType;
+	lastLocation: string;
+	userId: number;
+}
+
+interface UserPresencesResponse {
+	userPresences: UserPresence[];
+}
+
+export const PRESENCE_TYPE = {
+	OFFLINE: 0,
+	ONLINE: 1,
+	IN_GAME: 2,
+	IN_STUDIO: 3,
+	INVISIBLE: 4
+} as const;
+export type PresenceType = (typeof PRESENCE_TYPE)[keyof typeof PRESENCE_TYPE];
+
 // Returns roles sorted by rank ascending
 export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
-	const response = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/roles`);
+	const response = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/roles`, {
+		credentials: 'include'
+	});
 
 	if (!response.ok) {
 		throw new Error(`Failed to fetch group roles: ${response.status}`);
@@ -78,7 +99,8 @@ export async function getGroupMembers(
 	}
 
 	const response = await fetch(
-		`https://groups.roblox.com/v1/groups/${groupId}/roles/${roleId}/users?${params}`
+		`https://groups.roblox.com/v1/groups/${groupId}/roles/${roleId}/users?${params}`,
+		{ credentials: 'include' }
 	);
 
 	if (!response.ok) {
@@ -103,6 +125,35 @@ export async function getGroupMembers(
 	return (await response.json()) as MembersResponse;
 }
 
+// Batch fetch user presence states
+export async function getUserPresences(userIds: number[]): Promise<Map<number, UserPresence>> {
+	if (userIds.length === 0) {
+		return new Map();
+	}
+
+	const response = await fetch('https://presence.roblox.com/v1/presence/users', {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ userIds })
+	});
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch user presences: ${response.status}`);
+	}
+
+	const data = (await response.json()) as UserPresencesResponse;
+	const presenceMap = new Map<number, UserPresence>();
+
+	for (const presence of data.userPresences) {
+		presenceMap.set(presence.userId, presence);
+	}
+
+	return presenceMap;
+}
+
 // Batch fetch avatar headshots via thumbnails API
 export async function getMemberThumbnails(userIds: number[]): Promise<Map<number, string>> {
 	if (userIds.length === 0) {
@@ -121,6 +172,7 @@ export async function getMemberThumbnails(userIds: number[]): Promise<Map<number
 
 	const response = await fetch('https://thumbnails.roblox.com/v1/batch', {
 		method: 'POST',
+		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json'
 		},

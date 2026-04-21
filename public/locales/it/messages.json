@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Come Funziona il Rilevamento Trap V2",
 	"voting_aria_agree": "D'accordo con questo stato",
 	"voting_aria_disagree": "In disaccordo con questo stato",
+	"voting_aria_dispute": "Contesta questa conferma",
 	"voting_button_agree": "D'accordo",
 	"voting_button_disagree": "In disaccordo",
+	"voting_button_dispute": "Contesta",
 	"voting_count_plural": "{0} voti",
 	"voting_count_singular": "{0} voto",
 	"voting_description": "Aiuta gli altri confermando se lo stato di questo utente è accurato.",
-	"voting_disagree_disabled_confirmed": "Il voto in disaccordo non è disponibile per gli utenti confermati",
+	"voting_description_confirmed": "Confermato come inappropriato. Non sei d'accordo? Presenta un ricorso.",
 	"voting_header_title": "Feedback della Comunità",
 	"voting_loading": "Caricamento..."
 }

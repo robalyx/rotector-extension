@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Comment Fonctionne la Détection Trap V2",
 	"voting_aria_agree": "Être d'accord avec ce statut",
 	"voting_aria_disagree": "Ne pas être d'accord avec ce statut",
+	"voting_aria_dispute": "Contester cette confirmation",
 	"voting_button_agree": "D'accord",
 	"voting_button_disagree": "Pas d'accord",
+	"voting_button_dispute": "Contester",
 	"voting_count_plural": "{0} votes",
 	"voting_count_singular": "{0} vote",
 	"voting_description": "Aidez les autres en confirmant si le statut de cet utilisateur est exact.",
-	"voting_disagree_disabled_confirmed": "Le vote de désaccord n'est pas disponible pour les utilisateurs confirmés",
+	"voting_description_confirmed": "Confirmé comme inapproprié. Pas d'accord ? Déposez un appel.",
 	"voting_header_title": "Retour de la Communauté",
 	"voting_loading": "Chargement..."
 }

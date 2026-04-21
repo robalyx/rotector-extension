@@ -126,6 +126,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Status label - Users the system has never reviewed now show "Not Checked" instead of "Not Flagged", which is reserved for users that were queued and cleared'
 			},
 			{
+				type: 'changed',
+				description:
+					'Community Feedback voting - For confirmed users, the disabled Disagree button is replaced with a Dispute action that opens the appeal page, making it clear how to contest the determination'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'

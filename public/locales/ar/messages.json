@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "كيف يعمل كشف الفخ V2",
 	"voting_aria_agree": "الموافقة على هذه الحالة",
 	"voting_aria_disagree": "عدم الموافقة على هذه الحالة",
+	"voting_aria_dispute": "الطعن في هذا التأكيد",
 	"voting_button_agree": "موافق",
 	"voting_button_disagree": "غير موافق",
+	"voting_button_dispute": "الطعن",
 	"voting_count_plural": "{0} صوت",
 	"voting_count_singular": "{0} صوت",
 	"voting_description": "ساعد الآخرين من خلال تأكيد ما إذا كانت حالة هذا المستخدم دقيقة.",
-	"voting_disagree_disabled_confirmed": "التصويت بعدم الموافقة غير متاح للمستخدمين المؤكدين",
+	"voting_description_confirmed": "تم التأكيد كمحتوى غير لائق. غير موافق؟ قدّم التماسًا.",
 	"voting_header_title": "ملاحظات المجتمع",
 	"voting_loading": "جارٍ التحميل..."
 }

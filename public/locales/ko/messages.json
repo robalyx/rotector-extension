@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "트랩 V2 감지 작동 방식",
 	"voting_aria_agree": "이 상태에 동의",
 	"voting_aria_disagree": "이 상태에 비동의",
+	"voting_aria_dispute": "이 확정에 이의 제기",
 	"voting_button_agree": "동의",
 	"voting_button_disagree": "비동의",
+	"voting_button_dispute": "이의 제기",
 	"voting_count_plural": "투표 {0}개",
 	"voting_count_singular": "투표 {0}개",
 	"voting_description": "이 사용자의 상태가 정확한지 확인하여 다른 사람들을 도와주세요.",
-	"voting_disagree_disabled_confirmed": "확인된 사용자는 투표에 동의하지 않을 수 없습니다",
+	"voting_description_confirmed": "부적절한 것으로 확정되었습니다. 동의하지 않으시나요? 이의를 제기하세요.",
 	"voting_header_title": "커뮤니티 피드백",
 	"voting_loading": "로딩 중..."
 }

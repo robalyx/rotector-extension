@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Cara Kerja Deteksi Trap V2",
 	"voting_aria_agree": "Setuju dengan status ini",
 	"voting_aria_disagree": "Tidak setuju dengan status ini",
+	"voting_aria_dispute": "Sanggah konfirmasi ini",
 	"voting_button_agree": "Setuju",
 	"voting_button_disagree": "Tidak Setuju",
+	"voting_button_dispute": "Sanggah",
 	"voting_count_plural": "{0} suara",
 	"voting_count_singular": "{0} suara",
 	"voting_description": "Bantu orang lain dengan mengonfirmasi apakah status pengguna ini akurat.",
-	"voting_disagree_disabled_confirmed": "Voting tidak setuju tidak tersedia untuk pengguna terkonfirmasi",
+	"voting_description_confirmed": "Dikonfirmasi sebagai tidak pantas. Tidak setuju? Ajukan banding.",
 	"voting_header_title": "Umpan Balik Komunitas",
 	"voting_loading": "Memuat..."
 }

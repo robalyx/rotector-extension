@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Como Funciona a Detecção Trap V2",
 	"voting_aria_agree": "Concordar com este status",
 	"voting_aria_disagree": "Discordar deste status",
+	"voting_aria_dispute": "Contestar esta confirmação",
 	"voting_button_agree": "Concordar",
 	"voting_button_disagree": "Discordar",
+	"voting_button_dispute": "Contestar",
 	"voting_count_plural": "{0} votos",
 	"voting_count_singular": "{0} voto",
 	"voting_description": "Ajude outros confirmando se o status deste usuário está correto.",
-	"voting_disagree_disabled_confirmed": "Votação em desacordo não está disponível para usuários confirmados",
+	"voting_description_confirmed": "Confirmado como inapropriado. Discorda? Apresente um recurso.",
 	"voting_header_title": "Feedback da Comunidade",
 	"voting_loading": "Carregando..."
 }

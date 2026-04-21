@@ -3,14 +3,14 @@
 	import type { VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { _ } from 'svelte-i18n';
-	import { ArrowUp, ArrowDown } from '@lucide/svelte';
+	import { ArrowUp, ArrowDown, Flag } from '@lucide/svelte';
 
 	interface Props {
 		voteData?: VoteData | null;
 		loading?: boolean;
 		error?: string | null;
 		onVote?: (voteType: number) => void;
-		disableDownvote?: boolean;
+		confirmed?: boolean;
 	}
 
 	let {
@@ -18,7 +18,7 @@
 		loading = false,
 		error = null,
 		onVote,
-		disableDownvote = false
+		confirmed = false
 	}: Props = $props();
 
 	// Computed values
@@ -108,25 +108,40 @@
 			<span class="voting-label">{$_('voting_button_agree')}</span>
 		</button>
 
-		<button
-			class="voting-downvote voting-button"
-			class:voting-button-downvote-active={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
-			aria-label={$_('voting_aria_disagree')}
-			disabled={loading || disableDownvote}
-			onclick={(e) => {
-				e.stopPropagation();
-				handleVoteClick(VOTE_TYPES.DOWNVOTE);
-			}}
-			title={disableDownvote ? $_('voting_disagree_disabled_confirmed') : undefined}
-			type="button"
-		>
-			<ArrowDown class="voting-icon-downvote" size={14} strokeWidth={2.5} />
-			<span class="voting-label">{$_('voting_button_disagree')}</span>
-		</button>
+		{#if confirmed}
+			<a
+				class="voting-downvote voting-button"
+				aria-label={$_('voting_aria_dispute')}
+				href="https://rotector.com"
+				onclick={(e) => e.stopPropagation()}
+				rel="noopener noreferrer"
+				target="_blank"
+			>
+				<Flag class="voting-icon-downvote" size={14} strokeWidth={2.5} />
+				<span class="voting-label">{$_('voting_button_dispute')}</span>
+			</a>
+		{:else}
+			<button
+				class="voting-downvote voting-button"
+				class:voting-button-downvote-active={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
+				aria-label={$_('voting_aria_disagree')}
+				disabled={loading}
+				onclick={(e) => {
+					e.stopPropagation();
+					handleVoteClick(VOTE_TYPES.DOWNVOTE);
+				}}
+				type="button"
+			>
+				<ArrowDown class="voting-icon-downvote" size={14} strokeWidth={2.5} />
+				<span class="voting-label">{$_('voting_button_disagree')}</span>
+			</button>
+		{/if}
 	</div>
 
 	<!-- Description -->
-	<p class="voting-description">{$_('voting_description')}</p>
+	<p class="voting-description">
+		{$_(confirmed ? 'voting_description_confirmed' : 'voting_description')}
+	</p>
 
 	<!-- Error display -->
 	{#if error}

@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Wie die Trap-V2-Erkennung funktioniert",
 	"voting_aria_agree": "Mit diesem Status übereinstimmen",
 	"voting_aria_disagree": "Mit diesem Status nicht übereinstimmen",
+	"voting_aria_dispute": "Diese Bestätigung anfechten",
 	"voting_button_agree": "Zustimmen",
 	"voting_button_disagree": "Nicht zustimmen",
+	"voting_button_dispute": "Anfechten",
 	"voting_count_plural": "{0} Stimmen",
 	"voting_count_singular": "{0} Stimme",
 	"voting_description": "Helfen Sie anderen, indem Sie bestätigen, ob der Status dieses Benutzers korrekt ist.",
-	"voting_disagree_disabled_confirmed": "Abstimmung mit Ablehnung ist für bestätigte Benutzer nicht verfügbar",
+	"voting_description_confirmed": "Als unangemessen bestätigt. Nicht einverstanden? Legen Sie Einspruch ein.",
 	"voting_header_title": "Community-Feedback",
 	"voting_loading": "Lädt..."
 }

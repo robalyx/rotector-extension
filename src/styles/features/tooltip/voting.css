@@ -63,7 +63,7 @@
 }
 
 @utility voting-button {
-	@apply flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md bg-transparent text-xs font-medium;
+	@apply flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md bg-transparent text-xs font-medium no-underline;
 	padding: 0.4375rem 0.5rem;
 	color: var(--color-text);
 	border: 1px solid var(--color-border-subtle);

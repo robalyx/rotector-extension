@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "陷阱 V2 检测工作原理",
 	"voting_aria_agree": "同意此状态",
 	"voting_aria_disagree": "不同意此状态",
+	"voting_aria_dispute": "对此确认提出申诉",
 	"voting_button_agree": "同意",
 	"voting_button_disagree": "不同意",
+	"voting_button_dispute": "申诉",
 	"voting_count_plural": "{0} 票",
 	"voting_count_singular": "{0} 票",
 	"voting_description": "通过确认此用户的状态是否准确来帮助他人。",
-	"voting_disagree_disabled_confirmed": "不同意投票不适用于已确认的用户",
+	"voting_description_confirmed": "已确认为不当内容。有异议？请提交申诉。",
 	"voting_header_title": "社区反馈",
 	"voting_loading": "加载中..."
 }

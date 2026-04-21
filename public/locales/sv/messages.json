@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Hur Trap V2-detektering fungerar",
 	"voting_aria_agree": "Håller med om denna status",
 	"voting_aria_disagree": "Håller inte med om denna status",
+	"voting_aria_dispute": "Bestrid denna bekräftelse",
 	"voting_button_agree": "Håller med",
 	"voting_button_disagree": "Håller inte med",
+	"voting_button_dispute": "Bestrid",
 	"voting_count_plural": "{0} röster",
 	"voting_count_singular": "{0} röst",
 	"voting_description": "Hjälp andra genom att bekräfta om denna användares status är korrekt.",
-	"voting_disagree_disabled_confirmed": "Röstning emot är inte tillgängligt för bekräftade användare",
+	"voting_description_confirmed": "Bekräftad som olämplig. Håller du inte med? Lämna in ett överklagande.",
 	"voting_header_title": "Gemenskapsfeedback",
 	"voting_loading": "Laddar..."
 }

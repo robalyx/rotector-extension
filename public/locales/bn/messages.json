@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "ট্র্যাপ V2 সনাক্তকরণ কীভাবে কাজ করে",
 	"voting_aria_agree": "এই অবস্থার সাথে সম্মত",
 	"voting_aria_disagree": "এই অবস্থার সাথে অসম্মত",
+	"voting_aria_dispute": "এই নিশ্চিতকরণের বিরুদ্ধে আপত্তি জানান",
 	"voting_button_agree": "সম্মত",
 	"voting_button_disagree": "অসম্মত",
+	"voting_button_dispute": "আপত্তি",
 	"voting_count_plural": "{0} ভোট",
 	"voting_count_singular": "{0} ভোট",
 	"voting_description": "এই ব্যবহারকারীর অবস্থা সঠিক কিনা তা নিশ্চিত করে অন্যদের সাহায্য করুন।",
-	"voting_disagree_disabled_confirmed": "নিশ্চিত ব্যবহারকারীদের জন্য অসম্মতি ভোট দেওয়া যায় না",
+	"voting_description_confirmed": "অনুপযুক্ত হিসেবে নিশ্চিত। দ্বিমত? একটি আপিল দাখিল করুন।",
 	"voting_header_title": "সম্প্রদায় প্রতিক্রিয়া",
 	"voting_loading": "লোড হচ্ছে..."
 }

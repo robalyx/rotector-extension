@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Paano Gumagana ang Trap V2 Detection",
 	"voting_aria_agree": "Sumang-ayon sa status na ito",
 	"voting_aria_disagree": "Hindi sumang-ayon sa status na ito",
+	"voting_aria_dispute": "Kuwestiyunin ang kumpirmasyong ito",
 	"voting_button_agree": "Sumasang-ayon",
 	"voting_button_disagree": "Hindi Sumasang-ayon",
+	"voting_button_dispute": "Kuwestiyunin",
 	"voting_count_plural": "{0} boto",
 	"voting_count_singular": "{0} boto",
 	"voting_description": "Tulungan ang iba sa pamamagitan ng pagkumpirma kung tama ang status ng user na ito.",
-	"voting_disagree_disabled_confirmed": "Hindi magagamit ang pagboto ng hindi sang-ayon para sa mga nakumpirmang gumagamit",
+	"voting_description_confirmed": "Nakumpirmang hindi naaangkop. Hindi sumasang-ayon? Maghain ng apela.",
 	"voting_header_title": "Feedback ng Komunidad",
 	"voting_loading": "Naglo-load..."
 }

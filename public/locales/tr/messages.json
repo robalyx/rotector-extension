@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Tuzak V2 Tespiti Nasıl Çalışır",
 	"voting_aria_agree": "Bu duruma katılın",
 	"voting_aria_disagree": "Bu duruma katılmayın",
+	"voting_aria_dispute": "Bu onaylamaya itiraz et",
 	"voting_button_agree": "Katılıyorum",
 	"voting_button_disagree": "Katılmıyorum",
+	"voting_button_dispute": "İtiraz Et",
 	"voting_count_plural": "{0} oy",
 	"voting_count_singular": "{0} oy",
 	"voting_description": "Bu kullanıcının durumunun doğru olup olmadığını onaylayarak diğerlerine yardımcı olun.",
-	"voting_disagree_disabled_confirmed": "Onaylı kullanıcılar için anlaşmazlık oylaması mevcut değil",
+	"voting_description_confirmed": "Uygunsuz olarak onaylandı. Katılmıyor musunuz? İtirazda bulunun.",
 	"voting_header_title": "Topluluk Geri Bildirimi",
 	"voting_loading": "Yükleniyor..."
 }

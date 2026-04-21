@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Как работает обнаружение Trap V2",
 	"voting_aria_agree": "Согласиться с этим статусом",
 	"voting_aria_disagree": "Не согласиться с этим статусом",
+	"voting_aria_dispute": "Оспорить это подтверждение",
 	"voting_button_agree": "Согласен",
 	"voting_button_disagree": "Не согласен",
+	"voting_button_dispute": "Оспорить",
 	"voting_count_plural": "{0} голосов",
 	"voting_count_singular": "{0} голос",
 	"voting_description": "Помогите другим, подтвердив, правильный ли статус этого пользователя.",
-	"voting_disagree_disabled_confirmed": "Голосование против недоступно для подтверждённых пользователей",
+	"voting_description_confirmed": "Подтверждено как недопустимое. Не согласны? Подайте апелляцию.",
 	"voting_header_title": "Отзывы сообщества",
 	"voting_loading": "Загрузка..."
 }

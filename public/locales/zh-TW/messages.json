@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "陷阱 V2 偵測的運作原理",
 	"voting_aria_agree": "同意此狀態",
 	"voting_aria_disagree": "不同意此狀態",
+	"voting_aria_dispute": "對此確認提出申訴",
 	"voting_button_agree": "同意",
 	"voting_button_disagree": "不同意",
+	"voting_button_dispute": "申訴",
 	"voting_count_plural": "{0} 票",
 	"voting_count_singular": "{0} 票",
 	"voting_description": "確認此使用者的狀態是否準確以協助其他人。",
-	"voting_disagree_disabled_confirmed": "不同意投票不適用於已確認的使用者",
+	"voting_description_confirmed": "已確認為不當內容。有異議？請提交申訴。",
 	"voting_header_title": "社群回饋",
 	"voting_loading": "載入中..."
 }

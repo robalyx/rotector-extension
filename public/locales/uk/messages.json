@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "Як працює виявлення Trap V2",
 	"voting_aria_agree": "Погодитися з цим статусом",
 	"voting_aria_disagree": "Не погодитися з цим статусом",
+	"voting_aria_dispute": "Оскаржити це підтвердження",
 	"voting_button_agree": "Згоден",
 	"voting_button_disagree": "Не згоден",
+	"voting_button_dispute": "Оскаржити",
 	"voting_count_plural": "{0} голосів",
 	"voting_count_singular": "{0} голос",
 	"voting_description": "Допоможіть іншим, підтвердивши, чи статус цього користувача точний.",
-	"voting_disagree_disabled_confirmed": "Голосування проти недоступне для підтверджених користувачів",
+	"voting_description_confirmed": "Підтверджено як неприйнятне. Не згодні? Подайте апеляцію.",
 	"voting_header_title": "Відгуки спільноти",
 	"voting_loading": "Завантаження..."
 }

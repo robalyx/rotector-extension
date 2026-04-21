@@ -766,12 +766,14 @@
 	"tooltip_trapv2_info_title": "ट्रैप V2 डिटेक्शन कैसे काम करता है",
 	"voting_aria_agree": "इस स्थिति से सहमत हों",
 	"voting_aria_disagree": "इस स्थिति से असहमत हों",
+	"voting_aria_dispute": "इस पुष्टि को चुनौती दें",
 	"voting_button_agree": "सहमत",
 	"voting_button_disagree": "असहमत",
+	"voting_button_dispute": "चुनौती दें",
 	"voting_count_plural": "{0} मत",
 	"voting_count_singular": "{0} मत",
 	"voting_description": "यह पुष्टि करके दूसरों की मदद करें कि क्या यह उपयोगकर्ता की स्थिति सटीक है।",
-	"voting_disagree_disabled_confirmed": "असहमत करने वाली मतदान की अनुमति पुष्टि किए गए उपयोगकर्ताओं के लिए नहीं है",
+	"voting_description_confirmed": "अनुचित के रूप में पुष्टि की गई। असहमत हैं? अपील दर्ज करें।",
 	"voting_header_title": "समुदाय फीडबैक",
 	"voting_loading": "लोड हो रहा है..."
 }

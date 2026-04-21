@@ -11,7 +11,7 @@ import type {
 } from '@/lib/types/api';
 import type { QueueStatusResponse } from '@/lib/types/queue-history';
 import type { ActivityHours, StatsResponse } from '@/lib/types/stats';
-import { API_CONFIG, STATUS, VOTE_TYPES, type VoteType } from '@/lib/types/constants';
+import { API_CONFIG, STATUS, VOTE_TYPES } from '@/lib/types/constants';
 import { logger } from '@/lib/utils/logger';
 import { makeHttpRequest } from '../http-client';
 import {
@@ -199,7 +199,7 @@ export async function submitVote(
 	return {
 		success: true,
 		userId: parseInt(sanitizedUserId, 10),
-		voteType: voteType as VoteType,
+		voteType,
 		newVoteData: voteData
 	};
 }

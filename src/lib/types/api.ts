@@ -13,7 +13,14 @@ interface Badge {
 	textColor?: string;
 }
 
+// Phantom brand keys keep UserStatus and GroupStatus distinct at type level without
+// costing anything at runtime. Without the brands, TypeScript collapses the union
+// UserStatus | GroupStatus to GroupStatus (structural subtyping), forcing workarounds.
+declare const UserStatusBrand: unique symbol;
+declare const GroupStatusBrand: unique symbol;
+
 export interface UserStatus {
+	readonly [UserStatusBrand]: true;
 	id: number;
 	flagType: StatusFlag;
 	confidence: number;
@@ -33,6 +40,7 @@ export interface UserStatus {
 }
 
 export interface GroupStatus {
+	readonly [GroupStatusBrand]: true;
 	id: number;
 	flagType: StatusFlag;
 	confidence: number;

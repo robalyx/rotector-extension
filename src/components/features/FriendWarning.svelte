@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { PROFILE_SELECTORS, SEARCH_SELECTORS, STATUS_SELECTORS } from '@/lib/types/constants';
+	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { logger } from '@/lib/utils/logger';
 	import { sanitizeEntityId } from '@/lib/utils/sanitizer';
@@ -12,7 +13,7 @@
 		isOpen: boolean;
 		userId: string | number;
 		username?: string | null;
-		userStatus?: CombinedStatus | null;
+		userStatus?: CombinedStatus<UserStatus> | null;
 		onProceed?: () => void;
 		onCancel?: () => void;
 		onBlock?: () => void;

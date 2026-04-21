@@ -17,7 +17,7 @@
 		USER_ACTIONS
 	} from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
-	import type { UserStatus } from '@/lib/types/api';
+	import type { GroupStatus, UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { blockUser } from '@/lib/services/roblox-actions';
 	import { queryUserProgressive } from '@/lib/services/unified-query-service';
@@ -48,7 +48,7 @@
 	let { userId, querySubscription }: Props = $props();
 
 	// Status state owned by this component
-	let userStatus = $state<CombinedStatus | null>(null);
+	let userStatus = $state<CombinedStatus<UserStatus> | null>(null);
 
 	// Forwarded to the tooltip so it doesn't show "Unknown User" when Roblox fills the header async
 	let userDisplayName = $state<string | undefined>(undefined);
@@ -79,7 +79,7 @@
 	let cipherContainer: HTMLElement | null = null;
 
 	// Returns true if outfit should be blurred
-	function shouldBlurOutfit(status: CombinedStatus): boolean {
+	function shouldBlurOutfit(status: CombinedStatus<UserStatus>): boolean {
 		for (const result of status.values()) {
 			if (result.loading) return true;
 			if (result.data?.reasons && 'Avatar Outfit' in result.data.reasons) return true;
@@ -477,9 +477,13 @@
 	}
 
 	// Handle queue user request
-	function handleQueueUser(clickedUserId: string, isReprocess = false, status?: UserStatus | null) {
+	function handleQueueUser(
+		clickedUserId: string,
+		isReprocess = false,
+		status?: UserStatus | GroupStatus | null
+	) {
 		logger.userAction(USER_ACTIONS.QUEUE_REQUESTED, { userId: clickedUserId, isReprocess });
-		queueModalManager?.showQueue(clickedUserId, isReprocess, status);
+		queueModalManager?.showQueue(clickedUserId, isReprocess, status as UserStatus | null);
 	}
 
 	// Refresh status after queue completion
@@ -535,7 +539,10 @@
 	}
 
 	// Handle carousel user processed event
-	function handleCarouselUserProcessed(processedUserId: string, status: CombinedStatus) {
+	function handleCarouselUserProcessed(
+		processedUserId: string,
+		status: CombinedStatus<UserStatus>
+	) {
 		logger.debug('Profile carousel user processed', {
 			userId: processedUserId,
 			hasStatus: !!status

@@ -298,7 +298,7 @@
 			}
 		});
 
-		mountedComponents.set(groupId, component as { unmount?: () => void });
+		mountedComponents.set(groupId, component);
 	}
 
 	function handleStatusClick(clickedGroupId: string): void {

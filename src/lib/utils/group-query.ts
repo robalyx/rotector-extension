@@ -1,20 +1,21 @@
 import { get } from 'svelte/store';
+import type { GroupStatus } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
 import { groupStatusService } from '../services/entity-status-service';
 import { restrictedAccessStore } from '../stores/restricted-access';
 import { wrapGroupStatus } from './status-utils';
 
 export interface GroupQuerySubscription {
-	subscribe(callback: (status: CombinedStatus) => void): () => void;
+	subscribe(callback: (status: CombinedStatus<GroupStatus>) => void): () => void;
 	cancel(): void;
 }
 
 export function startGroupQuery(groupId: string): GroupQuerySubscription {
-	let currentStatus: CombinedStatus | null = null;
+	let currentStatus: CombinedStatus<GroupStatus> | null = null;
 	let cancelled = false;
-	const subscribers = new Set<(status: CombinedStatus) => void>();
+	const subscribers = new Set<(status: CombinedStatus<GroupStatus>) => void>();
 
-	function emit(status: CombinedStatus) {
+	function emit(status: CombinedStatus<GroupStatus>) {
 		currentStatus = status;
 		subscribers.forEach((cb) => {
 			cb(status);

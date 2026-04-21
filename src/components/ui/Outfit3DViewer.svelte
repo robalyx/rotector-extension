@@ -139,7 +139,7 @@
 		const scene = new Transform();
 
 		const orbit = new Orbit(camera, {
-			element: gl.canvas as HTMLElement,
+			element: gl.canvas,
 			target: center,
 			ease: 0.05,
 			enablePan: false,

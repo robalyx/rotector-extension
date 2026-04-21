@@ -23,14 +23,17 @@ export interface CustomApiConfig {
 	authHeaderType?: CustomApiAuthHeaderType; // Defaults to 'x-auth-token' when omitted
 }
 
-export interface CustomApiResult {
+export interface CustomApiResult<T extends UserStatus | GroupStatus = UserStatus | GroupStatus> {
 	apiId: string;
 	apiName: string;
-	data?: UserStatus | GroupStatus;
+	data?: T;
 	error?: string;
 	loading: boolean;
 	timestamp?: number;
 	landscapeImageDataUrl?: string;
 }
 
-export type CombinedStatus = Map<string, CustomApiResult>;
+export type CombinedStatus<T extends UserStatus | GroupStatus = UserStatus | GroupStatus> = Map<
+	string,
+	CustomApiResult<T>
+>;

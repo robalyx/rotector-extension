@@ -4,7 +4,7 @@
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import type { GroupQuerySubscription } from '@/lib/utils/group-query';
 	import { COMPONENT_CLASSES, ENTITY_TYPES, GROUP_HEADER_SELECTORS } from '@/lib/types/constants';
-	import type { PageType } from '@/lib/types/api';
+	import type { GroupStatus, PageType } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import UserListManager from './UserListManager.svelte';
@@ -35,7 +35,7 @@
 	});
 
 	// Status state owned by this component
-	let groupStatus = $state<CombinedStatus | null>(null);
+	let groupStatus = $state<CombinedStatus<GroupStatus> | null>(null);
 
 	let mountedComponents = $state(new Map<string, { unmount?: () => void }>());
 

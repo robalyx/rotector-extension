@@ -1,5 +1,5 @@
 import type { CombinedStatus, CustomApiConfig, CustomApiResult } from '../types/custom-api';
-import type { UserStatus } from '../types/api';
+import type { GroupStatus, UserStatus } from '../types/api';
 import { apiClient } from './api-client';
 import { userStatusService } from './entity-status-service';
 import { customApis, ROTECTOR_API_ID } from '../stores/custom-apis';
@@ -31,7 +31,7 @@ function shouldBlockLookup(userId: string): boolean {
 }
 
 // Create a restricted access result for blocked lookups
-function createRestrictedResult(): CombinedStatus {
+function createRestrictedResult(): CombinedStatus<UserStatus> {
 	const enabledApis = getEnabledCustomApis();
 	return new Map(
 		enabledApis.map((api) => [
@@ -66,7 +66,7 @@ function getEnabledCustomApis(): CustomApiConfig[] {
 function formatApiResult(
 	api: CustomApiConfig,
 	result: PromiseSettledResult<UserStatus | null>
-): CustomApiResult {
+): CustomApiResult<UserStatus> {
 	const base = {
 		apiId: api.id,
 		apiName: api.name,
@@ -84,7 +84,7 @@ function formatApiResult(
 }
 
 // Query a single user from all enabled APIs
-export async function queryUser(userId: string): Promise<CombinedStatus> {
+export async function queryUser(userId: string): Promise<CombinedStatus<UserStatus>> {
 	if (shouldBlockLookup(userId)) {
 		return createRestrictedResult();
 	}
@@ -124,7 +124,7 @@ export async function queryUser(userId: string): Promise<CombinedStatus> {
 // Query a single user with progressive updates as each API completes
 export function queryUserProgressive(
 	userId: string,
-	onUpdate: (status: CombinedStatus) => void
+	onUpdate: (status: CombinedStatus<UserStatus>) => void
 ): () => void {
 	if (shouldBlockLookup(userId)) {
 		onUpdate(createRestrictedResult());
@@ -135,7 +135,7 @@ export function queryUserProgressive(
 	const controller = new AbortController();
 
 	// Initialize with loading state for all APIs
-	const apiResults = new Map<string, CustomApiResult>(
+	const apiResults = new Map<string, CustomApiResult<UserStatus>>(
 		enabledApis.map((api) => [
 			api.id,
 			{
@@ -198,7 +198,7 @@ export function queryUserProgressive(
 export async function queryMultipleUsers(
 	userIds: string[],
 	options?: QueryMultipleUsersOptions
-): Promise<Map<string, CombinedStatus>> {
+): Promise<Map<string, CombinedStatus<UserStatus>>> {
 	const lookupContext = options?.lookupContext;
 	const signal = options?.signal;
 
@@ -220,7 +220,7 @@ export async function queryMultipleUsers(
 	const enabledApis = getEnabledCustomApis();
 
 	// Initialize results map
-	const results = new Map<string, CombinedStatus>();
+	const results = new Map<string, CombinedStatus<UserStatus>>();
 	userIds.forEach((userId) => {
 		results.set(userId, new Map());
 	});
@@ -340,7 +340,9 @@ export async function queryMultipleUsers(
 }
 
 // Count how many custom APIs flagged a user
-export function countCustomApiFlags(combined: CombinedStatus): number {
+export function countCustomApiFlags<T extends UserStatus | GroupStatus>(
+	combined: CombinedStatus<T>
+): number {
 	let count = 0;
 	for (const [apiId, result] of combined.entries()) {
 		if (apiId === ROTECTOR_API_ID) continue;

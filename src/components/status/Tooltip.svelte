@@ -394,8 +394,8 @@
 	// Distinct outfit names from Rotector's Avatar Outfit evidence
 	const flaggedOutfitNames = $derived.by(() => {
 		if (isGroup) return [] as string[];
-		const rotectorData = userStatus?.get(ROTECTOR_API_ID)?.data as UserStatus | undefined;
-		const evidence = rotectorData?.reasons?.['Avatar Outfit']?.evidence;
+		const evidence =
+			userStatus?.get(ROTECTOR_API_ID)?.data?.reasons?.['Avatar Outfit']?.evidence;
 		if (!evidence || evidence.length === 0) return [] as string[];
 		return Array.from(extractFlaggedOutfitNames(evidence).keys());
 	});
@@ -559,7 +559,7 @@
 			case STATUS.FLAGS.INTEGRATION:
 			case STATUS.FLAGS.MIXED:
 			case STATUS.FLAGS.PAST_OFFENDER:
-				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, currentStatus);
+				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, activeUserStatus);
 			default:
 				return { full: $_('tooltip_header_unknown') };
 		}
@@ -577,7 +577,7 @@
 			case STATUS.FLAGS.PENDING:
 				return 'pending';
 			case STATUS.FLAGS.QUEUED:
-				return !isGroup && (currentStatus as UserStatus).processed === true ? 'safe' : 'pending';
+				return activeUserStatus?.processed === true ? 'safe' : 'pending';
 			case STATUS.FLAGS.INTEGRATION:
 				return 'integration';
 			case STATUS.FLAGS.MIXED:
@@ -602,7 +602,7 @@
 			case STATUS.FLAGS.PENDING:
 				return $_('tooltip_status_under_review');
 			case STATUS.FLAGS.QUEUED:
-				return !isGroup && (currentStatus as UserStatus).processed === true
+				return activeUserStatus?.processed === true
 					? $_('tooltip_status_not_flagged')
 					: $_('tooltip_status_checking');
 			case STATUS.FLAGS.INTEGRATION:
@@ -771,7 +771,7 @@
 	// Whether the status is reviewed by a moderator
 	const isReviewed = $derived.by(() => {
 		if (!activeStatus || activeStatus.flagType !== STATUS.FLAGS.UNSAFE) return false;
-		return isGroup || !!(activeStatus as UserStatus).reviewer;
+		return isGroup || !!activeUserStatus?.reviewer;
 	});
 
 	// Metadata information for processed users
@@ -1062,7 +1062,7 @@
 	function handleReprocessRequest(event: MouseEvent) {
 		event.stopPropagation();
 		if (onQueue) {
-			onQueue(true, activeStatus);
+			onQueue(true, activeUserStatus);
 		}
 	}
 

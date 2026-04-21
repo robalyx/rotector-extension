@@ -8,8 +8,8 @@ import {
 	PAGE_TYPES,
 	PROFILE_BLUR_GROUPS
 } from '../types/constants';
+import type { PageType, UserStatus } from '../types/api';
 import type { CombinedStatus } from '../types/custom-api';
-import type { PageType } from '../types/api';
 import { waitForElement } from '../utils/element-waiter';
 import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 
@@ -386,7 +386,7 @@ export function clearProfileBlurState(): void {
 /**
  * Check if user has a specific reason type. Returns true if should blur.
  */
-function hasReason(status: CombinedStatus | null, reasonKey: string): boolean {
+function hasReason(status: CombinedStatus<UserStatus> | null, reasonKey: string): boolean {
 	if (!status) return true;
 	for (const result of status.values()) {
 		if (result.loading) return true;
@@ -821,7 +821,7 @@ function cleanupBlurElement(el: Element): void {
 /**
  * Reveal (unblur) user content based on reason types.
  */
-export function revealUserElement(element: Element, status: CombinedStatus): void {
+export function revealUserElement(element: Element, status: CombinedStatus<UserStatus>): void {
 	const endTrace = startTrace(TRACE_CATEGORIES.BLUR, 'revealUserElement');
 	const blurNames = hasReason(status, PROFILE_REASON_KEY);
 	const blurAvatars = hasReason(status, OUTFIT_REASON_KEY);
@@ -891,7 +891,7 @@ async function revealProfileAvatars(): Promise<void> {
 /**
  * Reveal (unblur) profile page elements based on reason types.
  */
-export function revealProfileElements(status: CombinedStatus): void {
+export function revealProfileElements(status: CombinedStatus<UserStatus>): void {
 	const blurNames = hasReason(status, PROFILE_REASON_KEY);
 	const blurAvatars = hasReason(status, OUTFIT_REASON_KEY);
 

@@ -141,10 +141,7 @@ export async function makeRawHttpRequest(
 			let errorData: { error?: string; code?: string; type?: string };
 			try {
 				const jsonData: unknown = await response.json();
-				errorData =
-					typeof jsonData === 'object' && jsonData !== null
-						? (jsonData as { error?: string; code?: string; type?: string })
-						: {};
+				errorData = typeof jsonData === 'object' && jsonData !== null ? jsonData : {};
 			} catch {
 				const errorText = await response.text().catch(() => 'Unknown error');
 				errorData = { error: errorText };
@@ -308,15 +305,7 @@ export async function makeHttpRequest(
 				};
 				try {
 					const jsonData: unknown = await response.json();
-					errorData =
-						typeof jsonData === 'object' && jsonData !== null
-							? (jsonData as {
-									error?: string;
-									requestId?: string;
-									code?: string;
-									type?: string;
-								})
-							: {};
+					errorData = typeof jsonData === 'object' && jsonData !== null ? jsonData : {};
 				} catch {
 					const errorText = await response.text().catch(() => 'Unknown error');
 					errorData = { error: errorText };

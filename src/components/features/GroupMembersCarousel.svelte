@@ -27,7 +27,7 @@
 	import { markUserElementForBlur, revealUserElement } from '@/lib/services/blur-service';
 	import { logger } from '@/lib/utils/logger';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
-	import type { TrackedUser } from '@/lib/types/api';
+	import type { TrackedUser, UserStatus } from '@/lib/types/api';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
@@ -37,7 +37,7 @@
 	interface Props {
 		groupId: string;
 		onError?: (error: string) => void;
-		onUserProcessed?: (userId: string, status: CombinedStatus) => void;
+		onUserProcessed?: (userId: string, status: CombinedStatus<UserStatus>) => void;
 	}
 
 	let { groupId, onError, onUserProcessed }: Props = $props();
@@ -48,7 +48,7 @@
 
 	// Shared state
 	let activeTab = $state<ViewTab>('by-role');
-	let userStatuses = new SvelteMap<string, CombinedStatus>();
+	let userStatuses = new SvelteMap<string, CombinedStatus<UserStatus>>();
 	let mountedComponents = new SvelteMap<string, ReturnType<typeof mount>>();
 	let batchController: AbortController | null = null;
 

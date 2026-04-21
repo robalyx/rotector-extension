@@ -22,6 +22,7 @@
 	import { startTrace, TRACE_CATEGORIES } from '@/lib/utils/perf-tracer';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import type { PageType } from '@/lib/types/api';
+	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { queryMultipleUsers, queryUser } from '@/lib/services/unified-query-service';
 	import {
@@ -38,7 +39,7 @@
 	interface Props {
 		pageType: PageType;
 		profileOwnerId?: string;
-		onUserProcessed?: (userId: string, status: CombinedStatus) => void;
+		onUserProcessed?: (userId: string, status: CombinedStatus<UserStatus>) => void;
 		onError?: (error: string) => void;
 		onMount?: (cleanup: () => void) => void;
 	}
@@ -52,7 +53,7 @@
 	let modalContainerWatcher: Observer | null = null;
 	let modalCloseObserver: MutationObserver | null = null;
 	let processedUsers = new SvelteSet<string>();
-	let userStatuses = new SvelteMap<string, CombinedStatus>();
+	let userStatuses = new SvelteMap<string, CombinedStatus<UserStatus>>();
 	let loadingUsers = new SvelteSet<string>();
 	let mountedComponents = new SvelteMap<string, ReturnType<typeof mount>>();
 	let destroyed = $state(false);
@@ -471,7 +472,7 @@
 
 				if (showRestricted) {
 					// Show restricted access indicators
-					const restrictedStatus = createErrorCombinedStatus('restricted_access');
+					const restrictedStatus = createErrorCombinedStatus<UserStatus>('restricted_access');
 					newUsers.forEach((user) => {
 						userStatuses.set(user.userId, restrictedStatus);
 						mountStatusIndicator(user, false);

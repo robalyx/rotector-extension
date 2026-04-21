@@ -140,7 +140,7 @@ export default defineContentScript({
 					// match inside the shadow root (bare attribute selectors
 					// don't match the shadow host from within shadow CSS)
 					const shadowHtml = _shadow.querySelector('html');
-					if (shadowHtml) registerPortalContainer(shadowHtml as HTMLElement);
+					if (shadowHtml) registerPortalContainer(shadowHtml);
 
 					mount(OverlayRoot, { target: uiContainer });
 					logger.debug('Shadow root overlay mounted');

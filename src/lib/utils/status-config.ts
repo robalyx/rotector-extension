@@ -69,7 +69,8 @@ export function getStatusConfig(
 	}
 
 	const confidence = Math.round(activeStatus.confidence * 100);
-	const { isReportable, isOutfitOnly } = calculateStatusBadges(activeStatus);
+	const userStatus = entityType === 'user' ? (activeStatus as UserStatus) : null;
+	const { isReportable, isOutfitOnly } = calculateStatusBadges(userStatus);
 	const isQueued = !!activeStatus.isQueued;
 
 	const baseConfig = {
@@ -116,8 +117,7 @@ export function getStatusConfig(
 				textClass: 'status-text-pending'
 			};
 		case STATUS.FLAGS.QUEUED: {
-			const userStatus = activeStatus as UserStatus;
-			if (userStatus.processed === true) {
+			if (userStatus?.processed === true) {
 				// User was queued and processed but not flagged
 				return {
 					...baseConfig,

@@ -12,7 +12,9 @@ const ACTIONABLE_FLAG_TYPES = new Set<number>([
 ]);
 
 // Check if an individual API result has flagged the entity
-function isActionableResult(result: CustomApiResult): boolean {
+function isActionableResult<T extends UserStatus | GroupStatus>(
+	result: CustomApiResult<T>
+): boolean {
 	return !!result.data && ACTIONABLE_FLAG_TYPES.has(result.data.flagType);
 }
 
@@ -23,7 +25,9 @@ interface StatusBadges {
 }
 
 // Create a CombinedStatus representing an error state (e.g., restricted access)
-export function createErrorCombinedStatus(error: string): CombinedStatus {
+export function createErrorCombinedStatus<T extends UserStatus | GroupStatus>(
+	error: string
+): CombinedStatus<T> {
 	return new Map([
 		[
 			ROTECTOR_API_ID,
@@ -44,9 +48,9 @@ export function wrapGroupStatus(
 	groupStatus: GroupStatus | null,
 	isLoading = false,
 	error?: string
-): CombinedStatus | null {
+): CombinedStatus<GroupStatus> | null {
 	if (error) {
-		return createErrorCombinedStatus(error);
+		return createErrorCombinedStatus<GroupStatus>(error);
 	}
 
 	// Show loading state while fetching
@@ -119,7 +123,9 @@ export function calculateStatusBadges(status: UserStatus | null | undefined): St
  * Check if a user is flagged by any API with an actionable status
  * (UNSAFE, PENDING, or MIXED).
  */
-export function isFlagged(status: CombinedStatus | null): boolean {
+export function isFlagged<T extends UserStatus | GroupStatus>(
+	status: CombinedStatus<T> | null
+): boolean {
 	if (!status) return false;
 	return Array.from(status.values()).some(isActionableResult);
 }
@@ -128,7 +134,9 @@ export function isFlagged(status: CombinedStatus | null): boolean {
  * Return the API result that flagged this entity. Prefers Rotector when it has
  * flagged, otherwise returns the first custom API with an actionable status.
  */
-export function getFlaggingResult(status: CombinedStatus | null): CustomApiResult | undefined {
+export function getFlaggingResult<T extends UserStatus | GroupStatus>(
+	status: CombinedStatus<T> | null
+): CustomApiResult<T> | undefined {
 	if (!status) return undefined;
 
 	const rotector = status.get(ROTECTOR_API_ID);

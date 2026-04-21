@@ -29,7 +29,7 @@ export async function initializeSettings(): Promise<void> {
 		const definedSettings = Object.fromEntries(
 			Object.entries(allStored).filter(([k, v]) => v !== undefined && validKeys.has(k))
 		);
-		settings.set({ ...SETTINGS_DEFAULTS, ...definedSettings } as Settings);
+		settings.set({ ...SETTINGS_DEFAULTS, ...definedSettings });
 	} catch (error) {
 		logger.error('Failed to load settings:', error);
 		settings.set(SETTINGS_DEFAULTS);

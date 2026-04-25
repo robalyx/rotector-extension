@@ -13,14 +13,14 @@ class Logger {
 
 	constructor() {
 		// Initialize debug mode from storage in the background
-		this.initializeDebugMode().catch((err) => {
+		this.initializeDebugMode().catch((err: unknown) => {
 			console.error('Failed to initialize debug mode:', err);
 		});
 
 		// Listen for storage changes
 		browser.storage.onChanged.addListener((changes, namespace) => {
-			if (namespace === 'sync' && changes.debugModeEnabled) {
-				this.debugEnabled = Boolean(changes.debugModeEnabled.newValue);
+			if (namespace === 'sync' && changes['debugModeEnabled']) {
+				this.debugEnabled = Boolean(changes['debugModeEnabled'].newValue);
 				console.log('[Rotector] Debug mode changed to:', this.debugEnabled);
 			}
 		});
@@ -71,9 +71,9 @@ class Logger {
 	apiCall(method: string, url: string, status?: number, duration?: number): void {
 		const message = `API ${method} ${url}`;
 		if (status !== undefined) {
-			const statusMessage = `${message} - ${status}`;
+			const statusMessage = `${message} - ${String(status)}`;
 			if (duration !== undefined) {
-				this.debug(`${statusMessage} (${duration}ms)`);
+				this.debug(`${statusMessage} (${String(duration)}ms)`);
 			} else {
 				this.debug(statusMessage);
 			}
@@ -86,7 +86,7 @@ class Logger {
 	private async initializeDebugMode(): Promise<void> {
 		try {
 			const result = await browser.storage.sync.get('debugModeEnabled');
-			this.debugEnabled = Boolean(result.debugModeEnabled ?? SETTINGS_DEFAULTS.debugModeEnabled);
+			this.debugEnabled = Boolean(result['debugModeEnabled'] ?? SETTINGS_DEFAULTS.debugModeEnabled);
 			if (this.debugEnabled) {
 				console.log('[Rotector] Debug mode is enabled');
 			}
@@ -104,7 +104,7 @@ class Logger {
 
 	// Serialize data safely for storage
 	private serializeData(data: unknown[]): unknown {
-		if (!data || data.length === 0) return undefined;
+		if (data.length === 0) return undefined;
 
 		try {
 			// Flatten single-item arrays

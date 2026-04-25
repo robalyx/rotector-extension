@@ -84,7 +84,7 @@ class Roblox3DService {
 		}
 
 		const subdomain = calculateCdnSubdomain(hash);
-		const url = `https://t${subdomain}.rbxcdn.com/${hash}`;
+		const url = `https://t${String(subdomain)}.rbxcdn.com/${hash}`;
 
 		this.cdnUrlCache.set(hash, url);
 		return url;
@@ -94,10 +94,10 @@ class Roblox3DService {
 	 * Fetch 3D metadata for an outfit
 	 */
 	async getOutfit3DData(outfitId: number): Promise<Roblox3DMetadata> {
-		const cacheKey = `outfit:${outfitId}`;
+		const cacheKey = `outfit:${String(outfitId)}`;
 		return this.fetch3DData(
 			cacheKey,
-			`${ROBLOX_THUMBNAILS_API}/v1/users/outfit-3d?outfitId=${outfitId}`
+			`${ROBLOX_THUMBNAILS_API}/v1/users/outfit-3d?outfitId=${String(outfitId)}`
 		);
 	}
 
@@ -105,10 +105,10 @@ class Roblox3DService {
 	 * Fetch 3D metadata for a user's current avatar
 	 */
 	async getAvatar3DData(userId: number): Promise<Roblox3DMetadata> {
-		const cacheKey = `avatar:${userId}`;
+		const cacheKey = `avatar:${String(userId)}`;
 		return this.fetch3DData(
 			cacheKey,
-			`${ROBLOX_THUMBNAILS_API}/v1/users/avatar-3d?userId=${userId}`
+			`${ROBLOX_THUMBNAILS_API}/v1/users/avatar-3d?userId=${String(userId)}`
 		);
 	}
 
@@ -149,7 +149,7 @@ class Roblox3DService {
 				credentials: 'include'
 			});
 			if (!response.ok) {
-				throw new Error(`Failed to fetch 3D data: ${response.status}`);
+				throw new Error(`Failed to fetch 3D data: ${String(response.status)}`);
 			}
 
 			const apiResponse = (await response.json()) as Roblox3DApiResponse;
@@ -158,7 +158,7 @@ class Roblox3DService {
 			if (apiResponse.state === 'Completed' && apiResponse.imageUrl) {
 				const metadataResponse = await fetch(apiResponse.imageUrl);
 				if (!metadataResponse.ok) {
-					throw new Error(`Failed to fetch 3D metadata: ${metadataResponse.status}`);
+					throw new Error(`Failed to fetch 3D metadata: ${String(metadataResponse.status)}`);
 				}
 
 				const metadata = (await metadataResponse.json()) as Roblox3DMetadataRaw;
@@ -180,7 +180,7 @@ class Roblox3DService {
 
 			if (apiResponse.state === 'Pending') {
 				logger.debug(
-					`3D data pending, retrying in ${RETRY_DELAY_MS}ms (attempt ${attempt + 1}/${MAX_RETRIES})`
+					`3D data pending, retrying in ${String(RETRY_DELAY_MS)}ms (attempt ${String(attempt + 1)}/${String(MAX_RETRIES)})`
 				);
 				await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
 				continue;
@@ -193,7 +193,9 @@ class Roblox3DService {
 			throw new Error(`3D data not available: state=${apiResponse.state}`);
 		}
 
-		throw new Error(`3D data not available after ${MAX_RETRIES} retries: state=${lastState}`);
+		throw new Error(
+			`3D data not available after ${String(MAX_RETRIES)} retries: state=${lastState}`
+		);
 	}
 
 	/**

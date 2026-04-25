@@ -81,6 +81,7 @@
 		opacity: 0;
 		transform: translateY(-100%) scale(0.96);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -92,6 +93,7 @@
 		opacity: 1;
 		transform: translateY(0) scale(1);
 	}
+
 	to {
 		opacity: 0;
 		transform: translateY(-12px) scale(0.96);
@@ -102,6 +104,7 @@
 	from {
 		transform: scaleX(1);
 	}
+
 	to {
 		transform: scaleX(0);
 	}

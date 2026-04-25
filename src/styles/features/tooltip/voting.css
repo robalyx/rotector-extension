@@ -16,7 +16,7 @@
 		&::after {
 			@apply shimmer absolute inset-0 z-[1] rounded-md;
 			content: '';
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+			background: linear-gradient(90deg, transparent, rgb(255 255 255 / 10%), transparent);
 			background-size: 200% 100%;
 		}
 	}
@@ -109,7 +109,7 @@
 @utility voting-description {
 	@apply text-2xs text-center leading-normal;
 	color: var(--color-text-tertiary);
-	margin: 0.5rem 0 0 0;
+	margin: 0.5rem 0 0;
 }
 
 @utility voting-error {

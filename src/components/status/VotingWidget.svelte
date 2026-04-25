@@ -45,7 +45,7 @@
 		};
 	});
 
-	const fillWidth = $derived(`${voteStats.percentage}%`);
+	const fillWidth = $derived(`${String(voteStats.percentage)}%`);
 
 	// Handle vote submission
 	function handleVoteClick(voteType: number) {
@@ -83,10 +83,10 @@
 		</div>
 		<div class="voting-stats">
 			<span class="voting-percentage">
-				{loading ? '-' : `${voteStats.percentage}%`}
+				{loading ? '-' : `${String(voteStats.percentage)}%`}
 			</span>
 			<span class="voting-ratio">
-				{loading ? '-' : `${voteStats.upvotes} / ${voteStats.totalVotes}`}
+				{loading ? '-' : `${String(voteStats.upvotes)} / ${String(voteStats.totalVotes)}`}
 			</span>
 		</div>
 	</div>

@@ -29,7 +29,9 @@ class RobloxApiService {
 		page: number = 1,
 		itemsPerPage?: number
 	): Promise<PaginatedOutfitsResult> {
-		const cacheKey = itemsPerPage ? `${userId}:${page}:${itemsPerPage}` : `${userId}:${page}`;
+		const cacheKey = itemsPerPage
+			? `${String(userId)}:${String(page)}:${String(itemsPerPage)}`
+			: `${String(userId)}:${String(page)}`;
 
 		// Return cached data if available
 		const cached = this.pageCache.get(cacheKey);
@@ -48,8 +50,8 @@ class RobloxApiService {
 		let cursor: string | null = null;
 		if (page > 1) {
 			const prevCacheKey = itemsPerPage
-				? `${userId}:${page - 1}:${itemsPerPage}`
-				: `${userId}:${page - 1}`;
+				? `${String(userId)}:${String(page - 1)}:${String(itemsPerPage)}`
+				: `${String(userId)}:${String(page - 1)}`;
 			const prevPage = this.pageCache.get(prevCacheKey);
 			if (!prevPage) {
 				await this.getUserOutfits(userId, page - 1, itemsPerPage);
@@ -92,7 +94,7 @@ class RobloxApiService {
 	): Promise<PaginatedOutfitsResult> {
 		const itemsPerPage =
 			fixedItemsPerPage ?? (page === 1 ? PICKER_ITEMS_PAGE_ONE : PICKER_ITEMS_OTHER_PAGES);
-		let outfitsUrl = `${ROBLOX_AVATAR_API}/v2/avatar/users/${userId}/outfits?itemsPerPage=${itemsPerPage}&isEditable=true`;
+		let outfitsUrl = `${ROBLOX_AVATAR_API}/v2/avatar/users/${String(userId)}/outfits?itemsPerPage=${String(itemsPerPage)}&isEditable=true`;
 		if (cursor) {
 			outfitsUrl += `&paginationToken=${encodeURIComponent(cursor)}`;
 		}
@@ -110,12 +112,12 @@ class RobloxApiService {
 					nextCursor: null
 				};
 			}
-			throw new Error(`Failed to fetch outfits: ${outfitsResponse.status}`);
+			throw new Error(`Failed to fetch outfits: ${String(outfitsResponse.status)}`);
 		}
 
 		const outfitsData = (await outfitsResponse.json()) as RobloxOutfitsResponse;
 
-		if (!outfitsData.data || outfitsData.data.length === 0) {
+		if (outfitsData.data.length === 0) {
 			return {
 				outfits: [],
 				currentPage: page,
@@ -163,7 +165,7 @@ class RobloxApiService {
 
 		// Batch request to thumbnails API
 		const requestBody = outfitIds.map((id) => ({
-			requestId: `${id}::Outfit:150x150:webp:regular:`,
+			requestId: `${String(id)}::Outfit:150x150:webp:regular:`,
 			type: 'Outfit',
 			targetId: id,
 			format: 'webp',
@@ -206,7 +208,7 @@ class RobloxApiService {
 	 */
 	updateCachedThumbnail(userId: string | number, outfitId: number, thumbnailUrl: string): void {
 		for (const [key, cached] of this.pageCache.entries()) {
-			if (key.startsWith(`${userId}:`)) {
+			if (key.startsWith(`${String(userId)}:`)) {
 				const outfit = cached.outfits.find((o) => o.id === outfitId);
 				if (outfit) {
 					outfit.thumbnailUrl = thumbnailUrl;
@@ -223,9 +225,9 @@ class RobloxApiService {
 		try {
 			// Fetch username and avatar thumbnail
 			const [userResponse, thumbnailResponse] = await Promise.all([
-				fetch(`${ROBLOX_USERS_API}/v1/users/${userId}`, { credentials: 'include' }),
+				fetch(`${ROBLOX_USERS_API}/v1/users/${String(userId)}`, { credentials: 'include' }),
 				fetch(
-					`${ROBLOX_THUMBNAILS_API}/v1/users/avatar?userIds=${userId}&size=150x150&format=webp`,
+					`${ROBLOX_THUMBNAILS_API}/v1/users/avatar?userIds=${String(userId)}&size=150x150&format=webp`,
 					{ credentials: 'include' }
 				)
 			]);
@@ -242,7 +244,7 @@ class RobloxApiService {
 				const thumbnailData = (await thumbnailResponse.json()) as {
 					data: Array<{ state: string; imageUrl: string | null }>;
 				};
-				if (thumbnailData.data?.[0]?.state === 'Completed') {
+				if (thumbnailData.data[0]?.state === 'Completed') {
 					thumbnailUrl = thumbnailData.data[0].imageUrl;
 				}
 			}
@@ -263,7 +265,7 @@ class RobloxApiService {
 	clearCache(userId?: string | number): void {
 		if (userId) {
 			for (const key of this.pageCache.keys()) {
-				if (key.startsWith(`${userId}:`)) {
+				if (key.startsWith(`${String(userId)}:`)) {
 					this.pageCache.delete(key);
 				}
 			}

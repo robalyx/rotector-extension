@@ -77,8 +77,8 @@
 
 	const ERROR_EXAMPLE = JSON.stringify({ success: false, error: 'Internal server error' }, null, 2);
 
-	let docContainer: HTMLDivElement;
-	let contentRoot: HTMLDivElement;
+	let docContainer = $state<HTMLDivElement | null>(null);
+	let contentRoot = $state<HTMLDivElement | null>(null);
 	let copySuccess = $state(false);
 	let activeSection = $state<string>(SECTIONS[0].id);
 	let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -126,10 +126,11 @@
 
 	// Highlight the section currently near the top of the viewport
 	$effect(() => {
-		if (!contentRoot) return;
+		const root = contentRoot;
+		if (!root) return;
 
 		const observed = SECTIONS.map((section) =>
-			contentRoot.querySelector<HTMLElement>(`#section-${section.id}`)
+			root.querySelector<HTMLElement>(`#section-${section.id}`)
 		).filter((el): el is HTMLElement => el !== null);
 
 		if (observed.length === 0) return;
@@ -139,9 +140,9 @@
 				const visible = entries
 					.filter((entry) => entry.isIntersecting)
 					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-				if (visible.length > 0) {
-					const id = visible[0].target.id.replace(/^section-/, '');
-					activeSection = id;
+				const [first] = visible;
+				if (first) {
+					activeSection = first.target.id.replace(/^section-/, '');
 				}
 			},
 			{ rootMargin: '0px 0px -70% 0px', threshold: 0 }

@@ -7,7 +7,7 @@
 		ChevronUp,
 		ChevronLeft,
 		ChevronRight,
-		AlertCircle,
+		CircleAlert,
 		Shirt,
 		Check,
 		ImageOff
@@ -237,7 +237,7 @@
 				</div>
 			{:else if error}
 				<div class="outfit-picker-error">
-					<AlertCircle size={20} />
+					<CircleAlert size={20} />
 					<span>{$_('queue_popup_outfit_load_error')}</span>
 					<button
 						class="outfit-picker-retry"

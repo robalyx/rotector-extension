@@ -53,7 +53,11 @@ function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null 
 	const parts = evidenceText.split('|');
 	if (parts.length !== 3) return null;
 
-	const [name, reason, confidenceStr] = parts.map((part) => part.trim());
+	const [name, reason, confidenceStr] = parts.map((part) => part.trim()) as [
+		string,
+		string,
+		string
+	];
 	if (!name) return null;
 
 	const confidence = parseFloat(confidenceStr);
@@ -89,7 +93,7 @@ function formatEvidence(evidence: string[], isOutfitReason: boolean): FormattedE
 function parseSourceTag(text: string): ParsedSourceTag | null {
 	const match = /^\[([^\]]+)\]\s*(.*)$/.exec(text);
 	if (!match) return null;
-	return { source: match[1], description: match[2] };
+	return { source: match[1] ?? '', description: match[2] ?? '' };
 }
 
 // Non-tagged lines are grouped under their preceding source tag

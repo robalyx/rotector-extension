@@ -17,7 +17,7 @@
 		background-color 0.15s ease,
 		color 0.15s ease;
 
-	&:hover:not(.active):not(:disabled) {
+	&:hover:not(.active, :disabled) {
 		color: var(--color-text);
 	}
 

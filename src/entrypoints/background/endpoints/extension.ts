@@ -5,6 +5,8 @@ import type {
 	ExtensionUserProfile,
 	ExtensionUserReport,
 	LeaderboardResponse,
+	MembershipBadgeUpdatePayload,
+	MembershipStatus,
 	ReportableUserResponse
 } from '@/lib/types/api';
 import { API_CONFIG } from '@/lib/types/constants';
@@ -66,7 +68,7 @@ export async function submitExtensionReport(
 	};
 
 	if (reportReason) {
-		requestBody.reportReason = reportReason;
+		requestBody['reportReason'] = reportReason;
 	}
 
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_REPORT, {
@@ -138,4 +140,35 @@ export async function getReportableUser(): Promise<ReportableUserResponse> {
 	});
 
 	return extractResponseData<ReportableUserResponse>(response);
+}
+
+// Get the authenticated member's current tier, perks, and badge state
+export async function getMembershipStatus(): Promise<MembershipStatus> {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_STATUS, {
+		method: 'GET'
+	});
+
+	return extractResponseData<MembershipStatus>(response);
+}
+
+// Partial update: any combination of robloxUserId / badgeDesign / iconDesign / textDesign.
+// Absent fields retain their current server-side values.
+export async function updateMembershipBadge(
+	payload: MembershipBadgeUpdatePayload
+): Promise<MembershipStatus> {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_BADGE, {
+		method: 'POST',
+		body: JSON.stringify(payload)
+	});
+
+	return extractResponseData<MembershipStatus>(response);
+}
+
+// Clear the Roblox association as design values are preserved server-side until re-assigned.
+export async function clearMembershipBadge(): Promise<MembershipStatus> {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_BADGE, {
+		method: 'DELETE'
+	});
+
+	return extractResponseData<MembershipStatus>(response);
 }

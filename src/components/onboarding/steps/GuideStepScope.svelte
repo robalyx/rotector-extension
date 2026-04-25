@@ -11,7 +11,7 @@
 		Bug,
 		Megaphone,
 		Theater,
-		FileQuestion
+		FileQuestionMark
 	} from '@lucide/svelte';
 
 	const detectItems = [
@@ -51,7 +51,7 @@
 			descKey: 'onboarding_scope_not_detect_impersonation'
 		},
 		{
-			icon: FileQuestion,
+			icon: FileQuestionMark,
 			descKey: 'onboarding_scope_not_detect_misinformation'
 		}
 	];

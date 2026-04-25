@@ -27,7 +27,7 @@ const activeCaptchaSessions = new Set<string>();
 
 // Send notification when queue processing completes
 async function sendQueueNotification(entry: QueueHistoryEntry): Promise<void> {
-	const notificationId = `queue-${entry.userId}-${Date.now()}`;
+	const notificationId = `queue-${String(entry.userId)}-${String(Date.now())}`;
 
 	try {
 		const titleKey = entry.flagged
@@ -152,7 +152,7 @@ async function handleCaptchaStart(
 	const session: CaptchaSession = {
 		sessionId,
 		...queueData,
-		senderTabId,
+		...(senderTabId !== undefined && { senderTabId }),
 		timestamp: now
 	};
 	await browser.storage.local.set({
@@ -179,7 +179,7 @@ async function handleCaptchaStart(
 async function handleCaptchaSuccess(
 	sessionId: string,
 	token: string,
-	sender: { tab?: { id?: number } }
+	sender: { tab?: { id?: number | undefined } | undefined }
 ): Promise<void> {
 	// Skip if this session is already being processed
 	if (activeCaptchaSessions.has(sessionId)) {
@@ -226,7 +226,7 @@ async function handleCaptchaSuccess(
 		};
 
 		if (session.senderTabId !== undefined) {
-			await browser.tabs.sendMessage(session.senderTabId, message).catch((err) => {
+			await browser.tabs.sendMessage(session.senderTabId, message).catch((err: unknown) => {
 				logger.error('Failed to deliver captcha token to content script:', err);
 			});
 		} else {
@@ -243,7 +243,7 @@ async function handleCaptchaSuccess(
 async function handleCaptchaError(
 	sessionId: string | undefined,
 	error: string | undefined,
-	sender: { tab?: { id?: number } }
+	sender: { tab?: { id?: number | undefined } | undefined }
 ): Promise<void> {
 	// Retrieve session to get originating tab ID
 	let senderTabId: number | undefined;
@@ -267,7 +267,7 @@ async function handleCaptchaError(
 			error,
 			sessionId
 		};
-		await browser.tabs.sendMessage(senderTabId, message).catch((err) => {
+		await browser.tabs.sendMessage(senderTabId, message).catch((err: unknown) => {
 			logger.error('Failed to deliver captcha cancellation to content script:', err);
 		});
 	}
@@ -290,21 +290,21 @@ export default defineBackground(() => {
 		id: browser.runtime.id
 	});
 
-	clearDevDataOnStartup().catch((err) => {
+	clearDevDataOnStartup().catch((err: unknown) => {
 		logger.warn('Failed to clear dev data:', err);
 	});
 
-	ensureDefaultSettings().catch((err) => {
+	ensureDefaultSettings().catch((err: unknown) => {
 		logger.error('Failed to initialize settings:', err);
 	});
 
-	initializeQueuePolling().catch((err) => {
+	initializeQueuePolling().catch((err: unknown) => {
 		logger.error('Failed to initialize queue polling:', err);
 	});
 
 	async function dispatchCaptchaMessage(
 		message: { type?: string; token?: string; session?: string; error?: string },
-		sender: { tab?: { id?: number } }
+		sender: { tab?: { id?: number | undefined } | undefined }
 	): Promise<boolean> {
 		if (message.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS && message.token && message.session) {
 			await handleCaptchaSuccess(message.session, message.token, sender);
@@ -345,7 +345,11 @@ export default defineBackground(() => {
 					}
 
 					// Handle API actions
-					const handler = actionHandlers[request.action as keyof typeof actionHandlers];
+					const handlers: Record<
+						string,
+						(typeof actionHandlers)[keyof typeof actionHandlers] | undefined
+					> = actionHandlers;
+					const handler = handlers[request.action];
 
 					if (!handler) {
 						throw new Error(`Unknown action: ${request.action}`);

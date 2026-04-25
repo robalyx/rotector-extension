@@ -83,7 +83,7 @@
 	// Load queue limits on mount if autoLoad is enabled
 	$effect(() => {
 		if (autoLoad) {
-			loadQueueLimits().catch((err) => {
+			loadQueueLimits().catch((err: unknown) => {
 				logger.error('Failed to load queue limits:', err);
 			});
 		}

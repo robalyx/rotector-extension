@@ -27,7 +27,7 @@
 	let pendingTimeout: ReturnType<typeof setTimeout> | undefined;
 
 	// Read violation info setting
-	const advancedInfoEnabled = get(settings)[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] ?? false;
+	const advancedInfoEnabled = get(settings)[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED];
 
 	// Lifecycle
 	$effect(() => {
@@ -51,7 +51,7 @@
 		if (!success || !submitButton) return;
 
 		const handleSubmitClick = () => {
-			handleReportSubmit().catch((err) => {
+			handleReportSubmit().catch((err: unknown) => {
 				logger.error('Report submission logging failed:', err);
 			});
 		};
@@ -65,12 +65,12 @@
 	// Report submission logging
 	async function handleReportSubmit(): Promise<void> {
 		const categoryButton = document.querySelector(REPORT_PAGE_SELECTORS.CATEGORY_BUTTON);
-		const category = categoryButton?.textContent?.trim() || '';
+		const category = categoryButton?.textContent.trim() || '';
 
-		const commentTextarea = document.querySelector(
+		const commentTextarea = document.querySelector<HTMLTextAreaElement>(
 			REPORT_PAGE_SELECTORS.COMMENT_TEXTAREA
-		) as HTMLTextAreaElement;
-		const comment = commentTextarea?.value?.trim() || '';
+		);
+		const comment = commentTextarea?.value.trim() || '';
 
 		let reportReason = `Category: ${category}`;
 		if (comment) {
@@ -90,12 +90,12 @@
 
 	// Form element lookup
 	function findFormElements() {
-		const categoryButton = document.querySelector(
+		const categoryButton = document.querySelector<HTMLButtonElement>(
 			REPORT_PAGE_SELECTORS.CATEGORY_BUTTON
-		) as HTMLButtonElement;
-		const commentTextarea = document.querySelector(
+		);
+		const commentTextarea = document.querySelector<HTMLTextAreaElement>(
 			REPORT_PAGE_SELECTORS.COMMENT_TEXTAREA
-		) as HTMLTextAreaElement;
+		);
 
 		if (!categoryButton || !commentTextarea) {
 			throw new Error('Report form elements not found');
@@ -166,7 +166,7 @@
 			document.querySelectorAll(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
 		).find((el) => {
 			const text = el.querySelector(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION_TEXT);
-			return text?.textContent?.includes(REPORT_CATEGORY);
+			return text?.textContent.includes(REPORT_CATEGORY);
 		}) as HTMLElement | undefined;
 
 		// Select the matched option
@@ -179,9 +179,7 @@
 
 	// Report helper bar mount
 	async function mountReportHelper(): Promise<void> {
-		const { element: innerForm, success } = await waitForElement<HTMLElement>(
-			REPORT_PAGE_SELECTORS.INNER_FORM
-		);
+		const { element: innerForm, success } = await waitForElement(REPORT_PAGE_SELECTORS.INNER_FORM);
 		if (!success || !innerForm) return;
 
 		// Wrapper element injected before form content
@@ -216,7 +214,7 @@
 		let commentText =
 			"This user's profile contains inappropriate content that violates Roblox's Terms of Service.\n\n";
 
-		const profileReason = userStatus?.reasons?.['User Profile'];
+		const profileReason = userStatus?.reasons['User Profile'];
 
 		if (profileReason?.message) {
 			commentText += 'Detected Issue:\n' + profileReason.message + '\n\n';
@@ -227,7 +225,7 @@
 		if (currentSettings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] && profileReason?.evidence) {
 			commentText += 'Evidence Snippets:\n';
 			profileReason.evidence.forEach((snippet: string, index: number) => {
-				commentText += `${index + 1}. ${snippet}\n`;
+				commentText += `${String(index + 1)}. ${snippet}\n`;
 			});
 		}
 
@@ -252,7 +250,7 @@
 			await new Promise((r) => requestAnimationFrame(r));
 
 			// Validate form state
-			const categoryText = categoryButton.textContent?.trim() || '';
+			const categoryText = categoryButton.textContent.trim();
 
 			if (!categoryText.includes(REPORT_CATEGORY) || commentTextarea.value !== commentText) {
 				throw new Error('Form validation failed');

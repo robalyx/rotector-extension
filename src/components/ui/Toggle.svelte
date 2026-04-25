@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Loader2 } from '@lucide/svelte';
+	import { LoaderCircle } from '@lucide/svelte';
 
 	interface Props {
 		checked: boolean;
@@ -33,7 +33,7 @@
 	<span class="toggle-switch" class:checked class:disabled class:loading>
 		<span class="toggle-handle" class:checked class:disabled class:loading>
 			{#if loading}
-				<Loader2 class="toggle-spinner" size={10} />
+				<LoaderCircle class="toggle-spinner" size={10} />
 			{/if}
 		</span>
 	</span>

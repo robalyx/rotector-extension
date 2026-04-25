@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { BookOpen, ExternalLink, CircleHelp, FileText } from '@lucide/svelte';
+	import { BookOpen, ExternalLink, CircleQuestionMark, FileText } from '@lucide/svelte';
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiGithub from '@icons-pack/svelte-simple-icons/icons/SiGithub';
 
@@ -62,7 +62,7 @@
 		</a>
 		<span class="footer-link-dot">&middot;</span>
 		<a class="footer-link" href="https://rotector.com" rel="noopener noreferrer" target="_blank">
-			<CircleHelp class="footer-link-icon" />
+			<CircleQuestionMark class="footer-link-icon" />
 			{$_('footer_help')}
 		</a>
 	</div>

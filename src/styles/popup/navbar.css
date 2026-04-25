@@ -34,6 +34,7 @@
 
 	&.active::after {
 		content: '';
+
 		@apply absolute rounded-[1px];
 		left: 0.5rem;
 		right: 0.5rem;

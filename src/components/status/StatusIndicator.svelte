@@ -18,6 +18,8 @@
 	import { Flag, Hourglass } from '@lucide/svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
+	import MembershipIcon from '@/components/features/MembershipIcon.svelte';
+	import { designKey, tierOf } from '@/lib/utils/membership-designs';
 	import Tooltip from './Tooltip.svelte';
 	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
 
@@ -26,15 +28,18 @@
 	interface Props {
 		entityId: string;
 		entityType: 'user' | 'group';
-		entityStatus?: CombinedStatus | null;
-		error?: string | null;
-		showText?: boolean;
-		skipAutoFetch?: boolean;
-		onClick?: (entityId: string) => void;
-		onQueue?: (entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void;
-		userUsername?: string;
-		userDisplayName?: string;
-		userAvatarUrl?: string;
+		entityStatus?: CombinedStatus | null | undefined;
+		error?: string | null | undefined;
+		showText?: boolean | undefined;
+		skipAutoFetch?: boolean | undefined;
+		suppressMembershipBadge?: boolean | undefined;
+		onClick?: ((entityId: string) => void) | undefined;
+		onQueue?:
+			| ((entityId: string, isReprocess?: boolean, status?: EntityStatus | null) => void)
+			| undefined;
+		userUsername?: string | undefined;
+		userDisplayName?: string | undefined;
+		userAvatarUrl?: string | undefined;
 	}
 
 	let {
@@ -44,6 +49,7 @@
 		error = null,
 		showText = true,
 		skipAutoFetch = false,
+		suppressMembershipBadge = false,
 		onClick,
 		onQueue,
 		userUsername,
@@ -106,7 +112,7 @@
 	const flaggedOutfits = $derived.by(() => {
 		if (isGroup || !entityStatus) return null;
 
-		const evidence = entityStatus.get(ROTECTOR_API_ID)?.data?.reasons?.['Avatar Outfit']?.evidence;
+		const evidence = entityStatus.get(ROTECTOR_API_ID)?.data?.reasons['Avatar Outfit']?.evidence;
 		if (!evidence) return null;
 
 		return extractFlaggedOutfitNames(evidence);
@@ -118,12 +124,27 @@
 		return countCustomApiFlags(entityStatus);
 	});
 
+	// Membership badge from the Rotector response
+	const membershipBadge = $derived.by(() => {
+		if (isGroup || suppressMembershipBadge || !entityStatus) return null;
+		const data = entityStatus.get(ROTECTOR_API_ID)?.data;
+		if (!data || !('membershipBadge' in data)) return null;
+		return data.membershipBadge;
+	});
+	const membershipTier = $derived(membershipBadge ? tierOf(membershipBadge.tier) : null);
+	const membershipIconKey = $derived(
+		membershipBadge && membershipTier
+			? designKey(membershipBadge.iconDesign, membershipTier, 'icon')
+			: null
+	);
+
 	// Compute visible badges in priority order
 	const visibleBadges = $derived.by(() => {
 		const badges: string[] = [];
 		if (!isGroup && statusConfig.isReportable) badges.push('reportable');
 		if (statusConfig.isQueued) badges.push('queue');
 		if (customApiFlagCount > 0) badges.push('integration');
+		if (membershipBadge) badges.push('membership');
 		return badges;
 	});
 
@@ -131,7 +152,7 @@
 	const badgeStackClasses = $derived.by(() => {
 		const classes: Record<string, string> = {};
 		visibleBadges.forEach((badge, index) => {
-			classes[badge] = `badge-stack-${index + 1}`;
+			classes[badge] = `badge-stack-${String(index + 1)}`;
 		});
 		return classes;
 	});
@@ -355,20 +376,26 @@
 	<!-- Badge Container -->
 	<span class="badge-container">
 		{#if !isGroup && statusConfig.isReportable}
-			<span class="reportable-badge {badgeStackClasses.reportable}">
+			<span class="reportable-badge {badgeStackClasses['reportable']}">
 				<Flag size={10} strokeWidth={2.5} />
 			</span>
 		{/if}
 
 		{#if statusConfig.isQueued}
-			<span class="queue-badge {badgeStackClasses.queue}">
+			<span class="queue-badge {badgeStackClasses['queue']}">
 				<Hourglass size={8} strokeWidth={2.5} />
 			</span>
 		{/if}
 
 		{#if customApiFlagCount > 0}
-			<span class="integration-badge {badgeStackClasses.integration}">
+			<span class="integration-badge {badgeStackClasses['integration']}">
 				{customApiFlagCount}
+			</span>
+		{/if}
+
+		{#if membershipBadge && membershipIconKey}
+			<span class="membership-stack-badge tier-{membershipTier} {badgeStackClasses['membership']}">
+				<MembershipIcon iconKey={membershipIconKey} size={10} />
 			</span>
 		{/if}
 	</span>

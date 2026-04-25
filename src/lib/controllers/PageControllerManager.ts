@@ -37,7 +37,8 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.HOME_CHECK_ENABLED,
 					component: HomePageManager,
 					containerClass: COMPONENT_CLASSES.HOME_CAROUSEL_MANAGER,
-					disabledMessage: 'Home checks disabled, skipping initialization'
+					disabledMessage: 'Home checks disabled, skipping initialization',
+					getProps: () => ({})
 				})
 		);
 		this.controllers.set(
@@ -47,7 +48,8 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
 					component: FriendsPageManager,
 					containerClass: COMPONENT_CLASSES.FRIENDS_MANAGER,
-					disabledMessage: 'Friends checks disabled, skipping initialization'
+					disabledMessage: 'Friends checks disabled, skipping initialization',
+					getProps: () => ({})
 				})
 		);
 		this.controllers.set(
@@ -57,7 +59,8 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
 					component: FriendsPageManager,
 					containerClass: COMPONENT_CLASSES.FRIENDS_MANAGER,
-					disabledMessage: 'Friends checks disabled, skipping initialization'
+					disabledMessage: 'Friends checks disabled, skipping initialization',
+					getProps: () => ({})
 				})
 		);
 		this.controllers.set(
@@ -67,7 +70,8 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.SEARCH_CHECK_ENABLED,
 					component: SearchPageManager,
 					containerClass: COMPONENT_CLASSES.SEARCH_MANAGER,
-					disabledMessage: 'Search checks disabled, skipping initialization'
+					disabledMessage: 'Search checks disabled, skipping initialization',
+					getProps: () => ({})
 				})
 		);
 		this.controllers.set(
@@ -162,9 +166,7 @@ export class PageControllerManager {
 			}
 
 			// Initialize controller
-			if (this.currentController) {
-				await this.currentController.initialize();
-			}
+			await this.currentController.initialize();
 		} catch (error) {
 			logger.error(`Failed to switch to controller for ${pageType}:`, error);
 			await this.cleanupCurrentController();

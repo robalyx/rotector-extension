@@ -58,6 +58,7 @@
 
 	&.active::after {
 		content: '';
+
 		@apply absolute rounded-[1px];
 		left: 0.75rem;
 		right: 0.75rem;
@@ -193,6 +194,7 @@
 		width: auto;
 		height: auto;
 		object-fit: contain;
+
 		@apply rounded;
 	}
 }
@@ -211,7 +213,7 @@
 	@apply m-0 text-sm font-semibold;
 	color: var(--color-text-heading);
 	letter-spacing: -0.005em;
-	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 @utility api-status-indicator {
@@ -228,7 +230,7 @@
 	@apply block shrink-0 rounded-full;
 	width: 6px;
 	height: 6px;
-	background-color: currentColor;
+	background-color: currentcolor;
 }
 
 /* =================================

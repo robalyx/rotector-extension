@@ -29,7 +29,10 @@ export const GROUP_CATEGORIES: readonly CategoryDescriptor[] = [
 export function computeDeltas(entries: HourlyStatEntry[], field: ActivityCategory): number[] {
 	const deltas: number[] = [];
 	for (let i = 1; i < entries.length; i++) {
-		deltas.push(Number(entries[i][field]) - Number(entries[i - 1][field]));
+		const curr = entries[i];
+		const prev = entries[i - 1];
+		if (!curr || !prev) continue;
+		deltas.push(curr[field] - prev[field]);
 	}
 	return deltas;
 }
@@ -42,6 +45,7 @@ export function computeYBounds(datasets: number[][]): YBounds | undefined {
 	all.sort((a, b) => a - b);
 	const q1 = all[Math.floor(all.length * 0.25)];
 	const q3 = all[Math.floor(all.length * 0.75)];
+	if (q1 === undefined || q3 === undefined) return undefined;
 	const iqr = q3 - q1;
 	if (iqr === 0) return undefined;
 

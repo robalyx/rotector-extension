@@ -167,17 +167,26 @@
 
 @utility badge-bg-reportable {
 	background-color: var(--color-status-unsafe);
+
 	@apply flex items-center justify-center;
 }
 
 @utility badge-bg-queue {
 	background-color: var(--color-status-queued);
+
 	@apply flex items-center justify-center;
 }
 
 @utility badge-bg-integration {
 	@apply text-2xs leading-none font-bold text-white;
 	background-color: var(--color-status-integration);
+}
+
+@utility badge-bg-membership {
+	background-color: var(--color-tier);
+	color: #0b1220;
+
+	@apply flex items-center justify-center;
 }
 
 /* =================================
@@ -197,6 +206,15 @@
 
 @utility integration-badge {
 	@apply badge-base badge-bg-integration;
+}
+
+@utility membership-stack-badge {
+	@apply badge-base badge-bg-membership;
+
+	& img,
+	& svg {
+		display: block;
+	}
 }
 
 /* =================================

@@ -14,9 +14,9 @@ interface ExportableApiConfig {
 	batchUrl: string;
 	enabled: boolean;
 	timeout: number;
-	reasonFormat?: 'numeric' | 'string';
-	landscapeImageDataUrl?: string;
-	authHeaderType?: CustomApiAuthHeaderType;
+	reasonFormat?: 'numeric' | 'string' | undefined;
+	landscapeImageDataUrl?: string | undefined;
+	authHeaderType?: CustomApiAuthHeaderType | undefined;
 }
 
 // Export a custom API configuration to a compressed base64 string
@@ -37,23 +37,16 @@ export function exportCustomApi(config: CustomApiConfig): string {
 	const json = JSON.stringify(exportable);
 
 	// Compress with lz-string
-	const compressed = LZString.compressToBase64(json);
-
-	return compressed;
+	return LZString.compressToBase64(json);
 }
 
-// Import a custom API configuration from a compressed base64 string
-export function importCustomApi(
-	encodedData: string
-): Omit<CustomApiConfig, 'id' | 'order' | 'createdAt'> {
-	// Decompress
+// Decompress + parse JSON payload, throw helpful error on malformed input
+function decodeImportPayload(encodedData: string): Record<string, unknown> {
 	const decompressed = LZString.decompressFromBase64(encodedData);
-
 	if (!decompressed) {
 		throw new Error('Failed to decompress API data. The encoded string may be corrupted.');
 	}
 
-	// Parse JSON
 	let parsed: unknown;
 	try {
 		parsed = JSON.parse(decompressed);
@@ -61,88 +54,108 @@ export function importCustomApi(
 		throw new Error('Failed to parse API data: Invalid JSON');
 	}
 
-	// Validate structure
 	if (!parsed || typeof parsed !== 'object') {
 		throw new Error('Invalid API data: Expected an object');
 	}
 
-	const data = parsed as Record<string, unknown>;
+	return parsed as Record<string, unknown>;
+}
 
-	// Validate required fields
-	if (typeof data.name !== 'string') {
+type ImportedApiConfig = Omit<CustomApiConfig, 'id' | 'order' | 'createdAt'>;
+
+// Parse + validate required fields, returning a narrowed object
+function parseRequiredFields(data: Record<string, unknown>): {
+	name: string;
+	singleUrl: string;
+	batchUrl: string;
+	enabled: boolean;
+	timeout: number;
+} {
+	if (typeof data['name'] !== 'string') {
 		throw new Error('Invalid API data: Missing or invalid "name" field');
 	}
-
-	if (typeof data.singleUrl !== 'string') {
+	if (typeof data['singleUrl'] !== 'string') {
 		throw new Error('Invalid API data: Missing or invalid "singleUrl" field');
 	}
-
-	if (typeof data.batchUrl !== 'string') {
+	if (typeof data['batchUrl'] !== 'string') {
 		throw new Error('Invalid API data: Missing or invalid "batchUrl" field');
 	}
-
-	if (typeof data.enabled !== 'boolean') {
+	if (typeof data['enabled'] !== 'boolean') {
 		throw new Error('Invalid API data: Missing or invalid "enabled" field');
 	}
-
-	if (typeof data.timeout !== 'number') {
+	if (typeof data['timeout'] !== 'number') {
 		throw new Error('Invalid API data: Missing or invalid "timeout" field');
 	}
+	return {
+		name: data['name'],
+		singleUrl: data['singleUrl'],
+		batchUrl: data['batchUrl'],
+		enabled: data['enabled'],
+		timeout: data['timeout']
+	};
+}
 
-	// Validate constraints
-	if (data.name.length === 0 || data.name.length > 12) {
+// Throw on constraint violations (length, URL protocol, timeout range)
+function assertConstraints(required: ReturnType<typeof parseRequiredFields>): void {
+	const { name, singleUrl, batchUrl, timeout } = required;
+
+	if (name.length === 0 || name.length > 12) {
 		throw new Error('Invalid API data: Name must be between 1 and 12 characters');
 	}
-
-	if (!data.singleUrl.startsWith('https://')) {
+	if (!singleUrl.startsWith('https://')) {
 		throw new Error('Invalid API data: Single URL must use HTTPS protocol');
 	}
-
-	if (!data.singleUrl.includes('{userId}')) {
+	if (!singleUrl.includes('{userId}')) {
 		throw new Error('Invalid API data: Single URL must contain {userId} placeholder');
 	}
-
-	if (!data.batchUrl.startsWith('https://')) {
+	if (!batchUrl.startsWith('https://')) {
 		throw new Error('Invalid API data: Batch URL must use HTTPS protocol');
 	}
-
-	if (data.timeout < 1000 || data.timeout > 60000) {
+	if (timeout < 1000 || timeout > 60000) {
 		throw new Error('Invalid API data: Timeout must be between 1000 and 60000 milliseconds');
 	}
+}
 
-	// Validate optional fields
-	if (data.reasonFormat !== undefined) {
-		if (data.reasonFormat !== 'numeric' && data.reasonFormat !== 'string') {
-			throw new Error('Invalid API data: reasonFormat must be "numeric" or "string"');
-		}
+// Parse + validate optional fields, returning a narrowed object
+function parseOptionalFields(data: Record<string, unknown>): {
+	reasonFormat: 'numeric' | 'string' | undefined;
+	landscapeImageDataUrl: string | undefined;
+	authHeaderType: CustomApiAuthHeaderType | undefined;
+} {
+	const reasonFormat = data['reasonFormat'];
+	if (reasonFormat !== undefined && reasonFormat !== 'numeric' && reasonFormat !== 'string') {
+		throw new Error('Invalid API data: reasonFormat must be "numeric" or "string"');
 	}
 
-	if (data.landscapeImageDataUrl !== undefined) {
-		if (typeof data.landscapeImageDataUrl !== 'string') {
-			throw new Error('Invalid API data: landscapeImageDataUrl must be a string');
-		}
+	const landscapeImageDataUrl = data['landscapeImageDataUrl'];
+	if (landscapeImageDataUrl !== undefined && typeof landscapeImageDataUrl !== 'string') {
+		throw new Error('Invalid API data: landscapeImageDataUrl must be a string');
 	}
 
-	if (data.authHeaderType !== undefined) {
-		if (
-			typeof data.authHeaderType !== 'string' ||
-			!AUTH_HEADER_TYPES.includes(data.authHeaderType as CustomApiAuthHeaderType)
-		) {
-			throw new Error(
-				'Invalid API data: authHeaderType must be one of x-auth-token, authorization-bearer, authorization-plain'
-			);
-		}
+	const authHeaderType = data['authHeaderType'];
+	if (
+		authHeaderType !== undefined &&
+		(typeof authHeaderType !== 'string' ||
+			!AUTH_HEADER_TYPES.includes(authHeaderType as CustomApiAuthHeaderType))
+	) {
+		throw new Error(
+			'Invalid API data: authHeaderType must be one of x-auth-token, authorization-bearer, authorization-plain'
+		);
 	}
 
-	// Return validated config (apiKey is never exported/imported; users enter it locally)
 	return {
-		name: data.name,
-		singleUrl: data.singleUrl,
-		batchUrl: data.batchUrl,
-		enabled: data.enabled,
-		timeout: data.timeout,
-		reasonFormat: data.reasonFormat,
-		landscapeImageDataUrl: data.landscapeImageDataUrl,
-		authHeaderType: data.authHeaderType as CustomApiAuthHeaderType | undefined
+		reasonFormat,
+		landscapeImageDataUrl,
+		authHeaderType: authHeaderType as CustomApiAuthHeaderType | undefined
 	};
+}
+
+// Import a custom API configuration from a compressed base64 string
+export function importCustomApi(encodedData: string): ImportedApiConfig {
+	const data = decodeImportPayload(encodedData);
+	const required = parseRequiredFields(data);
+	assertConstraints(required);
+	const optional = parseOptionalFields(data);
+
+	return { ...required, ...optional };
 }

@@ -54,7 +54,7 @@ export class ReportPageController extends PageController {
 				{ source: 'id URL parameter', getValue: () => urlParams.get('id') },
 				{
 					source: 'form field',
-					getValue: () => (this.findElement('#Id') as HTMLInputElement)?.value
+					getValue: () => (this.findElement('#Id') as HTMLInputElement | null)?.value
 				}
 			];
 
@@ -64,7 +64,7 @@ export class ReportPageController extends PageController {
 					const sanitized = sanitizeEntityId(value);
 					if (sanitized) {
 						logger.debug(`User ID extracted from ${source}`, { userId: sanitized });
-						return sanitized.toString();
+						return sanitized;
 					}
 				}
 			}

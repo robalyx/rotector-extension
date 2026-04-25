@@ -23,8 +23,9 @@ class DiscordDataService {
 		}
 
 		// Deduplicate concurrent requests
-		if (key in this.pendingRequests) {
-			return this.pendingRequests[key];
+		const pending = this.pendingRequests[key];
+		if (pending) {
+			return pending;
 		}
 
 		const promise = apiClient.lookupRobloxUserDiscord(key);

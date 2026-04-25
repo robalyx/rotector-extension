@@ -1,5 +1,5 @@
 export function formatBytes(bytes: number): string {
-	if (bytes < 1024) return `${bytes} B`;
+	if (bytes < 1024) return `${String(bytes)} B`;
 	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
 	return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
@@ -13,7 +13,7 @@ export function formatNumber(num: number | undefined): string {
 export function formatCompact(num: number | undefined): string {
 	if (num === undefined || isNaN(num)) return '—';
 	if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
-	if (num >= 10_000) return `${Math.round(num / 1_000)}K`;
+	if (num >= 10_000) return `${String(Math.round(num / 1_000))}K`;
 	if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
 	return num.toString();
 }

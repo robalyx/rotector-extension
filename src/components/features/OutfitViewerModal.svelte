@@ -8,7 +8,7 @@
 	import { logger } from '@/lib/utils/logger';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
-	import { AlertCircle, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
+	import { CircleAlert, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
 	import OutfitStack from './OutfitStack.svelte';
 	import Outfit3DPanel from './Outfit3DPanel.svelte';
@@ -110,9 +110,11 @@
 
 	// Auto-select first outfit when data loads
 	$effect(() => {
-		if (groupedOutfits.length > 0 && selectedOutfit === null) {
-			const [, firstGroup] = groupedOutfits[0];
-			selectedOutfit = firstGroup[0];
+		const firstEntry = groupedOutfits[0];
+		if (firstEntry && selectedOutfit === null) {
+			const [, firstGroup] = firstEntry;
+			const firstOutfit = firstGroup[0];
+			if (firstOutfit) selectedOutfit = firstOutfit;
 		}
 	});
 
@@ -228,7 +230,7 @@
 				</div>
 			{:else if hasError}
 				<div class="outfit-viewer-error">
-					<AlertCircle size={20} />
+					<CircleAlert size={20} />
 					<span>{$_('outfit_viewer_error')}</span>
 					<button class="outfit-viewer-retry" onclick={loadAllOutfits} type="button">
 						{$_('outfit_viewer_retry')}

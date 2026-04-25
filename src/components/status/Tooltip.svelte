@@ -36,13 +36,15 @@
 	} from '@/lib/utils/tooltip-positioning';
 	import { detectEncoding, makeDecoder } from '@/lib/utils/encoding-detector';
 	import type { EncodingResult } from '@/lib/utils/encoding-detector';
+	import MembershipPill from '../features/MembershipPill.svelte';
+	import { tierNameOf, tierOf } from '@/lib/utils/membership-designs';
 	import {
 		User,
-		AlertCircle,
+		CircleAlert,
 		Flag,
 		Shirt,
 		Clock,
-		Loader2,
+		LoaderCircle,
 		Check,
 		RefreshCw,
 		Languages,
@@ -182,14 +184,14 @@
 		mode?: 'preview' | 'expanded';
 		entityType?: 'user' | 'group';
 		onQueue?: (isReprocess?: boolean, userStatus?: UserStatus | null) => void;
-		onViewOutfits?: () => void;
+		onViewOutfits?: (() => void) | undefined;
 		onClose?: () => void;
 		onExpand?: () => void;
 		onMouseEnter?: () => void;
 		onMouseLeave?: () => void;
-		userUsername?: string;
-		userDisplayName?: string;
-		userAvatarUrl?: string;
+		userUsername?: string | undefined;
+		userDisplayName?: string | undefined;
+		userAvatarUrl?: string | undefined;
 	}
 
 	interface HeaderMessage {
@@ -286,8 +288,7 @@
 		if (compatibility === 'current') return 'latest';
 		if (compatibility === 'compatible') return 'behind-minor';
 		if (compatibility === 'outdated') return 'behind-major';
-		if (compatibility === 'deprecated') return 'deprecated';
-		return 'unknown';
+		return 'deprecated';
 	});
 
 	// Check if any translations actually differ from originals
@@ -380,7 +381,7 @@
 	// Computed values
 	const sanitizedUserId = $derived.by(() => {
 		const id = sanitizeEntityId(userId);
-		return id ? id.toString() : '';
+		return id ?? '';
 	});
 
 	const isGroup = $derived(entityType === 'group');
@@ -394,8 +395,7 @@
 	// Distinct outfit names from Rotector's Avatar Outfit evidence
 	const flaggedOutfitNames = $derived.by(() => {
 		if (isGroup) return [] as string[];
-		const evidence =
-			userStatus?.get(ROTECTOR_API_ID)?.data?.reasons?.['Avatar Outfit']?.evidence;
+		const evidence = userStatus?.get(ROTECTOR_API_ID)?.data?.reasons['Avatar Outfit']?.evidence;
 		if (!evidence || evidence.length === 0) return [] as string[];
 		return Array.from(extractFlaggedOutfitNames(evidence).keys());
 	});
@@ -428,7 +428,7 @@
 	const isQueuedSafe = $derived(
 		isSafeUserWithQueueOnly &&
 			activeUserStatus?.flagType === STATUS.FLAGS.QUEUED &&
-			activeUserStatus?.processed === true
+			activeUserStatus.processed === true
 	);
 
 	// Minimal tooltip entities skip saved height (safe or queued)
@@ -481,6 +481,14 @@
 
 		const data = userStatus.get(activeTab)?.data;
 		return data && 'badges' in data ? (data.badges ?? []) : [];
+	});
+
+	// Read from the Rotector entry directly so the membership pill stays visible
+	// even when the user has a non-Rotector tab active
+	const rotectorMembershipBadge = $derived.by(() => {
+		if (isGroup || !userStatus) return null;
+		const data = userStatus.get(ROTECTOR_API_ID)?.data;
+		return data && 'membershipBadge' in data ? (data.membershipBadge ?? null) : null;
 	});
 
 	// Get header message from flag and confidence
@@ -818,15 +826,12 @@
 			};
 		}
 
-		if (!anchorElement) return null;
 		const { pageType, container } = detectPageContext(anchorElement);
 		return extractUserInfo(id, pageType, container);
 	}
 
 	// Extract group info from the page DOM
 	function getPageGroupInfo(): GroupInfo | null {
-		if (!anchorElement) return null;
-
 		const groupId = sanitizedUserId;
 		if (!groupId) return null;
 
@@ -836,7 +841,7 @@
 
 	// Positioning for preview tooltips
 	function positionTooltip() {
-		if (!tooltipRef || !anchorElement || isExpanded) return;
+		if (!tooltipRef || isExpanded) return;
 
 		if (!anchorElement.isConnected) {
 			onClose?.();
@@ -932,7 +937,7 @@
 				if (existing.includes(kind)) return;
 				return updateSetting(SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN, [...existing, kind]);
 			})
-			.catch((err) => {
+			.catch((err: unknown) => {
 				logger.error('Failed to mark info hint seen:', err);
 			});
 	}
@@ -959,7 +964,7 @@
 
 	// Calculate transform-origin for expanded tooltip animation
 	function getTransformOrigin() {
-		return anchorElement ? calculateTransformOrigin(anchorElement) : { originX: 50, originY: 50 };
+		return calculateTransformOrigin(anchorElement);
 	}
 
 	// Load vote data if needed
@@ -1123,12 +1128,12 @@
 
 		const config = getResizeConfig();
 		if (customWidth !== undefined) {
-			updateSetting(config.widthKey, customWidth).catch((err) => {
+			updateSetting(config.widthKey, customWidth).catch((err: unknown) => {
 				logger.error('Failed to save tooltip width:', err);
 			});
 		}
 		if (customHeight !== undefined) {
-			updateSetting(config.heightKey, customHeight).catch((err) => {
+			updateSetting(config.heightKey, customHeight).catch((err: unknown) => {
 				logger.error('Failed to save tooltip height:', err);
 			});
 		}
@@ -1148,10 +1153,10 @@
 		const config = getResizeConfig();
 		customWidth = undefined;
 		customHeight = undefined;
-		removeSetting(config.widthKey).catch((err) => {
+		removeSetting(config.widthKey).catch((err: unknown) => {
 			logger.error('Failed to remove tooltip width setting:', err);
 		});
-		removeSetting(config.heightKey).catch((err) => {
+		removeSetting(config.heightKey).catch((err: unknown) => {
 			logger.error('Failed to remove tooltip height setting:', err);
 		});
 
@@ -1166,9 +1171,11 @@
 		event.preventDefault();
 		event.stopPropagation();
 		headerCompact = !headerCompact;
-		updateSetting(SETTINGS_KEYS.EXPANDED_HEADER_HEIGHT, headerCompact ? 1 : 0).catch((err) => {
-			logger.error('Failed to save header compact state:', err);
-		});
+		updateSetting(SETTINGS_KEYS.EXPANDED_HEADER_HEIGHT, headerCompact ? 1 : 0).catch(
+			(err: unknown) => {
+				logger.error('Failed to save header compact state:', err);
+			}
+		);
 	}
 
 	// Copy Discord link to clipboard
@@ -1245,7 +1252,7 @@
 			translationError = null;
 
 			const currentLanguage = $locale ?? 'en';
-			const isEnglishUser = currentLanguage.split('-')[0].toLowerCase() === 'en';
+			const isEnglishUser = currentLanguage.split('-')[0]?.toLowerCase() === 'en';
 
 			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
 			const allTranslations: Record<string, string> = {};
@@ -1331,14 +1338,14 @@
 
 	// Close expanded tooltip with animation
 	function closeWithAnimation() {
-		if (!overlayRef || !tooltipRef || !anchorElement) {
+		if (!overlayRef || !tooltipRef) {
 			onClose?.();
 			return;
 		}
 
 		const { originX, originY } = getTransformOrigin();
-		tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
-		tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
+		tooltipRef.style.setProperty('--tooltip-origin-x', `${String(originX)}%`);
+		tooltipRef.style.setProperty('--tooltip-origin-y', `${String(originY)}%`);
 
 		overlayRef.classList.remove('visible');
 		tooltipRef.style.transform = 'translate(-50%, -50%) scale(0.05)';
@@ -1421,7 +1428,7 @@
 	$effect(() => {
 		if (shouldShowVoting && !hasLoadedVoteData && !loadingVotes) {
 			hasLoadedVoteData = true;
-			loadVoteData().catch((error) => {
+			loadVoteData().catch((error: unknown) => {
 				logger.error('Failed to load vote data:', error);
 			});
 		}
@@ -1462,10 +1469,10 @@
 
 		if (isExpanded) {
 			// Expanded tooltip setup
-			if (anchorElement && tooltipRef) {
+			if (tooltipRef) {
 				const { originX, originY } = getTransformOrigin();
-				tooltipRef.style.setProperty('--tooltip-origin-x', `${originX}%`);
-				tooltipRef.style.setProperty('--tooltip-origin-y', `${originY}%`);
+				tooltipRef.style.setProperty('--tooltip-origin-x', `${String(originX)}%`);
+				tooltipRef.style.setProperty('--tooltip-origin-y', `${String(originY)}%`);
 				tooltipRef.style.top = '50%';
 				tooltipRef.style.left = '50%';
 				tooltipRef.style.transform = 'translate(-50%, -50%) scale(0.05)';
@@ -1518,8 +1525,8 @@
 	{#if activeHoverPopover}
 		<div
 			bind:this={hoverPopoverRef}
-			style:left={`${hoverPopoverPosition.left}px`}
-			style:top={`${hoverPopoverPosition.top}px`}
+			style:left={`${String(hoverPopoverPosition.left)}px`}
+			style:top={`${String(hoverPopoverPosition.top)}px`}
 			class="tooltip-hover-popover"
 			class:cross-signal-popover={activeHoverPopover.kind === 'cross-signal'}
 			class:outfit-only-popover={activeHoverPopover.kind === 'outfit-only'}
@@ -1609,43 +1616,43 @@
 	{@const metadata = metadataInfo}
 	{#if metadata}
 		<div class="tooltip-metadata">
-			{#if metadata?.queuedTime}
-				<div class="tooltip-metadata-item" title={metadata?.queuedExact}>
+			{#if metadata.queuedTime}
+				<div class="tooltip-metadata-item" title={metadata.queuedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					<span class="tooltip-metadata-label">{$_('tooltip_metadata_queued')}</span>
-					<span class="tooltip-metadata-value">{metadata?.queuedTime}</span>
+					<span class="tooltip-metadata-value">{metadata.queuedTime}</span>
 				</div>
 			{/if}
 
-			{#if metadata?.duration}
+			{#if metadata.duration}
 				<div
 					class="tooltip-metadata-item"
-					class:processing={metadata?.isProcessing}
-					title={metadata?.processedExact || $_('tooltip_metadata_processing_status')}
+					class:processing={metadata.isProcessing}
+					title={metadata.processedExact || $_('tooltip_metadata_processing_status')}
 				>
-					{#if metadata?.isProcessing}
-						<Loader2 class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
+					{#if metadata.isProcessing}
+						<LoaderCircle class="tooltip-metadata-icon animate-spin" size={10} strokeWidth={2} />
 					{:else}
 						<Check class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					{/if}
 					<span class="tooltip-metadata-label">
-						{#if metadata?.isProcessing}{$_('tooltip_metadata_processing')}{:else}{$_(
+						{#if metadata.isProcessing}{$_('tooltip_metadata_processing')}{:else}{$_(
 								'tooltip_metadata_took'
 							)}{/if}
 					</span>
-					<span class="tooltip-metadata-value">{metadata?.duration}</span>
+					<span class="tooltip-metadata-value">{metadata.duration}</span>
 				</div>
 			{/if}
 
-			{#if metadata?.lastUpdatedTime}
-				<div class="tooltip-metadata-item" title={metadata?.lastUpdatedExact}>
+			{#if metadata.lastUpdatedTime}
+				<div class="tooltip-metadata-item" title={metadata.lastUpdatedExact}>
 					<Clock class="tooltip-metadata-icon" size={10} strokeWidth={2} />
 					<span class="tooltip-metadata-label">{$_('tooltip_metadata_last_updated')}</span>
-					<span class="tooltip-metadata-value">{metadata?.lastUpdatedTime}</span>
+					<span class="tooltip-metadata-value">{metadata.lastUpdatedTime}</span>
 				</div>
 			{/if}
 
-			{#if isOutdated && !metadata?.isProcessing}
+			{#if isOutdated && !metadata.isProcessing}
 				<button
 					class="tooltip-metadata-reprocess"
 					onclick={handleReprocessRequest}
@@ -1676,7 +1683,7 @@
 						e.stopPropagation();
 						activeTab = tab.id;
 						// Save tab preference for future tooltip opens
-						updateSetting('lastSelectedCustomApiTab', tab.id).catch((error) => {
+						updateSetting('lastSelectedCustomApiTab', tab.id).catch((error: unknown) => {
 							logger.error('Failed to save tab preference:', error);
 						});
 					}}
@@ -1690,7 +1697,7 @@
 							onerror={(e) => {
 								const target = e.currentTarget as HTMLImageElement;
 								target.style.display = 'none';
-								const textSpan = target.nextElementSibling as HTMLSpanElement;
+								const textSpan = target.nextElementSibling as HTMLSpanElement | null;
 								if (textSpan) {
 									textSpan.style.display = 'inline';
 								}
@@ -1703,7 +1710,7 @@
 						{#if tab.loading}
 							<LoadingSpinner size="small" />
 						{:else if tab.error}
-							<AlertCircle class="tooltip-tab-error-indicator" size={12} />
+							<CircleAlert class="tooltip-tab-error-indicator" size={12} />
 						{/if}
 					{/if}
 				</button>
@@ -1724,6 +1731,21 @@
 					{badge.text}
 				</span>
 			{/each}
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet membershipBadgeSection()}
+	{#if rotectorMembershipBadge}
+		{@const tier = tierOf(rotectorMembershipBadge.tier)}
+		<div class="mt-1.5">
+			<MembershipPill
+				badgeDesign={rotectorMembershipBadge.badgeDesign}
+				iconDesign={rotectorMembershipBadge.iconDesign}
+				textDesign={rotectorMembershipBadge.textDesign}
+				{tier}
+				tierName={tierNameOf(rotectorMembershipBadge.tier)}
+			/>
 		</div>
 	{/if}
 {/snippet}
@@ -2159,10 +2181,12 @@
 	>
 		<div
 			bind:this={tooltipRef}
-			style:width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
-			style:height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
-			style:max-width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
-			style:max-height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
+			style:width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
+			style:height={tooltipDimensions.height ? `${String(tooltipDimensions.height)}px` : undefined}
+			style:max-width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
+			style:max-height={tooltipDimensions.height
+				? `${String(tooltipDimensions.height)}px`
+				: undefined}
 			class="expanded-tooltip"
 			class:has-tabs={tabs.length > 1}
 			class:is-resizing={isResizing}
@@ -2292,6 +2316,7 @@
 										<span class="status-indicator"></span>
 										{statusBadgeText}
 									</div>
+									{@render membershipBadgeSection()}
 								{/if}
 							</div>
 							{#if showCompactColumns}
@@ -2360,17 +2385,18 @@
 				role="separator"
 			></div>
 		</div>
-
 		{@render hoverPopover()}
 	</div>
 {:else}
 	<!-- Preview tooltip structure -->
 	<div
 		bind:this={tooltipRef}
-		style:width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
-		style:height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
-		style:max-width={tooltipDimensions.width ? `${tooltipDimensions.width}px` : undefined}
-		style:max-height={tooltipDimensions.height ? `${tooltipDimensions.height}px` : undefined}
+		style:width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
+		style:height={tooltipDimensions.height ? `${String(tooltipDimensions.height)}px` : undefined}
+		style:max-width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
+		style:max-height={tooltipDimensions.height
+			? `${String(tooltipDimensions.height)}px`
+			: undefined}
 		class="rtcr-tooltip-container"
 		class:is-resizing={isResizing}
 		aria-label={$_('tooltip_aria_expand')}
@@ -2426,7 +2452,6 @@
 			onmousedown={handleResizeStart}
 			role="separator"
 		></div>
-
 		{@render hoverPopover()}
 	</div>
 {/if}
@@ -2435,7 +2460,7 @@
 	<OutfitSnapshotLightbox
 		name={lightboxState.name}
 		confidence={lightboxState.confidence}
-		isOpen={lightboxState !== null}
+		isOpen={true}
 		onClose={() => (lightboxState = null)}
 		primaryDataUrl={lightboxState.primaryDataUrl}
 		rawUrls={lightboxState.rawUrls}

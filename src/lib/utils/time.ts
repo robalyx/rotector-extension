@@ -36,11 +36,11 @@ export function formatTimestamp(timestamp: number): string {
 	if (diffSeconds < 60) {
 		return 'just now';
 	} else if (diffMinutes < 60) {
-		return `${diffMinutes}m ago`;
+		return `${String(diffMinutes)}m ago`;
 	} else if (diffHours < 24) {
-		return `${diffHours}h ago`;
+		return `${String(diffHours)}h ago`;
 	} else if (diffDays < 7) {
-		return `${diffDays}d ago`;
+		return `${String(diffDays)}d ago`;
 	} else {
 		const currentYear = now.getFullYear();
 		const dateYear = date.getFullYear();
@@ -64,15 +64,15 @@ export function getProcessingDuration(queuedAt: number, processedAt: number): st
 	const durationHours = Math.floor(durationMinutes / 60);
 
 	if (durationSeconds < 60) {
-		return durationSeconds === 1 ? '1s' : `${durationSeconds}s`;
+		return durationSeconds === 1 ? '1s' : `${String(durationSeconds)}s`;
 	} else if (durationMinutes < 60) {
-		return durationMinutes === 1 ? '1m' : `${durationMinutes}m`;
+		return durationMinutes === 1 ? '1m' : `${String(durationMinutes)}m`;
 	} else {
 		const remainingMinutes = durationMinutes % 60;
 		if (remainingMinutes === 0) {
-			return durationHours === 1 ? '1h' : `${durationHours}h`;
+			return durationHours === 1 ? '1h' : `${String(durationHours)}h`;
 		} else {
-			return `${durationHours}h ${remainingMinutes}m`;
+			return `${String(durationHours)}h ${String(remainingMinutes)}m`;
 		}
 	}
 }

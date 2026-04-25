@@ -16,6 +16,7 @@ import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 type BlurContentType = 'displayName' | 'username' | 'description' | 'avatar';
 
 const BLUR_STYLE_ID = 'rotector-blur-styles';
+const BLUR_REVEALED_CLASS = 'blur-revealed';
 const PROFILE_REASON_KEY = 'User Profile';
 const OUTFIT_REASON_KEY = 'Avatar Outfit';
 
@@ -338,7 +339,9 @@ function getOrCreateStyleElement(): HTMLStyleElement {
 	if (!el) {
 		el = document.createElement('style');
 		el.id = BLUR_STYLE_ID;
-		(document.head || document.documentElement).appendChild(el);
+		// At document_start, document.head may not be parsed yet so fall back to documentElement
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- document.head is typed non-null but is null at document_start before <head> parses
+		(document.head ?? document.documentElement).appendChild(el);
 	}
 	return el;
 }
@@ -793,9 +796,9 @@ export function observeProfileHeader(userId: string): () => void {
  * Reset blur state on an element.
  */
 export function resetElementBlur(element: Element): void {
-	element.classList.remove('blur-revealed');
+	element.classList.remove(BLUR_REVEALED_CLASS);
 	element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
-		el.classList.remove('blur-revealed');
+		el.classList.remove(BLUR_REVEALED_CLASS);
 		el.removeEventListener('click', handleBlurClick);
 		el.removeAttribute(BLUR_SELECTORS.BLUR_USER_ID);
 		el.removeAttribute(BLUR_SELECTORS.BLUR_TYPE);
@@ -827,9 +830,9 @@ export function revealUserElement(element: Element, status: CombinedStatus<UserS
 	const blurAvatars = hasReason(status, OUTFIT_REASON_KEY);
 
 	if (!blurNames && !blurAvatars) {
-		element.classList.add('blur-revealed');
+		element.classList.add(BLUR_REVEALED_CLASS);
 		element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
-			el.classList.add('blur-revealed');
+			el.classList.add(BLUR_REVEALED_CLASS);
 			cleanupBlurElement(el);
 		});
 		endTrace();
@@ -839,7 +842,7 @@ export function revealUserElement(element: Element, status: CombinedStatus<UserS
 	element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
 		const type = el.getAttribute(BLUR_SELECTORS.BLUR_TYPE);
 		if (type === 'avatar' ? !blurAvatars : !blurNames) {
-			el.classList.add('blur-revealed');
+			el.classList.add(BLUR_REVEALED_CLASS);
 			cleanupBlurElement(el);
 		}
 	});

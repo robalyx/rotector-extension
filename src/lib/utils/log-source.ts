@@ -6,7 +6,7 @@ export function getLogSource(): LogSource {
 		return LOG_SOURCES.BACKGROUND;
 	}
 
-	if (window.location?.hostname?.includes('roblox.com')) {
+	if (window.location.hostname.includes('roblox.com')) {
 		return LOG_SOURCES.CONTENT;
 	}
 

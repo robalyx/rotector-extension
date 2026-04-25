@@ -48,12 +48,12 @@ export function extractErrorMessage(error: unknown): string {
 
 	if (typeof error === 'string') {
 		message = error;
-	} else if (error && typeof error === 'object') {
+	} else if (typeof error === 'object') {
 		const errorObj = error as Record<string, unknown>;
-		if (typeof errorObj.message === 'string') {
-			message = errorObj.message;
-		} else if (typeof errorObj.error === 'string') {
-			message = errorObj.error;
+		if (typeof errorObj['message'] === 'string') {
+			message = errorObj['message'];
+		} else if (typeof errorObj['error'] === 'string') {
+			message = errorObj['error'];
 		} else {
 			message = 'An unknown error occurred';
 		}

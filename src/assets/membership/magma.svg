@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="28" viewBox="0 0 60 28" fill="none">
+  <defs>
+    <linearGradient id="lavaCrack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe090" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#ff7b08" stop-opacity="1"/>
+      <stop offset="1" stop-color="#cf0606" stop-opacity="0.85"/>
+    </linearGradient>
+    <radialGradient id="lavaGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff7b08" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ff7b08" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- === TOP EDGE === -->
+  <g>
+    <ellipse cx="10" cy="3" rx="8" ry="3" fill="url(#lavaGlow)"/>
+    <ellipse cx="28" cy="2" rx="7" ry="3" fill="url(#lavaGlow)"/>
+    <ellipse cx="48" cy="3" rx="9" ry="3" fill="url(#lavaGlow)"/>
+  </g>
+  <g stroke="url(#lavaCrack)" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 0 3 L 5 1 L 9 4 L 14 2 L 19 4 L 25 1 L 30 3 L 36 2 L 41 4 L 47 1 L 53 3 L 60 2"/>
+    <path d="M 9 4 L 11 6" opacity="0.75" stroke-width="0.6"/>
+    <path d="M 25 1 L 24 3" opacity="0.75" stroke-width="0.6"/>
+    <path d="M 41 4 L 43 6" opacity="0.75" stroke-width="0.6"/>
+  </g>
+
+  <!-- === BOTTOM EDGE === -->
+  <g>
+    <ellipse cx="10" cy="25" rx="8" ry="3" fill="url(#lavaGlow)"/>
+    <ellipse cx="28" cy="26" rx="7" ry="3" fill="url(#lavaGlow)"/>
+    <ellipse cx="48" cy="25" rx="9" ry="3" fill="url(#lavaGlow)"/>
+  </g>
+  <g stroke="url(#lavaCrack)" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 0 25 L 5 27 L 9 24 L 14 26 L 19 24 L 25 27 L 30 25 L 36 26 L 41 24 L 47 27 L 53 25 L 60 26"/>
+    <path d="M 9 24 L 11 22" opacity="0.75" stroke-width="0.6"/>
+    <path d="M 25 27 L 24 25" opacity="0.75" stroke-width="0.6"/>
+    <path d="M 41 24 L 43 22" opacity="0.75" stroke-width="0.6"/>
+  </g>
+
+  <g fill="#ffcf5c" opacity="0.85">
+    <circle cx="6" cy="8" r="0.35"/>
+    <circle cx="20" cy="9" r="0.3"/>
+    <circle cx="38" cy="8" r="0.35"/>
+    <circle cx="52" cy="9" r="0.3"/>
+    <circle cx="6" cy="20" r="0.35"/>
+    <circle cx="20" cy="19" r="0.3"/>
+    <circle cx="38" cy="20" r="0.35"/>
+    <circle cx="52" cy="19" r="0.3"/>
+  </g>
+</svg>

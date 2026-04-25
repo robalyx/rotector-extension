@@ -91,7 +91,7 @@ async function getCurrentLocale(): Promise<SupportedLocale> {
 			return normalizeLocale(storedLocale);
 		}
 
-		const browserLocale = navigator.language ?? 'en';
+		const browserLocale = navigator.language;
 		return normalizeLocale(browserLocale);
 	} catch {
 		return 'en';
@@ -99,12 +99,12 @@ async function getCurrentLocale(): Promise<SupportedLocale> {
 }
 
 // Load messages for a locale
-export async function loadLocaleMessages(locale: string): Promise<Record<string, string>> {
+export async function loadLocaleMessages(locale: SupportedLocale): Promise<Record<string, string>> {
 	try {
-		const url = getAssetUrl(`locales/${locale}/messages.json`);
+		const url = getAssetUrl(`/locales/${locale}/messages.json`);
 		const response = await fetch(url);
 		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}`);
+			throw new Error(`HTTP ${String(response.status)}`);
 		}
 		return (await response.json()) as Record<string, string>;
 	} catch (error) {

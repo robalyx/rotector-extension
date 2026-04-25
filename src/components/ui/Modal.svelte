@@ -1,6 +1,6 @@
 <script lang="ts">
 	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
-	import { AlertTriangle, CheckCircle, Info, X, XCircle } from '@lucide/svelte';
+	import { CircleCheckBig, CircleX, Info, TriangleAlert, X } from '@lucide/svelte';
 
 	type ModalStatus = 'info' | 'warning' | 'success' | 'error';
 	type ModalSize = 'normal' | 'small' | 'wide';
@@ -120,9 +120,9 @@
 				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 			)
 		).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
-		if (focusable.length === 0) return;
 		const first = focusable[0];
 		const last = focusable[focusable.length - 1];
+		if (!first || !last) return;
 		const root = popupElement.getRootNode() as Document | ShadowRoot;
 		const active = root.activeElement as HTMLElement | null;
 		if (e.shiftKey && active === first) {
@@ -194,11 +194,11 @@
 							aria-hidden="true"
 						>
 							{#if status === 'warning'}
-								<AlertTriangle class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
+								<TriangleAlert class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
 							{:else if status === 'success'}
-								<CheckCircle class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
+								<CircleCheckBig class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
 							{:else if status === 'error'}
-								<XCircle class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
+								<CircleX class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
 							{:else}
 								<Info class="modal-status-chip-icon" size={15} strokeWidth={2.25} />
 							{/if}

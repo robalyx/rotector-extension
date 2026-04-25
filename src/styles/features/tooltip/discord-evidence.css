@@ -18,7 +18,7 @@
 
 @utility discord-loading-shimmer {
 	@apply shimmer absolute inset-0;
-	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+	background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
 }
 
 @utility discord-loading-text {

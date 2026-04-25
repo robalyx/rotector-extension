@@ -77,7 +77,7 @@
 					label={$_(category.labelKey)}
 					onclick={() => toggleUserSeries(category.key)}
 					value={cumulativeValue(category.key)}
-					visible={userVisibility[category.key]}
+					visible={userVisibility[category.key] !== false}
 				/>
 			{/each}
 		</div>
@@ -100,7 +100,7 @@
 					label={$_(category.labelKey)}
 					onclick={() => toggleGroupSeries(category.key)}
 					value={cumulativeValue(category.key)}
-					visible={groupVisibility[category.key]}
+					visible={groupVisibility[category.key] !== false}
 				/>
 			{/each}
 		</div>

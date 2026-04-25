@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { mount } from 'svelte';
+	import { mount, unmount } from 'svelte';
 	import { settings } from '@/lib/stores/settings';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
@@ -33,12 +33,15 @@
 	import { isFlagged } from '@/lib/utils/status-utils';
 	import { detectEncoding } from '@/lib/utils/encoding-detector';
 	import StatusIndicator from '../status/StatusIndicator.svelte';
+	import MembershipPill from './MembershipPill.svelte';
+	import { tierNameOf, tierOf } from '@/lib/utils/membership-designs';
 	import FriendWarning from './FriendWarning.svelte';
 	import QueueModalManager from './QueueModalManager.svelte';
 	import type { QueueModalManagerInstance } from '@/lib/types/components';
 	import UserListManager from './UserListManager.svelte';
 	import GroupListManager from './GroupListManager.svelte';
 	import CipherIndicator from './CipherIndicator.svelte';
+	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 
 	interface Props {
 		userId: string;
@@ -66,7 +69,9 @@
 
 	// Component references
 	let queueModalManager: QueueModalManagerInstance | undefined;
-	let statusContainer: HTMLElement | null = null;
+	let statusContainer = $state<HTMLElement | null>(null);
+	let membershipPillContainer: HTMLElement | null = null;
+	let membershipPillSignature: string | null = null;
 	let friendButtonHandler: ((event: Event) => void) | null = null;
 	let headerCheckInterval: ReturnType<typeof setInterval> | null = null;
 	let isReinjecting = false;
@@ -147,13 +152,13 @@
 	function readProfileUserInfo(header: Element) {
 		if (!userDisplayName) {
 			const el = header.querySelector(PROFILE_SELECTORS.HEADER_TITLE);
-			const text = el?.textContent?.trim();
+			const text = el?.textContent.trim();
 			if (text) userDisplayName = text;
 		}
 
 		if (!userUsername) {
 			const el = header.querySelector(PROFILE_SELECTORS.USERNAME);
-			const raw = el?.textContent?.trim();
+			const raw = el?.textContent.trim();
 			if (raw) userUsername = raw.startsWith('@') ? raw.slice(1) : raw;
 		}
 
@@ -216,14 +221,14 @@
 			}
 
 			// Check if container already exists to reuse it
-			let container = titleContainer.querySelector(
+			let container = titleContainer.querySelector<HTMLElement>(
 				`.${COMPONENT_CLASSES.PROFILE_STATUS}`
-			) as HTMLElement;
+			);
 			if (!container) {
 				// Create container for status indicator
 				container = document.createElement('div');
 				container.className = COMPONENT_CLASSES.PROFILE_STATUS;
-				container.dataset.rotectorOwned = 'true';
+				container.dataset['rotectorOwned'] = 'true';
 
 				// Append directly to title container
 				titleContainer.appendChild(container);
@@ -248,7 +253,7 @@
 			// Check and unmount existing component
 			const existingComponent = mountedComponents.get('profile-status');
 			if (existingComponent) {
-				existingComponent.unmount?.();
+				void unmount(existingComponent);
 				mountedComponents.delete('profile-status');
 			}
 
@@ -274,6 +279,7 @@
 						return userAvatarUrl;
 					},
 					skipAutoFetch: true,
+					suppressMembershipBadge: true,
 					onClick: handleStatusClick,
 					onQueue: handleQueueUser
 				}
@@ -288,10 +294,93 @@
 		}
 	}
 
+	function mountMembershipPill(badge: NonNullable<typeof rotectorMembershipBadge>) {
+		if (!statusContainer) return;
+
+		// Skip remount when design hasn't changed
+		const signature = `${String(badge.tier)}:${String(badge.badgeDesign)}:${String(badge.iconDesign)}:${String(badge.textDesign)}`;
+		if (
+			membershipPillSignature === signature &&
+			mountedComponents.has('membership-pill') &&
+			membershipPillContainer?.isConnected
+		) {
+			return;
+		}
+
+		// Anchor to the text column so the pill sits below the name rows
+		const textColumn = statusContainer.parentElement?.parentElement;
+		if (!textColumn) return;
+
+		const tier = tierOf(badge.tier);
+		const tierName = tierNameOf(badge.tier);
+
+		try {
+			const existingComponent = mountedComponents.get('membership-pill');
+			if (existingComponent) {
+				void unmount(existingComponent);
+				mountedComponents.delete('membership-pill');
+			}
+
+			if (!membershipPillContainer || !membershipPillContainer.isConnected) {
+				const container = document.createElement('div');
+				container.className = COMPONENT_CLASSES.MEMBERSHIP_BADGE_PILL;
+				container.dataset['rotectorOwned'] = 'true';
+				textColumn.appendChild(container);
+				membershipPillContainer = container;
+			}
+
+			const component = mount(MembershipPill, {
+				target: membershipPillContainer,
+				props: {
+					tier,
+					tierName,
+					badgeDesign: badge.badgeDesign,
+					iconDesign: badge.iconDesign,
+					textDesign: badge.textDesign
+				}
+			});
+			mountedComponents.set('membership-pill', component);
+			membershipPillSignature = signature;
+		} catch (error) {
+			logger.error('Failed to mount MembershipPill:', error);
+		}
+	}
+
+	function unmountMembershipPill() {
+		const existingComponent = mountedComponents.get('membership-pill');
+		if (existingComponent) {
+			void unmount(existingComponent);
+			mountedComponents.delete('membership-pill');
+		}
+		if (membershipPillContainer) {
+			membershipPillContainer.remove();
+			membershipPillContainer = null;
+		}
+		membershipPillSignature = null;
+	}
+
+	// Read the Rotector entry directly so the pill tracks the canonical badge even
+	// when a non-Rotector custom-API tab is active in the tooltip.
+	const rotectorMembershipBadge = $derived.by(() => {
+		const data = userStatus?.get(ROTECTOR_API_ID)?.data;
+		return data?.membershipBadge ?? null;
+	});
+
+	// Mount the pill once the profile status container is in the DOM; unmount when
+	// the badge disappears (sign-out, downgrade) so stale DOM doesn't linger.
+	$effect(() => {
+		if (!statusContainer) return;
+		if (rotectorMembershipBadge) {
+			mountMembershipPill(rotectorMembershipBadge);
+		} else {
+			unmountMembershipPill();
+		}
+	});
+
 	// Set up friend warning if applicable
 	async function setupFriendWarning() {
 		try {
-			const { element: friendButton } = await waitForElement<HTMLElement>(
+			const { element: friendButton } = await waitForElement(
 				PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
 			);
 
@@ -305,8 +394,8 @@
 				// Status may not be loaded at setup time so gate on the flag per click
 				if (!userIsFlagged) return;
 
-				if (friendButton.dataset.skipWarning) {
-					delete friendButton.dataset.skipWarning;
+				if (friendButton.dataset['skipWarning']) {
+					delete friendButton.dataset['skipWarning'];
 					return;
 				}
 
@@ -388,9 +477,7 @@
 			return;
 		}
 
-		const { element: descEl } = await waitForElement<HTMLElement>(
-			BLUR_SELECTORS.PROFILE_DESCRIPTION
-		);
+		const { element: descEl } = await waitForElement(BLUR_SELECTORS.PROFILE_DESCRIPTION);
 
 		if (!descEl) {
 			logger.debug('No profile description found for cipher detection');
@@ -402,13 +489,13 @@
 
 		const existing = mountedComponents.get('cipher-indicator');
 		if (existing) {
-			existing.unmount?.();
+			void unmount(existing);
 			mountedComponents.delete('cipher-indicator');
 		}
 
 		const container = document.createElement('div');
 		container.className = COMPONENT_CLASSES.CIPHER_INDICATOR;
-		container.dataset.rotectorOwned = 'true';
+		container.dataset['rotectorOwned'] = 'true';
 		descEl.insertAdjacentElement('afterend', container);
 		cipherContainer = container;
 
@@ -507,7 +594,7 @@
 		);
 
 		if (friendButton) {
-			friendButton.dataset.skipWarning = 'true';
+			friendButton.dataset['skipWarning'] = 'true';
 			friendButton.click();
 
 			logger.debug('Friend request proceeded - simulated click');
@@ -590,12 +677,18 @@
 			refreshCancelQuery = null;
 
 			// Clean up mounted components
-			mountedComponents.forEach((component) => component.unmount?.());
+			mountedComponents.forEach((component) => void unmount(component));
 			mountedComponents.clear();
+
+			// Clean up membership pill container
+			if (membershipPillContainer) {
+				membershipPillContainer.remove();
+				membershipPillContainer = null;
+			}
 
 			// Clean up status container
 			if (statusContainer) {
-				if (statusContainer.dataset.rotectorOwned === 'true') {
+				if (statusContainer.dataset['rotectorOwned'] === 'true') {
 					statusContainer.remove();
 				} else {
 					statusContainer.innerHTML = '';

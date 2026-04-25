@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { toast, dismissToast } from '@/lib/stores/toast';
-	import { X, CheckCircle, XCircle, AlertTriangle, Info } from '@lucide/svelte';
+	import { CircleCheckBig, CircleX, Info, TriangleAlert, X } from '@lucide/svelte';
 
-	const icons = { success: CheckCircle, error: XCircle, warning: AlertTriangle, info: Info };
+	const icons = { success: CircleCheckBig, error: CircleX, warning: TriangleAlert, info: Info };
 
 	let isExiting = $state(false);
 

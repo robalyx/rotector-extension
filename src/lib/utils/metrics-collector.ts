@@ -7,7 +7,7 @@ const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 const SAMPLE_INTERVAL = 30000; // 30 seconds
 
 function generateId(): string {
-	return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+	return `${String(Date.now())}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 // Central service for collecting system health metrics

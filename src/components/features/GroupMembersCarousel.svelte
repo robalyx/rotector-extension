@@ -100,7 +100,7 @@
 
 	// DOM references
 	let portalTarget: HTMLDivElement | null = null;
-	let contentWrapper: HTMLDivElement | null = null;
+	let contentWrapper = $state<HTMLDivElement | null>(null);
 	let queueModalManager: QueueModalManagerInstance;
 
 	// Inject section into Roblox page and portal content
@@ -181,8 +181,9 @@
 			const fetchedRoles = await getGroupRoles(groupId);
 			roles = fetchedRoles.filter((r) => r.memberCount > 0 && r.rank > 0);
 
-			if (roles.length > 0) {
-				selectedRoleId = roles[0].id;
+			const firstRole = roles[0];
+			if (firstRole) {
+				selectedRoleId = firstRole.id;
 				await loadMembers();
 			}
 		} catch (error) {
@@ -518,9 +519,9 @@
 		}
 
 		// Find or create status container
-		let container = tileElement.querySelector(
+		let container = tileElement.querySelector<HTMLElement>(
 			`.${COMPONENT_CLASSES.STATUS_CONTAINER}`
-		) as HTMLElement;
+		);
 		if (!container) {
 			container = document.createElement('div');
 			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} ${COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE}`;
@@ -760,7 +761,7 @@
 	// Handle queue action
 	function handleQueueUser(userId: string) {
 		logger.userAction('group_carousel_queue_requested', { userId });
-		queueModalManager?.showQueue(userId);
+		queueModalManager.showQueue(userId);
 	}
 
 	// Handle status refresh after queue
@@ -772,9 +773,9 @@
 				userStatuses.set(userId, status);
 				// Re-mount status indicator
 				if (contentWrapper) {
-					const tile = contentWrapper.querySelector(
+					const tile = contentWrapper.querySelector<HTMLElement>(
 						`[${STATUS_SELECTORS.DATA_USER_ID}="${userId}"]`
-					) as HTMLElement;
+					);
 					if (tile) {
 						mountStatusIndicator(tile, userId);
 					}

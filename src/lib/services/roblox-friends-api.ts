@@ -11,7 +11,7 @@ export async function fetchAllFriendIds(
 	const allIds: number[] = [];
 	let cursor: string | null = null;
 
-	while (true) {
+	for (;;) {
 		if (signal?.aborted) {
 			throw new DOMException('Aborted', 'AbortError');
 		}
@@ -21,18 +21,23 @@ export async function fetchAllFriendIds(
 			params.set('cursor', cursor);
 		}
 
+		const init: RequestInit = { credentials: 'include' };
+		if (signal) {
+			init.signal = signal;
+		}
+
 		const response = await fetch(
 			`https://friends.roblox.com/v1/users/${userId}/friends/find?${params}`,
-			{ credentials: 'include', signal }
+			init
 		);
 
 		if (!response.ok) {
-			throw new Error(`Failed to fetch friends: ${response.status}`);
+			throw new Error(`Failed to fetch friends: ${String(response.status)}`);
 		}
 
 		const raw = (await response.json()) as Record<string, unknown>;
-		const items = (raw.PageItems ?? raw.pageItems ?? []) as Array<{ id: number }>;
-		cursor = (raw.NextCursor ?? raw.nextCursor ?? null) as string | null;
+		const items = (raw['PageItems'] ?? raw['pageItems'] ?? []) as Array<{ id: number }>;
+		cursor = (raw['NextCursor'] ?? raw['nextCursor'] ?? null) as string | null;
 
 		for (const friend of items) {
 			if (friend.id > 0) {

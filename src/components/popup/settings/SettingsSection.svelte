@@ -6,6 +6,7 @@
 	import Toggle from '../../ui/Toggle.svelte';
 	import PresetCard from './PresetCard.svelte';
 	import SignalSection from './SignalSection.svelte';
+	import { loadMembershipStatus, membershipStore } from '@/lib/stores/membership';
 	import {
 		customApis,
 		extractApiOrigins,
@@ -41,15 +42,19 @@
 	const availableLocales = getAvailableLocales();
 
 	interface Props {
-		onNavigateToCustomApis?: () => void;
-		onNavigateToDeveloperLogs?: () => void;
-		onNavigateToPerformance?: () => void;
+		onNavigateToCustomApis?: (() => void) | undefined;
+		onNavigateToMembership?: (() => void) | undefined;
+		onNavigateToDeveloperLogs?: (() => void) | undefined;
+		onNavigateToPerformance?: (() => void) | undefined;
 	}
 
-	let { onNavigateToCustomApis, onNavigateToDeveloperLogs, onNavigateToPerformance }: Props =
-		$props();
+	let {
+		onNavigateToCustomApis,
+		onNavigateToDeveloperLogs,
+		onNavigateToMembership,
+		onNavigateToPerformance
+	}: Props = $props();
 
-	let apiKeyVisible = $state(false);
 	let developerExpanded = $state(false);
 	let togglingApiId = $state<string | null>(null);
 
@@ -111,12 +116,6 @@
 		}
 	}
 
-	// Handle API key input changes
-	async function handleApiKeyChange(event: Event) {
-		const target = event.currentTarget as HTMLInputElement;
-		await updateSetting(SETTINGS_KEYS.API_KEY, target.value.trim());
-	}
-
 	// Handle custom API toggle changes
 	async function handleApiToggle(apiId: string, enabled: boolean) {
 		if (!enabled) {
@@ -172,19 +171,31 @@
 		}
 	}
 
-	// Toggle API key input field visibility between text and password
-	function toggleApiKeyVisibility() {
-		apiKeyVisible = !apiKeyVisible;
-	}
-
 	function toggleDeveloperSection() {
 		developerExpanded = !developerExpanded;
 	}
 
 	$effect(() => {
-		Promise.all([initializeSettings(), loadCustomApis()]).catch((error) => {
+		Promise.all([initializeSettings(), loadCustomApis()]).catch((error: unknown) => {
 			logger.error('Failed to initialize settings or custom APIs:', error);
 		});
+		void loadMembershipStatus();
+	});
+
+	// Display the tier name for active members; fall back to a problem indicator
+	// for not-member / invalid-key; hide the row entirely while still unknown.
+	const membershipState = $derived($membershipStore);
+	const membershipStatusLabel = $derived.by(() => {
+		switch (membershipState.kind) {
+			case 'member':
+				return membershipState.status.tierName;
+			case 'not-member':
+				return $_('membership_settings_status_not_member');
+			case 'invalid-key':
+				return $_('membership_settings_status_invalid_key');
+			default:
+				return '';
+		}
 	});
 </script>
 
@@ -329,7 +340,7 @@
 				<HelpIndicator text={$_('settings_help_experimental_custom_apis')} />
 			</div>
 			<Toggle
-				checked={Boolean($settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED] ?? false)}
+				checked={$settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]}
 				onchange={(value: boolean) =>
 					handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED, value)}
 			/>
@@ -359,7 +370,7 @@
 										: 'settings_api_count_plural',
 									{
 										values: {
-											0: userApis.length.toString()
+											0: userApis.length
 										}
 									}
 								)}
@@ -377,11 +388,32 @@
 				<HelpIndicator text={$_('settings_help_advanced_violations')} />
 			</div>
 			<Toggle
-				checked={Boolean($settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED] ?? false)}
+				checked={$settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]}
 				onchange={(value: boolean) =>
 					handleSettingChange(SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED, value)}
 			/>
 		</div>
+	</SignalSection>
+
+	<div class="popup-divider"></div>
+
+	<!-- Membership -->
+	<SignalSection status={membershipStatusLabel} title={$_('membership_settings_section_title')}>
+		{#if membershipState.kind === 'member' && membershipState.status.associatedRobloxUserId > 0}
+			<div class="membership-settings-assignment">
+				{$_('membership_settings_assigned_to', {
+					values: { userId: membershipState.status.associatedRobloxUserId }
+				})}
+			</div>
+		{/if}
+		{#if onNavigateToMembership}
+			<button class="settings-nav-button" onclick={onNavigateToMembership} type="button">
+				<span class="settings-nav-button-text">
+					{$_('membership_settings_manage_button')}
+				</span>
+				<ChevronRight size={14} />
+			</button>
+		{/if}
 	</SignalSection>
 
 	<div class="popup-divider"></div>
@@ -407,7 +439,7 @@
 						<HelpIndicator text={$_('settings_help_developer_mode')} />
 					</div>
 					<Toggle
-						checked={Boolean($settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED] ?? false)}
+						checked={$settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 						onchange={(value: boolean) =>
 							handleSettingChange(SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED, value)}
 					/>
@@ -423,7 +455,7 @@
 									max={10}
 									min={1}
 									onChange={(value: number) => handleSettingChange(setting.key, value)}
-									value={Number($settings[setting.key] ?? 5)}
+									value={$settings[SETTINGS_KEYS.CACHE_DURATION_MINUTES]}
 								/>
 							{:else}
 								<div class="settings-row" data-setting-key={setting.key}>
@@ -463,30 +495,6 @@
 						{/if}
 					</div>
 				{/if}
-
-				<div class="settings-api-key">
-					<div class="settings-row-label">
-						{$_('settings_api_key_label')}
-						<HelpIndicator text={$_('settings_api_key_help')} />
-					</div>
-					<div class="settings-api-key-input-row">
-						<input
-							class="settings-api-key-input"
-							oninput={handleApiKeyChange}
-							placeholder={$_('settings_api_key_placeholder')}
-							type={apiKeyVisible ? 'text' : 'password'}
-							value={$settings[SETTINGS_KEYS.API_KEY]}
-						/>
-						<button
-							class="settings-api-key-toggle"
-							onclick={toggleApiKeyVisibility}
-							title={$_('settings_api_key_toggle_title')}
-							type="button"
-						>
-							{apiKeyVisible ? $_('settings_api_key_hide') : $_('settings_api_key_show')}
-						</button>
-					</div>
-				</div>
 			</div>
 		{/if}
 	</section>

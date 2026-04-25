@@ -4,7 +4,7 @@
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
 	import type { UserStatus } from '@/lib/types/api';
-	import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle, Info } from '@lucide/svelte';
+	import { ChevronDown, ChevronUp, CircleCheckBig, TriangleAlert, Info } from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 
 	interface Props {
@@ -34,8 +34,8 @@
 	const reportableContent = $derived(
 		isReportable && status
 			? {
-					message: status.reasons?.['User Profile']?.message,
-					evidence: status.reasons?.['User Profile']?.evidence ?? []
+					message: status.reasons['User Profile']?.message,
+					evidence: status.reasons['User Profile']?.evidence ?? []
 				}
 			: null
 	);
@@ -92,9 +92,9 @@
 	{#if feedbackState}
 		<div class="report-bar-feedback {feedbackState.type}">
 			{#if feedbackState.type === 'success'}
-				<CheckCircle size={16} strokeWidth={2.25} />
+				<CircleCheckBig size={16} strokeWidth={2.25} />
 			{:else}
-				<AlertTriangle size={16} strokeWidth={2.25} />
+				<TriangleAlert size={16} strokeWidth={2.25} />
 			{/if}
 			<span>{feedbackState.message}</span>
 		</div>
@@ -106,7 +106,7 @@
 		<div class="report-bar-content">
 			{#if isReportable}
 				<div class="report-bar-status reportable">
-					<AlertTriangle size={14} strokeWidth={2.25} />
+					<TriangleAlert size={14} strokeWidth={2.25} />
 					<span>{$_('report_helper_reportable_label')}</span>
 				</div>
 

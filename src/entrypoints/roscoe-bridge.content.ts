@@ -20,7 +20,7 @@ export default defineContentScript({
 
 			const data = event.data as Record<string, unknown> | null;
 			if (!data || typeof data !== 'object') return;
-			if (data.source !== 'rotector-web' || !data.type) return;
+			if (data['source'] !== 'rotector-web' || !data['type']) return;
 
 			const { source: _, ...payload } = data;
 

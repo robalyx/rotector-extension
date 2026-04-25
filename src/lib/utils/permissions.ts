@@ -72,7 +72,7 @@ export function extractOriginPattern(url: string): string | null {
 // Check if we have permissions for specific origins
 export async function hasPermissionsForOrigins(origins: string[]): Promise<boolean> {
 	try {
-		if (typeof browser === 'undefined' || !browser.permissions) {
+		if (typeof browser === 'undefined') {
 			logger.warn('Permissions API not available');
 			return false;
 		}
@@ -81,8 +81,7 @@ export async function hasPermissionsForOrigins(origins: string[]): Promise<boole
 			return true;
 		}
 
-		const result = await browser.permissions.contains({ origins });
-		return result;
+		return await browser.permissions.contains({ origins });
 	} catch (error) {
 		logger.error('Failed to check permissions for origins:', { origins, error });
 		return false;
@@ -92,7 +91,7 @@ export async function hasPermissionsForOrigins(origins: string[]): Promise<boole
 // Request permissions for specific origins
 export async function requestPermissionsForOrigins(origins: string[]): Promise<boolean> {
 	try {
-		if (typeof browser === 'undefined' || !browser.permissions) {
+		if (typeof browser === 'undefined') {
 			logger.warn('Permissions API not available');
 			return false;
 		}

@@ -11,10 +11,13 @@ import { extractResponseData } from '../utils';
 
 // Get 30 days of historical statistics for a specific zone
 export async function getWarZoneStatistics(zoneId: number): Promise<ZoneHistoricalStats> {
-	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.WAR_ZONES}/${zoneId}/stats`, {
-		method: 'GET',
-		requireAuth: true
-	});
+	const response = await makeHttpRequest(
+		`${API_CONFIG.ENDPOINTS.WAR_ZONES}/${String(zoneId)}/stats`,
+		{
+			method: 'GET',
+			requireAuth: true
+		}
+	);
 
 	return extractResponseData<ZoneHistoricalStats>(response);
 }
@@ -31,7 +34,7 @@ export async function getWarOrders(): Promise<MajorOrder[]> {
 
 // Get detailed information about a specific major order
 export async function getWarOrder(orderId: number): Promise<MajorOrder> {
-	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.WAR_ORDERS}/${orderId}`, {
+	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.WAR_ORDERS}/${String(orderId)}`, {
 		method: 'GET',
 		requireAuth: true
 	});
@@ -61,7 +64,7 @@ export async function getWarMap(): Promise<WarMapState> {
 
 // Get detailed information about a specific zone
 export async function getWarZone(zoneId: number): Promise<ZoneDetails> {
-	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.WAR_ZONES}/${zoneId}`, {
+	const response = await makeHttpRequest(`${API_CONFIG.ENDPOINTS.WAR_ZONES}/${String(zoneId)}`, {
 		method: 'GET',
 		requireAuth: true
 	});

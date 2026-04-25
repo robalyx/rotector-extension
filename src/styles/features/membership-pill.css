@@ -1,0 +1,268 @@
+/* =================================
+   MEMBERSHIP PILL
+   ================================= */
+
+@source inline('tier-1 tier-2 tier-3');
+@source inline(
+	'body-plain body-nature body-magma body-cosmic body-royal body-obsidian body-ice body-imperial'
+);
+@source inline(
+	'text-plain text-brackets text-stars text-chevrons text-guillemets text-dashes text-lozenges text-florette'
+);
+
+@utility membership-pill {
+	@apply inline-flex cursor-help items-center gap-1.5 rounded px-2 py-1 align-middle whitespace-nowrap;
+	position: relative;
+	color: var(--color-tier);
+	border: 1px solid color-mix(in srgb, var(--color-tier) 40%, transparent);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+	font-family: inherit;
+	isolation: isolate;
+	overflow: hidden;
+}
+
+/* =================================
+   TIER COLOR IDENTITY
+   ================================= */
+
+@utility tier-1 {
+	--color-tier: var(--color-tier-1);
+}
+
+@utility tier-2 {
+	--color-tier: var(--color-tier-2);
+}
+
+@utility tier-3 {
+	--color-tier: var(--color-tier-3);
+}
+
+/* =================================
+   BODY THEMES
+   ================================= */
+
+@utility body-plain {
+	background: linear-gradient(135deg, #1f2937 0%, #0b1220 100%);
+}
+
+@utility body-nature {
+	background: linear-gradient(135deg, #0d2416 0%, #071509 100%);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: url('@/assets/membership/vine.svg') center / auto 100% repeat-x;
+		pointer-events: none;
+		z-index: 0;
+	}
+}
+
+@utility body-magma {
+	background:
+		radial-gradient(
+			ellipse at 50% 50%,
+			color-mix(in srgb, #8b1e0a 30%, transparent) 0%,
+			transparent 70%
+		),
+		linear-gradient(180deg, #1a0806 0%, #0a0302 100%);
+	box-shadow:
+		0 0 10px color-mix(in srgb, #cf4a0a 35%, transparent),
+		0 1px 2px rgb(0 0 0 / 25%);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: url('@/assets/membership/magma.svg') center / auto 100% repeat-x;
+		pointer-events: none;
+		z-index: 0;
+	}
+}
+
+@utility body-cosmic {
+	background:
+		url('@/assets/membership/stars.svg') center / cover no-repeat,
+		linear-gradient(135deg, #0d0a2a 0%, #030310 100%);
+}
+
+@utility body-royal {
+	background:
+		url('@/assets/membership/filigree-l.svg') left center / 16px 100% no-repeat,
+		url('@/assets/membership/filigree-r.svg') right center / 16px 100% no-repeat,
+		radial-gradient(ellipse at 50% 50%, #301a52 0%, #1a0828 60%, #0d0418 100%);
+
+	/* Leave room for the scrollwork so it doesn't overlap the icon/text. */
+	padding-left: 1.125rem;
+	padding-right: 1.125rem;
+}
+
+@utility body-obsidian {
+	background: linear-gradient(135deg, #0a0a0c 0%, #000 100%);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: url('@/assets/membership/obsidian.svg') center / auto 100% repeat-x;
+		pointer-events: none;
+		z-index: 0;
+	}
+}
+
+@utility body-ice {
+	background: linear-gradient(135deg, #0a1520 0%, #04080f 100%);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: url('@/assets/membership/ice.svg') center / auto 100% repeat-x;
+		pointer-events: none;
+		z-index: 0;
+	}
+}
+
+@utility body-imperial {
+	background:
+		url('@/assets/membership/imperial-l.svg') left center / 16px 100% no-repeat,
+		url('@/assets/membership/imperial-r.svg') right center / 16px 100% no-repeat,
+		radial-gradient(ellipse at 50% 50%, #3d1520 0%, #1e0a10 60%, #0a0408 100%);
+	padding-left: 1.125rem;
+	padding-right: 1.125rem;
+}
+
+/* =================================
+   ICON
+   ================================= */
+
+@utility membership-pill-icon {
+	@apply inline-flex shrink-0 items-center justify-center;
+	width: 12px;
+	height: 12px;
+	position: relative;
+	z-index: 1;
+
+	& img,
+	& svg {
+		@apply block shrink-0;
+	}
+}
+
+/* =================================
+   TEXT VARIANTS
+   ================================= */
+
+@utility membership-pill-label {
+	@apply text-2xs leading-none font-extrabold uppercase;
+	letter-spacing: 0.06em;
+	position: relative;
+	z-index: 1;
+}
+
+@utility text-brackets {
+	&::before {
+		content: '［';
+		margin-right: 0.25rem;
+		color: var(--color-tier);
+		opacity: 0.85;
+	}
+
+	&::after {
+		content: '］';
+		margin-left: 0.25rem;
+		color: var(--color-tier);
+		opacity: 0.85;
+	}
+}
+
+@utility text-stars {
+	&::before {
+		content: '✦';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+	}
+
+	&::after {
+		content: '✦';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+	}
+}
+
+@utility text-chevrons {
+	&::before {
+		content: '‹';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+	}
+
+	&::after {
+		content: '›';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+	}
+}
+
+@utility text-guillemets {
+	&::before {
+		content: '«';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+	}
+
+	&::after {
+		content: '»';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+	}
+}
+
+@utility text-dashes {
+	&::before {
+		content: '—';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+		opacity: 0.85;
+	}
+
+	&::after {
+		content: '—';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+		opacity: 0.85;
+	}
+}
+
+@utility text-lozenges {
+	&::before {
+		content: '◆';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+	}
+
+	&::after {
+		content: '◆';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+	}
+}
+
+@utility text-florette {
+	&::before {
+		content: '✤';
+		margin-right: 0.375rem;
+		color: var(--color-tier);
+	}
+
+	&::after {
+		content: '✤';
+		margin-left: 0.375rem;
+		color: var(--color-tier);
+	}
+}
+
+@utility rotector-membership-badge-pill {
+	display: block;
+	margin-top: 0.375rem;
+}

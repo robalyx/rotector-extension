@@ -7,13 +7,13 @@
 	} from '@/lib/services/roblox-3d-service';
 	import { logger } from '@/lib/utils/logger';
 	import { vertex, fragment } from '@/lib/shaders/lambert';
-	import { AlertCircle, ShieldOff } from '@lucide/svelte';
+	import { CircleAlert, ShieldOff } from '@lucide/svelte';
 	import LoadingSpinner from './LoadingSpinner.svelte';
 	import type { Program } from 'ogl';
 
 	interface Props {
-		outfitId?: number;
-		userId?: number;
+		outfitId?: number | undefined;
+		userId?: number | undefined;
 		width?: number;
 		height?: number;
 		brightness?: number;
@@ -41,7 +41,7 @@
 		const b = brightness;
 		for (const program of programs) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- OGL uniforms are typed as Record<string, any>
-			program.uniforms.uBrightness.value = b;
+			program.uniforms['uBrightness'].value = b;
 		}
 	});
 
@@ -58,10 +58,8 @@
 
 		programs = [];
 
-		if (canvasContainer) {
-			const canvas = canvasContainer.querySelector('canvas');
-			if (canvas) canvas.remove();
-		}
+		const canvas = canvasContainer.querySelector('canvas');
+		if (canvas) canvas.remove();
 
 		for (const url of blobUrls) {
 			URL.revokeObjectURL(url);
@@ -70,22 +68,23 @@
 	}
 
 	async function initializeViewer(): Promise<void> {
-		if (!outfitId && !userId) {
-			error = 'No outfit or user ID provided';
-			isLoading = false;
-			return;
-		}
-
 		try {
-			const metadata = outfitId
-				? await roblox3DService.getOutfit3DData(outfitId)
-				: await roblox3DService.getAvatar3DData(userId!);
+			let metadata: Roblox3DMetadata;
+			if (outfitId) {
+				metadata = await roblox3DService.getOutfit3DData(outfitId);
+			} else if (userId) {
+				metadata = await roblox3DService.getAvatar3DData(userId);
+			} else {
+				error = 'No outfit or user ID provided';
+				isLoading = false;
+				return;
+			}
 
-			if (!canvasContainer?.isConnected) return;
+			if (!canvasContainer.isConnected) return;
 
 			await loadScene(metadata);
 		} catch (err) {
-			if (!canvasContainer?.isConnected) return;
+			if (!canvasContainer.isConnected) return;
 
 			if (err instanceof Roblox3DBlockedError) {
 				isBlocked = true;
@@ -103,7 +102,7 @@
 			{ Mesh: OBJMesh, MaterialLibrary }
 		] = await Promise.all([import('ogl'), import('webgl-obj-loader')]);
 
-		if (!canvasContainer?.isConnected) return;
+		if (!canvasContainer.isConnected) return;
 
 		const renderer = new Renderer({
 			width,
@@ -153,8 +152,10 @@
 		const textureBlobUrls: Record<string, string> = {};
 		await Promise.all(
 			metadata.textureHashes.map(async (hash, i) => {
-				const response = await fetch(textureUrls[i]);
-				if (!response.ok) throw new Error(`Failed to fetch texture: ${response.status}`);
+				const url = textureUrls[i];
+				if (!url) throw new Error(`Missing texture URL at index ${String(i)}`);
+				const response = await fetch(url);
+				if (!response.ok) throw new Error(`Failed to fetch texture: ${String(response.status)}`);
 				const blob = await response.blob();
 				const blobUrl = URL.createObjectURL(blob);
 				blobUrls.push(blobUrl);
@@ -165,7 +166,7 @@
 		// Fetch and parse MTL with texture hashes
 		const mtlUrl = roblox3DService.resolveCdnUrl(metadata.mtlHash);
 		const mtlResponse = await fetch(mtlUrl);
-		if (!mtlResponse.ok) throw new Error(`Failed to fetch MTL: ${mtlResponse.status}`);
+		if (!mtlResponse.ok) throw new Error(`Failed to fetch MTL: ${String(mtlResponse.status)}`);
 		let mtlContent = await mtlResponse.text();
 		for (const [hash, blobUrl] of Object.entries(textureBlobUrls)) {
 			mtlContent = mtlContent.split(hash).join(blobUrl);
@@ -178,7 +179,7 @@
 		// Fetch and parse OBJ
 		const objUrl = roblox3DService.resolveCdnUrl(metadata.objHash);
 		const objResponse = await fetch(objUrl);
-		if (!objResponse.ok) throw new Error(`Failed to fetch OBJ: ${objResponse.status}`);
+		if (!objResponse.ok) throw new Error(`Failed to fetch OBJ: ${String(objResponse.status)}`);
 		let objContent = await objResponse.text();
 
 		// Roblox OBJ includes vertex colors (v x y z r g b a), keep only position
@@ -186,7 +187,9 @@
 
 		const objMesh = new OBJMesh(objContent);
 
-		if (!canvasContainer?.isConnected) return;
+		// The component may unmount during the awaits above so re-check before touching DOM
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- isConnected can change across awaits
+		if (!canvasContainer.isConnected) return;
 
 		// Shared vertex data across all material groups
 		const positions = new Float32Array(objMesh.vertices);
@@ -218,12 +221,12 @@
 		for (let i = 0; i < objMesh.materialNames.length; i++) {
 			const materialName = objMesh.materialNames[i];
 			const indices = objMesh.indicesPerMaterial[i];
-			if (!indices || indices.length === 0) continue;
+			if (!indices || indices.length === 0 || materialName === undefined) continue;
 
 			const material = mtlLib.materials[materialName];
 
 			let diffuseTexture: InstanceType<typeof Texture> | null = null;
-			if (material?.mapDiffuse?.filename) {
+			if (material?.mapDiffuse.filename) {
 				diffuseTexture = await loadTexture(material.mapDiffuse.filename);
 			}
 
@@ -282,7 +285,7 @@
 		</div>
 	{:else if error}
 		<div class="outfit-3d-error">
-			<AlertCircle size={16} />
+			<CircleAlert size={16} />
 		</div>
 	{/if}
 </div>

@@ -11,20 +11,19 @@ import type { Component } from 'svelte';
  * Config-driven controller for pages that follow a simple pattern:
  * check a settings flag, create a container, mount a component.
  */
-interface SimplePageConfig {
+interface SimplePageConfig<TProps extends Record<string, unknown>> {
 	settingsKey: SettingsKey;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	component: Component<any, any>;
+	component: Component<TProps>;
 	containerClass: ComponentClassType;
 	disabledMessage: string;
-	getProps?: () => Record<string, unknown>;
+	getProps: () => TProps;
 }
 
-export class SimplePageController extends PageController {
+export class SimplePageController<TProps extends Record<string, unknown>> extends PageController {
 	constructor(
 		pageType: PageType,
 		url: string,
-		private readonly config: SimplePageConfig
+		private readonly config: SimplePageConfig<TProps>
 	) {
 		super(pageType, url);
 	}
@@ -39,7 +38,7 @@ export class SimplePageController extends PageController {
 
 		// Mount the component
 		const container = this.createComponentContainer(this.config.containerClass);
-		const props = this.config.getProps?.() ?? {};
+		const props = this.config.getProps();
 		this.mountComponent(this.config.component, container, props);
 	}
 }

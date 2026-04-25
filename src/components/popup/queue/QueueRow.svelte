@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import type { QueueHistoryEntry } from '@/lib/types/queue-history';
-	import { AlertTriangle, CheckCircle, Clock, ExternalLink, Loader, X } from '@lucide/svelte';
+	import { TriangleAlert, CircleCheckBig, Clock, ExternalLink, Loader, X } from '@lucide/svelte';
 
 	interface Props {
 		entry: QueueHistoryEntry;
@@ -28,9 +28,9 @@
 				<Clock size={14} strokeWidth={2.25} />
 			{/if}
 		{:else if variant === 'flagged'}
-			<AlertTriangle size={14} strokeWidth={2.25} />
+			<TriangleAlert size={14} strokeWidth={2.25} />
 		{:else}
-			<CheckCircle size={14} strokeWidth={2.25} />
+			<CircleCheckBig size={14} strokeWidth={2.25} />
 		{/if}
 	</span>
 

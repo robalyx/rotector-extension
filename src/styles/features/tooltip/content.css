@@ -116,10 +116,12 @@
 		transform: scale(0.8);
 		opacity: 0.55;
 	}
+
 	80% {
 		transform: scale(2.2);
 		opacity: 0;
 	}
+
 	100% {
 		transform: scale(2.2);
 		opacity: 0;
@@ -637,7 +639,7 @@
 	&::after {
 		@apply shimmer absolute inset-0;
 		content: '';
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+		background: linear-gradient(90deg, transparent, rgb(255 255 255 / 12%), transparent);
 		background-size: 200% 100%;
 	}
 }

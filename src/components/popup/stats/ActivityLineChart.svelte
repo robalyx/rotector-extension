@@ -49,7 +49,10 @@
 
 	function computeRange(): [number, number] | null {
 		if (hours === 24 || entries.length < 4) return null;
-		const visibleSeries = cachedDeltas.filter((_, i) => visibility[categories[i].key] !== false);
+		const visibleSeries = cachedDeltas.filter((_, i) => {
+			const cat = categories[i];
+			return !cat || visibility[cat.key] !== false;
+		});
 		if (visibleSeries.length === 0) return null;
 		const bounds = computeYBounds(visibleSeries);
 		return bounds ? [bounds.min, bounds.max] : null;
@@ -139,9 +142,10 @@
 	// Toggle series visibility
 	$effect(() => {
 		const shows = categories.map((cat) => visibility[cat.key] !== false);
-		if (!chartInstance) return;
+		const chart = chartInstance;
+		if (!chart) return;
 		shows.forEach((show, idx) => {
-			chartInstance!.setSeries(idx + 1, { show });
+			chart.setSeries(idx + 1, { show });
 		});
 	});
 

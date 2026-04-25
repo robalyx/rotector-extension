@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
 		CircleCheck,
-		AlertCircle,
-		AlertTriangle,
+		CircleAlert,
+		TriangleAlert,
 		Clock,
-		Loader2,
+		LoaderCircle,
 		Workflow,
 		History,
-		CircleHelp,
+		CircleQuestionMark,
 		Ban
 	} from '@lucide/svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
@@ -21,26 +21,30 @@
 	}
 
 	let { name, size = 20, class: className = '', color, strokeWidth = 2 }: Props = $props();
+
+	// Lucide's LucideProps.color is string (not string | undefined), so conditional spread
+	// is required under exactOptionalPropertyTypes when color is not provided
+	const colorProp = $derived(color !== undefined ? { color } : {});
 </script>
 
 {#if name === 'safe'}
-	<CircleCheck class={className} {color} {size} {strokeWidth} />
+	<CircleCheck class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'unsafe'}
-	<AlertCircle class={className} {color} {size} {strokeWidth} />
+	<CircleAlert class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'error'}
-	<AlertTriangle class={className} {color} {size} {strokeWidth} />
+	<TriangleAlert class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'pending' || name === 'queued' || name === 'checking'}
-	<Clock class={className} {color} {size} {strokeWidth} />
+	<Clock class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'loading'}
-	<Loader2 class={className} {color} {size} {strokeWidth} />
+	<LoaderCircle class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'integration'}
-	<Workflow class={className} {color} {size} {strokeWidth} />
+	<Workflow class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'past-offender'}
-	<History class={className} {color} {size} {strokeWidth} />
+	<History class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'mixed'}
-	<CircleHelp class={className} {color} {size} {strokeWidth} />
+	<CircleQuestionMark class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'restricted'}
-	<Ban class={className} {color} {size} {strokeWidth} />
+	<Ban class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'outfit'}
 	<!-- Dashed circle with checkmark -->
 	<svg

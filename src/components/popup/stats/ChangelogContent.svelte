@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Changelog, ChangelogEntry } from '@/lib/types/changelog';
-	import { Plus, RefreshCw, AlertTriangle, Trash2, Bug, Lock, FileText } from '@lucide/svelte';
+	import { Plus, RefreshCw, TriangleAlert, Trash2, Bug, Lock, FileText } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 
 	interface ChangelogContentProps {
@@ -69,7 +69,7 @@
 			'deprecated',
 			'removed'
 		];
-		return typeOrder.filter((type) => groupedChanges[type]?.length > 0);
+		return typeOrder.filter((type) => (groupedChanges[type]?.length ?? 0) > 0);
 	});
 </script>
 
@@ -96,45 +96,48 @@
 	{#if !compact}
 		<div class="changelog-changes">
 			{#each orderedTypes as type (type)}
-				<div class="changelog-type-group">
-					<div class="changelog-type-header">
-						{#if type === 'added'}
-							<Plus class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else if type === 'changed'}
-							<RefreshCw class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else if type === 'deprecated'}
-							<AlertTriangle class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else if type === 'removed'}
-							<Trash2 class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else if type === 'fixed'}
-							<Bug class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else if type === 'security'}
-							<Lock class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{:else}
-							<FileText class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
-						{/if}
-						<span class="changelog-type-label {getChangeTypeColor(type)}"
-							>{getChangeTypeLabel(type)}</span
-						>
-						<span class="changelog-type-count">({groupedChanges[type].length})</span>
+				{@const changes = groupedChanges[type]}
+				{#if changes}
+					<div class="changelog-type-group">
+						<div class="changelog-type-header">
+							{#if type === 'added'}
+								<Plus class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else if type === 'changed'}
+								<RefreshCw class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else if type === 'deprecated'}
+								<TriangleAlert class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else if type === 'removed'}
+								<Trash2 class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else if type === 'fixed'}
+								<Bug class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else if type === 'security'}
+								<Lock class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{:else}
+								<FileText class="changelog-type-icon {getChangeTypeColor(type)}" size={16} />
+							{/if}
+							<span class="changelog-type-label {getChangeTypeColor(type)}"
+								>{getChangeTypeLabel(type)}</span
+							>
+							<span class="changelog-type-count">({changes.length})</span>
+						</div>
+						<ul class="changelog-type-list">
+							{#each changes as change, index (`${type}-${String(index)}-${change.description}`)}
+								<li class="changelog-change-item">
+									{change.description}
+									{#if change.subpoints && change.subpoints.length > 0}
+										<ul class="changelog-change-subpoints">
+											{#each change.subpoints as subpoint, subIndex (`${type}-${String(index)}-subpoint-${String(subIndex)}`)}
+												<li class="changelog-subpoint-item">
+													{subpoint}
+												</li>
+											{/each}
+										</ul>
+									{/if}
+								</li>
+							{/each}
+						</ul>
 					</div>
-					<ul class="changelog-type-list">
-						{#each groupedChanges[type] as change, index (`${type}-${index}-${change.description}`)}
-							<li class="changelog-change-item">
-								{change.description}
-								{#if change.subpoints && change.subpoints.length > 0}
-									<ul class="changelog-change-subpoints">
-										{#each change.subpoints as subpoint, subIndex (`${type}-${index}-subpoint-${subIndex}`)}
-											<li class="changelog-subpoint-item">
-												{subpoint}
-											</li>
-										{/each}
-									</ul>
-								{/if}
-							</li>
-						{/each}
-					</ul>
-				</div>
+				{/if}
 			{/each}
 		</div>
 	{/if}

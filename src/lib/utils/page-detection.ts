@@ -11,21 +11,44 @@ import {
 
 export interface UserInfo {
 	userId: string;
-	username?: string;
-	displayName?: string;
-	avatarUrl?: string;
+	username?: string | undefined;
+	displayName?: string | undefined;
+	avatarUrl?: string | undefined;
 }
 
 export interface GroupInfo {
 	groupId: string;
 	groupName: string;
-	groupImageUrl?: string;
+	groupImageUrl?: string | undefined;
 }
 
 interface PageDetectionResult {
 	pageType: 'carousel' | 'friends' | 'modal-members' | 'profile' | 'group' | 'search' | 'unknown';
 	container: Element | null;
 }
+
+const DISPLAY_NAME_SELECTORS: Record<string, string> = {
+	carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
+	friends: FRIENDS_SELECTORS.CARD.DISPLAY_NAME,
+	'modal-members': GROUPS_MODAL_SELECTORS.DISPLAY_NAME,
+	profile: PROFILE_SELECTORS.HEADER_TITLE,
+	search: SEARCH_SELECTORS.CARD.DISPLAY_NAME
+};
+
+const USERNAME_SELECTORS: Record<string, string> = {
+	friends: FRIENDS_SELECTORS.CARD.USERNAME,
+	'modal-members': GROUPS_MODAL_SELECTORS.USERNAME,
+	search: SEARCH_SELECTORS.CARD.USERNAME,
+	profile: PROFILE_SELECTORS.USERNAME
+};
+
+const AVATAR_SELECTORS: Record<string, string> = {
+	carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
+	friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
+	'modal-members': `${GROUPS_MODAL_SELECTORS.AVATAR} img`,
+	search: SEARCH_SELECTORS.CARD.AVATAR_IMG,
+	profile: PROFILE_SELECTORS.AVATAR_IMG
+};
 
 // Normalizes a pathname by stripping the language prefix if present.
 export function normalizePathname(pathname: string): string {
@@ -95,62 +118,9 @@ export function extractUserInfo(
 		return { userId, displayName: 'Unknown User' };
 	}
 
-	let username: string | undefined;
-	let displayName: string | undefined;
-	let avatarUrl: string | undefined;
-
-	const displayNameSelectors: Record<string, string> = {
-		carousel: FRIENDS_CAROUSEL_SELECTORS.DISPLAY_NAME,
-		friends: FRIENDS_SELECTORS.CARD.DISPLAY_NAME,
-		'modal-members': GROUPS_MODAL_SELECTORS.DISPLAY_NAME,
-		profile: PROFILE_SELECTORS.HEADER_TITLE,
-		search: SEARCH_SELECTORS.CARD.DISPLAY_NAME
-	};
-
-	const usernameSelectors: Record<string, string> = {
-		friends: FRIENDS_SELECTORS.CARD.USERNAME,
-		'modal-members': GROUPS_MODAL_SELECTORS.USERNAME,
-		search: SEARCH_SELECTORS.CARD.USERNAME,
-		profile: PROFILE_SELECTORS.USERNAME
-	};
-
-	const avatarSelectors: Record<string, string> = {
-		carousel: FRIENDS_CAROUSEL_SELECTORS.AVATAR_IMG,
-		friends: FRIENDS_SELECTORS.CARD.AVATAR_IMG,
-		'modal-members': `${GROUPS_MODAL_SELECTORS.AVATAR} img`,
-		search: SEARCH_SELECTORS.CARD.AVATAR_IMG,
-		profile: PROFILE_SELECTORS.AVATAR_IMG
-	};
-
-	// Extract display name
-	if (pageType in displayNameSelectors) {
-		const selector = displayNameSelectors[pageType];
-		const el = container.querySelector(selector);
-		if (el) {
-			const text = el.textContent?.trim();
-			if (text) displayName = text;
-		}
-	}
-
-	// Extract username
-	if (pageType in usernameSelectors) {
-		const selector = usernameSelectors[pageType];
-		const el = container.querySelector(selector);
-		if (el) {
-			let text = el.textContent?.trim() || '';
-			if (text.startsWith('@')) text = text.substring(1);
-			if (text) username = text;
-		}
-	}
-
-	// Extract avatar URL
-	if (pageType in avatarSelectors) {
-		const selector = avatarSelectors[pageType];
-		const el = container.querySelector(selector);
-		if (el instanceof HTMLImageElement && el.src) {
-			avatarUrl = el.src;
-		}
-	}
+	let displayName = extractText(container, DISPLAY_NAME_SELECTORS[pageType]);
+	const username = extractUsername(container, pageType);
+	const avatarUrl = extractAvatarUrl(container, pageType);
 
 	// When neither name field is found
 	if (!displayName && !username) {
@@ -174,7 +144,7 @@ export function extractGroupInfo(
 	let groupImageUrl: string | undefined;
 
 	// Check what type of groups container we're working with
-	const isBTRobloxContainer = container?.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
+	const isBTRobloxContainer = container.matches(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
 	const groupNameSelectors = {
 		profile: isBTRobloxContainer
@@ -195,7 +165,7 @@ export function extractGroupInfo(
 		const nameSelector = groupNameSelectors[pageType as keyof typeof groupNameSelectors];
 		const nameEl = container.querySelector(nameSelector);
 		if (nameEl) {
-			const text = nameEl.textContent?.trim();
+			const text = nameEl.textContent.trim();
 			if (text) groupName = text;
 		}
 	}
@@ -210,4 +180,26 @@ export function extractGroupInfo(
 	}
 
 	return { groupId, groupName, groupImageUrl };
+}
+
+function extractText(container: Element, selector: string | undefined): string | undefined {
+	if (!selector) return undefined;
+	const el = container.querySelector(selector);
+	const text = el?.textContent.trim();
+	return text && text.length > 0 ? text : undefined;
+}
+
+function extractUsername(container: Element, pageType: string): string | undefined {
+	const raw = extractText(container, USERNAME_SELECTORS[pageType]);
+	if (!raw) return undefined;
+	if (!raw.startsWith('@')) return raw;
+	const stripped = raw.slice(1);
+	return stripped.length > 0 ? stripped : undefined;
+}
+
+function extractAvatarUrl(container: Element, pageType: string): string | undefined {
+	const selector = AVATAR_SELECTORS[pageType];
+	if (!selector) return undefined;
+	const el = container.querySelector(selector);
+	return el instanceof HTMLImageElement && el.src ? el.src : undefined;
 }

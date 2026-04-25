@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="28" viewBox="0 0 60 28" fill="none">
+  <defs>
+    <linearGradient id="obsShimmer1" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.4" stop-color="#e89dff" stop-opacity="0.18"/>
+      <stop offset="0.5" stop-color="#9ee5ff" stop-opacity="0.22"/>
+      <stop offset="0.6" stop-color="#ffb8a0" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="obsShimmer2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#a3f0ff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <polygon points="0,28 22,0 32,0 10,28" fill="url(#obsShimmer1)"/>
+  <polygon points="38,28 48,28 56,0 44,0" fill="url(#obsShimmer2)" opacity="0.7"/>
+  <circle cx="6" cy="5" r="0.4" fill="#ffffff" opacity="0.35"/>
+  <circle cx="54" cy="23" r="0.4" fill="#ffffff" opacity="0.35"/>
+  <circle cx="30" cy="14" r="0.3" fill="#ffffff" opacity="0.25"/>
+</svg>

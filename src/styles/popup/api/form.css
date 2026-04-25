@@ -36,7 +36,7 @@
 		color: var(--color-placeholder);
 	}
 
-	&:hover:not(:focus):not(.error) {
+	&:hover:not(:focus, .error) {
 		border-color: var(--color-border);
 	}
 

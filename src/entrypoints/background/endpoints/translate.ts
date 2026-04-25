@@ -1,9 +1,18 @@
 import type { TranslationResult } from '@/lib/types/api';
 import { logger } from '@/lib/utils/logger';
 
-// Google Translate API response format
-type GoogleTranslateSegment = [string, string, null, null, number];
-type GoogleTranslateResponse = [GoogleTranslateSegment[], null, string, ...unknown[]];
+// Extract the leading translated string from Google Translate's nested response
+// Shape: [[["translated", "original", null, null, n], ...], null, "src-lang", ...]
+function extractTranslatedText(data: unknown): string {
+	if (!Array.isArray(data) || !Array.isArray(data[0]) || !Array.isArray(data[0][0])) {
+		throw new Error('Invalid translation response format');
+	}
+	const translated: unknown = data[0][0][0];
+	if (typeof translated !== 'string' || !translated) {
+		throw new Error('No translation returned');
+	}
+	return translated;
+}
 
 // Cache entry with timestamp for TTL
 interface CacheEntry {
@@ -108,23 +117,10 @@ async function translateBatch(
 	});
 
 	if (!response.ok) {
-		throw new Error(`Translation API returned status ${response.status}`);
+		throw new Error(`Translation API returned status ${String(response.status)}`);
 	}
 
-	const data = (await response.json()) as GoogleTranslateResponse;
-
-	// Validate response structure
-	if (!Array.isArray(data) || !Array.isArray(data[0]) || !Array.isArray(data[0][0])) {
-		throw new Error('Invalid translation response format');
-	}
-
-	// Extract the translated combined text
-	// Response format: [[["translated text", "original text", null, null, 3]], null, "en"]
-	const translatedCombined = data[0][0][0];
-
-	if (!translatedCombined) {
-		throw new Error('No translation returned');
-	}
+	const translatedCombined = extractTranslatedText(await response.json());
 
 	// Split translated text by delimiter
 	const translatedParts = translatedCombined.split(DELIMITER);
@@ -140,9 +136,8 @@ async function translateBatch(
 	const translations: Record<string, string> = {};
 
 	// Map translated parts back to original texts
-	for (let i = 0; i < texts.length; i++) {
-		const originalText = texts[i];
-		const translatedText = (translatedParts[i] || originalText).trim();
+	for (const [i, originalText] of texts.entries()) {
+		const translatedText = (translatedParts[i] ?? originalText).trim();
 
 		translations[originalText] = translatedText;
 
@@ -183,15 +178,10 @@ async function translateParallel(
 
 		const response = await fetch(url);
 		if (!response.ok) {
-			throw new Error(`Translation API returned status ${response.status}`);
+			throw new Error(`Translation API returned status ${String(response.status)}`);
 		}
 
-		const data = (await response.json()) as GoogleTranslateResponse;
-		const translated = data[0]?.[0]?.[0];
-
-		if (!translated) {
-			throw new Error('No translation returned');
-		}
+		const translated = extractTranslatedText(await response.json());
 
 		setCachedTranslation(text, targetLanguage, sourceLanguage, translated);
 		return { text, translation: translated };
@@ -219,7 +209,7 @@ export async function translateTexts(
 	targetLanguage: string,
 	sourceLanguage: string = 'en'
 ): Promise<TranslationResult> {
-	if (texts?.length === 0) {
+	if (texts.length === 0) {
 		throw new Error('No texts provided for translation');
 	}
 
@@ -228,9 +218,11 @@ export async function translateTexts(
 	}
 
 	// Normalize language codes
-	const normalizedTarget = targetLanguage.split('-')[0].toLowerCase();
+	const normalizedTarget = (targetLanguage.split('-')[0] ?? targetLanguage).toLowerCase();
 	const normalizedSource =
-		sourceLanguage === 'auto' ? 'auto' : sourceLanguage.split('-')[0].toLowerCase();
+		sourceLanguage === 'auto'
+			? 'auto'
+			: (sourceLanguage.split('-')[0] ?? sourceLanguage).toLowerCase();
 
 	// If source and target are the same, return original texts
 	if (normalizedSource !== 'auto' && normalizedSource === normalizedTarget) {

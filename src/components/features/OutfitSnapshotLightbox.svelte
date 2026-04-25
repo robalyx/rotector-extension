@@ -158,7 +158,7 @@
 					<button
 						class="outfit-snapshot-lightbox-dot"
 						class:outfit-snapshot-lightbox-dot-active={index === currentIndex}
-						aria-label={`${index + 1}`}
+						aria-label={String(index + 1)}
 						aria-selected={index === currentIndex}
 						onclick={() => selectIndex(index)}
 						role="tab"

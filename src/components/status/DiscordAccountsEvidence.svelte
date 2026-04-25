@@ -87,14 +87,14 @@
 		const lines: string[] = [];
 
 		// Header with Roblox user ID
-		lines.push(`Roblox User ID: ${robloxUserId}`);
+		lines.push(`Roblox User ID: ${String(robloxUserId)}`);
 		lines.push('');
 
 		// Summary counts
-		lines.push(`Discord Accounts: ${discordAccounts.length}`);
-		lines.push(`Total Servers: ${totalServers}`);
+		lines.push(`Discord Accounts: ${String(discordAccounts.length)}`);
+		lines.push(`Total Servers: ${String(totalServers)}`);
 		if (altAccounts.length > 0) {
-			lines.push(`Alt Accounts: ${altAccounts.length}`);
+			lines.push(`Alt Accounts: ${String(altAccounts.length)}`);
 		}
 		lines.push('');
 
@@ -107,7 +107,7 @@
 				lines.push(`Sources: ${sourceNames.join(', ')}`);
 			}
 
-			lines.push(`Servers (${account.servers.length}):`);
+			lines.push(`Servers (${String(account.servers.length)}):`);
 			for (const server of account.servers) {
 				const taseTag = server.isTase ? ' [TASE]' : '';
 				const graceTag = server.inGracePeriod ? ' [GRACE]' : '';
@@ -132,7 +132,7 @@
 					altSourceNames.length > 0 ? ` - Sources: ${altSourceNames.join(', ')}` : '';
 				const updatedStr = formatTimestamp(alt.updatedAt);
 				lines.push(
-					`  - ${alt.robloxUsername} (ID: ${alt.robloxUserId})${sourcesStr} - Updated ${updatedStr}`
+					`  - ${alt.robloxUsername} (ID: ${String(alt.robloxUserId)})${sourcesStr} - Updated ${updatedStr}`
 				);
 			}
 		}
@@ -174,7 +174,6 @@
 	});
 </script>
 
-<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <div class="discord-evidence-container">
 	{#if isLoading}
 		<div class="discord-loading">

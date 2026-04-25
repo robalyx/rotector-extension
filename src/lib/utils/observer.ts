@@ -5,17 +5,17 @@ import { observerRegistry, OBSERVER_TYPES } from './observer-registry';
 
 interface ObserverConfig {
 	name: string;
-	targetSelector?: string | (() => Element | null);
-	callback?: (mutations: MutationRecord[], observer: MutationObserver) => void;
-	observerOptions?: MutationObserverInit;
-	onNoTarget?: () => void;
-	onNewMutations?: (mutations: MutationRecord[]) => void;
-	onStart?: () => void | Promise<void>;
-	onResizeComplete?: () => void | Promise<void>;
-	healthCheckInterval?: number;
-	restartDelay?: number;
-	ignoreResizeEvents?: boolean;
-	enablePostResizeProcessing?: boolean;
+	targetSelector?: string | (() => Element | null) | undefined;
+	callback?: ((mutations: MutationRecord[], observer: MutationObserver) => void) | undefined;
+	observerOptions?: MutationObserverInit | undefined;
+	onNoTarget?: (() => void) | undefined;
+	onNewMutations?: ((mutations: MutationRecord[]) => void) | undefined;
+	onStart?: (() => void | Promise<void>) | undefined;
+	onResizeComplete?: (() => void | Promise<void>) | undefined;
+	healthCheckInterval?: number | undefined;
+	restartDelay?: number | undefined;
+	ignoreResizeEvents?: boolean | undefined;
+	enablePostResizeProcessing?: boolean | undefined;
 }
 
 interface ListObserverConfig {
@@ -111,7 +111,7 @@ class ObserverManager extends Observer {
 
 		const target = this.getTarget();
 		if (!target) {
-			this.config.onNoTarget();
+			this.config.onNoTarget?.();
 			this.scheduleRestart();
 			return;
 		}
@@ -132,7 +132,7 @@ class ObserverManager extends Observer {
 				});
 
 				// Call the callback first (for custom processing)
-				this.config.callback(mutations, observer);
+				this.config.callback?.(mutations, observer);
 
 				// Then call the onNewMutations handler if provided
 				if (this.config.onNewMutations) {
@@ -226,11 +226,13 @@ class ObserverManager extends Observer {
 				return this.config.targetSelector();
 			}
 
+			if (!this.config.targetSelector) return null;
+
 			// targetSelector is a string at this point
 			const target = document.querySelector(this.config.targetSelector);
 			if (!target) {
 				logger.debug(
-					`${this.name} observer: Target element not found (attempt ${this.retryCount + 1})`
+					`${this.name} observer: Target element not found (attempt ${String(this.retryCount + 1)})`
 				);
 			}
 			return target;
@@ -285,12 +287,13 @@ class ObserverManager extends Observer {
 		this.retryCount++;
 
 		// Calculate exponential backoff delay with maximum 30-second cap
-		const exponentialDelay = this.config.restartDelay * this.retryCount;
+		const exponentialDelay =
+			(this.config.restartDelay ?? OBSERVER_CONFIG.DEFAULT_RESTART_DELAY) * this.retryCount;
 		const maxBackoffDelay = 30000; // 30 seconds max delay
 		const actualDelay = delay ?? Math.min(exponentialDelay, maxBackoffDelay);
 
 		logger.debug(
-			`${this.name} observer: Scheduling restart in ${actualDelay}ms (attempt ${this.retryCount})`
+			`${this.name} observer: Scheduling restart in ${String(actualDelay)}ms (attempt ${String(this.retryCount)})`
 		);
 
 		this.reconnectTimer = window.setTimeout(() => {
@@ -324,7 +327,7 @@ class ObserverManager extends Observer {
 		}, this.config.healthCheckInterval);
 
 		logger.debug(
-			`${this.name} observer: Health check started (${this.config.healthCheckInterval}ms interval)`
+			`${this.name} observer: Health check started (${String(this.config.healthCheckInterval)}ms interval)`
 		);
 	}
 }
@@ -357,7 +360,9 @@ class UrlChangeObserver extends Observer {
 			this.checkUrlChange();
 		}, this.config.checkInterval);
 
-		logger.debug(`${this.name} observer started (checking every ${this.config.checkInterval}ms)`);
+		logger.debug(
+			`${this.name} observer started (checking every ${String(this.config.checkInterval)}ms)`
+		);
 	}
 
 	// Stops monitoring URL changes
@@ -414,7 +419,7 @@ export const observerFactory = {
 
 			const unprocessedItems = Array.from(container.querySelectorAll(unprocessedItemSelector));
 			if (unprocessedItems.length > 0) {
-				logger.debug(`${name}: Processing ${unprocessedItems.length} items`);
+				logger.debug(`${name}: Processing ${String(unprocessedItems.length)} items`);
 				await processItems(unprocessedItems);
 			}
 		};
@@ -429,7 +434,7 @@ export const observerFactory = {
 				attributeFilter: ['href']
 			},
 			callback: () => {
-				processItemsInContainer().catch((error) => {
+				processItemsInContainer().catch((error: unknown) => {
 					logger.error(`${name}: Error in containerAdded processItems:`, error);
 				});
 			},
@@ -439,7 +444,7 @@ export const observerFactory = {
 			onStart: processExistingItems
 				? () => {
 						logger.debug(`${name}: Processing existing items on start`);
-						processItemsInContainer().catch((error) => {
+						processItemsInContainer().catch((error: unknown) => {
 							logger.error(`${name}: Error in start processItems:`, error);
 						});
 					}
@@ -449,7 +454,7 @@ export const observerFactory = {
 				(enablePostResizeProcessing
 					? () => {
 							logger.debug(`${name}: Post-resize processing triggered`);
-							processItemsInContainer().catch((error) => {
+							processItemsInContainer().catch((error: unknown) => {
 								logger.error(`${name}: Error in resize processItems:`, error);
 							});
 						}

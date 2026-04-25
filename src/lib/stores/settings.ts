@@ -11,6 +11,12 @@ import { logger } from '../utils/logger.js';
 
 export const settings = writable<Settings>(SETTINGS_DEFAULTS);
 
+export async function getStoredApiKey(): Promise<string> {
+	const result = await browser.storage.sync.get([SETTINGS_KEYS.API_KEY]);
+	const apiKey = result[SETTINGS_KEYS.API_KEY];
+	return typeof apiKey === 'string' ? apiKey.trim() : '';
+}
+
 // Initialize settings from storage
 export async function initializeSettings(): Promise<void> {
 	try {

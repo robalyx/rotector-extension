@@ -74,7 +74,7 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
 	});
 
 	if (!response.ok) {
-		throw new Error(`Failed to fetch group roles: ${response.status}`);
+		throw new Error(`Failed to fetch group roles: ${String(response.status)}`);
 	}
 
 	const data = (await response.json()) as RolesApiResponse;
@@ -99,12 +99,14 @@ export async function getGroupMembers(
 	}
 
 	const response = await fetch(
-		`https://groups.roblox.com/v1/groups/${groupId}/roles/${roleId}/users?${params}`,
+		`https://groups.roblox.com/v1/groups/${groupId}/roles/${String(roleId)}/users?${String(params)}`,
 		{ credentials: 'include' }
 	);
 
 	if (!response.ok) {
-		const error = new Error(`Failed to fetch group members: ${response.status}`) as Error & {
+		const error = new Error(
+			`Failed to fetch group members: ${String(response.status)}`
+		) as Error & {
 			status?: number;
 			robloxErrorCode?: number;
 		};
@@ -141,7 +143,7 @@ export async function getUserPresences(userIds: number[]): Promise<Map<number, U
 	});
 
 	if (!response.ok) {
-		throw new Error(`Failed to fetch user presences: ${response.status}`);
+		throw new Error(`Failed to fetch user presences: ${String(response.status)}`);
 	}
 
 	const data = (await response.json()) as UserPresencesResponse;
@@ -161,7 +163,7 @@ export async function getMemberThumbnails(userIds: number[]): Promise<Map<number
 	}
 
 	const requests: ThumbnailRequest[] = userIds.map((userId) => ({
-		requestId: `${userId}::AvatarHeadshot:150x150:webp:regular:`,
+		requestId: `${String(userId)}::AvatarHeadshot:150x150:webp:regular:`,
 		type: 'AvatarHeadShot',
 		targetId: userId,
 		token: '',
@@ -180,7 +182,7 @@ export async function getMemberThumbnails(userIds: number[]): Promise<Map<number
 	});
 
 	if (!response.ok) {
-		throw new Error(`Failed to fetch thumbnails: ${response.status}`);
+		throw new Error(`Failed to fetch thumbnails: ${String(response.status)}`);
 	}
 
 	const data = (await response.json()) as { data: ThumbnailResponse[] };

@@ -27,7 +27,6 @@ export function createPersistentListStore<T>(
 			const stored = result[storageKey] as T[] | undefined;
 			store.set(stored ?? []);
 		} catch (error) {
-			// eslint-disable-next-line no-console
 			console.warn(`[Rotector] Failed to load ${storageKey}:`, error);
 			store.set([]);
 		}
@@ -38,7 +37,6 @@ export function createPersistentListStore<T>(
 			await browser.storage.local.set({ [storageKey]: entries });
 			store.set(entries);
 		} catch (error) {
-			// eslint-disable-next-line no-console
 			console.warn(`[Rotector] Failed to save ${storageKey}:`, error);
 		}
 	}

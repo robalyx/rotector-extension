@@ -138,7 +138,7 @@
 		}
 
 		awaitingCaptcha = true;
-		const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+		const sessionId = `${String(Date.now())}-${Math.random().toString(36).substring(2, 15)}`;
 		captchaSessionId = sessionId;
 
 		try {
@@ -242,7 +242,7 @@
 								isOpen = false;
 								resetAllState();
 							})
-							.catch((error) => {
+							.catch((error: unknown) => {
 								logger.error('Queue submission failed:', error);
 								submitting = false;
 							});

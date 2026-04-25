@@ -15,8 +15,8 @@ import { SETTINGS_KEYS } from '../types/settings';
 import { get } from 'svelte/store';
 
 interface QueryMultipleUsersOptions {
-	lookupContext?: string;
-	signal?: AbortSignal;
+	lookupContext?: string | undefined;
+	signal?: AbortSignal | undefined;
 }
 
 const PROGRESSIVE_API_TIMEOUT_MS = 15_000;
@@ -106,7 +106,11 @@ export async function queryUser(userId: string): Promise<CombinedStatus<UserStat
 
 			// Format results
 			const customApiResults = new Map(
-				enabledApis.map((api, i) => [api.id, formatApiResult(api, results[i])])
+				enabledApis.map((api, i) => {
+					const result = results[i];
+					if (!result) throw new Error('Internal: API list/result length mismatch');
+					return [api.id, formatApiResult(api, result)];
+				})
 			);
 
 			logger.debug('Unified query completed:', {
@@ -263,6 +267,7 @@ export async function queryMultipleUsers(
 		// Process each API's results
 		enabledApis.forEach((api, apiIndex) => {
 			const result = apiResults[apiIndex];
+			if (!result) return;
 
 			if (result.status === 'fulfilled') {
 				// Map successful responses by user ID

@@ -141,7 +141,7 @@
 		border-color 0.15s ease,
 		background-color 0.15s ease;
 
-	&:hover:not(.outfit-picker-item-disabled):not(.outfit-picker-item-selected) {
+	&:hover:not(.outfit-picker-item-disabled, .outfit-picker-item-selected) {
 		border-color: var(--color-border);
 		background-color: var(--color-hover);
 	}
@@ -250,7 +250,7 @@
 		border-color 0.15s ease,
 		color 0.15s ease;
 
-	&:hover:not(:disabled):not(.outfit-pagination-btn-disabled) {
+	&:hover:not(:disabled, .outfit-pagination-btn-disabled) {
 		background-color: var(--color-bg-secondary);
 		border-color: var(--color-border);
 	}

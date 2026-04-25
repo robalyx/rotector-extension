@@ -113,7 +113,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'pending',
 				iconColor: '#f97316',
-				textContent: `${t('tooltip_status_under_review')} (${confidence}%)`,
+				textContent: `${t('tooltip_status_under_review')} (${String(confidence)}%)`,
 				textClass: 'status-text-pending'
 			};
 		case STATUS.FLAGS.QUEUED: {
@@ -144,7 +144,7 @@ export function getStatusConfig(
 				...baseConfig,
 				iconName: 'integration',
 				iconColor: '#14b8a6',
-				textContent: `${t('tooltip_status_integration')} (${confidence}%)`,
+				textContent: `${t('tooltip_status_integration')} (${String(confidence)}%)`,
 				textClass: 'status-text-integration'
 			};
 		case STATUS.FLAGS.MIXED:

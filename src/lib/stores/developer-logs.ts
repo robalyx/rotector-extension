@@ -32,7 +32,7 @@ export const loadDeveloperLogs = load;
 
 // Add a new log entry with auto-generated ID
 export async function addLogEntry(entry: Omit<LogEntry, 'id'>): Promise<void> {
-	const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+	const id = `${String(Date.now())}-${Math.random().toString(36).slice(2, 8)}`;
 	return add({ ...entry, id });
 }
 
@@ -54,13 +54,13 @@ async function getSystemInfo(): Promise<SystemInfo> {
 
 	if (edgeMatch) {
 		browserName = 'Edge';
-		browserVersion = edgeMatch[1];
+		browserVersion = edgeMatch[1] ?? 'Unknown';
 	} else if (chromeMatch) {
 		browserName = 'Chrome';
-		browserVersion = chromeMatch[1];
+		browserVersion = chromeMatch[1] ?? 'Unknown';
 	} else if (firefoxMatch) {
 		browserName = 'Firefox';
-		browserVersion = firefoxMatch[1];
+		browserVersion = firefoxMatch[1] ?? 'Unknown';
 	}
 
 	return {
@@ -68,7 +68,7 @@ async function getSystemInfo(): Promise<SystemInfo> {
 		browserName,
 		browserVersion,
 		timestamp: new Date().toISOString(),
-		debugModeEnabled: Boolean(settings.debugModeEnabled)
+		debugModeEnabled: Boolean(settings['debugModeEnabled'])
 	};
 }
 
@@ -102,7 +102,7 @@ export function formatLogsForCopy(exportData: LogExport): string {
 		`- Debug Mode: ${systemInfo.debugModeEnabled ? 'Enabled' : 'Disabled'}`,
 		`- Exported: ${systemInfo.timestamp}`,
 		'',
-		`=== Logs (${logs.length} entries) ===`,
+		`=== Logs (${String(logs.length)} entries) ===`,
 		''
 	];
 

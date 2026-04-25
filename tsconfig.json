@@ -27,6 +27,12 @@
 
 		/* === Code Quality === */
 		"noUnusedLocals": true, // Report unused local variables
-		"noUnusedParameters": true // Report unused function parameters
+		"noUnusedParameters": true, // Report unused function parameters
+
+		/* === Type Checking === */
+		"noUncheckedIndexedAccess": true, // arr[i] and obj[key] typed as T | undefined
+		"exactOptionalPropertyTypes": true, // foo?: string disallows assigning undefined
+		"noFallthroughCasesInSwitch": true, // Require break/return in non-empty case blocks
+		"noPropertyAccessFromIndexSignature": true // Force obj["k"] for index signatures
 	}
 }

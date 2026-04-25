@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mount } from 'svelte';
+	import { mount, unmount } from 'svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import { COMPONENT_CLASSES, FRIENDS_SELECTORS, PAGE_TYPES } from '@/lib/types/constants';
@@ -53,10 +53,8 @@
 
 	function getUserIdFromUrl(): string | null {
 		const pathname = normalizePathname(window.location.pathname);
-		const match = pathname.match(/\/users\/(\d+)\/friends/);
-		if (match) {
-			return match[1];
-		}
+		const userId = pathname.match(/\/users\/(\d+)\/friends/)?.[1];
+		if (userId) return userId;
 		if (pathname === '/users/friends' || pathname === '/users/friends/') {
 			return getLoggedInUserId();
 		}
@@ -112,10 +110,10 @@
 		const component = mount(FriendsScanBar, {
 			target: container,
 			props: { userId }
-		}) as { unmount?: () => void };
+		});
 
 		scanBarCleanup = () => {
-			component?.unmount?.();
+			void unmount(component);
 		};
 	}
 

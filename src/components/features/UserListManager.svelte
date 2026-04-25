@@ -99,11 +99,10 @@
 
 	// Get page configuration with validation
 	function getPageConfig() {
-		const config = PAGE_CONFIGS[pageType as keyof typeof PAGE_CONFIGS];
-		if (!config) {
+		if (!(pageType in PAGE_CONFIGS)) {
 			throw new Error(`UserListManager does not support page type: ${pageType}`);
 		}
-		return config;
+		return PAGE_CONFIGS[pageType as keyof typeof PAGE_CONFIGS];
 	}
 
 	// Creates standardized observer configuration for the current page type
@@ -411,7 +410,7 @@
 			// Clean up the old status indicators from reused elements
 			if (reusedElements.length > 0) {
 				logger.debug(
-					`Detected ${reusedElements.length} reused DOM elements for ${pageType}`,
+					`Detected ${String(reusedElements.length)} reused DOM elements for ${pageType}`,
 					reusedElements.map((r) => ({ old: r.oldUserId, new: r.newUserId }))
 				);
 
@@ -433,7 +432,7 @@
 			// Nothing new to process
 			if (unprocessedElements.length === 0) return;
 
-			logger.debug(`Processing ${unprocessedElements.length} new users for ${pageType}`);
+			logger.debug(`Processing ${String(unprocessedElements.length)} new users for ${pageType}`);
 
 			// Extract user details
 			const allUserDetails = unprocessedElements
@@ -548,14 +547,14 @@
 			const href = profileLink.getAttribute('href');
 			if (!href) return null;
 
-			const userIdMatch = href.match(/\/users\/(\d+)/);
-			if (!userIdMatch) return null;
+			const rawUserId = href.match(/\/users\/(\d+)/)?.[1];
+			if (!rawUserId) return null;
 
-			const userId = sanitizeEntityId(userIdMatch[1]);
+			const userId = sanitizeEntityId(rawUserId);
 			if (!userId) return null;
 
 			return {
-				userId: userId.toString(),
+				userId,
 				element,
 				profileLink
 			};
@@ -637,7 +636,7 @@
 				onUserProcessed?.(userId, combinedStatus);
 			});
 
-			logger.debug(`Loaded ${customApiResults.size} user statuses for ${pageType}`);
+			logger.debug(`Loaded ${String(customApiResults.size)} user statuses for ${pageType}`);
 		} catch (error) {
 			if (error instanceof DOMException && error.name === 'AbortError') {
 				users.forEach((u) => loadingUsers.delete(u.userId));
@@ -719,9 +718,9 @@
 					: tileElement;
 			}
 
-			let container = targetElement.querySelector(
+			let container = targetElement.querySelector<HTMLElement>(
 				`.${COMPONENT_CLASSES.STATUS_CONTAINER}`
-			) as HTMLElement;
+			);
 			if (!container) {
 				container = document.createElement('div');
 				container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
@@ -802,7 +801,9 @@
 
 		// Clean up orphaned components
 		if (orphanedUserIds.size > 0) {
-			logger.debug(`Cleaning up ${orphanedUserIds.size} orphaned components for ${pageType}`);
+			logger.debug(
+				`Cleaning up ${String(orphanedUserIds.size)} orphaned components for ${pageType}`
+			);
 
 			orphanedUserIds.forEach((userId) => {
 				const component = mountedComponents.get(userId);
@@ -821,7 +822,7 @@
 	// Handle queue user action
 	function handleQueueUser(userId: string) {
 		logger.userAction(`${pageType}_queue_requested`, { userId });
-		queueModalManager?.showQueue(userId);
+		queueModalManager.showQueue(userId);
 	}
 
 	// Handle status refresh after successful queue operation

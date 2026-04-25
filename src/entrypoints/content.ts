@@ -24,11 +24,14 @@ import OverlayRoot from '@/components/overlay/OverlayRoot.svelte';
  */
 async function waitForBody(): Promise<HTMLElement> {
 	return new Promise((resolve) => {
+		// document.body is typed as non-null but can be null before DOM loads
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- document.body is typed non-null but is null at document_start before DOM parse
 		if (document.body) {
 			resolve(document.body);
 			return;
 		}
 		const observer = new MutationObserver(() => {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- document.body is typed non-null but is null at document_start before DOM parse
 			if (document.body) {
 				observer.disconnect();
 				resolve(document.body);

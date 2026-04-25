@@ -65,13 +65,13 @@ export const customApis = writable<CustomApiConfig[]>([]);
 
 // Generate a unique ID for a new custom API
 function generateCustomApiId(): string {
-	return `custom-api-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+	return `custom-api-${String(Date.now())}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
 // Migrate legacy configs that used a single url field
 function migrateApiConfig(api: Record<string, unknown>): CustomApiConfig {
 	if ('url' in api && !('singleUrl' in api)) {
-		const baseUrl = api.url as string;
+		const baseUrl = api['url'] as string;
 		return {
 			...(api as unknown as CustomApiConfig),
 			singleUrl: `${baseUrl}/{userId}`,
@@ -142,7 +142,7 @@ export async function addCustomApi(
 	// Count only user-created APIs
 	const userApiCount = current.filter((api) => !api.isSystem).length;
 	if (userApiCount >= MAX_CUSTOM_APIS) {
-		throw new Error(`Maximum of ${MAX_CUSTOM_APIS} custom APIs allowed`);
+		throw new Error(`Maximum of ${String(MAX_CUSTOM_APIS)} custom APIs allowed`);
 	}
 
 	// Check permissions before enabling API
@@ -187,18 +187,19 @@ export async function updateCustomApi(
 	const current = get(customApis);
 
 	const index = current.findIndex((api) => api.id === id);
-	if (index === -1) {
+	const existing = current[index];
+	if (!existing) {
 		throw new Error(`Custom API not found: ${id}`);
 	}
 
 	// Prevent updating system APIs
-	if (current[index].isSystem) {
+	if (existing.isSystem) {
 		throw new Error('Cannot modify system APIs');
 	}
 
 	// Check permissions when enabling a custom API
-	if (updates.enabled === true && !current[index].isSystem) {
-		const merged = { ...current[index], ...updates };
+	if (updates.enabled === true) {
+		const merged = { ...existing, ...updates };
 		const origins = extractApiOrigins(merged);
 		if (origins.length === 0) {
 			throw new Error('INVALID_URL');
@@ -211,7 +212,7 @@ export async function updateCustomApi(
 	}
 
 	const updated = [...current];
-	updated[index] = { ...updated[index], ...updates };
+	updated[index] = { ...existing, ...updates };
 
 	await saveCustomApis(updated);
 	logger.info('Updated custom API:', { id, updates });
@@ -248,24 +249,26 @@ export async function reorderCustomApi(id: string, direction: 'up' | 'down'): Pr
 	const current = get(customApis);
 
 	const index = current.findIndex((api) => api.id === id);
-	if (index === -1) {
+	const existing = current[index];
+	if (!existing) {
 		throw new Error(`Custom API not found: ${id}`);
 	}
 
 	// Prevent reordering system APIs
-	if (current[index].isSystem) {
+	if (existing.isSystem) {
 		throw new Error('Cannot reorder system APIs');
 	}
 
 	const newIndex = direction === 'up' ? index - 1 : index + 1;
 
 	// Prevent moving into system API positions
-	if (newIndex < 0 || newIndex >= current.length || current[newIndex].isSystem) {
+	const swapTarget = current[newIndex];
+	if (!swapTarget || swapTarget.isSystem) {
 		return;
 	}
 
 	const updated = [...current];
-	[updated[index], updated[newIndex]] = [updated[newIndex], updated[index]];
+	[updated[index], updated[newIndex]] = [swapTarget, existing];
 
 	// Update order values
 	const reordered = updated.map((api, idx) => ({
@@ -372,11 +375,7 @@ export async function testCustomApiConnection(
 		}
 
 		// Validate batch response is an object with user IDs as keys
-		if (
-			typeof batchWrapped.data !== 'object' ||
-			Array.isArray(batchWrapped.data) ||
-			batchWrapped.data === null
-		) {
+		if (typeof batchWrapped.data !== 'object' || Array.isArray(batchWrapped.data)) {
 			logger.debug('Batch user lookup returned invalid data format:', { url: batchUrl });
 			return false;
 		}
@@ -425,56 +424,59 @@ export function validateUserStatusResponse(response: unknown): {
 	const data = response as Record<string, unknown>;
 
 	// Required fields
-	if (typeof data.id !== 'number') {
+	if (typeof data['id'] !== 'number') {
 		errors.push('Missing or invalid "id" field (must be number)');
 	}
 
-	if (typeof data.flagType !== 'number') {
+	if (typeof data['flagType'] !== 'number') {
 		errors.push('Missing or invalid "flagType" field (must be number)');
 	}
 
 	// Confidence is optional
-	if (data.confidence !== undefined && typeof data.confidence !== 'number') {
+	if (data['confidence'] !== undefined && typeof data['confidence'] !== 'number') {
 		errors.push('Invalid "confidence" field (must be number if present)');
 	}
 
 	// Optional fields validation
-	if (data.reasons !== undefined) {
-		if (typeof data.reasons !== 'object' || data.reasons === null) {
-			errors.push('Invalid "reasons" field (must be object)');
-		}
+	if (
+		data['reasons'] !== undefined &&
+		(typeof data['reasons'] !== 'object' || data['reasons'] === null)
+	) {
+		errors.push('Invalid "reasons" field (must be object)');
 	}
 
-	if (data.badges !== undefined) {
-		if (!Array.isArray(data.badges)) {
+	if (data['badges'] !== undefined) {
+		if (!Array.isArray(data['badges'])) {
 			errors.push('Invalid "badges" field (must be array)');
 		} else {
-			if (data.badges.length > 3) {
+			if (data['badges'].length > 3) {
 				errors.push('Too many badges (maximum 3 allowed)');
 			}
 
 			// Validate each badge object
-			data.badges.forEach((badge, index) => {
+			data['badges'].forEach((badge, index) => {
 				if (!badge || typeof badge !== 'object') {
-					errors.push(`Badge at index ${index} must be an object`);
+					errors.push(`Badge at index ${String(index)} must be an object`);
 					return;
 				}
 
 				const badgeObj = badge as Record<string, unknown>;
 
-				if (typeof badgeObj.text !== 'string') {
-					errors.push(`Badge at index ${index} missing required "text" field (must be string)`);
-				}
-
-				if (badgeObj.color !== undefined && typeof badgeObj.color !== 'string') {
+				if (typeof badgeObj['text'] !== 'string') {
 					errors.push(
-						`Badge at index ${index} has invalid "color" field (must be string if present)`
+						`Badge at index ${String(index)} missing required "text" field (must be string)`
 					);
 				}
 
-				if (badgeObj.textColor !== undefined && typeof badgeObj.textColor !== 'string') {
+				if (badgeObj['color'] !== undefined && typeof badgeObj['color'] !== 'string') {
 					errors.push(
-						`Badge at index ${index} has invalid "textColor" field (must be string if present)`
+						`Badge at index ${String(index)} has invalid "color" field (must be string if present)`
+					);
+				}
+
+				if (badgeObj['textColor'] !== undefined && typeof badgeObj['textColor'] !== 'string') {
+					errors.push(
+						`Badge at index ${String(index)} has invalid "textColor" field (must be string if present)`
 					);
 				}
 			});
@@ -515,7 +517,7 @@ export async function importApi(encodedData: string): Promise<CustomApiConfig> {
 	let counter = 1;
 
 	while (current.some((api) => api.name === newName)) {
-		newName = `${decodedConfig.name} (${counter})`;
+		newName = `${decodedConfig.name} (${String(counter)})`;
 		counter++;
 	}
 

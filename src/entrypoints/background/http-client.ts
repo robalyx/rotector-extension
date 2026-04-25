@@ -33,7 +33,7 @@ async function getApiKey(): Promise<string | null> {
 async function getExtensionUuid(): Promise<string | null> {
 	try {
 		const result = await browser.storage.local.get(['extension_uuid']);
-		return (result.extension_uuid as string) ?? null;
+		return (result['extension_uuid'] as string | undefined) ?? null;
 	} catch (error) {
 		logger.error('Failed to get extension UUID:', error);
 		return null;
@@ -65,11 +65,7 @@ function isRetryableError(error: Error): boolean {
 	}
 
 	// Network failures
-	if (error instanceof TypeError || status === 0) {
-		return true;
-	}
-
-	return false;
+	return error instanceof TypeError || status === 0;
 }
 
 // Unwrap custom API response from required wrapper format
@@ -148,7 +144,7 @@ export async function makeRawHttpRequest(
 			}
 
 			const error = new Error(
-				errorData.error ?? `HTTP ${response.status}: ${response.statusText}`
+				errorData.error ?? `HTTP ${String(response.status)}: ${response.statusText}`
 			) as Error & { status: number; code?: string; type?: string };
 
 			Object.assign(error, {
@@ -182,7 +178,7 @@ export async function makeRawHttpRequest(
 		return { content, filename, mimeType };
 	} catch (error) {
 		if ((error as Error).name === 'AbortError') {
-			const timeoutError = new Error(`Request timeout (${timeout}ms)`) as Error & {
+			const timeoutError = new Error(`Request timeout (${String(timeout)}ms)`) as Error & {
 				status: number;
 			};
 			timeoutError.status = 408;
@@ -195,14 +191,194 @@ export async function makeRawHttpRequest(
 }
 
 interface HttpRequestOptions extends RequestInit {
-	timeout?: number;
-	maxRetries?: number;
-	retryDelay?: number;
-	customApi?: CustomApiConfig;
-	requireAuth?: boolean;
-	clientId?: string;
-	lookupContext?: string;
-	readPrimary?: boolean;
+	timeout?: number | undefined;
+	maxRetries?: number | undefined;
+	retryDelay?: number | undefined;
+	customApi?: CustomApiConfig | undefined;
+	requireAuth?: boolean | undefined;
+	clientId?: string | undefined;
+	lookupContext?: string | undefined;
+	readPrimary?: boolean | undefined;
+}
+
+interface RotectorHeaderOptions {
+	requireAuth: boolean;
+	clientId: string | undefined;
+	lookupContext: string | undefined;
+	readPrimary: boolean | undefined;
+}
+
+// Build request headers for Rotector API
+async function buildRotectorHeaders(
+	headers: Headers,
+	{ requireAuth, clientId, lookupContext, readPrimary }: RotectorHeaderOptions
+): Promise<void> {
+	const apiKey = await getApiKey();
+	if (apiKey?.trim()) {
+		headers.set('X-Auth-Token', apiKey.trim());
+	}
+
+	if (requireAuth) {
+		const uuid = await getExtensionUuid();
+		if (!uuid) {
+			throw new Error('Extension not authenticated. Please login with Discord.');
+		}
+		headers.set('X-Extension-UUID', uuid);
+	}
+
+	if (clientId) {
+		headers.set('X-Client-ID', clientId);
+	}
+
+	if (lookupContext) {
+		headers.set('X-Lookup-Context', lookupContext);
+	}
+
+	if (readPrimary) {
+		headers.set('X-Read-Primary', 'true');
+	}
+}
+
+// Build an Error from a non-OK response
+async function buildHttpError(response: Response): Promise<Error & { status: number }> {
+	let errorData: {
+		error?: string;
+		requestId?: string;
+		code?: string;
+		type?: string;
+	};
+	try {
+		const jsonData: unknown = await response.json();
+		errorData = typeof jsonData === 'object' && jsonData !== null ? jsonData : {};
+	} catch {
+		const errorText = await response.text().catch(() => 'Unknown error');
+		errorData = { error: errorText };
+	}
+
+	const error = new Error(
+		errorData.error ?? `HTTP ${String(response.status)}: ${response.statusText}`
+	) as Error & {
+		status: number;
+		requestId?: string;
+		code?: string;
+		type?: string;
+		rateLimitReset?: number;
+	};
+
+	Object.assign(error, {
+		status: response.status,
+		...(errorData.requestId && { requestId: errorData.requestId }),
+		...(errorData.code && { code: errorData.code }),
+		...(errorData.type && { type: errorData.type })
+	});
+
+	if (response.status === 429) {
+		const retryAfter = response.headers.get('Retry-After');
+		if (retryAfter) {
+			error.rateLimitReset = Math.ceil(Date.now() / 1000) + Number(retryAfter);
+		}
+	}
+
+	return error;
+}
+
+// Classify a thrown error into its retryable shape
+function normalizeFetchError(error: Error, timeout: number): Error {
+	if (error.name === 'AbortError') {
+		const timeoutError = new Error(`Request timeout (${String(timeout)}ms)`) as Error & {
+			status?: number;
+		};
+		timeoutError.status = 408;
+		return timeoutError;
+	}
+
+	if (!('status' in error) && error instanceof TypeError) {
+		const networkError = new Error(
+			'Unable to connect. Check your internet connection and try again.'
+		) as Error & { status?: number };
+		networkError.status = 0;
+		return networkError;
+	}
+
+	return error;
+}
+
+// Assemble request headers with base content-type, caller overrides, and auth
+async function prepareHeaders(
+	fetchHeaders: HeadersInit | undefined,
+	customApi: CustomApiConfig | undefined,
+	rotectorOpts: RotectorHeaderOptions
+): Promise<Headers> {
+	const headers = new Headers({
+		'Content-Type': 'application/json',
+		Accept: 'application/json'
+	});
+
+	if (fetchHeaders) {
+		new Headers(fetchHeaders).forEach((value, key) => {
+			headers.set(key, value);
+		});
+	}
+
+	if (customApi) {
+		const authHeaders = buildCustomApiAuthHeaders(customApi);
+		for (const [name, value] of Object.entries(authHeaders)) {
+			headers.set(name, value);
+		}
+	} else {
+		await buildRotectorHeaders(headers, rotectorOpts);
+	}
+
+	return headers;
+}
+
+// Pause when X-RateLimit headers indicate the window is exhausted
+async function maybeWaitForRateLimit(headers: Headers): Promise<void> {
+	const remaining = headers.get('X-RateLimit-Remaining');
+	const reset = headers.get('X-RateLimit-Reset');
+	if (remaining === null || reset === null) return;
+	if (Number(remaining) > 0) return;
+
+	const waitMs = Number(reset) * 1000 - Date.now() + 500;
+	if (waitMs > 0) {
+		logger.debug(`Rate limit exhausted, waiting ${String(waitMs)}ms for reset`);
+		await new Promise((resolve) => setTimeout(resolve, waitMs));
+	}
+}
+
+// Decide whether to retry after a request failure. Returns delay ms or null
+function decideRetry(
+	error: Error,
+	attempt: number,
+	maxRetries: number,
+	retryDelay: number,
+	isSafeMethod: boolean
+): number | null {
+	if (attempt >= maxRetries || !isRetryableError(error)) return null;
+	const status = (error as Error & { status?: number }).status;
+	const isRateLimited = status === 429;
+	const isNetworkFailure = status === 0;
+	if (!isSafeMethod && !isRateLimited && !isNetworkFailure) return null;
+	return computeRetryDelay(error, retryDelay, attempt);
+}
+
+// Handle 403 side-effects for Rotector API
+async function handleRotectorForbidden(
+	error: Error & { status?: number; message: string },
+	endpoint: string,
+	requireAuth: boolean
+): Promise<void> {
+	const isMembershipEndpoint = endpoint.startsWith('/v1/extension/membership/');
+	if (error.status !== 403 || isMembershipEndpoint) return;
+
+	if (requireAuth && error.message.includes('UUID invalidated')) {
+		await browser.storage.local.remove(['extension_uuid']);
+		logger.info('Stored UUID cleared due to invalidation');
+	}
+
+	if (error.message.includes('Access denied')) {
+		await markAccessRestricted();
+	}
 }
 
 // Unified HTTP client for both Rotector and Custom APIs
@@ -227,52 +403,12 @@ export async function makeHttpRequest(
 	const isCustomApi = !!customApi;
 	const url = isCustomApi ? endpoint : `${API_CONFIG.BASE_URL}${endpoint}`;
 
-	const headers = new Headers({
-		'Content-Type': 'application/json',
-		Accept: 'application/json'
+	const headers = await prepareHeaders(fetchOptions.headers, customApi, {
+		requireAuth,
+		clientId,
+		lookupContext,
+		readPrimary
 	});
-
-	if (fetchOptions.headers) {
-		new Headers(fetchOptions.headers).forEach((value, key) => {
-			headers.set(key, value);
-		});
-	}
-
-	// Add authentication headers
-	if (isCustomApi) {
-		const authHeaders = buildCustomApiAuthHeaders(customApi);
-		for (const [name, value] of Object.entries(authHeaders)) {
-			headers.set(name, value);
-		}
-	} else {
-		const apiKey = await getApiKey();
-		if (apiKey?.trim()) {
-			headers.set('X-Auth-Token', apiKey.trim());
-		}
-
-		if (requireAuth) {
-			const uuid = await getExtensionUuid();
-			if (!uuid) {
-				throw new Error('Extension not authenticated. Please login with Discord.');
-			}
-			headers.set('X-Extension-UUID', uuid);
-		}
-
-		// Add client ID header for integrity verification
-		if (clientId) {
-			headers.set('X-Client-ID', clientId);
-		}
-
-		// Add lookup context header for friend lookups
-		if (lookupContext) {
-			headers.set('X-Lookup-Context', lookupContext);
-		}
-
-		// Force read from primary database to avoid replication lag
-		if (readPrimary) {
-			headers.set('X-Read-Primary', 'true');
-		}
-	}
 
 	const method = (fetchOptions.method ?? 'GET').toUpperCase();
 	const isSafeMethod = ['GET', 'HEAD', 'OPTIONS'].includes(method);
@@ -291,52 +427,13 @@ export async function makeHttpRequest(
 		};
 
 		try {
-			logger.debug(`HTTP Request attempt ${attempt}: ${method} ${url}`);
+			logger.debug(`HTTP Request attempt ${String(attempt)}: ${method} ${url}`);
 
 			const response = await fetch(url, requestOptions);
 			const duration = Date.now() - startTime;
 
 			if (!response.ok) {
-				let errorData: {
-					error?: string;
-					requestId?: string;
-					code?: string;
-					type?: string;
-				};
-				try {
-					const jsonData: unknown = await response.json();
-					errorData = typeof jsonData === 'object' && jsonData !== null ? jsonData : {};
-				} catch {
-					const errorText = await response.text().catch(() => 'Unknown error');
-					errorData = { error: errorText };
-				}
-
-				const error = new Error(
-					errorData.error ?? `HTTP ${response.status}: ${response.statusText}`
-				) as Error & {
-					status: number;
-					requestId?: string;
-					code?: string;
-					type?: string;
-					rateLimitReset?: number;
-				};
-
-				Object.assign(error, {
-					status: response.status,
-					...(errorData.requestId && { requestId: errorData.requestId }),
-					...(errorData.code && { code: errorData.code }),
-					...(errorData.type && { type: errorData.type })
-				});
-
-				// Capture Retry-After for 429 responses
-				if (response.status === 429) {
-					const retryAfter = response.headers.get('Retry-After');
-					if (retryAfter) {
-						error.rateLimitReset = Math.ceil(Date.now() / 1000) + Number(retryAfter);
-					}
-				}
-
-				throw error;
+				throw await buildHttpError(response);
 			}
 
 			if (response.status === 204) {
@@ -347,19 +444,7 @@ export async function makeHttpRequest(
 			let data: unknown = await response.json();
 			logger.apiCall(method, url, response.status, duration);
 
-			// Proactively wait when rate limit is exhausted
-			const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
-			const rateLimitReset = response.headers.get('X-RateLimit-Reset');
-			if (rateLimitRemaining !== null && rateLimitReset !== null) {
-				const remaining = Number(rateLimitRemaining);
-				if (remaining <= 0) {
-					const waitMs = Number(rateLimitReset) * 1000 - Date.now() + 500;
-					if (waitMs > 0) {
-						logger.debug(`Rate limit exhausted, waiting ${waitMs}ms for reset`);
-						await new Promise((resolve) => setTimeout(resolve, waitMs));
-					}
-				}
-			}
+			await maybeWaitForRateLimit(response.headers);
 
 			// Unwrap custom API response if needed
 			if (isCustomApi) {
@@ -368,61 +453,24 @@ export async function makeHttpRequest(
 
 			return data;
 		} catch (error) {
-			lastError = error as Error;
+			lastError = normalizeFetchError(error as Error, timeout);
 			const duration = Date.now() - startTime;
 
-			if (lastError.name === 'AbortError') {
-				const timeoutError = new Error(`Request timeout (${timeout}ms)`) as Error & {
-					status?: number;
-				};
-				timeoutError.status = 408;
-				lastError = timeoutError;
-			}
-
-			// Network failure
-			if (!('status' in lastError) && lastError instanceof TypeError) {
-				const networkError = new Error(
-					'Unable to connect. Check your internet connection and try again.'
-				) as Error & { status?: number };
-				networkError.status = 0;
-				lastError = networkError;
-			}
-
-			logger.warn(`HTTP request failed (attempt ${attempt}/${maxRetries})`, {
+			logger.warn(`HTTP request failed (attempt ${String(attempt)}/${String(maxRetries)})`, {
 				url,
 				error: lastError.message,
 				duration
 			});
 
-			// Retry on retryable errors
-			const errStatus = (lastError as Error & { status?: number }).status;
-			const isRateLimited = errStatus === 429;
-			const isNetworkFailure = errStatus === 0;
-			if (
-				attempt < maxRetries &&
-				isRetryableError(lastError) &&
-				(isSafeMethod || isRateLimited || isNetworkFailure)
-			) {
-				const delay = computeRetryDelay(lastError, retryDelay, attempt);
-				logger.debug(`Retrying in ${delay}ms...`);
+			const delay = decideRetry(lastError, attempt, maxRetries, retryDelay, isSafeMethod);
+			if (delay !== null) {
+				logger.debug(`Retrying in ${String(delay)}ms...`);
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				continue;
 			}
 
 			if (!isCustomApi) {
-				const err = lastError as Error & { status?: number };
-
-				// Handle 403 responses
-				if (err.status === 403) {
-					if (requireAuth && err.message.includes('UUID invalidated')) {
-						await browser.storage.local.remove(['extension_uuid']);
-						logger.info('Stored UUID cleared due to invalidation');
-					}
-
-					if (err.message.includes('Access denied')) {
-						await markAccessRestricted();
-					}
-				}
+				await handleRotectorForbidden(lastError, endpoint, requireAuth);
 			}
 
 			break;

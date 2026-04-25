@@ -194,10 +194,10 @@
 		const href = groupLink?.getAttribute('href');
 		if (!href || !nameElement) return null;
 
-		const groupIdMatch = href.match(/\/(?:communities|groups)\/(\d+)/);
-		if (!groupIdMatch) return null;
+		const rawGroupId = href.match(/\/(?:communities|groups)\/(\d+)/)?.[1];
+		if (!rawGroupId) return null;
 
-		const groupId = sanitizeEntityId(groupIdMatch[1]);
+		const groupId = sanitizeEntityId(rawGroupId);
 		if (!groupId) return null;
 
 		return { groupId, element, nameElement };

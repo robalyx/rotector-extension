@@ -18,11 +18,16 @@ export const CHANGELOGS: Changelog[] = [
 	{
 		id: 'v2.16.0',
 		version: '2.16.0',
-		date: '2026-04-24',
+		date: '2026-05-01',
 		title: 'UI Redesign & Feature Expansion',
 		summary:
 			'A major UI refresh across the stats, settings, report helper, modals, and friend warning, alongside new detection tools, quality-of-life improvements, and a broad set of bug fixes.',
 		changes: [
+			{
+				type: 'added',
+				description:
+					'Membership badges - Supporters can claim a customizable donator badge from a new Membership page and display it on their Roblox profile and in tooltips'
+			},
 			{
 				type: 'added',
 				description:

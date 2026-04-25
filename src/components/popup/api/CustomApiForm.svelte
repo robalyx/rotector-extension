@@ -182,8 +182,8 @@
 	function removeImage() {
 		landscapeImageDataUrl = '';
 		imageError = '';
-		const input = document.getElementById('api-image') as HTMLInputElement;
-		if (input) {
+		const input = document.getElementById('api-image');
+		if (input instanceof HTMLInputElement) {
 			input.value = '';
 		}
 	}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { CircleCheck, AlertCircle, Clock, History, CircleHelp } from '@lucide/svelte';
+	import { CircleCheck, CircleAlert, Clock, History, CircleQuestionMark } from '@lucide/svelte';
 
 	const statusTypes = [
 		{
@@ -16,7 +16,7 @@
 			descKey: 'onboarding_status_pending_desc'
 		},
 		{
-			icon: AlertCircle,
+			icon: CircleAlert,
 			color: 'var(--color-status-unsafe)',
 			nameKey: 'onboarding_status_unsafe',
 			descKey: 'onboarding_status_unsafe_desc'
@@ -28,7 +28,7 @@
 			descKey: 'onboarding_status_queued_desc'
 		},
 		{
-			icon: CircleHelp,
+			icon: CircleQuestionMark,
 			color: 'var(--color-status-mixed)',
 			nameKey: 'onboarding_status_mixed',
 			descKey: 'onboarding_status_mixed_desc'

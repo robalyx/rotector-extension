@@ -44,9 +44,10 @@ export function startGroupQuery(groupId: string): GroupQuerySubscription {
 				const wrapped = wrapGroupStatus(status, false);
 				if (wrapped) emit(wrapped);
 			})
-			.catch((error: Error) => {
+			.catch((error: unknown) => {
 				if (cancelled) return;
-				const wrapped = wrapGroupStatus(null, false, error.message);
+				const message = error instanceof Error ? error.message : String(error);
+				const wrapped = wrapGroupStatus(null, false, message);
 				if (wrapped) emit(wrapped);
 			});
 	}

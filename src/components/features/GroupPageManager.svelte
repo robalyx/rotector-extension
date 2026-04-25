@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mount } from 'svelte';
+	import { mount, unmount } from 'svelte';
 	import { logger } from '@/lib/utils/logger';
 	import { waitForElement } from '@/lib/utils/element-waiter';
 	import type { GroupQuerySubscription } from '@/lib/utils/group-query';
@@ -66,7 +66,7 @@
 				return;
 			}
 
-			insertStatusIndicator(ownerResult.element);
+			insertStatusIndicator(ownerResult.element, groupId);
 			logger.debug('Group status indicator mounted successfully');
 		} catch (error) {
 			logger.error('Failed to setup group status indicator:', error);
@@ -74,11 +74,11 @@
 	}
 
 	// Insert and mount status indicator component
-	function insertStatusIndicator(ownerElement: Element) {
+	function insertStatusIndicator(ownerElement: Element, groupId: string) {
 		// Check and unmount existing component
 		const existingComponent = mountedComponents.get('group-owner');
 		if (existingComponent) {
-			existingComponent.unmount?.();
+			void unmount(existingComponent);
 			mountedComponents.delete('group-owner');
 		}
 
@@ -99,7 +99,7 @@
 		const component = mount(StatusIndicator, {
 			target: container,
 			props: {
-				entityId: groupId!,
+				entityId: groupId,
 				entityType: ENTITY_TYPES.GROUP,
 				get entityStatus() {
 					return groupStatus;
@@ -120,7 +120,7 @@
 
 	// Clean up mounted components and resources
 	function cleanup() {
-		mountedComponents.forEach((component) => component.unmount?.());
+		mountedComponents.forEach((component) => void unmount(component));
 		mountedComponents.clear();
 		logger.debug('GroupPageManager cleanup completed');
 	}

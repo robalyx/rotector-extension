@@ -62,7 +62,7 @@
 	@apply text-xs font-semibold uppercase;
 	letter-spacing: 0.06em;
 	color: var(--color-text-subtle);
-	margin: 0.4375rem 0 0.25rem 0;
+	margin: 0.4375rem 0 0.25rem;
 }
 
 /* =================================
@@ -133,7 +133,7 @@
 @utility docs-inline-heading {
 	@apply m-0 text-xs font-semibold;
 	color: var(--color-text-heading);
-	margin: 0.5rem 0 0.25rem 0;
+	margin: 0.5rem 0 0.25rem;
 }
 
 /* =================================

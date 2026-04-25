@@ -5,8 +5,8 @@
 
 	interface Props {
 		isOpen: boolean;
-		outfitId?: number;
-		userId?: number;
+		outfitId?: number | undefined;
+		userId?: number | undefined;
 		outfitName: string;
 		onClose: () => void;
 	}

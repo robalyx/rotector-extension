@@ -9,7 +9,7 @@
 		Copy,
 		Check,
 		Cpu,
-		AlertTriangle
+		TriangleAlert
 	} from '@lucide/svelte';
 	import {
 		performanceEntries,
@@ -61,7 +61,7 @@
 	function formatPerformanceForCopy(): string {
 		const lines: string[] = [
 			'=== Performance Traces ===',
-			`Total entries: ${$performanceEntries.length}`,
+			`Total entries: ${String($performanceEntries.length)}`,
 			''
 		];
 
@@ -69,7 +69,7 @@
 		if ($latestSnapshot) {
 			lines.push('=== System Metrics ===');
 			lines.push(
-				`Observers: ${$latestSnapshot.observerCount.total} (${$latestSnapshot.observerCount.mutation} mutation)`
+				`Observers: ${String($latestSnapshot.observerCount.total)} (${String($latestSnapshot.observerCount.mutation)} mutation)`
 			);
 			lines.push(`DOM Nodes: ${formatNumber($latestSnapshot.domNodeCount)}`);
 			if ($latestSnapshot.memory) {
@@ -77,7 +77,7 @@
 					`JS Heap: ${formatBytes($latestSnapshot.memory.usedJSHeapSize)} / ${formatBytes($latestSnapshot.memory.jsHeapSizeLimit)}`
 				);
 			}
-			lines.push(`Long Tasks: ${$longTaskCount}`);
+			lines.push(`Long Tasks: ${String($longTaskCount)}`);
 			lines.push('');
 		}
 
@@ -98,7 +98,7 @@
 			lines.push('=== Category Summary ===');
 			for (const stat of $categoryStats) {
 				lines.push(
-					`${stat.category.toUpperCase()}: ${formatDurationMs(stat.avgDuration)} avg, ${formatDurationMs(stat.minDuration)} min, ${formatDurationMs(stat.maxDuration)} max (${stat.count} traces)`
+					`${stat.category.toUpperCase()}: ${formatDurationMs(stat.avgDuration)} avg, ${formatDurationMs(stat.minDuration)} min, ${formatDurationMs(stat.maxDuration)} max (${String(stat.count)} traces)`
 				);
 			}
 			lines.push('');
@@ -109,7 +109,7 @@
 			lines.push('=== Slowest Operations ===');
 			$slowestOperations.forEach((entry, i) => {
 				lines.push(
-					`${i + 1}. [${entry.category}] ${entry.operation} - ${formatDurationMs(entry.duration)}`
+					`${String(i + 1)}. [${entry.category}] ${entry.operation} - ${formatDurationMs(entry.duration)}`
 				);
 			});
 			lines.push('');
@@ -251,7 +251,7 @@
 				<div class="perf-longtasks-list">
 					{#each $recentLongTasks as task (task.id)}
 						<div class="perf-longtask-item">
-							<AlertTriangle class="perf-longtask-icon" size={10} />
+							<TriangleAlert class="perf-longtask-icon" size={10} />
 							<span class="perf-longtask-time">{formatTimeOfDay(task.timestamp)}</span>
 							<span class="perf-longtask-duration"
 								>{formatDurationMs(task.longTask?.duration ?? 0)}</span

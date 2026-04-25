@@ -1,9 +1,8 @@
-import { browser } from 'wxt/browser';
+import { browser, type PublicPath } from 'wxt/browser';
 
 /**
  * Gets the full URL for an extension asset.
  */
-export function getAssetUrl(path: string): string {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-	return browser.runtime.getURL(path as any);
+export function getAssetUrl(path: PublicPath): string {
+	return browser.runtime.getURL(path);
 }

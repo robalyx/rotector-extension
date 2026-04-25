@@ -12,6 +12,8 @@ import type {
 	GroupTrackedUsersResponse,
 	LeaderboardResponse,
 	MajorOrder,
+	MembershipBadgeUpdatePayload,
+	MembershipStatus,
 	OutfitSnapshotResponse,
 	QueueLimitsData,
 	QueueResult,
@@ -33,6 +35,49 @@ import { getLoggedInUserId } from '../utils/client-id';
 import { logger } from '../utils/logger';
 import { get } from 'svelte/store';
 
+type StructuredError = Error & {
+	status?: number;
+	type?: string;
+	code?: string;
+	requestId?: string;
+	rateLimitReset?: number;
+};
+
+// Lift structured error fields off a failed ApiResponse envelope
+function buildResponseError(response: ApiResponse): StructuredError {
+	const resp = response as ApiResponse & {
+		requestId?: string;
+		code?: string;
+		type?: string;
+		status?: number;
+		rateLimitReset?: number;
+	};
+	return Object.assign(new Error(response.error ?? 'An error occurred. Please try again.'), {
+		...(resp.requestId && { requestId: resp.requestId }),
+		...(resp.code && { code: resp.code }),
+		...(resp.type && { type: resp.type }),
+		...(resp.status !== undefined && { status: resp.status }),
+		...(resp.rateLimitReset && { rateLimitReset: resp.rateLimitReset })
+	});
+}
+
+// Compute retry delay in ms or null when the error should not be retried
+function computeRetryDelay(
+	error: StructuredError,
+	attempt: number,
+	retryDelay: number
+): number | null {
+	const status = error.status;
+	const isRetryable =
+		status === 429 || status === 408 || (status !== undefined && status >= 500 && status < 600);
+	if (!isRetryable) return null;
+
+	if (status === 429 && error.rateLimitReset) {
+		return Math.max(error.rateLimitReset * 1000 - Date.now() + 500, 0);
+	}
+	return retryDelay * attempt;
+}
+
 // Send message to background script with retry logic
 async function sendMessage<T>(
 	action: string,
@@ -53,58 +98,29 @@ async function sendMessage<T>(
 			const message: ContentMessage = { action, ...(clientId && { clientId }), ...data };
 			const response: ApiResponse<T> = await browser.runtime.sendMessage(message);
 
-			if (response?.success) {
+			if (response.success) {
 				return response.data as T;
 			}
-
-			// Create structured error with additional properties from response
-			const resp = response as ApiResponse & {
-				requestId?: string;
-				code?: string;
-				type?: string;
-				status?: number;
-				rateLimitReset?: number;
-			};
-			throw Object.assign(new Error(response.error ?? 'An error occurred. Please try again.'), {
-				...(resp.requestId && { requestId: resp.requestId }),
-				...(resp.code && { code: resp.code }),
-				...(resp.type && { type: resp.type }),
-				...(resp.status !== undefined && { status: resp.status }),
-				...(resp.rateLimitReset && { rateLimitReset: resp.rateLimitReset })
-			});
+			throw buildResponseError(response);
 		} catch (error) {
 			attempt++;
 
-			// Check if we should retry
-			const structuredError = error as Error & {
-				status?: number;
-				type?: string;
-				rateLimitReset?: number;
-			};
-			const status = structuredError.status;
-			const errorType = structuredError.type;
-
-			if (errorType === 'AbuseDetectionError') {
+			const structuredError = error as StructuredError;
+			if (structuredError.type === 'AbuseDetectionError') {
 				throw error;
 			}
 
-			const isRetryable =
-				status === 429 || status === 408 || (status !== undefined && status >= 500 && status < 600);
-
-			if (attempt <= maxRetries && isRetryable) {
-				let delay = retryDelay * attempt;
-				if (status === 429 && structuredError.rateLimitReset) {
-					delay = Math.max(structuredError.rateLimitReset * 1000 - Date.now() + 500, 0);
-				}
-				logger.warn(
-					`API request failed, retrying in ${delay}ms (attempt ${attempt}/${maxRetries}):`,
-					error
-				);
-				await abortableSleep(delay, options.signal);
-				continue;
+			const delay =
+				attempt <= maxRetries ? computeRetryDelay(structuredError, attempt, retryDelay) : null;
+			if (delay === null) {
+				throw error;
 			}
 
-			throw error;
+			logger.warn(
+				`API request failed, retrying in ${String(delay)}ms (attempt ${String(attempt)}/${String(maxRetries)}):`,
+				error
+			);
+			await abortableSleep(delay, options.signal);
 		}
 	}
 
@@ -277,6 +293,30 @@ class RotectorApiClient {
 
 	async getReportableUser(): Promise<ReportableUserResponse> {
 		return sendMessage<ReportableUserResponse>(API_ACTIONS.EXTENSION_GET_REPORTABLE_USER, {});
+	}
+
+	async getMembershipStatus(): Promise<MembershipStatus> {
+		return sendMessage<MembershipStatus>(
+			API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS,
+			{},
+			{ maxRetries: 0 }
+		);
+	}
+
+	async updateMembershipBadge(payload: MembershipBadgeUpdatePayload): Promise<MembershipStatus> {
+		return sendMessage<MembershipStatus>(
+			API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE,
+			payload as Record<string, unknown>,
+			{ maxRetries: 0 }
+		);
+	}
+
+	async clearMembershipBadge(): Promise<MembershipStatus> {
+		return sendMessage<MembershipStatus>(
+			API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE,
+			{},
+			{ maxRetries: 0 }
+		);
 	}
 
 	async getWarZoneStatistics(zoneId: number): Promise<ZoneHistoricalStats> {

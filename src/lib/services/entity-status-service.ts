@@ -19,12 +19,12 @@ interface StatusRequest<T> {
 }
 
 interface GetStatusOptions {
-	signal?: AbortSignal;
+	signal?: AbortSignal | undefined;
 }
 
 interface GetStatusesOptions {
-	lookupContext?: string;
-	signal?: AbortSignal;
+	lookupContext?: string | undefined;
+	signal?: AbortSignal | undefined;
 }
 
 // The controller short-circuits the shared fetch only when every queued waiter has aborted,
@@ -152,9 +152,7 @@ class EntityStatusService<T extends EntityStatus> {
 				chunks: chunks.length
 			});
 
-			for (let i = 0; i < chunks.length; i++) {
-				const chunk = chunks[i];
-
+			for (const [i, chunk] of chunks.entries()) {
 				// Delay between batches
 				if (i > 0) {
 					await abortableSleep(API_CONFIG.BATCH_DELAY, options?.signal);
@@ -164,35 +162,7 @@ class EntityStatusService<T extends EntityStatus> {
 					throw getAbortError(options.signal);
 				}
 
-				try {
-					const batchStatuses = await this.fetchMultiple(chunk, options?.lookupContext);
-
-					// Drop results if the caller aborted while the request was in flight. Otherwise a
-					// superseded scan could still populate the cache and let stale indicators win.
-					if (options?.signal?.aborted) {
-						throw getAbortError(options.signal);
-					}
-
-					batchStatuses.forEach((status) => {
-						if (status && status.id) {
-							const entityId = status.id.toString();
-							this.cache.set(entityId, {
-								data: status,
-								timestamp: Date.now()
-							});
-							results.set(entityId, status);
-						}
-					});
-				} catch (error) {
-					if (error instanceof DOMException && error.name === 'AbortError') {
-						throw error;
-					}
-					logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
-						error,
-						chunkIndex: i,
-						chunkSize: chunk.length
-					});
-				}
+				await this.fetchChunk(chunk, i, results, options);
 			}
 
 			// Set null for any IDs that weren't returned
@@ -204,6 +174,44 @@ class EntityStatusService<T extends EntityStatus> {
 		}
 
 		return results;
+	}
+
+	// Fetch one batch, populate cache + results. Rethrow on abort, log otherwise
+	private async fetchChunk(
+		chunk: string[],
+		chunkIndex: number,
+		results: Map<string, T | null>,
+		options: GetStatusesOptions | undefined
+	): Promise<void> {
+		try {
+			const batchStatuses = await this.fetchMultiple(chunk, options?.lookupContext);
+
+			// Drop results if the caller aborted while the request was in flight. Otherwise a
+			// superseded scan could still populate the cache and let stale indicators win.
+			if (options?.signal?.aborted) {
+				throw getAbortError(options.signal);
+			}
+
+			batchStatuses.forEach((status) => {
+				if (status.id) {
+					const entityId = status.id.toString();
+					this.cache.set(entityId, {
+						data: status,
+						timestamp: Date.now()
+					});
+					results.set(entityId, status);
+				}
+			});
+		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') {
+				throw error;
+			}
+			logger.error(`${this.entityType}StatusService`, 'Batch fetch failed', {
+				error,
+				chunkIndex,
+				chunkSize: chunk.length
+			});
+		}
 	}
 
 	// Manually updates cache with new status data
@@ -233,10 +241,8 @@ class EntityStatusService<T extends EntityStatus> {
 			const status = await this.fetchSingle(entityId, { signal: entry.controller.signal });
 			const snapshot = [...entry.queue];
 			this.pendingRequests.delete(entityId);
-			if (status) {
-				this.cache.set(entityId, { data: status, timestamp: Date.now() });
-			}
-			for (const request of snapshot) request.resolve(status ?? null);
+			this.cache.set(entityId, { data: status, timestamp: Date.now() });
+			for (const request of snapshot) request.resolve(status);
 		} catch (error) {
 			const err = error instanceof Error ? error : new Error('Unknown error');
 			const snapshot = [...entry.queue];

@@ -3,14 +3,24 @@
 
 	interface Props {
 		onNavigateToCustomApis?: () => void;
+		onNavigateToMembership?: () => void;
 		onNavigateToDeveloperLogs?: () => void;
-		onNavigateToPerformance?: () => void;
+		onNavigateToPerformance?: (() => void) | undefined;
 	}
 
-	let { onNavigateToCustomApis, onNavigateToDeveloperLogs, onNavigateToPerformance }: Props =
-		$props();
+	let {
+		onNavigateToCustomApis,
+		onNavigateToMembership,
+		onNavigateToDeveloperLogs,
+		onNavigateToPerformance
+	}: Props = $props();
 </script>
 
 <div class="settings-page">
-	<SettingsSection {onNavigateToCustomApis} {onNavigateToDeveloperLogs} {onNavigateToPerformance} />
+	<SettingsSection
+		{onNavigateToCustomApis}
+		{onNavigateToDeveloperLogs}
+		{onNavigateToMembership}
+		{onNavigateToPerformance}
+	/>
 </div>

@@ -58,8 +58,8 @@ export function calculateTransformOrigin(anchorElement: HTMLElement): TransformO
 
 // Apply positioning styles to a tooltip element
 export function applyTooltipPosition(tooltipRef: HTMLElement, position: TooltipPosition): void {
-	tooltipRef.style.left = `${position.left}px`;
-	tooltipRef.style.top = `${position.top}px`;
+	tooltipRef.style.left = `${String(position.left)}px`;
+	tooltipRef.style.top = `${String(position.top)}px`;
 	tooltipRef.style.setProperty('--tooltip-positioned-above', position.isAbove ? '1' : '0');
-	tooltipRef.style.setProperty('--bridge-offset-x', `${-position.bridgeOffsetX}px`);
+	tooltipRef.style.setProperty('--bridge-offset-x', `${String(-position.bridgeOffsetX)}px`);
 }

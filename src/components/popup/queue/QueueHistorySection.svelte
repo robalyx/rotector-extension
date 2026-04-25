@@ -21,7 +21,8 @@
 		fallback() {
 			return {
 				duration: 160,
-				css: (t: number) => `opacity: ${t}; transform: translateY(${(1 - t) * 4}px);`
+				css: (t: number) =>
+					`opacity: ${String(t)}; transform: translateY(${String((1 - t) * 4)}px);`
 			};
 		}
 	});
@@ -69,7 +70,7 @@
 	}
 
 	function openProfile(userId: number): void {
-		void browser.tabs.create({ url: `https://www.roblox.com/users/${userId}/profile` });
+		void browser.tabs.create({ url: `https://www.roblox.com/users/${String(userId)}/profile` });
 	}
 
 	function handleRemove(userId: number): void {

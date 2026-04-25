@@ -3,7 +3,7 @@
 	import {
 		Plus,
 		Trash2,
-		Edit2,
+		Pen,
 		ChevronUp,
 		ChevronDown,
 		Check,
@@ -13,7 +13,7 @@
 		Copy,
 		Download,
 		Upload,
-		AlertTriangle
+		TriangleAlert
 	} from '@lucide/svelte';
 	import type { CustomApiConfig } from '@/lib/types/custom-api';
 	import {
@@ -359,7 +359,7 @@
 			.then((result) => {
 				if (!cancelled) hasPermissions = result;
 			})
-			.catch((error) => {
+			.catch((error: unknown) => {
 				if (cancelled) return;
 				logger.error('Failed to check permissions:', error);
 				hasPermissions = false;
@@ -375,7 +375,7 @@
 		if (loading) return;
 
 		void $customApis;
-		refreshPerApiPermissions().catch((error) => {
+		refreshPerApiPermissions().catch((error: unknown) => {
 			logger.error('Failed to check per-API permissions:', error);
 		});
 	});
@@ -392,7 +392,7 @@
 	{#if showPermissionNotice}
 		<div class="api-permission-notice" role="status">
 			<div class="api-permission-notice-icon">
-				<AlertTriangle size={16} />
+				<TriangleAlert size={16} />
 			</div>
 			<div class="api-permission-notice-body">
 				<span class="api-permission-notice-title">
@@ -529,7 +529,7 @@
 								<button
 									class="api-card-ghost-button"
 									aria-label={$_('custom_api_mgmt_title_move_up')}
-									disabled={index === 0 || (index > 0 && $customApis[index - 1].isSystem)}
+									disabled={index === 0 || $customApis[index - 1]?.isSystem === true}
 									onclick={() => handleReorder(api, 'up')}
 									title={$_('custom_api_mgmt_title_move_up')}
 									type="button"
@@ -570,7 +570,7 @@
 									title={$_('custom_api_mgmt_title_edit')}
 									type="button"
 								>
-									<Edit2 size={14} />
+									<Pen size={14} />
 								</button>
 								<div class="export-dropdown-container">
 									<button

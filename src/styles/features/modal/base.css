@@ -6,7 +6,6 @@
 	@apply invisible fixed inset-0 z-[10000] flex items-center justify-center p-5 opacity-0;
 	background-color: var(--overlay-modal);
 	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
 	transition:
 		opacity 0.25s ease,
 		visibility 0s linear 0.25s;

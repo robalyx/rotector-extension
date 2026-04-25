@@ -14,6 +14,7 @@ export function validateEntityId(entityId: string | number): string {
 }
 
 // Extracts response data from API responses
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- T documents the expected response shape at call sites; TS cannot infer from unknown input, so explicit generic is clearer than `as` at every endpoint
 export function extractResponseData<T>(response: unknown): T {
 	if (typeof response === 'object' && response !== null && 'data' in response) {
 		return (response as { data: T }).data;

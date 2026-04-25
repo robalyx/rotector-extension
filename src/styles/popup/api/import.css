@@ -51,6 +51,7 @@
 	&::before,
 	&::after {
 		content: '';
+
 		@apply h-px flex-1;
 		background-color: var(--color-border-subtle);
 	}

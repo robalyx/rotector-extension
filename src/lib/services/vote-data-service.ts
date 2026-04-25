@@ -26,8 +26,9 @@ class VoteDataService {
 		}
 
 		// Deduplicate concurrent requests
-		if (numericUserId in this.pendingRequests) {
-			return this.pendingRequests[numericUserId];
+		const pending = this.pendingRequests[numericUserId];
+		if (pending) {
+			return pending;
 		}
 
 		const promise = apiClient.getVotes(numericUserId);

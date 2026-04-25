@@ -55,6 +55,6 @@ export const clearPerformanceEntries = clear;
 
 // Add a new entry with auto-generated ID
 export async function addPerformanceEntry(entry: Omit<PerformanceEntry, 'id'>): Promise<void> {
-	const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+	const id = `${String(Date.now())}-${Math.random().toString(36).slice(2, 8)}`;
 	return add({ ...entry, id });
 }

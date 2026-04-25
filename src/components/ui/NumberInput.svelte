@@ -4,10 +4,10 @@
 	interface Props {
 		label: string;
 		value: number;
-		min?: number;
-		max?: number;
-		step?: number;
-		helpText?: string;
+		min?: number | undefined;
+		max?: number | undefined;
+		step?: number | undefined;
+		helpText?: string | undefined;
 		onChange: (value: number) => void;
 	}
 

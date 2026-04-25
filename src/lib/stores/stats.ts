@@ -14,7 +14,7 @@ export const statsState = writable<StatsState>('loading');
 export const statsRange = writable<ActivityHours>(24);
 
 function cacheKey(hours: ActivityHours): string {
-	return `${STATS_CACHE_KEY_PREFIX}${hours}`;
+	return `${STATS_CACHE_KEY_PREFIX}${String(hours)}`;
 }
 
 async function getCachedStats(hours: ActivityHours): Promise<StatsResponse | null> {

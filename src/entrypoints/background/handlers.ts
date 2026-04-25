@@ -1,4 +1,4 @@
-import type { ContentMessage } from '@/lib/types/api';
+import type { ContentMessage, MembershipBadgeUpdatePayload } from '@/lib/types/api';
 import { API_ACTIONS } from '@/lib/types/constants';
 import { isUserBeingProcessed, getUnprocessedUserIds } from '@/lib/stores/queue-history';
 import {
@@ -19,6 +19,9 @@ import {
 	submitVote
 } from './endpoints/core';
 import {
+	clearMembershipBadge,
+	getMembershipStatus,
+	updateMembershipBadge,
 	getDiscordLoginUrl,
 	getExtensionProfile,
 	getExtensionReports,
@@ -105,7 +108,7 @@ export const actionHandlers = {
 		);
 	},
 	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
-		if (!request.userId || request.voteType === undefined || request.voteType === null)
+		if (!request.userId || request.voteType === undefined)
 			throw new Error('User ID and vote type are required for submit vote');
 		return submitVote(request.userId, request.voteType, request.clientId);
 	},
@@ -152,6 +155,22 @@ export const actionHandlers = {
 		getExtensionReports(request.limit, request.offset, request.status),
 	[API_ACTIONS.EXTENSION_GET_REPORTABLE_USER]: async () => getReportableUser(),
 	[API_ACTIONS.EXTENSION_GET_STATISTICS]: async () => getExtensionStatistics(),
+	[API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS]: async () => getMembershipStatus(),
+	[API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE]: async (request: ContentMessage) => {
+		const { robloxUserId, badgeDesign, iconDesign, textDesign } = request;
+		const payload: MembershipBadgeUpdatePayload = Object.fromEntries(
+			Object.entries({ robloxUserId, badgeDesign, iconDesign, textDesign }).filter(
+				([, value]) => value !== undefined
+			)
+		);
+		if (Object.keys(payload).length === 0) {
+			throw new Error(
+				'Provide at least one of robloxUserId, badgeDesign, iconDesign, or textDesign.'
+			);
+		}
+		return updateMembershipBadge(payload);
+	},
+	[API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE]: async () => clearMembershipBadge(),
 
 	[API_ACTIONS.WAR_GET_ZONE_STATS]: async (request: ContentMessage) => {
 		if (typeof request.zoneId !== 'number' || request.zoneId < 0) {

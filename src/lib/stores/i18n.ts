@@ -19,7 +19,7 @@ void init({
 });
 
 // Load locale into svelte-i18n
-async function loadLocale(localeCode: string): Promise<void> {
+async function loadLocale(localeCode: SupportedLocale): Promise<void> {
 	if (loadedLocales.has(localeCode)) {
 		return;
 	}
@@ -84,7 +84,8 @@ export function getAvailableLocales(): Array<{ code: string; name: string }> {
 
 // Sync language across contexts when storage changes
 browser.storage.onChanged.addListener((changes, namespace) => {
-	if (namespace === 'sync' && changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE]) {
-		void applyLocale(changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE].newValue as string);
+	const localeChange = changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE];
+	if (namespace === 'sync' && localeChange) {
+		void applyLocale(localeChange.newValue as string);
 	}
 });

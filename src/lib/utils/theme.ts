@@ -111,7 +111,7 @@ class ThemeManager {
 	// Cleans up event listeners and observers
 	cleanup(): void {
 		// Cleanup system theme detection
-		if (this.mediaQuery && this.mediaQueryHandler && this.mediaQuery.removeEventListener) {
+		if (this.mediaQuery && this.mediaQueryHandler) {
 			this.mediaQuery.removeEventListener('change', this.mediaQueryHandler);
 		}
 
@@ -141,9 +141,7 @@ class ThemeManager {
 				logger.debug(`System theme changed to: ${e.matches ? 'dark' : 'light'}`);
 			};
 
-			if (this.mediaQuery.addEventListener) {
-				this.mediaQuery.addEventListener('change', this.mediaQueryHandler);
-			}
+			this.mediaQuery.addEventListener('change', this.mediaQueryHandler);
 
 			logger.debug('System theme detection initialized');
 		} catch (error) {
@@ -210,7 +208,7 @@ class ThemeManager {
 	private setupThemePersistence(): void {
 		this.effectiveTheme.subscribe((theme) => {
 			if (this.isRobloxPage()) {
-				this.storeContentScriptTheme(theme).catch((err) => {
+				this.storeContentScriptTheme(theme).catch((err: unknown) => {
 					logger.error('Failed to store content script theme:', err);
 				});
 			}
@@ -235,7 +233,7 @@ class ThemeManager {
 			});
 
 			logger.debug(
-				`Applied ${theme} theme to document and ${this.portalContainers.size} portal containers`
+				`Applied ${theme} theme to document and ${String(this.portalContainers.size)} portal containers`
 			);
 		} catch (error) {
 			logger.error('Failed to apply theme to document:', error);

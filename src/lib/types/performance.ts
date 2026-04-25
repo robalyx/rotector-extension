@@ -19,8 +19,8 @@ export interface PerformanceEntry {
 	duration: number;
 	success: boolean;
 	source: LogSource;
-	pageUrl?: string;
-	metadata?: Record<string, unknown>;
+	pageUrl?: string | undefined;
+	metadata?: Record<string, unknown> | undefined;
 }
 
 export interface CategoryStats {
@@ -35,13 +35,13 @@ export interface CategoryStats {
 export interface MetricsSnapshot {
 	id: string;
 	timestamp: number;
-	pageUrl?: string;
+	pageUrl?: string | undefined;
 	source: LogSource;
 	type: 'periodic' | 'navigation' | 'longtask';
 	observerCount: ObserverCount;
 	domNodeCount: number;
-	memory?: MemorySnapshot;
-	longTask?: LongTaskEntry;
+	memory?: MemorySnapshot | undefined;
+	longTask?: LongTaskEntry | undefined;
 }
 
 export interface LongTaskEntry {

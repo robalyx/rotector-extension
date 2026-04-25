@@ -26,7 +26,7 @@
 	// Check for replay request from popup
 	async function checkReplayRequest() {
 		const replayResult = await browser.storage.local.get('onboardingReplayRequested');
-		if (replayResult.onboardingReplayRequested) {
+		if (replayResult['onboardingReplayRequested']) {
 			await browser.storage.local.remove('onboardingReplayRequested');
 			triggerOnboardingReplay();
 			logger.debug('Onboarding replay triggered from popup');
@@ -39,11 +39,7 @@
 <OnboardingManager />
 
 {#if showChangelog}
-	<ChangelogModal
-		onClose={() => {
-			logger.debug('Changelog modal closed');
-		}}
-	/>
+	<ChangelogModal onClose={() => logger.debug('Changelog modal closed')} />
 {/if}
 
 <!-- Outfit Viewer Modal -->

@@ -159,12 +159,12 @@ export async function queueUser(
 
 	// Only include outfit_names if there are selections
 	if (outfitNames.length > 0) {
-		requestBody.outfit_names = outfitNames;
+		requestBody['outfit_names'] = outfitNames;
 	}
 
 	// Include captcha token if provided
 	if (captchaToken) {
-		requestBody.captcha_token = captchaToken;
+		requestBody['captcha_token'] = captchaToken;
 	}
 
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.QUEUE_USER, {
@@ -237,7 +237,7 @@ export async function getMultipleVotes(
 
 // Get stats payload like totals, funding, activity time series
 export async function getStats(hours: ActivityHours): Promise<StatsResponse> {
-	const url = `${API_CONFIG.ENDPOINTS.GET_STATS}?hours=${hours}`;
+	const url = `${API_CONFIG.ENDPOINTS.GET_STATS}?hours=${String(hours)}`;
 	const response = await makeHttpRequest(url, { method: 'GET' });
 	return extractResponseData<StatsResponse>(response);
 }
@@ -307,7 +307,7 @@ export async function lookupRobloxUserDiscord(
 async function fetchImageAsDataUrl(url: string): Promise<string> {
 	const response = await fetch(url);
 	if (!response.ok) {
-		throw new Error(`Image fetch failed with status ${response.status}`);
+		throw new Error(`Image fetch failed with status ${String(response.status)}`);
 	}
 
 	const buffer = await response.arrayBuffer();
@@ -348,7 +348,8 @@ export async function lookupOutfitsByName(
 	// Fetch the first URL per name, leaving the rest as raw CDN URLs
 	const transformed = await Promise.all(
 		apiResponse.results.map(async (result) => {
-			if (result.urls.length === 0) {
+			const [firstUrl] = result.urls;
+			if (firstUrl === undefined) {
 				return {
 					name: result.name,
 					primaryDataUrl: null,
@@ -360,10 +361,10 @@ export async function lookupOutfitsByName(
 			let primaryDataUrl: string | null = null;
 			let primaryFailed = false;
 			try {
-				primaryDataUrl = await fetchImageAsDataUrl(result.urls[0]);
+				primaryDataUrl = await fetchImageAsDataUrl(firstUrl);
 			} catch (error) {
 				logger.error('Failed to inline primary outfit snapshot', {
-					url: result.urls[0],
+					url: firstUrl,
 					error
 				});
 				primaryFailed = true;

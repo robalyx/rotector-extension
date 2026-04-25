@@ -1,4 +1,4 @@
-/*noinspection DuplicatedCode*/
+/* noinspection DuplicatedCode */
 
 /* =================================
    PRIMITIVE COLOR TOKENS
@@ -6,18 +6,18 @@
 
 :root {
 	/* Neutrals */
-	--primitive-white: #ffffff;
-	--primitive-black: #000000;
+	--primitive-white: #fff;
+	--primitive-black: #000;
 	--primitive-gray-50: #f9f9f9;
 	--primitive-gray-100: #f5f5f5;
-	--primitive-gray-200: #eeeeee;
+	--primitive-gray-200: #eee;
 	--primitive-gray-300: #e0e0e0;
-	--primitive-gray-400: #aaaaaa;
-	--primitive-gray-500: #888888;
-	--primitive-gray-600: #666666;
-	--primitive-gray-700: #555555;
-	--primitive-gray-800: #444444;
-	--primitive-gray-900: #333333;
+	--primitive-gray-400: #aaa;
+	--primitive-gray-500: #888;
+	--primitive-gray-600: #666;
+	--primitive-gray-700: #555;
+	--primitive-gray-800: #444;
+	--primitive-gray-900: #333;
 	--primitive-gray-950: #1a1a1a;
 	--primitive-gray-error-light: #6b7280;
 	--primitive-gray-error-dark: #9ca3af;
@@ -35,7 +35,7 @@
 	/* Greens */
 	--primitive-green-400: #66bb6a;
 	--primitive-green-500: #4caf50;
-	--primitive-green-600: #44cc44;
+	--primitive-green-600: #4c4;
 	--primitive-green-tailwind-400: #4ade80;
 
 	/* Reds */
@@ -43,7 +43,7 @@
 	--primitive-red-500: #f44336;
 	--primitive-red-600: #d32f2f;
 	--primitive-red-700: #c62828;
-	--primitive-red-bright: #ff4444;
+	--primitive-red-bright: #f44;
 	--primitive-red-tailwind-500: #ef4444;
 
 	/* Oranges & Yellows */
@@ -55,6 +55,9 @@
 	--primitive-orange-tailwind-700: #f97316;
 	--primitive-yellow-tailwind-400: #facc15;
 	--primitive-yellow-tailwind-500: #eab308;
+	--primitive-gold-400: #fbbf24;
+	--primitive-gold-500: #e89c2d;
+	--primitive-gold-600: #c27b14;
 
 	/* Purples & Indigos */
 	--primitive-purple-50: #f3e5f5;
@@ -73,12 +76,12 @@
 	--primitive-dark-bg: #121212;
 	--primitive-dark-surface: #1e1e1e;
 	--primitive-dark-surface-2: #2a2a2a;
-	--primitive-dark-surface-3: #333333;
+	--primitive-dark-surface-3: #333;
 	--primitive-dark-border: #383838;
 	--primitive-dark-border-subtle: #2f2f2f;
 	--primitive-dark-text: #e0e0e0;
-	--primitive-dark-text-heading: #ffffff;
-	--primitive-dark-text-subtle: #aaaaaa;
+	--primitive-dark-text-heading: #fff;
+	--primitive-dark-text-subtle: #aaa;
 
 	/* Link colors */
 	--primitive-link-bg-light: #3a3a3a;
@@ -92,31 +95,31 @@
 	--primitive-switch-active-dark: #3c91e6;
 
 	/* Opacity values */
-	--hover-light: rgba(0, 0, 0, 0.05);
-	--hover-dark: rgba(255, 255, 255, 0.05);
-	--active-light: rgba(0, 0, 0, 0.1);
-	--active-dark: rgba(255, 255, 255, 0.1);
-	--divider-light: rgba(0, 0, 0, 0.1);
-	--divider-dark: rgba(255, 255, 255, 0.1);
-	--evidence-light: rgba(0, 0, 0, 0.07);
-	--evidence-dark: rgba(255, 255, 255, 0.07);
-	--surface-overlay-light: rgba(255, 255, 255, 0.03);
-	--surface-overlay-dark: rgba(255, 255, 255, 0.05);
+	--hover-light: rgb(0 0 0 / 5%);
+	--hover-dark: rgb(255 255 255 / 5%);
+	--active-light: rgb(0 0 0 / 10%);
+	--active-dark: rgb(255 255 255 / 10%);
+	--divider-light: rgb(0 0 0 / 10%);
+	--divider-dark: rgb(255 255 255 / 10%);
+	--evidence-light: rgb(0 0 0 / 7%);
+	--evidence-dark: rgb(255 255 255 / 7%);
+	--surface-overlay-light: rgb(255 255 255 / 3%);
+	--surface-overlay-dark: rgb(255 255 255 / 5%);
 
 	/* Shadow and overlay opacities */
-	--shadow-faint: rgba(0, 0, 0, 0.04);
-	--shadow-subtle: rgba(0, 0, 0, 0.08);
-	--shadow-light: rgba(0, 0, 0, 0.1);
-	--shadow-medium: rgba(0, 0, 0, 0.12);
-	--shadow-elevated: rgba(0, 0, 0, 0.18);
-	--overlay-scrim: rgba(0, 0, 0, 0.4);
-	--overlay-modal: rgba(0, 0, 0, 0.5);
-	--overlay-dialog: rgba(0, 0, 0, 0.55);
-	--overlay-heavy: rgba(0, 0, 0, 0.75);
+	--shadow-faint: rgb(0 0 0 / 4%);
+	--shadow-subtle: rgb(0 0 0 / 8%);
+	--shadow-light: rgb(0 0 0 / 10%);
+	--shadow-medium: rgb(0 0 0 / 12%);
+	--shadow-elevated: rgb(0 0 0 / 18%);
+	--overlay-scrim: rgb(0 0 0 / 40%);
+	--overlay-modal: rgb(0 0 0 / 50%);
+	--overlay-dialog: rgb(0 0 0 / 55%);
+	--overlay-heavy: rgb(0 0 0 / 75%);
 
 	/* Status badge surface  */
 	--status-badge-bg: var(--primitive-dark-bg);
-	--status-badge-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+	--status-badge-shadow: 0 1px 3px rgb(0 0 0 / 45%);
 
 	/* =================================
 	   LIGHT THEME (Default)
@@ -152,15 +155,15 @@
 	/* Brand */
 	--color-primary: var(--primitive-blue-500);
 	--color-primary-hover: var(--primitive-blue-600);
-	--color-primary-alpha: rgba(60, 145, 230, 0.1);
+	--color-primary-alpha: rgb(60 145 230 / 10%);
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
 	--color-success: var(--primitive-green-500);
-	--color-success-bg: rgba(76, 175, 80, 0.15);
+	--color-success-bg: rgb(76 175 80 / 15%);
 	--color-warning: var(--primitive-orange-500);
 	--color-warning-hover: var(--primitive-orange-tailwind-600);
 	--color-error: var(--primitive-red-600);
-	--color-error-bg: rgba(244, 67, 54, 0.15);
+	--color-error-bg: rgb(244 67 54 / 15%);
 	--color-error-hover: var(--primitive-red-700);
 
 	/* War Zone */
@@ -196,6 +199,11 @@
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-500);
 
+	/* Membership tiers */
+	--color-tier-1: var(--primitive-gold-600);
+	--color-tier-2: var(--primitive-gold-500);
+	--color-tier-3: var(--primitive-yellow-tailwind-500);
+
 	/* Form controls */
 	--color-switch-bg-inactive: var(--primitive-gray-700);
 	--color-switch-bg-active: var(--primitive-blue-400);
@@ -228,11 +236,11 @@
 	--roblox-bg-hover: #e8e8e8;
 	--roblox-border: #d4d4d4;
 	--roblox-border-hover: #bdbdbd;
-	--roblox-text-heading: rgb(26, 26, 26);
-	--roblox-text-primary: rgb(32, 34, 39);
-	--roblox-text-muted: #888888;
-	--roblox-accent: rgb(0, 162, 255);
-	--roblox-overlay: rgba(242, 242, 242, 0.7);
+	--roblox-text-heading: rgb(26 26 26);
+	--roblox-text-primary: rgb(32 34 39);
+	--roblox-text-muted: #888;
+	--roblox-accent: rgb(0 162 255);
+	--roblox-overlay: rgb(242 242 242 / 70%);
 }
 
 /* =================================
@@ -270,11 +278,11 @@
 
 		/* Brand */
 		--color-primary-hover: var(--primitive-blue-700);
-		--color-primary-alpha: rgba(88, 166, 255, 0.1);
+		--color-primary-alpha: rgb(88 166 255 / 10%);
 		--color-accent: var(--primitive-blue-400);
 		--color-accent-hover: var(--primitive-blue-500);
-		--color-success-bg: rgba(102, 187, 106, 0.15);
-		--color-error-bg: rgba(255, 82, 82, 0.15);
+		--color-success-bg: rgb(102 187 106 / 15%);
+		--color-error-bg: rgb(255 82 82 / 15%);
 
 		/* Links */
 		--color-link: var(--primitive-blue-400);
@@ -302,6 +310,11 @@
 		--color-status-past-offender: var(--primitive-blue-past-offender);
 		--color-status-mixed: var(--primitive-yellow-tailwind-400);
 
+		/* Membership tiers */
+		--color-tier-1: var(--primitive-orange-400);
+		--color-tier-2: var(--primitive-gold-400);
+		--color-tier-3: var(--primitive-yellow-tailwind-400);
+
 		/* Form controls */
 		--color-switch-bg-active: var(--primitive-switch-active-dark);
 		--color-switch-handle: var(--primitive-dark-text);
@@ -318,21 +331,21 @@
 		--color-reason-message: var(--primitive-dark-text);
 		--color-evidence-bg: var(--surface-overlay-dark);
 		--color-evidence-text: var(--primitive-gray-400);
-		--color-evidence-border: rgba(255, 255, 255, 0.15);
-		--color-outfit-evidence-bg: rgba(186, 104, 200, 0.1);
+		--color-evidence-border: rgb(255 255 255 / 15%);
+		--color-outfit-evidence-bg: rgb(186 104 200 / 10%);
 		--color-tooltip-divider: var(--divider-dark);
 
-		/* Roblox theme (Dark) */
-		--roblox-bg-content: rgb(25, 26, 31);
-		--roblox-bg-surface: rgb(57, 59, 66);
-		--roblox-bg-hover: rgb(39, 40, 46);
-		--roblox-border: rgb(57, 59, 66);
-		--roblox-border-hover: rgb(71, 74, 82);
-		--roblox-text-heading: rgb(247, 247, 248);
-		--roblox-text-primary: rgb(200, 200, 206);
-		--roblox-text-muted: rgb(163, 163, 172);
-		--roblox-accent: rgb(0, 162, 255);
-		--roblox-overlay: rgba(25, 26, 31, 0.7);
+		/* Roblox theme */
+		--roblox-bg-content: rgb(25 26 31);
+		--roblox-bg-surface: rgb(57 59 66);
+		--roblox-bg-hover: rgb(39 40 46);
+		--roblox-border: rgb(57 59 66);
+		--roblox-border-hover: rgb(71 74 82);
+		--roblox-text-heading: rgb(247 247 248);
+		--roblox-text-primary: rgb(200 200 206);
+		--roblox-text-muted: rgb(163 163 172);
+		--roblox-accent: rgb(0 162 255);
+		--roblox-overlay: rgb(25 26 31 / 70%);
 	}
 }
 
@@ -370,11 +383,11 @@
 
 	/* Brand */
 	--color-primary-hover: var(--primitive-blue-700);
-	--color-primary-alpha: rgba(88, 166, 255, 0.1);
+	--color-primary-alpha: rgb(88 166 255 / 10%);
 	--color-accent: var(--primitive-blue-400);
 	--color-accent-hover: var(--primitive-blue-500);
-	--color-success-bg: rgba(102, 187, 106, 0.15);
-	--color-error-bg: rgba(255, 82, 82, 0.15);
+	--color-success-bg: rgb(102 187 106 / 15%);
+	--color-error-bg: rgb(255 82 82 / 15%);
 
 	/* Links */
 	--color-link: var(--primitive-blue-400);
@@ -402,6 +415,11 @@
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-400);
 
+	/* Membership tiers */
+	--color-tier-1: var(--primitive-orange-400);
+	--color-tier-2: var(--primitive-gold-400);
+	--color-tier-3: var(--primitive-yellow-tailwind-400);
+
 	/* Form controls */
 	--color-switch-bg-active: var(--primitive-switch-active-dark);
 	--color-switch-handle: var(--primitive-dark-text);
@@ -418,21 +436,21 @@
 	--color-reason-message: var(--primitive-dark-text);
 	--color-evidence-bg: var(--surface-overlay-dark);
 	--color-evidence-text: var(--primitive-gray-400);
-	--color-evidence-border: rgba(255, 255, 255, 0.15);
-	--color-outfit-evidence-bg: rgba(186, 104, 200, 0.1);
+	--color-evidence-border: rgb(255 255 255 / 15%);
+	--color-outfit-evidence-bg: rgb(186 104 200 / 10%);
 	--color-tooltip-divider: var(--divider-dark);
 
-	/* Roblox theme (Dark) */
-	--roblox-bg-content: rgb(25, 26, 31);
-	--roblox-bg-surface: rgb(57, 59, 66);
-	--roblox-bg-hover: rgb(39, 40, 46);
-	--roblox-border: rgb(57, 59, 66);
-	--roblox-border-hover: rgb(71, 74, 82);
-	--roblox-text-heading: rgb(247, 247, 248);
-	--roblox-text-primary: rgb(200, 200, 206);
-	--roblox-text-muted: rgb(163, 163, 172);
-	--roblox-accent: rgb(0, 162, 255);
-	--roblox-overlay: rgba(25, 26, 31, 0.7);
+	/* Roblox theme */
+	--roblox-bg-content: rgb(25 26 31);
+	--roblox-bg-surface: rgb(57 59 66);
+	--roblox-bg-hover: rgb(39 40 46);
+	--roblox-border: rgb(57 59 66);
+	--roblox-border-hover: rgb(71 74 82);
+	--roblox-text-heading: rgb(247 247 248);
+	--roblox-text-primary: rgb(200 200 206);
+	--roblox-text-muted: rgb(163 163 172);
+	--roblox-accent: rgb(0 162 255);
+	--roblox-overlay: rgb(25 26 31 / 70%);
 }
 
 /* =================================
@@ -469,7 +487,7 @@
 
 	/* Brand */
 	--color-primary-hover: var(--primitive-blue-600);
-	--color-primary-alpha: rgba(60, 145, 230, 0.1);
+	--color-primary-alpha: rgb(60 145 230 / 10%);
 	--color-accent: var(--primitive-blue-500);
 	--color-accent-hover: var(--primitive-blue-600);
 
@@ -498,6 +516,11 @@
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-500);
 
+	/* Membership tiers */
+	--color-tier-1: var(--primitive-gold-600);
+	--color-tier-2: var(--primitive-gold-500);
+	--color-tier-3: var(--primitive-yellow-tailwind-500);
+
 	/* Form controls */
 	--color-switch-bg-active: var(--primitive-blue-400);
 	--color-switch-handle: var(--primitive-gray-200);
@@ -524,9 +547,9 @@
 	--roblox-bg-hover: #e8e8e8;
 	--roblox-border: #d4d4d4;
 	--roblox-border-hover: #bdbdbd;
-	--roblox-text-heading: rgb(26, 26, 26);
-	--roblox-text-primary: rgb(32, 34, 39);
-	--roblox-text-muted: #888888;
-	--roblox-accent: rgb(0, 162, 255);
-	--roblox-overlay: rgba(242, 242, 242, 0.7);
+	--roblox-text-heading: rgb(26 26 26);
+	--roblox-text-primary: rgb(32 34 39);
+	--roblox-text-muted: #888;
+	--roblox-accent: rgb(0 162 255);
+	--roblox-overlay: rgb(242 242 242 / 70%);
 }

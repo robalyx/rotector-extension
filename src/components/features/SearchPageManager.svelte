@@ -69,13 +69,13 @@
 			if (!friendButton) return;
 
 			// Check if already proceeding
-			if ((friendButton as HTMLElement).dataset.skipWarning) {
-				delete (friendButton as HTMLElement).dataset.skipWarning;
+			if ((friendButton as HTMLElement).dataset['skipWarning']) {
+				delete (friendButton as HTMLElement).dataset['skipWarning'];
 				return;
 			}
 
 			// Intercept "Add" buttons
-			const buttonText = friendButton.textContent?.trim().toLowerCase() || '';
+			const buttonText = friendButton.textContent.trim().toLowerCase();
 			if (!buttonText.includes('add')) return;
 
 			// Find the user card containing this button
@@ -120,7 +120,7 @@
 		) as HTMLElement | null;
 
 		if (friendButton) {
-			friendButton.dataset.skipWarning = 'true';
+			friendButton.dataset['skipWarning'] = 'true';
 			friendButton.click();
 			logger.debug('Friend request proceeded - simulated click');
 		} else {

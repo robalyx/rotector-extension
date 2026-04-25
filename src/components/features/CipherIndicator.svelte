@@ -83,8 +83,8 @@
 
 	// Toggle decode/restore on profile and modal bio simultaneously
 	function handleToggle() {
-		if (isModalInstance) {
-			onToggle!();
+		if (onToggle) {
+			onToggle();
 			return;
 		}
 

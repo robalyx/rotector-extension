@@ -5,6 +5,7 @@
 	import QueuePage from '../../components/popup/QueuePage.svelte';
 	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
 	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
+	import MembershipPage from '../../components/popup/membership/MembershipPage.svelte';
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
@@ -25,6 +26,7 @@
 		| 'queue'
 		| 'custom-apis'
 		| 'custom-api-docs'
+		| 'membership'
 		| 'developer-logs'
 		| 'performance';
 
@@ -39,11 +41,14 @@
 	const isOptionsSurface = $derived(surface === 'options');
 	let currentPage = $state<Page | null>(null);
 
+	// Resolve the initial options page from a pending deep link on cold start
 	$effect(() => {
-		if (isOptionsSurface && currentPage === null) {
-			currentPage = 'custom-apis';
-			void browser.storage.local.remove('optionsDeepLink');
-		}
+		if (!isOptionsSurface || currentPage !== null) return;
+		void (async () => {
+			const { optionsDeepLink: target } = await browser.storage.local.get('optionsDeepLink');
+			await browser.storage.local.remove('optionsDeepLink');
+			currentPage = target === 'membership' ? 'membership' : 'custom-apis';
+		})();
 	});
 
 	// Handle deep link navigation from popup to an already-open options tab
@@ -52,7 +57,7 @@
 
 		const handler = (changes: Record<string, { newValue?: unknown }>, area: string) => {
 			if (area !== 'local') return;
-			const target = changes.optionsDeepLink?.newValue;
+			const target = changes['optionsDeepLink']?.newValue;
 			if (typeof target === 'string') {
 				currentPage = target as Page;
 				void browser.storage.local.remove('optionsDeepLink');
@@ -72,14 +77,19 @@
 		await browser.runtime.openOptionsPage();
 	}
 
+	async function openMembershipOptionsPage() {
+		await browser.storage.local.set({ optionsDeepLink: 'membership' });
+		await browser.runtime.openOptionsPage();
+	}
+
 	$effect(() => {
-		loadStoredLanguagePreference().catch((error) => {
+		loadStoredLanguagePreference().catch((error: unknown) => {
 			logger.error('Failed to load language preference:', error);
 		});
-		loadQueueHistory().catch((error) => {
+		loadQueueHistory().catch((error: unknown) => {
 			logger.error('Failed to load queue history:', error);
 		});
-		loadDeveloperLogs().catch((error) => {
+		loadDeveloperLogs().catch((error: unknown) => {
 			logger.error('Failed to load developer logs:', error);
 		});
 	});
@@ -96,19 +106,15 @@
 					savedPage &&
 					savedPage !== 'custom-apis' &&
 					savedPage !== 'custom-api-docs' &&
-					(!IS_DEV ? savedPage !== 'performance' : true) &&
-					(savedPage === 'stats' ||
-						savedPage === 'settings' ||
-						savedPage === 'queue' ||
-						savedPage === 'developer-logs' ||
-						savedPage === 'performance')
+					savedPage !== 'membership' &&
+					(!IS_DEV ? savedPage !== 'performance' : true)
 				) {
 					currentPage = savedPage;
 				} else {
 					currentPage = 'stats';
 				}
 			})
-			.catch((error) => {
+			.catch((error: unknown) => {
 				logger.error('Failed to load last visited page:', error);
 				currentPage = 'stats';
 			});
@@ -119,9 +125,11 @@
 		if (!isPopupSurface) return;
 
 		if (currentPage) {
-			browser.storage.local.set({ [LAST_PAGE_STORAGE_KEY]: currentPage }).catch((error) => {
-				logger.error('Failed to save last visited page:', error);
-			});
+			browser.storage.local
+				.set({ [LAST_PAGE_STORAGE_KEY]: currentPage })
+				.catch((error: unknown) => {
+					logger.error('Failed to save last visited page:', error);
+				});
 		}
 	});
 
@@ -173,6 +181,15 @@
 			</button>
 			<button
 				class="custom-api-tab"
+				class:active={currentPage === 'membership'}
+				aria-pressed={currentPage === 'membership'}
+				onclick={() => handlePageChange('membership')}
+				type="button"
+			>
+				{$_('membership_tab_label')}
+			</button>
+			<button
+				class="custom-api-tab"
 				class:active={currentPage === 'custom-api-docs'}
 				aria-pressed={currentPage === 'custom-api-docs'}
 				onclick={() => handlePageChange('custom-api-docs')}
@@ -192,6 +209,7 @@
 				<SettingsPage
 					onNavigateToCustomApis={openCustomApisOptionsPage}
 					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
+					onNavigateToMembership={openMembershipOptionsPage}
 					onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
 				/>
 			{:else if currentPage === 'queue'}
@@ -200,6 +218,8 @@
 				<CustomApiManagement />
 			{:else if currentPage === 'custom-api-docs'}
 				<CustomApiDocumentation />
+			{:else if currentPage === 'membership'}
+				<MembershipPage />
 			{:else if currentPage === 'developer-logs'}
 				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
 			{:else if IS_DEV && currentPage === 'performance'}

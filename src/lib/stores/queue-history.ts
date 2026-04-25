@@ -88,10 +88,8 @@ export async function updateEntryStatus(
 ): Promise<QueueHistoryEntry | null> {
 	const current = await readFromStorage();
 	const index = current.findIndex((e) => e.userId === userId);
-
-	if (index === -1) return null;
-
 	const entry = current[index];
+	if (!entry) return null;
 
 	// Skip save if nothing changed
 	if (
@@ -126,11 +124,11 @@ export async function updateEntryStatus(
 export async function markAsNotified(userId: number): Promise<void> {
 	const current = await readFromStorage();
 	const index = current.findIndex((e) => e.userId === userId);
-
-	if (index === -1) return;
+	const entry = current[index];
+	if (!entry) return;
 
 	const updated = [...current];
-	updated[index] = { ...updated[index], notified: true };
+	updated[index] = { ...entry, notified: true };
 
 	await saveQueueHistory(updated);
 }

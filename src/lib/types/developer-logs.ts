@@ -27,7 +27,7 @@ export interface LogEntry {
 	source: LogSource;
 	message: string;
 	data?: unknown;
-	pageUrl?: string;
+	pageUrl?: string | undefined;
 }
 
 // System information included in log exports

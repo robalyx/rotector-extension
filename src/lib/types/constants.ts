@@ -48,7 +48,9 @@ export const API_CONFIG = {
 		WAR_STATS_HISTORY: '/v1/war/stats/history',
 		QUEUE_STATUS: '/v1/queue/roblox/user/status',
 		EXPORT_GROUP_TRACKED_USERS: '/v1/export/roblox/group',
-		LOOKUP_OUTFITS_BY_NAME: '/v1/lookup/outfits/by-name'
+		LOOKUP_OUTFITS_BY_NAME: '/v1/lookup/outfits/by-name',
+		EXTENSION_MEMBERSHIP_STATUS: '/v1/extension/membership/status',
+		EXTENSION_MEMBERSHIP_BADGE: '/v1/extension/membership/badge'
 	},
 	BATCH_SIZE: 100,
 	BATCH_DELAY: 250, // ms between batches
@@ -92,7 +94,10 @@ export const API_ACTIONS = {
 	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord',
 	EXPORT_GROUP_TRACKED_USERS: 'exportGroupTrackedUsers',
 	LOOKUP_OUTFITS_BY_NAME: 'lookupOutfitsByName',
-	FETCH_OUTFIT_IMAGES: 'fetchOutfitImages'
+	FETCH_OUTFIT_IMAGES: 'fetchOutfitImages',
+	EXTENSION_GET_MEMBERSHIP_STATUS: 'extensionGetMembershipStatus',
+	EXTENSION_UPDATE_MEMBERSHIP_BADGE: 'extensionUpdateMembershipBadge',
+	EXTENSION_CLEAR_MEMBERSHIP_BADGE: 'extensionClearMembershipBadge'
 } as const;
 
 // Captcha external message types
@@ -370,7 +375,8 @@ export const COMPONENT_CLASSES = {
 	COMPONENT_BASE: 'rotector-component',
 	EXPORT_BUTTON: 'rotector-export-button',
 	FRIENDS_SCAN: 'rotector-friends-scan',
-	CIPHER_INDICATOR: 'rotector-cipher-indicator'
+	CIPHER_INDICATOR: 'rotector-cipher-indicator',
+	MEMBERSHIP_BADGE_PILL: 'rotector-membership-badge-pill'
 } as const;
 
 // Type for component class values

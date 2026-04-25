@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="28" viewBox="0 0 140 28" fill="none" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="nebula1" cx="25%" cy="55%" r="40%">
+      <stop offset="0" stop-color="#9b6ee0" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#9b6ee0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula2" cx="75%" cy="30%" r="30%">
+      <stop offset="0" stop-color="#4c7ad4" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#4c7ad4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="140" height="28" fill="url(#nebula1)"/>
+  <rect width="140" height="28" fill="url(#nebula2)"/>
+
+  <!-- === STARS === -->
+  <g fill="#ffffff">
+    <circle cx="18" cy="8" r="0.45" opacity="0.85"/>
+    <circle cx="30" cy="20" r="0.5" opacity="0.9"/>
+    <circle cx="44" cy="6" r="0.4" opacity="0.75"/>
+    <circle cx="58" cy="22" r="0.5" opacity="0.9"/>
+    <circle cx="72" cy="10" r="0.35" opacity="0.7"/>
+    <circle cx="86" cy="18" r="0.45" opacity="0.85"/>
+    <circle cx="100" cy="6" r="0.5" opacity="0.9"/>
+    <circle cx="114" cy="22" r="0.35" opacity="0.75"/>
+    <circle cx="126" cy="15" r="0.4" opacity="0.8"/>
+    <circle cx="12" cy="16" r="0.3" opacity="0.65"/>
+    <circle cx="26" cy="11" r="0.3" opacity="0.6"/>
+    <circle cx="78" cy="4" r="0.3" opacity="0.7"/>
+    <circle cx="108" cy="14" r="0.3" opacity="0.65"/>
+  </g>
+  <g fill="#d4b8ff">
+    <circle cx="36" cy="14" r="0.4" opacity="0.8"/>
+    <circle cx="66" cy="6" r="0.4" opacity="0.75"/>
+    <circle cx="94" cy="20" r="0.4" opacity="0.75"/>
+    <circle cx="120" cy="9" r="0.3" opacity="0.65"/>
+  </g>
+  <g fill="#ffffff" opacity="0.9">
+    <path d="M50 12 L50.3 13 L51.3 13.3 L50.3 13.6 L50 14.6 L49.7 13.6 L48.7 13.3 L49.7 13z"/>
+    <path d="M80 22 L80.3 23 L81.3 23.3 L80.3 23.6 L80 24.6 L79.7 23.6 L78.7 23.3 L79.7 23z"/>
+  </g>
+</svg>

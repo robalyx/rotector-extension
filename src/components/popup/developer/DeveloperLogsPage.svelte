@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ArrowLeft, Copy, Trash2, AlertCircle, AlertTriangle, Check } from '@lucide/svelte';
+	import { ArrowLeft, Copy, Trash2, CircleAlert, TriangleAlert, Check } from '@lucide/svelte';
 	import {
 		developerLogs,
 		errorLogs,
@@ -141,7 +141,7 @@
 			onclick={() => (activeFilter = 'error')}
 			type="button"
 		>
-			<AlertCircle size={12} />
+			<CircleAlert size={12} />
 			{$_('developer_logs_filter_errors')}
 			{#if $errorLogs.length > 0}
 				<span class="developer-logs-filter-count">{$errorLogs.length}</span>
@@ -153,7 +153,7 @@
 			onclick={() => (activeFilter = 'warn')}
 			type="button"
 		>
-			<AlertTriangle size={12} />
+			<TriangleAlert size={12} />
 			{$_('developer_logs_filter_warnings')}
 			{#if $warningLogs.length > 0}
 				<span class="developer-logs-filter-count">{$warningLogs.length}</span>

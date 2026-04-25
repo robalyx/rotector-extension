@@ -22,7 +22,7 @@
 	interface UserInfo {
 		userId: string;
 		username: string;
-		avatarUrl?: string;
+		avatarUrl?: string | undefined;
 	}
 
 	let {
@@ -99,7 +99,7 @@
 				// Get username from profile username element
 				const usernameElement = profileHeader.querySelector(PROFILE_SELECTORS.USERNAME);
 				if (usernameElement) {
-					let text = usernameElement.textContent?.trim() ?? '';
+					let text = usernameElement.textContent.trim();
 					if (text.startsWith('@')) text = text.substring(1);
 					username = text;
 				}
@@ -113,13 +113,13 @@
 		} else {
 			// Try to find user info from search card
 			const searchCard = document.querySelector(
-				`${SEARCH_SELECTORS.CARD.CONTAINER}[${STATUS_SELECTORS.DATA_USER_ID}="${userId}"]`
+				`${SEARCH_SELECTORS.CARD.CONTAINER}[${STATUS_SELECTORS.DATA_USER_ID}="${String(userId)}"]`
 			);
 			if (searchCard) {
 				// Get username from search card
 				const usernameElement = searchCard.querySelector(SEARCH_SELECTORS.CARD.USERNAME);
 				if (usernameElement) {
-					username = usernameElement.textContent?.trim() ?? '';
+					username = usernameElement.textContent.trim();
 				}
 
 				// Get avatar image from search card

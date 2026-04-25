@@ -1,72 +1,75 @@
 @layer theme, base, components, utilities;
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
+
+@import url('tailwindcss/theme.css') layer(theme);
+@import url('tailwindcss/utilities.css') layer(utilities);
 
 /* =================================
    THEME IMPORTS
    ================================= */
-@import './theme/colors.css';
-@import './theme/typography.css';
-@import './theme/shadows.css';
-@import './theme/icons.css';
+@import url('./theme/colors.css');
+@import url('./theme/typography.css');
+@import url('./theme/shadows.css');
+@import url('./theme/icons.css');
 
 /* =================================
    BASE IMPORTS
    ================================= */
-@import './base/animations.css';
-@import './base/utilities.css';
+@import url('./base/animations.css');
+@import url('./base/utilities.css');
 
 /* =================================
    COMPONENT IMPORTS
    ================================= */
-@import './components/buttons.css';
-@import './components/forms.css';
-@import './components/cards.css';
-@import './components/badges.css';
-@import './components/loading.css';
-@import './components/status-indicator.css';
-@import './components/number-input.css';
-@import './components/toast.css';
+@import url('./components/buttons.css');
+@import url('./components/forms.css');
+@import url('./components/cards.css');
+@import url('./components/badges.css');
+@import url('./components/loading.css');
+@import url('./components/status-indicator.css');
+@import url('./components/number-input.css');
+@import url('./components/toast.css');
 
 /* =================================
    POPUP IMPORTS
    ================================= */
-@import './popup/base.css';
-@import './popup/shared.css';
-@import './popup/navbar.css';
-@import './popup/stats/stats.css';
-@import './popup/stats/content.css';
-@import './popup/settings/settings.css';
-@import './popup/queue/history.css';
-@import './popup/developer/shared.css';
-@import './popup/developer/logs.css';
-@import './popup/developer/performance.css';
-@import './popup/api/management.css';
-@import './popup/api/form.css';
-@import './popup/api/import.css';
-@import './popup/api/documentation.css';
-@import './popup/shared/footer.css';
+@import url('./popup/base.css');
+@import url('./popup/shared.css');
+@import url('./popup/navbar.css');
+@import url('./popup/stats/stats.css');
+@import url('./popup/stats/content.css');
+@import url('./popup/settings/settings.css');
+@import url('./popup/queue/history.css');
+@import url('./popup/developer/shared.css');
+@import url('./popup/developer/logs.css');
+@import url('./popup/developer/performance.css');
+@import url('./popup/api/management.css');
+@import url('./popup/api/form.css');
+@import url('./popup/api/import.css');
+@import url('./popup/api/documentation.css');
+@import url('./popup/membership/membership.css');
+@import url('./popup/shared/footer.css');
 
 /* =================================
    FEATURE IMPORTS
    ================================= */
-@import './features/modal/base.css';
-@import './features/modal/friend-warning.css';
-@import './features/modal/queue-modal.css';
-@import './features/modal/outfit-picker.css';
-@import './features/modal/outfit-viewer.css';
-@import './features/modal/outfit-3d.css';
-@import './features/modal/outfit-snapshot-lightbox.css';
-@import './features/tooltip/base.css';
-@import './features/tooltip/content.css';
-@import './features/tooltip/voting.css';
-@import './features/tooltip/tabs.css';
-@import './features/tooltip/discord-evidence.css';
-@import './features/report-helper/report-helper.css';
-@import './features/onboarding/onboarding.css';
-@import './features/changelog/modal.css';
-@import './features/blur.css';
-@import './features/group-members-carousel.css';
-@import './features/export-modal.css';
-@import './features/friend-scan.css';
-@import './features/cipher.css';
+@import url('./features/modal/base.css');
+@import url('./features/modal/friend-warning.css');
+@import url('./features/modal/queue-modal.css');
+@import url('./features/modal/outfit-picker.css');
+@import url('./features/modal/outfit-viewer.css');
+@import url('./features/modal/outfit-3d.css');
+@import url('./features/modal/outfit-snapshot-lightbox.css');
+@import url('./features/tooltip/base.css');
+@import url('./features/tooltip/content.css');
+@import url('./features/tooltip/voting.css');
+@import url('./features/tooltip/tabs.css');
+@import url('./features/tooltip/discord-evidence.css');
+@import url('./features/report-helper/report-helper.css');
+@import url('./features/onboarding/onboarding.css');
+@import url('./features/changelog/modal.css');
+@import url('./features/blur.css');
+@import url('./features/group-members-carousel.css');
+@import url('./features/export-modal.css');
+@import url('./features/friend-scan.css');
+@import url('./features/cipher.css');
+@import url('./features/membership-pill.css');

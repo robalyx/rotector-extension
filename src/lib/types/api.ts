@@ -7,10 +7,43 @@ export interface ReviewerInfo {
 	displayName?: string;
 }
 
-interface Badge {
+export interface Badge {
 	text: string;
 	color?: string;
 	textColor?: string;
+}
+
+export type MembershipTier = 1 | 2 | 3;
+export type MembershipTierName = 'Supporter' | 'Patron' | 'Benefactor';
+
+export interface MembershipBadge {
+	tier: number;
+	badgeDesign: number;
+	iconDesign: number;
+	textDesign: number;
+}
+
+export interface MembershipStatus {
+	tier: MembershipTier;
+	tierName: MembershipTierName;
+	associatedRobloxUserId: number;
+	badgeDesign: number;
+	iconDesign: number;
+	textDesign: number;
+	queueLimit: number;
+	outfitLimit: number;
+	rateLimit: number;
+	createdAt: number;
+	updatedAt: number;
+}
+
+// Partial update: any combination of robloxUserId / badgeDesign / iconDesign / textDesign.
+// Absent fields retain their current server-side values.
+export interface MembershipBadgeUpdatePayload {
+	robloxUserId?: number;
+	badgeDesign?: number;
+	iconDesign?: number;
+	textDesign?: number;
 }
 
 // Phantom brand keys keep UserStatus and GroupStatus distinct at type level without
@@ -37,6 +70,7 @@ export interface UserStatus {
 	processed?: boolean;
 	lastUpdated?: number;
 	badges?: Badge[];
+	membershipBadge?: MembershipBadge;
 }
 
 export interface GroupStatus {
@@ -108,12 +142,12 @@ interface BatchOptions {
 
 // Request options for API calls
 export interface RequestOptions {
-	maxRetries?: number;
-	retryDelay?: number;
-	timeout?: number;
-	apiConfig?: CustomApiConfig;
-	lookupContext?: string;
-	signal?: AbortSignal;
+	maxRetries?: number | undefined;
+	retryDelay?: number | undefined;
+	timeout?: number | undefined;
+	apiConfig?: CustomApiConfig | undefined;
+	lookupContext?: string | undefined;
+	signal?: AbortSignal | undefined;
 }
 
 // Page types for content script controllers
@@ -164,6 +198,10 @@ export interface ContentMessage {
 
 	uuid?: string;
 	isAnonymous?: boolean;
+	robloxUserId?: number;
+	badgeDesign?: number;
+	iconDesign?: number;
+	textDesign?: number;
 	reportedUserId?: number;
 	reportReason?: string;
 	limit?: number;

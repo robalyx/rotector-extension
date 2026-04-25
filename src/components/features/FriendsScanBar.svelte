@@ -63,9 +63,7 @@
 	// Auto-scan on mount, abort on cleanup
 	$effect(() => {
 		void startScan();
-		return () => {
-			abortController?.abort();
-		};
+		return () => abortController?.abort();
 	});
 
 	function flagToCategory(flagType: number): string {
@@ -116,8 +114,11 @@
 					throw new DOMException('Aborted', 'AbortError');
 				}
 
+				const chunk = chunks[i];
+				if (!chunk) continue;
+
 				try {
-					const statuses = await apiClient.checkMultipleUsers(chunks[i], {
+					const statuses = await apiClient.checkMultipleUsers(chunk, {
 						lookupContext: LOOKUP_CONTEXT.FRIENDS
 					});
 

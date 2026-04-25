@@ -95,10 +95,10 @@ export abstract class PageController {
 	}
 
 	// Mount a Svelte component to a DOM element
-	protected mountComponent(
-		ComponentClass: Component<any, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
+	protected mountComponent<TProps extends Record<string, unknown>>(
+		ComponentClass: Component<TProps>,
 		target: HTMLElement,
-		props: Record<string, any> = {} // eslint-disable-line @typescript-eslint/no-explicit-any
+		props: TProps
 	): { element: HTMLElement; cleanup: () => void } {
 		const endTrace = startTrace(TRACE_CATEGORIES.COMPONENT, 'mountComponent', {
 			target: target.tagName,
@@ -133,7 +133,7 @@ export abstract class PageController {
 					}
 
 					// Unmount the Svelte component
-					if (component?.unmount) {
+					if (component.unmount) {
 						component.unmount();
 					}
 					logger.debug('Component unmounted successfully');

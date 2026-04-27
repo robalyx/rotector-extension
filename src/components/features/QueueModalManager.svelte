@@ -44,6 +44,7 @@
 	// Handle queue confirmation from modal
 	async function handleQueueConfirm(
 		outfitNames?: string[],
+		outfitIds?: number[],
 		inappropriateProfile?: boolean,
 		inappropriateFriends?: boolean,
 		inappropriateGroups?: boolean,
@@ -67,6 +68,7 @@
 			logger.userAction('queue_user', {
 				userId: userIdStr,
 				outfitNames,
+				outfitIds,
 				inappropriateProfile,
 				inappropriateFriends,
 				inappropriateGroups
@@ -75,6 +77,7 @@
 			const result = await apiClient.queueUser(
 				userIdStr,
 				outfitNames ?? [],
+				outfitIds ?? [],
 				inappropriateProfile,
 				inappropriateFriends,
 				inappropriateGroups,

@@ -1,7 +1,11 @@
 import type {
 	GroupStatus,
 	GroupTrackedUsersResponse,
-	OutfitSnapshotResponse,
+	OutfitSnapshotByIdResponse,
+	OutfitSnapshotByIdResult,
+	OutfitSnapshotByNameResponse,
+	OutfitSnapshotByNameResult,
+	OutfitSnapshotResult,
 	QueueLimitsData,
 	QueueResult,
 	RobloxUserDiscordLookup,
@@ -21,16 +25,14 @@ import {
 	validateEntityId
 } from '../utils';
 
-// Backend cap on names per request
-const OUTFIT_SNAPSHOT_MAX_NAMES = 50;
+const OUTFIT_SNAPSHOT_MAX_ITEMS = 50;
 
-interface RawOutfitSnapshotApiResult {
-	name: string;
-	urls: string[];
+interface RawOutfitSnapshotByNameApiResponse {
+	results: Array<{ name: string; urls: string[] }>;
 }
 
-interface RawOutfitSnapshotApiResponse {
-	results: RawOutfitSnapshotApiResult[];
+interface RawOutfitSnapshotByIdApiResponse {
+	results: Array<{ outfitId: string; urls: string[] }>;
 }
 
 // Check the status of a single user by ID
@@ -142,6 +144,7 @@ export async function checkMultipleGroups(
 export async function queueUser(
 	userId: string | number,
 	outfitNames: string[] = [],
+	outfitIds: number[] = [],
 	inappropriateProfile: boolean = false,
 	inappropriateFriends: boolean = false,
 	inappropriateGroups: boolean = false,
@@ -160,6 +163,11 @@ export async function queueUser(
 	// Only include outfit_names if there are selections
 	if (outfitNames.length > 0) {
 		requestBody['outfit_names'] = outfitNames;
+	}
+
+	// Only include outfit_ids if there are selections
+	if (outfitIds.length > 0) {
+		requestBody['outfit_ids'] = outfitIds;
 	}
 
 	// Include captcha token if provided
@@ -323,18 +331,36 @@ async function fetchImageAsDataUrl(url: string): Promise<string> {
 	return `data:image/webp;base64,${btoa(binary)}`;
 }
 
-// Look up R2 snapshot URLs for a user's outfits by name and eagerly inline
-// only the primary (collapsed-state) thumbnail as a data URL.
+// Inline the first URL per entry as a data URL; leave the rest as raw CDN URLs
+async function inlinePrimaryThumbnail(urls: string[]): Promise<OutfitSnapshotResult> {
+	const [firstUrl] = urls;
+	if (firstUrl === undefined) {
+		return { primaryDataUrl: null, rawUrls: [], primaryFailed: false };
+	}
+
+	let primaryDataUrl: string | null = null;
+	let primaryFailed = false;
+	try {
+		primaryDataUrl = await fetchImageAsDataUrl(firstUrl);
+	} catch (error) {
+		logger.error('Failed to inline primary outfit snapshot', { url: firstUrl, error });
+		primaryFailed = true;
+	}
+
+	return { primaryDataUrl, rawUrls: urls, primaryFailed };
+}
+
+// Look up R2 snapshot URLs for outfits by name and eagerly inline the primary thumbnail
 export async function lookupOutfitsByName(
 	userId: string | number,
 	names: string[],
 	clientId?: string
-): Promise<OutfitSnapshotResponse> {
+): Promise<OutfitSnapshotByNameResponse> {
 	const sanitizedUserId = validateEntityId(userId);
 
 	const requestBody = {
 		userId: sanitizedUserId,
-		names: names.slice(0, OUTFIT_SNAPSHOT_MAX_NAMES)
+		names: names.slice(0, OUTFIT_SNAPSHOT_MAX_ITEMS)
 	};
 
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.LOOKUP_OUTFITS_BY_NAME, {
@@ -343,43 +369,47 @@ export async function lookupOutfitsByName(
 		clientId
 	});
 
-	const apiResponse = extractResponseData<RawOutfitSnapshotApiResponse>(response);
+	const apiResponse = extractResponseData<RawOutfitSnapshotByNameApiResponse>(response);
 
-	// Fetch the first URL per name, leaving the rest as raw CDN URLs
-	const transformed = await Promise.all(
-		apiResponse.results.map(async (result) => {
-			const [firstUrl] = result.urls;
-			if (firstUrl === undefined) {
-				return {
-					name: result.name,
-					primaryDataUrl: null,
-					rawUrls: [],
-					primaryFailed: false
-				};
-			}
-
-			let primaryDataUrl: string | null = null;
-			let primaryFailed = false;
-			try {
-				primaryDataUrl = await fetchImageAsDataUrl(firstUrl);
-			} catch (error) {
-				logger.error('Failed to inline primary outfit snapshot', {
-					url: firstUrl,
-					error
-				});
-				primaryFailed = true;
-			}
-
-			return {
-				name: result.name,
-				primaryDataUrl,
-				rawUrls: result.urls,
-				primaryFailed
-			};
-		})
+	const results: OutfitSnapshotByNameResult[] = await Promise.all(
+		apiResponse.results.map(async (result) => ({
+			name: result.name,
+			...(await inlinePrimaryThumbnail(result.urls))
+		}))
 	);
 
-	return { results: transformed };
+	return { results };
+}
+
+// Look up R2 snapshot URLs for outfits by id and eagerly inline the primary thumbnail
+export async function lookupOutfitsById(
+	userId: string | number,
+	ids: string[],
+	clientId?: string
+): Promise<OutfitSnapshotByIdResponse> {
+	const sanitizedUserId = validateEntityId(userId);
+
+	const requestBody = {
+		userId: sanitizedUserId,
+		ids: ids.slice(0, OUTFIT_SNAPSHOT_MAX_ITEMS)
+	};
+
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.LOOKUP_OUTFITS_BY_ID, {
+		method: 'POST',
+		body: JSON.stringify(requestBody),
+		clientId
+	});
+
+	const apiResponse = extractResponseData<RawOutfitSnapshotByIdApiResponse>(response);
+
+	const results: OutfitSnapshotByIdResult[] = await Promise.all(
+		apiResponse.results.map(async (result) => ({
+			outfitId: result.outfitId,
+			...(await inlinePrimaryThumbnail(result.urls))
+		}))
+	);
+
+	return { results };
 }
 
 // Lazy bulk fetcher used by the lightbox to inline additional duplicate-name

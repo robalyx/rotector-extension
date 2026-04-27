@@ -167,14 +167,25 @@ export interface TranslationResult {
 }
 
 export interface OutfitSnapshotResult {
-	name: string;
 	primaryDataUrl: string | null;
 	rawUrls: string[];
 	primaryFailed: boolean;
 }
 
-export interface OutfitSnapshotResponse {
-	results: OutfitSnapshotResult[];
+export interface OutfitSnapshotByNameResult extends OutfitSnapshotResult {
+	name: string;
+}
+
+export interface OutfitSnapshotByIdResult extends OutfitSnapshotResult {
+	outfitId: string;
+}
+
+export interface OutfitSnapshotByNameResponse {
+	results: OutfitSnapshotByNameResult[];
+}
+
+export interface OutfitSnapshotByIdResponse {
+	results: OutfitSnapshotByIdResult[];
 }
 
 // Content script message data
@@ -187,7 +198,9 @@ export interface ContentMessage {
 	groupIds?: Array<string | number>;
 	voteType?: VoteType;
 	outfitNames?: string[];
+	outfitIds?: number[];
 	names?: string[];
+	ids?: string[];
 	imageUrls?: string[];
 	inappropriateProfile?: boolean;
 	inappropriateFriends?: boolean;
@@ -234,12 +247,17 @@ export interface CaptchaSession {
 	sessionId: string;
 	userId: string;
 	outfitNames: string[];
+	outfitIds?: number[];
 	inappropriateProfile: boolean;
 	inappropriateFriends: boolean;
 	inappropriateGroups: boolean;
 	senderTabId?: number;
 	timestamp: number;
 }
+
+export type SelectedOutfit =
+	| { kind: 'saved'; id: number; name: string }
+	| { kind: 'current'; name: string };
 
 export interface ExtensionUserProfile {
 	uuid: string;

@@ -49,6 +49,7 @@ export const API_CONFIG = {
 		QUEUE_STATUS: '/v1/queue/roblox/user/status',
 		EXPORT_GROUP_TRACKED_USERS: '/v1/export/roblox/group',
 		LOOKUP_OUTFITS_BY_NAME: '/v1/lookup/outfits/by-name',
+		LOOKUP_OUTFITS_BY_ID: '/v1/lookup/outfits/by-id',
 		EXTENSION_MEMBERSHIP_STATUS: '/v1/extension/membership/status',
 		EXTENSION_MEMBERSHIP_BADGE: '/v1/extension/membership/badge'
 	},
@@ -94,6 +95,7 @@ export const API_ACTIONS = {
 	LOOKUP_ROBLOX_USER_DISCORD: 'lookupRobloxUserDiscord',
 	EXPORT_GROUP_TRACKED_USERS: 'exportGroupTrackedUsers',
 	LOOKUP_OUTFITS_BY_NAME: 'lookupOutfitsByName',
+	LOOKUP_OUTFITS_BY_ID: 'lookupOutfitsById',
 	FETCH_OUTFIT_IMAGES: 'fetchOutfitImages',
 	EXTENSION_GET_MEMBERSHIP_STATUS: 'extensionGetMembershipStatus',
 	EXTENSION_UPDATE_MEMBERSHIP_BADGE: 'extensionUpdateMembershipBadge',

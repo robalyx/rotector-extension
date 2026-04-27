@@ -218,6 +218,16 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Same-name outfit highlighting - Two outfits sharing a name no longer share a flag highlight or show duplicate thumbnails. Each flagged outfit is now matched by its Roblox outfit ID so only the actual one is highlighted.'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Outfit rename during queue - Renaming a selected outfit between queue submission and processing no longer causes the wrong outfit to be analyzed. Selections are submitted by Roblox outfit ID instead of by name.'
+			},
+			{
+				type: 'fixed',
+				description:
 					'3D outfit viewer - Outfit models now load correctly instead of failing with authentication errors'
 			},
 			{

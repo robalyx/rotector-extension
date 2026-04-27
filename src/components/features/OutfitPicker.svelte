@@ -15,20 +15,20 @@
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import View3DButton from '../ui/View3DButton.svelte';
 	import Outfit3DModal from './Outfit3DModal.svelte';
-	import type { OutfitWithThumbnail, CurrentAvatarInfo } from '@/lib/types/api';
+	import type { OutfitWithThumbnail, CurrentAvatarInfo, SelectedOutfit } from '@/lib/types/api';
 
 	interface Props {
 		userId: string | number;
 		maxSelections: number;
-		selectedOutfits?: string[];
-		onSelectionChange: (outfitNames: string[]) => void;
+		selectedOutfits?: SelectedOutfit[];
+		onSelectionChange: (selections: SelectedOutfit[]) => void;
 		disabled?: boolean;
 	}
 
 	let {
 		userId,
 		maxSelections,
-		selectedOutfits = $bindable([]),
+		selectedOutfits = $bindable<SelectedOutfit[]>([]),
 		onSelectionChange,
 		disabled = false
 	}: Props = $props();
@@ -63,23 +63,42 @@
 	const currentAvatarName = $derived(currentAvatar?.username ?? 'Current');
 
 	// Check if current avatar is selected
-	const isCurrentAvatarSelected = $derived(selectedOutfits.includes(currentAvatarName));
+	const isCurrentAvatarSelected = $derived(selectedOutfits.some((s) => s.kind === 'current'));
 
-	// Toggle outfit selection
-	function toggleOutfit(outfitName: string): void {
+	function isSavedSelected(id: number): boolean {
+		return selectedOutfits.some((s) => s.kind === 'saved' && s.id === id);
+	}
+
+	function toggleSavedOutfit(outfit: OutfitWithThumbnail): void {
 		if (disabled) return;
 
-		if (selectedOutfits.includes(outfitName)) {
-			selectedOutfits = selectedOutfits.filter((name) => name !== outfitName);
+		if (isSavedSelected(outfit.id)) {
+			selectedOutfits = selectedOutfits.filter((s) => !(s.kind === 'saved' && s.id === outfit.id));
 		} else if (canSelectMore) {
-			selectedOutfits = [...selectedOutfits, outfitName];
+			selectedOutfits = [...selectedOutfits, { kind: 'saved', id: outfit.id, name: outfit.name }];
 		}
 		onSelectionChange(selectedOutfits);
 	}
 
-	// Get selection index for badge display
-	function getSelectionIndex(outfitName: string): number {
-		return selectedOutfits.indexOf(outfitName) + 1;
+	function toggleCurrentAvatar(): void {
+		if (disabled) return;
+
+		if (isCurrentAvatarSelected) {
+			selectedOutfits = selectedOutfits.filter((s) => s.kind !== 'current');
+		} else if (canSelectMore) {
+			selectedOutfits = [...selectedOutfits, { kind: 'current', name: currentAvatarName }];
+		}
+		onSelectionChange(selectedOutfits);
+	}
+
+	// 1-based by selection order
+	function getSavedSelectionIndex(id: number): number {
+		return selectedOutfits.findIndex((s) => s.kind === 'saved' && s.id === id) + 1;
+	}
+
+	// 1-based by selection order
+	function getCurrentAvatarSelectionIndex(): number {
+		return selectedOutfits.findIndex((s) => s.kind === 'current') + 1;
 	}
 
 	// Open 3D modal for an outfit or current avatar
@@ -262,7 +281,7 @@
 							class="outfit-picker-item outfit-picker-item-current"
 							class:outfit-picker-item-disabled={!canSelect}
 							class:outfit-picker-item-selected={isCurrentAvatarSelected}
-							onclick={() => toggleOutfit(currentAvatarName)}
+							onclick={toggleCurrentAvatar}
 							title={currentAvatarName}
 							type="button"
 						>
@@ -288,7 +307,7 @@
 										{#if maxSelections === 1}
 											<Check size={12} />
 										{:else}
-											<span>{getSelectionIndex(currentAvatarName)}</span>
+											<span>{getCurrentAvatarSelectionIndex()}</span>
 										{/if}
 									</div>
 								{/if}
@@ -301,13 +320,13 @@
 					{/if}
 
 					{#each outfits as outfit (outfit.id)}
-						{@const selected = selectedOutfits.includes(outfit.name)}
+						{@const selected = isSavedSelected(outfit.id)}
 						{@const canSelect = selected || canSelectMore}
 						<button
 							class="outfit-picker-item"
 							class:outfit-picker-item-disabled={!canSelect}
 							class:outfit-picker-item-selected={selected}
-							onclick={() => toggleOutfit(outfit.name)}
+							onclick={() => toggleSavedOutfit(outfit)}
 							title={outfit.name}
 							type="button"
 						>
@@ -337,7 +356,7 @@
 										{#if maxSelections === 1}
 											<Check size={12} />
 										{:else}
-											<span>{getSelectionIndex(outfit.name)}</span>
+											<span>{getSavedSelectionIndex(outfit.id)}</span>
 										{/if}
 									</div>
 								{/if}

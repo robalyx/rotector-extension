@@ -7,6 +7,7 @@
 	} from '@/lib/services/roblox-api-service';
 	import { logger } from '@/lib/utils/logger';
 	import { getAssetUrl } from '@/lib/utils/assets';
+	import { hasOwn } from '@/lib/utils/object';
 	import { themeManager } from '@/lib/utils/theme';
 	import { CircleAlert, Shirt, ChevronLeft, ChevronRight } from '@lucide/svelte';
 	import Modal from '../ui/Modal.svelte';
@@ -21,7 +22,7 @@
 	interface Props {
 		isOpen: boolean;
 		userId: string;
-		flaggedOutfits: Map<string, FlaggedOutfitInfo>;
+		flaggedOutfits: FlaggedOutfitInfo[];
 		onClose: () => void;
 	}
 
@@ -37,44 +38,70 @@
 	let selectedOutfit = $state<OutfitWithThumbnail | null>(null);
 	let loadedCount = $state(0);
 
-	const hasFlaggedOutfits = $derived(flaggedOutfits.size > 0);
+	const hasFlaggedOutfits = $derived(flaggedOutfits.length > 0);
 	const logoUrl = $derived(currentTheme === 'dark' ? darkLogoUrl : lightLogoUrl);
 
-	// Case-insensitive lookup for flagged outfits
-	function getFlagInfo(name: string): FlaggedOutfitInfo | null {
-		const lowerName = name.toLowerCase();
-		for (const [key, value] of flaggedOutfits) {
-			if (key.toLowerCase() === lowerName) {
-				return value;
-			}
+	const flagInfoById = $derived.by(() => {
+		const lookup: Record<string, FlaggedOutfitInfo> = {};
+		for (const info of flaggedOutfits) {
+			if (info.outfitId !== null) lookup[info.outfitId] = info;
 		}
-		return null;
+		return lookup;
+	});
+
+	const flagInfoByLowerName = $derived.by(() => {
+		const lookup: Record<string, FlaggedOutfitInfo> = {};
+		for (const info of flaggedOutfits) {
+			if (info.outfitId === null) lookup[info.name.toLowerCase()] = info;
+		}
+		return lookup;
+	});
+
+	function getFlagInfoById(id: number): FlaggedOutfitInfo | null {
+		const key = String(id);
+		return hasOwn(flagInfoById, key) ? (flagInfoById[key] ?? null) : null;
 	}
 
-	function isFlaggedOutfit(name: string): boolean {
-		return getFlagInfo(name) !== null;
+	function getFlagInfoByName(name: string): FlaggedOutfitInfo | null {
+		const key = name.toLowerCase();
+		return hasOwn(flagInfoByLowerName, key) ? (flagInfoByLowerName[key] ?? null) : null;
 	}
 
-	const selectedFlagInfo = $derived(selectedOutfit ? getFlagInfo(selectedOutfit.name) : null);
+	const selectedFlagInfo = $derived(
+		selectedOutfit
+			? (getFlagInfoById(selectedOutfit.id) ?? getFlagInfoByName(selectedOutfit.name))
+			: null
+	);
 
-	// Group all outfits by name and sort with flagged first
+	// Group by (name, id-flag) so an ID-flagged outfit never collapses into a same-named unflagged sibling
 	const groupedOutfits = $derived.by(() => {
-		const groups: Record<string, OutfitWithThumbnail[]> = {};
+		const groups: Record<
+			string,
+			{ name: string; outfits: OutfitWithThumbnail[]; flagInfo: FlaggedOutfitInfo | null }
+		> = {};
 
 		for (const outfit of allOutfits) {
-			const existing = groups[outfit.name] || [];
-			existing.push(outfit);
-			groups[outfit.name] = existing;
+			const idFlag = getFlagInfoById(outfit.id);
+			const groupKey = `${outfit.name}\x00${idFlag?.outfitId ?? ''}`;
+			const existing = groups[groupKey];
+			if (existing) {
+				existing.outfits.push(outfit);
+			} else {
+				groups[groupKey] = {
+					name: outfit.name,
+					outfits: [outfit],
+					flagInfo: idFlag ?? getFlagInfoByName(outfit.name)
+				};
+			}
 		}
 
 		const entries = Object.entries(groups);
-		entries.sort(([nameA], [nameB]) => {
-			const aFlagged = isFlaggedOutfit(nameA);
-			const bFlagged = isFlaggedOutfit(nameB);
-
+		entries.sort(([, a], [, b]) => {
+			const aFlagged = a.flagInfo !== null;
+			const bFlagged = b.flagInfo !== null;
 			if (aFlagged && !bFlagged) return -1;
 			if (!aFlagged && bFlagged) return 1;
-			return nameA.localeCompare(nameB);
+			return a.name.localeCompare(b.name);
 		});
 
 		return entries;
@@ -113,7 +140,7 @@
 		const firstEntry = groupedOutfits[0];
 		if (firstEntry && selectedOutfit === null) {
 			const [, firstGroup] = firstEntry;
-			const firstOutfit = firstGroup[0];
+			const firstOutfit = firstGroup.outfits[0];
 			if (firstOutfit) selectedOutfit = firstOutfit;
 		}
 	});
@@ -244,16 +271,16 @@
 			{:else}
 				{#if hasFlaggedOutfits}
 					<p class="outfit-viewer-flagged-count">
-						{$_('outfit_viewer_flagged_count', { values: { 0: flaggedOutfits.size.toString() } })}
+						{$_('outfit_viewer_flagged_count', { values: { 0: flaggedOutfits.length.toString() } })}
 					</p>
 				{/if}
 
 				<div class="outfit-viewer-grid">
-					{#each paginatedGroups as [name, outfitGroup] (name)}
+					{#each paginatedGroups as [groupKey, group] (groupKey)}
 						<OutfitStack
-							flagInfo={getFlagInfo(name)}
+							flagInfo={group.flagInfo}
 							onSelect={selectOutfit}
-							outfits={outfitGroup}
+							outfits={group.outfits}
 						/>
 					{/each}
 				</div>

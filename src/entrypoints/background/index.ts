@@ -219,6 +219,7 @@ async function handleCaptchaSuccess(
 			queueData: {
 				userId: session.userId,
 				outfitNames: session.outfitNames,
+				outfitIds: session.outfitIds ?? [],
 				inappropriateProfile: session.inappropriateProfile,
 				inappropriateFriends: session.inappropriateFriends,
 				inappropriateGroups: session.inappropriateGroups

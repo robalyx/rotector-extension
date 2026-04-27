@@ -2,7 +2,7 @@ import type { FlaggedOutfitInfo } from '@/lib/utils/violation-formatter';
 
 interface OutfitViewerRequest {
 	userId: string;
-	flaggedOutfits: Map<string, FlaggedOutfitInfo>;
+	flaggedOutfits: FlaggedOutfitInfo[];
 }
 
 let openRequest: OutfitViewerRequest | null = null;
@@ -15,10 +15,7 @@ export function onOutfitViewerChange(callback: () => void): () => void {
 	};
 }
 
-export function openOutfitViewer(
-	userId: string,
-	flaggedOutfits: Map<string, FlaggedOutfitInfo>
-): void {
+export function openOutfitViewer(userId: string, flaggedOutfits: FlaggedOutfitInfo[]): void {
 	openRequest = { userId, flaggedOutfits };
 	listener?.();
 }

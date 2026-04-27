@@ -14,7 +14,8 @@ import type {
 	MajorOrder,
 	MembershipBadgeUpdatePayload,
 	MembershipStatus,
-	OutfitSnapshotResponse,
+	OutfitSnapshotByIdResponse,
+	OutfitSnapshotByNameResponse,
 	QueueLimitsData,
 	QueueResult,
 	ReportableUserResponse,
@@ -188,6 +189,7 @@ class RotectorApiClient {
 	async queueUser(
 		userId: string | number,
 		outfitNames: string[] = [],
+		outfitIds: number[] = [],
 		inappropriateProfile = false,
 		inappropriateFriends = false,
 		inappropriateGroups = false,
@@ -207,6 +209,7 @@ class RotectorApiClient {
 			{
 				userId,
 				outfitNames,
+				outfitIds,
 				inappropriateProfile,
 				inappropriateFriends,
 				inappropriateGroups,
@@ -391,10 +394,20 @@ class RotectorApiClient {
 	async lookupOutfitsByName(
 		userId: string | number,
 		names: string[]
-	): Promise<OutfitSnapshotResponse> {
-		return sendMessage<OutfitSnapshotResponse>(API_ACTIONS.LOOKUP_OUTFITS_BY_NAME, {
+	): Promise<OutfitSnapshotByNameResponse> {
+		return sendMessage<OutfitSnapshotByNameResponse>(API_ACTIONS.LOOKUP_OUTFITS_BY_NAME, {
 			userId,
 			names
+		});
+	}
+
+	async lookupOutfitsById(
+		userId: string | number,
+		ids: string[]
+	): Promise<OutfitSnapshotByIdResponse> {
+		return sendMessage<OutfitSnapshotByIdResponse>(API_ACTIONS.LOOKUP_OUTFITS_BY_ID, {
+			userId,
+			ids
 		});
 	}
 

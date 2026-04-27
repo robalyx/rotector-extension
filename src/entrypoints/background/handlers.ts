@@ -13,6 +13,7 @@ import {
 	getQueueStatus,
 	getStats,
 	getVotes,
+	lookupOutfitsById,
 	lookupOutfitsByName,
 	lookupRobloxUserDiscord,
 	queueUser,
@@ -89,6 +90,7 @@ export const actionHandlers = {
 		return queueUser(
 			request.userId,
 			request.outfitNames ?? [],
+			request.outfitIds ?? [],
 			request.inappropriateProfile,
 			request.inappropriateFriends,
 			request.inappropriateGroups,
@@ -205,6 +207,13 @@ export const actionHandlers = {
 			throw new Error('At least one outfit name is required for outfit snapshot lookup');
 		}
 		return lookupOutfitsByName(request.userId, request.names, request.clientId);
+	},
+	[API_ACTIONS.LOOKUP_OUTFITS_BY_ID]: async (request: ContentMessage) => {
+		if (!request.userId) throw new Error('User ID is required for outfit snapshot lookup');
+		if (!request.ids || request.ids.length === 0) {
+			throw new Error('At least one outfit id is required for outfit snapshot lookup');
+		}
+		return lookupOutfitsById(request.userId, request.ids, request.clientId);
 	},
 	[API_ACTIONS.FETCH_OUTFIT_IMAGES]: async (request: ContentMessage) => {
 		if (!request.imageUrls || request.imageUrls.length === 0) {

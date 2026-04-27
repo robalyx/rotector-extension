@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { STATUS } from '@/lib/types/constants';
-	import type { OutfitSnapshotResult, ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
+	import type { ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/sanitizer';
 	import { calculateStatusBadges } from '@/lib/utils/status-utils';
 	import { apiClient } from '@/lib/services/api-client';
-	import { outfitSnapshotService } from '@/lib/services/outfit-snapshot-service';
+	import {
+		outfitSnapshotService,
+		type SnapshotKey,
+		type SnapshotMaps
+	} from '@/lib/services/outfit-snapshot-service';
 	import { voteDataService } from '@/lib/services/vote-data-service';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {
-		extractFlaggedOutfitNames,
+		extractFlaggedOutfits,
 		type FormattedReasonEntry,
 		formatViolationReasons,
 		groupSourceLines
@@ -244,7 +248,7 @@
 	let hintWriteQueue: Promise<unknown> = Promise.resolve();
 
 	// Outfit snapshot state
-	let outfitSnapshotMap: Map<string, OutfitSnapshotResult> | null = $state(null);
+	let outfitSnapshotMaps: SnapshotMaps | null = $state(null);
 	let loadingOutfitSnapshots = $state(false);
 	let latestSnapshotLoadId = 0;
 	let lightboxState = $state<{
@@ -392,17 +396,26 @@
 		return !isGroup && status ? (status as UserStatus) : null;
 	});
 
-	// Distinct outfit names from Rotector's Avatar Outfit evidence
-	const flaggedOutfitNames = $derived.by(() => {
-		if (isGroup) return [] as string[];
+	const flaggedOutfitLookups = $derived.by<SnapshotKey[]>(() => {
+		if (isGroup) return [];
 		const evidence = userStatus?.get(ROTECTOR_API_ID)?.data?.reasons['Avatar Outfit']?.evidence;
-		if (!evidence || evidence.length === 0) return [] as string[];
-		return Array.from(extractFlaggedOutfitNames(evidence).keys());
+		if (!evidence || evidence.length === 0) return [];
+		const keys: SnapshotKey[] = [];
+		for (const info of extractFlaggedOutfits(evidence)) {
+			if (info.outfitId !== null) keys.push({ kind: 'id', id: info.outfitId });
+			else keys.push({ kind: 'name', name: info.name });
+		}
+		return keys;
 	});
 
 	// Signature for the current flagged-outfit set
 	const flaggedOutfitNamesKey = $derived(
-		flaggedOutfitNames.length > 0 ? [...flaggedOutfitNames].sort().join('\x00') : ''
+		flaggedOutfitLookups.length > 0
+			? flaggedOutfitLookups
+					.map((k) => (k.kind === 'id' ? `id:${k.id}` : `name:${k.name}`))
+					.sort()
+					.join('\x00')
+			: ''
 	);
 
 	const shouldShowVoting = $derived(
@@ -996,9 +1009,9 @@
 		const loadId = ++latestSnapshotLoadId;
 		loadingOutfitSnapshots = true;
 		try {
-			const map = await outfitSnapshotService.getSnapshots(sanitizedUserId, flaggedOutfitNames);
+			const maps = await outfitSnapshotService.getSnapshots(sanitizedUserId, flaggedOutfitLookups);
 			if (loadId !== latestSnapshotLoadId) return;
-			outfitSnapshotMap = map;
+			outfitSnapshotMaps = maps;
 		} catch (err) {
 			logger.error('Failed to load outfit snapshots:', err);
 		} finally {
@@ -1008,13 +1021,20 @@
 		}
 	}
 
+	// Prefer id match, fall back to name (legacy 3-field evidence)
+	function resolveSnapshot(outfitName: string, outfitId: string | null | undefined) {
+		const byId = outfitId ? outfitSnapshotMaps?.byId.get(outfitId) : undefined;
+		return byId ?? outfitSnapshotMaps?.byName.get(outfitName);
+	}
+
 	// Open the snapshot lightbox for a single outfit evidence item
 	function openOutfitLightbox(
 		outfitName: string,
 		outfitReason: string,
-		outfitConfidence: number | null
+		outfitConfidence: number | null,
+		outfitId: string | null | undefined
 	) {
-		const result = outfitSnapshotMap?.get(outfitName);
+		const result = resolveSnapshot(outfitName, outfitId);
 		if (!result) return;
 		lightboxState = {
 			name: getDisplayText(outfitName),
@@ -2034,7 +2054,8 @@
 											{#if evidence.type === 'outfit' && evidence.outfitName && evidence.outfitReason}
 												{@const outfitName = evidence.outfitName}
 												{@const outfitReason = evidence.outfitReason}
-												{@const snapshot = outfitSnapshotMap?.get(outfitName)}
+												{@const outfitId = evidence.outfitId ?? null}
+												{@const snapshot = resolveSnapshot(outfitName, outfitId)}
 												{@const snapshotCount = snapshot?.rawUrls.length ?? 0}
 												{@const primaryDataUrl = snapshot?.primaryDataUrl ?? null}
 												{@const hasPrimary = primaryDataUrl !== null}
@@ -2049,12 +2070,13 @@
 															openOutfitLightbox(
 																outfitName,
 																outfitReason,
-																evidence.outfitConfidence ?? null
+																evidence.outfitConfidence ?? null,
+																outfitId
 															);
 														}}
 														type="button"
 													>
-														{#if loadingOutfitSnapshots && !outfitSnapshotMap}
+														{#if loadingOutfitSnapshots && !outfitSnapshotMaps}
 															<div class="outfit-snapshot-skeleton"></div>
 														{:else if hasPrimary}
 															<img

@@ -1,13 +1,22 @@
 import { get } from 'svelte/store';
-import type { OutfitSnapshotResponse, OutfitSnapshotResult } from '../types/api';
+import type {
+	OutfitSnapshotByIdResponse,
+	OutfitSnapshotByNameResponse,
+	OutfitSnapshotResult
+} from '../types/api';
 import { apiClient } from './api-client';
 import { settings } from '../stores/settings';
 import { SETTINGS_KEYS } from '../types/settings';
 
-type SnapshotMap = Map<string, OutfitSnapshotResult>;
+export type SnapshotKey = { kind: 'id'; id: string } | { kind: 'name'; name: string };
+
+export interface SnapshotMaps {
+	byId: Map<string, OutfitSnapshotResult>;
+	byName: Map<string, OutfitSnapshotResult>;
+}
 
 interface SnapshotCacheEntry {
-	map: SnapshotMap;
+	maps: SnapshotMaps;
 	timestamp: number;
 }
 
@@ -17,36 +26,42 @@ interface SnapshotCache {
 
 class OutfitSnapshotService {
 	private cache: SnapshotCache = {};
-	private pendingRequests: Record<string, Promise<SnapshotMap>> = {};
+	private pendingRequests: Record<string, Promise<SnapshotMaps>> = {};
 
-	async getSnapshots(userId: string | number, names: string[]): Promise<SnapshotMap> {
+	async getSnapshots(userId: string | number, keys: SnapshotKey[]): Promise<SnapshotMaps> {
 		const normalizedUserId = this.normalizeUserId(userId);
 
-		if (names.length === 0) {
-			return new Map();
+		if (keys.length === 0) {
+			return emptyMaps();
 		}
 
-		// Return cached subset if every requested name is already resolved
+		const { ids, names } = this.splitKeys(keys);
+
+		// Return cached subset if every requested id and name is already resolved
 		const cached = this.getCachedEntry(normalizedUserId);
-		if (cached && names.every((name) => cached.map.has(name))) {
-			return this.buildSubset(cached.map, names);
+		if (
+			cached &&
+			ids.every((id) => cached.maps.byId.has(id)) &&
+			names.every((name) => cached.maps.byName.has(name))
+		) {
+			return this.buildSubset(cached.maps, ids, names);
 		}
 
-		// Deduplicate concurrent requests against the same user + name set
-		const pendingKey = this.buildPendingKey(normalizedUserId, names);
+		// Deduplicate concurrent requests against the same user + key set
+		const pendingKey = this.buildPendingKey(normalizedUserId, ids, names);
 		const existingPromise = this.pendingRequests[pendingKey];
 		if (existingPromise !== undefined) {
-			const fullMap = await existingPromise;
-			return this.buildSubset(fullMap, names);
+			const fullMaps = await existingPromise;
+			return this.buildSubset(fullMaps, ids, names);
 		}
 
 		// Issue a fresh fetch and publish the in-flight promise for dedupe
-		const promise = this.fetchAndCache(normalizedUserId, names);
+		const promise = this.fetchAndCache(normalizedUserId, ids, names);
 		this.pendingRequests[pendingKey] = promise;
 
 		try {
-			const fullMap = await promise;
-			return this.buildSubset(fullMap, names);
+			const fullMaps = await promise;
+			return this.buildSubset(fullMaps, ids, names);
 		} finally {
 			delete this.pendingRequests[pendingKey];
 		}
@@ -58,14 +73,44 @@ class OutfitSnapshotService {
 		return apiClient.fetchOutfitImages(urls);
 	}
 
-	// Fetches snapshots from the backend and persists cleanly-resolved entries
-	private async fetchAndCache(userId: string, names: string[]): Promise<SnapshotMap> {
-		const response: OutfitSnapshotResponse = await apiClient.lookupOutfitsByName(userId, names);
+	// Fetches snapshots from the backend and persists cleanly-resolved entries.
+	// Only the actually-requested endpoints are called; any rejection propagates
+	// so the caller's catch block surfaces the failure instead of silently
+	// returning a partial result.
+	private async fetchAndCache(
+		userId: string,
+		ids: string[],
+		names: string[]
+	): Promise<SnapshotMaps> {
+		type FetchPart =
+			| { kind: 'name'; response: OutfitSnapshotByNameResponse }
+			| { kind: 'id'; response: OutfitSnapshotByIdResponse };
 
-		// Return every fetched entry to the caller, including failures
-		const fetchedMap: SnapshotMap = new Map();
-		for (const entry of response.results) {
-			fetchedMap.set(entry.name, entry);
+		const tasks: Array<Promise<FetchPart>> = [];
+		if (names.length > 0) {
+			tasks.push(
+				apiClient
+					.lookupOutfitsByName(userId, names)
+					.then((response): FetchPart => ({ kind: 'name', response }))
+			);
+		}
+		if (ids.length > 0) {
+			tasks.push(
+				apiClient
+					.lookupOutfitsById(userId, ids)
+					.then((response): FetchPart => ({ kind: 'id', response }))
+			);
+		}
+
+		const parts = await Promise.all(tasks);
+
+		const fetched = emptyMaps();
+		for (const part of parts) {
+			if (part.kind === 'name') {
+				for (const entry of part.response.results) fetched.byName.set(entry.name, entry);
+			} else {
+				for (const entry of part.response.results) fetched.byId.set(entry.outfitId, entry);
+			}
 		}
 
 		// Merge successful entries into an existing cache bucket within TTL,
@@ -75,25 +120,17 @@ class OutfitSnapshotService {
 		const withinTtl = existing !== undefined && now - existing.timestamp <= this.getCacheTTL();
 
 		if (withinTtl) {
-			for (const [name, result] of fetchedMap) {
-				if (!result.primaryFailed) {
-					existing.map.set(name, result);
-				}
-			}
+			mergeSuccess(existing.maps, fetched);
 			existing.timestamp = now;
 		} else {
-			const bucket = new Map<string, OutfitSnapshotResult>();
-			for (const [name, result] of fetchedMap) {
-				if (!result.primaryFailed) {
-					bucket.set(name, result);
-				}
-			}
-			if (bucket.size > 0) {
-				this.cache[userId] = { map: bucket, timestamp: now };
+			const bucket = emptyMaps();
+			mergeSuccess(bucket, fetched);
+			if (bucket.byId.size > 0 || bucket.byName.size > 0) {
+				this.cache[userId] = { maps: bucket, timestamp: now };
 			}
 		}
 
-		return fetchedMap;
+		return fetched;
 	}
 
 	// Returns cached entry if still within TTL or null otherwise
@@ -109,23 +146,36 @@ class OutfitSnapshotService {
 		return entry;
 	}
 
-	// Projects a cached map down to the subset of names the caller requested
-	private buildSubset(source: SnapshotMap, names: string[]): SnapshotMap {
-		const subset: SnapshotMap = new Map();
+	// Projects cached maps down to the subset of keys the caller requested
+	private buildSubset(source: SnapshotMaps, ids: string[], names: string[]): SnapshotMaps {
+		const subset = emptyMaps();
+		for (const id of ids) {
+			const entry = source.byId.get(id);
+			if (entry) subset.byId.set(id, entry);
+		}
 		for (const name of names) {
-			const entry = source.get(name);
-			if (entry) {
-				subset.set(name, entry);
-			}
+			const entry = source.byName.get(name);
+			if (entry) subset.byName.set(name, entry);
 		}
 		return subset;
 	}
 
 	// Deterministic dedup key so two concurrent callers with identical inputs
 	// share the same in-flight promise instead of firing parallel requests
-	private buildPendingKey(userId: string, names: string[]): string {
-		const sorted = [...names].sort();
-		return `${userId}:${sorted.join('|')}`;
+	private buildPendingKey(userId: string, ids: string[], names: string[]): string {
+		const sortedIds = [...ids].sort();
+		const sortedNames = [...names].sort();
+		return `${userId}:ids=${sortedIds.join(',')}:names=${sortedNames.join(',')}`;
+	}
+
+	private splitKeys(keys: SnapshotKey[]): { ids: string[]; names: string[] } {
+		const ids: string[] = [];
+		const names: string[] = [];
+		for (const key of keys) {
+			if (key.kind === 'id') ids.push(key.id);
+			else names.push(key.name);
+		}
+		return { ids, names };
 	}
 
 	private normalizeUserId(userId: string | number): string {
@@ -135,6 +185,19 @@ class OutfitSnapshotService {
 	private getCacheTTL(): number {
 		const currentSettings = get(settings);
 		return currentSettings[SETTINGS_KEYS.CACHE_DURATION_MINUTES] * 60 * 1000;
+	}
+}
+
+function emptyMaps(): SnapshotMaps {
+	return { byId: new Map(), byName: new Map() };
+}
+
+function mergeSuccess(target: SnapshotMaps, source: SnapshotMaps): void {
+	for (const [id, result] of source.byId) {
+		if (!result.primaryFailed) target.byId.set(id, result);
+	}
+	for (const [name, result] of source.byName) {
+		if (!result.primaryFailed) target.byName.set(name, result);
 	}
 }
 

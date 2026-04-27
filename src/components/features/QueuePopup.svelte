@@ -9,7 +9,7 @@
 	import Modal from '../ui/Modal.svelte';
 	import QueueLimitsDisplay from '../ui/QueueLimitsDisplay.svelte';
 	import OutfitPicker from './OutfitPicker.svelte';
-	import type { UserStatus, QueueLimitsData } from '@/lib/types/api';
+	import type { UserStatus, QueueLimitsData, SelectedOutfit } from '@/lib/types/api';
 
 	interface QueueLimitsRef {
 		getState: () => {
@@ -28,12 +28,26 @@
 		userStatus?: UserStatus | null;
 		onConfirm?: (
 			outfitNames?: string[],
+			outfitIds?: number[],
 			inappropriateProfile?: boolean,
 			inappropriateFriends?: boolean,
 			inappropriateGroups?: boolean,
 			captchaToken?: string
 		) => void | Promise<void>;
 		onCancel?: () => void;
+	}
+
+	function splitSelections(selections: SelectedOutfit[]): {
+		outfitNames: string[];
+		outfitIds: number[];
+	} {
+		const outfitNames: string[] = [];
+		const outfitIds: number[] = [];
+		for (const selection of selections) {
+			if (selection.kind === 'saved') outfitIds.push(selection.id);
+			else outfitNames.push(selection.name);
+		}
+		return { outfitNames, outfitIds };
 	}
 
 	let {
@@ -50,7 +64,7 @@
 	let profileCheck = $state<CheckThreshold>('quick');
 	let friendsCheck = $state<CheckThreshold>('quick');
 	let groupsCheck = $state<CheckThreshold>('quick');
-	let selectedOutfitNames = $state<string[]>([]);
+	let selectedOutfits = $state<SelectedOutfit[]>([]);
 
 	// Acknowledgment items
 	const ackItems = [
@@ -141,6 +155,8 @@
 		const sessionId = `${String(Date.now())}-${Math.random().toString(36).substring(2, 15)}`;
 		captchaSessionId = sessionId;
 
+		const { outfitNames, outfitIds } = splitSelections($state.snapshot(selectedOutfits));
+
 		try {
 			logger.userAction('queue_popup_confirm', {
 				userId: sanitizedUserId,
@@ -148,7 +164,8 @@
 				profileCheck,
 				friendsCheck,
 				groupsCheck,
-				selectedOutfitNames: $state.snapshot(selectedOutfitNames)
+				outfitNames,
+				outfitIds
 			});
 
 			// Start captcha flow via background script
@@ -157,7 +174,8 @@
 				sessionId,
 				queueData: {
 					userId: sanitizedUserId,
-					outfitNames: $state.snapshot(selectedOutfitNames),
+					outfitNames,
+					outfitIds,
 					inappropriateProfile: profileCheck === 'thorough',
 					inappropriateFriends: friendsCheck === 'thorough',
 					inappropriateGroups: groupsCheck === 'thorough'
@@ -185,7 +203,7 @@
 		profileCheck = 'quick';
 		friendsCheck = 'quick';
 		groupsCheck = 'quick';
-		selectedOutfitNames = [];
+		selectedOutfits = [];
 		for (const item of ackItems) {
 			ackState[item.key] = false;
 		}
@@ -215,6 +233,7 @@
 			queueData?: {
 				userId: string;
 				outfitNames: string[];
+				outfitIds: number[];
 				inappropriateProfile: boolean;
 				inappropriateFriends: boolean;
 				inappropriateGroups: boolean;
@@ -232,6 +251,7 @@
 								message.queueData.outfitNames.length > 0
 									? message.queueData.outfitNames
 									: undefined,
+								message.queueData.outfitIds.length > 0 ? message.queueData.outfitIds : undefined,
 								message.queueData.inappropriateProfile,
 								message.queueData.inappropriateFriends,
 								message.queueData.inappropriateGroups,
@@ -393,9 +413,9 @@
 			<OutfitPicker
 				disabled={outfitLimit === 0}
 				maxSelections={outfitLimit}
-				onSelectionChange={(names: string[]) => (selectedOutfitNames = names)}
+				onSelectionChange={(selections: SelectedOutfit[]) => (selectedOutfits = selections)}
 				userId={sanitizedUserId}
-				bind:selectedOutfits={selectedOutfitNames}
+				bind:selectedOutfits
 			/>
 		</div>
 	</div>

@@ -10,10 +10,7 @@
 	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
-	import {
-		extractFlaggedOutfitNames,
-		type FlaggedOutfitInfo
-	} from '@/lib/utils/violation-formatter';
+	import { extractFlaggedOutfits } from '@/lib/utils/violation-formatter';
 	import { openOutfitViewer } from '@/lib/stores/outfit-viewer';
 	import { Flag, Hourglass } from '@lucide/svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
@@ -115,7 +112,7 @@
 		const evidence = entityStatus.get(ROTECTOR_API_ID)?.data?.reasons['Avatar Outfit']?.evidence;
 		if (!evidence) return null;
 
-		return extractFlaggedOutfitNames(evidence);
+		return extractFlaggedOutfits(evidence);
 	});
 
 	// Count custom API flags
@@ -269,7 +266,7 @@
 
 	// Open outfit viewer modal
 	function handleViewOutfits() {
-		openOutfitViewer(entityId, flaggedOutfits ?? new Map<string, FlaggedOutfitInfo>());
+		openOutfitViewer(entityId, flaggedOutfits ?? []);
 	}
 
 	// Fetch and cache user status

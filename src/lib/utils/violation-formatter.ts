@@ -13,12 +13,14 @@ interface FormattedEvidence {
 	outfitName?: string;
 	outfitReason?: string;
 	outfitConfidence?: number | null;
+	outfitId?: string | null;
 }
 
 interface ParsedOutfitEvidence {
 	name: string;
 	reason: string;
 	confidence: number | null;
+	outfitId: string | null;
 }
 
 interface ParsedSourceTag {
@@ -44,27 +46,34 @@ type GroupedSourceLine = SourceGroup | PlainLine;
 
 // Flagged outfit info
 export interface FlaggedOutfitInfo {
+	name: string;
 	reason: string;
 	confidence: number;
+	outfitId: string | null;
 }
 
-// Wire format: "name|reason|confidence"
+// Wire format: "name|reason|confidence" or "name|reason|confidence|outfitID"
 function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null {
 	const parts = evidenceText.split('|');
-	if (parts.length !== 3) return null;
+	if (parts.length < 3 || parts.length > 4) return null;
 
-	const [name, reason, confidenceStr] = parts.map((part) => part.trim()) as [
-		string,
-		string,
-		string
-	];
+	const trimmed = parts.map((part) => part.trim());
+	const [name, reason, confidenceStr] = trimmed as [string, string, string];
 	if (!name) return null;
+
+	let outfitId: string | null = null;
+	if (parts.length === 4) {
+		const rawId = trimmed[3] ?? '';
+		if (!/^\d+$/.test(rawId)) return null;
+		outfitId = rawId;
+	}
 
 	const confidence = parseFloat(confidenceStr);
 	return {
 		name,
 		reason,
-		confidence: isNaN(confidence) ? null : Math.round(confidence * 100)
+		confidence: isNaN(confidence) ? null : Math.round(confidence * 100),
+		outfitId
 	};
 }
 
@@ -79,7 +88,8 @@ function formatOutfitEvidence(evidenceText: string): FormattedEvidence {
 		content: evidenceText,
 		outfitName: parsed.name,
 		outfitReason: parsed.reason,
-		outfitConfidence: parsed.confidence
+		outfitConfidence: parsed.confidence,
+		outfitId: parsed.outfitId
 	};
 }
 
@@ -135,16 +145,18 @@ export function formatViolationReasons(
 	}));
 }
 
-export function extractFlaggedOutfitNames(evidence: string[]): Map<string, FlaggedOutfitInfo> {
-	const flaggedOutfits = new Map<string, FlaggedOutfitInfo>();
+export function extractFlaggedOutfits(evidence: string[]): FlaggedOutfitInfo[] {
+	const flaggedOutfits: FlaggedOutfitInfo[] = [];
 
 	for (const item of evidence) {
 		const parsed = parseOutfitEvidence(item);
 		if (!parsed) continue;
 
-		flaggedOutfits.set(parsed.name, {
+		flaggedOutfits.push({
+			name: parsed.name,
 			reason: parsed.reason,
-			confidence: parsed.confidence ?? 0
+			confidence: parsed.confidence ?? 0,
+			outfitId: parsed.outfitId
 		});
 	}
 

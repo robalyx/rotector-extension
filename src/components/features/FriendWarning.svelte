@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { PROFILE_SELECTORS, SEARCH_SELECTORS, STATUS_SELECTORS } from '@/lib/types/constants';
+	import {
+		PROFILE_SELECTORS,
+		SEARCH_SELECTORS,
+		STATUS,
+		STATUS_SELECTORS
+	} from '@/lib/types/constants';
 	import type { UserStatus } from '@/lib/types/api';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { logger } from '@/lib/utils/logger';
@@ -44,10 +49,11 @@
 
 	// Flagging API data and derived figures
 	const flaggingData = $derived(getFlaggingResult(userStatus ?? null)?.data);
+	const isRedacted = $derived(flaggingData?.flagType === STATUS.FLAGS.REDACTED);
 	const confidence = $derived(Math.round((flaggingData?.confidence ?? 0) * 100));
 	const violations = $derived.by(() => {
 		const reasons = flaggingData?.reasons;
-		if (!reasons) return [];
+		if (!reasons || isRedacted) return [];
 		return formatViolationReasons(reasons)
 			.sort((a, b) => b.confidence - a.confidence)
 			.slice(0, 3);
@@ -155,7 +161,11 @@
 				{userInfo?.username || displayName}
 			</div>
 			<div class="friend-warning-user-confidence">
-				{$_('friend_warning_user_confidence', { values: { 0: String(confidence) } })}
+				{#if isRedacted}
+					{$_('tooltip_header_redacted')}
+				{:else if confidence > 0}
+					{$_('friend_warning_user_confidence', { values: { 0: String(confidence) } })}
+				{/if}
 			</div>
 		</div>
 	</div>

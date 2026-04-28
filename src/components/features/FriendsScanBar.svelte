@@ -71,6 +71,7 @@
 			case STATUS.FLAGS.PENDING:
 				return 'pending';
 			case STATUS.FLAGS.UNSAFE:
+			case STATUS.FLAGS.REDACTED:
 				return 'unsafe';
 			case STATUS.FLAGS.MIXED:
 				return 'mixed';

@@ -443,13 +443,14 @@
 			activeUserStatus.processed === true
 	);
 
-	// Minimal tooltip entities skip saved height (safe, queued, or provisional)
+	// Minimal tooltip entities skip saved height
 	const isMinimalEntity = $derived(
 		activeTab === ROTECTOR_API_ID &&
 			activeStatus &&
 			(activeStatus.flagType === STATUS.FLAGS.SAFE ||
 				activeStatus.flagType === STATUS.FLAGS.QUEUED ||
-				activeStatus.flagType === STATUS.FLAGS.PROVISIONAL)
+				activeStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
+				activeStatus.flagType === STATUS.FLAGS.REDACTED)
 	);
 
 	let showSafeReasons = $state(false);
@@ -549,6 +550,8 @@
 				}
 			case STATUS.FLAGS.PROVISIONAL:
 				return { full: $_('tooltip_header_provisional') };
+			case STATUS.FLAGS.REDACTED:
+				return { full: $_('tooltip_header_redacted') };
 			case STATUS.FLAGS.MIXED:
 				if (isGroup) {
 					return { full: $_('tooltip_header_mixed_group') };
@@ -581,6 +584,7 @@
 			case STATUS.FLAGS.PROVISIONAL:
 			case STATUS.FLAGS.MIXED:
 			case STATUS.FLAGS.PAST_OFFENDER:
+			case STATUS.FLAGS.REDACTED:
 				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, activeUserStatus);
 			default:
 				return { full: $_('tooltip_header_unknown') };
@@ -606,6 +610,8 @@
 				return isGroup ? 'unsafe' : 'mixed';
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return 'past-offender';
+			case STATUS.FLAGS.REDACTED:
+				return 'unsafe';
 			default:
 				return 'error';
 		}
@@ -633,6 +639,8 @@
 				return $_('tooltip_status_mixed');
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return $_('tooltip_status_past_offender');
+			case STATUS.FLAGS.REDACTED:
+				return $_('tooltip_status_redacted');
 			default:
 				return $_('tooltip_status_unknown');
 		}
@@ -643,7 +651,8 @@
 		if (
 			!currentStatus?.reasons ||
 			currentStatus.flagType === STATUS.FLAGS.SAFE ||
-			currentStatus.flagType === STATUS.FLAGS.PROVISIONAL
+			currentStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
+			currentStatus.flagType === STATUS.FLAGS.REDACTED
 		)
 			return [];
 		return formatViolationReasons(currentStatus.reasons);

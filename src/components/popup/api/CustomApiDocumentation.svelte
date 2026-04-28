@@ -379,6 +379,12 @@
 								<td>{$_('custom_api_docs_flag_row_actionable_6')}</td>
 								<td>{$_('custom_api_docs_flag_row_description_6')}</td>
 							</tr>
+							<tr>
+								<td><code>8</code></td>
+								<td>{$_('custom_api_docs_flag_row_name_8')}</td>
+								<td>{$_('custom_api_docs_flag_row_actionable_8')}</td>
+								<td>{$_('custom_api_docs_flag_row_description_8')}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

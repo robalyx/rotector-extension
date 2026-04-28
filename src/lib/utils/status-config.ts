@@ -149,6 +149,14 @@ export function getStatusConfig(
 				textContent: t('tooltip_status_provisional'),
 				textClass: STATUS_TEXT_SAFE_CLASS
 			};
+		case STATUS.FLAGS.REDACTED:
+			return {
+				...baseConfig,
+				iconName: 'redacted',
+				iconColor: '#ff4444',
+				textContent: t('tooltip_status_redacted'),
+				textClass: 'status-text-unsafe'
+			};
 		case STATUS.FLAGS.MIXED:
 			// Users show yellow question mark, groups show orange X
 			if (entityType === 'user') {

@@ -357,7 +357,8 @@ export function countCustomApiFlags<T extends UserStatus | GroupStatus>(
 			(result.data.flagType === STATUS.FLAGS.UNSAFE ||
 				result.data.flagType === STATUS.FLAGS.PENDING ||
 				result.data.flagType === STATUS.FLAGS.MIXED ||
-				result.data.flagType === STATUS.FLAGS.PAST_OFFENDER)
+				result.data.flagType === STATUS.FLAGS.PAST_OFFENDER ||
+				result.data.flagType === STATUS.FLAGS.REDACTED)
 		) {
 			count++;
 		}

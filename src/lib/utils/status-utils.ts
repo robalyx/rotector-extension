@@ -8,7 +8,8 @@ import { STATUS } from '../types/constants';
 const ACTIONABLE_FLAG_TYPES = new Set<number>([
 	STATUS.FLAGS.UNSAFE,
 	STATUS.FLAGS.PENDING,
-	STATUS.FLAGS.MIXED
+	STATUS.FLAGS.MIXED,
+	STATUS.FLAGS.REDACTED
 ]);
 
 // Check if an individual API result has flagged the entity

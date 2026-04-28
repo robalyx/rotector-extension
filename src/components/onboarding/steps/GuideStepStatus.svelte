@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { CircleCheck, CircleAlert, Clock, History, CircleQuestionMark } from '@lucide/svelte';
+	import {
+		CircleCheck,
+		CircleAlert,
+		Clock,
+		History,
+		CircleQuestionMark,
+		Lock
+	} from '@lucide/svelte';
 
 	const statusTypes = [
 		{
@@ -44,6 +51,12 @@
 			color: 'var(--color-status-past-offender)',
 			nameKey: 'onboarding_status_past_offender',
 			descKey: 'onboarding_status_past_offender_desc'
+		},
+		{
+			icon: Lock,
+			color: 'var(--color-status-unsafe)',
+			nameKey: 'onboarding_status_redacted',
+			descKey: 'onboarding_status_redacted_desc'
 		}
 	];
 </script>

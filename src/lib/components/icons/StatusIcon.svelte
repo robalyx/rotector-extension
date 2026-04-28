@@ -7,6 +7,7 @@
 		LoaderCircle,
 		History,
 		CircleQuestionMark,
+		Lock,
 		Ban
 	} from '@lucide/svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
@@ -42,6 +43,8 @@
 	<History class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'mixed'}
 	<CircleQuestionMark class={className} {...colorProp} {size} {strokeWidth} />
+{:else if name === 'redacted'}
+	<Lock class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'restricted'}
 	<Ban class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'outfit'}

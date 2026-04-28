@@ -7,7 +7,8 @@ export const STATUS = {
 		QUEUED: 3,
 		PROVISIONAL: 4,
 		MIXED: 5,
-		PAST_OFFENDER: 6
+		PAST_OFFENDER: 6,
+		REDACTED: 8
 	}
 } as const;
 

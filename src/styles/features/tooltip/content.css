@@ -47,15 +47,6 @@
 		}
 	}
 
-	&.integration {
-		background-color: color-mix(in srgb, var(--color-status-integration) 12%, transparent);
-		color: var(--color-status-integration);
-
-		.status-indicator {
-			background-color: var(--color-status-integration);
-		}
-	}
-
 	&.past-offender {
 		background-color: color-mix(in srgb, var(--color-status-past-offender) 12%, transparent);
 		color: var(--color-status-past-offender);
@@ -404,10 +395,6 @@
 	color: var(--color-reason-header);
 	font-size: 0.9375rem;
 	letter-spacing: -0.005em;
-
-	&.integration {
-		color: var(--color-status-integration);
-	}
 }
 
 @utility cross-signal-indicator {

@@ -425,7 +425,6 @@
 			activeUserStatus &&
 			(activeUserStatus.flagType === STATUS.FLAGS.UNSAFE ||
 				activeUserStatus.flagType === STATUS.FLAGS.PENDING ||
-				activeUserStatus.flagType === STATUS.FLAGS.INTEGRATION ||
 				activeUserStatus.flagType === STATUS.FLAGS.MIXED ||
 				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
 	);
@@ -444,11 +443,13 @@
 			activeUserStatus.processed === true
 	);
 
-	// Minimal tooltip entities skip saved height (safe or queued)
+	// Minimal tooltip entities skip saved height (safe, queued, or provisional)
 	const isMinimalEntity = $derived(
 		activeTab === ROTECTOR_API_ID &&
 			activeStatus &&
-			(activeStatus.flagType === STATUS.FLAGS.SAFE || activeStatus.flagType === STATUS.FLAGS.QUEUED)
+			(activeStatus.flagType === STATUS.FLAGS.SAFE ||
+				activeStatus.flagType === STATUS.FLAGS.QUEUED ||
+				activeStatus.flagType === STATUS.FLAGS.PROVISIONAL)
 	);
 
 	let showSafeReasons = $state(false);
@@ -546,8 +547,8 @@
 				} else {
 					return { full: $_('tooltip_header_queued_processing', { values: { 0: entityType } }) };
 				}
-			case STATUS.FLAGS.INTEGRATION:
-				return { full: $_('tooltip_header_integration', { values: { 0: entityType } }) };
+			case STATUS.FLAGS.PROVISIONAL:
+				return { full: $_('tooltip_header_provisional') };
 			case STATUS.FLAGS.MIXED:
 				if (isGroup) {
 					return { full: $_('tooltip_header_mixed_group') };
@@ -577,7 +578,7 @@
 			case STATUS.FLAGS.UNSAFE:
 			case STATUS.FLAGS.PENDING:
 			case STATUS.FLAGS.QUEUED:
-			case STATUS.FLAGS.INTEGRATION:
+			case STATUS.FLAGS.PROVISIONAL:
 			case STATUS.FLAGS.MIXED:
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, activeUserStatus);
@@ -599,8 +600,8 @@
 				return 'pending';
 			case STATUS.FLAGS.QUEUED:
 				return activeUserStatus?.processed === true ? 'safe' : 'pending';
-			case STATUS.FLAGS.INTEGRATION:
-				return 'integration';
+			case STATUS.FLAGS.PROVISIONAL:
+				return 'safe';
 			case STATUS.FLAGS.MIXED:
 				return isGroup ? 'unsafe' : 'mixed';
 			case STATUS.FLAGS.PAST_OFFENDER:
@@ -626,8 +627,8 @@
 				return activeUserStatus?.processed === true
 					? $_('tooltip_status_not_flagged')
 					: $_('tooltip_status_checking');
-			case STATUS.FLAGS.INTEGRATION:
-				return $_('tooltip_status_integration');
+			case STATUS.FLAGS.PROVISIONAL:
+				return $_('tooltip_status_provisional');
 			case STATUS.FLAGS.MIXED:
 				return $_('tooltip_status_mixed');
 			case STATUS.FLAGS.PAST_OFFENDER:
@@ -639,7 +640,12 @@
 
 	const reasonEntries = $derived.by((): FormattedReasonEntry[] => {
 		const currentStatus = activeStatus;
-		if (!currentStatus?.reasons || currentStatus.flagType === STATUS.FLAGS.SAFE) return [];
+		if (
+			!currentStatus?.reasons ||
+			currentStatus.flagType === STATUS.FLAGS.SAFE ||
+			currentStatus.flagType === STATUS.FLAGS.PROVISIONAL
+		)
+			return [];
 		return formatViolationReasons(currentStatus.reasons);
 	});
 

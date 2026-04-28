@@ -62,10 +62,6 @@
 	color: var(--color-status-error);
 }
 
-@utility text-status-integration {
-	color: var(--color-status-integration);
-}
-
 @utility text-status-checking {
 	color: var(--color-status-checking);
 }
@@ -99,10 +95,6 @@
 
 @utility status-text-error {
 	@apply status-text-base text-status-error;
-}
-
-@utility status-text-integration {
-	@apply status-text-base text-status-integration;
 }
 
 @utility status-text-checking {

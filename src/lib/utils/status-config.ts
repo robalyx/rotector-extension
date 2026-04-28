@@ -16,6 +16,8 @@ interface StatusConfig {
 	isOutfitOnly: boolean;
 }
 
+const STATUS_TEXT_SAFE_CLASS = 'status-text-safe';
+
 // Translation helper for non-Svelte contexts
 const t = (key: string, values?: Record<string, string | number>): string =>
 	get(_)(key, { values });
@@ -34,7 +36,7 @@ export function getStatusConfig(
 				iconName: 'restricted',
 				iconColor: '#888888',
 				textContent: t('tooltip_restricted_title'),
-				textClass: 'status-text-safe',
+				textClass: STATUS_TEXT_SAFE_CLASS,
 				confidence: null,
 				isReportable: false,
 				isQueued: false,
@@ -87,7 +89,7 @@ export function getStatusConfig(
 			iconName: 'outfit',
 			iconColor: '#888888',
 			textContent: t('tooltip_status_outfit_detected'),
-			textClass: 'status-text-safe'
+			textClass: STATUS_TEXT_SAFE_CLASS
 		};
 	}
 
@@ -98,7 +100,7 @@ export function getStatusConfig(
 				iconName: 'safe',
 				iconColor: '#888888',
 				textContent: t('tooltip_status_not_checked'),
-				textClass: 'status-text-safe'
+				textClass: STATUS_TEXT_SAFE_CLASS
 			};
 		case STATUS.FLAGS.UNSAFE:
 			return {
@@ -124,7 +126,7 @@ export function getStatusConfig(
 					iconName: 'safe',
 					iconColor: '#888888',
 					textContent: t('tooltip_status_not_flagged'),
-					textClass: 'status-text-safe',
+					textClass: STATUS_TEXT_SAFE_CLASS,
 					isQueued: false
 				};
 			} else {
@@ -139,13 +141,13 @@ export function getStatusConfig(
 				};
 			}
 		}
-		case STATUS.FLAGS.INTEGRATION:
+		case STATUS.FLAGS.PROVISIONAL:
 			return {
 				...baseConfig,
-				iconName: 'integration',
-				iconColor: '#14b8a6',
-				textContent: `${t('tooltip_status_integration')} (${String(confidence)}%)`,
-				textClass: 'status-text-integration'
+				iconName: 'provisional',
+				iconColor: '#888888',
+				textContent: t('tooltip_status_provisional'),
+				textClass: STATUS_TEXT_SAFE_CLASS
 			};
 		case STATUS.FLAGS.MIXED:
 			// Users show yellow question mark, groups show orange X

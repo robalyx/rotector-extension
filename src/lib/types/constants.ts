@@ -5,7 +5,7 @@ export const STATUS = {
 		PENDING: 1,
 		UNSAFE: 2,
 		QUEUED: 3,
-		INTEGRATION: 4,
+		PROVISIONAL: 4,
 		MIXED: 5,
 		PAST_OFFENDER: 6
 	}

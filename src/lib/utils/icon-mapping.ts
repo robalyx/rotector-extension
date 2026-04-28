@@ -8,7 +8,7 @@ export type StatusIconName =
 	| 'queued'
 	| 'error'
 	| 'loading'
-	| 'integration'
+	| 'provisional'
 	| 'checking'
 	| 'past-offender'
 	| 'mixed'

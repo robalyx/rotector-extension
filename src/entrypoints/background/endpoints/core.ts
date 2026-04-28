@@ -52,7 +52,7 @@ export async function checkUserStatus(
 
 	const data = extractResponseData<UserStatus>(response);
 
-	if (data.flagType === STATUS.FLAGS.SAFE) {
+	if (data.flagType === STATUS.FLAGS.SAFE || data.flagType === STATUS.FLAGS.PROVISIONAL) {
 		data.reasons = {};
 	}
 
@@ -104,7 +104,7 @@ export async function checkMultipleUsers(
 	const responseData = extractResponseData<Record<string, UserStatus>>(response);
 	const data = Object.values(responseData);
 	data.forEach((status) => {
-		if (status.flagType === STATUS.FLAGS.SAFE) {
+		if (status.flagType === STATUS.FLAGS.SAFE || status.flagType === STATUS.FLAGS.PROVISIONAL) {
 			status.reasons = {};
 		}
 	});

@@ -34,6 +34,12 @@
 			descKey: 'onboarding_status_mixed_desc'
 		},
 		{
+			icon: CircleQuestionMark,
+			color: 'var(--color-status-safe)',
+			nameKey: 'onboarding_status_provisional',
+			descKey: 'onboarding_status_provisional_desc'
+		},
+		{
 			icon: History,
 			color: 'var(--color-status-past-offender)',
 			nameKey: 'onboarding_status_past_offender',

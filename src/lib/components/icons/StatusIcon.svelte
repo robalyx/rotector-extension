@@ -5,7 +5,6 @@
 		TriangleAlert,
 		Clock,
 		LoaderCircle,
-		Workflow,
 		History,
 		CircleQuestionMark,
 		Ban
@@ -37,8 +36,8 @@
 	<Clock class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'loading'}
 	<LoaderCircle class={className} {...colorProp} {size} {strokeWidth} />
-{:else if name === 'integration'}
-	<Workflow class={className} {...colorProp} {size} {strokeWidth} />
+{:else if name === 'provisional'}
+	<CircleQuestionMark class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'past-offender'}
 	<History class={className} {...colorProp} {size} {strokeWidth} />
 {:else if name === 'mixed'}

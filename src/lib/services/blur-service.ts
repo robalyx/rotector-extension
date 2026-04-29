@@ -169,7 +169,13 @@ function isBlurEnabled(): boolean {
  * Transform selector to reveal variant(s).
  */
 function toRevealSelector(selector: string): string {
-	return `.blur-revealed ${selector}`;
+	const trimmed = selector.trim();
+	const ancestor = `.blur-revealed ${trimmed}`;
+	const firstSpace = trimmed.indexOf(' ');
+	if (firstSpace === -1) return ancestor;
+	const head = trimmed.slice(0, firstSpace);
+	const tail = trimmed.slice(firstSpace + 1);
+	return `${ancestor}, ${head}.blur-revealed ${tail}`;
 }
 
 /**

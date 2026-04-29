@@ -276,6 +276,11 @@ export const CHANGELOGS: Changelog[] = [
 					'BTRoblox profile descriptions - Description blur and the bio decoder chip now work on profiles when BTRoblox is installed'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Carousel avatar blur - Avatars on the friends carousel no longer stay blurred for safe users when Roblox re-renders the tile after reveal'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'

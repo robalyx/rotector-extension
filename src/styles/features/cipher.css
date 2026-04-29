@@ -24,3 +24,7 @@
 	@apply !font-semibold;
 	color: var(--roblox-accent) !important;
 }
+
+.btr-profile-description + .rotector-cipher-indicator {
+	text-align: center;
+}

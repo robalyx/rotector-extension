@@ -1,0 +1,38 @@
+/* =================================
+   LEGAL PAUSED BANNER
+   ================================= */
+
+@utility legal-paused-banner {
+	@apply flex items-start rounded-md;
+	gap: 0.625rem;
+	padding: 0.625rem 0.75rem;
+	background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-warning) 35%, transparent);
+}
+
+@utility legal-paused-icon {
+	@apply flex-shrink-0;
+	margin-top: 0.125rem;
+	color: var(--color-warning);
+}
+
+@utility legal-paused-text {
+	@apply flex min-w-0 flex-1 flex-col;
+	gap: 0.125rem;
+}
+
+@utility legal-paused-title {
+	@apply m-0 text-sm font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility legal-paused-body {
+	@apply m-0 text-xs;
+	line-height: 1.5;
+	color: var(--color-text-subtle);
+}
+
+@utility legal-paused-button {
+	@apply modal-button-primary text-xs-plus flex-shrink-0 self-center;
+	padding: 0.375rem 0.625rem;
+}

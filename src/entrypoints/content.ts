@@ -6,8 +6,8 @@ import type { ContentScriptContext } from 'wxt/utils/content-script-context';
 import { logger } from '@/lib/utils/logger';
 import { PageControllerManager } from '@/lib/controllers/PageControllerManager';
 import { registerPortalContainer, themeManager } from '@/lib/utils/theme';
-import { initializeSettings, settings } from '@/lib/stores/settings';
-import { SETTINGS_KEYS } from '@/lib/types/settings';
+import { initializeSettings } from '@/lib/stores/settings';
+import { extensionFeaturesEnabled } from '@/lib/stores/legal';
 import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 import { loadCustomApis } from '@/lib/stores/custom-apis';
 import {
@@ -199,19 +199,16 @@ export default defineContentScript({
 				void pageManager.handleNavigation(currentUrl);
 			}
 
-			// Initialize page handling based on onboarding status
-			const currentSettings = get(settings);
-			if (currentSettings[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+			if (get(extensionFeaturesEnabled)) {
 				initializePageHandling();
 			} else {
-				// Subscribe to settings changes to initialize after onboarding completes
-				const unsubscribe = settings.subscribe((s) => {
-					if (s[SETTINGS_KEYS.ONBOARDING_COMPLETED]) {
+				const unsubscribe = extensionFeaturesEnabled.subscribe((enabled) => {
+					if (enabled) {
 						initializePageHandling();
 						unsubscribe();
 					}
 				});
-				logger.debug('Waiting for onboarding completion to initialize page controllers');
+				logger.debug('Waiting for onboarding + legal acceptance to initialize page controllers');
 			}
 
 			// Set up cleanup on page unload

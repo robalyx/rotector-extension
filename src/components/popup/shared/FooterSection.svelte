@@ -3,6 +3,7 @@
 	import { BookOpen, ExternalLink, CircleQuestionMark, FileText } from '@lucide/svelte';
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiGithub from '@icons-pack/svelte-simple-icons/icons/SiGithub';
+	import { LEGAL_URLS } from '@/lib/types/constants';
 
 	async function handleViewGuide() {
 		await browser.storage.local.set({ onboardingReplayRequested: true });
@@ -69,18 +70,12 @@
 
 	<!-- Legal links -->
 	<div class="footer-legal-section">
-		<a
-			class="footer-legal-link"
-			href="https://rotector.com/privacy"
-			rel="noopener noreferrer"
-			target="_blank">{$_('footer_privacy')}</a
+		<a class="footer-legal-link" href={LEGAL_URLS.privacy} rel="noopener noreferrer" target="_blank"
+			>{$_('footer_privacy')}</a
 		>
 		<span class="footer-legal-divider">|</span>
-		<a
-			class="footer-legal-link"
-			href="https://rotector.com/terms"
-			rel="noopener noreferrer"
-			target="_blank">{$_('footer_terms')}</a
+		<a class="footer-legal-link" href={LEGAL_URLS.terms} rel="noopener noreferrer" target="_blank"
+			>{$_('footer_terms')}</a
 		>
 	</div>
 

@@ -414,3 +414,10 @@ export const LOOKUP_CONTEXT = {
 	FRIENDS: 'friends',
 	GROUPS: 'groups'
 } as const;
+
+export const REQUIRED_LEGAL_VERSION = '2.16.0';
+
+export const LEGAL_URLS = {
+	terms: 'https://rotector.com/terms',
+	privacy: 'https://rotector.com/privacy'
+} as const;

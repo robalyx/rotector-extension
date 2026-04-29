@@ -136,6 +136,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Community Feedback voting - For confirmed users, the disabled Disagree button is replaced with a Dispute action that opens the appeal page, making it clear how to contest the determination'
 			},
 			{
+				type: 'changed',
+				description:
+					'Terms of Service and Privacy Policy - Rewritten for v2.16.0 and returning users will be asked to re-accept on next use'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Group members carousel - Status indicators now render with the same disc and shadow treatment as every other carousel instead of appearing as a bare icon on the avatar'

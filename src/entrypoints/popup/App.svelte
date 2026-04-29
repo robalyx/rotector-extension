@@ -9,6 +9,7 @@
 	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
 	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
 	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
+	import LegalPausedBanner from '../../components/popup/shared/LegalPausedBanner.svelte';
 	import Toast from '../../components/ui/Toast.svelte';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
@@ -162,6 +163,8 @@
 				{$_('popup_header_description')}
 			</p>
 		</div>
+
+		<LegalPausedBanner />
 
 		<!-- Navigation -->
 		<Navbar {currentPage} onPageChange={handlePageChange} />

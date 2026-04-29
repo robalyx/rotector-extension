@@ -48,6 +48,7 @@
 @import url('./popup/api/documentation.css');
 @import url('./popup/membership/membership.css');
 @import url('./popup/shared/footer.css');
+@import url('./popup/shared/legal-paused.css');
 
 /* =================================
    FEATURE IMPORTS
@@ -67,6 +68,7 @@
 @import url('./features/report-helper/report-helper.css');
 @import url('./features/onboarding/onboarding.css');
 @import url('./features/changelog/modal.css');
+@import url('./features/legal/modal.css');
 @import url('./features/blur.css');
 @import url('./features/group-members-carousel.css');
 @import url('./features/export-modal.css');

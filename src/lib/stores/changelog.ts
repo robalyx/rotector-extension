@@ -2,18 +2,7 @@ import { derived, get } from 'svelte/store';
 import { settings, updateSetting } from './settings.js';
 import { SETTINGS_KEYS } from '../types/settings.js';
 import { type Changelog, CHANGELOGS } from '../types/changelog.js';
-
-// Compare semantic versions
-function compareVersions(a: string, b: string): number {
-	const pa = a.split('.').map(Number);
-	const pb = b.split('.').map(Number);
-	for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-		const na = pa[i] ?? 0;
-		const nb = pb[i] ?? 0;
-		if (na !== nb) return na - nb;
-	}
-	return 0;
-}
+import { compareVersions } from '../utils/version.js';
 
 // Changelog data
 export const changelogs = CHANGELOGS;

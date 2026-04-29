@@ -1,6 +1,7 @@
 import { derived, get, writable } from 'svelte/store';
 import { settings, updateSetting } from './settings.js';
 import { SETTINGS_KEYS } from '../types/settings.js';
+import { REQUIRED_LEGAL_VERSION } from '../types/constants.js';
 import { getLatestChangelog } from './changelog.js';
 
 // Temporary override to force onboarding display
@@ -28,6 +29,8 @@ export function dismissOnboarding(): void {
 // Mark onboarding as completed and persist to storage
 export async function completeOnboarding(): Promise<void> {
 	await updateSetting(SETTINGS_KEYS.ONBOARDING_COMPLETED, true);
+	await updateSetting(SETTINGS_KEYS.LEGAL_ACCEPTED_VERSION, REQUIRED_LEGAL_VERSION);
+	await updateSetting(SETTINGS_KEYS.LEGAL_DECLINED, false);
 	const latest = getLatestChangelog();
 	if (latest) {
 		await updateSetting(SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION, latest.version);

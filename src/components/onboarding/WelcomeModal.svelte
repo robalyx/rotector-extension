@@ -3,6 +3,7 @@
 	import { Check, X } from '@lucide/svelte';
 	import { getAssetUrl } from '@/lib/utils/assets';
 	import { themeManager } from '@/lib/utils/theme';
+	import { LEGAL_URLS } from '@/lib/types/constants';
 	import CloseConfirmDialog from './CloseConfirmDialog.svelte';
 
 	const lightLogoUrl = getAssetUrl('/assets/rotector-logo-light.webp');
@@ -163,11 +164,11 @@
 						</span>
 						<span class="onboarding-agreement-text">
 							{$_('onboarding_welcome_agree_tos')}
-							<a href="https://rotector.com/terms" rel="noopener noreferrer" target="_blank">
+							<a href={LEGAL_URLS.terms} rel="noopener noreferrer" target="_blank">
 								{$_('onboarding_welcome_terms')}
 							</a>
 							{$_('onboarding_welcome_and')}
-							<a href="https://rotector.com/privacy" rel="noopener noreferrer" target="_blank">
+							<a href={LEGAL_URLS.privacy} rel="noopener noreferrer" target="_blank">
 								{$_('onboarding_welcome_privacy')}
 							</a>
 						</span>

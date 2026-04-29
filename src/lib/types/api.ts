@@ -37,13 +37,16 @@ export interface MembershipStatus {
 	updatedAt: number;
 }
 
-// Partial update: any combination of robloxUserId / badgeDesign / iconDesign / textDesign.
-// Absent fields retain their current server-side values.
 export interface MembershipBadgeUpdatePayload {
-	robloxUserId?: number;
 	badgeDesign?: number;
 	iconDesign?: number;
 	textDesign?: number;
+}
+
+export interface MembershipVerificationChallenge {
+	robloxUserId: number;
+	phrase: string;
+	instructions: string;
 }
 
 // Phantom brand keys keep UserStatus and GroupStatus distinct at type level without

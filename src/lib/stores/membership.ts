@@ -136,6 +136,15 @@ export async function clearBadge(): Promise<MembershipStatus> {
 	return status;
 }
 
+// Confirm the verification phrase is in the Roblox bio and link the account
+export async function confirmVerification(robloxUserId: number): Promise<MembershipStatus> {
+	const status = await apiClient.confirmMembershipVerification(robloxUserId);
+	const state: MembershipStoreState = { kind: 'member', status };
+	membershipStore.set(state);
+	await writeCache(state);
+	return status;
+}
+
 // Invalidate cache on API-key change; the oldValue/newValue guard dedups same-value writes.
 browser.storage.onChanged.addListener((changes, namespace) => {
 	if (namespace !== 'sync') return;

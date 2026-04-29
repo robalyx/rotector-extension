@@ -14,6 +14,7 @@ import type {
 	MajorOrder,
 	MembershipBadgeUpdatePayload,
 	MembershipStatus,
+	MembershipVerificationChallenge,
 	OutfitSnapshotByIdResponse,
 	OutfitSnapshotByNameResponse,
 	QueueLimitsData,
@@ -42,6 +43,7 @@ type StructuredError = Error & {
 	code?: string;
 	requestId?: string;
 	rateLimitReset?: number;
+	details?: Record<string, unknown>;
 };
 
 // Lift structured error fields off a failed ApiResponse envelope
@@ -52,13 +54,15 @@ function buildResponseError(response: ApiResponse): StructuredError {
 		type?: string;
 		status?: number;
 		rateLimitReset?: number;
+		details?: Record<string, unknown>;
 	};
 	return Object.assign(new Error(response.error ?? 'An error occurred. Please try again.'), {
 		...(resp.requestId && { requestId: resp.requestId }),
 		...(resp.code && { code: resp.code }),
 		...(resp.type && { type: resp.type }),
 		...(resp.status !== undefined && { status: resp.status }),
-		...(resp.rateLimitReset && { rateLimitReset: resp.rateLimitReset })
+		...(resp.rateLimitReset && { rateLimitReset: resp.rateLimitReset }),
+		...(resp.details && { details: resp.details })
 	});
 }
 
@@ -318,6 +322,22 @@ class RotectorApiClient {
 		return sendMessage<MembershipStatus>(
 			API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE,
 			{},
+			{ maxRetries: 0 }
+		);
+	}
+
+	async getMembershipVerification(robloxUserId: number): Promise<MembershipVerificationChallenge> {
+		return sendMessage<MembershipVerificationChallenge>(
+			API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION,
+			{ robloxUserId },
+			{ maxRetries: 0 }
+		);
+	}
+
+	async confirmMembershipVerification(robloxUserId: number): Promise<MembershipStatus> {
+		return sendMessage<MembershipStatus>(
+			API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION,
+			{ robloxUserId },
 			{ maxRetries: 0 }
 		);
 	}

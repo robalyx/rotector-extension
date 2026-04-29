@@ -1,22 +1,36 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { get } from 'svelte/store';
-	import { CircleAlert, ExternalLink, Eye, EyeOff, Lock } from '@lucide/svelte';
+	import {
+		Check,
+		CircleAlert,
+		CircleX,
+		Copy,
+		ExternalLink,
+		Eye,
+		EyeOff,
+		Lock,
+		RotateCcw,
+		TriangleAlert
+	} from '@lucide/svelte';
 	import type {
 		CurrentAvatarInfo,
 		MembershipBadgeUpdatePayload,
 		MembershipStatus,
-		MembershipTier
+		MembershipTier,
+		MembershipVerificationChallenge
 	} from '@/lib/types/api';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import {
 		clearBadge,
+		confirmVerification,
 		loadMembershipStatus,
 		membershipLoading,
 		membershipStore,
 		updateBadge
 	} from '@/lib/stores/membership';
+	import { apiClient } from '@/lib/services/api-client';
 	import { robloxApiService } from '@/lib/services/roblox-api-service';
 	import { showError, showSuccess } from '@/lib/stores/toast';
 	import { logger } from '@/lib/utils/logger';
@@ -49,10 +63,16 @@
 	let savingKey = $state(false);
 	let avatarInfo = $state<CurrentAvatarInfo | null>(null);
 	let avatarLoading = $state(false);
-	let showAssignModal = $state(false);
+	let showVerifyModal = $state(false);
+	let verifyStep = $state<'enter-id' | 'show-phrase' | 'fatal'>('enter-id');
+	let verifyUserIdInput = $state('');
+	let verifyChallenge = $state<MembershipVerificationChallenge | null>(null);
+	let verifyLoading = $state(false);
+	let verifyConfirming = $state(false);
+	let verifyError = $state<{ kind: 'warning' | 'muted' | 'fatal'; message: string } | null>(null);
+	let verifyCopied = $state(false);
+	let verifyCopyTimer: ReturnType<typeof setTimeout> | null = null;
 	let showRemoveModal = $state(false);
-	let assignUserIdInput = $state('');
-	let assigning = $state(false);
 	let clearing = $state(false);
 	let pendingAxis = $state<DesignAxis | null>(null);
 
@@ -80,6 +100,10 @@
 
 	$effect(() => {
 		void loadMembershipStatus();
+	});
+
+	$effect(() => () => {
+		if (verifyCopyTimer) clearTimeout(verifyCopyTimer);
 	});
 
 	$effect(() => {
@@ -123,37 +147,141 @@
 		}
 	}
 
-	// Open the assign/change modal, prefilling with the current Roblox user ID if one exists
-	function openAssignModal() {
-		assignUserIdInput = hasAssignment ? String(associatedUserId) : '';
-		showAssignModal = true;
+	// Reset transient verify state so the modal opens clean each time
+	function resetVerifyState() {
+		verifyStep = 'enter-id';
+		verifyUserIdInput = '';
+		verifyChallenge = null;
+		verifyLoading = false;
+		verifyConfirming = false;
+		verifyError = null;
+		verifyCopied = false;
+		if (verifyCopyTimer) {
+			clearTimeout(verifyCopyTimer);
+			verifyCopyTimer = null;
+		}
 	}
 
-	// Validate and submit the Roblox user ID input
-	async function handleAssign() {
-		// Reject non-digits and leading zeros; parseInt would silently truncate "123abc" and accept "0".
-		const trimmed = assignUserIdInput.trim();
+	// Open the verify modal, prefilling with the current Roblox user ID if one exists
+	function openVerifyModal() {
+		resetVerifyState();
+		if (hasAssignment) {
+			verifyUserIdInput = String(associatedUserId);
+		}
+		showVerifyModal = true;
+	}
+
+	// Step 1: request a verification phrase from the backend
+	async function handleStep1Submit() {
+		const trimmed = verifyUserIdInput.trim();
+		// Reject non-digits and leading zeros; parseInt would silently truncate "123abc" and accept "0"
 		if (!/^[1-9]\d*$/.test(trimmed)) {
 			showError($_('membership_toast_invalid_user_id'));
 			return;
 		}
 		const parsed = Number(trimmed);
-		if (parsed === associatedUserId) {
-			showAssignModal = false;
-			return;
-		}
-		assigning = true;
+		verifyLoading = true;
+		verifyError = null;
 		try {
-			await updateBadge({ robloxUserId: parsed });
-			showAssignModal = false;
-			showSuccess($_('membership_toast_assigned'));
+			verifyChallenge = await apiClient.getMembershipVerification(parsed);
+			verifyStep = 'show-phrase';
 		} catch (error) {
-			logger.error('Failed to assign member badge:', error);
-			const message = error instanceof Error ? error.message : $_('membership_toast_assign_failed');
+			logger.error('Failed to issue verification challenge:', error);
+			const message =
+				error instanceof Error ? error.message : $_('membership_verify_challenge_failed');
 			showError(message);
 		} finally {
-			assigning = false;
+			verifyLoading = false;
 		}
+	}
+
+	// Copy phrase to clipboard with transient "Copied" feedback
+	async function handleCopyPhrase() {
+		const challenge = verifyChallenge;
+		if (!challenge) return;
+		try {
+			await navigator.clipboard.writeText(challenge.phrase);
+			verifyCopied = true;
+			if (verifyCopyTimer) clearTimeout(verifyCopyTimer);
+			verifyCopyTimer = setTimeout(() => {
+				verifyCopied = false;
+			}, 1500);
+		} catch (error) {
+			logger.error('Failed to copy verification phrase:', error);
+		}
+	}
+
+	// Step 2: confirm the phrase is in the Roblox bio
+	async function handleVerify() {
+		const challenge = verifyChallenge;
+		if (!challenge) return;
+		verifyConfirming = true;
+		try {
+			await confirmVerification(challenge.robloxUserId);
+			showVerifyModal = false;
+			showSuccess($_('membership_toast_verified'));
+		} catch (error) {
+			logger.error('Verification failed:', error);
+			applyVerifyError(error);
+		} finally {
+			verifyConfirming = false;
+		}
+	}
+
+	// Translate API errors into a retry banner or fatal screen
+	function applyVerifyError(error: unknown) {
+		const err = error as Error & {
+			status?: number;
+			code?: string;
+			details?: { code?: string; phrase?: string };
+		};
+		const detailCode = err.details?.code;
+
+		if (err.code === 'VALIDATION_ERROR' && detailCode === 'VERIFICATION_PHRASE_NOT_FOUND') {
+			const echoedPhrase = err.details?.phrase;
+			if (verifyChallenge && typeof echoedPhrase === 'string' && echoedPhrase.length > 0) {
+				verifyChallenge = { ...verifyChallenge, phrase: echoedPhrase };
+			}
+			verifyError = { kind: 'warning', message: $_('membership_verify_phrase_not_found') };
+			return;
+		}
+		if (err.code === 'VALIDATION_ERROR' && detailCode === 'ROBLOX_USER_BANNED') {
+			verifyError = { kind: 'fatal', message: $_('membership_verify_user_banned') };
+			verifyStep = 'fatal';
+			return;
+		}
+		if (err.code === 'NOT_FOUND') {
+			verifyError = { kind: 'fatal', message: $_('membership_verify_user_not_found') };
+			verifyStep = 'fatal';
+			return;
+		}
+		if (err.code === 'ROBLOX_API_UNAVAILABLE') {
+			verifyError = { kind: 'muted', message: $_('membership_verify_roblox_unavailable') };
+			return;
+		}
+		if (err.status === 401 || err.status === 403) {
+			showVerifyModal = false;
+			showError(err.message || $_('membership_verify_challenge_failed'));
+			return;
+		}
+		verifyError = {
+			kind: 'fatal',
+			message: err.message || $_('membership_verify_challenge_failed')
+		};
+		verifyStep = 'fatal';
+	}
+
+	function handleVerifyBack() {
+		verifyStep = 'enter-id';
+		verifyChallenge = null;
+		verifyError = null;
+	}
+
+	function handleStartOver() {
+		verifyStep = 'enter-id';
+		verifyUserIdInput = '';
+		verifyChallenge = null;
+		verifyError = null;
 	}
 
 	// Clear the Roblox user assignment, leaving design fields intact
@@ -315,7 +443,7 @@
 						<div class="membership-assignment-id">ID: {associatedUserId}</div>
 					</div>
 					<div class="membership-assignment-actions">
-						<button class="membership-action-button" onclick={openAssignModal} type="button">
+						<button class="membership-action-button" onclick={openVerifyModal} type="button">
 							{$_('membership_change')}
 						</button>
 						<button
@@ -330,7 +458,7 @@
 			{:else}
 				<div class="membership-assignment-empty">
 					<p>{$_('membership_assignment_empty')}</p>
-					<button class="membership-primary-button" onclick={openAssignModal} type="button">
+					<button class="membership-primary-button" onclick={openVerifyModal} type="button">
 						{$_('membership_assign')}
 					</button>
 				</div>
@@ -470,35 +598,149 @@
 	</section>
 </div>
 
-<!-- Assign / Change modal -->
+<!-- Verify modal -->
 <Modal
-	confirmDisabled={assigning || !assignUserIdInput.trim()}
-	confirmText={hasAssignment ? $_('membership_change') : $_('membership_assign')}
-	onCancel={() => (showAssignModal = false)}
-	onClose={() => (showAssignModal = false)}
-	onConfirm={handleAssign}
+	{...verifyStep === 'fatal' ? { status: 'error' as const } : {}}
+	onClose={resetVerifyState}
 	size="small"
-	title={hasAssignment ? $_('membership_modal_change_title') : $_('membership_modal_assign_title')}
-	bind:isOpen={showAssignModal}
+	title={$_('membership_verify_modal_title')}
+	bind:isOpen={showVerifyModal}
 >
-	<p class="modal-paragraph">
-		{hasAssignment ? $_('membership_modal_change_body') : $_('membership_modal_assign_body')}
-	</p>
-	<div class="membership-modal-field">
-		<label class="membership-modal-label" for="membership-assign-user-id">
-			{$_('membership_modal_user_id_label')}
-		</label>
-		<input
-			id="membership-assign-user-id"
-			class="membership-modal-input"
-			autocomplete="off"
-			inputmode="numeric"
-			placeholder={$_('membership_modal_user_id_placeholder')}
-			spellcheck="false"
-			type="text"
-			bind:value={assignUserIdInput}
-		/>
-	</div>
+	{#if verifyStep === 'enter-id'}
+		<div class="membership-verify-stack">
+			<span class="membership-verify-step-eyebrow">
+				{$_('membership_verify_step1_eyebrow')}
+			</span>
+			<p class="modal-paragraph">{$_('membership_verify_step1_body')}</p>
+			<div class="membership-modal-field">
+				<label class="membership-modal-label" for="membership-verify-user-id">
+					{$_('membership_modal_user_id_label')}
+				</label>
+				<input
+					id="membership-verify-user-id"
+					class="membership-modal-input"
+					autocomplete="off"
+					inputmode="numeric"
+					placeholder={$_('membership_modal_user_id_placeholder')}
+					spellcheck="false"
+					type="text"
+					bind:value={verifyUserIdInput}
+				/>
+			</div>
+		</div>
+	{:else if verifyStep === 'show-phrase' && verifyChallenge}
+		<div class="membership-verify-stack">
+			<span class="membership-verify-step-eyebrow">
+				{$_('membership_verify_step2_eyebrow')}
+			</span>
+			<p class="modal-paragraph">{$_('membership_verify_step2_intro')}</p>
+
+			<span class="membership-verify-step-eyebrow">
+				{$_('membership_verify_phrase_label')}
+			</span>
+			<div class="membership-verify-phrase">
+				<span class="membership-verify-phrase-words">{verifyChallenge.phrase}</span>
+				<button
+					class="membership-verify-copy-button"
+					class:copied={verifyCopied}
+					onclick={handleCopyPhrase}
+					type="button"
+				>
+					{#if verifyCopied}
+						<Check size={13} />
+						{$_('membership_verify_copied')}
+					{:else}
+						<Copy size={13} />
+						{$_('membership_verify_copy_button')}
+					{/if}
+				</button>
+			</div>
+
+			{#if verifyError && verifyError.kind !== 'fatal'}
+				<div
+					class="membership-inline-banner"
+					class:muted={verifyError.kind === 'muted'}
+					class:warning={verifyError.kind === 'warning'}
+				>
+					{#if verifyError.kind === 'warning'}
+						<TriangleAlert class="membership-inline-banner-icon" size={14} />
+					{:else}
+						<RotateCcw class="membership-inline-banner-icon" size={14} />
+					{/if}
+					<p class="membership-inline-banner-text">{verifyError.message}</p>
+				</div>
+			{/if}
+
+			<span class="membership-verify-step-eyebrow">
+				{$_('membership_verify_steps_heading')}
+			</span>
+			<ol class="membership-steps-list">
+				<li>{$_('membership_verify_steps_open_profile')}</li>
+				<li>{$_('membership_verify_steps_edit')}</li>
+				<li>{$_('membership_verify_steps_paste')}</li>
+				<li>{$_('membership_verify_steps_return')}</li>
+			</ol>
+		</div>
+	{:else}
+		<div class="membership-verify-stack">
+			<div class="membership-inline-banner error">
+				<CircleX class="membership-inline-banner-icon" size={14} />
+				<p class="membership-inline-banner-text">{verifyError?.message ?? ''}</p>
+			</div>
+
+			{#if verifyChallenge}
+				<dl class="membership-verify-recap">
+					<dt>{$_('membership_verify_recap_label')}</dt>
+					<dd>{verifyChallenge.robloxUserId}</dd>
+				</dl>
+			{/if}
+
+			<p class="modal-paragraph">{$_('membership_verify_fatal_guidance')}</p>
+		</div>
+	{/if}
+
+	{#snippet actions()}
+		{#if verifyStep === 'enter-id'}
+			<button class="modal-button-cancel" onclick={() => (showVerifyModal = false)} type="button">
+				{$_('membership_verify_cancel')}
+			</button>
+			<button
+				class="modal-button-primary"
+				disabled={verifyLoading || !verifyUserIdInput.trim()}
+				onclick={handleStep1Submit}
+				type="button"
+			>
+				{#if verifyLoading}
+					<LoadingSpinner size="small" />
+				{:else}
+					{$_('membership_verify_continue')}
+				{/if}
+			</button>
+		{:else if verifyStep === 'show-phrase'}
+			<button class="modal-button-ghost" onclick={handleVerifyBack} type="button">
+				{$_('membership_verify_back')}
+			</button>
+			<button
+				class="modal-button-primary"
+				disabled={verifyConfirming}
+				onclick={handleVerify}
+				type="button"
+			>
+				{#if verifyConfirming}
+					<LoadingSpinner size="small" />
+				{:else}
+					{$_('membership_verify_submit')}
+				{/if}
+			</button>
+		{:else}
+			<button class="modal-button-cancel" onclick={() => (showVerifyModal = false)} type="button">
+				{$_('membership_verify_close')}
+			</button>
+			<button class="modal-button-primary" onclick={handleStartOver} type="button">
+				{$_('membership_verify_start_over')}
+			</button>
+		{/if}
+	{/snippet}
 </Modal>
 
 <!-- Remove confirmation modal -->

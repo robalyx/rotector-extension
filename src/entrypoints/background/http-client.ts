@@ -246,6 +246,7 @@ async function buildHttpError(response: Response): Promise<Error & { status: num
 		requestId?: string;
 		code?: string;
 		type?: string;
+		details?: Record<string, unknown>;
 	};
 	try {
 		const jsonData: unknown = await response.json();
@@ -262,6 +263,7 @@ async function buildHttpError(response: Response): Promise<Error & { status: num
 		requestId?: string;
 		code?: string;
 		type?: string;
+		details?: Record<string, unknown>;
 		rateLimitReset?: number;
 	};
 
@@ -269,7 +271,8 @@ async function buildHttpError(response: Response): Promise<Error & { status: num
 		status: response.status,
 		...(errorData.requestId && { requestId: errorData.requestId }),
 		...(errorData.code && { code: errorData.code }),
-		...(errorData.type && { type: errorData.type })
+		...(errorData.type && { type: errorData.type }),
+		...(errorData.details && { details: errorData.details })
 	});
 
 	if (response.status === 429) {

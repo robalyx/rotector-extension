@@ -47,6 +47,7 @@ export function createErrorResponse(error: Error): ApiResponse & {
 	type?: string;
 	status?: number;
 	rateLimitReset?: number;
+	details?: Record<string, unknown>;
 } {
 	const errorMessage = extractErrorMessage(error);
 	const errorObj = error as Error & {
@@ -55,6 +56,7 @@ export function createErrorResponse(error: Error): ApiResponse & {
 		type?: string;
 		status?: number;
 		rateLimitReset?: number;
+		details?: Record<string, unknown>;
 	};
 
 	return {
@@ -64,7 +66,8 @@ export function createErrorResponse(error: Error): ApiResponse & {
 		...(errorObj.code && { code: errorObj.code }),
 		...(errorObj.type && { type: errorObj.type }),
 		...(errorObj.status !== undefined && { status: errorObj.status }),
-		...(errorObj.rateLimitReset && { rateLimitReset: errorObj.rateLimitReset })
+		...(errorObj.rateLimitReset && { rateLimitReset: errorObj.rateLimitReset }),
+		...(errorObj.details && { details: errorObj.details })
 	};
 }
 

@@ -21,7 +21,9 @@ import {
 } from './endpoints/core';
 import {
 	clearMembershipBadge,
+	confirmMembershipVerification,
 	getMembershipStatus,
+	getMembershipVerification,
 	updateMembershipBadge,
 	getDiscordLoginUrl,
 	getExtensionProfile,
@@ -159,20 +161,30 @@ export const actionHandlers = {
 	[API_ACTIONS.EXTENSION_GET_STATISTICS]: async () => getExtensionStatistics(),
 	[API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS]: async () => getMembershipStatus(),
 	[API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE]: async (request: ContentMessage) => {
-		const { robloxUserId, badgeDesign, iconDesign, textDesign } = request;
+		const { badgeDesign, iconDesign, textDesign } = request;
 		const payload: MembershipBadgeUpdatePayload = Object.fromEntries(
-			Object.entries({ robloxUserId, badgeDesign, iconDesign, textDesign }).filter(
+			Object.entries({ badgeDesign, iconDesign, textDesign }).filter(
 				([, value]) => value !== undefined
 			)
 		);
 		if (Object.keys(payload).length === 0) {
-			throw new Error(
-				'Provide at least one of robloxUserId, badgeDesign, iconDesign, or textDesign.'
-			);
+			throw new Error('Provide at least one of badgeDesign, iconDesign, or textDesign.');
 		}
 		return updateMembershipBadge(payload);
 	},
 	[API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE]: async () => clearMembershipBadge(),
+	[API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION]: async (request: ContentMessage) => {
+		if (typeof request.robloxUserId !== 'number' || request.robloxUserId < 1) {
+			throw new Error('Invalid Roblox user ID.');
+		}
+		return getMembershipVerification(request.robloxUserId);
+	},
+	[API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION]: async (request: ContentMessage) => {
+		if (typeof request.robloxUserId !== 'number' || request.robloxUserId < 1) {
+			throw new Error('Invalid Roblox user ID.');
+		}
+		return confirmMembershipVerification(request.robloxUserId);
+	},
 
 	[API_ACTIONS.WAR_GET_ZONE_STATS]: async (request: ContentMessage) => {
 		if (typeof request.zoneId !== 'number' || request.zoneId < 0) {

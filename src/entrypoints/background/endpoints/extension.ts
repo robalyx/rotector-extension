@@ -7,6 +7,7 @@ import type {
 	LeaderboardResponse,
 	MembershipBadgeUpdatePayload,
 	MembershipStatus,
+	MembershipVerificationChallenge,
 	ReportableUserResponse
 } from '@/lib/types/api';
 import { API_CONFIG } from '@/lib/types/constants';
@@ -151,7 +152,7 @@ export async function getMembershipStatus(): Promise<MembershipStatus> {
 	return extractResponseData<MembershipStatus>(response);
 }
 
-// Partial update: any combination of robloxUserId / badgeDesign / iconDesign / textDesign.
+// Partial update: any combination of badgeDesign / iconDesign / textDesign.
 // Absent fields retain their current server-side values.
 export async function updateMembershipBadge(
 	payload: MembershipBadgeUpdatePayload
@@ -168,6 +169,29 @@ export async function updateMembershipBadge(
 export async function clearMembershipBadge(): Promise<MembershipStatus> {
 	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_BADGE, {
 		method: 'DELETE'
+	});
+
+	return extractResponseData<MembershipStatus>(response);
+}
+
+// Issue the deterministic verification phrase the member must paste into their Roblox bio.
+export async function getMembershipVerification(
+	robloxUserId: number
+): Promise<MembershipVerificationChallenge> {
+	const url = `${API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_VERIFICATION}?robloxUserId=${String(robloxUserId)}`;
+	const response = await makeHttpRequest(url, { method: 'GET', maxRetries: 1 });
+
+	return extractResponseData<MembershipVerificationChallenge>(response);
+}
+
+// Verify the phrase is in the bio; on success the server links the Roblox ID and returns the new status
+export async function confirmMembershipVerification(
+	robloxUserId: number
+): Promise<MembershipStatus> {
+	const response = await makeHttpRequest(API_CONFIG.ENDPOINTS.EXTENSION_MEMBERSHIP_VERIFICATION, {
+		method: 'POST',
+		body: JSON.stringify({ robloxUserId }),
+		maxRetries: 1
 	});
 
 	return extractResponseData<MembershipStatus>(response);

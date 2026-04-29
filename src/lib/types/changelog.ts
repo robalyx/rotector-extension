@@ -271,6 +271,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Discord lookup - Linked Discord accounts with no monitored server memberships are hidden instead of appearing with an empty 0-server entry'
 			},
 			{
+				type: 'fixed',
+				description:
+					'BTRoblox profile descriptions - Description blur and the bio decoder chip now work on profiles when BTRoblox is installed'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip badges - Reportable and queued pill badges removed from tooltip header'

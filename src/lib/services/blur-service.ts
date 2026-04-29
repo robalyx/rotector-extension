@@ -98,7 +98,8 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.GROUP_CONFIGURE_USERNAME]: ['groups'],
 	[BLUR_SELECTORS.PROFILE_USERNAME]: ['profile'],
 	// Descriptions
-	[BLUR_SELECTORS.PROFILE_DESCRIPTION]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_DESCRIPTION_STANDARD]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_DESCRIPTION_BTR]: ['profile'],
 	// Avatars
 	[BLUR_SELECTORS.CAROUSEL_AVATAR]: ['home', 'profile'],
 	[BLUR_SELECTORS.FRIENDS_LIST_AVATAR]: ['friends'],
@@ -219,15 +220,22 @@ function buildBlurCSS(allEnabled = false): string {
 		);
 	}
 	if (bs.descriptions) {
-		otherTextSelectors.push(BLUR_SELECTORS.PROFILE_DESCRIPTION);
+		otherTextSelectors.push(
+			BLUR_SELECTORS.PROFILE_DESCRIPTION_STANDARD,
+			BLUR_SELECTORS.PROFILE_DESCRIPTION_BTR
+		);
 	}
 	addRule(
 		otherTextSelectors,
 		'filter: blur(4px) !important; clip-path: inset(0); user-select: none;'
 	);
 	if (bs.descriptions) {
-		rules.push(
-			`${BLUR_SELECTORS.PROFILE_DESCRIPTION}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
+		[BLUR_SELECTORS.PROFILE_DESCRIPTION_STANDARD, BLUR_SELECTORS.PROFILE_DESCRIPTION_BTR].forEach(
+			(sel) => {
+				rules.push(
+					`${sel}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
+				);
+			}
 		);
 	}
 
@@ -696,7 +704,7 @@ export function observeProfileDescriptions(userId: string): () => void {
 		}
 	};
 
-	document.querySelectorAll('.description-content').forEach((el) => {
+	document.querySelectorAll(BLUR_SELECTORS.PROFILE_DESCRIPTION).forEach((el) => {
 		if (el instanceof HTMLElement) {
 			processElement(el);
 		}
@@ -707,11 +715,11 @@ export function observeProfileDescriptions(userId: string): () => void {
 			for (const node of mutation.addedNodes) {
 				if (!(node instanceof HTMLElement)) continue;
 
-				if (node.classList.contains('description-content')) {
+				if (node.matches(BLUR_SELECTORS.PROFILE_DESCRIPTION)) {
 					processElement(node);
 				}
 
-				node.querySelectorAll('.description-content').forEach((el) => {
+				node.querySelectorAll(BLUR_SELECTORS.PROFILE_DESCRIPTION).forEach((el) => {
 					if (el instanceof HTMLElement) {
 						processElement(el);
 					}

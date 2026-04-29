@@ -283,7 +283,9 @@ export const BLUR_SELECTORS = {
 	// Profile page
 	PROFILE_DISPLAY_NAME: '#profile-header-title-container-name',
 	PROFILE_USERNAME: '.stylistic-alts-username',
-	PROFILE_DESCRIPTION: '.description-content',
+	PROFILE_DESCRIPTION_STANDARD: '.description-content',
+	PROFILE_DESCRIPTION_BTR: '.btr-profile-description',
+	PROFILE_DESCRIPTION: '.description-content, .btr-profile-description',
 	PROFILE_AVATAR: '.user-profile-header-details-avatar-container .thumbnail-2d-container',
 
 	PROFILE_OUTFIT_2D: '.thumbnail-holder .thumbnail-2d-container',

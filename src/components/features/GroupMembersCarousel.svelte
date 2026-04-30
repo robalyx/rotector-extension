@@ -111,15 +111,16 @@
 			return;
 		}
 
+		// Remove stale Rotector members section left behind by interrupted SPA cleanup
+		tabContent.querySelectorAll(GROUP_MEMBERS_CAROUSEL_SELECTORS.SECTION).forEach((section) => {
+			section.remove();
+		});
+
 		portalTarget = document.createElement('div');
 		portalTarget.className = `section ${GROUP_MEMBERS_CAROUSEL_SELECTORS.SECTION.slice(1)}`;
 
-		const referenceSection = tabContent.querySelector('.group-shout, .group-announcements');
-		if (referenceSection?.parentElement) {
-			referenceSection.parentElement.insertBefore(portalTarget, referenceSection.nextSibling);
-		} else {
-			tabContent.prepend(portalTarget);
-		}
+		// Always place the members table at the top of the container
+		tabContent.prepend(portalTarget);
 
 		void loadRoles();
 

@@ -12,6 +12,15 @@ const ACTIONABLE_FLAG_TYPES = new Set<number>([
 	STATUS.FLAGS.REDACTED
 ]);
 
+export const FIRST_DETECTION_FLAG_TYPES = new Set<number>([
+	STATUS.FLAGS.UNSAFE,
+	STATUS.FLAGS.PENDING,
+	STATUS.FLAGS.MIXED,
+	STATUS.FLAGS.PROVISIONAL,
+	STATUS.FLAGS.PAST_OFFENDER,
+	STATUS.FLAGS.REDACTED
+]);
+
 // Check if an individual API result has flagged the entity
 function isActionableResult<T extends UserStatus | GroupStatus>(
 	result: CustomApiResult<T>

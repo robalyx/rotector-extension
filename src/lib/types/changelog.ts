@@ -63,6 +63,16 @@ export const CHANGELOGS: Changelog[] = [
 					'Custom API auth header - Pick X-Auth-Token, Authorization Bearer, or plain Authorization when configuring an API key. Header choice is preserved in exported configs.'
 			},
 			{
+				type: 'added',
+				description:
+					'First-detection modal - The first time you encounter a flagged user, a one-time educational modal explains what a flag actually means, what to do, and what not to do'
+			},
+			{
+				type: 'added',
+				description:
+					'Restriction notice modal - If your own extension access is revoked, a modal now explains why with your live flag reasons, what still works, what is turned off, and how to appeal'
+			},
+			{
 				type: 'changed',
 				description:
 					'Stats page - New activity charts with 24h, 7d, and 30d views, a quick-glance totals bar, and a community funding progress display'

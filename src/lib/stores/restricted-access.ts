@@ -1,4 +1,6 @@
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
+import { settings, updateSetting } from './settings';
+import { SETTINGS_KEYS } from '../types/settings';
 import { logger } from '../utils/logger';
 
 const ACCESS_STATE_KEY = '_session_cache';
@@ -50,4 +52,20 @@ export function setupRestrictedAccessListener(): void {
 			}
 		}
 	});
+}
+
+// Gate for the restriction notice modal, re-fires on new incidents (different _t)
+export const shouldShowRestrictionNotice = derived(
+	[restrictedAccessStore, settings],
+	([$r, $s]) =>
+		$r.isRestricted &&
+		!$r.isLoading &&
+		$r.timestamp !== null &&
+		$r.timestamp > $s[SETTINGS_KEYS.RESTRICTION_NOTICE_SEEN_TIMESTAMP] &&
+		$s[SETTINGS_KEYS.ONBOARDING_COMPLETED]
+);
+
+// Persist the restriction incident timestamp the user has acknowledged
+export async function markRestrictionNoticeSeen(timestamp: number): Promise<void> {
+	await updateSetting(SETTINGS_KEYS.RESTRICTION_NOTICE_SEEN_TIMESTAMP, timestamp);
 }

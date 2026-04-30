@@ -4,8 +4,12 @@
 	import ChangelogModal from '@/components/changelog/ChangelogModal.svelte';
 	import LegalUpdateModal from '@/components/legal/LegalUpdateModal.svelte';
 	import OutfitViewerModal from '@/components/features/OutfitViewerModal.svelte';
+	import FirstDetectionModal from '@/components/features/FirstDetectionModal.svelte';
+	import RestrictionNoticeModal from '@/components/features/RestrictionNoticeModal.svelte';
 	import { shouldShowChangelogModal } from '@/lib/stores/changelog';
 	import { shouldShowLegalModal, triggerLegalReview } from '@/lib/stores/legal';
+	import { shouldShowFirstDetection } from '@/lib/stores/first-detection';
+	import { shouldShowRestrictionNotice } from '@/lib/stores/restricted-access';
 	import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
 	import {
 		closeOutfitViewer,
@@ -56,6 +60,14 @@
 
 {#if showChangelog}
 	<ChangelogModal onClose={() => logger.debug('Changelog modal closed')} />
+{/if}
+
+{#if $shouldShowRestrictionNotice}
+	<RestrictionNoticeModal />
+{/if}
+
+{#if $shouldShowFirstDetection}
+	<FirstDetectionModal />
 {/if}
 
 <!-- Outfit Viewer Modal -->

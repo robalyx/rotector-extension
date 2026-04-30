@@ -56,6 +56,8 @@
 @import url('./features/modal/base.css');
 @import url('./features/modal/friend-warning.css');
 @import url('./features/modal/queue-modal.css');
+@import url('./features/modal/user-card.css');
+@import url('./features/modal/first-detection.css');
 @import url('./features/modal/outfit-picker.css');
 @import url('./features/modal/outfit-viewer.css');
 @import url('./features/modal/outfit-3d.css');

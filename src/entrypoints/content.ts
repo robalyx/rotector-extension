@@ -184,6 +184,24 @@ export default defineContentScript({
 					}
 				};
 
+				const originalPushState = history.pushState.bind(history);
+				const originalReplaceState = history.replaceState.bind(history);
+				const handleHistoryNavigation = () => {
+					queueMicrotask(checkForNavigation);
+				};
+
+				history.pushState = function (...args) {
+					logger.debug('PushState event detected');
+					originalPushState(...args);
+					handleHistoryNavigation();
+				};
+
+				history.replaceState = function (...args) {
+					logger.debug('ReplaceState event detected');
+					originalReplaceState(...args);
+					handleHistoryNavigation();
+				};
+
 				// Listen for browser navigation events
 				window.addEventListener('popstate', () => {
 					logger.debug('Popstate event detected');

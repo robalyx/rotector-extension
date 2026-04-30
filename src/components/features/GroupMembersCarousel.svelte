@@ -927,16 +927,18 @@
 									data-rotector-user-id={member.userId}
 									href="https://www.roblox.com/users/{member.userId}/profile"
 								>
-									<div class="group-member-avatar rotector-member-avatar">
-										{#if thumbnails.get(member.userId)}
-											<img
-												alt={member.displayName}
-												loading="lazy"
-												src={thumbnails.get(member.userId)}
-											/>
-										{:else}
-											<div class="group-member-avatar-placeholder"></div>
-										{/if}
+									<div class="rotector-member-avatar-wrapper">
+										<div class="group-member-avatar rotector-member-avatar">
+											{#if thumbnails.get(member.userId)}
+												<img
+													alt={member.displayName}
+													loading="lazy"
+													src={thumbnails.get(member.userId)}
+												/>
+											{:else}
+												<div class="group-member-avatar-placeholder"></div>
+											{/if}
+										</div>
 										{@render presenceIcon(presences.get(member.userId))}
 									</div>
 									<span class="group-member-display-name rotector-member-display-name">
@@ -1059,15 +1061,17 @@
 								data-rotector-user-id={user.id}
 								href="https://www.roblox.com/users/{user.id}/profile"
 							>
-								<div
-									class="group-member-avatar rotector-member-avatar"
-									class:group-member-avatar-inactive={!user.isActive}
-								>
-									{#if user.thumbnailUrl}
-										<img alt={user.displayName} loading="lazy" src={user.thumbnailUrl} />
-									{:else}
-										<div class="group-member-avatar-placeholder"></div>
-									{/if}
+								<div class="rotector-member-avatar-wrapper">
+									<div
+										class="group-member-avatar rotector-member-avatar"
+										class:group-member-avatar-inactive={!user.isActive}
+									>
+										{#if user.thumbnailUrl}
+											<img alt={user.displayName} loading="lazy" src={user.thumbnailUrl} />
+										{:else}
+											<div class="group-member-avatar-placeholder"></div>
+										{/if}
+									</div>
 									{@render presenceIcon(trackedPresences.get(user.id))}
 								</div>
 								<span class="group-member-display-name rotector-member-display-name">

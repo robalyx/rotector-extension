@@ -12,6 +12,8 @@
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { extractFlaggedOutfits } from '@/lib/utils/violation-formatter';
 	import { openOutfitViewer } from '@/lib/stores/outfit-viewer';
+	import { reportPossibleFirstDetection } from '@/lib/stores/first-detection';
+	import { FIRST_DETECTION_FLAG_TYPES } from '@/lib/utils/status-utils';
 	import { Flag, Hourglass } from '@lucide/svelte';
 	import StatusIcon from '@/lib/components/icons/StatusIcon.svelte';
 
@@ -320,6 +322,21 @@
 		return () => {
 			clearHoverTimeout();
 		};
+	});
+
+	// Trigger the first-detection modal once
+	$effect(() => {
+		if (entityType !== ENTITY_TYPES.USER) return;
+		if (isSelfLookup || !sanitizedEntityId) return;
+
+		const rotectorData = entityStatus?.get(ROTECTOR_API_ID)?.data;
+		const flagType = (rotectorData ?? cachedStatus)?.flagType;
+		if (flagType === undefined || !FIRST_DETECTION_FLAG_TYPES.has(flagType)) return;
+
+		reportPossibleFirstDetection({
+			userId: sanitizedEntityId,
+			flagType
+		});
 	});
 
 	// Listen for escape key to close tooltips

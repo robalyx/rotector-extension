@@ -161,6 +161,12 @@
 	}
 }
 
+@utility rotector-member-avatar-wrapper {
+	@apply relative shrink-0;
+	width: 90px;
+	height: 90px;
+}
+
 @utility group-member-avatar {
 	@apply relative shrink-0 rounded-full border;
 	width: 90px;

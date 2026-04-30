@@ -1,0 +1,67 @@
+/* =================================
+   USER CARD
+   ================================= */
+
+@utility modal-user-card {
+	@apply flex items-center gap-3 rounded-md px-3.5 py-3;
+	background-color: var(--color-bg-content);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility modal-user-card-avatar {
+	@apply inline-flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+
+	& img {
+		@apply h-full w-full object-cover;
+	}
+}
+
+@utility modal-user-card-meta {
+	@apply flex min-w-0 flex-1 flex-col gap-0.5;
+}
+
+@utility modal-user-card-name {
+	@apply overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap;
+	color: var(--color-text-heading);
+}
+
+@utility modal-user-card-handle {
+	@apply text-xs;
+	color: var(--color-text-tertiary);
+}
+
+@utility modal-user-card-chip {
+	@apply inline-flex flex-shrink-0 items-center gap-[5px] self-center rounded px-2 py-1 text-xs font-semibold;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-heading);
+}
+
+/* =================================
+   REASON LIST
+   ================================= */
+
+@utility modal-reason-list {
+	@apply m-0 flex list-none flex-col gap-[7px] p-0;
+}
+
+@utility modal-reason-item {
+	@apply flex items-baseline gap-2.5 rounded px-3 py-2;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility modal-reason-name {
+	@apply flex-1 text-sm;
+	color: var(--color-text);
+}
+
+@utility modal-reason-confidence {
+	@apply flex-shrink-0 text-sm font-semibold tabular-nums;
+	color: var(--color-text-tertiary);
+}
+
+@utility modal-reason-status {
+	@apply m-0 text-xs;
+	color: var(--color-text-subtle);
+}

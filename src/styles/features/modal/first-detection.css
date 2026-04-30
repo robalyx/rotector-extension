@@ -1,0 +1,113 @@
+/* =================================
+   HERO QUOTE CARD
+   ================================= */
+
+@utility first-detection-hero {
+	@apply flex items-center justify-center rounded-md px-4 py-5;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility first-detection-hero-text {
+	@apply m-0 text-center text-base leading-snug font-semibold;
+	color: var(--color-text-heading);
+}
+
+/* =================================
+   YES / NO / PROHIBITION ROW LISTS
+   ================================= */
+
+@utility first-detection-row-list {
+	@apply m-0 flex list-none flex-col gap-2 p-0;
+}
+
+@utility first-detection-row {
+	@apply flex items-start gap-2.5 text-sm leading-snug;
+	color: var(--color-text);
+}
+
+@utility first-detection-row-icon {
+	@apply inline-flex h-5 w-5 flex-shrink-0 items-center justify-center;
+}
+
+@utility first-detection-row-icon-yes {
+	@apply first-detection-row-icon;
+	color: var(--color-success);
+}
+
+@utility first-detection-row-icon-no {
+	@apply first-detection-row-icon;
+	color: var(--color-text-tertiary);
+}
+
+@utility first-detection-row-icon-deny {
+	@apply first-detection-row-icon;
+	color: var(--color-error);
+}
+
+@utility first-detection-row-icon-action {
+	@apply first-detection-row-icon;
+	color: var(--color-success);
+}
+
+/* =================================
+   DO / DON'T TWO-COLUMN GRID
+   ================================= */
+
+@utility first-detection-do-dont {
+	@apply grid grid-cols-2 items-start gap-x-4;
+}
+
+@utility first-detection-do-dont-col {
+	@apply flex flex-col gap-2;
+}
+
+@utility first-detection-do-dont-label {
+	@apply text-xs font-semibold uppercase;
+	letter-spacing: 0.05em;
+}
+
+@utility first-detection-do-dont-label-do {
+	@apply first-detection-do-dont-label;
+	color: var(--color-success);
+}
+
+@utility first-detection-do-dont-label-dont {
+	@apply first-detection-do-dont-label;
+	color: var(--color-error);
+}
+
+/* =================================
+   MISCONCEPTION Q/A PAIRS
+   ================================= */
+
+@utility first-detection-myth-list {
+	@apply m-0 flex list-none flex-col gap-3 p-0;
+}
+
+@utility first-detection-myth {
+	@apply flex flex-col gap-1;
+}
+
+@utility first-detection-myth-q {
+	@apply text-sm font-medium italic;
+	color: var(--color-text);
+
+	&::before {
+		content: '“';
+	}
+
+	&::after {
+		content: '”';
+	}
+}
+
+@utility first-detection-myth-a {
+	@apply pl-4 text-sm leading-snug;
+	color: var(--color-text-subtle);
+
+	&::before {
+		content: '→ ';
+		color: var(--color-text-tertiary);
+	}
+}

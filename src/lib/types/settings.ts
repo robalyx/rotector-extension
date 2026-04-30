@@ -35,7 +35,9 @@ export const SETTINGS_KEYS = {
 	EXPANDED_HEADER_HEIGHT: 'expandedHeaderHeight',
 	INFO_POPOVER_HINTS_SEEN: 'infoPopoverHintsSeen',
 	LEGAL_ACCEPTED_VERSION: 'legalAcceptedVersion',
-	LEGAL_DECLINED: 'legalDeclined'
+	LEGAL_DECLINED: 'legalDeclined',
+	FIRST_DETECTION_SEEN: 'firstDetectionSeen',
+	RESTRICTION_NOTICE_SEEN_TIMESTAMP: 'restrictionNoticeSeenTimestamp'
 } as const;
 
 export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -86,6 +88,8 @@ export interface Settings {
 	[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]: string[];
 	[SETTINGS_KEYS.LEGAL_ACCEPTED_VERSION]: string;
 	[SETTINGS_KEYS.LEGAL_DECLINED]: boolean;
+	[SETTINGS_KEYS.FIRST_DETECTION_SEEN]: boolean;
+	[SETTINGS_KEYS.RESTRICTION_NOTICE_SEEN_TIMESTAMP]: number;
 }
 
 export const SETTINGS_DEFAULTS: Settings = {
@@ -116,7 +120,9 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]: false,
 	[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]: [],
 	[SETTINGS_KEYS.LEGAL_ACCEPTED_VERSION]: '',
-	[SETTINGS_KEYS.LEGAL_DECLINED]: false
+	[SETTINGS_KEYS.LEGAL_DECLINED]: false,
+	[SETTINGS_KEYS.FIRST_DETECTION_SEEN]: false,
+	[SETTINGS_KEYS.RESTRICTION_NOTICE_SEEN_TIMESTAMP]: 0
 };
 
 interface SettingCategory {

@@ -54,31 +54,36 @@ export default defineConfig({
 			}
 		}
 	}),
-	manifest: ({ browser }) => ({
-		name: '__MSG_extensionName__',
-		description: '__MSG_extensionDescription__',
-		default_locale: 'en',
-		version: '2.16.0',
-		permissions: ['storage', 'notifications'],
-		host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
-		optional_host_permissions: ['https://*/*', 'https://translate.googleapis.com/*'],
-		...(browser !== 'firefox' && {
-			externally_connectable: {
-				matches: [`https://${apiDomain}/*`]
-			}
-		}),
-		web_accessible_resources: [
-			{
-				resources: ['assets/*', 'icon/*', 'locales/*/*', 'content-scripts/content.css'],
-				matches: ['https://*.roblox.com/*']
-			}
-		],
-		...(browser === 'firefox' && {
-			browser_specific_settings: {
-				gecko: {
-					id: 'rotector@jaxron.me'
+	manifest: ({ browser, manifestVersion }) => {
+		const optionalHosts = ['https://*/*', 'https://translate.googleapis.com/*'];
+		return {
+			name: '__MSG_extensionName__',
+			description: '__MSG_extensionDescription__',
+			default_locale: 'en',
+			version: '2.16.0',
+			permissions: ['storage', 'notifications'],
+			host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
+			...(manifestVersion === 2
+				? { optional_permissions: optionalHosts }
+				: { optional_host_permissions: optionalHosts }),
+			...(browser !== 'firefox' && {
+				externally_connectable: {
+					matches: [`https://${apiDomain}/*`]
 				}
-			}
-		})
-	})
+			}),
+			web_accessible_resources: [
+				{
+					resources: ['assets/*', 'icon/*', 'locales/*/*', 'content-scripts/content.css'],
+					matches: ['https://*.roblox.com/*']
+				}
+			],
+			...(browser === 'firefox' && {
+				browser_specific_settings: {
+					gecko: {
+						id: 'rotector@jaxron.me'
+					}
+				}
+			})
+		};
+	}
 });

@@ -111,11 +111,6 @@
 			return;
 		}
 
-		// Remove stale Rotector members section left behind by interrupted SPA cleanup
-		tabContent.querySelectorAll(GROUP_MEMBERS_CAROUSEL_SELECTORS.SECTION).forEach((section) => {
-			section.remove();
-		});
-
 		portalTarget = document.createElement('div');
 		portalTarget.className = `section ${GROUP_MEMBERS_CAROUSEL_SELECTORS.SECTION.slice(1)}`;
 

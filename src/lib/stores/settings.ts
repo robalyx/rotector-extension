@@ -1,4 +1,4 @@
-import { derived, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import {
 	AGE_PRESETS,
 	type AgePreset,
@@ -6,32 +6,40 @@ import {
 	SETTINGS_DEFAULTS,
 	SETTINGS_KEYS,
 	type SettingsKey
-} from '../types/settings.js';
-import { logger } from '../utils/logger.js';
+} from '../types/settings';
+import { logger } from '../utils/logging/logger';
+import {
+	getAllStorage,
+	getStorage,
+	removeStorage,
+	setStorage,
+	setStorageMulti,
+	subscribeStorageKey
+} from '../utils/storage';
 
 export const settings = writable<Settings>(SETTINGS_DEFAULTS);
 
+export function getCacheTtlMs(): number {
+	return get(settings)[SETTINGS_KEYS.CACHE_DURATION_MINUTES] * 60 * 1000;
+}
+
 export async function getStoredApiKey(): Promise<string> {
-	const result = await browser.storage.sync.get([SETTINGS_KEYS.API_KEY]);
-	const apiKey = result[SETTINGS_KEYS.API_KEY];
+	const apiKey = await getStorage<string | undefined>('sync', SETTINGS_KEYS.API_KEY, undefined);
 	return typeof apiKey === 'string' ? apiKey.trim() : '';
 }
 
-// Initialize settings from storage
+// Strips keys not in SETTINGS_KEYS so sync storage doesn't accumulate orphans across versions
 export async function initializeSettings(): Promise<void> {
 	try {
-		// Get all stored settings to check for obsolete keys
-		const allStored = await browser.storage.sync.get(null);
+		const allStored = await getAllStorage('sync');
 
-		// Find and remove obsolete keys
 		const validKeys = new Set<string>(Object.values(SETTINGS_KEYS));
 		const obsoleteKeys = Object.keys(allStored).filter((key) => !validKeys.has(key));
 		if (obsoleteKeys.length > 0) {
-			await browser.storage.sync.remove(obsoleteKeys);
+			await removeStorage('sync', obsoleteKeys);
 			logger.debug('Removed obsolete settings:', obsoleteKeys);
 		}
 
-		// Merge stored settings with defaults
 		const definedSettings = Object.fromEntries(
 			Object.entries(allStored).filter(([k, v]) => v !== undefined && validKeys.has(k))
 		);
@@ -42,58 +50,39 @@ export async function initializeSettings(): Promise<void> {
 	}
 }
 
-// Update a specific setting
 export async function updateSetting<K extends SettingsKey>(
 	key: K,
 	value: Settings[K]
 ): Promise<void> {
-	try {
-		// Update storage
-		await browser.storage.sync.set({ [key]: value });
+	await setStorage('sync', key, value);
 
-		// Update store
+	settings.update((current) => ({
+		...current,
+		[key]: value
+	}));
+}
+
+// Sync from other extension contexts (popup writes vs. content reads).
+const validKeysForSync = new Set<string>(Object.values(SETTINGS_KEYS));
+for (const key of validKeysForSync) {
+	subscribeStorageKey<unknown>('sync', key, (newValue) => {
+		if (newValue === undefined) return;
 		settings.update((current) => ({
 			...current,
-			[key]: value
+			[key]: newValue
 		}));
-	} catch (error) {
-		logger.error(`Failed to update setting ${key}:`, error);
-		throw error;
-	}
+	});
 }
 
-// Listen for storage changes from other contexts
-browser.storage.onChanged.addListener((changes, namespace) => {
-	if (namespace === 'sync') {
-		const validKeys = new Set<string>(Object.values(SETTINGS_KEYS));
-		settings.update((current) => {
-			const updated = { ...current };
-			for (const [key, change] of Object.entries(changes)) {
-				if (validKeys.has(key) && change.newValue !== undefined) {
-					(updated as Record<string, unknown>)[key] = change.newValue;
-				}
-			}
-			return updated;
-		});
-	}
-});
-
-// Remove a setting
 export async function removeSetting(key: SettingsKey): Promise<void> {
-	try {
-		await browser.storage.sync.remove([key]);
-		settings.update((current) => {
-			const updated = { ...current };
-			delete (updated as Record<string, unknown>)[key];
-			return updated;
-		});
-	} catch (error) {
-		logger.error(`Failed to remove setting ${key}:`, error);
-		throw error;
-	}
+	await removeStorage('sync', key);
+	settings.update((current) => {
+		const updated = { ...current };
+		delete (updated as Record<string, unknown>)[key];
+		return updated;
+	});
 }
 
-// Preset definitions
 const MINOR_PRESET_SETTINGS = {
 	[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]: false,
 	[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]: false,
@@ -112,44 +101,34 @@ const ADULT_PRESET_SETTINGS = {
 	[SETTINGS_KEYS.BLUR_AVATARS]: false
 } as const;
 
-// Detect which preset matches current settings
 function detectAgePreset(currentSettings: Settings): AgePreset {
-	const matchesMinor = Object.entries(MINOR_PRESET_SETTINGS).every(
-		([key, value]) => currentSettings[key as keyof Settings] === value
-	);
-	if (matchesMinor) return AGE_PRESETS.MINOR;
-
-	const matchesAdult = Object.entries(ADULT_PRESET_SETTINGS).every(
-		([key, value]) => currentSettings[key as keyof Settings] === value
-	);
-	if (matchesAdult) return AGE_PRESETS.ADULT;
-
+	const presets = [
+		[AGE_PRESETS.MINOR, MINOR_PRESET_SETTINGS],
+		[AGE_PRESETS.ADULT, ADULT_PRESET_SETTINGS]
+	] as const;
+	for (const [name, preset] of presets) {
+		if (Object.entries(preset).every(([k, v]) => currentSettings[k as keyof Settings] === v)) {
+			return name;
+		}
+	}
 	return AGE_PRESETS.CUSTOM;
 }
 
-// Derived store that auto-detects current preset based on settings
 export const currentPreset = derived(settings, ($settings) => detectAgePreset($settings));
 
-// Apply a preset's settings
+// Writes the preset's settings atomically
 export async function applyAgePreset(
 	preset: typeof AGE_PRESETS.MINOR | typeof AGE_PRESETS.ADULT
 ): Promise<void> {
 	const presetSettings: Partial<Settings> =
 		preset === AGE_PRESETS.MINOR ? MINOR_PRESET_SETTINGS : ADULT_PRESET_SETTINGS;
 
-	try {
-		// Update all preset settings in storage
-		await browser.storage.sync.set(presetSettings);
+	await setStorageMulti('sync', presetSettings);
 
-		// Update store
-		settings.update((current) => ({
-			...current,
-			...presetSettings
-		}));
+	settings.update((current) => ({
+		...current,
+		...presetSettings
+	}));
 
-		logger.userAction('age_preset_applied', { preset });
-	} catch (error) {
-		logger.error('Failed to apply age preset:', error);
-		throw error;
-	}
+	logger.userAction('age_preset_applied', { preset });
 }

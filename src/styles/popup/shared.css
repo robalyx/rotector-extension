@@ -35,9 +35,3 @@
 	background-color: var(--color-border-subtle);
 	margin: 0.5rem 0;
 }
-
-@utility popup-small-caps-label {
-	@apply text-2xs font-semibold uppercase;
-	letter-spacing: 0.08em;
-	color: var(--color-text-subtle);
-}

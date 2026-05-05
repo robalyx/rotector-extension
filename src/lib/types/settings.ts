@@ -1,4 +1,4 @@
-import { CHANGELOGS } from './changelog.js';
+import { CHANGELOGS } from '../data/changelog-entries';
 
 export const SETTINGS_KEYS = {
 	HOME_CHECK_ENABLED: 'homeCheckEnabled',
@@ -215,7 +215,6 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 	}
 ];
 
-// Experimental developer settings
 export const EXPERIMENTAL_DEVELOPER_CATEGORY: SettingCategory = {
 	titleKey: 'settings_category_developer',
 	settings: [

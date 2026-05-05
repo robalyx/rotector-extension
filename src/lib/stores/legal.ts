@@ -1,8 +1,8 @@
 import { derived, writable } from 'svelte/store';
-import { settings, updateSetting } from './settings.js';
-import { SETTINGS_KEYS } from '../types/settings.js';
-import { REQUIRED_LEGAL_VERSION } from '../types/constants.js';
-import { compareVersions } from '../utils/version.js';
+import { settings, updateSetting } from './settings';
+import { SETTINGS_KEYS } from '../types/settings';
+import { REQUIRED_LEGAL_VERSION } from '../types/constants';
+import { compareVersions } from '../utils/version';
 
 const forceShowLegalModal = writable(false);
 
@@ -27,6 +27,7 @@ export const extensionFeaturesEnabled = derived(
 	([$needs, $settings]) => $settings[SETTINGS_KEYS.ONBOARDING_COMPLETED] && !$needs
 );
 
+// Records the accepted version, clears any prior decline, and dismisses the forced review
 export async function acceptLegal(): Promise<void> {
 	await updateSetting(SETTINGS_KEYS.LEGAL_ACCEPTED_VERSION, REQUIRED_LEGAL_VERSION);
 	await updateSetting(SETTINGS_KEYS.LEGAL_DECLINED, false);
@@ -38,6 +39,7 @@ export async function declineLegal(): Promise<void> {
 	forceShowLegalModal.set(false);
 }
 
+// Forces the legal modal open by clearing the decline flag and setting the in-memory force toggle
 export async function triggerLegalReview(): Promise<void> {
 	await updateSetting(SETTINGS_KEYS.LEGAL_DECLINED, false);
 	forceShowLegalModal.set(true);

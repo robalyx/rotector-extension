@@ -1,0 +1,67 @@
+/* =================================
+   QUEUE RATE LIMITS DISPLAY
+   ================================= */
+
+@utility rate-limits-section {
+	@apply flex flex-col;
+	gap: 0.5rem;
+	padding: 0.25rem 0;
+}
+
+@utility rate-limits-head {
+	@apply flex items-baseline justify-between;
+}
+
+@utility rate-limits-reset {
+	@apply text-xs-plus;
+	color: var(--color-text-tertiary);
+}
+
+@utility rate-limits-row {
+	@apply flex flex-col;
+	gap: 0.25rem;
+	padding-top: 0.25rem;
+}
+
+@utility rate-limits-label {
+	@apply flex items-baseline justify-between text-xs;
+	color: var(--color-text);
+}
+
+@utility rate-limits-count {
+	color: var(--color-text-subtle);
+}
+
+@utility rate-limits-bar {
+	@apply w-full overflow-hidden rounded-full;
+	height: 4px;
+	background-color: var(--color-bg-tertiary);
+}
+
+@utility rate-limits-bar-fill {
+	@apply h-full rounded-full;
+	background-color: var(--color-primary);
+	transition: width 0.3s ease;
+}
+
+@utility rate-limits-loading {
+	@apply text-xs;
+	padding: 0.5rem 0;
+	color: var(--color-text-subtle);
+}
+
+@utility rate-limits-error {
+	@apply flex items-center text-xs;
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+	color: var(--color-error);
+}
+
+@utility rate-limits-retry {
+	@apply cursor-pointer border-none bg-transparent text-xs font-medium underline;
+	color: var(--color-primary);
+
+	&:hover {
+		color: var(--color-primary-hover);
+	}
+}

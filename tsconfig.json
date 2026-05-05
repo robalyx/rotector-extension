@@ -5,6 +5,7 @@
 		"module": "esnext", // Use latest ES module syntax
 		"moduleResolution": "bundler", // Use bundler-specific resolution (Vite/Webpack)
 		"target": "es2017", // Target ES2017 for good browser compatibility
+		"lib": ["ES2022", "DOM"], // Type defs ahead of emit target so modern APIs (Error cause) typecheck
 		"verbatimModuleSyntax": true, // Enforce explicit import/export types
 		"isolatedModules": true, // Each file can be transpiled independently
 		"resolveJsonModule": true, // Allow importing JSON files

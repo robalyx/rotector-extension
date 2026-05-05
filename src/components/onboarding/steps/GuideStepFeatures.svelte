@@ -32,7 +32,6 @@
 
 	let expandedIndex = $state<number | null>(null);
 
-	// Toggle accordion expansion for a feature
 	function toggleFeature(index: number) {
 		expandedIndex = expandedIndex === index ? null : index;
 	}

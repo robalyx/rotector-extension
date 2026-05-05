@@ -75,7 +75,6 @@
 
 @utility developer-logs-entry {
 	@apply text-3xs flex items-start gap-1.5 px-2 py-1.5;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	&:last-of-type {
@@ -156,15 +155,4 @@
 	color: var(--color-text-subtle);
 	max-height: 150px;
 	margin-top: 0;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-}
-
-/* =================================
-   SETTINGS PAGE ERROR BADGE
-   ================================= */
-
-@utility developer-logs-error-badge {
-	@apply text-3xs rounded-full px-1.5 py-0.5 font-semibold;
-	background-color: var(--color-error);
-	color: white;
 }

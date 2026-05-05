@@ -18,10 +18,21 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';
 	import RoVerIcon from '@/components/icons/RoVerIcon.svelte';
-	import { discordDataService } from '@/lib/services/discord-data-service';
+	import { getDiscordData } from '@/lib/services/third-party/discord-data';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
-	import { VERIFICATION_SOURCE_NAMES, VERIFICATION_SOURCE_URLS } from '@/lib/types/api';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
+
+	const VERIFICATION_SOURCE_NAMES: Record<number, string> = {
+		0: 'Bloxlink',
+		1: 'RoVer',
+		2: 'Profile'
+	};
+
+	const VERIFICATION_SOURCE_URLS: Record<number, string> = {
+		0: 'https://blox.link/',
+		1: 'https://rover.link/',
+		2: 'https://discord.com'
+	};
 
 	interface Props {
 		robloxUserId: number;
@@ -33,7 +44,6 @@
 	let discordAccounts = $state<DiscordAccountInfo[]>([]);
 	let altAccounts = $state<RobloxAltAccount[]>([]);
 	let isLoading = $state(true);
-	let error = $state<string | null>(null);
 	let expandedAccounts = new SvelteSet<string>();
 	let copySuccess = $state(false);
 	let copyError = $state(false);
@@ -86,11 +96,9 @@
 
 		const lines: string[] = [];
 
-		// Header with Roblox user ID
 		lines.push(`Roblox User ID: ${String(robloxUserId)}`);
 		lines.push('');
 
-		// Summary counts
 		lines.push(`Discord Accounts: ${String(discordAccounts.length)}`);
 		lines.push(`Total Servers: ${String(totalServers)}`);
 		if (altAccounts.length > 0) {
@@ -98,7 +106,6 @@
 		}
 		lines.push('');
 
-		// Discord accounts with server details
 		for (const account of discordAccounts) {
 			lines.push(`--- Discord Account ${account.id} ---`);
 
@@ -123,7 +130,6 @@
 			lines.push('');
 		}
 
-		// Alt accounts
 		if (altAccounts.length > 0) {
 			lines.push('--- Roblox Alt Accounts ---');
 			for (const alt of altAccounts) {
@@ -159,12 +165,11 @@
 		async function fetchDiscordData() {
 			try {
 				isLoading = true;
-				error = null;
-				const result = await discordDataService.getDiscordData(robloxUserId);
+				const result = await getDiscordData(robloxUserId);
 				discordAccounts = result.discordAccounts.filter((account) => account.servers.length > 0);
 				altAccounts = result.altAccounts;
-			} catch (err) {
-				error = err instanceof Error ? err.message : 'Failed to fetch Discord data';
+			} catch {
+				// Empty discordAccounts/altAccounts trigger the fallbackEvidence branch in the template
 			} finally {
 				isLoading = false;
 			}
@@ -174,16 +179,22 @@
 	});
 </script>
 
+{#snippet sourceIcon(code: number)}
+	{#if code === 0}
+		<BloxlinkIcon size={14} />
+	{:else if code === 1}
+		<RoVerIcon size={14} />
+	{:else}
+		<CircleUserRound size={14} />
+	{/if}
+{/snippet}
+
 <div class="discord-evidence-container">
 	{#if isLoading}
 		<div class="discord-loading">
 			<div class="discord-loading-shimmer"></div>
 			<span class="discord-loading-text">{$_('tooltip_discord_loading')}</span>
 		</div>
-	{:else if error}
-		{#each fallbackEvidence as evidence, index (index)}
-			<div class="evidence-item">{evidence}</div>
-		{/each}
 	{:else if hasData}
 		<!-- Summary bar -->
 		<div class="discord-summary">
@@ -296,13 +307,7 @@
 							target="_blank"
 							title={source.name}
 						>
-							{#if source.code === 0}
-								<BloxlinkIcon size={14} />
-							{:else if source.code === 1}
-								<RoVerIcon size={14} />
-							{:else}
-								<CircleUserRound size={14} />
-							{/if}
+							{@render sourceIcon(source.code)}
 						</a>
 					{/each}
 					<span class="discord-server-count">
@@ -393,13 +398,7 @@
 							target="_blank"
 							title={source.name}
 						>
-							{#if source.code === 0}
-								<BloxlinkIcon size={14} />
-							{:else if source.code === 1}
-								<RoVerIcon size={14} />
-							{:else}
-								<CircleUserRound size={14} />
-							{/if}
+							{@render sourceIcon(source.code)}
 						</a>
 					{/each}
 					<span class="discord-server-count">

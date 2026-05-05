@@ -1,10 +1,8 @@
-/**
- * Calculates the number of days that have elapsed since a Unix timestamp
- */
+// Timestamp is seconds, returns whole calendar days using local-midnight boundaries
 export function getDaysSinceTimestamp(timestamp: number): number {
 	if (!timestamp) return 0;
 
-	const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+	const date = new Date(timestamp * 1000);
 	if (isNaN(date.getTime())) return 0;
 
 	const now = new Date();
@@ -16,46 +14,27 @@ export function getDaysSinceTimestamp(timestamp: number): number {
 	return Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
 }
 
-/**
- * Formats a Unix timestamp (in seconds) to relative time text
- */
+// Input is in seconds
 export function formatTimestamp(timestamp: number): string {
-	const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+	const date = new Date(timestamp * 1000);
 	if (isNaN(date.getTime())) return 'unknown time';
 
 	const now = new Date();
 	const diffMs = now.getTime() - date.getTime();
 
-	if (diffMs < 0) return 'just now';
+	if (diffMs < 60_000) return 'just now';
 
-	const diffSeconds = Math.floor(diffMs / 1000);
-	const diffMinutes = Math.floor(diffSeconds / 60);
+	const diffMinutes = Math.floor(diffMs / 60_000);
 	const diffHours = Math.floor(diffMinutes / 60);
 	const diffDays = Math.floor(diffHours / 24);
 
-	if (diffSeconds < 60) {
-		return 'just now';
-	} else if (diffMinutes < 60) {
-		return `${String(diffMinutes)}m ago`;
-	} else if (diffHours < 24) {
-		return `${String(diffHours)}h ago`;
-	} else if (diffDays < 7) {
-		return `${String(diffDays)}d ago`;
-	} else {
-		const currentYear = now.getFullYear();
-		const dateYear = date.getFullYear();
-
-		return date.toLocaleDateString('en-US', {
-			month: 'short',
-			day: 'numeric',
-			year: dateYear !== currentYear ? 'numeric' : undefined
-		});
-	}
+	if (diffMinutes < 60) return `${String(diffMinutes)}m ago`;
+	if (diffHours < 24) return `${String(diffHours)}h ago`;
+	if (diffDays < 7) return `${String(diffDays)}d ago`;
+	return formatShortDate(timestamp) ?? 'unknown time';
 }
 
-/**
- * Gets the duration between two Unix timestamps (in seconds) in a human-readable format
- */
+// Both timestamps in seconds
 export function getProcessingDuration(queuedAt: number, processedAt: number): string {
 	if (!queuedAt || !processedAt || processedAt <= queuedAt) return '';
 
@@ -63,31 +42,19 @@ export function getProcessingDuration(queuedAt: number, processedAt: number): st
 	const durationMinutes = Math.floor(durationSeconds / 60);
 	const durationHours = Math.floor(durationMinutes / 60);
 
-	if (durationSeconds < 60) {
-		return durationSeconds === 1 ? '1s' : `${String(durationSeconds)}s`;
-	} else if (durationMinutes < 60) {
-		return durationMinutes === 1 ? '1m' : `${String(durationMinutes)}m`;
-	} else {
-		const remainingMinutes = durationMinutes % 60;
-		if (remainingMinutes === 0) {
-			return durationHours === 1 ? '1h' : `${String(durationHours)}h`;
-		} else {
-			return `${String(durationHours)}h ${String(remainingMinutes)}m`;
-		}
-	}
+	if (durationSeconds < 60) return durationSeconds === 1 ? '1s' : `${String(durationSeconds)}s`;
+	if (durationMinutes < 60) return durationMinutes === 1 ? '1m' : `${String(durationMinutes)}m`;
+	const remainingMinutes = durationMinutes % 60;
+	if (remainingMinutes === 0) return durationHours === 1 ? '1h' : `${String(durationHours)}h`;
+	return `${String(durationHours)}h ${String(remainingMinutes)}m`;
 }
 
-/**
- * Gets the duration since a timestamp
- */
+// Timestamp is seconds, returns short form like 5m or 2h 10m versus current time
 export function getDurationSince(timestamp: number): string {
-	const now = Math.floor(Date.now() / 1000); // Convert to seconds
+	const now = Math.floor(Date.now() / 1000);
 	return getProcessingDuration(timestamp, now);
 }
 
-/**
- * Formats a Unix timestamp to a short date string (e.g., "Jan 1" or "Jan 1, 2024" if different year)
- */
 export function formatShortDate(timestamp: number | null): string | null {
 	if (!timestamp) return null;
 	const date = new Date(timestamp * 1000);
@@ -104,11 +71,8 @@ export function formatShortDate(timestamp: number | null): string | null {
 	});
 }
 
-/**
- * Formats a Unix timestamp to a complete date and time string
- */
 export function formatExactTimestamp(timestamp: number): string {
-	const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+	const date = new Date(timestamp * 1000);
 	if (isNaN(date.getTime())) return 'unknown time';
 
 	return date.toLocaleString('en-US', {
@@ -121,18 +85,12 @@ export function formatExactTimestamp(timestamp: number): string {
 	});
 }
 
-/**
- * Formats milliseconds to a human-readable duration string
- */
 export function formatDurationMs(ms: number): string {
 	if (ms < 1) return '<1ms';
 	if (ms < 1000) return `${ms.toFixed(1)}ms`;
 	return `${(ms / 1000).toFixed(2)}s`;
 }
 
-/**
- * Formats a timestamp to time-of-day string (HH:MM:SS)
- */
 export function formatTimeOfDay(timestamp: number): string {
 	return new Date(timestamp).toISOString().slice(11, 19);
 }

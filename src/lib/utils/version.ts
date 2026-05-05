@@ -1,4 +1,4 @@
-// Compare semantic version strings; returns negative/zero/positive like Array#sort
+// Compare semantic version strings and return negative/zero/positive like Array#sort
 export function compareVersions(a: string, b: string): number {
 	const pa = a.split('.').map(Number);
 	const pb = b.split('.').map(Number);

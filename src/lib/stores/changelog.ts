@@ -1,25 +1,22 @@
 import { derived, get } from 'svelte/store';
-import { settings, updateSetting } from './settings.js';
-import { SETTINGS_KEYS } from '../types/settings.js';
-import { type Changelog, CHANGELOGS } from '../types/changelog.js';
-import { compareVersions } from '../utils/version.js';
+import { settings, updateSetting } from './settings';
+import { SETTINGS_KEYS } from '../types/settings';
+import type { Changelog } from '../types/changelog';
+import { CHANGELOGS } from '../data/changelog-entries';
+import { compareVersions } from '../utils/version';
 
-// Changelog data
 export const changelogs = CHANGELOGS;
 
-// Store for whether the changelog section is expanded
 export const changelogSectionExpanded = derived(
 	settings,
 	($settings) => $settings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]
 );
 
-// Unread changelogs where versions are newer than last seen
 export const unreadChangelogs = derived(settings, ($settings) => {
 	const lastSeen = $settings[SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION] || '0.0.0';
 	return CHANGELOGS.filter((cl) => compareVersions(cl.version, lastSeen) > 0);
 });
 
-// Whether the changelog modal should be visible
 export const shouldShowChangelogModal = derived(
 	[settings, unreadChangelogs],
 	([$settings, $unread]) => {
@@ -29,14 +26,12 @@ export const shouldShowChangelogModal = derived(
 	}
 );
 
-// Toggle the changelog section expanded state
 export async function toggleChangelogSection(): Promise<void> {
 	const currentSettings = get(settings);
 	const currentExpanded = currentSettings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED];
 	await updateSetting(SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED, !currentExpanded);
 }
 
-// Mark changelogs as seen
 export async function markChangelogsSeen(): Promise<void> {
 	const latest = CHANGELOGS[0];
 	if (latest) {
@@ -44,17 +39,12 @@ export async function markChangelogsSeen(): Promise<void> {
 	}
 }
 
-// Disable changelog modal permanently
 export async function disableChangelogModal(): Promise<void> {
 	await updateSetting(SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED, true);
 }
 
-// Re-enable changelog modal
 export async function enableChangelogModal(): Promise<void> {
 	await updateSetting(SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED, false);
 }
 
-// Get latest changelog
-export function getLatestChangelog(): Changelog | null {
-	return CHANGELOGS[0] ?? null;
-}
+export const getLatestChangelog = (): Changelog | null => CHANGELOGS[0] ?? null;

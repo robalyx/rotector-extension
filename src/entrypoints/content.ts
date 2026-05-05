@@ -3,9 +3,9 @@ import { mount } from 'svelte';
 import { get } from 'svelte/store';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import type { ContentScriptContext } from 'wxt/utils/content-script-context';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/utils/logging/logger';
 import { PageControllerManager } from '@/lib/controllers/PageControllerManager';
-import { registerPortalContainer, themeManager } from '@/lib/utils/theme';
+import { themeManager } from '@/lib/utils/theme';
 import { initializeSettings } from '@/lib/stores/settings';
 import { extensionFeaturesEnabled } from '@/lib/stores/legal';
 import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
@@ -14,14 +14,11 @@ import {
 	initializeRestrictedAccess,
 	setupRestrictedAccessListener
 } from '@/lib/stores/restricted-access';
-import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur-service';
-import { metricsCollector } from '@/lib/utils/metrics-collector';
-import { setOverlayContainer } from '@/lib/stores/overlay';
+import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur/service';
+import { metricsCollector } from '@/lib/utils/logging/metrics-collector';
+import { registerOverlayContainer } from '@/lib/utils/overlay-portal-registry';
 import OverlayRoot from '@/components/overlay/OverlayRoot.svelte';
 
-/**
- * Wait for document.body to exist.
- */
 async function waitForBody(): Promise<HTMLElement> {
 	return new Promise((resolve) => {
 		// document.body is typed as non-null but can be null before DOM loads
@@ -102,7 +99,6 @@ export default defineContentScript({
 			await initializeSettings();
 			logger.debug('Settings loaded successfully');
 
-			// Inject blur styles based on settings
 			injectBlurStyles();
 			logger.debug('Blur styles injected');
 
@@ -115,13 +111,10 @@ export default defineContentScript({
 			setupRestrictedAccessListener();
 			logger.debug('Access state initialized');
 
-			// Wait for body to exist before DOM operations
 			await waitForBody();
 
-			// Initialize Roblox theme detection
 			themeManager.initializeRobloxTheme();
 
-			// Load content script CSS for injection into the shadow root
 			const cssUrl = browser.runtime.getURL(
 				'/content-scripts/content.css' as Parameters<typeof browser.runtime.getURL>[0]
 			);
@@ -129,21 +122,20 @@ export default defineContentScript({
 			const rawCss = await cssResponse.text();
 			const cssText = rawCss.split(':root').join(':host');
 
-			// Create shadow root for overlay UI
 			const ui = await createShadowRootUi(ctx, {
 				name: 'rotector-overlay',
 				position: 'overlay',
 				zIndex: 10000,
 				css: cssText,
 				onMount(uiContainer, _shadow, shadowHost) {
-					setOverlayContainer(uiContainer);
-					registerPortalContainer(shadowHost);
+					registerOverlayContainer(uiContainer);
+					themeManager.registerPortalContainer(shadowHost);
 
 					// Register inner html element so [data-theme] CSS selectors
 					// match inside the shadow root (bare attribute selectors
 					// don't match the shadow host from within shadow CSS)
 					const shadowHtml = _shadow.querySelector('html');
-					if (shadowHtml) registerPortalContainer(shadowHtml);
+					if (shadowHtml) themeManager.registerPortalContainer(shadowHtml);
 
 					mount(OverlayRoot, { target: uiContainer });
 					logger.debug('Shadow root overlay mounted');
@@ -155,22 +147,17 @@ export default defineContentScript({
 			});
 			ui.mount();
 
-			// Track initialization state
 			let pageManagerInitialized = false;
 
 			function initializePageHandling() {
 				if (pageManagerInitialized) return;
 				pageManagerInitialized = true;
 
-				// Initialize page controller manager
 				const pageManager = new PageControllerManager();
-				pageManager.initialize();
 				logger.debug('Page controller manager initialized');
 
-				// Start metrics collection in dev mode
 				metricsCollector.start();
 
-				// Handle page navigation changes
 				let currentUrl = window.location.href;
 				const checkForNavigation = () => {
 					if (window.location.href !== currentUrl) {
@@ -184,7 +171,6 @@ export default defineContentScript({
 					}
 				};
 
-				// Listen for browser navigation events
 				window.addEventListener('popstate', () => {
 					logger.debug('Popstate event detected');
 					checkForNavigation();
@@ -195,7 +181,6 @@ export default defineContentScript({
 					checkForNavigation();
 				});
 
-				// Initial page detection and setup
 				void pageManager.handleNavigation(currentUrl);
 			}
 
@@ -211,7 +196,6 @@ export default defineContentScript({
 				logger.debug('Waiting for onboarding + legal acceptance to initialize page controllers');
 			}
 
-			// Set up cleanup on page unload
 			window.addEventListener('beforeunload', () => {
 				logger.debug('Content script cleanup on page unload');
 				metricsCollector.stop();

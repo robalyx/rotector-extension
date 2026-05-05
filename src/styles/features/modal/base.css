@@ -155,11 +155,6 @@
 	color: var(--color-text);
 }
 
-@utility modal-content-compact {
-	@apply modal-content;
-	padding: 0.875rem 1.125rem;
-}
-
 @utility modal-paragraph {
 	@apply m-0 text-sm leading-relaxed;
 	color: var(--color-text);
@@ -201,11 +196,6 @@
 	color: var(--color-text-subtle);
 }
 
-@utility modal-section-status {
-	@apply text-xs font-medium;
-	color: var(--color-text-tertiary);
-}
-
 @utility modal-section-body {
 	@apply flex flex-col;
 	gap: 0.375rem;
@@ -234,11 +224,6 @@
 	background-color: var(--color-primary);
 }
 
-@utility modal-list-bullet-info {
-	@apply modal-list-bullet;
-	background-color: var(--color-primary);
-}
-
 @utility modal-list-bullet-warning {
 	@apply modal-list-bullet;
 	background-color: var(--color-warning);
@@ -260,12 +245,6 @@
 
 @utility modal-actions {
 	@apply flex flex-shrink-0 flex-row items-center justify-end;
-	gap: 0.5rem;
-	padding: 0.75rem 1rem;
-}
-
-@utility modal-actions-stacked {
-	@apply flex flex-shrink-0 flex-col-reverse items-stretch;
 	gap: 0.5rem;
 	padding: 0.75rem 1rem;
 }

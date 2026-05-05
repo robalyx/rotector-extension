@@ -1,18 +1,14 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { ChevronDown, ChevronRight } from '@lucide/svelte';
 	import HelpIndicator from '../../ui/HelpIndicator.svelte';
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import Toggle from '../../ui/Toggle.svelte';
-	import PresetCard from './PresetCard.svelte';
+	import PresetCard from '@/components/ui/PresetCard.svelte';
 	import SignalSection from './SignalSection.svelte';
 	import { loadMembershipStatus, membershipStore } from '@/lib/stores/membership';
-	import {
-		customApis,
-		extractApiOrigins,
-		loadCustomApis,
-		updateCustomApi
-	} from '@/lib/stores/custom-apis';
+	import { customApis, loadCustomApis, setCustomApiEnabled } from '@/lib/stores/custom-apis';
 	import { errorLogs } from '@/lib/stores/developer-logs';
 	import { getAvailableLocales, setLanguage } from '@/lib/stores/i18n';
 	import {
@@ -29,22 +25,17 @@
 		SETTING_CATEGORIES,
 		SETTINGS_KEYS
 	} from '@/lib/types/settings';
-	import { logger } from '@/lib/utils/logger';
-	import {
-		hasPermissionsForOrigins,
-		hasTranslatePermission,
-		requestPermissionsForOrigins,
-		requestTranslatePermission
-	} from '@/lib/utils/permissions';
+	import { logger } from '@/lib/utils/logging/logger';
+	import { hasTranslatePermission, requestTranslatePermission } from '@/lib/utils/permissions';
 	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
 
 	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
 	const availableLocales = getAvailableLocales();
 
 	interface Props {
-		onNavigateToCustomApis?: (() => void) | undefined;
-		onNavigateToMembership?: (() => void) | undefined;
-		onNavigateToDeveloperLogs?: (() => void) | undefined;
+		onNavigateToCustomApis: () => void;
+		onNavigateToMembership: () => void;
+		onNavigateToDeveloperLogs: () => void;
 		onNavigateToPerformance?: (() => void) | undefined;
 	}
 
@@ -70,23 +61,15 @@
 		SETTING_CATEGORIES.find((c) => c.titleKey === 'settings_category_content_blur')
 	);
 
-	const pagesEnabledCount = $derived(
-		pagesCategory?.settings.filter((s) => Boolean($settings[s.key])).length ?? 0
-	);
-	const pagesTotalCount = $derived(pagesCategory?.settings.length ?? 0);
-	const blurEnabledCount = $derived(
-		blurCategory?.settings.filter((s) => Boolean($settings[s.key])).length ?? 0
-	);
-	const blurTotalCount = $derived(blurCategory?.settings.length ?? 0);
-
-	function formatEnabledStatus(enabled: number, total: number): string {
+	function statusFor(category: (typeof SETTING_CATEGORIES)[number] | undefined): string {
+		const total = category?.settings.length ?? 0;
+		const enabled = category?.settings.filter((s) => !!$settings[s.key]).length ?? 0;
 		if (enabled === 0) return $_('settings_status_none_enabled');
 		if (enabled === total) return $_('settings_status_all_enabled');
 		return $_('settings_status_enabled_count', { values: { enabled, total } });
 	}
-
-	const pagesStatus = $derived(formatEnabledStatus(pagesEnabledCount, pagesTotalCount));
-	const blurStatus = $derived(formatEnabledStatus(blurEnabledCount, blurTotalCount));
+	const pagesStatus = $derived(statusFor(pagesCategory));
+	const blurStatus = $derived(statusFor(blurCategory));
 
 	// Enabling translate-violations requires host permission
 	async function handleSettingChange(key: SettingsKey, value: boolean | number | string) {
@@ -103,76 +86,47 @@
 		await updateSetting(key, value);
 	}
 
-	// Handle language change with i18n library
 	async function handleLanguageChange(localeCode: string) {
 		await setLanguage(localeCode);
 		await updateSetting(SETTINGS_KEYS.LANGUAGE_OVERRIDE, localeCode);
 	}
 
-	// Handle preset change
-	async function handlePresetChange(preset: string) {
-		if (preset === AGE_PRESETS.MINOR || preset === AGE_PRESETS.ADULT) {
-			await applyAgePreset(preset);
-		}
-	}
-
-	// Handle custom API toggle changes
 	async function handleApiToggle(apiId: string, enabled: boolean) {
-		if (!enabled) {
-			try {
-				await updateCustomApi(apiId, { enabled: false });
-				logger.userAction('custom_api_toggled', { apiId, enabled: false });
-			} catch (error) {
-				logger.error('Failed to disable custom API:', error);
-				showError(
-					$_('custom_api_mgmt_alert_toggle_error', {
-						values: { 0: error instanceof Error ? error.message : 'Unknown error' }
-					})
-				);
-			}
-			return;
-		}
-
 		const api = $customApis.find((a) => a.id === apiId);
 		if (!api) {
-			logger.error('Failed to find API for permission request:', { apiId });
-			return;
-		}
-
-		const origins = extractApiOrigins(api);
-		if (origins.length === 0) {
-			showError($_('custom_api_mgmt_alert_invalid_url'));
+			logger.error('Failed to find API for toggle:', { apiId });
 			return;
 		}
 
 		togglingApiId = apiId;
 		try {
-			const hasPerms = await hasPermissionsForOrigins(origins);
-			if (!hasPerms) {
-				const granted = await requestPermissionsForOrigins(origins);
-				if (!granted) {
-					showWarning($_('custom_api_mgmt_alert_permission_denied'));
-					return;
+			const result = await setCustomApiEnabled(api, enabled);
+
+			if (result.ok) {
+				if (enabled) {
+					showSuccess($_('custom_api_mgmt_alert_enabled', { values: { 0: api.name } }));
 				}
+				return;
 			}
 
-			await updateCustomApi(apiId, { enabled: true });
-			logger.userAction('custom_api_toggled', { apiId, enabled: true });
-			showSuccess($_('custom_api_mgmt_alert_enabled', { values: { 0: api.name } }));
-		} catch (error) {
-			logger.error('Failed to enable custom API:', error);
-			showError(
-				$_('custom_api_mgmt_alert_toggle_error', {
-					values: { 0: error instanceof Error ? error.message : 'Unknown error' }
-				})
-			);
+			switch (result.reason) {
+				case 'invalid_url':
+					showError($_('custom_api_mgmt_alert_invalid_url'));
+					break;
+				case 'permission_denied':
+					showWarning($_('custom_api_mgmt_alert_permission_denied'));
+					break;
+				case 'error':
+					showError(
+						$_('custom_api_mgmt_alert_toggle_error', {
+							values: { 0: result.message ?? $_('custom_api_form_error_unknown') }
+						})
+					);
+					break;
+			}
 		} finally {
 			togglingApiId = null;
 		}
-	}
-
-	function toggleDeveloperSection() {
-		developerExpanded = !developerExpanded;
 	}
 
 	$effect(() => {
@@ -182,8 +136,6 @@
 		void loadMembershipStatus();
 	});
 
-	// Display the tier name for active members; fall back to a problem indicator
-	// for not-member / invalid-key; hide the row entirely while still unknown.
 	const membershipState = $derived($membershipStore);
 	const membershipStatusLabel = $derived.by(() => {
 		switch (membershipState.kind) {
@@ -199,8 +151,32 @@
 	});
 </script>
 
+{#snippet labeledRow(
+	setting: { key: SettingsKey; labelKey: string; helpTextKey?: string },
+	control: Snippet
+)}
+	<div class="settings-row" data-setting-key={setting.key}>
+		<div class="settings-row-label">
+			{$_(setting.labelKey)}
+			{#if setting.helpTextKey}
+				<HelpIndicator text={$_(setting.helpTextKey)} />
+			{/if}
+		</div>
+		{@render control()}
+	</div>
+{/snippet}
+
+{#snippet toggleRow(setting: { key: SettingsKey; labelKey: string; helpTextKey?: string })}
+	{#snippet control()}
+		<Toggle
+			checked={!!$settings[setting.key]}
+			onchange={(value: boolean) => handleSettingChange(setting.key, value)}
+		/>
+	{/snippet}
+	{@render labeledRow(setting, control)}
+{/snippet}
+
 <div class="settings-root">
-	<!-- Conversational preset opener -->
 	<div class="settings-preset-block">
 		<h2 class="settings-preset-heading">{$_('settings_who_protecting')}</h2>
 		<div class="preset-cards-row">
@@ -208,13 +184,13 @@
 				active={$currentPreset === AGE_PRESETS.MINOR}
 				description={$_('settings_preset_minor_description')}
 				label={$_('settings_preset_minor')}
-				onclick={() => handlePresetChange(AGE_PRESETS.MINOR)}
+				onclick={() => applyAgePreset(AGE_PRESETS.MINOR)}
 			/>
 			<PresetCard
 				active={$currentPreset === AGE_PRESETS.ADULT}
 				description={$_('settings_preset_adult_description')}
 				label={$_('settings_preset_adult')}
-				onclick={() => handlePresetChange(AGE_PRESETS.ADULT)}
+				onclick={() => applyAgePreset(AGE_PRESETS.ADULT)}
 			/>
 			<PresetCard
 				active={$currentPreset === AGE_PRESETS.CUSTOM}
@@ -227,20 +203,14 @@
 
 	<div class="popup-divider"></div>
 
-	<!-- Appearance -->
 	<SignalSection title={$_('settings_section_appearance')}>
 		{#if contentDisplayCategory}
 			{#each contentDisplayCategory.settings as setting (setting.key)}
 				{#if setting.key === SETTINGS_KEYS.THEME}
-					<div class="settings-row" data-setting-key={setting.key}>
-						<div class="settings-row-label">
-							{$_(setting.labelKey)}
-							{#if setting.helpTextKey}
-								<HelpIndicator text={$_(setting.helpTextKey)} />
-							{/if}
-						</div>
+					{#snippet themeControl()}
 						<select
 							class="settings-select"
+							aria-label={$_(setting.labelKey)}
 							onchange={(e) => handleSettingChange(setting.key, e.currentTarget.value)}
 							bind:value={$settings[setting.key]}
 						>
@@ -248,17 +218,13 @@
 							<option value="dark">{$_('settings_theme_dark')}</option>
 							<option value="auto">{$_('settings_theme_auto')}</option>
 						</select>
-					</div>
+					{/snippet}
+					{@render labeledRow(setting, themeControl)}
 				{:else if setting.key === SETTINGS_KEYS.LANGUAGE_OVERRIDE}
-					<div class="settings-row" data-setting-key={setting.key}>
-						<div class="settings-row-label">
-							{$_(setting.labelKey)}
-							{#if setting.helpTextKey}
-								<HelpIndicator text={$_(setting.helpTextKey)} />
-							{/if}
-						</div>
+					{#snippet languageControl()}
 						<select
 							class="settings-select"
+							aria-label={$_(setting.labelKey)}
 							onchange={(e) => handleLanguageChange(e.currentTarget.value)}
 							value={$settings[setting.key]}
 						>
@@ -267,20 +233,10 @@
 								<option value={locale.code}>{locale.name}</option>
 							{/each}
 						</select>
-					</div>
+					{/snippet}
+					{@render labeledRow(setting, languageControl)}
 				{:else}
-					<div class="settings-row" data-setting-key={setting.key}>
-						<div class="settings-row-label">
-							{$_(setting.labelKey)}
-							{#if setting.helpTextKey}
-								<HelpIndicator text={$_(setting.helpTextKey)} />
-							{/if}
-						</div>
-						<Toggle
-							checked={Boolean($settings[setting.key] ?? false)}
-							onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-						/>
-					</div>
+					{@render toggleRow(setting)}
 				{/if}
 			{/each}
 		{/if}
@@ -288,63 +244,32 @@
 
 	<div class="popup-divider"></div>
 
-	<!-- Pages -->
 	<SignalSection status={pagesStatus} title={$_('settings_section_pages')}>
 		{#if pagesCategory}
 			{#each pagesCategory.settings as setting (setting.key)}
-				<div class="settings-row" data-setting-key={setting.key}>
-					<div class="settings-row-label">
-						{$_(setting.labelKey)}
-						{#if setting.helpTextKey}
-							<HelpIndicator text={$_(setting.helpTextKey)} />
-						{/if}
-					</div>
-					<Toggle
-						checked={Boolean($settings[setting.key] ?? false)}
-						onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-					/>
-				</div>
+				{@render toggleRow(setting)}
 			{/each}
 		{/if}
 	</SignalSection>
 
 	<div class="popup-divider"></div>
 
-	<!-- Blur -->
 	<SignalSection status={blurStatus} title={$_('settings_section_blur')}>
 		{#if blurCategory}
 			{#each blurCategory.settings as setting (setting.key)}
-				<div class="settings-row" data-setting-key={setting.key}>
-					<div class="settings-row-label">
-						{$_(setting.labelKey)}
-						{#if setting.helpTextKey}
-							<HelpIndicator text={$_(setting.helpTextKey)} />
-						{/if}
-					</div>
-					<Toggle
-						checked={Boolean($settings[setting.key] ?? false)}
-						onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-					/>
-				</div>
+				{@render toggleRow(setting)}
 			{/each}
 		{/if}
 	</SignalSection>
 
 	<div class="popup-divider"></div>
 
-	<!-- Experimental -->
 	<SignalSection title={$_('settings_section_experimental')}>
-		<div class="settings-row" data-setting-key={SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED}>
-			<div class="settings-row-label">
-				{$_('settings_label_experimental_custom_apis')}
-				<HelpIndicator text={$_('settings_help_experimental_custom_apis')} />
-			</div>
-			<Toggle
-				checked={$settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]}
-				onchange={(value: boolean) =>
-					handleSettingChange(SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED, value)}
-			/>
-		</div>
+		{@render toggleRow({
+			key: SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED,
+			labelKey: 'settings_label_experimental_custom_apis',
+			helpTextKey: 'settings_help_experimental_custom_apis'
+		})}
 
 		{#if $settings[SETTINGS_KEYS.EXPERIMENTAL_CUSTOM_APIS_ENABLED]}
 			<div class="settings-nested">
@@ -359,45 +284,34 @@
 					</div>
 				{/each}
 
-				{#if onNavigateToCustomApis}
-					<button class="settings-nav-button" onclick={onNavigateToCustomApis} type="button">
-						<span class="settings-nav-button-text">
-							{$_('settings_manage_apis_button')}
-							<span class="settings-nav-button-count">
-								{$_(
-									userApis.length === 1
-										? 'settings_api_count_singular'
-										: 'settings_api_count_plural',
-									{
-										values: {
-											0: userApis.length
-										}
+				<button class="settings-nav-button" onclick={onNavigateToCustomApis} type="button">
+					<span class="settings-nav-button-text">
+						{$_('settings_manage_apis_button')}
+						<span class="settings-nav-button-count">
+							{$_(
+								userApis.length === 1 ? 'settings_api_count_singular' : 'settings_api_count_plural',
+								{
+									values: {
+										0: userApis.length
 									}
-								)}
-							</span>
+								}
+							)}
 						</span>
-						<ChevronRight size={14} />
-					</button>
-				{/if}
+					</span>
+					<ChevronRight size={14} />
+				</button>
 			</div>
 		{/if}
 
-		<div class="settings-row" data-setting-key={SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED}>
-			<div class="settings-row-label">
-				{$_('settings_label_advanced_violations')}
-				<HelpIndicator text={$_('settings_help_advanced_violations')} />
-			</div>
-			<Toggle
-				checked={$settings[SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED]}
-				onchange={(value: boolean) =>
-					handleSettingChange(SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED, value)}
-			/>
-		</div>
+		{@render toggleRow({
+			key: SETTINGS_KEYS.ADVANCED_VIOLATION_INFO_ENABLED,
+			labelKey: 'settings_label_advanced_violations',
+			helpTextKey: 'settings_help_advanced_violations'
+		})}
 	</SignalSection>
 
 	<div class="popup-divider"></div>
 
-	<!-- Membership -->
 	<SignalSection status={membershipStatusLabel} title={$_('membership_settings_section_title')}>
 		{#if membershipState.kind === 'member' && membershipState.status.associatedRobloxUserId > 0}
 			<div class="membership-settings-assignment">
@@ -406,25 +320,22 @@
 				})}
 			</div>
 		{/if}
-		{#if onNavigateToMembership}
-			<button class="settings-nav-button" onclick={onNavigateToMembership} type="button">
-				<span class="settings-nav-button-text">
-					{$_('membership_settings_manage_button')}
-				</span>
-				<ChevronRight size={14} />
-			</button>
-		{/if}
+		<button class="settings-nav-button" onclick={onNavigateToMembership} type="button">
+			<span class="settings-nav-button-text">
+				{$_('membership_settings_manage_button')}
+			</span>
+			<ChevronRight size={14} />
+		</button>
 	</SignalSection>
 
 	<div class="popup-divider"></div>
 
-	<!-- Developer -->
 	<section class="popup-section">
 		<button
 			class="settings-section-collapser"
 			class:expanded={developerExpanded}
 			aria-expanded={developerExpanded}
-			onclick={toggleDeveloperSection}
+			onclick={() => (developerExpanded = !developerExpanded)}
 			type="button"
 		>
 			<h2 class="popup-section-title">{$_('settings_section_developer')}</h2>
@@ -433,17 +344,11 @@
 
 		{#if developerExpanded}
 			<div class="popup-section-body">
-				<div class="settings-row" data-setting-key={SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED}>
-					<div class="settings-row-label">
-						{$_('settings_label_developer_mode')}
-						<HelpIndicator text={$_('settings_help_developer_mode')} />
-					</div>
-					<Toggle
-						checked={$settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-						onchange={(value: boolean) =>
-							handleSettingChange(SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED, value)}
-					/>
-				</div>
+				{@render toggleRow({
+					key: SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED,
+					labelKey: 'settings_label_developer_mode',
+					helpTextKey: 'settings_help_developer_mode'
+				})}
 
 				{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
 					<div class="settings-nested">
@@ -458,32 +363,19 @@
 									value={$settings[SETTINGS_KEYS.CACHE_DURATION_MINUTES]}
 								/>
 							{:else}
-								<div class="settings-row" data-setting-key={setting.key}>
-									<div class="settings-row-label">
-										{$_(setting.labelKey)}
-										{#if setting.helpTextKey}
-											<HelpIndicator text={$_(setting.helpTextKey)} />
-										{/if}
-									</div>
-									<Toggle
-										checked={Boolean($settings[setting.key] ?? false)}
-										onchange={(value: boolean) => handleSettingChange(setting.key, value)}
-									/>
-								</div>
+								{@render toggleRow(setting)}
 							{/if}
 						{/each}
 
-						{#if onNavigateToDeveloperLogs}
-							<button class="settings-nav-button" onclick={onNavigateToDeveloperLogs} type="button">
-								<span class="settings-nav-button-text">
-									{$_('settings_view_logs_button')}
-									{#if $errorLogs.length > 0}
-										<span class="settings-nav-button-count">{$errorLogs.length}</span>
-									{/if}
-								</span>
-								<ChevronRight size={14} />
-							</button>
-						{/if}
+						<button class="settings-nav-button" onclick={onNavigateToDeveloperLogs} type="button">
+							<span class="settings-nav-button-text">
+								{$_('settings_view_logs_button')}
+								{#if $errorLogs.length > 0}
+									<span class="settings-nav-button-count">{$errorLogs.length}</span>
+								{/if}
+							</span>
+							<ChevronRight size={14} />
+						</button>
 
 						{#if IS_DEV && onNavigateToPerformance}
 							<button class="settings-nav-button" onclick={onNavigateToPerformance} type="button">

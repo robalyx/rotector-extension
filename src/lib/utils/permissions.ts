@@ -1,65 +1,49 @@
-import { API_ACTIONS } from '@/lib/types/constants';
-import { logger } from './logger';
+import type { ApiResponse } from '../types/api';
+import type { CustomApiConfig } from '../types/custom-api';
+import { API_ACTIONS } from '../types/constants';
+import { logger } from './logging/logger';
 
 const TRANSLATE_API_ORIGIN = 'https://translate.googleapis.com/*';
 
-interface HasPermissionResponse {
-	hasPermission: boolean;
-}
-
-interface RequestPermissionResponse {
-	granted: boolean;
-}
-
-function isHasPermissionResponse(response: unknown): response is HasPermissionResponse {
-	return typeof response === 'object' && response !== null && 'hasPermission' in response;
-}
-
-function isRequestPermissionResponse(response: unknown): response is RequestPermissionResponse {
-	return typeof response === 'object' && response !== null && 'granted' in response;
-}
-
-// Check if browser.permissions API is available
+// browser.permissions is unavailable to content scripts (and to popups in some
+// browsers), so callers fall through to a background-message round-trip
 function isPermissionsApiAvailable(): boolean {
 	return typeof browser !== 'undefined' && !!browser.permissions;
 }
 
-// Check if we have permission to use the Google Translate API
+// Falls back to a background message round-trip when browser.permissions is unavailable
 export async function hasTranslatePermission(): Promise<boolean> {
 	if (isPermissionsApiAvailable()) {
 		return hasPermissionsForOrigins([TRANSLATE_API_ORIGIN]);
 	}
-
 	try {
-		const response: unknown = await browser.runtime.sendMessage({
+		const response: ApiResponse<{ hasPermission: boolean }> = await browser.runtime.sendMessage({
 			action: API_ACTIONS.HAS_TRANSLATE_PERMISSION
 		});
-		return isHasPermissionResponse(response) ? response.hasPermission : false;
+		return response.success && response.data?.hasPermission === true;
 	} catch (error) {
 		logger.error('Failed to check translate permission via messaging:', error);
 		return false;
 	}
 }
 
-// Request permission to use the Google Translate API
+// Must be invoked from a user gesture, falls back to background message in restricted contexts
 export async function requestTranslatePermission(): Promise<boolean> {
 	if (isPermissionsApiAvailable()) {
 		return requestPermissionsForOrigins([TRANSLATE_API_ORIGIN]);
 	}
-
 	try {
-		const response: unknown = await browser.runtime.sendMessage({
+		const response: ApiResponse<{ granted: boolean }> = await browser.runtime.sendMessage({
 			action: API_ACTIONS.REQUEST_TRANSLATE_PERMISSION
 		});
-		return isRequestPermissionResponse(response) ? response.granted : false;
+		return response.success && response.data?.granted === true;
 	} catch (error) {
 		logger.error('Failed to request translate permission via messaging:', error);
 		return false;
 	}
 }
 
-// Convert a full API URL to an origin pattern for permission requests
-export function extractOriginPattern(url: string): string | null {
+function extractOriginPattern(url: string): string | null {
 	try {
 		const urlObj = new URL(url);
 		return `${urlObj.protocol}//${urlObj.host}/*`;
@@ -69,7 +53,18 @@ export function extractOriginPattern(url: string): string | null {
 	}
 }
 
-// Check if we have permissions for specific origins
+// Deduplicates singleUrl and batchUrl into origin patterns suitable for permissions.request
+export function extractApiOrigins(api: Pick<CustomApiConfig, 'singleUrl' | 'batchUrl'>): string[] {
+	const origins: string[] = [];
+	for (const url of [api.singleUrl, api.batchUrl]) {
+		const origin = extractOriginPattern(url);
+		if (origin && !origins.includes(origin)) {
+			origins.push(origin);
+		}
+	}
+	return origins;
+}
+
 export async function hasPermissionsForOrigins(origins: string[]): Promise<boolean> {
 	try {
 		if (typeof browser === 'undefined') {
@@ -88,7 +83,6 @@ export async function hasPermissionsForOrigins(origins: string[]): Promise<boole
 	}
 }
 
-// Request permissions for specific origins
 export async function requestPermissionsForOrigins(origins: string[]): Promise<boolean> {
 	try {
 		if (typeof browser === 'undefined') {

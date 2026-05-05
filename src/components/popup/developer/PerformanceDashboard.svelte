@@ -28,6 +28,7 @@
 	import type { TraceCategory } from '@/lib/types/performance';
 	import { formatDurationMs, formatTimeOfDay } from '@/lib/utils/time';
 	import { formatBytes, formatNumber } from '@/lib/utils/format';
+	import { logger } from '@/lib/utils/logging/logger';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -41,7 +42,6 @@
 	let expandedTraceId = $state<string | null>(null);
 	let showCopyToast = $state(false);
 
-	// Category colors
 	const CATEGORY_COLORS: Record<TraceCategory, string> = {
 		controller: '#8b5cf6',
 		observer: '#06b6d4',
@@ -51,13 +51,11 @@
 		component: '#3b82f6'
 	};
 
-	// Get bar width as percentage
 	function getBarWidth(value: number, max: number): number {
 		if (max === 0) return 0;
 		return Math.min(100, (value / max) * 100);
 	}
 
-	// Format performance data for clipboard
 	function formatPerformanceForCopy(): string {
 		const lines: string[] = [
 			'=== Performance Traces ===',
@@ -65,12 +63,9 @@
 			''
 		];
 
-		// System metrics
 		if ($latestSnapshot) {
 			lines.push('=== System Metrics ===');
-			lines.push(
-				`Observers: ${String($latestSnapshot.observerCount.total)} (${String($latestSnapshot.observerCount.mutation)} mutation)`
-			);
+			lines.push(`Observers: ${String($latestSnapshot.observerCount)}`);
 			lines.push(`DOM Nodes: ${formatNumber($latestSnapshot.domNodeCount)}`);
 			if ($latestSnapshot.memory) {
 				lines.push(
@@ -81,7 +76,6 @@
 			lines.push('');
 		}
 
-		// Recent long tasks
 		if ($recentLongTasks.length > 0) {
 			lines.push('=== Long Tasks (>50ms) ===');
 			for (const task of $recentLongTasks) {
@@ -93,7 +87,6 @@
 			lines.push('');
 		}
 
-		// Category summary
 		if ($categoryStats.length > 0) {
 			lines.push('=== Category Summary ===');
 			for (const stat of $categoryStats) {
@@ -104,7 +97,6 @@
 			lines.push('');
 		}
 
-		// Slowest operations
 		if ($slowestOperations.length > 0) {
 			lines.push('=== Slowest Operations ===');
 			$slowestOperations.forEach((entry, i) => {
@@ -115,7 +107,6 @@
 			lines.push('');
 		}
 
-		// All traces
 		lines.push('=== All Traces ===');
 		for (const entry of $performanceEntries) {
 			const time = new Date(entry.timestamp).toISOString();
@@ -130,7 +121,6 @@
 		return lines.join('\n');
 	}
 
-	// Copy performance data to clipboard
 	async function handleCopy() {
 		try {
 			const text = formatPerformanceForCopy();
@@ -140,18 +130,16 @@
 				showCopyToast = false;
 			}, 2000);
 		} catch (error) {
-			console.error('Failed to copy performance data:', error);
+			logger.error('Failed to copy performance data:', error);
 		}
 	}
 
-	// Clear all performance data
 	async function handleClear() {
 		if (confirm($_('performance_dashboard_clear_confirm'))) {
 			await Promise.all([clearPerformanceEntries(), clearMetricsSnapshots()]);
 		}
 	}
 
-	// Toggle trace expansion
 	function toggleExpand(traceId: string) {
 		expandedTraceId = expandedTraceId === traceId ? null : traceId;
 	}
@@ -162,15 +150,12 @@
 		});
 	});
 
-	// Computed max for bar scaling
 	const maxAvgDuration = $derived(Math.max(...$categoryStats.map((s) => s.avgDuration), 1));
 
-	// Recent traces (last 20)
 	const recentTraces = $derived($performanceEntries.slice(0, 20));
 </script>
 
 <div class="developer-panel-container">
-	<!-- Header -->
 	<div class="developer-panel-header">
 		<button class="developer-panel-back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
@@ -198,7 +183,6 @@
 		</div>
 	</div>
 
-	<!-- Title -->
 	<h2 class="developer-panel-title">{$_('performance_dashboard_title')}</h2>
 
 	{#if isLoading}
@@ -211,7 +195,6 @@
 			<p class="developer-panel-empty-hint">{$_('performance_dashboard_empty_hint')}</p>
 		</div>
 	{:else}
-		<!-- System Metrics -->
 		<div class="flex flex-col gap-1.5">
 			<h3 class="perf-section-header">
 				<Cpu size={12} />
@@ -220,10 +203,7 @@
 			<div class="perf-metrics-grid">
 				<div class="perf-metric-card">
 					<span class="perf-metric-label">{$_('performance_dashboard_metric_observers')}</span>
-					<span class="perf-metric-value">{$latestSnapshot?.observerCount.total ?? 0}</span>
-					<span class="perf-metric-detail">
-						{$latestSnapshot?.observerCount.mutation ?? 0} mutation
-					</span>
+					<span class="perf-metric-value">{$latestSnapshot?.observerCount ?? 0}</span>
 				</div>
 				<div class="perf-metric-card">
 					<span class="perf-metric-label">{$_('performance_dashboard_metric_dom_nodes')}</span>
@@ -263,7 +243,6 @@
 			{/if}
 		</div>
 
-		<!-- Category Overview -->
 		<div class="flex flex-col gap-1.5">
 			<h3 class="perf-section-header">
 				<Activity size={12} />
@@ -290,7 +269,6 @@
 			</div>
 		</div>
 
-		<!-- Slowest Operations -->
 		<div class="flex flex-col gap-1.5">
 			<h3 class="perf-section-header">
 				<Zap size={12} />
@@ -314,7 +292,6 @@
 			</div>
 		</div>
 
-		<!-- Recent Traces -->
 		<div class="flex flex-col gap-1.5">
 			<h3 class="perf-section-header">
 				<Clock size={12} />
@@ -351,7 +328,6 @@
 		</div>
 	{/if}
 
-	<!-- Copy Toast -->
 	{#if showCopyToast}
 		<div class="developer-panel-toast">
 			<Check size={14} />

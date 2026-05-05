@@ -32,10 +32,6 @@
 /* =================================
    ANIMATION UTILITIES
    ================================= */
-@utility spin-smooth {
-	animation: spin-smooth 1s linear infinite;
-}
-
 @utility animate-spin-smooth {
 	animation: spin-smooth 1s linear infinite;
 }

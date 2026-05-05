@@ -1,31 +1,38 @@
 <script lang="ts">
-	import { STATUS } from '@/lib/types/constants';
+	import { ENTITY_TYPES, REASON_KEYS, STATUS, type VoteType } from '@/lib/types/constants';
+	import { MIXED_GROUP, STATUS_FLAG_PRESENTATION } from '@/lib/utils/status/status-config';
 	import type { ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
-	import { logger } from '@/lib/utils/logger';
-	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/sanitizer';
-	import { calculateStatusBadges } from '@/lib/utils/status-utils';
-	import { apiClient } from '@/lib/services/api-client';
+	import { asApiError } from '@/lib/utils/api/api-error';
+	import { logger } from '@/lib/utils/logging/logger';
+	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
+	import { calculateStatusBadges } from '@/lib/utils/status/status-utils';
+	import { apiClient } from '@/lib/services/rotector/api-client';
 	import {
 		outfitSnapshotService,
 		type SnapshotKey,
 		type SnapshotMaps
-	} from '@/lib/services/outfit-snapshot-service';
-	import { voteDataService } from '@/lib/services/vote-data-service';
+	} from '@/lib/services/rotector/outfit-snapshot';
+	import { pickDefaultTab } from '@/lib/services/rotector/unified-query';
+	import {
+		getRotectorMembershipBadge,
+		getRotectorOutfitEvidence
+	} from '@/lib/utils/status/status-projection';
+	import { getVoteData, updateCachedVoteData } from '@/lib/services/third-party/vote-data';
+	import { useTooltipTranslation } from './useTooltipTranslation.svelte';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import {
-		extractFlaggedOutfits,
 		type FormattedReasonEntry,
 		formatViolationReasons,
 		groupSourceLines
-	} from '@/lib/utils/violation-formatter';
+	} from '@/lib/utils/status/violation-formatter';
 	import {
 		detectPageContext,
 		extractGroupInfo,
 		extractUserInfo,
 		type GroupInfo,
 		type UserInfo
-	} from '@/lib/utils/page-detection';
+	} from '@/lib/utils/dom/page-detection';
 	import {
 		formatExactTimestamp,
 		formatTimestamp,
@@ -37,14 +44,13 @@
 		applyTooltipPosition,
 		calculateTooltipPosition,
 		calculateTransformOrigin
-	} from '@/lib/utils/tooltip-positioning';
-	import { detectEncoding, makeDecoder } from '@/lib/utils/encoding-detector';
-	import type { EncodingResult } from '@/lib/utils/encoding-detector';
-	import MembershipPill from '../features/MembershipPill.svelte';
+	} from './tooltip-positioning';
+	import { detectEncoding, makeDecoder } from '@/lib/services/cipher/encoding-detector';
+	import type { EncodingResult } from '@/lib/services/cipher/encoding-detector';
+	import MembershipPill from '@/components/ui/membership/MembershipPill.svelte';
 	import { tierNameOf, tierOf } from '@/lib/utils/membership-designs';
 	import {
 		User,
-		CircleAlert,
 		Flag,
 		Shirt,
 		Clock,
@@ -65,17 +71,24 @@
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import DiscordAccountsEvidence from './DiscordAccountsEvidence.svelte';
-	import OutfitSnapshotLightbox from '../features/OutfitSnapshotLightbox.svelte';
+	import OutfitSnapshotLightbox from '../features/outfit/OutfitSnapshotLightbox.svelte';
+	import TooltipTabs from './TooltipTabs.svelte';
+	import HoverPopover from './HoverPopover.svelte';
+	import {
+		SOURCE_INFO_MAP,
+		type HoverPopoverInstance,
+		type HoverPopoverKind
+	} from './hover-popover-types';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { get } from 'svelte/store';
-	import { _, locale } from 'svelte-i18n';
-	import { SETTINGS_KEYS, type SettingsKey } from '@/lib/types/settings';
+	import { _ } from 'svelte-i18n';
+	import { SETTINGS_KEYS } from '@/lib/types/settings';
 
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 	import { settings, updateSetting, removeSetting } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
-	import { guardWatermark, renderWatermarkTile } from '@/lib/utils/watermark';
+	import { guardWatermark, renderWatermarkTile } from './watermark';
 
 	const effectiveTheme = themeManager.effectiveTheme;
 
@@ -95,90 +108,11 @@
 
 	const COMPACT_HEADER_MIN_WIDTH = 450;
 	const MIN_EVIDENCE_DECODE_LENGTH = 20;
-	const HOVER_POPOVER_OFFSET = 6;
-	const HOVER_POPOVER_VIEWPORT_PADDING = 12;
-	const HOVER_POPOVER_HIDE_DELAY = 80;
-
-	type HoverPopoverKind =
-		| 'cross-signal'
-		| 'outfit-only'
-		| 'reviewer-anonymous'
-		| 'trap-info'
-		| 'discord-info'
-		| 'trapv2-info'
-		| 'trap3-info'
-		| 'matchmaking-info'
-		| 'monitor-info'
-		| 'purchase-info'
-		| 'listdata-info'
-		| 'gamedata-info'
-		| 'ferns-info';
-
-	interface HoverPopoverState {
-		anchor: HTMLElement;
-		kind: HoverPopoverKind;
-	}
 
 	interface EvidenceDecodeEntry {
 		encoding: EncodingResult;
 		decoded: string;
 	}
-
-	const SOURCE_INFO_MAP: Record<
-		string,
-		{ kind: HoverPopoverKind; titleKey: string; messageKey: string }
-	> = {
-		discord: {
-			kind: 'discord-info',
-			titleKey: 'tooltip_discord_info_title',
-			messageKey: 'tooltip_discord_info_message'
-		},
-		ferns: {
-			kind: 'ferns-info',
-			titleKey: 'tooltip_ferns_info_title',
-			messageKey: 'tooltip_ferns_info_message'
-		},
-		gamedata: {
-			kind: 'gamedata-info',
-			titleKey: 'tooltip_gamedata_info_title',
-			messageKey: 'tooltip_gamedata_info_message'
-		},
-		listdata: {
-			kind: 'listdata-info',
-			titleKey: 'tooltip_listdata_info_title',
-			messageKey: 'tooltip_listdata_info_message'
-		},
-		matchmaking: {
-			kind: 'matchmaking-info',
-			titleKey: 'tooltip_matchmaking_info_title',
-			messageKey: 'tooltip_matchmaking_info_message'
-		},
-		monitor: {
-			kind: 'monitor-info',
-			titleKey: 'tooltip_monitor_info_title',
-			messageKey: 'tooltip_monitor_info_message'
-		},
-		purchase: {
-			kind: 'purchase-info',
-			titleKey: 'tooltip_purchase_info_title',
-			messageKey: 'tooltip_purchase_info_message'
-		},
-		trap: {
-			kind: 'trap-info',
-			titleKey: 'tooltip_trap_info_title',
-			messageKey: 'tooltip_trap_info_message'
-		},
-		trap3: {
-			kind: 'trap3-info',
-			titleKey: 'tooltip_trap3_info_title',
-			messageKey: 'tooltip_trap3_info_message'
-		},
-		trapv2: {
-			kind: 'trapv2-info',
-			titleKey: 'tooltip_trapv2_info_title',
-			messageKey: 'tooltip_trapv2_info_message'
-		}
-	};
 
 	interface Props {
 		userId: string | number;
@@ -226,13 +160,12 @@
 		userAvatarUrl
 	}: Props = $props();
 
-	// Local state
 	let tooltipRef = $state<HTMLElement>();
 	let overlayRef = $state<HTMLElement>();
 	let scrollContentRef = $state<HTMLElement>();
 	let stickyHeaderRef = $state<HTMLElement>();
 	let profileHeaderRef = $state<HTMLElement>();
-	let hoverPopoverRef = $state<HTMLElement>();
+	let hoverPopover: HoverPopoverInstance | undefined = $state();
 	let voteData: VoteData | null = $state(null);
 	let loadingVotes = $state(false);
 	let voteError = $state<string | null>(null);
@@ -241,13 +174,9 @@
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
 	let lastSelectedForUserId = $state<string | number | null>(null);
-	let activeHoverPopover = $state<HoverPopoverState | null>(null);
-	let hoverPopoverPosition = $state({ left: 0, top: 0 });
 
 	const hintsSeen = $derived(new Set<string>($settings[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN]));
-	let hintWriteQueue: Promise<unknown> = Promise.resolve();
 
-	// Outfit snapshot state
 	let outfitSnapshotMaps: SnapshotMaps | null = $state(null);
 	let loadingOutfitSnapshots = $state(false);
 	let latestSnapshotLoadId = 0;
@@ -259,76 +188,41 @@
 		rawUrls: string[];
 	} | null>(null);
 
-	// Translation state
-	let translationsMap = $state<Record<string, string>>({});
-	let isTranslating = $state(false);
-	let translationError = $state<string | null>(null);
-	let showTranslated = $state(true);
-	let translationAttempted = $state(false);
-
-	// Expanded cipher originals
 	let expandedOriginals = new SvelteSet<string>();
 
-	// Options menu state
 	let optionsMenuRef = $state<HTMLElement>();
 	let showOptionsMenu = $state(false);
 	let copySuccess = $state(false);
 
-	// Resize state
 	let isResizing = $state(false);
 	let resizeStartPos = $state<{ x: number; y: number } | null>(null);
 	let resizeStartSize = $state<{ width: number; height: number } | null>(null);
 	let customWidth = $state<number | undefined>(undefined);
 	let customHeight = $state<number | undefined>(undefined);
 	let headerCompact = $state(false);
-	let hoverPopoverHideTimeout: ReturnType<typeof setTimeout> | null = null;
-	let hoverPopoverFrame: number | null = null;
 	let previewPositionFrame: number | null = null;
 
-	// Engine version status for options menu display
+	const ENGINE_STATUS_BY_COMPAT: Record<string, 'latest' | 'behind-minor' | 'behind-major'> = {
+		current: 'latest',
+		compatible: 'behind-minor',
+		outdated: 'behind-major'
+	};
+	const ENGINE_STATUS_KEY = {
+		latest: 'engine_status_latest',
+		'behind-minor': 'engine_status_compatible',
+		'behind-major': 'engine_status_outdated',
+		unknown: 'engine_status_unknown'
+	} as const;
 	const engineVersionStatus = $derived.by(() => {
-		if (!activeUserStatus?.versionCompatibility) return 'unknown';
-		const compatibility = activeUserStatus.versionCompatibility;
-		if (compatibility === 'current') return 'latest';
-		if (compatibility === 'compatible') return 'behind-minor';
-		if (compatibility === 'outdated') return 'behind-major';
-		return 'deprecated';
+		const compat = activeUserStatus?.versionCompatibility;
+		return (compat && ENGINE_STATUS_BY_COMPAT[compat]) || 'unknown';
 	});
 
-	// Check if any translations actually differ from originals
-	const hasActualTranslations = $derived.by(() => {
-		if (Object.keys(translationsMap).length === 0) return false;
+	const activeApiResult = $derived(userStatus?.get(activeTab) ?? null);
+	const activeStatus = $derived(activeApiResult?.data ?? null);
+	const activeError = $derived(activeApiResult?.error ?? error ?? null);
+	const activeLoading = $derived(activeApiResult?.loading ?? false);
 
-		return Object.entries(translationsMap).some(
-			([original, translated]) => original !== translated
-		);
-	});
-
-	// Get active status based on selected tab
-	const activeStatus = $derived.by(() => {
-		if (!userStatus) return null;
-
-		const apiResult = userStatus.get(activeTab);
-		return apiResult?.data ?? null;
-	});
-
-	// Get active error based on selected tab
-	const activeError = $derived.by(() => {
-		if (!userStatus) return error;
-
-		const apiResult = userStatus.get(activeTab);
-		return apiResult?.error ?? error ?? null;
-	});
-
-	// Get active loading state based on selected tab
-	const activeLoading = $derived.by(() => {
-		if (!userStatus) return false;
-
-		const apiResult = userStatus.get(activeTab);
-		return apiResult?.loading ?? false;
-	});
-
-	// Get ordered tabs
 	const tabs = $derived.by(() => {
 		if (!userStatus) return [];
 
@@ -342,55 +236,22 @@
 		}));
 	});
 
-	// Set default active tab
 	$effect(() => {
 		if (!userStatus) return;
 		if (lastSelectedForUserId === userId) return;
 
-		// Persisted user preference wins if available
-		const preferredTab = get(settings).lastSelectedCustomApiTab;
-		if (preferredTab && userStatus.has(preferredTab)) {
-			activeTab = preferredTab;
-			lastSelectedForUserId = userId;
-			return;
-		}
+		const preferred = get(settings).lastSelectedCustomApiTab;
+		const next = pickDefaultTab(userStatus, preferred);
+		if (next === null) return; // some APIs still loading
 
-		// Smart selection requires all APIs to have settled
-		const values = Array.from(userStatus.values());
-		const allSettled = values.every((result) => !result.loading);
-		if (!allSettled) return;
-
-		const rotector = userStatus.get(ROTECTOR_API_ID);
-		const allApisSafe = values.every(
-			(result) => !result.data || result.data.flagType === STATUS.FLAGS.SAFE
-		);
-
-		if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && userStatus.size > 1 && !allApisSafe) {
-			const firstCustomWithDetection = Array.from(userStatus.entries()).find(
-				([id, result]) =>
-					id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
-			);
-
-			if (firstCustomWithDetection) {
-				activeTab = firstCustomWithDetection[0];
-				lastSelectedForUserId = userId;
-				return;
-			}
-		}
-
-		activeTab = ROTECTOR_API_ID;
+		activeTab = next;
 		lastSelectedForUserId = userId;
 	});
 
-	// Computed values
-	const sanitizedUserId = $derived.by(() => {
-		const id = sanitizeEntityId(userId);
-		return id ?? '';
-	});
+	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
-	const isGroup = $derived(entityType === 'group');
+	const isGroup = $derived(entityType === ENTITY_TYPES.GROUP);
 
-	// Type guard for UserStatus properties
 	const activeUserStatus = $derived.by(() => {
 		const status = activeStatus;
 		return !isGroup && status ? (status as UserStatus) : null;
@@ -398,17 +259,13 @@
 
 	const flaggedOutfitLookups = $derived.by<SnapshotKey[]>(() => {
 		if (isGroup) return [];
-		const evidence = userStatus?.get(ROTECTOR_API_ID)?.data?.reasons['Avatar Outfit']?.evidence;
-		if (!evidence || evidence.length === 0) return [];
-		const keys: SnapshotKey[] = [];
-		for (const info of extractFlaggedOutfits(evidence)) {
-			if (info.outfitId !== null) keys.push({ kind: 'id', id: info.outfitId });
-			else keys.push({ kind: 'name', name: info.name });
-		}
-		return keys;
+		const flagged = getRotectorOutfitEvidence(userStatus);
+		if (!flagged) return [];
+		return flagged.map((info) =>
+			info.outfitId !== null ? { kind: 'id', id: info.outfitId } : { kind: 'name', name: info.name }
+		);
 	});
 
-	// Signature for the current flagged-outfit set
 	const flaggedOutfitNamesKey = $derived(
 		flaggedOutfitLookups.length > 0
 			? flaggedOutfitLookups
@@ -425,8 +282,7 @@
 			activeUserStatus &&
 			(activeUserStatus.flagType === STATUS.FLAGS.UNSAFE ||
 				activeUserStatus.flagType === STATUS.FLAGS.PENDING ||
-				activeUserStatus.flagType === STATUS.FLAGS.MIXED ||
-				(activeUserStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus.processed === true))
+				activeUserStatus.flagType === STATUS.FLAGS.MIXED)
 	);
 
 	const isSafeUserWithQueueOnly = $derived(
@@ -455,7 +311,7 @@
 
 	let showSafeReasons = $state(false);
 
-	// Queue cooldown check for recently processed users (3-day cooldown)
+	// 3-day cooldown after processing
 	const queueCooldownInfo = $derived.by(() => {
 		if (!activeUserStatus?.processedAt) return { isInCooldown: false, daysRemaining: 0 };
 		const daysSinceProcessed = getDaysSinceTimestamp(activeUserStatus.processedAt);
@@ -469,17 +325,14 @@
 
 	const isExpanded = $derived(mode === 'expanded');
 
-	// Check if access is restricted
 	const isRestricted = $derived($restrictedAccessStore.isRestricted);
 
-	// Check if this is a self-lookup
 	const isSelfLookup = $derived.by(() => {
 		if (isGroup) return false;
 		const clientId = getLoggedInUserId();
 		return clientId !== null && clientId === sanitizedUserId;
 	});
 
-	// Effective restricted state
 	const effectivelyRestricted = $derived(
 		activeError === 'restricted_access' ||
 			(isRestricted && !isSelfLookup && !activeStatus && !activeLoading && !activeError)
@@ -490,7 +343,6 @@
 		!!userStatus && !activeLoading && !activeError && !effectivelyRestricted && !activeStatus
 	);
 
-	// Get custom API badges for active tab
 	const customApiBadges = $derived.by(() => {
 		if (activeTab === ROTECTOR_API_ID || isGroup || !userStatus) return [];
 
@@ -500,13 +352,8 @@
 
 	// Read from the Rotector entry directly so the membership pill stays visible
 	// even when the user has a non-Rotector tab active
-	const rotectorMembershipBadge = $derived.by(() => {
-		if (isGroup || !userStatus) return null;
-		const data = userStatus.get(ROTECTOR_API_ID)?.data;
-		return data && 'membershipBadge' in data ? (data.membershipBadge ?? null) : null;
-	});
+	const rotectorMembershipBadge = $derived(isGroup ? null : getRotectorMembershipBadge(userStatus));
 
-	// Get header message from flag and confidence
 	function getHeaderMessageFromFlag(
 		flag: number,
 		confidence = 0,
@@ -542,22 +389,20 @@
 				};
 			}
 			case STATUS.FLAGS.QUEUED:
-				// Check if processed to determine message
-				if (currentStatus?.processed === true) {
-					return { full: $_('tooltip_header_queued_safe', { values: { 0: entityType } }) };
-				} else {
-					return { full: $_('tooltip_header_queued_processing', { values: { 0: entityType } }) };
-				}
+				return {
+					full: $_(
+						currentStatus?.processed === true
+							? 'tooltip_header_queued_safe'
+							: 'tooltip_header_queued_processing',
+						{ values: { 0: entityType } }
+					)
+				};
 			case STATUS.FLAGS.PROVISIONAL:
 				return { full: $_('tooltip_header_provisional') };
 			case STATUS.FLAGS.REDACTED:
 				return { full: $_('tooltip_header_redacted') };
 			case STATUS.FLAGS.MIXED:
-				if (isGroup) {
-					return { full: $_('tooltip_header_mixed_group') };
-				} else {
-					return { full: $_('tooltip_header_mixed_user') };
-				}
+				return { full: $_(isGroup ? 'tooltip_header_mixed_group' : 'tooltip_header_mixed_user') };
 			case STATUS.FLAGS.PAST_OFFENDER:
 				return { full: $_('tooltip_header_past_offender', { values: { 0: entityType } }) };
 			case STATUS.FLAGS.SAFE:
@@ -573,92 +418,40 @@
 		if (activeLoading || !userStatus) return { full: $_('tooltip_loading') };
 		if (!activeStatus) return { full: $_('tooltip_no_data_available') };
 
-		const currentStatus = activeStatus;
-		const confidence = currentStatus.confidence || 0;
-
-		switch (currentStatus.flagType) {
-			case STATUS.FLAGS.SAFE:
-			case STATUS.FLAGS.UNSAFE:
-			case STATUS.FLAGS.PENDING:
-			case STATUS.FLAGS.QUEUED:
-			case STATUS.FLAGS.PROVISIONAL:
-			case STATUS.FLAGS.MIXED:
-			case STATUS.FLAGS.PAST_OFFENDER:
-			case STATUS.FLAGS.REDACTED:
-				return getHeaderMessageFromFlag(currentStatus.flagType, confidence, activeUserStatus);
-			default:
-				return { full: $_('tooltip_header_unknown') };
-		}
+		return getHeaderMessageFromFlag(
+			activeStatus.flagType,
+			activeStatus.confidence || 0,
+			activeUserStatus
+		);
 	});
 
 	const statusBadgeClass = $derived.by(() => {
-		const currentStatus = activeStatus;
-		if (!currentStatus) return 'error';
-
-		switch (currentStatus.flagType) {
-			case STATUS.FLAGS.SAFE:
-				return 'safe';
-			case STATUS.FLAGS.UNSAFE:
-				return 'unsafe';
-			case STATUS.FLAGS.PENDING:
-				return 'pending';
-			case STATUS.FLAGS.QUEUED:
-				return activeUserStatus?.processed === true ? 'safe' : 'pending';
-			case STATUS.FLAGS.PROVISIONAL:
-				return 'safe';
-			case STATUS.FLAGS.MIXED:
-				return isGroup ? 'unsafe' : 'mixed';
-			case STATUS.FLAGS.PAST_OFFENDER:
-				return 'past-offender';
-			case STATUS.FLAGS.REDACTED:
-				return 'unsafe';
-			default:
-				return 'error';
-		}
+		if (!activeStatus) return 'error';
+		if (activeStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus?.processed === true)
+			return STATUS_FLAG_PRESENTATION[STATUS.FLAGS.SAFE].badgeClass;
+		if (activeStatus.flagType === STATUS.FLAGS.MIXED && isGroup) return MIXED_GROUP.badgeClass;
+		return STATUS_FLAG_PRESENTATION[activeStatus.flagType].badgeClass;
 	});
 
 	const statusBadgeText = $derived.by(() => {
 		if (effectivelyRestricted) return $_('tooltip_restricted_title');
-		const currentStatus = activeStatus;
-		if (!currentStatus) return $_('tooltip_status_unknown');
-
-		switch (currentStatus.flagType) {
-			case STATUS.FLAGS.SAFE:
-				return $_('tooltip_status_not_checked');
-			case STATUS.FLAGS.UNSAFE:
-				return $_('tooltip_status_unsafe');
-			case STATUS.FLAGS.PENDING:
-				return $_('tooltip_status_under_review');
-			case STATUS.FLAGS.QUEUED:
-				return activeUserStatus?.processed === true
-					? $_('tooltip_status_not_flagged')
-					: $_('tooltip_status_checking');
-			case STATUS.FLAGS.PROVISIONAL:
-				return $_('tooltip_status_provisional');
-			case STATUS.FLAGS.MIXED:
-				return $_('tooltip_status_mixed');
-			case STATUS.FLAGS.PAST_OFFENDER:
-				return $_('tooltip_status_past_offender');
-			case STATUS.FLAGS.REDACTED:
-				return $_('tooltip_status_redacted');
-			default:
-				return $_('tooltip_status_unknown');
-		}
+		if (!activeStatus) return $_('tooltip_status_unknown');
+		if (activeStatus.flagType === STATUS.FLAGS.QUEUED && activeUserStatus?.processed === true)
+			return $_('tooltip_status_not_flagged');
+		return $_(STATUS_FLAG_PRESENTATION[activeStatus.flagType].textKey);
 	});
 
 	const reasonEntries = $derived.by((): FormattedReasonEntry[] => {
-		const currentStatus = activeStatus;
 		if (
-			!currentStatus?.reasons ||
-			currentStatus.flagType === STATUS.FLAGS.SAFE ||
-			currentStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
-			currentStatus.flagType === STATUS.FLAGS.REDACTED
+			!activeStatus?.reasons ||
+			activeStatus.flagType === STATUS.FLAGS.SAFE ||
+			activeStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
+			activeStatus.flagType === STATUS.FLAGS.REDACTED
 		)
 			return [];
-		return formatViolationReasons(currentStatus.reasons);
+		return formatViolationReasons(activeStatus.reasons);
 	});
 
-	// Decode map keyed by raw evidence content
 	const evidenceEncodingMap = $derived.by(() => {
 		const map = new SvelteMap<string, EvidenceDecodeEntry>();
 		if (!$settings[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]) return map;
@@ -681,14 +474,12 @@
 		return map;
 	});
 
-	// Check if auto-translation should be enabled
 	const shouldAutoTranslate = $derived.by(() => {
 		const translateEnabled = $settings[SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED];
 		const hasReasons = reasonEntries.length > 0;
 		return translateEnabled && hasReasons;
 	});
 
-	// Resize config based on current tooltip mode
 	function getResizeConfig() {
 		if (isExpanded) {
 			return {
@@ -696,8 +487,8 @@
 				minHeight: TOOLTIP_SIZE.MIN_HEIGHT,
 				maxWidth: window.innerWidth * TOOLTIP_SIZE.MAX_WIDTH_RATIO,
 				maxHeight: window.innerHeight * TOOLTIP_SIZE.MAX_HEIGHT_RATIO,
-				widthKey: SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH as SettingsKey,
-				heightKey: SETTINGS_KEYS.EXPANDED_TOOLTIP_HEIGHT as SettingsKey,
+				widthKey: SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH,
+				heightKey: SETTINGS_KEYS.EXPANDED_TOOLTIP_HEIGHT,
 				sensitivity: 2
 			};
 		}
@@ -706,13 +497,12 @@
 			minHeight: PREVIEW_TOOLTIP_SIZE.MIN_HEIGHT,
 			maxWidth: PREVIEW_TOOLTIP_SIZE.MAX_WIDTH,
 			maxHeight: PREVIEW_TOOLTIP_SIZE.MAX_HEIGHT,
-			widthKey: SETTINGS_KEYS.PREVIEW_TOOLTIP_WIDTH as SettingsKey,
-			heightKey: SETTINGS_KEYS.PREVIEW_TOOLTIP_HEIGHT as SettingsKey,
+			widthKey: SETTINGS_KEYS.PREVIEW_TOOLTIP_WIDTH,
+			heightKey: SETTINGS_KEYS.PREVIEW_TOOLTIP_HEIGHT,
 			sensitivity: 1
 		};
 	}
 
-	// Calculate constrained tooltip dimensions
 	const tooltipDimensions = $derived.by(() => {
 		const config = getResizeConfig();
 		return {
@@ -726,18 +516,10 @@
 		};
 	});
 
-	// Two-column compact layout when tooltip is wide enough
 	const showCompactColumns = $derived(
 		headerCompact && (tooltipDimensions.width ?? TOOLTIP_SIZE.MIN_WIDTH) >= COMPACT_HEADER_MIN_WIDTH
 	);
 
-	// Get text to display
-	function getDisplayText(originalText: string): string {
-		if (!showTranslated) return originalText;
-		return translationsMap[originalText] || originalText;
-	}
-
-	// Resolve decoded content, falling back to raw if no decode entry exists
 	function getDecodedContent(content: string): string {
 		return evidenceEncodingMap.get(content)?.decoded ?? content;
 	}
@@ -747,7 +529,13 @@
 		return getDecodedContent(content).trim().startsWith('Discord User ID');
 	}
 
-	// Chip label when decoded text is shown
+	const DETECTED_CHIP_KEYS: Record<EncodingResult['type'], string> = {
+		caesar: 'cipher_chip_detected',
+		morse: 'cipher_chip_detected_morse',
+		'morse+caesar': 'cipher_chip_detected_morse_caesar',
+		binary: 'cipher_chip_detected_binary'
+	};
+
 	function getDecodedChipLabel(encoding: EncodingResult): string {
 		switch (encoding.type) {
 			case 'caesar':
@@ -761,21 +549,6 @@
 		}
 	}
 
-	// Chip label when original cipher text is shown
-	function getDetectedChipLabel(encoding: EncodingResult): string {
-		switch (encoding.type) {
-			case 'caesar':
-				return $_('cipher_chip_detected');
-			case 'morse':
-				return $_('cipher_chip_detected_morse');
-			case 'morse+caesar':
-				return $_('cipher_chip_detected_morse_caesar');
-			case 'binary':
-				return $_('cipher_chip_detected_binary');
-		}
-	}
-
-	// Toggle cipher original visibility
 	function toggleOriginal(content: string) {
 		if (expandedOriginals.has(content)) {
 			expandedOriginals.delete(content);
@@ -784,42 +557,33 @@
 		}
 	}
 
-	// Reviewer display info for current user status
 	const reviewerInfo = $derived.by((): ReviewerInfo | null => {
 		if (isGroup) return null;
-		const currentStatus = activeUserStatus;
-		if (!currentStatus?.reviewer) return null;
-		return currentStatus.reviewer;
+		if (!activeUserStatus?.reviewer) return null;
+		return activeUserStatus.reviewer;
 	});
 
-	// Status badge text and CSS class for the active tab
 	const badgeStatus = $derived.by(() => calculateStatusBadges(activeUserStatus));
 
-	// Whether the cached status data is stale
 	const isOutdated = $derived.by(() => {
 		if (isGroup) return false;
-		const currentStatus = activeUserStatus;
-		if (!currentStatus?.lastUpdated) return false;
-		const daysSince = getDaysSinceTimestamp(currentStatus.lastUpdated);
+		if (!activeUserStatus?.lastUpdated) return false;
+		const daysSince = getDaysSinceTimestamp(activeUserStatus.lastUpdated);
 		return daysSince >= 7;
 	});
 
-	// Whether the status is reviewed by a moderator
 	const isReviewed = $derived.by(() => {
 		if (!activeStatus || activeStatus.flagType !== STATUS.FLAGS.UNSAFE) return false;
 		return isGroup || !!activeUserStatus?.reviewer;
 	});
 
-	// Metadata information for processed users
 	const metadataInfo = $derived.by(() => {
 		if (isGroup || activeTab !== ROTECTOR_API_ID) return null;
+		if (!activeUserStatus) return null;
 
-		const currentStatus = activeUserStatus;
-		if (!currentStatus) return null;
-
-		const queuedAt = currentStatus.queuedAt;
-		const processedAt = currentStatus.processedAt;
-		const lastUpdated = currentStatus.lastUpdated;
+		const queuedAt = activeUserStatus.queuedAt;
+		const processedAt = activeUserStatus.processedAt;
+		const lastUpdated = activeUserStatus.lastUpdated;
 
 		if (!queuedAt && !lastUpdated) return null;
 
@@ -840,7 +604,6 @@
 		};
 	});
 
-	// Get user info from props or extract from page DOM
 	function getPageUserInfo(): UserInfo | null {
 		const id = sanitizedUserId;
 		if (!id) return null;
@@ -858,7 +621,6 @@
 		return extractUserInfo(id, pageType, container);
 	}
 
-	// Extract group info from the page DOM
 	function getPageGroupInfo(): GroupInfo | null {
 		const groupId = sanitizedUserId;
 		if (!groupId) return null;
@@ -867,7 +629,7 @@
 		return extractGroupInfo(groupId, pageType, container);
 	}
 
-	// Positioning for preview tooltips
+	// Closes the tooltip if the anchor element has been removed, otherwise computes and applies its preview position
 	function positionTooltip() {
 		if (!tooltipRef || isExpanded) return;
 
@@ -880,135 +642,32 @@
 		applyTooltipPosition(tooltipRef, position);
 	}
 
-	function clearHoverPopoverHideTimeout() {
-		if (hoverPopoverHideTimeout !== null) {
-			clearTimeout(hoverPopoverHideTimeout);
-			hoverPopoverHideTimeout = null;
-		}
-	}
-
-	function clearHoverPopoverFrame() {
-		if (hoverPopoverFrame !== null) {
-			cancelAnimationFrame(hoverPopoverFrame);
-			hoverPopoverFrame = null;
-		}
-	}
-
-	function closeHoverPopover() {
-		clearHoverPopoverHideTimeout();
-		clearHoverPopoverFrame();
-		activeHoverPopover = null;
-	}
-
-	function positionHoverPopover() {
-		if (!activeHoverPopover || !hoverPopoverRef) return;
-
-		const { anchor } = activeHoverPopover;
-		if (!anchor.isConnected) {
-			closeHoverPopover();
-			return;
-		}
-
-		const anchorRect = anchor.getBoundingClientRect();
-		const popoverWidth = hoverPopoverRef.offsetWidth;
-		const popoverHeight = hoverPopoverRef.offsetHeight;
-
-		if (!popoverWidth || !popoverHeight) return;
-
-		const minLeft = HOVER_POPOVER_VIEWPORT_PADDING;
-		const maxLeft = Math.max(minLeft, window.innerWidth - popoverWidth - minLeft);
-		const belowTop = anchorRect.bottom + HOVER_POPOVER_OFFSET;
-		const aboveTop = anchorRect.top - popoverHeight - HOVER_POPOVER_OFFSET;
-		const fitsBelow =
-			belowTop + popoverHeight <= window.innerHeight - HOVER_POPOVER_VIEWPORT_PADDING;
-		const fitsAbove = aboveTop >= HOVER_POPOVER_VIEWPORT_PADDING;
-		const left = Math.min(Math.max(anchorRect.right - popoverWidth, minLeft), maxLeft);
-		let top = belowTop;
-
-		if (!fitsBelow && fitsAbove) {
-			top = aboveTop;
-		}
-
-		const minTop = HOVER_POPOVER_VIEWPORT_PADDING;
-		const maxTop = Math.max(minTop, window.innerHeight - popoverHeight - minTop);
-
-		hoverPopoverPosition = {
-			left: Math.round(left),
-			top: Math.round(Math.min(Math.max(top, minTop), maxTop))
-		};
-	}
-
-	function queueHoverPopoverPosition() {
-		if (hoverPopoverFrame !== null) return;
-
-		hoverPopoverFrame = requestAnimationFrame(() => {
-			hoverPopoverFrame = null;
-			positionHoverPopover();
-		});
-	}
-
 	function handleHoverPopoverTriggerEnter(kind: HoverPopoverKind, event: MouseEvent) {
 		const anchor = event.currentTarget;
 		if (!(anchor instanceof HTMLElement)) return;
-
-		clearHoverPopoverHideTimeout();
-		activeHoverPopover = { anchor, kind };
-		queueHoverPopoverPosition();
-		markInfoHintSeen(kind);
-	}
-
-	function markInfoHintSeen(kind: HoverPopoverKind) {
-		if (hintsSeen.has(kind)) return;
-		hintWriteQueue = hintWriteQueue
-			.then(() => {
-				const existing = $settings[SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN];
-				if (existing.includes(kind)) return;
-				return updateSetting(SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN, [...existing, kind]);
-			})
-			.catch((err: unknown) => {
-				logger.error('Failed to mark info hint seen:', err);
-			});
+		hoverPopover?.show(anchor, kind);
 	}
 
 	function scheduleHoverPopoverClose() {
-		clearHoverPopoverHideTimeout();
-		hoverPopoverHideTimeout = setTimeout(() => {
-			hoverPopoverHideTimeout = null;
-			activeHoverPopover = null;
-		}, HOVER_POPOVER_HIDE_DELAY);
+		hoverPopover?.scheduleClose();
 	}
 
-	function handleHoverPopoverTriggerLeave() {
-		scheduleHoverPopoverClose();
-	}
-
-	function handleHoverPopoverEnter() {
-		clearHoverPopoverHideTimeout();
-	}
-
-	function handleHoverPopoverLeave() {
-		scheduleHoverPopoverClose();
-	}
-
-	// Calculate transform-origin for expanded tooltip animation
 	function getTransformOrigin() {
 		return calculateTransformOrigin(anchorElement);
 	}
 
-	// Load vote data if needed
 	async function loadVoteData() {
-		if (!shouldShowVoting || loadingVotes || isSafeUserWithQueueOnly) return;
+		if (!shouldShowVoting || loadingVotes) return;
 
 		loadingVotes = true;
 		voteError = null;
 
 		try {
-			const votes = await voteDataService.getVoteData(sanitizedUserId);
+			const votes = await getVoteData(sanitizedUserId);
 			voteData = votes;
 			logger.debug('Loaded vote data for user', { userId: sanitizedUserId, votes });
 		} catch (err) {
-			const structuredError = err as Error & { type?: string };
-			if (structuredError.type === 'AbuseDetectionError') {
+			if (asApiError(err).type === 'AbuseDetectionError') {
 				voteAccessDenied = true;
 				return;
 			}
@@ -1019,7 +678,7 @@
 		}
 	}
 
-	// Load R2 snapshot URLs for the currently flagged outfits
+	// A newer load supersedes any in-flight fetch so stale results never overwrite the maps
 	async function loadOutfitSnapshots() {
 		const loadId = ++latestSnapshotLoadId;
 		loadingOutfitSnapshots = true;
@@ -1042,7 +701,6 @@
 		return byId ?? outfitSnapshotMaps?.byName.get(outfitName);
 	}
 
-	// Open the snapshot lightbox for a single outfit evidence item
 	function openOutfitLightbox(
 		outfitName: string,
 		outfitReason: string,
@@ -1060,18 +718,17 @@
 		};
 	}
 
-	// Handle vote submission
-	async function handleVoteSubmit(voteType: number) {
+	async function handleVoteSubmit(voteType: VoteType) {
 		if (loadingVotes) return;
 
 		try {
 			loadingVotes = true;
 			voteError = null;
 
-			const result = await apiClient.submitVote(sanitizedUserId, voteType as 1 | -1);
+			const result = await apiClient.submitVote(sanitizedUserId, voteType);
 			voteData = result.newVoteData;
 
-			voteDataService.updateCachedVoteData(sanitizedUserId, result.newVoteData);
+			updateCachedVoteData(sanitizedUserId, result.newVoteData);
 
 			logger.userAction('vote_submitted', {
 				userId: sanitizedUserId,
@@ -1079,8 +736,7 @@
 				success: true
 			});
 		} catch (err) {
-			const structuredError = err as Error & { type?: string };
-			if (structuredError.type === 'AbuseDetectionError') {
+			if (asApiError(err).type === 'AbuseDetectionError') {
 				voteAccessDenied = true;
 				return;
 			}
@@ -1091,28 +747,21 @@
 		}
 	}
 
-	// Handle queue submission
 	function handleQueueSubmit() {
-		if (onQueue) {
-			onQueue();
-		}
+		onQueue?.();
 	}
 
-	// Handle reprocess request
 	function handleReprocessRequest(event: MouseEvent) {
 		event.stopPropagation();
-		if (onQueue) {
-			onQueue(true, activeUserStatus);
-		}
+		onQueue?.(true, activeUserStatus);
 	}
 
-	// Toggle options menu
 	function toggleOptionsMenu(event: MouseEvent) {
 		event.stopPropagation();
 		showOptionsMenu = !showOptionsMenu;
 	}
 
-	// Tooltip resize handlers
+	// Captures the starting pointer and tooltip size then attaches document-level move and up listeners for the drag
 	function handleResizeStart(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -1147,8 +796,6 @@
 		if (!isExpanded) {
 			requestAnimationFrame(() => positionTooltip());
 		}
-
-		queueHoverPopoverPosition();
 	}
 
 	function handleResizeEnd() {
@@ -1178,7 +825,6 @@
 		event.preventDefault();
 		event.stopPropagation();
 
-		// Clean up any in-progress resize
 		isResizing = false;
 		resizeStartPos = null;
 		resizeStartSize = null;
@@ -1195,13 +841,11 @@
 			logger.error('Failed to remove tooltip height setting:', err);
 		});
 
-		// Reposition preview tooltip after reset
 		if (!isExpanded) {
 			requestAnimationFrame(() => positionTooltip());
 		}
 	}
 
-	// Header compact toggle
 	function toggleHeaderCompact(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -1213,7 +857,6 @@
 		);
 	}
 
-	// Copy Discord link to clipboard
 	async function handleCopyDiscordLink(event: MouseEvent) {
 		event.stopPropagation();
 		try {
@@ -1230,14 +873,12 @@
 		}
 	}
 
-	// Handle view outfits click
 	function handleViewOutfits(event: MouseEvent) {
 		event.stopPropagation();
 		showOptionsMenu = false;
 		onViewOutfits?.();
 	}
 
-	// Handle click outside options menu
 	function handleOptionsMenuClickOutside(event: MouseEvent) {
 		const target = event.composedPath()[0];
 		if (
@@ -1250,107 +891,36 @@
 		}
 	}
 
-	// Handle expand tooltip click
 	function handleExpand() {
 		if (isResizing) return;
-		if (!isExpanded && onExpand) {
-			onExpand();
-		}
+		if (!isExpanded) onExpand?.();
 	}
 
-	// Reset states when switching tabs or data changes
 	$effect(() => {
 		void activeTab;
 		void reasonEntries;
-		translationsMap = {};
-		translationError = null;
-		translationAttempted = false;
-		showTranslated = true;
 		showOptionsMenu = false;
 		copySuccess = false;
 		expandedOriginals.clear();
 	});
 
-	// Trigger automatic translation
-	$effect(() => {
-		if (shouldAutoTranslate && !translationAttempted && !isTranslating) {
-			void performAutoTranslation();
-		}
+	const translation = useTooltipTranslation({
+		reasonEntries: () => reasonEntries,
+		shouldAutoTranslate: () => shouldAutoTranslate,
+		getDecodedContent,
+		resetKey: () => [activeTab, reasonEntries]
 	});
 
-	// Automatically translate when conditions are met
-	async function performAutoTranslation() {
-		if (isTranslating || Object.keys(translationsMap).length > 0) return;
-
-		try {
-			isTranslating = true;
-			translationError = null;
-
-			const currentLanguage = $locale ?? 'en';
-			const isEnglishUser = currentLanguage.split('-')[0]?.toLowerCase() === 'en';
-
-			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
-			const allTranslations: Record<string, string> = {};
-			let totalTextsCount = 0;
-
-			// Process each reason separately
-			for (const reason of reasonEntries) {
-				const textsForReason: string[] = [];
-
-				// Collect reason message
-				if (!isEnglishUser && reason.message) {
-					textsForReason.push(reason.message);
-				}
-
-				// Collect all evidence
-				if (reason.evidence) {
-					for (const evidence of reason.evidence) {
-						if (evidence.type === 'outfit') {
-							if (evidence.outfitName) textsForReason.push(evidence.outfitName);
-							if (evidence.outfitReason) textsForReason.push(evidence.outfitReason);
-						} else if (evidence.content) {
-							textsForReason.push(getDecodedContent(evidence.content));
-						}
-					}
-				}
-
-				// Batch translate all texts
-				if (textsForReason.length > 0) {
-					try {
-						const result = await apiClient.translateTexts(textsForReason, targetLanguage, 'auto');
-						Object.assign(allTranslations, result.translations);
-						totalTextsCount += textsForReason.length;
-					} catch (err) {
-						logger.warn('Translation failed for reason, keeping original:', err);
-					}
-				}
-			}
-
-			translationsMap = allTranslations;
-
-			if (totalTextsCount > 0) {
-				logger.userAction('auto_translation_completed', {
-					count: totalTextsCount,
-					to: targetLanguage
-				});
-			}
-		} catch (err) {
-			logger.error('Auto-translation failed:', err);
-			translationError = extractErrorMessage(err);
-		} finally {
-			isTranslating = false;
-			translationAttempted = true;
-		}
+	function getDisplayText(t: string): string {
+		return translation.getDisplayText(t);
 	}
 
-	// Handle escape key
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape' && onClose) {
 			onClose();
 		}
 	}
 
-	// Handle clicks outside tooltip
 	function handleClickOutside(event: MouseEvent) {
 		const target = event.composedPath()[0];
 		if (
@@ -1364,14 +934,13 @@
 		}
 	}
 
-	// Handle overlay click for expanded tooltip
 	function handleOverlayClick(event: MouseEvent | KeyboardEvent) {
 		if (event.target === overlayRef && onClose) {
 			closeWithAnimation();
 		}
 	}
 
-	// Close expanded tooltip with animation
+	// Animates the tooltip back into the anchor's transform origin then calls onClose after the 350ms transition
 	function closeWithAnimation() {
 		if (!overlayRef || !tooltipRef) {
 			onClose?.();
@@ -1391,7 +960,6 @@
 		}, 350);
 	}
 
-	// Load saved dimensions based on tooltip mode
 	$effect(() => {
 		if (isExpanded) {
 			customWidth = $settings[SETTINGS_KEYS.EXPANDED_TOOLTIP_WIDTH];
@@ -1403,7 +971,6 @@
 		}
 	});
 
-	// Handle window resize to clamp dimensions
 	$effect(() => {
 		function handleWindowResize() {
 			const config = getResizeConfig();
@@ -1415,7 +982,6 @@
 		return () => window.removeEventListener('resize', handleWindowResize);
 	});
 
-	// Cleanup resize event listeners on unmount
 	$effect(() => {
 		return () => {
 			if (isResizing) {
@@ -1425,39 +991,6 @@
 		};
 	});
 
-	$effect(() => {
-		if (!activeHoverPopover || !hoverPopoverRef) return;
-
-		queueHoverPopoverPosition();
-	});
-
-	$effect(() => {
-		if (!activeHoverPopover) return;
-
-		const handleViewportChange = () => {
-			queueHoverPopoverPosition();
-		};
-		const scrollContent = scrollContentRef;
-
-		scrollContent?.addEventListener('scroll', handleViewportChange);
-		window.addEventListener('resize', handleViewportChange);
-		window.addEventListener('scroll', handleViewportChange, true);
-
-		return () => {
-			scrollContent?.removeEventListener('scroll', handleViewportChange);
-			window.removeEventListener('resize', handleViewportChange);
-			window.removeEventListener('scroll', handleViewportChange, true);
-		};
-	});
-
-	$effect(() => {
-		return () => {
-			clearHoverPopoverHideTimeout();
-			clearHoverPopoverFrame();
-		};
-	});
-
-	// Load vote data when tooltip becomes visible
 	let hasLoadedVoteData = $state(false);
 
 	$effect(() => {
@@ -1469,7 +1002,6 @@
 		}
 	});
 
-	// Refetch snapshots whenever the active flagged-outfit set changes
 	$effect(() => {
 		if (!flaggedOutfitNamesKey) return;
 		void loadOutfitSnapshots();
@@ -1494,7 +1026,6 @@
 		return () => cleanups.forEach((fn) => fn());
 	});
 
-	// Setup and cleanup
 	$effect(() => {
 		if (isGroup) {
 			groupInfo = getPageGroupInfo();
@@ -1503,7 +1034,6 @@
 		}
 
 		if (isExpanded) {
-			// Expanded tooltip setup
 			if (tooltipRef) {
 				const { originX, originY } = getTransformOrigin();
 				tooltipRef.style.setProperty('--tooltip-origin-x', `${String(originX)}%`);
@@ -1517,7 +1047,6 @@
 			document.addEventListener('keydown', handleKeydown);
 			document.addEventListener('click', handleOptionsMenuClickOutside);
 
-			// Animate to expanded state
 			requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
 					if (overlayRef && tooltipRef) {
@@ -1533,7 +1062,6 @@
 				document.removeEventListener('click', handleOptionsMenuClickOutside);
 			};
 		} else {
-			// Preview tooltip setup
 			previewPositionFrame = requestAnimationFrame(() => {
 				previewPositionFrame = null;
 				positionTooltip();
@@ -1556,94 +1084,48 @@
 	});
 </script>
 
-{#snippet hoverPopover()}
-	{#if activeHoverPopover}
-		<div
-			bind:this={hoverPopoverRef}
-			style:left={`${String(hoverPopoverPosition.left)}px`}
-			style:top={`${String(hoverPopoverPosition.top)}px`}
-			class="tooltip-hover-popover"
-			class:cross-signal-popover={activeHoverPopover.kind === 'cross-signal'}
-			class:outfit-only-popover={activeHoverPopover.kind === 'outfit-only'}
-			class:source-info-popover={activeHoverPopover.kind.endsWith('-info')}
-			onmouseenter={handleHoverPopoverEnter}
-			onmouseleave={handleHoverPopoverLeave}
-			role="tooltip"
-		>
-			{#if activeHoverPopover.kind === 'cross-signal'}
-				<strong>{$_('tooltip_cross_signal_title')}</strong>
-				<p>{$_('tooltip_cross_signal_message')}</p>
-			{:else if activeHoverPopover.kind === 'outfit-only'}
-				<strong>{$_('tooltip_outfit_title')}</strong>
-				<p>{$_('tooltip_outfit_message')}</p>
-			{:else if activeHoverPopover.kind === 'trap-info'}
-				<strong>{$_('tooltip_trap_info_title')}</strong>
-				<p>
-					{$_('tooltip_trap_info_message')}
-					<a
-						href="https://rotector.com/blog/trap-game-detection-explained"
-						onclick={(event) => event.stopPropagation()}
-						rel="noopener noreferrer"
-						target="_blank">{$_('tooltip_trap_info_link')}</a
-					>
-				</p>
-			{:else if activeHoverPopover.kind === 'discord-info'}
-				<strong>{$_('tooltip_discord_info_title')}</strong>
-				<p>{$_('tooltip_discord_info_message')}</p>
-				<ul class="source-info-list">
-					<li class="source-info-list-item">
-						<span><strong>Joined</strong> - {$_('tooltip_discord_info_joined')}</span>
-					</li>
-					<li class="source-info-list-item">
-						<span><strong>First seen</strong> - {$_('tooltip_discord_info_first_seen')}</span>
-					</li>
-					<li class="source-info-list-item">
-						<span><strong>Updated</strong> - {$_('tooltip_discord_info_updated')}</span>
-					</li>
-				</ul>
-			{:else if activeHoverPopover.kind.endsWith('-info')}
-				{@const entry = SOURCE_INFO_MAP[activeHoverPopover.kind.slice(0, -'-info'.length)]}
-				{#if entry}
-					<strong>{$_(entry.titleKey)}</strong>
-					<p>{$_(entry.messageKey)}</p>
-				{/if}
-			{/if}
-		</div>
-	{/if}
+{#snippet compactHeaderRight()}
+	<div class="tooltip-header-right">
+		{#if activeStatus || isNoData}
+			<div class="tooltip-inline-message">
+				<div class="header-message">
+					{@render headerMessageSection(headerMessage)}
+				</div>
+			</div>
+		{/if}
+		{@render reviewerSection()}
+	</div>
 {/snippet}
 
 {#snippet reviewerSection()}
 	{#if reviewerInfo}
-		{@const reviewer = reviewerInfo}
-		{#if reviewer}
-			<div class="reviewer-section">
-				<User class="reviewer-icon" size={14} />
-				<span class="reviewer-text">
-					{$_('tooltip_reviewer_reviewed_by')}
-					<span class="reviewer-name">
-						{#if reviewer.displayName && reviewer.username && reviewer.displayName !== reviewer.username}
-							{reviewer.displayName} (@{reviewer.username})
-						{:else}
-							{reviewer.displayName || reviewer.username}
-						{/if}
-					</span>
+		<div class="reviewer-section">
+			<User class="reviewer-icon" size={14} />
+			<span class="reviewer-text">
+				{$_('tooltip_reviewer_reviewed_by')}
+				<span class="reviewer-name">
+					{#if reviewerInfo.displayName && reviewerInfo.username && reviewerInfo.displayName !== reviewerInfo.username}
+						{reviewerInfo.displayName} (@{reviewerInfo.username})
+					{:else}
+						{reviewerInfo.displayName || reviewerInfo.username}
+					{/if}
 				</span>
-				{#if reviewer.username === 'Anonymous' && reviewer.displayName === 'Anonymous'}
-					<!-- svelte-ignore a11y_no_static_element_interactions -->
-					<div
-						class="reviewer-anonymous-indicator"
-						class:info-hint-unseen={!hintsSeen.has('reviewer-anonymous')}
-						onmouseenter={() => markInfoHintSeen('reviewer-anonymous')}
-					>
-						<Info size={12} />
-						<div class="reviewer-anonymous-popover">
-							<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
-							<p>{$_('tooltip_reviewer_anonymous_message')}</p>
-						</div>
+			</span>
+			{#if reviewerInfo.username === 'Anonymous' && reviewerInfo.displayName === 'Anonymous'}
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					class="reviewer-anonymous-indicator"
+					class:info-hint-unseen={!hintsSeen.has('reviewer-anonymous')}
+					onmouseenter={() => hoverPopover?.markSeen('reviewer-anonymous')}
+				>
+					<Info size={12} />
+					<div class="reviewer-anonymous-popover">
+						<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
+						<p>{$_('tooltip_reviewer_anonymous_message')}</p>
 					</div>
-				{/if}
-			</div>
-		{/if}
+				</div>
+			{/if}
+		</div>
 	{/if}
 {/snippet}
 
@@ -1702,58 +1184,6 @@
 	{/if}
 {/snippet}
 
-{#snippet tabNavigation()}
-	{#if tabs.length > 1}
-		<div class="tooltip-tabs">
-			{#each tabs as tab (tab.id)}
-				{@const hasImage = !!tab.landscapeImageDataUrl}
-				<button
-					class="tooltip-tab"
-					class:active={activeTab === tab.id}
-					class:error={!hasImage && tab.error}
-					class:loading={!hasImage && tab.loading}
-					class:no-data={!hasImage && tab.noData}
-					class:tooltipTabHasImage={hasImage}
-					onclick={(e) => {
-						e.stopPropagation();
-						activeTab = tab.id;
-						// Save tab preference for future tooltip opens
-						updateSetting('lastSelectedCustomApiTab', tab.id).catch((error: unknown) => {
-							logger.error('Failed to save tab preference:', error);
-						});
-					}}
-					title={tab.name}
-					type="button"
-				>
-					{#if hasImage}
-						<img
-							class="tooltip-tab-image"
-							alt={tab.name}
-							onerror={(e) => {
-								const target = e.currentTarget as HTMLImageElement;
-								target.style.display = 'none';
-								const textSpan = target.nextElementSibling as HTMLSpanElement | null;
-								if (textSpan) {
-									textSpan.style.display = 'inline';
-								}
-							}}
-							src={tab.landscapeImageDataUrl}
-						/>
-						<span class="tooltip-tab-name tooltip-tab-name-fallback">{tab.name}</span>
-					{:else}
-						<span class="tooltip-tab-name">{tab.name}</span>
-						{#if tab.loading}
-							<LoadingSpinner size="small" />
-						{:else if tab.error}
-							<CircleAlert class="tooltip-tab-error-indicator" size={12} />
-						{/if}
-					{/if}
-				</button>
-			{/each}
-		</div>
-	{/if}
-{/snippet}
-
 {#snippet customBadgesSection()}
 	{#if customApiBadges.length > 0}
 		<div class="custom-api-badges">
@@ -1804,12 +1234,10 @@
 			</div>
 		</div>
 	{:else if activeError}
-		<!-- Error state -->
 		<div class="error-details">
 			{extractErrorMessage(activeError)}
 		</div>
 	{:else if activeLoading || !userStatus}
-		<!-- Loading state -->
 		<div class="flex items-center justify-center gap-2 py-2">
 			<LoadingSpinner size="small" />
 			<span class="text-xs">{$_('tooltip_loading_user_info')}</span>
@@ -1817,7 +1245,6 @@
 	{:else if !activeStatus}
 		<!-- No-data state -->
 	{:else}
-		<!-- Status information -->
 		<div>
 			{#if isSafeUserWithQueueOnly}
 				<!-- Expandable reasons for queued-safe users -->
@@ -1870,7 +1297,6 @@
 					{/if}
 				{/if}
 
-				<!-- Queue button -->
 				<div class="mt-2 flex gap-2">
 					{#if queueCooldownInfo.isInCooldown}
 						<button class="queue-button queue-button-disabled w-full" disabled type="button">
@@ -1897,7 +1323,6 @@
 			{:else}
 				<!-- Non-safe users -->
 
-				<!-- Custom API Badges -->
 				{@render customBadgesSection()}
 
 				<!-- Voting widget for unsafe/pending users -->
@@ -1911,7 +1336,6 @@
 					/>
 				{/if}
 
-				<!-- Reasons -->
 				{#if reasonEntries.length > 0}
 					<!-- Show divider if there's content above -->
 					{#if shouldShowVoting || customApiBadges.length > 0}
@@ -1920,30 +1344,27 @@
 
 					<!-- Translation status/toggle -->
 					{#if shouldAutoTranslate}
-						{#if isTranslating}
-							<!-- Loading state -->
+						{#if translation.isTranslating}
 							<div class="translate-status-container">
 								<LoadingSpinner size="small" />
 								<span class="translate-status-text">{$_('tooltip_translation_translating')}</span>
 							</div>
-						{:else if translationError}
-							<!-- Error state -->
+						{:else if translation.translationError}
 							<div class="translate-status-container">
 								<span class="translate-error">{$_('tooltip_translation_failed')}</span>
 							</div>
-						{:else if hasActualTranslations}
-							<!-- Toggle button -->
+						{:else if translation.hasActualTranslations}
 							<div class="translation-toggle-container">
 								<button
 									class="translation-toggle-button"
 									onmousedown={(e) => {
 										e.stopPropagation();
 										e.preventDefault();
-										showTranslated = !showTranslated;
+										translation.showTranslated = !translation.showTranslated;
 									}}
 									type="button"
 								>
-									{#if showTranslated}
+									{#if translation.showTranslated}
 										<FileText size={11} />
 										<span>{$_('tooltip_translation_view_original')}</span>
 									{:else}
@@ -1960,7 +1381,7 @@
 							<div class="reason-item">
 								<div class="reason-header">
 									{reason.typeName} ({reason.confidence}%)
-									{#if reason.typeName === 'User Profile' && badgeStatus.hasCrossSignal}
+									{#if reason.typeName === REASON_KEYS.USER_PROFILE && badgeStatus.hasCrossSignal}
 										<button
 											class="cross-signal-indicator"
 											class:info-hint-unseen={!hintsSeen.has('cross-signal')}
@@ -1968,14 +1389,14 @@
 											onclick={(event) => event.stopPropagation()}
 											onmouseenter={(event) =>
 												handleHoverPopoverTriggerEnter('cross-signal', event)}
-											onmouseleave={handleHoverPopoverTriggerLeave}
+											onmouseleave={scheduleHoverPopoverClose}
 											type="button"
 										>
 											<Info size={14} />
 										</button>
 									{/if}
 									{#if activeTab === ROTECTOR_API_ID && !isGroup}
-										{#if reason.typeName === 'User Profile' && badgeStatus.isReportable}
+										{#if reason.typeName === REASON_KEYS.USER_PROFILE && badgeStatus.isReportable}
 											<a
 												class="reportable-pill"
 												href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId}&submitterId=0&abuseVector=userprofile&nl=true"
@@ -1987,14 +1408,14 @@
 												{$_('tooltip_reportable_report_button')}
 											</a>
 										{/if}
-										{#if reason.typeName === 'Avatar Outfit' && badgeStatus.isOutfitOnly}
+										{#if reason.typeName === REASON_KEYS.AVATAR_OUTFIT && badgeStatus.isOutfitOnly}
 											<button
 												class="outfit-only-indicator"
 												class:info-hint-unseen={!hintsSeen.has('outfit-only')}
 												onclick={(event) => event.stopPropagation()}
 												onmouseenter={(event) =>
 													handleHoverPopoverTriggerEnter('outfit-only', event)}
-												onmouseleave={handleHoverPopoverTriggerLeave}
+												onmouseleave={scheduleHoverPopoverClose}
 												type="button"
 											>
 												<Shirt size={12} />
@@ -2023,7 +1444,7 @@
 																	onclick={(event) => event.stopPropagation()}
 																	onmouseenter={(event) =>
 																		handleHoverPopoverTriggerEnter(sourceInfo.kind, event)}
-																	onmouseleave={handleHoverPopoverTriggerLeave}
+																	onmouseleave={scheduleHoverPopoverClose}
 																	type="button"
 																>
 																	<Info size={12} />
@@ -2149,7 +1570,7 @@
 														>
 															{#if isOriginalShown}
 																<Lock size={11} />
-																<span>{getDetectedChipLabel(decodeEntry.encoding)}</span>
+																<span>{$_(DETECTED_CHIP_KEYS[decodeEntry.encoding.type])}</span>
 																<span class="decoded-evidence-action"
 																	>{$_('tooltip_evidence_hide_original')}</span
 																>
@@ -2201,7 +1622,6 @@
 {/snippet}
 
 {#if isExpanded}
-	<!-- Expanded tooltip structure -->
 	<div
 		bind:this={overlayRef}
 		class="expanded-tooltip-overlay"
@@ -2228,16 +1648,13 @@
 			class:has-tabs={tabs.length > 1}
 			class:is-resizing={isResizing}
 		>
-			<!-- Tab Navigation -->
-			{@render tabNavigation()}
+			<TooltipTabs {tabs} bind:activeTab />
 
-			<!-- Tooltip content -->
 			<div
 				style:max-height={tooltipDimensions.height ? 'none' : undefined}
 				class="expanded-tooltip-content"
 			>
 				<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
-					<!-- Options Menu -->
 					{#if activeTab === ROTECTOR_API_ID && !isGroup}
 						<div bind:this={optionsMenuRef} class="tooltip-options-container">
 							<button
@@ -2273,17 +1690,7 @@
 										<div class="tooltip-options-engine">
 											<span class="tooltip-options-engine-tag {engineVersionStatus}">
 												{activeUserStatus.engineVersion} ·
-												{#if engineVersionStatus === 'latest'}
-													{$_('engine_status_latest')}
-												{:else if engineVersionStatus === 'behind-minor'}
-													{$_('engine_status_compatible')}
-												{:else if engineVersionStatus === 'behind-major'}
-													{$_('engine_status_outdated')}
-												{:else if engineVersionStatus === 'deprecated'}
-													{$_('engine_status_deprecated')}
-												{:else}
-													{$_('engine_status_unknown')}
-												{/if}
+												{$_(ENGINE_STATUS_KEY[engineVersionStatus])}
 											</span>
 										</div>
 									{/if}
@@ -2292,9 +1699,7 @@
 						</div>
 					{/if}
 
-					<!-- Profile Header -->
 					{#if isGroup && groupInfo}
-						<!-- Group Header -->
 						<div
 							bind:this={profileHeaderRef}
 							class="tooltip-profile-header"
@@ -2317,16 +1722,7 @@
 								{/if}
 							</div>
 							{#if showCompactColumns}
-								<div class="tooltip-header-right">
-									{#if activeStatus || isNoData}
-										<div class="tooltip-inline-message">
-											<div class="header-message">
-												{@render headerMessageSection(headerMessage)}
-											</div>
-										</div>
-									{/if}
-									{@render reviewerSection()}
-								</div>
+								{@render compactHeaderRight()}
 							{/if}
 						</div>
 					{:else if !isGroup && userInfo}
@@ -2357,16 +1753,7 @@
 								{/if}
 							</div>
 							{#if showCompactColumns}
-								<div class="tooltip-header-right">
-									{#if activeStatus || isNoData}
-										<div class="tooltip-inline-message">
-											<div class="header-message">
-												{@render headerMessageSection(headerMessage)}
-											</div>
-										</div>
-									{/if}
-									{@render reviewerSection()}
-								</div>
+								{@render compactHeaderRight()}
 							{/if}
 						</div>
 					{:else}
@@ -2422,7 +1809,7 @@
 				role="separator"
 			></div>
 		</div>
-		{@render hoverPopover()}
+		<HoverPopover bind:this={hoverPopover} scrollContent={scrollContentRef} />
 	</div>
 {:else}
 	<!-- Preview tooltip structure -->
@@ -2452,8 +1839,7 @@
 		role="button"
 		tabindex="0"
 	>
-		<!-- Tab Navigation -->
-		{@render tabNavigation()}
+		<TooltipTabs {tabs} bind:activeTab />
 
 		<!-- Sticky header -->
 		<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
@@ -2489,7 +1875,7 @@
 			onmousedown={handleResizeStart}
 			role="separator"
 		></div>
-		{@render hoverPopover()}
+		<HoverPopover bind:this={hoverPopover} scrollContent={scrollContentRef} />
 	</div>
 {/if}
 

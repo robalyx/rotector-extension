@@ -2,10 +2,6 @@
    CONTENT CONTAINERS
    ================================= */
 
-@utility changelog-content-compact {
-	@apply space-y-2;
-}
-
 @utility changelog-content-full {
 	@apply space-y-4;
 }
@@ -109,10 +105,6 @@
 
 @utility changelog-entry-removed {
 	color: var(--color-error);
-}
-
-@utility changelog-entry-default {
-	color: var(--color-text);
 }
 
 /* =================================

@@ -1,44 +1,25 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { stats, statsRange, statsState } from '@/lib/stores/stats';
-	import { ACTIVITY_HOURS, type ActivityCategory, type ActivityHours } from '@/lib/types/stats';
-	import { GROUP_CATEGORIES, USER_CATEGORIES } from '@/lib/utils/activity-chart';
+	import { ACTIVITY_HOURS, type ActivityHours } from '@/lib/types/stats';
+	import { GROUP_CATEGORIES, USER_CATEGORIES } from './activity-chart';
 	import { formatCompact, formatNumber } from '@/lib/utils/format';
 	import ActivityLegendPill from './ActivityLegendPill.svelte';
 	import ActivityLineChart from './ActivityLineChart.svelte';
 
-	function initialVisibility(keys: readonly { key: string }[]): Record<string, boolean> {
-		return Object.fromEntries(keys.map((c) => [c.key, true]));
-	}
-
-	let userVisibility = $state<Record<string, boolean>>(initialVisibility(USER_CATEGORIES));
-	let groupVisibility = $state<Record<string, boolean>>(initialVisibility(GROUP_CATEGORIES));
+	let userVisibility = $state<Record<string, boolean>>(
+		Object.fromEntries(USER_CATEGORIES.map((c) => [c.key, true]))
+	);
+	let groupVisibility = $state<Record<string, boolean>>(
+		Object.fromEntries(GROUP_CATEGORIES.map((c) => [c.key, true]))
+	);
 
 	const isLoading = $derived($statsState === 'loading');
 	const entries = $derived($stats?.activity.entries ?? []);
 	const totals = $derived($stats?.totals);
 
-	function rangeLabel(hours: ActivityHours): string {
-		if (hours === 24) return $_('stats_activity_range_24h');
-		if (hours === 168) return $_('stats_activity_range_7d');
-		return $_('stats_activity_range_30d');
-	}
-
 	function handleRangeSelect(hours: ActivityHours) {
 		statsRange.set(hours);
-	}
-
-	function toggleUserSeries(key: string) {
-		userVisibility = { ...userVisibility, [key]: !userVisibility[key] };
-	}
-
-	function toggleGroupSeries(key: string) {
-		groupVisibility = { ...groupVisibility, [key]: !groupVisibility[key] };
-	}
-
-	function cumulativeValue(key: ActivityCategory): string {
-		if (!totals) return '—';
-		return formatCompact(totals[key]);
 	}
 </script>
 
@@ -58,14 +39,18 @@
 					role="tab"
 					type="button"
 				>
-					{rangeLabel(hours)}
+					{hours === 24
+						? $_('stats_activity_range_24h')
+						: hours === 168
+							? $_('stats_activity_range_7d')
+							: $_('stats_activity_range_30d')}
 				</button>
 			{/each}
 		</div>
 	</header>
 
 	{#if $statsState === 'error'}
-		<div class="activity-error">{$_('stats_activity_error')}</div>
+		<div class="activity-error" role="alert">{$_('stats_activity_error')}</div>
 	{/if}
 
 	<div class="activity-group">
@@ -75,8 +60,9 @@
 				<ActivityLegendPill
 					color={category.color}
 					label={$_(category.labelKey)}
-					onclick={() => toggleUserSeries(category.key)}
-					value={cumulativeValue(category.key)}
+					onclick={() =>
+						(userVisibility = { ...userVisibility, [category.key]: !userVisibility[category.key] })}
+					value={formatCompact(totals?.[category.key])}
 					visible={userVisibility[category.key] !== false}
 				/>
 			{/each}
@@ -98,8 +84,12 @@
 				<ActivityLegendPill
 					color={category.color}
 					label={$_(category.labelKey)}
-					onclick={() => toggleGroupSeries(category.key)}
-					value={cumulativeValue(category.key)}
+					onclick={() =>
+						(groupVisibility = {
+							...groupVisibility,
+							[category.key]: !groupVisibility[category.key]
+						})}
+					value={formatCompact(totals?.[category.key])}
 					visible={groupVisibility[category.key] !== false}
 				/>
 			{/each}

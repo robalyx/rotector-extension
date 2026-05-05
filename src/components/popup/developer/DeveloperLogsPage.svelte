@@ -6,12 +6,12 @@
 		errorLogs,
 		warningLogs,
 		loadDeveloperLogs,
-		clearDeveloperLogs,
-		exportLogs,
-		formatLogsForCopy
+		clearDeveloperLogs
 	} from '@/lib/stores/developer-logs';
-	import { LOG_LEVELS } from '@/lib/types/developer-logs';
+	import { exportLogs, formatLogsForCopy } from './log-export';
+	import { LOG_LEVELS, type LogLevel } from '@/lib/types/developer-logs';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
+	import { logger } from '@/lib/utils/logging/logger';
 	import { _ } from 'svelte-i18n';
 
 	interface Props {
@@ -26,39 +26,25 @@
 	let showCopyToast = $state(false);
 	let expandedLogId = $state<string | null>(null);
 
-	// Filtered logs based on active filter
 	const filteredLogs = $derived.by(() => {
 		if (activeFilter === 'error') return $errorLogs;
 		if (activeFilter === 'warn') return $warningLogs;
 		return $developerLogs;
 	});
 
-	// Format timestamp for display
 	function formatTime(timestamp: number): string {
 		return new Date(timestamp).toISOString().slice(11, 23);
 	}
 
-	// Get level badge class
-	function getLevelClass(level: string): string {
-		switch (level) {
-			case LOG_LEVELS.ERROR:
-				return 'log-level-error';
-			case LOG_LEVELS.WARN:
-				return 'log-level-warn';
-			case LOG_LEVELS.INFO:
-				return 'log-level-info';
-			case LOG_LEVELS.DEBUG:
-				return 'log-level-debug';
-			case LOG_LEVELS.ACTION:
-				return 'log-level-action';
-			case LOG_LEVELS.API:
-				return 'log-level-api';
-			default:
-				return 'log-level-debug';
-		}
-	}
+	const LEVEL_CLASS: Record<LogLevel, string> = {
+		[LOG_LEVELS.ERROR]: 'log-level-error',
+		[LOG_LEVELS.WARN]: 'log-level-warn',
+		[LOG_LEVELS.INFO]: 'log-level-info',
+		[LOG_LEVELS.DEBUG]: 'log-level-debug',
+		[LOG_LEVELS.ACTION]: 'log-level-action',
+		[LOG_LEVELS.API]: 'log-level-api'
+	};
 
-	// Copy all logs to clipboard
 	async function handleCopy() {
 		try {
 			const exportData = await exportLogs();
@@ -69,18 +55,16 @@
 				showCopyToast = false;
 			}, 2000);
 		} catch (error) {
-			console.error('Failed to copy logs:', error);
+			logger.error('Failed to copy logs:', error);
 		}
 	}
 
-	// Clear all logs
 	async function handleClear() {
 		if (confirm($_('developer_logs_clear_confirm'))) {
 			await clearDeveloperLogs();
 		}
 	}
 
-	// Toggle log data expansion
 	function toggleExpand(logId: string) {
 		expandedLogId = expandedLogId === logId ? null : logId;
 	}
@@ -93,7 +77,6 @@
 </script>
 
 <div class="developer-panel-container">
-	<!-- Header -->
 	<div class="developer-panel-header">
 		<button class="developer-panel-back-button" onclick={onBack} type="button">
 			<ArrowLeft size={16} />
@@ -121,10 +104,8 @@
 		</div>
 	</div>
 
-	<!-- Title -->
 	<h2 class="developer-panel-title">{$_('developer_logs_title')}</h2>
 
-	<!-- Filter Tabs -->
 	<div class="developer-logs-filters">
 		<button
 			class="developer-logs-filter-tab"
@@ -161,7 +142,6 @@
 		</button>
 	</div>
 
-	<!-- Log List -->
 	<div class="developer-logs-list">
 		{#if isLoading}
 			<div class="developer-panel-loading">
@@ -175,7 +155,7 @@
 			</div>
 		{:else}
 			{#each filteredLogs as log (log.id)}
-				<div class="developer-logs-entry {getLevelClass(log.level)}">
+				<div class="developer-logs-entry {LEVEL_CLASS[log.level]}">
 					<span class="developer-logs-entry-time">{formatTime(log.timestamp)}</span>
 					{#if activeFilter === 'all'}
 						<span class="developer-logs-entry-level">{log.level.toUpperCase()}</span>
@@ -199,7 +179,6 @@
 		{/if}
 	</div>
 
-	<!-- Copy Toast -->
 	{#if showCopyToast}
 		<div class="developer-panel-toast">
 			<Check size={14} />

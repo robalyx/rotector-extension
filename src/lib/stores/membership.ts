@@ -1,21 +1,24 @@
 import { writable } from 'svelte/store';
 import type { MembershipBadgeUpdatePayload, MembershipStatus } from '../types/api';
-import { apiClient } from '../services/api-client';
+import { apiClient } from '../services/rotector/api-client';
 import { SETTINGS_KEYS } from '../types/settings';
-import { logger } from '../utils/logger';
+import { asApiError } from '../utils/api/api-error';
+import { logger } from '../utils/logging/logger';
+import { subscribeStorageKey } from '../utils/storage';
+import { createTtlCache } from '../utils/caching/ttl-cache';
 import { getStoredApiKey } from './settings';
 
 type MembershipStoreState =
 	| { kind: 'unknown' | 'no-key' | 'not-member' | 'invalid-key'; status: null }
 	| { kind: 'member'; status: MembershipStatus };
 
-interface MembershipCache {
-	state: MembershipStoreState;
-	timestamp: number;
-}
-
-const MEMBERSHIP_CACHE_KEY = 'membershipStatusCache';
 const MEMBERSHIP_CACHE_DURATION = 5 * 60 * 1000;
+const cache = createTtlCache<MembershipStoreState>(
+	'local',
+	'membershipStatusCache',
+	MEMBERSHIP_CACHE_DURATION,
+	'membership'
+);
 
 const INITIAL_STATE: MembershipStoreState = { kind: 'unknown', status: null };
 
@@ -24,44 +27,10 @@ export const membershipLoading = writable<boolean>(false);
 
 let pendingLoad: Promise<void> | null = null;
 
-// Read the cached membership state, returning null if missing or past the TTL
-async function readCache(): Promise<MembershipStoreState | null> {
-	try {
-		const result = await browser.storage.local.get([MEMBERSHIP_CACHE_KEY]);
-		const cache = result[MEMBERSHIP_CACHE_KEY] as MembershipCache | undefined;
-		if (!cache) return null;
-		if (Date.now() - cache.timestamp > MEMBERSHIP_CACHE_DURATION) return null;
-		return cache.state;
-	} catch (error) {
-		logger.error('Failed to read membership cache:', error);
-		return null;
-	}
-}
-
-// Persist the current membership state under the TTL-stamped cache key
-async function writeCache(state: MembershipStoreState): Promise<void> {
-	try {
-		const cache: MembershipCache = { state, timestamp: Date.now() };
-		await browser.storage.local.set({ [MEMBERSHIP_CACHE_KEY]: cache });
-	} catch (error) {
-		logger.error('Failed to write membership cache:', error);
-	}
-}
-
-// Drop the cached membership state (used on sign-out and API-key change)
-async function clearCache(): Promise<void> {
-	try {
-		await browser.storage.local.remove([MEMBERSHIP_CACHE_KEY]);
-	} catch (error) {
-		logger.error('Failed to clear membership cache:', error);
-	}
-}
-
-// Translate API errors into store states
 function errorToState(error: unknown): MembershipStoreState {
-	const err = error as Error & { status?: number };
-	if (err.status === 403) return { kind: 'not-member', status: null };
-	if (err.status === 401) return { kind: 'invalid-key', status: null };
+	const status = asApiError(error).status;
+	if (status === 403) return { kind: 'not-member', status: null };
+	if (status === 401) return { kind: 'invalid-key', status: null };
 	logger.error('Membership status request failed with unexpected error:', error);
 	return { kind: 'unknown', status: null };
 }
@@ -70,11 +39,11 @@ function errorToState(error: unknown): MembershipStoreState {
 async function doLoad(forceRefresh: boolean): Promise<void> {
 	const [apiKey, cached] = await Promise.all([
 		getStoredApiKey(),
-		forceRefresh ? Promise.resolve(null) : readCache()
+		forceRefresh ? Promise.resolve(null) : cache.read()
 	]);
 	if (!apiKey) {
 		membershipStore.set({ kind: 'no-key', status: null });
-		await clearCache();
+		await cache.clear();
 		return;
 	}
 	if (cached) {
@@ -87,12 +56,12 @@ async function doLoad(forceRefresh: boolean): Promise<void> {
 		const status = await apiClient.getMembershipStatus();
 		const state: MembershipStoreState = { kind: 'member', status };
 		membershipStore.set(state);
-		await writeCache(state);
+		await cache.write(state);
 	} catch (error) {
 		const state = errorToState(error);
 		membershipStore.set(state);
 		if (state.kind === 'not-member' || state.kind === 'invalid-key') {
-			await writeCache(state);
+			await cache.write(state);
 		}
 	} finally {
 		membershipLoading.set(false);
@@ -104,7 +73,7 @@ export async function loadMembershipStatus(forceRefresh: boolean = false): Promi
 	if (pendingLoad && !forceRefresh) return pendingLoad;
 
 	// A forced refresh must wait for any in-flight load to settle as reusing the
-	// existing promise would let the old key's stale response win.
+	// existing promise would let the old key's stale response win
 	const priorLoad = pendingLoad;
 	const task = (async () => {
 		if (priorLoad) await priorLoad.catch(() => undefined);
@@ -123,7 +92,7 @@ export async function updateBadge(
 	const status = await apiClient.updateMembershipBadge(payload);
 	const state: MembershipStoreState = { kind: 'member', status };
 	membershipStore.set(state);
-	await writeCache(state);
+	await cache.write(state);
 	return status;
 }
 
@@ -132,7 +101,7 @@ export async function clearBadge(): Promise<MembershipStatus> {
 	const status = await apiClient.clearMembershipBadge();
 	const state: MembershipStoreState = { kind: 'member', status };
 	membershipStore.set(state);
-	await writeCache(state);
+	await cache.write(state);
 	return status;
 }
 
@@ -141,18 +110,15 @@ export async function confirmVerification(robloxUserId: number): Promise<Members
 	const status = await apiClient.confirmMembershipVerification(robloxUserId);
 	const state: MembershipStoreState = { kind: 'member', status };
 	membershipStore.set(state);
-	await writeCache(state);
+	await cache.write(state);
 	return status;
 }
 
-// Invalidate cache on API-key change; the oldValue/newValue guard dedups same-value writes.
-browser.storage.onChanged.addListener((changes, namespace) => {
-	if (namespace !== 'sync') return;
-	const change = changes[SETTINGS_KEYS.API_KEY];
-	if (!change) return;
-	if (change.oldValue === change.newValue) return;
+// Invalidate cache on API-key change because the oldValue/newValue guard dedups same-value writes
+subscribeStorageKey<string>('sync', SETTINGS_KEYS.API_KEY, (newValue, oldValue) => {
+	if (oldValue === newValue) return;
 	void (async () => {
-		await clearCache();
+		await cache.clear();
 		await loadMembershipStatus(true);
 	})();
 });

@@ -1,31 +1,61 @@
-import type { ApiResponse, CaptchaSession, ContentMessage } from '@/lib/types/api';
+import type { ApiResponse, CaptchaSession } from '@/lib/types/api';
+import { isCaptchaSession, safeParseCaptchaExternalMessage } from '@/lib/schemas/captcha';
+import {
+	type CaptchaStartMessage,
+	safeParseCaptchaStartMessage,
+	safeParseContentMessage
+} from '@/lib/schemas/content-message';
+import * as v from 'valibot';
 import type { QueueHistoryEntry } from '@/lib/types/queue-history';
 import {
-	API_ACTIONS,
 	API_CONFIG,
 	CAPTCHA_EXTERNAL_MESSAGES,
-	CAPTCHA_MESSAGES
+	CAPTCHA_MESSAGES,
+	STORAGE_KEYS
 } from '@/lib/types/constants';
+import { asApiError, createErrorResponse } from '@/lib/utils/api/api-error';
 import { getAssetUrl } from '@/lib/utils/assets';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/utils/logging/logger';
 import {
-	loadQueueHistory,
-	unprocessedEntries,
-	updateEntryStatus,
-	markAsNotified
-} from '@/lib/stores/queue-history';
-import { get } from 'svelte/store';
-import { actionHandlers } from './handlers';
-import { createErrorResponse, ensureDefaultSettings } from './utils';
+	getAllStorage,
+	getStorage,
+	removeStorage,
+	setStorage,
+	setStorageMulti,
+	subscribeStorageKey
+} from '@/lib/utils/storage';
+import {
+	applyQueueStatusUpdate,
+	QUEUE_HISTORY_KEY,
+	readUnprocessedEntries
+} from '@/lib/utils/queue-history-storage';
+import { dispatchContentMessage } from './handlers';
+import { getQueueStatus } from './endpoints/core';
+import { SETTINGS_DEFAULTS } from '@/lib/types/settings';
+import { loadCustomApis } from '@/lib/stores/custom-apis';
 import { t } from '@/lib/utils/i18n';
 
-const POLL_INTERVAL = 30000; // 30 seconds
+async function seedDefaultSettings(): Promise<void> {
+	const existingSettings = await getAllStorage('sync');
+	const missingSettings: Partial<typeof SETTINGS_DEFAULTS> = {};
+
+	for (const [key, defaultValue] of Object.entries(SETTINGS_DEFAULTS)) {
+		if (!(key in existingSettings)) {
+			(missingSettings as Record<string, unknown>)[key] = defaultValue;
+		}
+	}
+
+	if (Object.keys(missingSettings).length > 0) {
+		await setStorageMulti('sync', missingSettings);
+		logger.info('Background: Initialized missing settings', missingSettings);
+	}
+}
+
 let pollIntervalId: ReturnType<typeof setInterval> | null = null;
 let isPolling = false;
 
 const activeCaptchaSessions = new Set<string>();
 
-// Send notification when queue processing completes
 async function sendQueueNotification(entry: QueueHistoryEntry): Promise<void> {
 	const notificationId = `queue-${String(entry.userId)}-${String(Date.now())}`;
 
@@ -52,13 +82,13 @@ async function sendQueueNotification(entry: QueueHistoryEntry): Promise<void> {
 	}
 }
 
-// Poll queue status for unprocessed entries
+// Single-flight poll that stops the interval when no unprocessed entries remain and notifies on processed transitions
 async function pollQueueStatus(): Promise<void> {
 	if (isPolling) return;
 	isPolling = true;
 
 	try {
-		const unprocessed = get(unprocessedEntries);
+		const unprocessed = await readUnprocessedEntries();
 
 		if (unprocessed.length === 0) {
 			stopPolling();
@@ -66,18 +96,15 @@ async function pollQueueStatus(): Promise<void> {
 		}
 
 		const userIds = unprocessed.map((e) => e.userId);
-
-		const handler = actionHandlers[API_ACTIONS.GET_QUEUE_STATUS];
-		const response = await handler({ action: API_ACTIONS.GET_QUEUE_STATUS, userIds });
+		const response = await getQueueStatus(userIds);
 
 		for (const [userIdStr, status] of Object.entries(response)) {
 			if (!status.queued) continue;
 
-			const completedEntry = await updateEntryStatus(parseInt(userIdStr, 10), status);
+			const completedEntry = await applyQueueStatusUpdate(parseInt(userIdStr, 10), status);
 
-			if (completedEntry && !completedEntry.notified) {
+			if (completedEntry) {
 				await sendQueueNotification(completedEntry);
-				await markAsNotified(completedEntry.userId);
 			}
 		}
 	} catch (error) {
@@ -87,18 +114,16 @@ async function pollQueueStatus(): Promise<void> {
 	}
 }
 
-// Start polling if needed
-function startPollingIfNeeded(): void {
-	const unprocessed = get(unprocessedEntries);
-
-	if (unprocessed.length === 0 || pollIntervalId) return;
+async function startPollingIfNeeded(): Promise<void> {
+	if (pollIntervalId) return;
+	const unprocessed = await readUnprocessedEntries();
+	if (unprocessed.length === 0) return;
 
 	logger.debug('Starting queue status polling');
-	void pollQueueStatus(); // Immediate first poll
-	pollIntervalId = setInterval(() => void pollQueueStatus(), POLL_INTERVAL);
+	void pollQueueStatus();
+	pollIntervalId = setInterval(() => void pollQueueStatus(), API_CONFIG.QUEUE_POLL_INTERVAL);
 }
 
-// Stop polling
 function stopPolling(): void {
 	if (pollIntervalId) {
 		clearInterval(pollIntervalId);
@@ -107,63 +132,55 @@ function stopPolling(): void {
 	}
 }
 
-// Initialize queue polling
+// Starts polling if unprocessed entries exist and toggles the interval as queue history changes in storage
 async function initializeQueuePolling(): Promise<void> {
-	await loadQueueHistory();
-	startPollingIfNeeded();
+	await startPollingIfNeeded();
 
-	// Subscribe to changes to start/stop polling
-	unprocessedEntries.subscribe((entries) => {
-		if (entries.length > 0 && !pollIntervalId) {
-			startPollingIfNeeded();
-		} else if (entries.length === 0 && pollIntervalId) {
+	subscribeStorageKey<QueueHistoryEntry[]>('local', QUEUE_HISTORY_KEY, (newValue) => {
+		const hasUnprocessed = (newValue ?? []).some((e) => !e.processed);
+		if (hasUnprocessed && !pollIntervalId) {
+			void startPollingIfNeeded();
+		} else if (!hasUnprocessed && pollIntervalId) {
 			stopPolling();
 		}
 	});
 }
 
-// Handle captcha start by storing session and opening popup
+// Persists the queue payload under a session-scoped key, garbage-collects sessions older than 10 minutes, then opens the captcha popup
 async function handleCaptchaStart(
-	request: {
-		sessionId?: string;
-		queueData?: Omit<CaptchaSession, 'sessionId' | 'senderTabId' | 'timestamp'>;
-	},
+	request: CaptchaStartMessage,
 	senderTabId?: number
 ): Promise<void> {
 	const { sessionId, queueData } = request;
 
-	if (!sessionId || !queueData) {
-		throw new Error('Missing sessionId or queueData for captcha start');
-	}
-
-	// Remove any orphaned captcha sessions older than 10 minutes
+	// Remove orphaned (older than 10 minutes) or malformed captcha sessions
 	const allItems = await browser.storage.local.get(null);
 	const now = Date.now();
-	const staleKeys = Object.keys(allItems).filter((key) => {
-		if (!key.startsWith('captcha_session_')) return false;
-		const s = allItems[key] as CaptchaSession;
-		return now - s.timestamp > 600000;
-	});
-	if (staleKeys.length > 0) {
-		await browser.storage.local.remove(staleKeys);
-	}
+	await removeStorage(
+		'local',
+		Object.keys(allItems).filter((key) => {
+			if (!key.startsWith('captcha_session_')) return false;
+			const stored = allItems[key];
+			return !isCaptchaSession(stored) || now - stored.timestamp > 600000;
+		})
+	);
 
-	// Store pending captcha session
 	const session: CaptchaSession = {
 		sessionId,
-		...queueData,
+		userId: queueData.userId,
+		outfitNames: queueData.outfitNames,
+		...(queueData.outfitIds !== undefined && { outfitIds: queueData.outfitIds }),
+		inappropriateProfile: queueData.inappropriateProfile,
+		inappropriateFriends: queueData.inappropriateFriends,
+		inappropriateGroups: queueData.inappropriateGroups,
 		...(senderTabId !== undefined && { senderTabId }),
 		timestamp: now
 	};
-	await browser.storage.local.set({
-		[`captcha_session_${sessionId}`]: session
-	});
+	await setStorage('local', `captcha_session_${sessionId}`, session);
 
-	// Build captcha URL
 	const captchaUrl = new URL(`${API_CONFIG.BASE_URL}/captcha`);
 	captchaUrl.searchParams.set('session', sessionId);
 
-	// Open captcha popup
 	await browser.windows.create({
 		url: captchaUrl.toString(),
 		type: 'popup',
@@ -175,13 +192,12 @@ async function handleCaptchaStart(
 	logger.info('Captcha popup opened for session:', sessionId);
 }
 
-// Handle captcha success from backend
+// Dedupes by sessionId, validates the session hasn't expired, closes the popup tab, and forwards the token to the originating content tab
 async function handleCaptchaSuccess(
 	sessionId: string,
 	token: string,
 	sender: { tab?: { id?: number | undefined } | undefined }
 ): Promise<void> {
-	// Skip if this session is already being processed
 	if (activeCaptchaSessions.has(sessionId)) {
 		return;
 	}
@@ -189,29 +205,25 @@ async function handleCaptchaSuccess(
 
 	try {
 		const storageKey = `captcha_session_${sessionId}`;
-		const result = await browser.storage.local.get(storageKey);
-		const session = result[storageKey] as CaptchaSession | undefined;
+		const session = await getStorage<CaptchaSession | undefined>('local', storageKey, undefined);
 
 		if (!session) {
 			logger.error('Captcha session not found:', sessionId);
 			return;
 		}
 
-		// Check session expiry (10 minutes)
 		if (Date.now() - session.timestamp > 600000) {
 			logger.error('Captcha session expired:', sessionId);
-			await browser.storage.local.remove([storageKey]);
+			await removeStorage('local', storageKey);
 			return;
 		}
 
-		await browser.storage.local.remove([storageKey]);
+		await removeStorage('local', storageKey);
 
-		// Close the captcha popup tab
 		if (sender.tab?.id) {
 			await browser.tabs.remove(sender.tab.id).catch(() => {});
 		}
 
-		// Send token to the originating content script tab
 		const message = {
 			type: CAPTCHA_MESSAGES.CAPTCHA_TOKEN_READY,
 			token,
@@ -240,28 +252,23 @@ async function handleCaptchaSuccess(
 	}
 }
 
-// Handle captcha error from backend
 async function handleCaptchaError(
 	sessionId: string | undefined,
 	error: string | undefined,
 	sender: { tab?: { id?: number | undefined } | undefined }
 ): Promise<void> {
-	// Retrieve session to get originating tab ID
 	let senderTabId: number | undefined;
 	if (sessionId) {
 		const storageKey = `captcha_session_${sessionId}`;
-		const result = await browser.storage.local.get(storageKey);
-		const session = result[storageKey] as CaptchaSession | undefined;
+		const session = await getStorage<CaptchaSession | undefined>('local', storageKey, undefined);
 		senderTabId = session?.senderTabId;
-		await browser.storage.local.remove([storageKey]);
+		await removeStorage('local', storageKey);
 	}
 
-	// Close the captcha popup tab
 	if (sender.tab?.id) {
 		await browser.tabs.remove(sender.tab.id).catch(() => {});
 	}
 
-	// Notify the originating content script of cancellation
 	if (senderTabId !== undefined) {
 		const message = {
 			type: CAPTCHA_MESSAGES.CAPTCHA_CANCELLED,
@@ -276,10 +283,10 @@ async function handleCaptchaError(
 	logger.error('Captcha verification failed:', error);
 }
 
-// Clear developer logs and performance entries on startup to prevent unbounded growth
+// Prevent unbounded growth of dev logs/perf entries across sessions
 async function clearDevDataOnStartup(): Promise<void> {
 	try {
-		await browser.storage.local.remove(['developerLogs', 'performanceEntries']);
+		await removeStorage('local', [STORAGE_KEYS.DEVELOPER_LOGS, STORAGE_KEYS.PERFORMANCE_ENTRIES]);
 		logger.debug('Developer logs and performance entries cleared on startup');
 	} catch (error) {
 		logger.warn('Failed to clear dev data on startup:', error);
@@ -295,8 +302,12 @@ export default defineBackground(() => {
 		logger.warn('Failed to clear dev data:', err);
 	});
 
-	ensureDefaultSettings().catch((err: unknown) => {
-		logger.error('Failed to initialize settings:', err);
+	seedDefaultSettings().catch((err: unknown) => {
+		logger.error('Failed to seed default settings:', err);
+	});
+
+	loadCustomApis().catch((err: unknown) => {
+		logger.error('Failed to load custom APIs:', err);
 	});
 
 	initializeQueuePolling().catch((err: unknown) => {
@@ -304,65 +315,50 @@ export default defineBackground(() => {
 	});
 
 	async function dispatchCaptchaMessage(
-		message: { type?: string; token?: string; session?: string; error?: string },
+		message: unknown,
 		sender: { tab?: { id?: number | undefined } | undefined }
 	): Promise<boolean> {
-		if (message.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS && message.token && message.session) {
-			await handleCaptchaSuccess(message.session, message.token, sender);
+		const parsed = safeParseCaptchaExternalMessage(message);
+		if (!parsed.success) return false;
+
+		if (parsed.output.type === CAPTCHA_EXTERNAL_MESSAGES.SUCCESS) {
+			await handleCaptchaSuccess(parsed.output.session, parsed.output.token, sender);
 			return true;
 		}
 
-		if (message.type === CAPTCHA_EXTERNAL_MESSAGES.ERROR) {
-			await handleCaptchaError(message.session, message.error, sender);
-			return true;
-		}
-
-		return false;
+		await handleCaptchaError(parsed.output.session, parsed.output.error, sender);
+		return true;
 	}
 
-	// Handle runtime messages from content scripts and popup
+	// Three message transports converge on dispatchContentMessage / dispatchCaptchaMessage:
+	//   1. browser.runtime.onMessage:           content/popup -> background (internal)
+	//   2. browser.runtime.onMessageExternal:   Chrome only, roscoe.rotector.com -> background
+	//   3. roscoe-bridge.content.ts -> onMessage: Firefox shim for #2 (no externally_connectable)
 	browser.runtime.onMessage.addListener(
-		(
-			request: ContentMessage & {
-				type?: string;
-				sessionId?: string;
-				token?: string;
-				session?: string;
-				error?: string;
-			},
-			sender,
-			sendResponse: (response: ApiResponse) => void
-		) => {
+		(request: unknown, sender, sendResponse: (response: ApiResponse) => void) => {
 			void (async () => {
 				try {
-					// Handle captcha messages from roscoe-bridge content script
 					if (await dispatchCaptchaMessage(request, sender)) return;
 
-					// Handle captcha start message
-					if (request.type === CAPTCHA_MESSAGES.CAPTCHA_START) {
-						await handleCaptchaStart(request, sender.tab?.id);
+					const captchaStart = safeParseCaptchaStartMessage(request);
+					if (captchaStart.success) {
+						await handleCaptchaStart(captchaStart.output, sender.tab?.id);
 						sendResponse({ success: true });
 						return;
 					}
 
-					// Handle API actions
-					const handlers: Record<
-						string,
-						(typeof actionHandlers)[keyof typeof actionHandlers] | undefined
-					> = actionHandlers;
-					const handler = handlers[request.action];
-
-					if (!handler) {
-						throw new Error(`Unknown action: ${request.action}`);
+					const contentMessage = safeParseContentMessage(request);
+					if (!contentMessage.success) {
+						throw new Error(`Invalid message: ${v.summarize(contentMessage.issues)}`);
 					}
 
-					const response = await handler(request);
+					const response = await dispatchContentMessage(contentMessage.output);
 
 					sendResponse({ success: true, data: response });
-					logger.debug(`Successfully handled action: ${request.action}`);
+					logger.debug(`Successfully handled action: ${contentMessage.output.action}`);
 				} catch (error) {
-					logger.error(`Background script error for action ${request.action}:`, error);
-					sendResponse(createErrorResponse(error as Error));
+					logger.error('Background script error:', error);
+					sendResponse(createErrorResponse(asApiError(error)));
 				}
 			})();
 
@@ -370,7 +366,6 @@ export default defineBackground(() => {
 		}
 	);
 
-	// Listen for external messages from captcha pages
 	browser.runtime.onMessageExternal.addListener(
 		(
 			message: { type: string; token?: string; session?: string; error?: string },

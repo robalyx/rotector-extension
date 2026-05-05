@@ -61,7 +61,6 @@
 
 @utility perf-longtask-item {
 	@apply text-3xs flex items-center gap-1.5 px-2 py-1;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	&:last-child {
@@ -155,7 +154,6 @@
 
 @utility perf-slowest-item {
 	@apply text-3xs flex items-center gap-2 px-2 py-1.5;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	&:last-child {
@@ -211,7 +209,6 @@
 
 @utility perf-trace-entry {
 	@apply text-3xs flex cursor-pointer items-center gap-1.5 border-none bg-transparent px-2 py-1 transition-colors duration-150;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	&:last-child {
@@ -254,5 +251,4 @@
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text-subtle);
 	max-height: 80px;
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }

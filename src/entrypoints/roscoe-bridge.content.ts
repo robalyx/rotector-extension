@@ -1,13 +1,8 @@
 import { API_CONFIG } from '@/lib/types/constants';
 
-/**
- * Bridge content script for Firefox compatibility.
- *
- * Firefox does not support `externally_connectable`, so roscoe web pages
- * cannot use `browser.runtime.sendMessage(extensionId)` to reach the
- * extension. The backend falls back to `window.postMessage` on non-Chromium
- * browsers. This script forwards those messages to the background script.
- */
+// Firefox lacks `externally_connectable`, so roscoe pages can't reach the extension
+// via `browser.runtime.sendMessage(extensionId)`. The backend falls back to
+// `window.postMessage` on non-Chromium browsers and this script forwards those to background.
 export default defineContentScript({
 	matches: [
 		`https://${import.meta.env.USE_DEV_API === 'true' ? 'roscoe-dev' : 'roscoe'}.rotector.com/*`

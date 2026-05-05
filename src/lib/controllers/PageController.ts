@@ -1,15 +1,20 @@
-import { logger } from '../utils/logger';
-import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
-import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
-import type { PageType } from '../types/api';
+import { get } from 'svelte/store';
+import { asApiError } from '@/lib/utils/api/api-error';
+import { logger } from '@/lib/utils/logging/logger';
+import { startTrace } from '@/lib/utils/logging/perf-tracer';
+import { TRACE_CATEGORIES } from '@/lib/types/performance';
+import type { ComponentClassType } from '@/lib/types/constants';
+import type { PageType } from '@/lib/types/api';
+import type { SettingsKey } from '@/lib/types/settings';
+import { settings } from '@/lib/stores/settings';
 import { type Component, mount, unmount } from 'svelte';
 
-/**
- * Base class for all page controllers
- */
 export abstract class PageController {
 	protected isInitialized = false;
 	protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
+
+	// Checked once at init and runtime toggling does not retroactively initialize/cleanup
+	protected readonly settingsKey?: SettingsKey;
 
 	constructor(
 		public readonly pageType: PageType,
@@ -18,10 +23,14 @@ export abstract class PageController {
 		logger.debug(`Creating ${this.constructor.name}`, { pageType, url });
 	}
 
-	// Initialize the page controller
 	async initialize(): Promise<void> {
 		if (this.isInitialized) {
 			logger.warn(`${this.constructor.name} already initialized`);
+			return;
+		}
+
+		if (this.settingsKey && !get(settings)[this.settingsKey]) {
+			logger.debug(`${this.constructor.name} gated off by setting ${this.settingsKey}`);
 			return;
 		}
 
@@ -35,23 +44,16 @@ export abstract class PageController {
 		try {
 			logger.debug(`Initializing ${this.constructor.name}`);
 
-			// Wait for DOM to be ready
 			await this.waitForDOM();
-
-			// Initialize page functionality
 			await this.initializePage();
 
 			this.isInitialized = true;
 			logger.debug(`${this.constructor.name} initialized successfully`);
-		} catch (error) {
-			logger.error(`Failed to initialize ${this.constructor.name}:`, error);
-			throw error;
 		} finally {
 			endTrace();
 		}
 	}
 
-	// Cleanup all resources
 	async cleanup(): Promise<void> {
 		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, `${this.constructor.name}.cleanup`, {
 			pageType: this.pageType
@@ -59,10 +61,7 @@ export abstract class PageController {
 		try {
 			logger.debug(`Cleaning up ${this.constructor.name}`);
 
-			// Cleanup mounted components
 			this.cleanupComponents();
-
-			// Call page cleanup
 			await this.cleanupPage();
 
 			this.isInitialized = false;
@@ -74,10 +73,8 @@ export abstract class PageController {
 		}
 	}
 
-	// Abstract method for page initialization
 	protected abstract initializePage(): Promise<void>;
 
-	// Wait for DOM to be ready
 	protected async waitForDOM(): Promise<void> {
 		return new Promise((resolve) => {
 			if (document.readyState === 'loading') {
@@ -94,7 +91,6 @@ export abstract class PageController {
 		});
 	}
 
-	// Mount a Svelte component to a DOM element
 	protected mountComponent<TProps extends Record<string, unknown>>(
 		ComponentClass: Component<TProps>,
 		target: HTMLElement,
@@ -107,10 +103,8 @@ export abstract class PageController {
 		try {
 			logger.debug(`Mounting component to`, { target: target.tagName, props });
 
-			// Store component cleanup function if provided
 			let componentCleanup: (() => void) | null = null;
 
-			// Add onMount prop to capture cleanup function
 			const enhancedProps = {
 				...props,
 				onMount: (cleanup: () => void) => {
@@ -118,21 +112,14 @@ export abstract class PageController {
 				}
 			};
 
-			// Create component instance
 			const component = mount(ComponentClass, {
 				target,
 				props: enhancedProps
 			});
 
-			// Create cleanup function
 			const cleanup = () => {
 				try {
-					// Call component's cleanup if available
-					if (componentCleanup) {
-						componentCleanup();
-					}
-
-					// Unmount the Svelte component
+					componentCleanup?.();
 					void unmount(component);
 					logger.debug('Component unmounted successfully');
 				} catch (error) {
@@ -140,42 +127,26 @@ export abstract class PageController {
 				}
 			};
 
-			// Track mounted component
 			const mountedComponent = { element: target, cleanup };
 			this.mountedComponents.push(mountedComponent);
 
 			endTrace();
 			return mountedComponent;
 		} catch (error) {
-			endTrace({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+			endTrace({ success: false, error: asApiError(error).message });
 			logger.error('Failed to mount component:', error);
 			throw error;
 		}
 	}
 
-	// Create a container element for components
-	protected createComponentContainer(
-		className: ComponentClassType = COMPONENT_CLASSES.COMPONENT_BASE
-	): HTMLElement {
+	protected createComponentContainer(className: ComponentClassType): HTMLElement {
 		const container = document.createElement('div');
 		container.className = className;
 		return container;
 	}
 
-	// Find a single element using a selector with error handling
-	protected findElement(selector: string): HTMLElement | null {
-		try {
-			return document.querySelector(selector);
-		} catch (error) {
-			logger.error(`Failed to find element with selector: ${selector}`, error);
-			return null;
-		}
-	}
-
-	// Abstract method for page cleanup
 	protected async cleanupPage(): Promise<void> {}
 
-	// Cleanup all mounted components and remove their DOM elements
 	private cleanupComponents(): void {
 		for (const component of this.mountedComponents) {
 			try {

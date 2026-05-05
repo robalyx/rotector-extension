@@ -1,31 +1,28 @@
-import { logger } from '../utils/logger';
-import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
-import { metricsCollector } from '../utils/metrics-collector';
-import { sanitizeEntityId, sanitizeUrl } from '../utils/sanitizer';
-import { normalizePathname } from '../utils/page-detection';
-import { COMPONENT_CLASSES, PAGE_TYPES } from '../types/constants';
-import { SETTINGS_KEYS } from '../types/settings';
-import type { PageType } from '../types/api';
+import { logger } from '@/lib/utils/logging/logger';
+import { startTrace } from '@/lib/utils/logging/perf-tracer';
+import { TRACE_CATEGORIES } from '@/lib/types/performance';
+import { metricsCollector } from '@/lib/utils/logging/metrics-collector';
+import { sanitizeEntityId, sanitizeUrl } from '@/lib/utils/dom/sanitizer';
+import { detectPageType, stripHash } from '@/lib/utils/dom/page-detection';
+import { COMPONENT_CLASSES, PAGE_TYPES } from '@/lib/types/constants';
+import { SETTINGS_KEYS } from '@/lib/types/settings';
+import type { PageType } from '@/lib/types/api';
 import type { PageController } from './PageController';
 import { SimplePageController } from './SimplePageController';
 import { ProfilePageController } from './ProfilePageController';
 import { GroupsPageController } from './GroupsPageController';
 import { ReportPageController } from './ReportPageController';
-import HomePageManager from '../../components/features/HomePageManager.svelte';
-import FriendsPageManager from '../../components/features/FriendsPageManager.svelte';
-import SearchPageManager from '../../components/features/SearchPageManager.svelte';
-import GroupConfigurePageManager from '../../components/features/GroupConfigurePageManager.svelte';
+import HomePageManager from '@/components/features/home/HomePageManager.svelte';
+import FriendsPageManager from '@/components/features/friends/FriendsPageManager.svelte';
+import SearchPageManager from '@/components/features/search/SearchPageManager.svelte';
+import GroupConfigurePageManager from '@/components/features/groups/GroupConfigurePageManager.svelte';
 
-/**
- * Manages page controllers and handles navigation between different Roblox pages
- */
 export class PageControllerManager {
 	private currentController: PageController | null = null;
 	private readonly controllers = new Map<
 		PageType,
 		(pageType: PageType, url: string) => PageController
 	>();
-	private isInitialized = false;
 	private currentUrl: string | null = null;
 	private isNavigating = false;
 
@@ -37,7 +34,6 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.HOME_CHECK_ENABLED,
 					component: HomePageManager,
 					containerClass: COMPONENT_CLASSES.HOME_CAROUSEL_MANAGER,
-					disabledMessage: 'Home checks disabled, skipping initialization',
 					getProps: () => ({})
 				})
 		);
@@ -48,7 +44,6 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
 					component: FriendsPageManager,
 					containerClass: COMPONENT_CLASSES.FRIENDS_MANAGER,
-					disabledMessage: 'Friends checks disabled, skipping initialization',
 					getProps: () => ({})
 				})
 		);
@@ -59,7 +54,6 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.FRIENDS_CHECK_ENABLED,
 					component: FriendsPageManager,
 					containerClass: COMPONENT_CLASSES.FRIENDS_MANAGER,
-					disabledMessage: 'Friends checks disabled, skipping initialization',
 					getProps: () => ({})
 				})
 		);
@@ -70,7 +64,6 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.SEARCH_CHECK_ENABLED,
 					component: SearchPageManager,
 					containerClass: COMPONENT_CLASSES.SEARCH_MANAGER,
-					disabledMessage: 'Search checks disabled, skipping initialization',
 					getProps: () => ({})
 				})
 		);
@@ -81,7 +74,6 @@ export class PageControllerManager {
 					settingsKey: SETTINGS_KEYS.GROUPS_CHECK_ENABLED,
 					component: GroupConfigurePageManager,
 					containerClass: COMPONENT_CLASSES.GROUP_CONFIGURE_MANAGER,
-					disabledMessage: 'Groups checks disabled, skipping initialization',
 					getProps: () => {
 						const params = new URLSearchParams(window.location.search);
 						const id = params.get('id');
@@ -95,18 +87,6 @@ export class PageControllerManager {
 		this.controllers.set(PAGE_TYPES.REPORT, (pt, url) => new ReportPageController(pt, url));
 	}
 
-	// Initialize the page controller manager
-	initialize(): void {
-		if (this.isInitialized) {
-			logger.warn('PageControllerManager already initialized');
-			return;
-		}
-
-		logger.debug('Initializing PageControllerManager');
-		this.isInitialized = true;
-	}
-
-	// Handle navigation to a new URL
 	async handleNavigation(url: string): Promise<void> {
 		if (this.isNavigating) {
 			logger.debug('Navigation already in progress, skipping');
@@ -122,13 +102,11 @@ export class PageControllerManager {
 				return;
 			}
 
-			const pageType = this.detectPageType(sanitizedUrl);
+			const pageType = detectPageType(sanitizedUrl);
 
-			// If we have a controller for this page type
 			if (pageType && this.controllers.has(pageType)) {
 				await this.switchToController(pageType, sanitizedUrl);
 			} else {
-				// Clean up current controller if no specific controller for this page
 				await this.cleanupCurrentController();
 			}
 		} catch (error) {
@@ -140,20 +118,17 @@ export class PageControllerManager {
 		}
 	}
 
-	// Switch to a specific page controller
 	private async switchToController(pageType: PageType, url: string): Promise<void> {
 		const endTrace = startTrace(TRACE_CATEGORIES.CONTROLLER, 'switchToController', { pageType });
 		try {
-			// Clean up current controller if page type is different or URL changed
 			if (
 				this.currentController &&
 				(this.currentController.pageType !== pageType ||
-					this.stripHash(this.currentUrl ?? '') !== this.stripHash(url))
+					stripHash(this.currentUrl ?? '') !== stripHash(url))
 			) {
 				await this.cleanupCurrentController();
 			}
 
-			// Create new controller if needed
 			if (!this.currentController) {
 				const factory = this.controllers.get(pageType);
 				if (!factory) {
@@ -165,7 +140,6 @@ export class PageControllerManager {
 				this.currentUrl = url;
 			}
 
-			// Initialize controller
 			await this.currentController.initialize();
 		} catch (error) {
 			logger.error(`Failed to switch to controller for ${pageType}:`, error);
@@ -175,7 +149,6 @@ export class PageControllerManager {
 		}
 	}
 
-	// Clean up the current controller
 	private async cleanupCurrentController(): Promise<void> {
 		if (this.currentController) {
 			try {
@@ -187,49 +160,6 @@ export class PageControllerManager {
 				this.currentController = null;
 				this.currentUrl = null;
 			}
-		}
-	}
-
-	// Strip hash fragment from URL
-	private stripHash(url: string): string {
-		const hashIndex = url.indexOf('#');
-		return hashIndex >= 0 ? url.substring(0, hashIndex) : url;
-	}
-
-	// Detect the page type based on URL
-	private detectPageType(url: string): PageType | null {
-		try {
-			const urlObj = new URL(url);
-			const pathname = normalizePathname(urlObj.pathname.toLowerCase());
-
-			// URL pattern to page type mapping
-			const pagePatterns: Array<{ pattern: RegExp; type: PageType; hash?: string }> = [
-				{ pattern: /^\/(?:home)?$/, type: PAGE_TYPES.HOME },
-				{
-					pattern: /\/users\/(?:\d+\/)?(?:friends|followers|following)/,
-					type: PAGE_TYPES.FRIENDS_LIST
-				},
-				{ pattern: /\/users\/\d+(?:\/profile)?/, type: PAGE_TYPES.PROFILE },
-				{ pattern: /\/search\/users/, type: PAGE_TYPES.SEARCH_USER },
-				{ pattern: /\/report-abuse\//, type: PAGE_TYPES.REPORT },
-				{
-					pattern: /^\/communities\/configure$/,
-					type: PAGE_TYPES.GROUP_CONFIGURE_MEMBERS,
-					hash: '#!/members'
-				},
-				{ pattern: /\/(groups|communities)\/\d+/, type: PAGE_TYPES.MEMBERS }
-			];
-
-			for (const { pattern, type, hash } of pagePatterns) {
-				if (pattern.test(pathname) && (!hash || urlObj.hash === hash)) {
-					return type;
-				}
-			}
-
-			return null;
-		} catch (error) {
-			logger.error('Failed to detect page type:', error, { url });
-			return null;
 		}
 	}
 }

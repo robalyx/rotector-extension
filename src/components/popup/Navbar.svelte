@@ -10,39 +10,27 @@
 	}
 
 	let { currentPage, onPageChange }: NavbarProps = $props();
+
+	const tabs: Array<{ id: NavPage; labelKey: string }> = [
+		{ id: 'stats', labelKey: 'navbar_tab_stats' },
+		{ id: 'queue', labelKey: 'navbar_tab_queue' },
+		{ id: 'settings', labelKey: 'navbar_tab_settings' }
+	];
 </script>
 
 <nav class="navbar-text-tabs" aria-label="Primary">
-	<button
-		class="navbar-tab"
-		class:active={currentPage === 'stats'}
-		aria-current={currentPage === 'stats' ? 'page' : undefined}
-		onclick={() => onPageChange('stats')}
-		type="button"
-	>
-		{$_('navbar_tab_stats')}
-	</button>
-
-	<button
-		class="navbar-tab"
-		class:active={currentPage === 'queue'}
-		aria-current={currentPage === 'queue' ? 'page' : undefined}
-		onclick={() => onPageChange('queue')}
-		type="button"
-	>
-		{$_('navbar_tab_queue')}
-		{#if $unprocessedCount > 0}
-			<span class="navbar-tab-count">{$unprocessedCount}</span>
-		{/if}
-	</button>
-
-	<button
-		class="navbar-tab"
-		class:active={currentPage === 'settings'}
-		aria-current={currentPage === 'settings' ? 'page' : undefined}
-		onclick={() => onPageChange('settings')}
-		type="button"
-	>
-		{$_('navbar_tab_settings')}
-	</button>
+	{#each tabs as { id, labelKey } (id)}
+		<button
+			class="navbar-tab"
+			class:active={currentPage === id}
+			aria-current={currentPage === id ? 'page' : undefined}
+			onclick={() => onPageChange(id)}
+			type="button"
+		>
+			{$_(labelKey)}
+			{#if id === 'queue' && $unprocessedCount > 0}
+				<span class="navbar-tab-count">{$unprocessedCount}</span>
+			{/if}
+		</button>
+	{/each}
 </nav>

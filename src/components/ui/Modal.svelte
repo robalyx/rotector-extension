@@ -4,28 +4,24 @@
 
 	type ModalStatus = 'info' | 'warning' | 'success' | 'error';
 	type ModalSize = 'normal' | 'small' | 'wide';
-	type ActionsLayout = 'horizontal' | 'stacked';
 
 	interface ModalProps {
 		isOpen: boolean;
 		title: string;
+		ariaLabel?: string;
 		status?: ModalStatus;
 		size?: ModalSize;
 		showStatusChip?: boolean;
 		showCancel?: boolean;
 		showConfirm?: boolean;
 		showClose?: boolean;
-		showBlock?: boolean;
 		confirmText?: string;
 		cancelText?: string;
-		blockText?: string;
 		confirmDanger?: boolean;
 		confirmDisabled?: boolean;
-		actionsLayout?: ActionsLayout;
 		onClose?: () => void;
 		onConfirm?: () => void;
 		onCancel?: () => void;
-		onBlock?: () => void;
 		children: import('svelte').Snippet;
 		actions?: import('svelte').Snippet;
 		headerContent?: import('svelte').Snippet;
@@ -34,23 +30,20 @@
 	let {
 		isOpen = $bindable(),
 		title,
+		ariaLabel,
 		status,
 		size = 'normal',
 		showStatusChip = true,
 		showCancel = true,
 		showConfirm = true,
 		showClose = true,
-		showBlock = false,
 		confirmText = 'Confirm',
 		cancelText = 'Cancel',
-		blockText = 'Block User',
 		confirmDanger = false,
 		confirmDisabled = false,
-		actionsLayout = 'horizontal',
 		onClose,
 		onConfirm,
 		onCancel,
-		onBlock,
 		children,
 		actions,
 		headerContent
@@ -62,11 +55,6 @@
 		wide: 'modal-popup-wide'
 	} as const;
 
-	const ACTIONS_CLASS = {
-		horizontal: 'modal-actions',
-		stacked: 'modal-actions-stacked'
-	} as const;
-
 	const headingId = `modal-title-${Math.random().toString(36).slice(2)}`;
 
 	let isClosing = $state(false);
@@ -76,25 +64,15 @@
 	let previouslyFocusedElement = $state<HTMLElement | null>(null);
 
 	const popupClass = $derived(POPUP_CLASS[size]);
-	const actionsClass = $derived(ACTIONS_CLASS[actionsLayout]);
 	const renderStatusChip = $derived(showStatusChip && status !== undefined);
 
-	function closeModal(result?: boolean | 'block') {
+	function closeModal(result?: boolean) {
 		isClosing = true;
 		setTimeout(() => {
 			isOpen = false;
 			isClosing = false;
-			if (result === true && onConfirm) {
-				onConfirm();
-			} else if (result === false && onCancel) {
-				onCancel();
-			} else if (result === 'block' && onBlock) {
-				onBlock();
-			}
-			if (onClose) {
-				onClose();
-			}
-			// Restore focus to the element that opened the modal
+			(result === true ? onConfirm : result === false ? onCancel : undefined)?.();
+			onClose?.();
 			previouslyFocusedElement?.focus();
 		}, 250);
 	}
@@ -124,7 +102,7 @@
 		const last = focusable[focusable.length - 1];
 		if (!first || !last) return;
 		const root = popupElement.getRootNode() as Document | ShadowRoot;
-		const active = root.activeElement as HTMLElement | null;
+		const active = root.activeElement instanceof HTMLElement ? root.activeElement : null;
 		if (e.shiftKey && active === first) {
 			e.preventDefault();
 			last.focus();
@@ -136,15 +114,13 @@
 
 	$effect(() => {
 		if (isOpen) {
-			// Capture the currently focused element
-			previouslyFocusedElement = document.activeElement as HTMLElement | null;
+			previouslyFocusedElement =
+				document.activeElement instanceof HTMLElement ? document.activeElement : null;
 			document.addEventListener('keydown', handleEscape);
-			// Show popup with animation
 			requestAnimationFrame(() => {
 				if (overlayElement) {
 					overlayElement.classList.add('visible');
 				}
-				// Move initial focus inside the dialog
 				if (showClose && closeButtonEl) {
 					closeButtonEl.focus();
 				} else if (popupElement) {
@@ -174,7 +150,8 @@
 			<div
 				bind:this={popupElement}
 				class={popupClass}
-				aria-labelledby={headingId}
+				aria-label={ariaLabel}
+				aria-labelledby={ariaLabel ? undefined : headingId}
 				aria-modal="true"
 				onkeydown={trapFocus}
 				role="dialog"
@@ -226,21 +203,12 @@
 					{@render children()}
 				</div>
 
-				{#if actions || showBlock || showCancel || showConfirm}
+				{#if actions || showCancel || showConfirm}
 					<div class="modal-divider"></div>
-					<div class={actionsClass}>
+					<div class="modal-actions">
 						{#if actions}
 							{@render actions()}
 						{:else}
-							{#if showBlock}
-								<button
-									class="modal-button-danger"
-									onclick={() => closeModal('block')}
-									type="button"
-								>
-									{blockText}
-								</button>
-							{/if}
 							{#if showCancel}
 								<button class="modal-button-cancel" onclick={() => closeModal(false)} type="button">
 									{cancelText}

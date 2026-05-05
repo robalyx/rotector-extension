@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { getOverlayContainer } from '@/lib/stores/overlay';
+	import { getOverlayContainer } from '@/lib/utils/overlay-portal-registry';
 
 	let { children }: { children: Snippet } = $props();
 

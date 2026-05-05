@@ -8,7 +8,7 @@
 		computeYBounds,
 		formatTickLabel,
 		type CategoryDescriptor
-	} from '@/lib/utils/activity-chart';
+	} from './activity-chart';
 	import type { ActivityHours, HourlyStatEntry } from '@/lib/types/stats';
 
 	interface Props {
@@ -35,7 +35,7 @@
 	let chartInstance: uPlot | undefined;
 
 	const hasData = $derived(entries.length >= 2);
-	const cachedDeltas = $derived(categories.map((cat) => computeDeltas(entries, cat.key)));
+	const deltas = $derived(categories.map((cat) => computeDeltas(entries, cat.key)));
 
 	function buildData(): uPlot.AlignedData {
 		if (entries.length < 2) {
@@ -44,12 +44,12 @@
 		const timestamps = entries
 			.slice(1)
 			.map((e) => Math.floor(new Date(e.timestamp).getTime() / 1000));
-		return [timestamps, ...cachedDeltas];
+		return [timestamps, ...deltas];
 	}
 
 	function computeRange(): [number, number] | null {
 		if (hours === 24 || entries.length < 4) return null;
-		const visibleSeries = cachedDeltas.filter((_, i) => {
+		const visibleSeries = deltas.filter((_, i) => {
 			const cat = categories[i];
 			return !cat || visibility[cat.key] !== false;
 		});
@@ -122,7 +122,6 @@
 		}
 	}
 
-	// Create on first data, feed subsequent updates via setData, destroy when data empties
 	$effect(() => {
 		if (!container || !hasData) {
 			destroyChart();
@@ -139,13 +138,11 @@
 		chartInstance = new uPlot(buildOptions(width, axis, grid), buildData(), container);
 	});
 
-	// Toggle series visibility
 	$effect(() => {
 		const shows = categories.map((cat) => visibility[cat.key] !== false);
-		const chart = chartInstance;
-		if (!chart) return;
+		if (!chartInstance) return;
 		shows.forEach((show, idx) => {
-			chart.setSeries(idx + 1, { show });
+			chartInstance?.setSeries(idx + 1, { show });
 		});
 	});
 

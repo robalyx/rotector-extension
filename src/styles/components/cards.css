@@ -12,16 +12,3 @@
 		background-color: var(--color-hover);
 	}
 }
-
-/* =================================
-   CARD CONTAINER UTILITIES
-   ================================= */
-@utility card-container {
-	@apply shadow-soft hover:shadow-hover rounded-md p-4 transition-all duration-300;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border-subtle);
-
-	&:hover {
-		background-color: var(--color-hover);
-	}
-}

@@ -20,14 +20,12 @@
 
 <label class="toggle-container" class:loading aria-busy={loading}>
 	<input
-		name="toggle"
-		class="
-	        peer size-0 opacity-0
-	        focus:outline-none
-	      "
+		class="peer size-0 opacity-0 focus:outline-none"
+		aria-checked={checked}
 		{checked}
 		disabled={disabled || loading}
 		onchange={handleChange}
+		role="switch"
 		type="checkbox"
 	/>
 	<span class="toggle-switch" class:checked class:disabled class:loading>

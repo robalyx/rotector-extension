@@ -19,11 +19,3 @@
 		@apply h-8 w-8;
 	}
 }
-
-/* =================================
-   LOADING OVERLAY UTILITIES
-   ================================= */
-@utility loading-overlay {
-	@apply absolute inset-0 flex items-center justify-center rounded-[inherit] transition-opacity duration-200;
-	background-color: color-mix(in srgb, var(--color-bg-content) 85%, transparent);
-}

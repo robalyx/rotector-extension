@@ -1,13 +1,12 @@
 import { derived, get, writable } from 'svelte/store';
 import { settings, updateSetting } from './settings';
 import { SETTINGS_KEYS } from '../types/settings';
+import { ENTITY_TYPES, type StatusFlag } from '../types/constants';
+import { FIRST_DETECTION_FLAG_TYPES } from '../utils/status/status-utils';
 
-interface DetectionContext {
-	userId: string;
-	flagType: number;
-}
-
-export const firstDetectionContext = writable<DetectionContext | null>(null);
+export const firstDetectionContext = writable<{ userId: string; flagType: StatusFlag } | null>(
+	null
+);
 
 // Gate for the first-detection modal across stores
 export const shouldShowFirstDetection = derived(
@@ -24,9 +23,23 @@ export async function markFirstDetectionSeen(): Promise<void> {
 	firstDetectionContext.set(null);
 }
 
-// Stash the first non-Safe user seen, idempotent across StatusIndicator instances.
-// Reads via get() to avoid waking subscribers on no-op writes in long lists.
-export function reportPossibleFirstDetection(ctx: DetectionContext): void {
+// Stash the first non-Safe user seen, idempotent across StatusIndicator instances
+// Reads via get() to avoid waking subscribers on no-op writes in long lists
+function reportPossibleFirstDetection(ctx: { userId: string; flagType: StatusFlag }): void {
 	if (get(firstDetectionContext) !== null) return;
 	firstDetectionContext.set(ctx);
+}
+
+// Report only when the entity meets eligibility (user, not self, flag type matches)
+// Lets renderers stay free of the gating logic
+export function reportFirstDetectionIfEligible(ctx: {
+	entityType: 'user' | 'group';
+	userId: string;
+	isSelfLookup: boolean;
+	flagType: StatusFlag | undefined;
+}): void {
+	if (ctx.entityType !== ENTITY_TYPES.USER) return;
+	if (ctx.isSelfLookup || !ctx.userId) return;
+	if (ctx.flagType === undefined || !FIRST_DETECTION_FLAG_TYPES.has(ctx.flagType)) return;
+	reportPossibleFirstDetection({ userId: ctx.userId, flagType: ctx.flagType });
 }

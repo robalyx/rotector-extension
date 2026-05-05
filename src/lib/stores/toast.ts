@@ -11,15 +11,9 @@ export const toast = writable<Toast | null>(null);
 
 let dismissTimer: ReturnType<typeof setTimeout> | null = null;
 
-function clearDismissTimer(): void {
-	if (dismissTimer) {
-		clearTimeout(dismissTimer);
-		dismissTimer = null;
-	}
-}
-
 function showToast(type: ToastType, message: string): void {
-	clearDismissTimer();
+	if (dismissTimer) clearTimeout(dismissTimer);
+	dismissTimer = null;
 	toast.set({ type, message });
 
 	if (type === 'success' || type === 'info') {
@@ -28,7 +22,8 @@ function showToast(type: ToastType, message: string): void {
 }
 
 export function dismissToast(): void {
-	clearDismissTimer();
+	if (dismissTimer) clearTimeout(dismissTimer);
+	dismissTimer = null;
 	toast.set(null);
 }
 
@@ -36,10 +31,12 @@ export function showSuccess(message: string): void {
 	showToast('success', message);
 }
 
+// Persistent until dismissed, unlike success and info which auto-dismiss after 3 seconds
 export function showError(message: string): void {
 	showToast('error', message);
 }
 
+// Persistent until dismissed, unlike success and info which auto-dismiss after 3 seconds
 export function showWarning(message: string): void {
 	showToast('warning', message);
 }

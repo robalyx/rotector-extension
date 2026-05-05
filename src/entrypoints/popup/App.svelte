@@ -1,21 +1,20 @@
 <script lang="ts">
-	import Navbar from '../../components/popup/Navbar.svelte';
-	import StatsPage from '../../components/popup/StatsPage.svelte';
-	import SettingsPage from '../../components/popup/SettingsPage.svelte';
-	import QueuePage from '../../components/popup/QueuePage.svelte';
-	import CustomApiManagement from '../../components/popup/api/CustomApiManagement.svelte';
-	import CustomApiDocumentation from '../../components/popup/api/CustomApiDocumentation.svelte';
-	import MembershipPage from '../../components/popup/membership/MembershipPage.svelte';
-	import DeveloperLogsPage from '../../components/popup/developer/DeveloperLogsPage.svelte';
-	import PerformanceDashboard from '../../components/popup/developer/PerformanceDashboard.svelte';
-	import FooterSection from '../../components/popup/shared/FooterSection.svelte';
-	import LegalPausedBanner from '../../components/popup/shared/LegalPausedBanner.svelte';
-	import Toast from '../../components/ui/Toast.svelte';
+	import Navbar from '@/components/popup/Navbar.svelte';
+	import StatsPage from '@/components/popup/stats/StatsPage.svelte';
+	import SettingsSection from '@/components/popup/settings/SettingsSection.svelte';
+	import QueueHistorySection from '@/components/popup/queue/QueueHistorySection.svelte';
+	import CustomApiManagement from '@/components/popup/options/api/CustomApiManagement.svelte';
+	import MembershipPage from '@/components/popup/options/membership/MembershipPage.svelte';
+	import FooterSection from '@/components/popup/FooterSection.svelte';
+	import LegalPausedBanner from '@/components/popup/LegalPausedBanner.svelte';
+	import LoadingSpinner from '@/components/ui/LoadingSpinner.svelte';
+	import Toast from '@/components/ui/Toast.svelte';
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
 	import { themeManager } from '@/lib/utils/theme';
-	import { logger } from '@/lib/utils/logger';
+	import { logger } from '@/lib/utils/logging/logger';
+	import { getStorage, removeStorage, setStorage, subscribeStorageKey } from '@/lib/utils/storage';
 	import { _ } from 'svelte-i18n';
 
 	const IS_DEV = import.meta.env.USE_DEV_API === 'true';
@@ -32,6 +31,21 @@
 		| 'performance';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
+
+	const POPUP_PAGES: readonly Page[] = [
+		'stats',
+		'settings',
+		'queue',
+		'developer-logs',
+		'performance'
+	];
+
+	const optionsTabs: Array<{ id: Page; labelKey: string }> = [
+		{ id: 'custom-apis', labelKey: 'custom_api_tab_manage' },
+		{ id: 'membership', labelKey: 'membership_tab_label' },
+		{ id: 'custom-api-docs', labelKey: 'custom_api_tab_docs' }
+	];
+
 	interface Props {
 		surface?: Surface;
 	}
@@ -46,8 +60,8 @@
 	$effect(() => {
 		if (!isOptionsSurface || currentPage !== null) return;
 		void (async () => {
-			const { optionsDeepLink: target } = await browser.storage.local.get('optionsDeepLink');
-			await browser.storage.local.remove('optionsDeepLink');
+			const target = await getStorage<string | undefined>('local', 'optionsDeepLink', undefined);
+			await removeStorage('local', 'optionsDeepLink');
 			currentPage = target === 'membership' ? 'membership' : 'custom-apis';
 		})();
 	});
@@ -55,18 +69,12 @@
 	// Handle deep link navigation from popup to an already-open options tab
 	$effect(() => {
 		if (!isOptionsSurface) return;
-
-		const handler = (changes: Record<string, { newValue?: unknown }>, area: string) => {
-			if (area !== 'local') return;
-			const target = changes['optionsDeepLink']?.newValue;
-			if (typeof target === 'string') {
-				currentPage = target as Page;
-				void browser.storage.local.remove('optionsDeepLink');
+		return subscribeStorageKey<Page>('local', 'optionsDeepLink', (newValue) => {
+			if (typeof newValue === 'string') {
+				currentPage = newValue;
+				void removeStorage('local', 'optionsDeepLink');
 			}
-		};
-
-		browser.storage.onChanged.addListener(handler);
-		return () => browser.storage.onChanged.removeListener(handler);
+		});
 	});
 
 	function handlePageChange(page: Page) {
@@ -74,12 +82,12 @@
 	}
 
 	async function openCustomApisOptionsPage() {
-		await browser.storage.local.set({ optionsDeepLink: 'custom-apis' });
+		await setStorage('local', 'optionsDeepLink', 'custom-apis');
 		await browser.runtime.openOptionsPage();
 	}
 
 	async function openMembershipOptionsPage() {
-		await browser.storage.local.set({ optionsDeepLink: 'membership' });
+		await setStorage('local', 'optionsDeepLink', 'membership');
 		await browser.runtime.openOptionsPage();
 	}
 
@@ -99,16 +107,12 @@
 	$effect(() => {
 		if (!isPopupSurface) return;
 
-		browser.storage.local
-			.get(LAST_PAGE_STORAGE_KEY)
-			.then((result) => {
-				const savedPage = result[LAST_PAGE_STORAGE_KEY] as Page | undefined;
+		getStorage<Page | undefined>('local', LAST_PAGE_STORAGE_KEY, undefined)
+			.then((savedPage) => {
 				if (
 					savedPage &&
-					savedPage !== 'custom-apis' &&
-					savedPage !== 'custom-api-docs' &&
-					savedPage !== 'membership' &&
-					(!IS_DEV ? savedPage !== 'performance' : true)
+					POPUP_PAGES.includes(savedPage) &&
+					(IS_DEV || savedPage !== 'performance')
 				) {
 					currentPage = savedPage;
 				} else {
@@ -126,11 +130,9 @@
 		if (!isPopupSurface) return;
 
 		if (currentPage) {
-			browser.storage.local
-				.set({ [LAST_PAGE_STORAGE_KEY]: currentPage })
-				.catch((error: unknown) => {
-					logger.error('Failed to save last visited page:', error);
-				});
+			void setStorage('local', LAST_PAGE_STORAGE_KEY, currentPage).catch((error: unknown) => {
+				logger.error('Failed to save last visited page:', error);
+			});
 		}
 	});
 
@@ -173,33 +175,17 @@
 	{#if isOptionsSurface}
 		<!-- Options Tab Bar -->
 		<nav class="custom-api-tabs" aria-label={$_('custom_api_tab_navigation')}>
-			<button
-				class="custom-api-tab"
-				class:active={currentPage === 'custom-apis'}
-				aria-pressed={currentPage === 'custom-apis'}
-				onclick={() => handlePageChange('custom-apis')}
-				type="button"
-			>
-				{$_('custom_api_tab_manage')}
-			</button>
-			<button
-				class="custom-api-tab"
-				class:active={currentPage === 'membership'}
-				aria-pressed={currentPage === 'membership'}
-				onclick={() => handlePageChange('membership')}
-				type="button"
-			>
-				{$_('membership_tab_label')}
-			</button>
-			<button
-				class="custom-api-tab"
-				class:active={currentPage === 'custom-api-docs'}
-				aria-pressed={currentPage === 'custom-api-docs'}
-				onclick={() => handlePageChange('custom-api-docs')}
-				type="button"
-			>
-				{$_('custom_api_tab_docs')}
-			</button>
+			{#each optionsTabs as tab (tab.id)}
+				<button
+					class="custom-api-tab"
+					class:active={currentPage === tab.id}
+					aria-pressed={currentPage === tab.id}
+					onclick={() => handlePageChange(tab.id)}
+					type="button"
+				>
+					{$_(tab.labelKey)}
+				</button>
+			{/each}
 		</nav>
 	{/if}
 
@@ -209,24 +195,43 @@
 			{#if currentPage === 'stats'}
 				<StatsPage />
 			{:else if currentPage === 'settings'}
-				<SettingsPage
-					onNavigateToCustomApis={openCustomApisOptionsPage}
-					onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
-					onNavigateToMembership={openMembershipOptionsPage}
-					onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
-				/>
+				<div class="settings-page">
+					<SettingsSection
+						onNavigateToCustomApis={openCustomApisOptionsPage}
+						onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
+						onNavigateToMembership={openMembershipOptionsPage}
+						onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
+					/>
+				</div>
 			{:else if currentPage === 'queue'}
-				<QueuePage />
+				<div class="queue-page">
+					<QueueHistorySection />
+				</div>
 			{:else if currentPage === 'custom-apis'}
 				<CustomApiManagement />
 			{:else if currentPage === 'custom-api-docs'}
-				<CustomApiDocumentation />
+				{#await import('@/components/popup/options/api/CustomApiDocumentation.svelte')}
+					<LoadingSpinner size="medium" />
+				{:then mod}
+					{@const Component = mod.default}
+					<Component />
+				{/await}
 			{:else if currentPage === 'membership'}
 				<MembershipPage />
 			{:else if currentPage === 'developer-logs'}
-				<DeveloperLogsPage onBack={() => handlePageChange('settings')} />
+				{#await import('@/components/popup/developer/DeveloperLogsPage.svelte')}
+					<LoadingSpinner size="medium" />
+				{:then mod}
+					{@const Component = mod.default}
+					<Component onBack={() => handlePageChange('settings')} />
+				{/await}
 			{:else if IS_DEV && currentPage === 'performance'}
-				<PerformanceDashboard onBack={() => handlePageChange('settings')} />
+				{#await import('@/components/popup/developer/PerformanceDashboard.svelte')}
+					<LoadingSpinner size="medium" />
+				{:then mod}
+					{@const Component = mod.default}
+					<Component onBack={() => handlePageChange('settings')} />
+				{/await}
 			{/if}
 		{/if}
 	</div>

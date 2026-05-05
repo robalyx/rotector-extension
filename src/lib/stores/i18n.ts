@@ -1,6 +1,7 @@
 import { addMessages, init, locale, getLocaleFromNavigator } from 'svelte-i18n';
 import { SETTINGS_KEYS } from '../types/settings';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logging/logger';
+import { getStorage, setStorage, subscribeStorageKey } from '../utils/storage';
 import {
 	SUPPORTED_LOCALES,
 	LOCALE_DISPLAY_NAMES,
@@ -12,13 +13,11 @@ import {
 // Track loaded locales to avoid re-fetching
 const loadedLocales = new Set<string>();
 
-// Initialize svelte-i18n
 void init({
 	fallbackLocale: 'en',
 	initialLocale: 'en'
 });
 
-// Load locale into svelte-i18n
 async function loadLocale(localeCode: SupportedLocale): Promise<void> {
 	if (loadedLocales.has(localeCode)) {
 		return;
@@ -33,48 +32,36 @@ async function loadLocale(localeCode: SupportedLocale): Promise<void> {
 	}
 }
 
-// Apply a locale setting, handling 'auto' to use browser locale
+// 'auto' resolves to the browser locale via getLocaleFromNavigator
 async function applyLocale(localeCode: string): Promise<void> {
-	let targetLocale: SupportedLocale;
-
-	if (localeCode === 'auto') {
-		const browserLocale = getLocaleFromNavigator() ?? 'en';
-		targetLocale = normalizeLocale(browserLocale);
-	} else {
-		targetLocale = normalizeLocale(localeCode);
-	}
-
-	if (targetLocale !== 'en') {
-		await loadLocale('en');
-	}
+	const targetLocale = normalizeLocale(
+		localeCode === 'auto' ? (getLocaleFromNavigator() ?? 'en') : localeCode
+	);
+	if (targetLocale !== 'en') await loadLocale('en');
 	await loadLocale(targetLocale);
 	void locale.set(targetLocale);
 }
 
-// Load and apply the user's stored language preference
+// Falls back to the browser locale when the stored value is missing or 'auto'
 export async function loadStoredLanguagePreference(): Promise<void> {
 	try {
-		const stored = await browser.storage.sync.get(SETTINGS_KEYS.LANGUAGE_OVERRIDE);
-		const storedLocale = stored[SETTINGS_KEYS.LANGUAGE_OVERRIDE] as string | undefined;
-
-		if (storedLocale) {
-			await applyLocale(storedLocale);
-		} else {
-			const browserLocale = getLocaleFromNavigator() ?? 'en';
-			await applyLocale(normalizeLocale(browserLocale));
-		}
+		const storedLocale = await getStorage<string | undefined>(
+			'sync',
+			SETTINGS_KEYS.LANGUAGE_OVERRIDE,
+			undefined
+		);
+		await applyLocale(storedLocale ?? normalizeLocale(getLocaleFromNavigator() ?? 'en'));
 	} catch (error) {
 		logger.warn('Failed to load language preference from storage', error);
 	}
 }
 
-// Set the language override or 'auto'
+// Persists the override to sync storage and applies it, accepts 'auto' to follow the browser locale
 export async function setLanguage(localeCode: string): Promise<void> {
-	await browser.storage.sync.set({ [SETTINGS_KEYS.LANGUAGE_OVERRIDE]: localeCode });
+	await setStorage('sync', SETTINGS_KEYS.LANGUAGE_OVERRIDE, localeCode);
 	await applyLocale(localeCode);
 }
 
-// Get list of available locales for the settings dropdown
 export function getAvailableLocales(): Array<{ code: string; name: string }> {
 	return SUPPORTED_LOCALES.map((code) => ({
 		code,
@@ -82,10 +69,7 @@ export function getAvailableLocales(): Array<{ code: string; name: string }> {
 	}));
 }
 
-// Sync language across contexts when storage changes
-browser.storage.onChanged.addListener((changes, namespace) => {
-	const localeChange = changes[SETTINGS_KEYS.LANGUAGE_OVERRIDE];
-	if (namespace === 'sync' && localeChange) {
-		void applyLocale(localeChange.newValue as string);
-	}
+// Cross-context sync when popup changes the override
+subscribeStorageKey<string>('sync', SETTINGS_KEYS.LANGUAGE_OVERRIDE, (newValue) => {
+	if (typeof newValue === 'string') void applyLocale(newValue);
 });

@@ -111,16 +111,6 @@
 	gap: 0.625rem;
 }
 
-@utility onboarding-translate-info {
-	@apply flex min-w-0 flex-col;
-	gap: 0.125rem;
-}
-
-@utility onboarding-translate-label {
-	@apply text-sm font-semibold;
-	color: var(--color-text-heading);
-}
-
 @utility onboarding-translate-description {
 	@apply m-0 text-xs;
 	line-height: 1.5;
@@ -418,60 +408,4 @@
 	line-height: 1.5;
 	color: var(--color-text-subtle);
 	background-color: var(--color-bg-tertiary);
-}
-
-/* =================================
-   CLOSE CONFIRMATION DIALOG
-   ================================= */
-
-@utility onboarding-confirm-overlay {
-	@apply invisible fixed inset-0 z-[10001] flex items-center justify-center opacity-0;
-	background-color: var(--overlay-dialog);
-	transition:
-		opacity 0.2s ease,
-		visibility 0s linear 0.2s;
-
-	&.visible {
-		opacity: 1;
-		visibility: visible;
-		transition:
-			opacity 0.2s ease,
-			visibility 0s linear 0s;
-	}
-}
-
-@utility onboarding-confirm-popup {
-	@apply flex max-w-[95%] flex-col rounded-md opacity-0;
-	width: 340px;
-	padding: 1rem 1.125rem 0.875rem;
-	gap: 0.625rem;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border-subtle);
-	box-shadow: 0 8px 24px var(--shadow-elevated);
-	transform: scale(0.96) translateY(8px);
-	transition:
-		transform 0.3s cubic-bezier(0.34, 1.15, 0.64, 1),
-		opacity 0.2s ease;
-
-	.onboarding-confirm-overlay.visible & {
-		@apply opacity-100;
-		transform: scale(1) translateY(0);
-	}
-}
-
-@utility onboarding-confirm-title {
-	@apply m-0 text-sm font-semibold;
-	color: var(--color-text-heading);
-}
-
-@utility onboarding-confirm-message {
-	@apply text-sm-plus m-0;
-	line-height: 1.5;
-	color: var(--color-text-subtle);
-}
-
-@utility onboarding-confirm-actions {
-	@apply flex justify-end;
-	gap: 0.5rem;
-	margin-top: 0.25rem;
 }

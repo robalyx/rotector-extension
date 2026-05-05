@@ -2,12 +2,8 @@
 	import { _ } from 'svelte-i18n';
 	import { flip } from 'svelte/animate';
 	import { crossfade } from 'svelte/transition';
-	import {
-		queueHistory,
-		loadQueueHistory,
-		removeQueueEntry,
-		clearQueueHistory
-	} from '@/lib/stores/queue-history';
+	import { queueHistory, loadQueueHistory } from '@/lib/stores/queue-history';
+	import { clearQueueHistory, removeQueueEntry } from '@/lib/utils/queue-history-storage';
 	import type { QueueHistoryEntry } from '@/lib/types/queue-history';
 	import { ListX } from '@lucide/svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
@@ -30,6 +26,16 @@
 	const processingEntries = $derived($queueHistory.filter((e) => !e.processed));
 	const flaggedEntries = $derived($queueHistory.filter((e) => e.processed && e.flagged));
 	const safeEntries = $derived($queueHistory.filter((e) => e.processed && !e.flagged));
+
+	const groups = $derived([
+		{
+			entries: processingEntries,
+			labelKey: 'queue_section_processing',
+			variant: 'processing' as const
+		},
+		{ entries: flaggedEntries, labelKey: 'queue_section_flagged', variant: 'flagged' as const },
+		{ entries: safeEntries, labelKey: 'queue_section_safe', variant: 'safe' as const }
+	]);
 
 	const processedCount = $derived($queueHistory.filter((e) => e.processed).length);
 	const pendingCount = $derived(processingEntries.length);
@@ -92,12 +98,7 @@
 						values: { pending: pendingCount, processed: processedCount }
 					})}
 				</span>
-				<button
-					class="queue-section-clear"
-					onclick={handleClearAll}
-					title={$_('queue_history_clear_all')}
-					type="button"
-				>
+				<button class="queue-section-clear" onclick={handleClearAll} type="button">
 					{$_('queue_history_clear_all')}
 				</button>
 			</div>
@@ -119,83 +120,33 @@
 		</div>
 	{:else}
 		<div class="queue-groups">
-			{#if processingEntries.length > 0}
-				<div class="queue-group">
-					<div class="queue-group-label">
-						<span>{$_('queue_section_processing')}</span>
-						<span class="queue-group-count">{processingEntries.length}</span>
+			{#each groups as group (group.variant)}
+				{#if group.entries.length > 0}
+					<div class="queue-group">
+						<div class="queue-group-label">
+							<span>{$_(group.labelKey)}</span>
+							<span class="queue-group-count">{group.entries.length}</span>
+						</div>
+						<ul class="queue-list">
+							{#each group.entries as entry (entry.userId)}
+								<li
+									in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+									out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
+									animate:flip={{ duration: 220 }}
+								>
+									<QueueRow
+										{entry}
+										onRemove={handleRemove}
+										onView={openProfile}
+										timeText={entryTimeText(entry)}
+										variant={group.variant}
+									/>
+								</li>
+							{/each}
+						</ul>
 					</div>
-					<ul class="queue-list">
-						{#each processingEntries as entry (entry.userId)}
-							<li
-								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								animate:flip={{ duration: 220 }}
-							>
-								<QueueRow
-									{entry}
-									onRemove={handleRemove}
-									onView={openProfile}
-									timeText={entryTimeText(entry)}
-									variant="processing"
-								/>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-
-			{#if flaggedEntries.length > 0}
-				<div class="queue-group">
-					<div class="queue-group-label">
-						<span>{$_('queue_section_flagged')}</span>
-						<span class="queue-group-count">{flaggedEntries.length}</span>
-					</div>
-					<ul class="queue-list">
-						{#each flaggedEntries as entry (entry.userId)}
-							<li
-								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								animate:flip={{ duration: 220 }}
-							>
-								<QueueRow
-									{entry}
-									onRemove={handleRemove}
-									onView={openProfile}
-									timeText={entryTimeText(entry)}
-									variant="flagged"
-								/>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-
-			{#if safeEntries.length > 0}
-				<div class="queue-group">
-					<div class="queue-group-label">
-						<span>{$_('queue_section_safe')}</span>
-						<span class="queue-group-count">{safeEntries.length}</span>
-					</div>
-					<ul class="queue-list">
-						{#each safeEntries as entry (entry.userId)}
-							<li
-								in:receive={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								out:send={{ key: entry.userId, duration: mounted ? 220 : 0 }}
-								animate:flip={{ duration: 220 }}
-							>
-								<QueueRow
-									{entry}
-									onRemove={handleRemove}
-									onView={openProfile}
-									timeText={entryTimeText(entry)}
-									variant="safe"
-								/>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
+				{/if}
+			{/each}
 		</div>
 	{/if}
 </section>

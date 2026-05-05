@@ -226,28 +226,27 @@ function extractUsedKeys() {
 			pos = i;
 		}
 
-		// Pattern 2: Keys used as property values in objects
-		// Matches: titleKey: 'key', labelKey: "key", helpTextKey: 'key', nameKey: 'key', descKey: 'key', messageKey: 'key'
-		const keyPropertyRegex =
-			/\b(?:titleKey|labelKey|helpTextKey|nameKey|descKey|messageKey)\s*:\s*['"]([a-z][a-z0-9_]*)['"](?:\s*,|\s*})/g;
+		// Pattern 2a: i18n key as a `*Key` property (object value or JSX-style attribute).
+		// Matches:  titleKey: 'foo'  |  titleKey="foo"
+		const keyPropertyRegex = /\b\w*Key\s*[=:]\s*['"]([a-z][a-z0-9_]*)['"]/g;
 		let match;
 
 		while ((match = keyPropertyRegex.exec(content)) !== null) {
 			usedKeys.add(match[1]);
 		}
 
-		// Pattern 3: Keys assigned to variables ending with Key (for indirect t() calls)
-		// Matches: const titleKey = 'key', let messageKey = condition ? 'key1' : 'key2'
-		const keyVariableRegex = /\b(?:const|let)\s+(\w+Key)\s*=\s*[^;]+/g;
+		// Pattern 3: Keys assigned to variables ending with Key (case-insensitive).
+		// Matches: const titleKey = 'key', let messageKey = ..., const ENGINE_STATUS_KEY = {...}.
+		// Captures everything up to the next `;` so multi-line Records and arrays are scanned.
+		const keyVariableRegex = /\b(?:const|let)\s+(\w+[Kk][Ee][Yy])\b[^;]+/g;
 		while ((match = keyVariableRegex.exec(content)) !== null) {
 			const assignment = match[0];
-			const keyStringRegex = /['"]([a-z][a-z0-9_]*)['"](?=\s*[;,:\?\)]|\s*$)/g;
+			// Pick up any translation-key-shaped string literal in the assignment.
+			// `]` and `}` are included so the last entry in an array or object literal is caught.
+			const keyStringRegex = /['"]([a-z][a-z0-9_]*_[a-z0-9_]+)['"](?=\s*[;,:\?\)\]\}]|\s*$)/g;
 			let keyMatch;
 			while ((keyMatch = keyStringRegex.exec(assignment)) !== null) {
-				const key = keyMatch[1];
-				if (key.includes('_')) {
-					usedKeys.add(key);
-				}
+				usedKeys.add(keyMatch[1]);
 			}
 		}
 	}

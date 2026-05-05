@@ -1,272 +1,130 @@
-import type { ContentMessage, MembershipBadgeUpdatePayload } from '@/lib/types/api';
+import type { MembershipBadgeUpdatePayload } from '@/lib/types/api';
+import type { ContentMessage } from '@/lib/schemas/content-message';
 import { API_ACTIONS } from '@/lib/types/constants';
-import { isUserBeingProcessed, getUnprocessedUserIds } from '@/lib/stores/queue-history';
+import {
+	getUnprocessedUserIdsFromStorage,
+	isUserBeingProcessedInStorage
+} from '@/lib/utils/queue-history-storage';
 import {
 	checkGroupStatus,
 	checkMultipleGroups,
 	checkMultipleUsers,
 	checkUserStatus,
-	fetchOutfitImages,
 	getGroupTrackedUsers,
-	getMultipleVotes,
 	getQueueLimits,
-	getQueueStatus,
 	getStats,
 	getVotes,
-	lookupOutfitsById,
-	lookupOutfitsByName,
 	lookupRobloxUserDiscord,
 	queueUser,
 	submitVote
 } from './endpoints/core';
+import { fetchOutfitImages, lookupOutfitsById, lookupOutfitsByName } from './endpoints/outfits';
 import {
 	clearMembershipBadge,
 	confirmMembershipVerification,
 	getMembershipStatus,
 	getMembershipVerification,
-	updateMembershipBadge,
-	getDiscordLoginUrl,
-	getExtensionProfile,
-	getExtensionReports,
-	getExtensionStatistics,
-	getLeaderboard,
-	getReportableUser,
-	resetExtensionUuid,
-	submitExtensionReport,
-	updateExtensionAnonymous
+	updateMembershipBadge
 } from './endpoints/extension';
-import {
-	getGlobalStatisticsHistory,
-	getWarMap,
-	getWarOrder,
-	getWarOrders,
-	getWarZone,
-	getWarZoneStatistics
-} from './endpoints/war';
 import { customApiCheckUser, customApiCheckMultipleUsers } from './endpoints/custom';
 import { exportGroupTrackedUsers } from './endpoints/export';
 import { translateTexts } from './endpoints/translate';
 
-// Action handlers with validation
-export const actionHandlers = {
-	[API_ACTIONS.CHECK_USER_STATUS]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for check user status');
-		if (request.apiConfig) {
-			return customApiCheckUser(request.apiConfig, request.userId);
+// Dispatches a validated content message to its endpoint handler. Required-field
+// validation lives in the schema (`ContentMessageSchema`), so handlers here
+// receive narrowed payloads and only encode action-specific orchestration.
+export async function dispatchContentMessage(msg: ContentMessage): Promise<unknown> {
+	switch (msg.action) {
+		case API_ACTIONS.CHECK_USER_STATUS: {
+			if (msg.apiConfig) {
+				return customApiCheckUser(msg.apiConfig, msg.userId);
+			}
+			// Use primary database if user is queued but not yet processed
+			const userId = typeof msg.userId === 'string' ? parseInt(msg.userId, 10) : msg.userId;
+			const readPrimary = await isUserBeingProcessedInStorage(userId);
+			return checkUserStatus(msg.userId, msg.clientId, readPrimary);
 		}
-		// Use primary database if user is queued but not yet processed
-		const userId =
-			typeof request.userId === 'string' ? parseInt(request.userId, 10) : request.userId;
-		const readPrimary = isUserBeingProcessed(userId);
-		return checkUserStatus(request.userId, request.clientId, readPrimary);
-	},
-	[API_ACTIONS.CHECK_GROUP_STATUS]: async (request: ContentMessage) => {
-		if (!request.groupId) throw new Error('Group ID is required for check group status');
-		return checkGroupStatus(request.groupId, request.clientId);
-	},
-	[API_ACTIONS.CHECK_MULTIPLE_USERS]: async (request: ContentMessage) => {
-		if (!request.userIds) throw new Error('User IDs are required for check multiple users');
-		if (request.apiConfig) {
-			return customApiCheckMultipleUsers(request.apiConfig, request.userIds);
+		case API_ACTIONS.CHECK_GROUP_STATUS:
+			return checkGroupStatus(msg.groupId, msg.clientId);
+		case API_ACTIONS.CHECK_MULTIPLE_USERS: {
+			if (msg.apiConfig) {
+				return customApiCheckMultipleUsers(msg.apiConfig, msg.userIds);
+			}
+			// Use primary database if any user is queued but not yet processed
+			const userIds = msg.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id));
+			const readPrimary = (await getUnprocessedUserIdsFromStorage(userIds)).length > 0;
+			return checkMultipleUsers(msg.userIds, msg.clientId, msg.lookupContext, readPrimary);
 		}
-		// Use primary database if any user is queued but not yet processed
-		const userIds = request.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id));
-		const readPrimary = getUnprocessedUserIds(userIds).length > 0;
-		return checkMultipleUsers(
-			request.userIds,
-			request.clientId,
-			request.lookupContext,
-			readPrimary
-		);
-	},
-	[API_ACTIONS.CHECK_MULTIPLE_GROUPS]: async (request: ContentMessage) => {
-		if (!request.groupIds) throw new Error('Group IDs are required for check multiple groups');
-		return checkMultipleGroups(request.groupIds, request.clientId, request.lookupContext);
-	},
-	[API_ACTIONS.GET_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
-		if (!request.groupId) throw new Error('Group ID is required for get group tracked users');
-		return getGroupTrackedUsers(request.groupId, request.cursor, request.limit, request.active);
-	},
-	[API_ACTIONS.QUEUE_USER]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for queue user');
-		return queueUser(
-			request.userId,
-			request.outfitNames ?? [],
-			request.outfitIds ?? [],
-			request.inappropriateProfile,
-			request.inappropriateFriends,
-			request.inappropriateGroups,
-			request.clientId,
-			request.captchaToken
-		);
-	},
-	[API_ACTIONS.GET_QUEUE_LIMITS]: async (request: ContentMessage) =>
-		getQueueLimits(request.clientId),
-	[API_ACTIONS.GET_QUEUE_STATUS]: async (request: ContentMessage) => {
-		if (!request.userIds || request.userIds.length === 0) {
-			throw new Error('User IDs are required for queue status check');
+		case API_ACTIONS.CHECK_MULTIPLE_GROUPS:
+			return checkMultipleGroups(msg.groupIds, msg.clientId, msg.lookupContext);
+		case API_ACTIONS.GET_GROUP_TRACKED_USERS:
+			return getGroupTrackedUsers(msg.groupId, msg.cursor, msg.limit, msg.active);
+		case API_ACTIONS.QUEUE_USER:
+			return queueUser(
+				msg.userId,
+				msg.outfitNames ?? [],
+				msg.outfitIds ?? [],
+				msg.inappropriateProfile,
+				msg.inappropriateFriends,
+				msg.inappropriateGroups,
+				msg.clientId,
+				msg.captchaToken
+			);
+		case API_ACTIONS.GET_QUEUE_LIMITS:
+			return getQueueLimits(msg.clientId);
+		case API_ACTIONS.SUBMIT_VOTE:
+			return submitVote(msg.userId, msg.voteType, msg.clientId);
+		case API_ACTIONS.GET_VOTES:
+			return getVotes(msg.userId, msg.clientId);
+		case API_ACTIONS.GET_STATS:
+			return getStats(msg.hours);
+		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS:
+			return getMembershipStatus();
+		case API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE: {
+			const payload: MembershipBadgeUpdatePayload = {
+				...(msg.badgeDesign !== undefined && { badgeDesign: msg.badgeDesign }),
+				...(msg.iconDesign !== undefined && { iconDesign: msg.iconDesign }),
+				...(msg.textDesign !== undefined && { textDesign: msg.textDesign })
+			};
+			if (Object.keys(payload).length === 0) {
+				throw new Error('Provide at least one of badgeDesign, iconDesign, or textDesign.');
+			}
+			return updateMembershipBadge(payload);
 		}
-		return getQueueStatus(
-			request.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id)),
-			request.clientId
-		);
-	},
-	[API_ACTIONS.SUBMIT_VOTE]: async (request: ContentMessage) => {
-		if (!request.userId || request.voteType === undefined)
-			throw new Error('User ID and vote type are required for submit vote');
-		return submitVote(request.userId, request.voteType, request.clientId);
-	},
-	[API_ACTIONS.GET_VOTES]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for get votes');
-		return getVotes(request.userId, request.clientId);
-	},
-	[API_ACTIONS.GET_MULTIPLE_VOTES]: async (request: ContentMessage) => {
-		if (!request.userIds) throw new Error('User IDs are required for get multiple votes');
-		return getMultipleVotes(request.userIds, request.clientId);
-	},
-	[API_ACTIONS.GET_STATS]: async (request: ContentMessage) => {
-		if (!request.hours) throw new Error('Hours is required for get stats');
-		return getStats(request.hours);
-	},
-
-	[API_ACTIONS.EXTENSION_GET_PROFILE]: async () => getExtensionProfile(),
-	[API_ACTIONS.EXTENSION_UPDATE_ANONYMOUS]: async (request: ContentMessage) => {
-		if (request.isAnonymous === undefined) {
-			throw new Error('Anonymous status is required');
+		case API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE:
+			return clearMembershipBadge();
+		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION:
+			return getMembershipVerification(msg.robloxUserId);
+		case API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION:
+			return confirmMembershipVerification(msg.robloxUserId);
+		case API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD:
+			return lookupRobloxUserDiscord(msg.userId, msg.clientId);
+		case API_ACTIONS.LOOKUP_OUTFITS_BY_NAME:
+			return lookupOutfitsByName(msg.userId, msg.names, msg.clientId);
+		case API_ACTIONS.LOOKUP_OUTFITS_BY_ID:
+			return lookupOutfitsById(msg.userId, msg.ids, msg.clientId);
+		case API_ACTIONS.FETCH_OUTFIT_IMAGES:
+			return fetchOutfitImages(msg.imageUrls);
+		case API_ACTIONS.EXPORT_GROUP_TRACKED_USERS:
+			return exportGroupTrackedUsers(msg.groupId, {
+				format: msg.exportFormat,
+				columns: msg.exportColumns,
+				sort: msg.exportSort,
+				order: msg.exportOrder
+			});
+		case API_ACTIONS.TRANSLATE_TEXT:
+			return translateTexts(msg.texts, msg.targetLanguage, msg.sourceLanguage);
+		case API_ACTIONS.HAS_TRANSLATE_PERMISSION: {
+			const hasPermission = await browser.permissions.contains({
+				origins: ['https://translate.googleapis.com/*']
+			});
+			return { hasPermission };
 		}
-		return updateExtensionAnonymous(request.isAnonymous);
-	},
-	[API_ACTIONS.EXTENSION_RESET_UUID]: async () => resetExtensionUuid(),
-	[API_ACTIONS.INITIATE_DISCORD_LOGIN]: async () => {
-		const { authUrl, state } = await getDiscordLoginUrl();
-
-		// Store OAuth state to prevent CSRF attacks
-		await browser.storage.local.set({
-			discordOAuthState: state,
-			discordOAuthTimestamp: Date.now()
-		});
-
-		await browser.tabs.create({ url: authUrl });
-		return { success: true };
-	},
-	[API_ACTIONS.EXTENSION_SUBMIT_REPORT]: async (request: ContentMessage) => {
-		if (!request.reportedUserId || request.reportedUserId <= 0) {
-			throw new Error('Invalid user ID provided.');
+		case API_ACTIONS.REQUEST_TRANSLATE_PERMISSION: {
+			const granted = await browser.permissions.request({
+				origins: ['https://translate.googleapis.com/*']
+			});
+			return { granted };
 		}
-		return submitExtensionReport(request.reportedUserId, request.reportReason);
-	},
-	[API_ACTIONS.EXTENSION_GET_REPORTS]: async (request: ContentMessage) =>
-		getExtensionReports(request.limit, request.offset, request.status),
-	[API_ACTIONS.EXTENSION_GET_REPORTABLE_USER]: async () => getReportableUser(),
-	[API_ACTIONS.EXTENSION_GET_STATISTICS]: async () => getExtensionStatistics(),
-	[API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS]: async () => getMembershipStatus(),
-	[API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE]: async (request: ContentMessage) => {
-		const { badgeDesign, iconDesign, textDesign } = request;
-		const payload: MembershipBadgeUpdatePayload = Object.fromEntries(
-			Object.entries({ badgeDesign, iconDesign, textDesign }).filter(
-				([, value]) => value !== undefined
-			)
-		);
-		if (Object.keys(payload).length === 0) {
-			throw new Error('Provide at least one of badgeDesign, iconDesign, or textDesign.');
-		}
-		return updateMembershipBadge(payload);
-	},
-	[API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE]: async () => clearMembershipBadge(),
-	[API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION]: async (request: ContentMessage) => {
-		if (typeof request.robloxUserId !== 'number' || request.robloxUserId < 1) {
-			throw new Error('Invalid Roblox user ID.');
-		}
-		return getMembershipVerification(request.robloxUserId);
-	},
-	[API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION]: async (request: ContentMessage) => {
-		if (typeof request.robloxUserId !== 'number' || request.robloxUserId < 1) {
-			throw new Error('Invalid Roblox user ID.');
-		}
-		return confirmMembershipVerification(request.robloxUserId);
-	},
-
-	[API_ACTIONS.WAR_GET_ZONE_STATS]: async (request: ContentMessage) => {
-		if (typeof request.zoneId !== 'number' || request.zoneId < 0) {
-			throw new Error('Invalid zone ID provided.');
-		}
-		return getWarZoneStatistics(request.zoneId);
-	},
-	[API_ACTIONS.WAR_GET_ORDERS]: async () => getWarOrders(),
-	[API_ACTIONS.WAR_GET_ORDER]: async (request: ContentMessage) => {
-		if (!request.orderId || request.orderId <= 0) {
-			throw new Error('Invalid order ID provided.');
-		}
-		return getWarOrder(request.orderId);
-	},
-	[API_ACTIONS.WAR_GET_STATS_HISTORY]: async () => getGlobalStatisticsHistory(),
-	[API_ACTIONS.WAR_GET_MAP]: async () => getWarMap(),
-	[API_ACTIONS.WAR_GET_ZONE]: async (request: ContentMessage) => {
-		if (typeof request.zoneId !== 'number' || request.zoneId < 0) {
-			throw new Error('Invalid zone ID provided.');
-		}
-		return getWarZone(request.zoneId);
-	},
-	[API_ACTIONS.EXTENSION_GET_LEADERBOARD]: async (request: ContentMessage) =>
-		getLeaderboard(request.limit, request.includeAnonymous),
-	[API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for Discord lookup');
-		return lookupRobloxUserDiscord(request.userId, request.clientId);
-	},
-	[API_ACTIONS.LOOKUP_OUTFITS_BY_NAME]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for outfit snapshot lookup');
-		if (!request.names || request.names.length === 0) {
-			throw new Error('At least one outfit name is required for outfit snapshot lookup');
-		}
-		return lookupOutfitsByName(request.userId, request.names, request.clientId);
-	},
-	[API_ACTIONS.LOOKUP_OUTFITS_BY_ID]: async (request: ContentMessage) => {
-		if (!request.userId) throw new Error('User ID is required for outfit snapshot lookup');
-		if (!request.ids || request.ids.length === 0) {
-			throw new Error('At least one outfit id is required for outfit snapshot lookup');
-		}
-		return lookupOutfitsById(request.userId, request.ids, request.clientId);
-	},
-	[API_ACTIONS.FETCH_OUTFIT_IMAGES]: async (request: ContentMessage) => {
-		if (!request.imageUrls || request.imageUrls.length === 0) {
-			throw new Error('At least one image URL is required for outfit image fetch');
-		}
-		return fetchOutfitImages(request.imageUrls);
-	},
-	[API_ACTIONS.EXPORT_GROUP_TRACKED_USERS]: async (request: ContentMessage) => {
-		if (!request.groupId) throw new Error('Group ID is required for export');
-		if (!request.exportFormat) throw new Error('Export format is required');
-		if (!request.exportColumns || request.exportColumns.length === 0) {
-			throw new Error('At least one column is required for export');
-		}
-		if (!request.exportSort) throw new Error('Export sort column is required');
-		if (!request.exportOrder) throw new Error('Export sort order is required');
-		return exportGroupTrackedUsers(request.groupId, {
-			format: request.exportFormat,
-			columns: request.exportColumns,
-			sort: request.exportSort,
-			order: request.exportOrder
-		});
-	},
-	[API_ACTIONS.TRANSLATE_TEXT]: async (request: ContentMessage) => {
-		if (!request.texts || request.texts.length === 0) {
-			throw new Error('Texts are required for translation');
-		}
-		if (!request.targetLanguage) {
-			throw new Error('Target language is required for translation');
-		}
-		return translateTexts(request.texts, request.targetLanguage, request.sourceLanguage);
-	},
-	[API_ACTIONS.HAS_TRANSLATE_PERMISSION]: async () => {
-		const result = await browser.permissions.contains({
-			origins: ['https://translate.googleapis.com/*']
-		});
-		return { hasPermission: result };
-	},
-	[API_ACTIONS.REQUEST_TRANSLATE_PERMISSION]: async () => {
-		const granted = await browser.permissions.request({
-			origins: ['https://translate.googleapis.com/*']
-		});
-		return { granted };
 	}
-} as const;
+}

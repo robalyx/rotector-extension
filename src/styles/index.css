@@ -20,10 +20,8 @@
 /* =================================
    COMPONENT IMPORTS
    ================================= */
-@import url('./components/buttons.css');
 @import url('./components/forms.css');
 @import url('./components/cards.css');
-@import url('./components/badges.css');
 @import url('./components/loading.css');
 @import url('./components/status-indicator.css');
 @import url('./components/number-input.css');
@@ -42,13 +40,13 @@
 @import url('./popup/developer/shared.css');
 @import url('./popup/developer/logs.css');
 @import url('./popup/developer/performance.css');
-@import url('./popup/api/management.css');
-@import url('./popup/api/form.css');
-@import url('./popup/api/import.css');
-@import url('./popup/api/documentation.css');
-@import url('./popup/membership/membership.css');
-@import url('./popup/shared/footer.css');
-@import url('./popup/shared/legal-paused.css');
+@import url('./popup/options/api/management.css');
+@import url('./popup/options/api/form.css');
+@import url('./popup/options/api/import.css');
+@import url('./popup/options/api/documentation.css');
+@import url('./popup/options/membership/membership.css');
+@import url('./popup/footer.css');
+@import url('./popup/legal-paused.css');
 
 /* =================================
    FEATURE IMPORTS
@@ -71,9 +69,9 @@
 @import url('./features/onboarding/onboarding.css');
 @import url('./features/changelog/modal.css');
 @import url('./features/legal/modal.css');
-@import url('./features/blur.css');
 @import url('./features/group-members-carousel.css');
 @import url('./features/export-modal.css');
 @import url('./features/friend-scan.css');
+@import url('./features/queue-limits.css');
 @import url('./features/cipher.css');
 @import url('./features/membership-pill.css');

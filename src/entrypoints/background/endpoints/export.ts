@@ -1,9 +1,8 @@
 import type { ExportResult } from '@/lib/types/api';
 import { API_CONFIG } from '@/lib/types/constants';
-import { makeRawHttpRequest } from '../http-client';
-import { validateEntityId } from '../utils';
+import { makeHttpRequest } from '../http-client';
+import { validateEntityId } from '@/lib/utils/dom/sanitizer';
 
-// Export tracked users for a group as JSON or CSV
 export async function exportGroupTrackedUsers(
 	groupId: string | number,
 	params: {
@@ -23,5 +22,28 @@ export async function exportGroupTrackedUsers(
 
 	const url = `${API_CONFIG.ENDPOINTS.EXPORT_GROUP_TRACKED_USERS}/${sanitizedGroupId}/tracked-users?${queryParams.toString()}`;
 
-	return makeRawHttpRequest(url, { method: 'GET' });
+	return makeHttpRequest<ExportResult>(url, {
+		method: 'GET',
+		timeout: API_CONFIG.EXPORT_TIMEOUT,
+		headers: { Accept: '*/*' },
+		parseResponse: async (response) => {
+			const content = await response.text();
+
+			const disposition = response.headers.get('Content-Disposition');
+			if (!disposition) {
+				throw new Error('Response missing Content-Disposition header');
+			}
+			const filenameMatch = /filename="?([^";\n]+)"?/.exec(disposition);
+			if (!filenameMatch?.[1]) {
+				throw new Error('Content-Disposition header missing filename');
+			}
+
+			const mimeType = response.headers.get('Content-Type');
+			if (!mimeType) {
+				throw new Error('Response missing Content-Type header');
+			}
+
+			return { content, filename: filenameMatch[1], mimeType };
+		}
+	});
 }

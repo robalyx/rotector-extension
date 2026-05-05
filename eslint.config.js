@@ -52,7 +52,7 @@ export default tseslint.config(
 	// ── TypeScript / JavaScript files ────────────────────────────────
 	{
 		files: ['**/*.{js,ts,mjs,cjs}'],
-		ignores: ['**/*.config.{js,ts,mjs,cjs}'],
+		ignores: ['**/*.config.{js,ts,mjs,cjs}', '**/*.svelte.{ts,js}'],
 		plugins: {
 			'unused-imports': unusedImports,
 			'better-tailwindcss': betterTailwindcss,
@@ -157,6 +157,37 @@ export default tseslint.config(
 		}
 	},
 
+	// ── Svelte rune modules ────────────────
+	{
+		files: ['**/*.svelte.{ts,js}'],
+		plugins: {
+			'unused-imports': unusedImports,
+			sonarjs
+		},
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
+			parser: svelteEslintParser,
+			parserOptions: {
+				parser: tseslint.parser,
+				projectService: true,
+				svelteFeatures: { runes: true }
+			},
+			globals: {
+				...globals.browser,
+				...globals.webextensions,
+				browser: 'readonly',
+				chrome: 'readonly',
+				$state: 'readonly',
+				$derived: 'readonly',
+				$effect: 'readonly',
+				$props: 'readonly',
+				$bindable: 'readonly',
+				$inspect: 'readonly'
+			}
+		}
+	},
+
 	// ── Svelte files ─────────────────────────────────────────────────
 	...svelte.configs['flat/recommended'],
 	...svelte.configs.prettier,
@@ -196,6 +227,8 @@ export default tseslint.config(
 			'svelte/no-navigation-without-resolve': 'off',
 
 			// Import management
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': 'off',
 			'unused-imports/no-unused-imports': 'error',
 			'unused-imports/no-unused-vars': [
 				'warn',
@@ -305,9 +338,8 @@ export default tseslint.config(
 	// ── Files where console logging is acceptable ────────────────────
 	{
 		files: [
-			'**/lib/utils/logger.ts',
-			'**/lib/services/api-client.ts',
-			'**/lib/services/settings-bridge.ts',
+			'**/lib/utils/logging/logger.ts',
+			'**/lib/services/rotector/api-client.ts',
 			'**/lib/stores/settings.ts',
 			'**/lib/stores/statistics.ts',
 			'**/lib/stores/persistent-list-store.ts'

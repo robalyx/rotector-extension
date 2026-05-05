@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { VOTE_TYPES } from '@/lib/types/constants';
+	import { VOTE_TYPES, type VoteType } from '@/lib/types/constants';
 	import type { VoteData } from '@/lib/types/api';
-	import { logger } from '@/lib/utils/logger';
+	import { logger } from '@/lib/utils/logging/logger';
 	import { _ } from 'svelte-i18n';
 	import { ArrowUp, ArrowDown, Flag } from '@lucide/svelte';
 
@@ -9,7 +9,7 @@
 		voteData?: VoteData | null;
 		loading?: boolean;
 		error?: string | null;
-		onVote?: (voteType: number) => void;
+		onVote?: (voteType: VoteType) => void;
 		confirmed?: boolean;
 	}
 
@@ -21,7 +21,6 @@
 		confirmed = false
 	}: Props = $props();
 
-	// Computed values
 	const voteStats = $derived.by(() => {
 		if (!voteData) {
 			return {
@@ -47,8 +46,7 @@
 
 	const fillWidth = $derived(`${String(voteStats.percentage)}%`);
 
-	// Handle vote submission
-	function handleVoteClick(voteType: number) {
+	function handleVoteClick(voteType: VoteType) {
 		if (loading || !onVote) return;
 
 		logger.userAction('voting_widget_click', {
@@ -65,7 +63,7 @@
 	<!-- Header -->
 	<div class="voting-header">
 		<span class="voting-title">{$_('voting_header_title')}</span>
-		<span class="voting-count">
+		<span class="voting-count" aria-atomic="true" aria-live="polite">
 			{#if loading}
 				{$_('voting_loading')}
 			{:else}
@@ -78,7 +76,7 @@
 
 	<!-- Vote bar and stats -->
 	<div class="voting-bar">
-		<div class="voting-meter">
+		<div class="voting-meter" aria-hidden="true">
 			<div style:width={fillWidth} class="voting-meter-fill"></div>
 		</div>
 		<div class="voting-stats">
@@ -97,6 +95,7 @@
 			class="voting-upvote voting-button"
 			class:voting-button-upvote-active={voteStats.currentVote === VOTE_TYPES.UPVOTE}
 			aria-label={$_('voting_aria_agree')}
+			aria-pressed={voteStats.currentVote === VOTE_TYPES.UPVOTE}
 			disabled={loading}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -125,6 +124,7 @@
 				class="voting-downvote voting-button"
 				class:voting-button-downvote-active={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
 				aria-label={$_('voting_aria_disagree')}
+				aria-pressed={voteStats.currentVote === VOTE_TYPES.DOWNVOTE}
 				disabled={loading}
 				onclick={(e) => {
 					e.stopPropagation();
@@ -145,7 +145,7 @@
 
 	<!-- Error display -->
 	{#if error}
-		<div class="voting-error">
+		<div class="voting-error" role="alert">
 			{error}
 		</div>
 	{/if}

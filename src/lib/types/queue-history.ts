@@ -1,3 +1,6 @@
+import type * as v from 'valibot';
+import type { QueueStatusItemSchema } from '../schemas/rotector';
+
 // Queue history entry stored locally
 export interface QueueHistoryEntry {
 	userId: number;
@@ -10,15 +13,6 @@ export interface QueueHistoryEntry {
 }
 
 // API response format for queue status endpoint
-export interface QueueStatusItem {
-	queued: boolean;
-	queued_at: number; // Unix timestamp (seconds) from API
-	processed: boolean;
-	processed_at: number | null;
-	processing: boolean;
-	flagged: boolean;
-}
+export type QueueStatusItem = v.InferOutput<typeof QueueStatusItemSchema>;
 
-export interface QueueStatusResponse {
-	[userId: string]: QueueStatusItem;
-}
+export type QueueStatusResponse = Record<string, QueueStatusItem>;

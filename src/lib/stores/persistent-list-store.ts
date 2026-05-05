@@ -1,4 +1,8 @@
 import { writable, type Writable } from 'svelte/store';
+import { logger } from '../utils/logging/logger';
+import { getStorage, setStorage, subscribeStorageKey } from '../utils/storage';
+
+const FLUSH_DELAY_MS = 250;
 
 interface PersistentListStoreConfig {
 	storageKey: string;
@@ -8,12 +12,13 @@ interface PersistentListStoreConfig {
 interface PersistentListStore<T> {
 	store: Writable<T[]>;
 	load: () => Promise<void>;
-	save: (entries: T[]) => Promise<void>;
 	add: (entry: T) => Promise<void>;
 	clear: () => Promise<void>;
 }
 
 // Factory for storage-backed list stores with write queue and cross-context sync
+// add() buffers entries in memory and flushes once per FLUSH_DELAY_MS so a burst
+// of N adds collapses into a single read+write instead of N round-trips
 export function createPersistentListStore<T>(
 	config: PersistentListStoreConfig
 ): PersistentListStore<T> {
@@ -21,48 +26,86 @@ export function createPersistentListStore<T>(
 	const store = writable<T[]>([]);
 	let writeQueue = Promise.resolve();
 
+	let pending: T[] = [];
+	let flushTimer: ReturnType<typeof setTimeout> | null = null;
+	let pendingFlush: Promise<void> | null = null;
+	let resolvePendingFlush: (() => void) | null = null;
+
 	async function load(): Promise<void> {
 		try {
-			const result = await browser.storage.local.get([storageKey]);
-			const stored = result[storageKey] as T[] | undefined;
-			store.set(stored ?? []);
+			store.set(await getStorage<T[]>('local', storageKey, []));
 		} catch (error) {
-			console.warn(`[Rotector] Failed to load ${storageKey}:`, error);
+			logger.warn(`Failed to load ${storageKey}:`, error);
 			store.set([]);
 		}
 	}
 
 	async function save(entries: T[]): Promise<void> {
 		try {
-			await browser.storage.local.set({ [storageKey]: entries });
+			await setStorage('local', storageKey, entries);
 			store.set(entries);
 		} catch (error) {
-			console.warn(`[Rotector] Failed to save ${storageKey}:`, error);
+			logger.warn(`Failed to save ${storageKey}:`, error);
 		}
 	}
 
-	async function add(entry: T): Promise<void> {
+	function flushPending(): void {
+		flushTimer = null;
+		const batch = pending;
+		const resolver = resolvePendingFlush;
+		pending = [];
+		pendingFlush = null;
+		resolvePendingFlush = null;
+		if (batch.length === 0) {
+			resolver?.();
+			return;
+		}
+		// Catch inside the chain so a transient getStorage failure doesn't poison
+		// writeQueue and silently drop every subsequent batch
 		writeQueue = writeQueue.then(async () => {
-			const result = await browser.storage.local.get([storageKey]);
-			const current = (result[storageKey] as T[] | undefined) ?? [];
-			const updated = [entry, ...current].slice(0, maxEntries);
-			await save(updated);
+			try {
+				const current = await getStorage<T[]>('local', storageKey, []);
+				// Newest-first: reverse the batch so the last add() ends up at index 0
+				const merged = [...batch].reverse().concat(current).slice(0, maxEntries);
+				await save(merged);
+			} catch (error) {
+				logger.warn(`Failed to flush ${storageKey} batch:`, error);
+			}
 		});
-		return writeQueue;
+		void writeQueue.then(() => resolver?.());
+	}
+
+	function add(entry: T): Promise<void> {
+		pending.push(entry);
+		if (!pendingFlush) {
+			pendingFlush = new Promise<void>((resolve) => {
+				resolvePendingFlush = resolve;
+			});
+		}
+		if (!flushTimer) {
+			flushTimer = setTimeout(flushPending, FLUSH_DELAY_MS);
+		}
+		return pendingFlush;
 	}
 
 	async function clear(): Promise<void> {
+		if (flushTimer) {
+			clearTimeout(flushTimer);
+			flushTimer = null;
+		}
+		pending = [];
+		const resolver = resolvePendingFlush;
+		pendingFlush = null;
+		resolvePendingFlush = null;
 		writeQueue = writeQueue.then(async () => save([]));
-		return writeQueue;
+		await writeQueue;
+		resolver?.();
 	}
 
 	// Cross-context sync via storage change listener
-	browser.storage.onChanged.addListener((changes, namespace) => {
-		if (namespace === 'local' && changes[storageKey]) {
-			const newValue = changes[storageKey].newValue as T[] | undefined;
-			store.set(newValue ?? []);
-		}
+	subscribeStorageKey<T[]>('local', storageKey, (newValue) => {
+		store.set(newValue ?? []);
 	});
 
-	return { store, load, save, add, clear };
+	return { store, load, add, clear };
 }

@@ -49,9 +49,7 @@
 	}
 
 	&:disabled {
-		opacity: 0.4;
-
-		@apply cursor-not-allowed;
+		@apply cursor-not-allowed opacity-40;
 	}
 
 	&.developer-panel-action-danger:hover:not(:disabled) {

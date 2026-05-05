@@ -1,4 +1,3 @@
-// Log severity levels
 export const LOG_LEVELS = {
 	ERROR: 'error',
 	WARN: 'warn',
@@ -10,7 +9,6 @@ export const LOG_LEVELS = {
 
 export type LogLevel = (typeof LOG_LEVELS)[keyof typeof LOG_LEVELS];
 
-// Context where the log originated
 export const LOG_SOURCES = {
 	CONTENT: 'content',
 	BACKGROUND: 'background',
@@ -19,7 +17,6 @@ export const LOG_SOURCES = {
 
 export type LogSource = (typeof LOG_SOURCES)[keyof typeof LOG_SOURCES];
 
-// Individual log entry
 export interface LogEntry {
 	id: string;
 	timestamp: number;

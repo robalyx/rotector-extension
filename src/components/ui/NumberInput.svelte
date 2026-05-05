@@ -21,31 +21,18 @@
 		onChange
 	}: Props = $props();
 
-	// Handle input changes
 	function handleInput(event: Event) {
 		if (!(event.target instanceof HTMLInputElement)) return;
-		const target = event.target;
-		let newValue = parseInt(target.value, 10);
-
-		// Validate and clamp value
-		if (isNaN(newValue)) {
-			newValue = min;
-		} else if (newValue < min) {
-			newValue = min;
-		} else if (newValue > max) {
-			newValue = max;
-		}
-
+		const parsed = parseInt(event.target.value, 10);
+		const newValue = Math.max(min, Math.min(max, isNaN(parsed) ? min : parsed));
 		value = newValue;
 		onChange(newValue);
 	}
 
-	// Handle blur to ensure valid value
 	function handleBlur(event: FocusEvent) {
 		if (!(event.target instanceof HTMLInputElement)) return;
-		const target = event.target;
-		if (!target.value || isNaN(parseInt(target.value, 10))) {
-			target.value = String(value);
+		if (parseInt(event.target.value, 10) !== value) {
+			event.target.value = String(value);
 		}
 	}
 </script>
@@ -60,6 +47,7 @@
 	<div class="number-input-wrapper">
 		<input
 			class="number-input"
+			aria-label={label}
 			{max}
 			{min}
 			onblur={handleBlur}

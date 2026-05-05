@@ -1,30 +1,17 @@
-import type { FlaggedOutfitInfo } from '@/lib/utils/violation-formatter';
+import { writable } from 'svelte/store';
+import type { FlaggedOutfitInfo } from '../utils/status/violation-formatter';
 
 interface OutfitViewerRequest {
 	userId: string;
 	flaggedOutfits: FlaggedOutfitInfo[];
 }
 
-let openRequest: OutfitViewerRequest | null = null;
-let listener: (() => void) | null = null;
-
-export function onOutfitViewerChange(callback: () => void): () => void {
-	listener = callback;
-	return () => {
-		listener = null;
-	};
-}
+export const outfitViewerRequest = writable<OutfitViewerRequest | null>(null);
 
 export function openOutfitViewer(userId: string, flaggedOutfits: FlaggedOutfitInfo[]): void {
-	openRequest = { userId, flaggedOutfits };
-	listener?.();
+	outfitViewerRequest.set({ userId, flaggedOutfits });
 }
 
 export function closeOutfitViewer(): void {
-	openRequest = null;
-	listener?.();
-}
-
-export function getOutfitViewerRequest(): OutfitViewerRequest | null {
-	return openRequest;
+	outfitViewerRequest.set(null);
 }

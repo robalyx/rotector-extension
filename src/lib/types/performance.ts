@@ -38,7 +38,7 @@ export interface MetricsSnapshot {
 	pageUrl?: string | undefined;
 	source: LogSource;
 	type: 'periodic' | 'navigation' | 'longtask';
-	observerCount: ObserverCount;
+	observerCount: number;
 	domNodeCount: number;
 	memory?: MemorySnapshot | undefined;
 	longTask?: LongTaskEntry | undefined;
@@ -48,12 +48,6 @@ export interface LongTaskEntry {
 	startTime: number;
 	duration: number;
 	name: string;
-}
-
-export interface ObserverCount {
-	mutation: number;
-	resize: number;
-	total: number;
 }
 
 export interface MemorySnapshot {

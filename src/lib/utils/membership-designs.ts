@@ -71,14 +71,13 @@ interface DesignKeyFor {
 }
 
 // Coerce a stored design index to 0 when it isn't in the tier's allowlist
-// (e.g. after a downgrade, or unknown tier numbers from the server)
+// (e.g. after a downgrade, or unknown tier numbers from the server).
 export function resolveDesignIndex(stored: number, tier: MembershipTier, axis: DesignAxis): number {
 	const allowed = TIER_ALLOWLIST[axis][tier];
 	return allowed.includes(stored) ? stored : 0;
 }
 
-// Resolve the stored index to its design key string for the given axis
-// (`as` narrows away the `undefined` that noUncheckedIndexedAccess adds to the lookup)
+// `as` narrows away the `undefined` that noUncheckedIndexedAccess adds to the lookup
 export function designKey<A extends DesignAxis>(
 	stored: number,
 	tier: MembershipTier,
@@ -92,7 +91,6 @@ export function tierOf(raw: number): MembershipTier {
 	return raw === 1 || raw === 2 || raw === 3 ? raw : 1;
 }
 
-// Human-readable tier name (coerced via tierOf)
 export function tierNameOf(raw: number): MembershipTierName {
 	return TIER_NAMES[tierOf(raw)];
 }

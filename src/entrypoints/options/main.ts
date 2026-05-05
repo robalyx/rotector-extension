@@ -2,9 +2,9 @@ import { mount } from 'svelte';
 import App from '../popup/App.svelte';
 import '../../styles/index.css';
 import '../popup/app.css';
-import { initializePopupThemeSync } from '@/lib/utils/theme';
+import { themeManager } from '@/lib/utils/theme';
 import { initializeSettings } from '@/lib/stores/settings';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/utils/logging/logger';
 
 async function initializeOptionsPage() {
 	const appElement = document.getElementById('app');
@@ -17,7 +17,7 @@ async function initializeOptionsPage() {
 	logger.debug('Options: Settings initialized');
 
 	logger.debug('Options: Initializing theme sync...');
-	await initializePopupThemeSync();
+	await themeManager.initializePopupThemeSync();
 	logger.debug('Options: Theme sync initialized');
 
 	return mount(App, {

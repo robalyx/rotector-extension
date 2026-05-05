@@ -1,60 +1,48 @@
 import { PageController } from './PageController';
-import { COMPONENT_CLASSES } from '../types/constants';
-import { SETTINGS_KEYS } from '../types/settings';
-import { userStatusService } from '../services/entity-status-service';
-import { sanitizeEntityId } from '../utils/sanitizer';
-import ReportPageManager from '../../components/features/ReportPageManager.svelte';
-import type { UserStatus } from '../types/api';
-import { logger } from '../utils/logger';
-import { settings } from '../stores/settings';
-import { get } from 'svelte/store';
+import { COMPONENT_CLASSES } from '@/lib/types/constants';
+import { SETTINGS_KEYS } from '@/lib/types/settings';
+import { userStatusService } from '@/lib/services/rotector/entity-status';
+import { sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
+import ReportPageManager from '@/components/features/report/ReportPageManager.svelte';
+import type { UserStatus } from '@/lib/types/api';
+import { logger } from '@/lib/utils/logging/logger';
 
-/**
- * Handles Roblox report pages
- */
 export class ReportPageController extends PageController {
-	private userId: string | null = null;
-	private userStatus: UserStatus | null = null;
+	protected override readonly settingsKey = SETTINGS_KEYS.REPORT_HELPER_ENABLED;
 
 	protected override async initializePage(): Promise<void> {
-		// Check if report helper is enabled
-		const currentSettings = get(settings);
-		if (!currentSettings[SETTINGS_KEYS.REPORT_HELPER_ENABLED]) {
-			logger.debug('Report helper is disabled in settings');
-			return;
-		}
-
-		// Extract user ID from report page
-		this.userId = this.extractUserId();
-		if (!this.userId) {
+		const userId = this.extractUserId();
+		if (!userId) {
 			logger.warn('Could not extract user ID from report page');
 			return;
 		}
 
-		// Load user status
-		await this.loadUserStatus();
+		let userStatus: UserStatus | null = null;
+		try {
+			logger.debug('Loading user status for report page', { userId });
+			userStatus = await userStatusService.getStatus(userId);
+		} catch (error) {
+			logger.error('Failed to load user status for report page:', error);
+		}
 
-		// Mount report page manager
-		this.mountReportPageManager();
+		if (!userStatus) {
+			logger.debug('Missing userStatus, not mounting ReportPageManager');
+			return;
+		}
+
+		const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
+		this.mountComponent(ReportPageManager, container, { userId, userStatus });
 	}
 
-	// Page cleanup
-	protected override async cleanupPage(): Promise<void> {
-		this.userId = null;
-		this.userStatus = null;
-	}
-
-	// Extract user ID from report page
 	private extractUserId(): string | null {
 		try {
-			// Sources to check for user ID
 			const urlParams = new URLSearchParams(window.location.search);
 			const sources = [
 				{ source: 'targetId URL parameter', getValue: () => urlParams.get('targetId') },
 				{ source: 'id URL parameter', getValue: () => urlParams.get('id') },
 				{
 					source: 'form field',
-					getValue: () => (this.findElement('#Id') as HTMLInputElement | null)?.value
+					getValue: () => document.querySelector<HTMLInputElement>('#Id')?.value
 				}
 			];
 
@@ -74,37 +62,5 @@ export class ReportPageController extends PageController {
 			logger.error('Failed to extract user ID from report page:', error);
 			return null;
 		}
-	}
-
-	// Load user status from API
-	private async loadUserStatus(): Promise<void> {
-		if (!this.userId) return;
-
-		try {
-			logger.debug('Loading user status for report page', { userId: this.userId });
-			this.userStatus = await userStatusService.getStatus(this.userId);
-			logger.debug('User status loaded for report page', {
-				userId: this.userId,
-				flagType: this.userStatus?.flagType,
-				hasProfileViolations: this.userStatus?.reasons && '0' in this.userStatus.reasons
-			});
-		} catch (error) {
-			logger.error('Failed to load user status for report page:', error);
-		}
-	}
-
-	// Mount report page manager
-	private mountReportPageManager(): void {
-		if (!this.userId || !this.userStatus) {
-			logger.debug('Missing userId or userStatus, not mounting ReportPageManager');
-			return;
-		}
-
-		const container = this.createComponentContainer(COMPONENT_CLASSES.REPORT_HELPER);
-
-		this.mountComponent(ReportPageManager, container, {
-			userId: this.userId,
-			userStatus: this.userStatus
-		});
 	}
 }

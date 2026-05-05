@@ -2,7 +2,7 @@ import { logger } from '../utils/logger';
 import { startTrace, TRACE_CATEGORIES } from '../utils/perf-tracer';
 import { COMPONENT_CLASSES, type ComponentClassType } from '../types/constants';
 import type { PageType } from '../types/api';
-import { type Component, mount } from 'svelte';
+import { type Component, mount, unmount } from 'svelte';
 
 /**
  * Base class for all page controllers
@@ -122,7 +122,7 @@ export abstract class PageController {
 			const component = mount(ComponentClass, {
 				target,
 				props: enhancedProps
-			}) as { unmount?: () => void };
+			});
 
 			// Create cleanup function
 			const cleanup = () => {
@@ -133,9 +133,7 @@ export abstract class PageController {
 					}
 
 					// Unmount the Svelte component
-					if (component.unmount) {
-						component.unmount();
-					}
+					void unmount(component);
 					logger.debug('Component unmounted successfully');
 				} catch (error) {
 					logger.error('Failed to unmount component:', error);

@@ -26,19 +26,3 @@ export interface LogEntry {
 	data?: unknown;
 	pageUrl?: string | undefined;
 }
-
-// System information included in log exports
-export interface SystemInfo {
-	extensionVersion: string;
-	browserName: string;
-	browserVersion: string;
-	timestamp: string;
-	debugModeEnabled: boolean;
-}
-
-// Full export format for clipboard
-export interface LogExport {
-	systemInfo: SystemInfo;
-	logs: LogEntry[];
-	exportedAt: string;
-}

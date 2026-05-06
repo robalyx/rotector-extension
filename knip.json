@@ -6,7 +6,6 @@
 		"src/entrypoints/roscoe-bridge.content.ts",
 		"src/entrypoints/popup/main.ts",
 		"src/entrypoints/options/main.ts",
-		"src/components/popup/developer/DeveloperLogsPage.svelte",
 		"src/components/popup/developer/PerformanceDashboard.svelte",
 		"src/components/popup/options/api/CustomApiDocumentation.svelte"
 	],

@@ -2,18 +2,18 @@
 	import { _ } from 'svelte-i18n';
 	import { Bell, BellOff, ChevronRight } from '@lucide/svelte';
 	import {
-		changelogs,
 		changelogSectionExpanded,
-		toggleChangelogSection,
+		disableChangelogModal,
 		enableChangelogModal,
-		disableChangelogModal
+		getLatestChangelog,
+		toggleChangelogSection
 	} from '@/lib/stores/changelog';
 	import { settings } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { logger } from '@/lib/utils/logging/logger';
 	import ChangelogContent from '@/components/changelog/ChangelogContent.svelte';
 
-	const latest = $derived(changelogs[0]);
+	const latest = getLatestChangelog();
 	const isModalDisabled = $derived($settings[SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED]);
 
 	async function handleToggle() {

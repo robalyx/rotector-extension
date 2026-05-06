@@ -21,6 +21,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description:
+					'Debug logs - The Developer Logs page is replaced by a Download debug logs button in settings that exports logs and system info to share with developers'
+			},
+			{
+				type: 'changed',
+				description:
 					'Reliability improvements - Several core parts of the extension were rewritten behind the scenes for better stability and smoother day-to-day use'
 			},
 			{

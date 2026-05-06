@@ -10,16 +10,16 @@ import { generateLocalId } from '../utils/id';
 import { createPersistentListStore } from './persistent-list-store';
 
 const {
-	store: performanceEntriesStore,
-	load,
+	store: performanceEntries,
+	load: loadPerformanceEntries,
 	add,
-	clear
+	clear: clearPerformanceEntries
 } = createPersistentListStore<PerformanceEntry>({
 	storageKey: STORAGE_KEYS.PERFORMANCE_ENTRIES,
 	maxEntries: 200
 });
 
-export const performanceEntries = performanceEntriesStore;
+export { performanceEntries, loadPerformanceEntries, clearPerformanceEntries };
 
 export const categoryStats = derived(performanceEntries, ($entries): CategoryStats[] => {
 	const categories = Object.values(TRACE_CATEGORIES) as TraceCategory[];
@@ -49,9 +49,6 @@ export const categoryStats = derived(performanceEntries, ($entries): CategorySta
 export const slowestOperations = derived(performanceEntries, ($entries): PerformanceEntry[] => {
 	return [...$entries].sort((a, b) => b.duration - a.duration).slice(0, 10);
 });
-
-export const loadPerformanceEntries = load;
-export const clearPerformanceEntries = clear;
 
 // ID is auto-generated and callers pass everything else
 export async function addPerformanceEntry(entry: Omit<PerformanceEntry, 'id'>): Promise<void> {

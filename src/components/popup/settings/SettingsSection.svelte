@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import { ChevronDown, ChevronRight } from '@lucide/svelte';
+	import { ChevronDown, ChevronRight, Download } from '@lucide/svelte';
 	import HelpIndicator from '../../ui/HelpIndicator.svelte';
 	import NumberInput from '../../ui/NumberInput.svelte';
 	import Toggle from '../../ui/Toggle.svelte';
@@ -9,7 +9,6 @@
 	import SignalSection from './SignalSection.svelte';
 	import { loadMembershipStatus, membershipStore } from '@/lib/stores/membership';
 	import { customApis, loadCustomApis, setCustomApiEnabled } from '@/lib/stores/custom-apis';
-	import { errorLogs } from '@/lib/stores/developer-logs';
 	import { getAvailableLocales, setLanguage } from '@/lib/stores/i18n';
 	import {
 		applyAgePreset,
@@ -19,12 +18,8 @@
 		updateSetting
 	} from '@/lib/stores/settings';
 	import type { SettingsKey } from '@/lib/types/settings';
-	import {
-		AGE_PRESETS,
-		EXPERIMENTAL_DEVELOPER_CATEGORY,
-		SETTING_CATEGORIES,
-		SETTINGS_KEYS
-	} from '@/lib/types/settings';
+	import { AGE_PRESETS, SETTING_CATEGORIES, SETTINGS_KEYS } from '@/lib/types/settings';
+	import { downloadDebugLogs } from '@/lib/utils/logging/log-export';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { hasTranslatePermission, requestTranslatePermission } from '@/lib/utils/permissions';
 	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
@@ -35,16 +30,10 @@
 	interface Props {
 		onNavigateToCustomApis: () => void;
 		onNavigateToMembership: () => void;
-		onNavigateToDeveloperLogs: () => void;
 		onNavigateToPerformance?: (() => void) | undefined;
 	}
 
-	let {
-		onNavigateToCustomApis,
-		onNavigateToDeveloperLogs,
-		onNavigateToMembership,
-		onNavigateToPerformance
-	}: Props = $props();
+	let { onNavigateToCustomApis, onNavigateToMembership, onNavigateToPerformance }: Props = $props();
 
 	let developerExpanded = $state(false);
 	let togglingApiId = $state<string | null>(null);
@@ -84,6 +73,15 @@
 		}
 
 		await updateSetting(key, value);
+	}
+
+	function handleDownloadLogs() {
+		try {
+			downloadDebugLogs();
+		} catch (error) {
+			logger.error('Failed to download debug logs:', error);
+			showError($_('settings_download_logs_failed'));
+		}
 	}
 
 	async function handleLanguageChange(localeCode: string) {
@@ -345,47 +343,35 @@
 		{#if developerExpanded}
 			<div class="popup-section-body">
 				{@render toggleRow({
-					key: SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED,
-					labelKey: 'settings_label_developer_mode',
-					helpTextKey: 'settings_help_developer_mode'
+					key: SETTINGS_KEYS.DEBUG_MODE_ENABLED,
+					labelKey: 'settings_label_debug_logging',
+					helpTextKey: 'settings_help_debug_logging'
 				})}
 
-				{#if $settings[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]}
-					<div class="settings-nested">
-						{#each EXPERIMENTAL_DEVELOPER_CATEGORY.settings as setting (setting.key)}
-							{#if setting.key === SETTINGS_KEYS.CACHE_DURATION_MINUTES}
-								<NumberInput
-									helpText={setting.helpTextKey ? $_(setting.helpTextKey) : undefined}
-									label={$_(setting.labelKey)}
-									max={10}
-									min={1}
-									onChange={(value: number) => handleSettingChange(setting.key, value)}
-									value={$settings[SETTINGS_KEYS.CACHE_DURATION_MINUTES]}
-								/>
-							{:else}
-								{@render toggleRow(setting)}
-							{/if}
-						{/each}
+				<button class="settings-nav-button" onclick={handleDownloadLogs} type="button">
+					<span class="settings-nav-button-text">
+						{$_('settings_download_logs_button')}
+					</span>
+					<Download size={14} />
+				</button>
 
-						<button class="settings-nav-button" onclick={onNavigateToDeveloperLogs} type="button">
-							<span class="settings-nav-button-text">
-								{$_('settings_view_logs_button')}
-								{#if $errorLogs.length > 0}
-									<span class="settings-nav-button-count">{$errorLogs.length}</span>
-								{/if}
-							</span>
-							<ChevronRight size={14} />
-						</button>
+				<NumberInput
+					helpText={$_('settings_help_cache_duration')}
+					label={$_('settings_label_cache_duration')}
+					max={10}
+					min={1}
+					onChange={(value: number) =>
+						handleSettingChange(SETTINGS_KEYS.CACHE_DURATION_MINUTES, value)}
+					value={$settings[SETTINGS_KEYS.CACHE_DURATION_MINUTES]}
+				/>
 
-						{#if IS_DEV && onNavigateToPerformance}
-							<button class="settings-nav-button" onclick={onNavigateToPerformance} type="button">
-								<span class="settings-nav-button-text">
-									{$_('settings_view_performance_button')}
-								</span>
-								<ChevronRight size={14} />
-							</button>
-						{/if}
-					</div>
+				{#if IS_DEV && onNavigateToPerformance}
+					<button class="settings-nav-button" onclick={onNavigateToPerformance} type="button">
+						<span class="settings-nav-button-text">
+							{$_('settings_view_performance_button')}
+						</span>
+						<ChevronRight size={14} />
+					</button>
 				{/if}
 			</div>
 		{/if}

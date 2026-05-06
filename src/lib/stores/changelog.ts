@@ -5,8 +5,6 @@ import type { Changelog } from '../types/changelog';
 import { CHANGELOGS } from '../data/changelog-entries';
 import { compareVersions } from '../utils/version';
 
-export const changelogs = CHANGELOGS;
-
 export const changelogSectionExpanded = derived(
 	settings,
 	($settings) => $settings[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]
@@ -33,7 +31,7 @@ export async function toggleChangelogSection(): Promise<void> {
 }
 
 export async function markChangelogsSeen(): Promise<void> {
-	const latest = CHANGELOGS[0];
+	const latest = getLatestChangelog();
 	if (latest) {
 		await updateSetting(SETTINGS_KEYS.CHANGELOG_LAST_SEEN_VERSION, latest.version);
 	}

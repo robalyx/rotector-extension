@@ -27,18 +27,11 @@
 		| 'custom-apis'
 		| 'custom-api-docs'
 		| 'membership'
-		| 'developer-logs'
 		| 'performance';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
-	const POPUP_PAGES: readonly Page[] = [
-		'stats',
-		'settings',
-		'queue',
-		'developer-logs',
-		'performance'
-	];
+	const POPUP_PAGES: readonly Page[] = ['stats', 'settings', 'queue', 'performance'];
 
 	const optionsTabs: Array<{ id: Page; labelKey: string }> = [
 		{ id: 'custom-apis', labelKey: 'custom_api_tab_manage' },
@@ -198,7 +191,6 @@
 				<div class="settings-page">
 					<SettingsSection
 						onNavigateToCustomApis={openCustomApisOptionsPage}
-						onNavigateToDeveloperLogs={() => handlePageChange('developer-logs')}
 						onNavigateToMembership={openMembershipOptionsPage}
 						onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
 					/>
@@ -218,13 +210,6 @@
 				{/await}
 			{:else if currentPage === 'membership'}
 				<MembershipPage />
-			{:else if currentPage === 'developer-logs'}
-				{#await import('@/components/popup/developer/DeveloperLogsPage.svelte')}
-					<LoadingSpinner size="medium" />
-				{:then mod}
-					{@const Component = mod.default}
-					<Component onBack={() => handlePageChange('settings')} />
-				{/await}
 			{:else if IS_DEV && currentPage === 'performance'}
 				{#await import('@/components/popup/developer/PerformanceDashboard.svelte')}
 					<LoadingSpinner size="medium" />

@@ -5,13 +5,15 @@ import { createPersistentListStore } from './persistent-list-store';
 
 const {
 	store: metricsSnapshots,
-	load,
-	add,
-	clear
+	load: loadMetricsSnapshots,
+	add: addMetricsSnapshot,
+	clear: clearMetricsSnapshots
 } = createPersistentListStore<MetricsSnapshot>({
 	storageKey: STORAGE_KEYS.METRICS_SNAPSHOTS,
 	maxEntries: 100
 });
+
+export { loadMetricsSnapshots, addMetricsSnapshot, clearMetricsSnapshots };
 
 export const latestSnapshot = derived(metricsSnapshots, ($snapshots): MetricsSnapshot | null => {
 	const periodic = $snapshots.find((s) => s.type !== 'longtask');
@@ -26,7 +28,3 @@ export const longTaskCount = derived(
 export const recentLongTasks = derived(metricsSnapshots, ($snapshots): MetricsSnapshot[] =>
 	$snapshots.filter((s) => s.type === 'longtask').slice(0, 10)
 );
-
-export const loadMetricsSnapshots = load;
-export const addMetricsSnapshot = add;
-export const clearMetricsSnapshots = clear;

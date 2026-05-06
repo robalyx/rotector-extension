@@ -12,7 +12,6 @@ export const SETTINGS_KEYS = {
 	API_KEY: 'apiKey',
 	SETTINGS_EXPANDED: 'settingsExpanded',
 	CACHE_DURATION_MINUTES: 'cacheDurationMinutes',
-	DEVELOPER_MODE_UNLOCKED: 'developerModeUnlocked',
 	THEME: 'theme',
 	LANGUAGE_OVERRIDE: 'languageOverride',
 	CHANGELOG_SECTION_EXPANDED: 'changelogSectionExpanded',
@@ -64,7 +63,6 @@ export interface Settings {
 	[SETTINGS_KEYS.API_KEY]: string;
 	[SETTINGS_KEYS.SETTINGS_EXPANDED]: boolean;
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: number;
-	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: boolean;
 	[SETTINGS_KEYS.THEME]: Theme;
 	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: string;
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: boolean;
@@ -104,7 +102,6 @@ export const SETTINGS_DEFAULTS: Settings = {
 	[SETTINGS_KEYS.API_KEY]: '',
 	[SETTINGS_KEYS.SETTINGS_EXPANDED]: false,
 	[SETTINGS_KEYS.CACHE_DURATION_MINUTES]: 5,
-	[SETTINGS_KEYS.DEVELOPER_MODE_UNLOCKED]: false,
 	[SETTINGS_KEYS.THEME]: 'auto',
 	[SETTINGS_KEYS.LANGUAGE_OVERRIDE]: 'auto',
 	[SETTINGS_KEYS.CHANGELOG_SECTION_EXPANDED]: false,
@@ -214,19 +211,3 @@ export const SETTING_CATEGORIES: SettingCategory[] = [
 		]
 	}
 ];
-
-export const EXPERIMENTAL_DEVELOPER_CATEGORY: SettingCategory = {
-	titleKey: 'settings_category_developer',
-	settings: [
-		{
-			key: SETTINGS_KEYS.DEBUG_MODE_ENABLED,
-			labelKey: 'settings_label_debug_logging',
-			helpTextKey: 'settings_help_debug_logging'
-		},
-		{
-			key: SETTINGS_KEYS.CACHE_DURATION_MINUTES,
-			labelKey: 'settings_label_cache_duration',
-			helpTextKey: 'settings_help_cache_duration'
-		}
-	]
-};

@@ -57,12 +57,10 @@
 	}
 }
 
-@utility expanded-tooltip {
-	@apply fixed flex max-h-[80vh] w-[90%] max-w-2xl cursor-auto flex-col overflow-hidden rounded-lg border p-0;
-	border-color: var(--color-border-subtle);
-	background-color: var(--color-bg-content);
-	color: var(--color-text);
-	box-shadow: 0 8px 24px var(--shadow-medium);
+@utility expanded-tooltip-positioner {
+	@apply fixed w-[90%] max-w-2xl;
+	width: var(--tooltip-width, 90%);
+	max-width: var(--tooltip-max-width, 42rem);
 	transition:
 		transform 0.35s cubic-bezier(0.34, 1.15, 0.64, 1),
 		opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -73,6 +71,20 @@
 	&.is-resizing {
 		transition: none;
 	}
+}
+
+@utility expanded-tooltip {
+	@apply flex w-full cursor-auto flex-col overflow-hidden rounded-lg border p-0;
+	height: var(--tooltip-height, auto);
+	max-height: var(--tooltip-max-height, 80vh);
+	border-color: var(--color-border-subtle);
+	background-color: var(--color-bg-content);
+	color: var(--color-text);
+	box-shadow: 0 8px 24px var(--shadow-medium);
+}
+
+@utility tooltip-export-host {
+	@apply pointer-events-none absolute top-0 -left-[10000px];
 }
 
 @utility expanded-tooltip-content {
@@ -124,6 +136,22 @@
 
 	&.compact {
 		@apply mb-0 pt-3 pr-12 pb-3 pl-4;
+	}
+}
+
+@utility tooltip-compact-header-right {
+	display: none;
+
+	&.is-visible {
+		display: contents;
+	}
+}
+
+@utility tooltip-standard-header {
+	display: block;
+
+	&.is-hidden {
+		display: none;
 	}
 }
 
@@ -190,4 +218,70 @@
 @utility tooltip-scrollable-content {
 	@apply scrollbar-styled overflow-x-hidden overflow-y-auto;
 	max-height: 450px;
+}
+
+/* =================================
+   SCREENSHOT EXPORT MODE
+   ================================= */
+
+.expanded-tooltip[data-tooltip-export='true'] {
+	height: auto;
+	max-height: none;
+	overflow: visible;
+
+	& .expanded-tooltip-content,
+	& .tooltip-scrollable-content {
+		height: auto;
+		max-height: none;
+		overflow: visible;
+	}
+
+	& .tooltip-compact-header-right {
+		display: none;
+	}
+
+	& .tooltip-profile-header {
+		@apply mb-2 px-5 pt-5 pb-0;
+	}
+
+	& .tooltip-user-info {
+		flex: 1 1 auto;
+		min-width: 0;
+		max-width: none;
+		overflow: visible;
+	}
+
+	& .tooltip-username {
+		white-space: normal;
+		text-overflow: clip;
+		overflow: visible;
+		overflow-wrap: anywhere;
+	}
+
+	& .tooltip-standard-header {
+		@apply flex flex-col items-center gap-3 pb-3;
+
+		& .tooltip-header {
+			@apply m-0 w-full p-0 leading-snug;
+		}
+
+		& .header-message {
+			@apply flex w-full max-w-xl flex-col items-center gap-1 text-center;
+
+			& > * {
+				@apply whitespace-nowrap;
+			}
+		}
+
+		& .reviewer-section {
+			@apply m-0 p-0;
+		}
+	}
+
+	& .tooltip-standard-header,
+	& .tooltip-header,
+	& .header-message,
+	& .moderators-text {
+		text-decoration-line: none;
+	}
 }

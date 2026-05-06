@@ -65,6 +65,7 @@
 	"dependencies": {
 		"@icons-pack/svelte-simple-icons": "^7.2.0",
 		"@lucide/svelte": "^1.8.0",
+		"@zumer/snapdom": "^2.12.0",
 		"lz-string": "^1.5.0",
 		"ogl": "^1.0.11",
 		"svelte-highlight": "^7.9.0",

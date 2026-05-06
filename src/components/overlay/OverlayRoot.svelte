@@ -6,6 +6,7 @@
 	import OutfitViewerModal from '@/components/features/outfit/OutfitViewerModal.svelte';
 	import FirstDetectionModal from '@/components/features/profile/FirstDetectionModal.svelte';
 	import RestrictionNoticeModal from '@/components/features/report/RestrictionNoticeModal.svelte';
+	import Toast from '@/components/ui/Toast.svelte';
 	import { shouldShowChangelogModal } from '@/lib/stores/changelog';
 	import { shouldShowLegalModal, triggerLegalReview } from '@/lib/stores/legal';
 	import { shouldShowFirstDetection } from '@/lib/stores/first-detection';
@@ -68,3 +69,5 @@
 		userId={$outfitViewerRequest.userId}
 	/>
 {/if}
+
+<Toast />

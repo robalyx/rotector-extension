@@ -1,7 +1,6 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
 
-// Determine API domain based on build mode
 const isDev = process.env['NODE_ENV'] === 'development' || process.argv.includes('dev');
 const apiDomain = isDev ? 'roscoe-dev.rotector.com' : 'roscoe.rotector.com';
 
@@ -73,7 +72,13 @@ export default defineConfig({
 			}),
 			web_accessible_resources: [
 				{
-					resources: ['assets/*', 'icon/*', 'locales/*/*', 'content-scripts/content.css'],
+					resources: [
+						'assets/*',
+						'icon/*',
+						'locales/*/*',
+						'fonts/*',
+						'content-scripts/content.css'
+					],
 					matches: ['https://*.roblox.com/*']
 				}
 			],

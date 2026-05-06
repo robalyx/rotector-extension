@@ -19,6 +19,19 @@ import { metricsCollector } from '@/lib/utils/logging/metrics-collector';
 import { registerOverlayContainer } from '@/lib/utils/overlay-portal-registry';
 import OverlayRoot from '@/components/overlay/OverlayRoot.svelte';
 
+async function registerBuilderSans(): Promise<void> {
+	try {
+		const url = browser.runtime.getURL(
+			'/fonts/builder-sans/BuilderSans.woff2' as Parameters<typeof browser.runtime.getURL>[0]
+		);
+		const face = new FontFace('Builder Sans', `url("${url}")`, { weight: '400' });
+		await face.load();
+		document.fonts.add(face);
+	} catch (err) {
+		logger.warn('Builder Sans font registration failed; falling back to system font', err);
+	}
+}
+
 async function waitForBody(): Promise<HTMLElement> {
 	return new Promise((resolve) => {
 		// document.body is typed as non-null but can be null before DOM loads
@@ -112,6 +125,11 @@ export default defineContentScript({
 			logger.debug('Access state initialized');
 
 			await waitForBody();
+
+			// Register Builder Sans against document.fonts. WXT moves @font-face rules
+			// into document.head where relative URLs resolve against the page origin
+			// and 404; the FontFace API takes the explicit extension URL.
+			void registerBuilderSans();
 
 			themeManager.initializeRobloxTheme();
 

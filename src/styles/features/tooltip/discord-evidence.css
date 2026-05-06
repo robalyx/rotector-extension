@@ -39,7 +39,7 @@
 }
 
 @utility discord-summary-item {
-	@apply inline-flex items-center gap-1;
+	@apply inline-flex items-center gap-1 whitespace-nowrap;
 	color: var(--color-text-secondary);
 }
 

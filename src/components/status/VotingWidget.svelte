@@ -80,10 +80,10 @@
 			<div style:width={fillWidth} class="voting-meter-fill"></div>
 		</div>
 		<div class="voting-stats">
-			<span class="voting-percentage">
+			<span>
 				{loading ? '-' : `${String(voteStats.percentage)}%`}
 			</span>
-			<span class="voting-ratio">
+			<span>
 				{loading ? '-' : `${String(voteStats.upvotes)} / ${String(voteStats.totalVotes)}`}
 			</span>
 		</div>

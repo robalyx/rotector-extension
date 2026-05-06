@@ -2,7 +2,7 @@
    TOAST CONTAINER
    ================================= */
 @utility toast-container {
-	@apply fixed top-3 right-3 left-3 z-[1000] flex items-start gap-2.5 overflow-hidden rounded-md p-3 transition-all duration-200;
+	@apply fixed top-3 right-3 left-3 z-[10001] flex items-start gap-2.5 overflow-hidden rounded-md p-3 transition-all duration-200;
 
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);

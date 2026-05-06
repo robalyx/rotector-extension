@@ -9,6 +9,11 @@ export const CHANGELOGS: Changelog[] = [
 		summary: '',
 		changes: [
 			{
+				type: 'added',
+				description:
+					'Tooltip export - Save the expanded tooltip as a PNG or copy it to the clipboard from the 3-dot menu'
+			},
+			{
 				type: 'changed',
 				description:
 					'Progressive status indicators - Lists leave the loading spinner as soon as Rotector resolves, without waiting for every enabled custom API'
@@ -42,6 +47,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Activity chart - Readable 7d and 30d views as well as 12-hour clock labels on the 24h view'
+			},
+			{
+				type: 'removed',
+				description:
+					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'
 			}
 		]
 	},

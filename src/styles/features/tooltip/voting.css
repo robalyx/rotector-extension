@@ -27,13 +27,13 @@
 }
 
 @utility voting-title {
-	@apply text-xs-plus font-semibold uppercase;
+	@apply text-xs-plus font-semibold whitespace-nowrap uppercase;
 	letter-spacing: 0.08em;
 	color: var(--color-text-subtle);
 }
 
 @utility voting-count {
-	@apply text-xs-plus font-medium;
+	@apply text-xs-plus font-medium whitespace-nowrap;
 	color: var(--color-text-tertiary);
 }
 
@@ -224,5 +224,18 @@
 	&.unknown {
 		background-color: color-mix(in srgb, var(--color-text-subtle) 18%, transparent);
 		color: var(--color-text-subtle);
+	}
+}
+
+/* =================================
+   SCREENSHOT EXPORT MODE
+   ================================= */
+
+@utility tooltip-export-footer {
+	@apply mt-4 flex justify-center;
+
+	.tooltip-options-engine-tag {
+		@apply rounded-md;
+		padding: 0.25rem 0.5rem;
 	}
 }

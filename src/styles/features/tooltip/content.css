@@ -3,7 +3,7 @@
    ================================= */
 
 @utility tooltip-status-badge {
-	@apply text-sm-plus mt-2 inline-flex items-center rounded py-0.5 font-semibold;
+	@apply text-sm-plus mt-2 inline-flex items-center rounded py-0.5 font-semibold whitespace-nowrap;
 	padding-left: 0.5rem;
 	padding-right: 0.625rem;
 
@@ -225,7 +225,7 @@
 }
 
 @utility tooltip-metadata-item {
-	@apply text-2xs flex items-center gap-1.5 px-2 py-1 font-normal;
+	@apply text-2xs flex items-center gap-1.5 px-2 py-1 font-normal whitespace-nowrap;
 	color: var(--color-text-tertiary);
 
 	&.processing {
@@ -429,7 +429,7 @@
 }
 
 @utility evidence-chrome {
-	@apply rounded-md px-2 py-1 text-sm;
+	@apply rounded-md px-2 py-1 text-sm font-normal;
 	overflow-wrap: break-word;
 	background-color: var(--color-evidence-bg);
 	color: var(--color-evidence-text);
@@ -494,7 +494,7 @@
 }
 
 @utility source-evidence-badge {
-	@apply rounded px-1.5 py-0.5 text-xs font-bold uppercase;
+	@apply rounded px-1.5 py-0.5 text-xs font-bold whitespace-nowrap uppercase;
 	background-color: var(--color-evidence-border);
 	color: var(--color-text);
 }
@@ -575,7 +575,7 @@
 }
 
 @utility outfit-evidence-name {
-	@apply text-left text-sm font-semibold;
+	@apply min-w-0 flex-1 truncate text-left text-sm font-semibold;
 	color: var(--color-text);
 }
 
@@ -667,16 +667,16 @@
 }
 
 @utility reviewer-section {
-	@apply my-2 flex items-center justify-center gap-1.5 border-none bg-transparent p-0 pb-2 text-center;
+	@apply my-2 flex flex-nowrap items-center justify-center gap-1.5 border-none bg-transparent p-0 pb-2 text-center;
 }
 
 @utility reviewer-text {
-	@apply text-xs-plus leading-tight font-normal;
+	@apply text-xs-plus leading-tight font-normal whitespace-nowrap;
 	color: var(--color-text-subtle);
 }
 
 @utility reviewer-name {
-	@apply font-semibold;
+	@apply font-semibold whitespace-nowrap;
 	color: var(--color-text);
 }
 

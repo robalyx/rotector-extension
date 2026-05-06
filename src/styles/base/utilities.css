@@ -1,16 +1,4 @@
 /* =================================
-   BUILDER SANS WEBFONT
-   ================================= */
-
-@font-face {
-	font-family: 'Builder Sans';
-	src: url('/fonts/builder-sans/BuilderSans.woff2') format('woff2');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
-
-/* =================================
    SHADOW ROOT BASE RESET
    ================================= */
 

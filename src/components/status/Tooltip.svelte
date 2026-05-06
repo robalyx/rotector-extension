@@ -6,6 +6,7 @@
 	import { logger } from '@/lib/utils/logging/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
 	import { calculateStatusBadges } from '@/lib/utils/status/status-utils';
+	import { ENGINE_STATUS_BY_COMPAT, ENGINE_STATUS_KEY } from '@/lib/utils/status/engine-status';
 	import { apiClient } from '@/lib/services/rotector/api-client';
 	import {
 		outfitSnapshotService,
@@ -61,12 +62,13 @@
 		FileText,
 		Ban,
 		Ellipsis,
-		Link,
 		Info,
 		ChevronRight,
 		ChevronDown,
 		Lock,
-		LockOpen
+		LockOpen,
+		ImageDown,
+		Copy
 	} from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
 	import VotingWidget from './VotingWidget.svelte';
@@ -89,6 +91,7 @@
 	import { settings, updateSetting, removeSetting } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
 	import { guardWatermark, renderWatermarkTile } from './watermark';
+	import { exportTooltipImage } from '@/lib/utils/tooltip-export';
 
 	const effectiveTheme = themeManager.effectiveTheme;
 
@@ -161,6 +164,7 @@
 	}: Props = $props();
 
 	let tooltipRef = $state<HTMLElement>();
+	let expandedCardRef = $state<HTMLElement>();
 	let overlayRef = $state<HTMLElement>();
 	let scrollContentRef = $state<HTMLElement>();
 	let stickyHeaderRef = $state<HTMLElement>();
@@ -190,9 +194,12 @@
 
 	let expandedOriginals = new SvelteSet<string>();
 
+	type ExportMode = 'download' | 'clipboard';
+
 	let optionsMenuRef = $state<HTMLElement>();
 	let showOptionsMenu = $state(false);
-	let copySuccess = $state(false);
+	let activeExportMode = $state<ExportMode | null>(null);
+	let exportSuccessMode = $state<ExportMode | null>(null);
 
 	let isResizing = $state(false);
 	let resizeStartPos = $state<{ x: number; y: number } | null>(null);
@@ -202,17 +209,6 @@
 	let headerCompact = $state(false);
 	let previewPositionFrame: number | null = null;
 
-	const ENGINE_STATUS_BY_COMPAT: Record<string, 'latest' | 'behind-minor' | 'behind-major'> = {
-		current: 'latest',
-		compatible: 'behind-minor',
-		outdated: 'behind-major'
-	};
-	const ENGINE_STATUS_KEY = {
-		latest: 'engine_status_latest',
-		'behind-minor': 'engine_status_compatible',
-		'behind-major': 'engine_status_outdated',
-		unknown: 'engine_status_unknown'
-	} as const;
 	const engineVersionStatus = $derived.by(() => {
 		const compat = activeUserStatus?.versionCompatibility;
 		return (compat && ENGINE_STATUS_BY_COMPAT[compat]) || 'unknown';
@@ -375,8 +371,7 @@
 				return {
 					parts: [
 						{ text: prefix },
-						{ text: $_('tooltip_entity_moderators'), class: 'moderators-text' },
-						{ text: suffix }
+						{ text: `${$_('tooltip_entity_moderators')}${suffix}`, class: 'moderators-text' }
 					]
 				};
 			}
@@ -656,6 +651,10 @@
 		return calculateTransformOrigin(anchorElement);
 	}
 
+	function getResizeElement() {
+		return isExpanded ? expandedCardRef : tooltipRef;
+	}
+
 	async function loadVoteData() {
 		if (!shouldShowVoting || loadingVotes) return;
 
@@ -765,12 +764,14 @@
 	function handleResizeStart(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (!tooltipRef) return;
+
+		const resizeElement = getResizeElement();
+		if (!resizeElement) return;
 
 		isResizing = true;
 		resizeStartPos = { x: event.clientX, y: event.clientY };
 
-		const rect = tooltipRef.getBoundingClientRect();
+		const rect = resizeElement.getBoundingClientRect();
 		resizeStartSize = { width: rect.width, height: rect.height };
 
 		document.addEventListener('mousemove', handleResizeMove);
@@ -857,26 +858,32 @@
 		);
 	}
 
-	async function handleCopyDiscordLink(event: MouseEvent) {
-		event.stopPropagation();
-		try {
-			const link = `https://rotector.com/u/${sanitizedUserId}`;
-			await navigator.clipboard.writeText(link);
-			copySuccess = true;
-			logger.userAction('discord_link_copied', { userId: sanitizedUserId });
-
-			setTimeout(() => {
-				copySuccess = false;
-			}, 2000);
-		} catch (err) {
-			logger.error('Failed to copy Discord link:', err);
-		}
-	}
-
 	function handleViewOutfits(event: MouseEvent) {
 		event.stopPropagation();
 		showOptionsMenu = false;
 		onViewOutfits?.();
+	}
+
+	async function handleExportTooltip(event: MouseEvent, mode: ExportMode) {
+		event.stopPropagation();
+		if (!expandedCardRef || activeExportMode !== null) return;
+		activeExportMode = mode;
+		try {
+			const success = await exportTooltipImage(expandedCardRef, {
+				mode,
+				kind: isGroup ? 'group' : 'user',
+				identifier: sanitizedUserId,
+				engineStatus: engineVersionStatus
+			});
+			if (success) {
+				exportSuccessMode = mode;
+				setTimeout(() => {
+					if (exportSuccessMode === mode) exportSuccessMode = null;
+				}, 2000);
+			}
+		} finally {
+			activeExportMode = null;
+		}
 	}
 
 	function handleOptionsMenuClickOutside(event: MouseEvent) {
@@ -900,7 +907,6 @@
 		void activeTab;
 		void reasonEntries;
 		showOptionsMenu = false;
-		copySuccess = false;
 		expandedOriginals.clear();
 	});
 
@@ -1018,7 +1024,8 @@
 			$effectiveTheme
 		);
 
-		const targets = [tooltipRef, stickyHeaderRef, profileHeaderRef].filter(
+		const rootElement = isExpanded ? expandedCardRef : tooltipRef;
+		const targets = [rootElement, stickyHeaderRef, profileHeaderRef].filter(
 			(el): el is HTMLElement => !!el
 		);
 		const cleanups = targets.map((el) => guardWatermark(el, dataUri));
@@ -1555,7 +1562,10 @@
 												{@const decodeEntry = evidenceEncodingMap.get(evidence.content)}
 												{#if decodeEntry}
 													{@const isOriginalShown = expandedOriginals.has(evidence.content)}
-													<div class="decoded-evidence-item">
+													<div
+														class="decoded-evidence-item"
+														data-encoded-original={evidence.content}
+													>
 														<div class="decoded-evidence-text">
 															{getDisplayText(decodeEntry.decoded)}
 														</div>
@@ -1608,13 +1618,9 @@
 {#snippet headerMessageSection(headerMessage: HeaderMessage)}
 	{#if headerMessage.parts}
 		{#each headerMessage.parts as part, i (i)}
-			{#if part.class}
-				<span class={part.class}>
-					{part.text}
-				</span>
-			{:else}
+			<span class={part.class}>
 				{part.text}
-			{/if}
+			</span>
 		{/each}
 	{:else}
 		{headerMessage.full}
@@ -1638,24 +1644,33 @@
 	>
 		<div
 			bind:this={tooltipRef}
-			style:width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
-			style:height={tooltipDimensions.height ? `${String(tooltipDimensions.height)}px` : undefined}
-			style:max-width={tooltipDimensions.width ? `${String(tooltipDimensions.width)}px` : undefined}
-			style:max-height={tooltipDimensions.height
-				? `${String(tooltipDimensions.height)}px`
+			style:--tooltip-width={tooltipDimensions.width
+				? `${String(tooltipDimensions.width)}px`
 				: undefined}
-			class="expanded-tooltip"
-			class:has-tabs={tabs.length > 1}
+			style:--tooltip-max-width={tooltipDimensions.width
+				? `${String(tooltipDimensions.width)}px`
+				: undefined}
+			class="expanded-tooltip-positioner"
 			class:is-resizing={isResizing}
 		>
-			<TooltipTabs {tabs} bind:activeTab />
-
 			<div
-				style:max-height={tooltipDimensions.height ? 'none' : undefined}
-				class="expanded-tooltip-content"
+				bind:this={expandedCardRef}
+				style:--tooltip-height={tooltipDimensions.height
+					? `${String(tooltipDimensions.height)}px`
+					: undefined}
+				style:--tooltip-max-height={tooltipDimensions.height
+					? `${String(tooltipDimensions.height)}px`
+					: undefined}
+				class="expanded-tooltip"
+				class:has-tabs={tabs.length > 1}
 			>
-				<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
-					{#if activeTab === ROTECTOR_API_ID && !isGroup}
+				<TooltipTabs {tabs} bind:activeTab />
+
+				<div
+					style:max-height={tooltipDimensions.height ? 'none' : undefined}
+					class="expanded-tooltip-content"
+				>
+					<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
 						<div bind:this={optionsMenuRef} class="tooltip-options-container">
 							<button
 								class="tooltip-options-button"
@@ -1667,24 +1682,42 @@
 							</button>
 							{#if showOptionsMenu}
 								<div class="tooltip-options-menu">
-									<button
-										class="tooltip-options-item"
-										onclick={handleCopyDiscordLink}
-										type="button"
-									>
-										{#if copySuccess}
-											<Check class="tooltip-options-icon success" size={15} />
-										{:else}
-											<Link class="tooltip-options-icon" size={15} />
-										{/if}
-										<span>{$_('tooltip_copy_link')}</span>
-									</button>
 									{#if onViewOutfits}
 										<button class="tooltip-options-item" onclick={handleViewOutfits} type="button">
 											<Shirt class="tooltip-options-icon" size={15} />
 											<span>{$_('outfit_viewer_button')}</span>
 										</button>
 									{/if}
+									<button
+										class="tooltip-options-item"
+										disabled={activeExportMode !== null}
+										onclick={(e) => handleExportTooltip(e, 'download')}
+										type="button"
+									>
+										{#if exportSuccessMode === 'download'}
+											<Check class="tooltip-options-icon success" size={15} />
+										{:else if activeExportMode === 'download'}
+											<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
+										{:else}
+											<ImageDown class="tooltip-options-icon" size={15} />
+										{/if}
+										<span>{$_('tooltip_export_download')}</span>
+									</button>
+									<button
+										class="tooltip-options-item"
+										disabled={activeExportMode !== null}
+										onclick={(e) => handleExportTooltip(e, 'clipboard')}
+										type="button"
+									>
+										{#if exportSuccessMode === 'clipboard'}
+											<Check class="tooltip-options-icon success" size={15} />
+										{:else if activeExportMode === 'clipboard'}
+											<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
+										{:else}
+											<Copy class="tooltip-options-icon" size={15} />
+										{/if}
+										<span>{$_('tooltip_export_copy')}</span>
+									</button>
 									{#if activeUserStatus?.engineVersion}
 										<div class="tooltip-options-divider"></div>
 										<div class="tooltip-options-engine">
@@ -1697,117 +1730,107 @@
 								</div>
 							{/if}
 						</div>
-					{/if}
 
-					{#if isGroup && groupInfo}
-						<div
-							bind:this={profileHeaderRef}
-							class="tooltip-profile-header"
-							class:compact={headerCompact}
-						>
-							<div class="tooltip-avatar">
-								<img alt="" src={groupInfo.groupImageUrl} />
-							</div>
-							<div class="tooltip-user-info">
-								<div class="tooltip-username">{groupInfo.groupName}</div>
-								<div class="tooltip-user-id">
-									{$_('tooltip_profile_group_id')}
-									{sanitizedUserId}
+						{#if isGroup && groupInfo}
+							<div
+								bind:this={profileHeaderRef}
+								class="tooltip-profile-header"
+								class:compact={headerCompact}
+							>
+								<div class="tooltip-avatar">
+									<img alt="" src={groupInfo.groupImageUrl} />
 								</div>
-								{#if !effectivelyRestricted && !activeError && activeStatus}
-									<div class="tooltip-status-badge {statusBadgeClass}">
-										<span class="status-indicator"></span>
-										{statusBadgeText}
+								<div class="tooltip-user-info">
+									<div class="tooltip-username">{groupInfo.groupName}</div>
+									<div class="tooltip-user-id">
+										{$_('tooltip_profile_group_id')}
+										{sanitizedUserId}
 									</div>
-								{/if}
-							</div>
-							{#if showCompactColumns}
-								{@render compactHeaderRight()}
-							{/if}
-						</div>
-					{:else if !isGroup && userInfo}
-						<!-- User Header -->
-						<div
-							bind:this={profileHeaderRef}
-							class="tooltip-profile-header"
-							class:compact={headerCompact}
-						>
-							<div class="tooltip-avatar">
-								<img alt="" src={userInfo.avatarUrl} />
-							</div>
-							<div class="tooltip-user-info">
-								<div class="tooltip-username">
-									{userInfo.displayName ||
-										(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
-									{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
-										<span class="tooltip-user-handle">@{userInfo.username}</span>
+									{#if !effectivelyRestricted && !activeError && activeStatus}
+										<div class="tooltip-status-badge {statusBadgeClass}">
+											<span class="status-indicator"></span>
+											{statusBadgeText}
+										</div>
 									{/if}
 								</div>
-								<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
-								{#if !effectivelyRestricted && !activeError && activeStatus}
-									<div class="tooltip-status-badge {statusBadgeClass}">
-										<span class="status-indicator"></span>
-										{statusBadgeText}
+								<div class="tooltip-compact-header-right" class:is-visible={showCompactColumns}>
+									{@render compactHeaderRight()}
+								</div>
+							</div>
+						{:else if !isGroup && userInfo}
+							<!-- User Header -->
+							<div
+								bind:this={profileHeaderRef}
+								class="tooltip-profile-header"
+								class:compact={headerCompact}
+							>
+								<div class="tooltip-avatar">
+									<img alt="" src={userInfo.avatarUrl} />
+								</div>
+								<div class="tooltip-user-info">
+									<div class="tooltip-username">
+										{userInfo.displayName ||
+											(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
+										{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
+											<span class="tooltip-user-handle">@{userInfo.username}</span>
+										{/if}
 									</div>
-									{@render membershipBadgeSection()}
-								{/if}
-							</div>
-							{#if showCompactColumns}
-								{@render compactHeaderRight()}
-							{/if}
-						</div>
-					{:else}
-						<!-- Fallback header -->
-						<div class="tooltip-header">
-							<div>{@render headerMessageSection(headerMessage)}</div>
-							<div class="tooltip-user-id">
-								{isGroup ? $_('tooltip_entity_group') : $_('tooltip_profile_user')}
-								{$_('tooltip_profile_id')}
-								{sanitizedUserId}
-							</div>
-						</div>
-					{/if}
-
-					<!-- Header message and reviewer -->
-					{#if !showCompactColumns}
-						{#if (userInfo || groupInfo) && (activeStatus || isNoData)}
-							<div class="tooltip-header">
-								<div class="header-message">
-									{@render headerMessageSection(headerMessage)}
+									<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
+									{#if !effectivelyRestricted && !activeError && activeStatus}
+										<div class="tooltip-status-badge {statusBadgeClass}">
+											<span class="status-indicator"></span>
+											{statusBadgeText}
+										</div>
+										{@render membershipBadgeSection()}
+									{/if}
+								</div>
+								<div class="tooltip-compact-header-right" class:is-visible={showCompactColumns}>
+									{@render compactHeaderRight()}
 								</div>
 							</div>
 						{/if}
-						{@render reviewerSection()}
-					{/if}
 
-					<!-- Header Compact Toggle -->
-					<button
-						class="tooltip-header-toggle"
-						aria-label={$_('tooltip_header_toggle_aria')}
-						onclick={toggleHeaderCompact}
-						type="button"
-					></button>
+						<!-- Header message and reviewer -->
+						<div class="tooltip-standard-header" class:is-hidden={showCompactColumns}>
+							{#if (userInfo || groupInfo) && (activeStatus || isNoData)}
+								<div class="tooltip-header">
+									<div class="header-message">
+										{@render headerMessageSection(headerMessage)}
+									</div>
+								</div>
+							{/if}
+							{@render reviewerSection()}
+						</div>
+
+						<!-- Header Compact Toggle -->
+						<button
+							class="tooltip-header-toggle"
+							aria-label={$_('tooltip_header_toggle_aria')}
+							onclick={toggleHeaderCompact}
+							type="button"
+						></button>
+					</div>
+
+					<!-- Scrollable content -->
+					<div
+						bind:this={scrollContentRef}
+						style:max-height={tooltipDimensions.height ? 'none' : undefined}
+						class="tooltip-scrollable-content flex-1 px-5 py-4"
+					>
+						{@render tooltipContent()}
+					</div>
 				</div>
 
-				<!-- Scrollable content -->
+				<!-- Resize Handle -->
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 				<div
-					bind:this={scrollContentRef}
-					style:max-height={tooltipDimensions.height ? 'none' : undefined}
-					class="tooltip-scrollable-content flex-1 px-5 py-4"
-				>
-					{@render tooltipContent()}
-				</div>
+					class="tooltip-resize-handle"
+					aria-label={$_('tooltip_resize_handle_aria')}
+					ondblclick={handleResizeReset}
+					onmousedown={handleResizeStart}
+					role="separator"
+				></div>
 			</div>
-
-			<!-- Resize Handle -->
-			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-			<div
-				class="tooltip-resize-handle"
-				aria-label={$_('tooltip_resize_handle_aria')}
-				ondblclick={handleResizeReset}
-				onmousedown={handleResizeStart}
-				role="separator"
-			></div>
 		</div>
 		<HoverPopover bind:this={hoverPopover} scrollContent={scrollContentRef} />
 	</div>

@@ -37,6 +37,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Tooltip on Not Flagged users - Hovering the indicator on a Not Flagged profile now reliably shows the tooltip'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Activity chart - Readable 7d and 30d views as well as 12-hour clock labels on the 24h view'
 			}
 		]
 	},

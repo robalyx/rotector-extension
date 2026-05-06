@@ -65,7 +65,7 @@ export function computeYBounds(datasets: number[][]): YBounds | undefined {
 
 export function formatTickLabel(timestamp: Date, hours: ActivityHours): string {
 	if (hours === 24) {
-		return `${timestamp.getHours().toString().padStart(2, '0')}h`;
+		return timestamp.toLocaleTimeString(undefined, { hour: 'numeric', hour12: true });
 	}
 	if (hours === 168) {
 		return timestamp.toLocaleDateString(undefined, { weekday: 'short' });

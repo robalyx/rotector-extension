@@ -37,17 +37,17 @@
 	const hasData = $derived(entries.length >= 2);
 	const deltas = $derived(categories.map((cat) => computeDeltas(entries, cat.key)));
 
+	const toUnixSec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
+
 	function buildData(): uPlot.AlignedData {
 		if (entries.length < 2) {
 			return [[], ...categories.map(() => [] as number[])];
 		}
-		const timestamps = entries
-			.slice(1)
-			.map((e) => Math.floor(new Date(e.timestamp).getTime() / 1000));
+		const timestamps = entries.slice(1).map((e) => toUnixSec(e.timestamp));
 		return [timestamps, ...deltas];
 	}
 
-	function computeRange(): [number, number] | null {
+	function computeYRange(): [number, number] | null {
 		if (hours === 24 || entries.length < 4) return null;
 		const visibleSeries = deltas.filter((_, i) => {
 			const cat = categories[i];
@@ -56,6 +56,14 @@
 		if (visibleSeries.length === 0) return null;
 		const bounds = computeYBounds(visibleSeries);
 		return bounds ? [bounds.min, bounds.max] : null;
+	}
+
+	function computeXRange(): [number, number] | null {
+		if (entries.length < 2) return null;
+		const first = entries[0];
+		const last = entries[entries.length - 1];
+		if (!first || !last) return null;
+		return [toUnixSec(first.timestamp), toUnixSec(last.timestamp)];
 	}
 
 	// uPlot renders to canvas so CSS variables must be resolved to raw colors first
@@ -71,16 +79,19 @@
 		return {
 			width,
 			height,
-			padding: [8, 8, 4, 8],
+			padding: [8, 24, 4, 8],
 			cursor: {
 				drag: { x: false, y: false },
 				points: { size: 5 }
 			},
 			legend: { show: false },
 			scales: {
-				x: { time: true },
+				x: {
+					time: true,
+					range: (_u, dataMin, dataMax) => computeXRange() ?? [dataMin, dataMax]
+				},
 				y: {
-					range: (_u, dataMin, dataMax) => computeRange() ?? [dataMin, dataMax]
+					range: (_u, dataMin, dataMax) => computeYRange() ?? [dataMin, dataMax]
 				}
 			},
 			axes: [

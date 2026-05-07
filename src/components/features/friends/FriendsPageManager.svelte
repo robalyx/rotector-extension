@@ -53,8 +53,8 @@
 	}
 
 	function isFriendsTab(): boolean {
-		const hash = window.location.hash;
-		return hash === '' || hash === '#!/friends';
+		const tab = window.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
+		return tab === '' || tab === 'friends';
 	}
 
 	// Inject scan bar into friends page header

@@ -54,6 +54,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Group members carousel tooltip - Hovering a tile past the first page now shows the avatar, username, and display name in the tooltip header'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Group members carousel - The carousel now renders on community pages even when another extension appends extra fragments to the URL'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'

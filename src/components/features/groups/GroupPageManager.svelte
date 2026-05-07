@@ -20,8 +20,8 @@
 	let { groupId, pageType, querySubscription = null }: Props = $props();
 
 	function checkIsAboutTab(): boolean {
-		const hash = window.location.hash;
-		return !hash || hash === '#' || hash === '#!' || hash === '#!/' || hash === '#!/about';
+		const tab = window.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
+		return tab === '' || tab === 'about';
 	}
 
 	let isAboutTab = $state(checkIsAboutTab());

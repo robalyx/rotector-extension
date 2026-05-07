@@ -1,4 +1,4 @@
-interface AbortableBatch {
+export interface AbortableBatch {
 	nextSignal: () => AbortSignal;
 	abort: () => void;
 }

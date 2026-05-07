@@ -74,6 +74,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Tooltip compact mode - Switching to compact now works right away instead of only after resizing the tooltip'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Group members carousel stuck indicators - Switching tabs or filters quickly no longer leaves status indicators stuck on the loading spinner'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'

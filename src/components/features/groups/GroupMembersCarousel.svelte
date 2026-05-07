@@ -23,7 +23,7 @@
 	import { GROUP_MEMBERS_CAROUSEL_SELECTORS } from '@/lib/controllers/selectors/groups';
 	import { markUserElementForBlur, revealUserElement } from '@/lib/services/blur/service';
 	import { asApiError } from '@/lib/utils/api/api-error';
-	import { createAbortableBatch } from '@/lib/utils/api/abortable-batch';
+	import { createAbortableBatch, type AbortableBatch } from '@/lib/utils/api/abortable-batch';
 	import { logger } from '@/lib/utils/logging/logger';
 	import type { CombinedStatus } from '@/lib/types/custom-api';
 	import type { TrackedUser, UserStatus } from '@/lib/types/api';
@@ -47,7 +47,8 @@
 	let activeTab = $state<ViewTab>('by-role');
 	let userStatuses = new SvelteMap<string, CombinedStatus<UserStatus>>();
 	const mountedComponents = new MountedComponentRegistry<string>();
-	const batch = createAbortableBatch();
+	const byRoleBatch = createAbortableBatch();
+	const trackedBatch = createAbortableBatch();
 
 	let roles = $state<GroupRole[]>([]);
 	let selectedRoleId = $state<number | null>(null);
@@ -197,7 +198,7 @@
 
 			members = available.slice(0, DISPLAY_LIMIT);
 			const userIds = members.map((m) => m.userId);
-			void loadStatuses(userIds.map(String));
+			void loadStatuses(userIds.map(String), byRoleBatch);
 
 			const [fetchedThumbnails, fetchedPresences] = await Promise.all([
 				getMemberThumbnails(userIds),
@@ -236,7 +237,7 @@
 		}
 	}
 
-	async function loadStatuses(userIds: string[]) {
+	async function loadStatuses(userIds: string[], batch: AbortableBatch) {
 		try {
 			const statuses = await queryMultipleUsers(userIds, {
 				signal: batch.nextSignal(),
@@ -298,7 +299,7 @@
 
 			if (trackedUsers.length > 0) {
 				const trackedIds = trackedUsers.map((u) => u.id);
-				void loadStatuses(trackedIds.map(String));
+				void loadStatuses(trackedIds.map(String), trackedBatch);
 
 				const fetchedPresences = await getUserPresences(trackedIds).catch(
 					(error: unknown): Map<number, UserPresence> => {
@@ -338,7 +339,6 @@
 		trackedCurrentPage = 1;
 		trackedPreviousCursors = [];
 		trackedCursorCache = [null];
-		userStatuses.clear();
 		trackedPresences.clear();
 		void loadTrackedUsers();
 	}
@@ -517,7 +517,6 @@
 		carryoverCache = [[]];
 		currentSortOrder = 'Desc';
 		showPageInput = false;
-		userStatuses.clear();
 		presences.clear();
 		void loadMembers();
 	}
@@ -531,7 +530,6 @@
 		currentPage = 1;
 		cursorCache = [null];
 		carryoverCache = [[]];
-		userStatuses.clear();
 		presences.clear();
 		void loadMembers();
 	}
@@ -628,7 +626,6 @@
 				currentSortOrder = oppositeOrder;
 				cursorCache = [null];
 				carryoverCache = [[]];
-				userStatuses.clear();
 				presences.clear();
 				currentPage = oppositeRequestsNeeded;
 

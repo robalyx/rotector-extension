@@ -400,8 +400,6 @@
 @utility cross-signal-indicator {
 	@apply relative inline-flex cursor-help items-center border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
-	font: inherit;
-	line-height: inherit;
 }
 
 @utility cross-signal-popover {
@@ -681,36 +679,20 @@
 }
 
 @utility reviewer-anonymous-indicator {
-	@apply relative inline-flex cursor-help items-center;
+	@apply relative inline-flex cursor-help items-center border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
-
-	&:hover .reviewer-anonymous-popover {
-		@apply visible opacity-100;
-	}
 }
 
 @utility reviewer-anonymous-popover {
-	@apply invisible absolute z-10 rounded-md opacity-0;
-	transition:
-		opacity 0.15s ease,
-		visibility 0.15s ease;
-	top: calc(100% + 6px);
-	left: 50%;
-	transform: translateX(-50%);
-	width: 240px;
-	padding: 0.5rem 0.625rem;
-	background-color: var(--color-bg-content);
-	border: 1px solid var(--color-border-subtle);
-	box-shadow: var(--shadow-soft);
+	@apply tooltip-hover-popover;
 
 	strong {
-		@apply text-sm-plus block font-semibold;
+		@apply mb-0.5 block text-sm font-semibold;
 		color: var(--color-primary);
-		margin-bottom: 2px;
 	}
 
 	p {
-		@apply text-sm-plus m-0 leading-normal font-normal;
+		@apply m-0 text-sm leading-normal font-normal;
 		color: var(--color-text);
 	}
 }

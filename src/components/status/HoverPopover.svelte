@@ -155,6 +155,7 @@
 		class="tooltip-hover-popover"
 		class:cross-signal-popover={active.kind === 'cross-signal'}
 		class:outfit-only-popover={active.kind === 'outfit-only'}
+		class:reviewer-anonymous-popover={active.kind === 'reviewer-anonymous'}
 		class:source-info-popover={active.kind.endsWith('-info')}
 		onmouseenter={cancelClose}
 		onmouseleave={scheduleClose}
@@ -166,6 +167,9 @@
 		{:else if active.kind === 'outfit-only'}
 			<strong>{$_('tooltip_outfit_title')}</strong>
 			<p>{$_('tooltip_outfit_message')}</p>
+		{:else if active.kind === 'reviewer-anonymous'}
+			<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
+			<p>{$_('tooltip_reviewer_anonymous_message')}</p>
 		{:else if active.kind === 'trap-info'}
 			<strong>{$_('tooltip_trap_info_title')}</strong>
 			<p>

@@ -1119,18 +1119,17 @@
 				</span>
 			</span>
 			{#if reviewerInfo.username === 'Anonymous' && reviewerInfo.displayName === 'Anonymous'}
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<div
+				<button
 					class="reviewer-anonymous-indicator"
 					class:info-hint-unseen={!hintsSeen.has('reviewer-anonymous')}
-					onmouseenter={() => hoverPopover?.markSeen('reviewer-anonymous')}
+					aria-label={$_('tooltip_reviewer_anonymous_title')}
+					onclick={(event) => event.stopPropagation()}
+					onmouseenter={(event) => handleHoverPopoverTriggerEnter('reviewer-anonymous', event)}
+					onmouseleave={scheduleHoverPopoverClose}
+					type="button"
 				>
 					<Info size={12} />
-					<div class="reviewer-anonymous-popover">
-						<strong>{$_('tooltip_reviewer_anonymous_title')}</strong>
-						<p>{$_('tooltip_reviewer_anonymous_message')}</p>
-					</div>
-				</div>
+				</button>
 			{/if}
 		</div>
 	{/if}

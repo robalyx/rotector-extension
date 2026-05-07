@@ -216,7 +216,11 @@
 
 			const structured = asApiError(error);
 
-			if (structured.status === 400 && structured.robloxErrorCode === 3) {
+			const isHiddenMemberList =
+				(structured.status === 403 && structured.robloxErrorCode === 35) ||
+				(structured.status === 400 && structured.robloxErrorCode === 3);
+
+			if (isHiddenMemberList) {
 				membersHidden = true;
 				return;
 			}

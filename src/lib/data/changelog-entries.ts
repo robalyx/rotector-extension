@@ -66,6 +66,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Group members carousel hidden list - Groups with a permission-restricted member list now show the "Use the Tracked tab" empty state instead of a generic error'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Tooltip compact mode - Switching to compact now works right away instead of only after resizing the tooltip'
 			},
 			{

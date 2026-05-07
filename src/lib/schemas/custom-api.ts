@@ -41,7 +41,7 @@ export const CustomApiResponseEnvelopeSchema = v.variant('success', [
 	v.object({ success: v.literal(false), error: v.optional(v.string()) })
 ]);
 
-export const ImportedApiConfigSchema = v.object({
+const ImportedApiConfigSchema = v.object({
 	name: v.pipe(
 		v.string('Missing or invalid "name" field'),
 		v.minLength(1, 'Name must be between 1 and 12 characters'),

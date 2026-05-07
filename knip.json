@@ -10,14 +10,7 @@
 		"src/components/popup/options/api/CustomApiDocumentation.svelte"
 	],
 	"project": ["src/**/*.{ts,svelte}", "!src/**/*.d.ts"],
-	"ignoreDependencies": [
-		"@tailwindcss/vite",
-		"@wxt-dev/module-svelte",
-		"dotenv",
-		"lightningcss",
-		"tslib",
-		"webgl-obj-loader"
-	],
+	"ignoreDependencies": ["dotenv", "lightningcss", "tslib", "webgl-obj-loader"],
 	"rules": {
 		"files": "error",
 		"dependencies": "error",

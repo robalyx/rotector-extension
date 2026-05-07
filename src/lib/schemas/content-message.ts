@@ -14,13 +14,13 @@ const QueueDataSchema = v.object({
 	inappropriateGroups: v.boolean()
 });
 
-export const CaptchaStartMessageSchema = v.object({
+const CaptchaStartMessageSchema = v.object({
 	type: v.literal(CAPTCHA_MESSAGES.CAPTCHA_START),
 	sessionId: v.string(),
 	queueData: QueueDataSchema
 });
 
-export const ContentMessageSchema = v.variant('action', [
+const ContentMessageSchema = v.variant('action', [
 	v.object({
 		action: v.literal(API_ACTIONS.CHECK_USER_STATUS),
 		userId: UserId,

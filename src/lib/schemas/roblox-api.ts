@@ -71,7 +71,7 @@ const Roblox3DMetadataRawSchema = v.object({
 	textures: v.array(v.string())
 });
 
-export const RolesApiResponseSchema = v.object({
+const RolesApiResponseSchema = v.object({
 	groupId: v.number(),
 	roles: v.array(
 		v.object({
@@ -87,7 +87,7 @@ const GroupErrorBodySchema = v.object({
 	errors: v.optional(v.array(v.object({ code: v.number() })))
 });
 
-export const MembersResponseSchema = v.object({
+const MembersResponseSchema = v.object({
 	data: v.array(
 		v.object({
 			userId: v.number(),
@@ -100,7 +100,7 @@ export const MembersResponseSchema = v.object({
 	nextPageCursor: v.nullable(v.string())
 });
 
-export const UserPresencesResponseSchema = v.object({
+const UserPresencesResponseSchema = v.object({
 	userPresences: v.array(
 		v.object({
 			userPresenceType: v.number(),

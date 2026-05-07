@@ -6,9 +6,15 @@ export type ActivityHours = 24 | 168 | 720;
 export type HourlyStatEntry = v.InferOutput<typeof HourlyStatEntrySchema>;
 export type StatsResponse = v.InferOutput<typeof StatsResponseSchema>;
 
-export type UserCategory = 'usersConfirmed' | 'usersFlagged' | 'usersMixed' | 'usersBanned';
-export type GroupCategory = 'groupsConfirmed' | 'groupsFlagged' | 'groupsMixed' | 'groupsLocked';
-export type ActivityCategory = UserCategory | GroupCategory;
+export type ActivityCategory =
+	| 'usersConfirmed'
+	| 'usersFlagged'
+	| 'usersMixed'
+	| 'usersBanned'
+	| 'groupsConfirmed'
+	| 'groupsFlagged'
+	| 'groupsMixed'
+	| 'groupsLocked';
 
 export type StatsState = 'loading' | 'loaded' | 'error' | 'empty';
 

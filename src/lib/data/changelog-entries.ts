@@ -64,6 +64,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Group members carousel - The carousel now renders on community pages even when another extension appends extra fragments to the URL'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Tooltip compact mode - Switching to compact now works right away instead of only after resizing the tooltip'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'

@@ -206,6 +206,7 @@
 	let resizeStartSize = $state<{ width: number; height: number } | null>(null);
 	let customWidth = $state<number | undefined>(undefined);
 	let customHeight = $state<number | undefined>(undefined);
+	let measuredCardWidth = $state<number | undefined>(undefined);
 	let headerCompact = $state(false);
 	let previewPositionFrame: number | null = null;
 
@@ -512,7 +513,7 @@
 	});
 
 	const showCompactColumns = $derived(
-		headerCompact && (tooltipDimensions.width ?? TOOLTIP_SIZE.MIN_WIDTH) >= COMPACT_HEADER_MIN_WIDTH
+		headerCompact && (measuredCardWidth ?? COMPACT_HEADER_MIN_WIDTH) >= COMPACT_HEADER_MIN_WIDTH
 	);
 
 	function getDecodedContent(content: string): string {
@@ -1662,6 +1663,7 @@
 					: undefined}
 				class="expanded-tooltip"
 				class:has-tabs={tabs.length > 1}
+				bind:clientWidth={measuredCardWidth}
 			>
 				<TooltipTabs {tabs} bind:activeTab />
 

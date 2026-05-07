@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Az önce",
 	"queue_history_time_minutes_ago": "{0}d önce",
 	"queue_history_title": "Kuyruk Geçmişi",
+	"queue_history_user_unknown": "Bilinmeyen kullanıcı",
 	"queue_history_view_profile": "Profili Görüntüle",
 	"queue_loading_modal_title": "Talep İşleniyor",
 	"queue_notification_flagged_message": "Kullanıcı {0} işaretlendi.",

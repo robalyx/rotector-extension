@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Gerade eben",
 	"queue_history_time_minutes_ago": "vor {0}m",
 	"queue_history_title": "Warteschlangenverlauf",
+	"queue_history_user_unknown": "Unbekannter Benutzer",
 	"queue_history_view_profile": "Profil anzeigen",
 	"queue_loading_modal_title": "Anfrage wird verarbeitet",
 	"queue_notification_flagged_message": "Benutzer {0} wurde markiert.",

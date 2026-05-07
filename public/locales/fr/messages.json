@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "À l'instant",
 	"queue_history_time_minutes_ago": "il y a {0}m",
 	"queue_history_title": "Historique de la File d'Attente",
+	"queue_history_user_unknown": "Utilisateur inconnu",
 	"queue_history_view_profile": "Voir le Profil",
 	"queue_loading_modal_title": "Traitement de la demande",
 	"queue_notification_flagged_message": "L'utilisateur {0} a été signalé.",

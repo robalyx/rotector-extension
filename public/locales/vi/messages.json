@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Vừa xong",
 	"queue_history_time_minutes_ago": "{0} phút trước",
 	"queue_history_title": "Lịch sử Hàng đợi",
+	"queue_history_user_unknown": "Người dùng không xác định",
 	"queue_history_view_profile": "Xem Hồ sơ",
 	"queue_loading_modal_title": "Đang xử lý yêu cầu",
 	"queue_notification_flagged_message": "Người dùng {0} đã bị gắn cờ.",

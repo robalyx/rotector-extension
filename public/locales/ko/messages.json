@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "방금",
 	"queue_history_time_minutes_ago": "{0}분 전",
 	"queue_history_title": "대기열 기록",
+	"queue_history_user_unknown": "알 수 없는 사용자",
 	"queue_history_view_profile": "프로필 보기",
 	"queue_loading_modal_title": "요청 처리 중",
 	"queue_notification_flagged_message": "사용자 {0}이(가) 신고되었습니다.",

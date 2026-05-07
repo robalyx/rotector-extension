@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "刚刚",
 	"queue_history_time_minutes_ago": "{0}分钟前",
 	"queue_history_title": "队列历史",
+	"queue_history_user_unknown": "未知用户",
 	"queue_history_view_profile": "查看资料",
 	"queue_loading_modal_title": "处理请求中",
 	"queue_notification_flagged_message": "用户 {0} 已被标记。",

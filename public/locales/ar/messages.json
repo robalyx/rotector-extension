@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "الآن",
 	"queue_history_time_minutes_ago": "منذ {0} دقيقة",
 	"queue_history_title": "سجل قائمة الانتظار",
+	"queue_history_user_unknown": "مستخدم غير معروف",
 	"queue_history_view_profile": "عرض الملف الشخصي",
 	"queue_loading_modal_title": "معالجة الطلب",
 	"queue_notification_flagged_message": "تم الإبلاغ عن المستخدم {0}.",

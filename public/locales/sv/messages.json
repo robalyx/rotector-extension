@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Just nu",
 	"queue_history_time_minutes_ago": "{0}m sedan",
 	"queue_history_title": "Köhistorik",
+	"queue_history_user_unknown": "Okänd användare",
 	"queue_history_view_profile": "Visa profil",
 	"queue_loading_modal_title": "Bearbetar begäran",
 	"queue_notification_flagged_message": "Användare {0} har flaggats.",

@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Proprio ora",
 	"queue_history_time_minutes_ago": "{0}m fa",
 	"queue_history_title": "Cronologia Coda",
+	"queue_history_user_unknown": "Utente sconosciuto",
 	"queue_history_view_profile": "Visualizza Profilo",
 	"queue_loading_modal_title": "Elaborazione Richiesta",
 	"queue_notification_flagged_message": "L'utente {0} è stato segnalato.",

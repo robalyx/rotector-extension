@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "剛剛",
 	"queue_history_time_minutes_ago": "{0}分鐘前",
 	"queue_history_title": "佇列歷史",
+	"queue_history_user_unknown": "未知使用者",
 	"queue_history_view_profile": "檢視個人檔案",
 	"queue_loading_modal_title": "處理請求中",
 	"queue_notification_flagged_message": "使用者 {0} 已被標記。",

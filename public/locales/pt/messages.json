@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Agora mesmo",
 	"queue_history_time_minutes_ago": "{0}m atrás",
 	"queue_history_title": "Histórico da Fila",
+	"queue_history_user_unknown": "Usuário desconhecido",
 	"queue_history_view_profile": "Ver Perfil",
 	"queue_loading_modal_title": "Processando Solicitação",
 	"queue_notification_flagged_message": "Usuário {0} foi sinalizado.",

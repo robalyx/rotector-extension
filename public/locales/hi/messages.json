@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "अभी-अभी",
 	"queue_history_time_minutes_ago": "{0} मिनट पहले",
 	"queue_history_title": "कतार इतिहास",
+	"queue_history_user_unknown": "अज्ञात उपयोगकर्ता",
 	"queue_history_view_profile": "प्रोफ़ाइल देखें",
 	"queue_loading_modal_title": "अनुरोध संसाधित हो रहा है",
 	"queue_notification_flagged_message": "उपयोगकर्ता {0} को फ्लैग किया गया है।",

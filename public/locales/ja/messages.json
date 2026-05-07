@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "たった今",
 	"queue_history_time_minutes_ago": "{0}分前",
 	"queue_history_title": "キュー履歴",
+	"queue_history_user_unknown": "不明なユーザー",
 	"queue_history_view_profile": "プロフィールを見る",
 	"queue_loading_modal_title": "リクエスト処理中",
 	"queue_notification_flagged_message": "ユーザー {0} がフラグ付けされました。",

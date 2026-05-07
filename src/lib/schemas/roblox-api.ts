@@ -25,7 +25,13 @@ const RobloxThumbnailResponseSchema = v.object({
 });
 
 const RobloxUserBasicSchema = v.object({
-	name: v.string()
+	id: v.number(),
+	name: v.string(),
+	displayName: v.string()
+});
+
+const RobloxUsersByIdResponseSchema = v.object({
+	data: v.array(RobloxUserBasicSchema)
 });
 
 const RobloxAvatarThumbnailResponseSchema = v.object({
@@ -107,13 +113,9 @@ export const UserPresencesResponseSchema = v.object({
 const GroupThumbnailBatchResponseSchema = v.object({
 	data: v.array(
 		v.object({
-			requestId: v.string(),
-			errorCode: v.number(),
-			errorMessage: v.string(),
 			targetId: v.number(),
 			state: v.string(),
-			imageUrl: v.string(),
-			version: v.string()
+			imageUrl: v.nullable(v.string())
 		})
 	)
 });
@@ -128,6 +130,7 @@ export type UserPresence = v.InferOutput<
 export const parseRobloxOutfitsResponse = v.parser(RobloxOutfitsResponseSchema);
 export const parseRobloxThumbnailResponse = v.parser(RobloxThumbnailResponseSchema);
 export const parseRobloxUserBasic = v.parser(RobloxUserBasicSchema);
+export const parseRobloxUsersByIdResponse = v.parser(RobloxUsersByIdResponseSchema);
 export const parseRobloxAvatarThumbnail = v.parser(RobloxAvatarThumbnailResponseSchema);
 export const parseRoblox3DApiResponse = v.parser(Roblox3DApiResponseSchema);
 export const parseRoblox3DMetadataRaw = v.parser(Roblox3DMetadataRawSchema);

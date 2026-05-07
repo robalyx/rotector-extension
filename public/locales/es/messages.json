@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Ahora mismo",
 	"queue_history_time_minutes_ago": "hace {0}m",
 	"queue_history_title": "Historial de Cola",
+	"queue_history_user_unknown": "Usuario desconocido",
 	"queue_history_view_profile": "Ver Perfil",
 	"queue_loading_modal_title": "Procesando Solicitud",
 	"queue_notification_flagged_message": "El usuario {0} ha sido marcado.",

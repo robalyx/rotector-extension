@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Щойно",
 	"queue_history_time_minutes_ago": "{0}хв тому",
 	"queue_history_title": "Історія черги",
+	"queue_history_user_unknown": "Невідомий користувач",
 	"queue_history_view_profile": "Переглянути профіль",
 	"queue_loading_modal_title": "Обробка запиту",
 	"queue_notification_flagged_message": "Користувача {0} було позначено.",

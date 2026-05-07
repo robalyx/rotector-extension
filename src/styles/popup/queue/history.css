@@ -101,8 +101,8 @@
 
 @utility queue-row {
 	@apply flex items-center rounded-md;
-	gap: 0.625rem;
-	padding: 0.5rem 0.125rem 0.5rem 0.375rem;
+	gap: 0.5rem;
+	padding: 0.375rem 0.125rem 0.375rem 0.25rem;
 	transition: background-color 0.15s ease;
 
 	&:hover {
@@ -112,28 +112,42 @@
 			opacity: 1;
 		}
 	}
+}
 
-	&.queue-row-processing .queue-row-icon {
-		color: var(--color-primary);
-	}
+@utility queue-row-identity {
+	@apply flex flex-1 cursor-pointer items-center border-none bg-transparent p-0 text-left;
+	gap: 0.5rem;
+	min-width: 0;
 
-	&.queue-row-flagged .queue-row-icon {
-		color: var(--color-error);
-	}
-
-	&.queue-row-safe .queue-row-icon {
-		color: var(--color-success);
+	&:focus-visible {
+		@apply rounded-md;
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
 	}
 }
 
-@utility queue-row-icon {
-	@apply inline-flex flex-shrink-0 items-center justify-center;
-	width: 1.25rem;
-	height: 1.25rem;
+@utility queue-row-avatar {
+	@apply relative flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full;
+	width: 2.25rem;
+	height: 2.25rem;
+	background-color: var(--color-bg-tertiary);
+	box-shadow: 0 0 0 2px var(--color-border-subtle);
+
+	& img {
+		@apply h-full w-full object-cover;
+	}
 }
 
-@utility queue-icon-spin {
-	animation: spin-smooth 1.2s linear infinite;
+@utility queue-row-avatar-processing {
+	box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+@utility queue-row-avatar-flagged {
+	box-shadow: 0 0 0 2px var(--color-error);
+}
+
+@utility queue-row-avatar-safe {
+	box-shadow: 0 0 0 2px var(--color-success);
 }
 
 @utility queue-row-body {
@@ -141,14 +155,44 @@
 	gap: 0.0625rem;
 }
 
-@utility queue-row-id {
+@utility queue-row-name {
 	@apply overflow-hidden text-xs font-semibold text-ellipsis whitespace-nowrap;
 	color: var(--color-text-heading);
 }
 
-@utility queue-row-time {
-	@apply text-xs-plus;
-	color: var(--color-text-subtle);
+@utility queue-row-meta {
+	@apply text-2xs overflow-hidden text-ellipsis whitespace-nowrap;
+	color: var(--color-text-tertiary);
+}
+
+@utility queue-row-skeleton {
+	@apply relative block overflow-hidden rounded-[3px];
+	background-color: var(--color-bg-tertiary);
+
+	&::after {
+		@apply shimmer absolute inset-0;
+		content: '';
+		background: linear-gradient(
+			90deg,
+			transparent,
+			color-mix(in srgb, var(--color-text) 8%, transparent),
+			transparent
+		);
+		background-size: 200% 100%;
+	}
+}
+
+@utility queue-row-skeleton-name {
+	@apply queue-row-skeleton;
+	width: 5rem;
+	height: 0.625rem;
+}
+
+@utility queue-row-skeleton-meta {
+	@apply queue-row-skeleton;
+	width: 7.5rem;
+	height: 0.5rem;
+	margin-top: 0.25rem;
 }
 
 @utility queue-row-actions {

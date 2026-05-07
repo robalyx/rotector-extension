@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { flip } from 'svelte/animate';
+	import { SvelteMap } from 'svelte/reactivity';
 	import { crossfade } from 'svelte/transition';
 	import { queueHistory, loadQueueHistory } from '@/lib/stores/queue-history';
 	import { clearQueueHistory, removeQueueEntry } from '@/lib/utils/queue-history-storage';
+	import { getUsersInfoBatch, type UserInfo } from '@/lib/services/roblox/users';
 	import type { QueueHistoryEntry } from '@/lib/types/queue-history';
 	import { ListX } from '@lucide/svelte';
 	import LoadingSpinner from '../../ui/LoadingSpinner.svelte';
@@ -11,6 +13,7 @@
 
 	let isLoading = $state(true);
 	let mounted = $state(false);
+	const userInfo = new SvelteMap<number, UserInfo | null | undefined>();
 
 	const [send, receive] = crossfade({
 		duration: 220,
@@ -44,6 +47,20 @@
 		void loadQueueHistory().finally(() => {
 			isLoading = false;
 			mounted = true;
+		});
+	});
+
+	$effect(() => {
+		const ids: number[] = [];
+		for (const entry of $queueHistory) {
+			if (!userInfo.has(entry.userId)) {
+				ids.push(entry.userId);
+				userInfo.set(entry.userId, undefined);
+			}
+		}
+		if (ids.length === 0) return;
+		void getUsersInfoBatch(ids).then((batch) => {
+			for (const [id, info] of batch) userInfo.set(id, info);
 		});
 	});
 
@@ -139,6 +156,7 @@
 										onRemove={handleRemove}
 										onView={openProfile}
 										timeText={entryTimeText(entry)}
+										userInfo={userInfo.get(entry.userId)}
 										variant={group.variant}
 									/>
 								</li>

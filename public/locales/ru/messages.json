@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Только что",
 	"queue_history_time_minutes_ago": "{0} мин назад",
 	"queue_history_title": "История очереди",
+	"queue_history_user_unknown": "Неизвестный пользователь",
 	"queue_history_view_profile": "Посмотреть профиль",
 	"queue_loading_modal_title": "Обработка запроса",
 	"queue_notification_flagged_message": "Пользователь {0} был отмечен.",

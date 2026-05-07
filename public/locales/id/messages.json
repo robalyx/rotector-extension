@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "Baru saja",
 	"queue_history_time_minutes_ago": "{0}m yang lalu",
 	"queue_history_title": "Riwayat Antrean",
+	"queue_history_user_unknown": "Pengguna tidak dikenal",
 	"queue_history_view_profile": "Lihat Profil",
 	"queue_loading_modal_title": "Memproses Permintaan",
 	"queue_notification_flagged_message": "Pengguna {0} telah ditandai.",

@@ -14,6 +14,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Tooltip export - Save the expanded tooltip as a PNG or copy it to the clipboard from the 3-dot menu'
 			},
 			{
+				type: 'added',
+				description:
+					'Queue history user identity - Each entry shows the user’s avatar, display name, and @username instead of just a numeric ID'
+			},
+			{
 				type: 'changed',
 				description:
 					'Progressive status indicators - Lists leave the loading spinner as soon as Rotector resolves, without waiting for every enabled custom API'

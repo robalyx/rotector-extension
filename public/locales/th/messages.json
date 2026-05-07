@@ -594,6 +594,7 @@
 	"queue_history_time_just_now": "เมื่อสักครู่",
 	"queue_history_time_minutes_ago": "{0} นาทีที่แล้ว",
 	"queue_history_title": "ประวัติคิว",
+	"queue_history_user_unknown": "ผู้ใช้ที่ไม่รู้จัก",
 	"queue_history_view_profile": "ดูโปรไฟล์",
 	"queue_loading_modal_title": "กำลังประมวลผลคำขอ",
 	"queue_notification_flagged_message": "ผู้ใช้ {0} ถูกตั้งค่าสถานะแล้ว",

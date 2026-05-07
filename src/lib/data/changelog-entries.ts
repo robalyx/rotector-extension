@@ -49,6 +49,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Activity chart - Readable 7d and 30d views as well as 12-hour clock labels on the 24h view'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Group members carousel tooltip - Hovering a tile past the first page now shows the avatar, username, and display name in the tooltip header'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'

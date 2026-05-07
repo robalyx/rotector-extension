@@ -459,10 +459,6 @@
 	}
 
 	function mountStatusIndicator(tileElement: HTMLElement, userId: string) {
-		// Find user info from either by-role members or tracked users
-		const member = memberById.get(userId);
-		const trackedUser = trackedUserById.get(userId);
-
 		// Find or create status container
 		let container = tileElement.querySelector<HTMLElement>(
 			`.${COMPONENT_CLASSES.STATUS_CONTAINER}`
@@ -485,9 +481,21 @@
 				showText: false,
 				skipAutoFetch: true,
 				onQueue: handleQueueUser,
-				userUsername: member?.username ?? trackedUser?.name,
-				userDisplayName: member?.displayName ?? trackedUser?.displayName,
-				userAvatarUrl: member ? thumbnails.get(member.userId) : trackedUser?.thumbnailUrl
+				get userUsername() {
+					const member = memberById.get(userId);
+					const trackedUser = trackedUserById.get(userId);
+					return member?.username ?? trackedUser?.name;
+				},
+				get userDisplayName() {
+					const member = memberById.get(userId);
+					const trackedUser = trackedUserById.get(userId);
+					return member?.displayName ?? trackedUser?.displayName;
+				},
+				get userAvatarUrl() {
+					const member = memberById.get(userId);
+					const trackedUser = trackedUserById.get(userId);
+					return member ? thumbnails.get(member.userId) : trackedUser?.thumbnailUrl;
+				}
 			}
 		});
 

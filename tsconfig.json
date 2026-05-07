@@ -35,5 +35,7 @@
 		"exactOptionalPropertyTypes": true, // foo?: string disallows assigning undefined
 		"noFallthroughCasesInSwitch": true, // Require break/return in non-empty case blocks
 		"noPropertyAccessFromIndexSignature": true // Force obj["k"] for index signatures
-	}
+	},
+	"include": ["**/*", ".wxt/wxt.d.ts"],
+	"exclude": [".output", ".wxt/chrome-data", "node_modules"]
 }

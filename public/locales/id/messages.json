@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Akun ini mungkin merupakan akun sekali pakai atau akun alternatif yang sistem kami pilih untuk tidak dianalisis guna mencegah penyalahgunaan dari antrean massal yang bertujuan membuang sumber daya sistem.",
 	"tooltip_safe_reasons_title": "Mengapa pengguna ini tidak ditandai?",
 	"tooltip_status_checking": "Memeriksa...",
+	"tooltip_status_integration": "Tanda Integrasi",
 	"tooltip_status_mixed": "Campuran",
 	"tooltip_status_not_checked": "Belum Diperiksa",
 	"tooltip_status_not_flagged": "Tidak Ditandai",

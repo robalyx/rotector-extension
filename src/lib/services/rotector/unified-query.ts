@@ -14,6 +14,7 @@ import { abortableSleep, getAbortError } from '../../utils/abort';
 import { asApiError } from '../../utils/api/api-error';
 import { API_CONFIG, LOOKUP_CONTEXT, STATUS } from '../../types/constants';
 import { SETTINGS_KEYS } from '../../types/settings';
+import { isActionableResult } from '../../utils/status/status-utils';
 import { get } from 'svelte/store';
 
 interface QueryMultipleUsersOptions {
@@ -299,17 +300,7 @@ export function countCustomApiFlags<T extends UserStatus | GroupStatus>(
 	let count = 0;
 	for (const [apiId, result] of combined.entries()) {
 		if (apiId === ROTECTOR_API_ID) continue;
-
-		if (
-			result.data &&
-			(result.data.flagType === STATUS.FLAGS.UNSAFE ||
-				result.data.flagType === STATUS.FLAGS.PENDING ||
-				result.data.flagType === STATUS.FLAGS.MIXED ||
-				result.data.flagType === STATUS.FLAGS.PAST_OFFENDER ||
-				result.data.flagType === STATUS.FLAGS.REDACTED)
-		) {
-			count++;
-		}
+		if (isActionableResult(result)) count++;
 	}
 	return count;
 }

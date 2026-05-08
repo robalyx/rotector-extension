@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "이 계정은 일회용 또는 부계정일 수 있으며, 시스템 리소스를 낭비하려는 대량 큐잉 악용을 방지하기 위해 시스템이 분석하지 않기로 결정했습니다.",
 	"tooltip_safe_reasons_title": "이 사용자는 왜 플래그되지 않았나요?",
 	"tooltip_status_checking": "확인 중...",
+	"tooltip_status_integration": "통합 플래그",
 	"tooltip_status_mixed": "혼합",
 	"tooltip_status_not_checked": "미검토",
 	"tooltip_status_not_flagged": "신고 안 됨",

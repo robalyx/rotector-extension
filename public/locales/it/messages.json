@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "L'account potrebbe essere un account usa e getta o alternativo che il nostro sistema ha scelto di non analizzare per prevenire abusi derivanti dall'accodamento di massa inteso a sprecare risorse di sistema.",
 	"tooltip_safe_reasons_title": "Perché questo utente non è stato segnalato?",
 	"tooltip_status_checking": "Controllo...",
+	"tooltip_status_integration": "Segnalazione integrazione",
 	"tooltip_status_mixed": "Misto",
 	"tooltip_status_not_checked": "Non Verificato",
 	"tooltip_status_not_flagged": "Non Segnalato",

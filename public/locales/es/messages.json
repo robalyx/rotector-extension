@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "La cuenta puede ser una cuenta desechable o alternativa que nuestro sistema eligió no analizar para prevenir el abuso de envíos masivos destinados a desperdiciar recursos del sistema.",
 	"tooltip_safe_reasons_title": "¿Por qué no fue marcado este usuario?",
 	"tooltip_status_checking": "Verificando...",
+	"tooltip_status_integration": "Marca de integración",
 	"tooltip_status_mixed": "Mixto",
 	"tooltip_status_not_checked": "Sin Revisar",
 	"tooltip_status_not_flagged": "No Marcado",

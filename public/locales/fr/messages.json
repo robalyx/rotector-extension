@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Le compte peut être un compte jetable ou secondaire que notre système a choisi de ne pas analyser afin d'empêcher les abus liés aux soumissions massives destinées à gaspiller les ressources du système.",
 	"tooltip_safe_reasons_title": "Pourquoi cet utilisateur n'a-t-il pas été signalé ?",
 	"tooltip_status_checking": "Vérification...",
+	"tooltip_status_integration": "Marqueur d'intégration",
 	"tooltip_status_mixed": "Mixte",
 	"tooltip_status_not_checked": "Non Vérifié",
 	"tooltip_status_not_flagged": "Non Signalé",

@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Konto może być jednorazowe lub alternatywne, które nasz system zdecydował się nie analizować, aby zapobiec nadużyciom wynikającym z masowego dodawania do kolejki w celu marnowania zasobów systemu.",
 	"tooltip_safe_reasons_title": "Dlaczego ten użytkownik nie został oznaczony?",
 	"tooltip_status_checking": "Sprawdzanie...",
+	"tooltip_status_integration": "Flaga integracji",
 	"tooltip_status_mixed": "Mieszany",
 	"tooltip_status_not_checked": "Nie sprawdzony",
 	"tooltip_status_not_flagged": "Nie oznaczony",

@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "यह खाता एक डिस्पोज़ेबल या वैकल्पिक खाता हो सकता है जिसका हमारे सिस्टम ने विश्लेषण न करने का निर्णय लिया, ताकि सिस्टम संसाधनों को बर्बाद करने के उद्देश्य से बड़े पैमाने पर कतार में डालने से होने वाले दुरुपयोग को रोका जा सके।",
 	"tooltip_safe_reasons_title": "इस उपयोगकर्ता को फ्लैग क्यों नहीं किया गया?",
 	"tooltip_status_checking": "जांच हो रही है...",
+	"tooltip_status_integration": "इंटीग्रेशन फ़्लैग",
 	"tooltip_status_mixed": "मिश्रित",
 	"tooltip_status_not_checked": "जाँच नहीं हुई",
 	"tooltip_status_not_flagged": "फ्लैग नहीं किया गया",

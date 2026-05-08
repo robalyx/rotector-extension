@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "অ্যাকাউন্টটি একটি অস্থায়ী বা বিকল্প অ্যাকাউন্ট হতে পারে যা আমাদের সিস্টেম বিশ্লেষণ না করার সিদ্ধান্ত নিয়েছে, সিস্টেম সম্পদ অপচয়ের উদ্দেশ্যে গণ জমাদানের মাধ্যমে অপব্যবহার রোধ করতে।",
 	"tooltip_safe_reasons_title": "এই ব্যবহারকারী কেন ফ্ল্যাগ হয়নি?",
 	"tooltip_status_checking": "পরীক্ষা করা হচ্ছে...",
+	"tooltip_status_integration": "ইন্টিগ্রেশন ফ্ল্যাগ",
 	"tooltip_status_mixed": "মিশ্র",
 	"tooltip_status_not_checked": "পরীক্ষিত নয়",
 	"tooltip_status_not_flagged": "ফ্ল্যাগ করা হয়নি",

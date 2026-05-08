@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "このアカウントは使い捨てまたはサブアカウントである可能性があり、システムリソースを浪費する大量キューイングによる悪用を防ぐため、システムが分析しないことを選択しました。",
 	"tooltip_safe_reasons_title": "なぜこのユーザーはフラグが付けられなかったのですか？",
 	"tooltip_status_checking": "チェック中...",
+	"tooltip_status_integration": "連携フラグ",
 	"tooltip_status_mixed": "混在",
 	"tooltip_status_not_checked": "未確認",
 	"tooltip_status_not_flagged": "フラグなし",

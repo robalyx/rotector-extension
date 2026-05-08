@@ -1,9 +1,10 @@
 import { fetchAllFriendIds } from '../roblox/friends';
 import { fetchAllUserGroupIds } from '../roblox/groups';
 import { groupStatusService } from './entity-status';
-import { queryMultipleUsers } from './unified-query';
+import { countCustomApiFlags, queryMultipleUsers } from './unified-query';
 import { ROTECTOR_API_ID } from '../../stores/custom-apis';
 import type { UserStatus } from '../../types/api';
+import type { CombinedStatus } from '../../types/custom-api';
 import { LOOKUP_CONTEXT, STATUS } from '../../types/constants';
 import { calculateStatusBadges } from '../../utils/status/status-utils';
 
@@ -20,6 +21,7 @@ export type ScanCategory =
 	| 'provisional'
 	| 'queued'
 	| 'outfit'
+	| 'integration'
 	| 'safe';
 export type ScanCounts = Map<ScanCategory, number>;
 
@@ -44,11 +46,18 @@ function flagToCategory(flagType: number): ScanCategory {
 	}
 }
 
-// Layers outfit-only and queued+processed overrides on top of the flag mapping
-function userResultToCategory(status: UserStatus): ScanCategory {
-	if (calculateStatusBadges(status).isOutfitOnly) return 'outfit';
-	if (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true) return 'safe';
-	return flagToCategory(status.flagType);
+// Picks one bucket per friend, applying outfit/queued overrides and promoting Rotector-safe friends to 'integration' when a custom API flagged them
+function combinedResultToCategory(combined: CombinedStatus<UserStatus>): ScanCategory | null {
+	const data = combined.get(ROTECTOR_API_ID)?.data;
+	if (!data) return null;
+
+	if (calculateStatusBadges(data).isOutfitOnly) return 'outfit';
+
+	const isProcessedQueue = data.flagType === STATUS.FLAGS.QUEUED && data.processed === true;
+	const category = isProcessedQueue ? 'safe' : flagToCategory(data.flagType);
+
+	if (category === 'safe' && countCustomApiFlags(combined) > 0) return 'integration';
+	return category;
 }
 
 function increment(counts: ScanCounts, category: ScanCategory): void {
@@ -93,9 +102,8 @@ export async function scanFriendsForUser(
 	);
 
 	for (const combined of results.values()) {
-		const data = combined.get(ROTECTOR_API_ID)?.data;
-		if (!data) continue;
-		increment(counts, userResultToCategory(data));
+		const category = combinedResultToCategory(combined);
+		if (category) increment(counts, category);
 	}
 
 	return counts;

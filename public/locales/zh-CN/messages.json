@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "该账户可能是一次性账户或小号，我们的系统选择不对其进行分析，以防止通过大量排队来浪费系统资源的滥用行为。",
 	"tooltip_safe_reasons_title": "为什么这个用户没有被标记？",
 	"tooltip_status_checking": "检查中...",
+	"tooltip_status_integration": "集成标记",
 	"tooltip_status_mixed": "混合",
 	"tooltip_status_not_checked": "未检查",
 	"tooltip_status_not_flagged": "未标记",

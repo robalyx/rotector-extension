@@ -11,4 +11,5 @@ export type StatusIconName =
 	| 'mixed'
 	| 'redacted'
 	| 'restricted'
-	| 'outfit';
+	| 'outfit'
+	| 'integration';

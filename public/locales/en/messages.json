@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "The account may be a throwaway or alt that our system chose not to analyze to prevent abuse from mass queueing intended to waste system resources.",
 	"tooltip_safe_reasons_title": "Why wasn't this user flagged?",
 	"tooltip_status_checking": "Checking...",
+	"tooltip_status_integration": "Integration Flag",
 	"tooltip_status_mixed": "Mixed",
 	"tooltip_status_not_checked": "Not Checked",
 	"tooltip_status_not_flagged": "Not Flagged",

@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Het account is mogelijk een wegwerpaccount of alt dat ons systeem heeft gekozen niet te analyseren om misbruik door massa-wachtrijplaatsing te voorkomen, bedoeld om systeembronnen te verspillen.",
 	"tooltip_safe_reasons_title": "Waarom is deze gebruiker niet gemarkeerd?",
 	"tooltip_status_checking": "Controleren...",
+	"tooltip_status_integration": "Integratievlag",
 	"tooltip_status_mixed": "Gemengd",
 	"tooltip_status_not_checked": "Niet Gecontroleerd",
 	"tooltip_status_not_flagged": "Niet Gemarkeerd",

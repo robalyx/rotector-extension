@@ -21,7 +21,7 @@ export const FIRST_DETECTION_FLAG_TYPES = new Set<number>([
 ]);
 
 // Check if an individual API result has flagged the entity
-function isActionableResult<T extends UserStatus | GroupStatus>(
+export function isActionableResult<T extends UserStatus | GroupStatus>(
 	result: CustomApiResult<T>
 ): boolean {
 	return !!result.data && ACTIONABLE_FLAG_TYPES.has(result.data.flagType);

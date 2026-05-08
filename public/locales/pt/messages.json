@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "A conta pode ser descartável ou alternativa que nosso sistema optou por não analisar para evitar abusos de enfileiramento em massa destinados a desperdiçar recursos do sistema.",
 	"tooltip_safe_reasons_title": "Por que este usuário não foi sinalizado?",
 	"tooltip_status_checking": "Verificando...",
+	"tooltip_status_integration": "Sinalização de integração",
 	"tooltip_status_mixed": "Misto",
 	"tooltip_status_not_checked": "Não Verificado",
 	"tooltip_status_not_flagged": "Não Sinalizado",

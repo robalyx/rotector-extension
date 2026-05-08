@@ -24,6 +24,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Profile scan bars - Friends and Communities carousels on profile pages now show a bulk scan summary inline with each section heading, mirroring the friends list page'
 			},
 			{
+				type: 'added',
+				description:
+					'Integration scan bar chip - Friends scan bar adds a teal chip for Not Flagged friends caught by an enabled integration API'
+			},
+			{
 				type: 'changed',
 				description:
 					'Scan bar granularity - Now shows a separate chip for each status type instead of grouping several together'

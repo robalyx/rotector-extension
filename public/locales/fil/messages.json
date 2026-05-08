@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Ang account ay maaaring isang throwaway o alt na pinili ng aming sistema na huwag suriin upang maiwasan ang pang-aabuso mula sa mass queueing na naglalayong mag-aksaya ng mga mapagkukunan ng sistema.",
 	"tooltip_safe_reasons_title": "Bakit hindi na-flag ang user na ito?",
 	"tooltip_status_checking": "Sinusuri...",
+	"tooltip_status_integration": "Flag ng Integration",
 	"tooltip_status_mixed": "Halo-halo",
 	"tooltip_status_not_checked": "Hindi Nasuri",
 	"tooltip_status_not_flagged": "Hindi Na-flag",

@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Аккаунт может быть одноразовым или альтернативным, который наша система решила не анализировать, чтобы предотвратить злоупотребление массовой постановкой в очередь для расходования ресурсов системы.",
 	"tooltip_safe_reasons_title": "Почему этот пользователь не был помечен?",
 	"tooltip_status_checking": "Проверка...",
+	"tooltip_status_integration": "Метка интеграции",
 	"tooltip_status_mixed": "Смешанный",
 	"tooltip_status_not_checked": "Не проверено",
 	"tooltip_status_not_flagged": "Не отмечено",

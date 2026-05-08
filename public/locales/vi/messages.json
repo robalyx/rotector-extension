@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Tài khoản có thể là tài khoản dùng một lần hoặc tài khoản phụ mà hệ thống của chúng tôi đã chọn không phân tích để ngăn chặn lạm dụng từ việc xếp hàng hàng loạt nhằm lãng phí tài nguyên hệ thống.",
 	"tooltip_safe_reasons_title": "Tại sao người dùng này không bị gắn cờ?",
 	"tooltip_status_checking": "Đang kiểm tra...",
+	"tooltip_status_integration": "Cờ tích hợp",
 	"tooltip_status_mixed": "Hỗn hợp",
 	"tooltip_status_not_checked": "Chưa Kiểm tra",
 	"tooltip_status_not_flagged": "Chưa Gắn cờ",

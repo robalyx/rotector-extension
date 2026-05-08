@@ -58,6 +58,11 @@
 			icon: 'outfit',
 			color: 'var(--color-status-outfit)'
 		},
+		integration: {
+			labelKey: 'tooltip_status_integration',
+			icon: 'integration',
+			color: 'var(--color-status-integration)'
+		},
 		safe: {
 			labelKey: 'tooltip_status_not_checked',
 			icon: 'safe',

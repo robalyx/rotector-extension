@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Das Konto könnte ein Wegwerf- oder Alternativkonto sein, das unser System nicht analysiert hat, um Missbrauch durch massenhaftes Einreihen zur Verschwendung von Systemressourcen zu verhindern.",
 	"tooltip_safe_reasons_title": "Warum wurde dieser Benutzer nicht markiert?",
 	"tooltip_status_checking": "Überprüfe...",
+	"tooltip_status_integration": "Integrations-Flag",
 	"tooltip_status_mixed": "Gemischt",
 	"tooltip_status_not_checked": "Nicht geprüft",
 	"tooltip_status_not_flagged": "Nicht markiert",

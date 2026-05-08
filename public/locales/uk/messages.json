@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Обліковий запис може бути одноразовим або альтернативним, який наша система вирішила не аналізувати, щоб запобігти зловживанню масовою постановкою в чергу з метою марнування системних ресурсів.",
 	"tooltip_safe_reasons_title": "Чому цього користувача не було позначено?",
 	"tooltip_status_checking": "Перевірка...",
+	"tooltip_status_integration": "Позначка інтеграції",
 	"tooltip_status_mixed": "Змішаний",
 	"tooltip_status_not_checked": "Не перевірено",
 	"tooltip_status_not_flagged": "Не позначено",

@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "該帳號可能是一次性帳號或分身帳號，我們的系統選擇不對其進行分析，以防止透過大量排隊來浪費系統資源的濫用行為。",
 	"tooltip_safe_reasons_title": "為什麼這個使用者沒有被標記？",
 	"tooltip_status_checking": "檢查中...",
+	"tooltip_status_integration": "整合標記",
 	"tooltip_status_mixed": "混合",
 	"tooltip_status_not_checked": "未檢查",
 	"tooltip_status_not_flagged": "未標記",

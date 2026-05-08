@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Kontot kan vara ett engångs- eller altkonto som vårt system valde att inte analysera för att förhindra missbruk genom massköning avsedd att slösa systemresurser.",
 	"tooltip_safe_reasons_title": "Varför flaggades inte denna användare?",
 	"tooltip_status_checking": "Kontrollerar...",
+	"tooltip_status_integration": "Integrationsflagga",
 	"tooltip_status_mixed": "Blandad",
 	"tooltip_status_not_checked": "Ej granskad",
 	"tooltip_status_not_flagged": "Inte flaggad",

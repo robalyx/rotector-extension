@@ -8,7 +8,8 @@
 		History,
 		CircleQuestionMark,
 		Lock,
-		Ban
+		Ban,
+		Plug
 	} from '@lucide/svelte';
 	import type { StatusIconName } from '@/lib/utils/icon-mapping';
 
@@ -38,7 +39,8 @@
 		mixed: CircleQuestionMark,
 		'past-offender': History,
 		redacted: Lock,
-		restricted: Ban
+		restricted: Ban,
+		integration: Plug
 	};
 	const Icon = $derived(ICON_BY_NAME[name]);
 </script>

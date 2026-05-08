@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "Bu hesap, sistemimizin toplu kuyruğa alma yoluyla sistem kaynaklarını boşa harcamayı önlemek amacıyla analiz etmemeyi tercih ettiği bir geçici veya yan hesap olabilir.",
 	"tooltip_safe_reasons_title": "Bu kullanıcı neden işaretlenmedi?",
 	"tooltip_status_checking": "Kontrol ediliyor...",
+	"tooltip_status_integration": "Entegrasyon işareti",
 	"tooltip_status_mixed": "Karışık",
 	"tooltip_status_not_checked": "Kontrol Edilmedi",
 	"tooltip_status_not_flagged": "İşaretlenmedi",

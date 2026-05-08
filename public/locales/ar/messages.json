@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "قد يكون الحساب مؤقتًا أو بديلاً اختار نظامنا عدم تحليله لمنع إساءة الاستخدام عبر الإرسال الجماعي الذي يهدف إلى إهدار موارد النظام.",
 	"tooltip_safe_reasons_title": "لماذا لم يتم الإبلاغ عن هذا المستخدم؟",
 	"tooltip_status_checking": "جارٍ الفحص...",
+	"tooltip_status_integration": "علامة تكامل",
 	"tooltip_status_mixed": "مختلط",
 	"tooltip_status_not_checked": "غير مفحوص",
 	"tooltip_status_not_flagged": "غير مُبلغ عنه",

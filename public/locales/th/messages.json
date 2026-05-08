@@ -890,6 +890,7 @@
 	"tooltip_safe_reason_throwaway_alt": "บัญชีอาจเป็นบัญชีชั่วคราวหรือบัญชีสำรองที่ระบบของเราเลือกไม่วิเคราะห์เพื่อป้องกันการใช้ในทางที่ผิดจากการเข้าคิวจำนวนมากที่มุ่งสิ้นเปลืองทรัพยากรระบบ",
 	"tooltip_safe_reasons_title": "ทำไมผู้ใช้นี้ไม่ถูกตั้งค่าสถานะ?",
 	"tooltip_status_checking": "กำลังตรวจสอบ...",
+	"tooltip_status_integration": "แฟล็กการเชื่อมต่อ",
 	"tooltip_status_mixed": "ผสม",
 	"tooltip_status_not_checked": "ยังไม่ตรวจสอบ",
 	"tooltip_status_not_flagged": "ไม่ได้ถูกตั้งค่าสถานะ",

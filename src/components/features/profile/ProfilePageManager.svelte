@@ -35,6 +35,8 @@
 	} from '@/lib/services/blur/profile';
 	import { isFlagged } from '@/lib/utils/status/status-utils';
 	import { detectEncoding } from '@/lib/services/cipher/encoding-detector';
+	import { getLoggedInUserId } from '@/lib/utils/client-id';
+	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import StatusIndicator from '../../status/StatusIndicator.svelte';
 	import MembershipPill from '@/components/ui/membership/MembershipPill.svelte';
 	import { tierNameOf, tierOf } from '@/lib/utils/membership-designs';
@@ -43,6 +45,8 @@
 	import type { QueueModalManagerInstance } from '../queue/queue-modal-manager';
 	import UserListManager from '../lists/UserListManager.svelte';
 	import GroupListManager from '../groups/GroupListManager.svelte';
+	import FriendsScanBar from '../friends/FriendsScanBar.svelte';
+	import GroupsScanBar from '../groups/GroupsScanBar.svelte';
 	import CipherIndicator from '../cipher/CipherIndicator.svelte';
 	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
 
@@ -79,6 +83,8 @@
 	let blurObserverCleanup: (() => void) | null = null;
 	let nameObserverCleanup: (() => void) | null = null;
 	let cipherContainer: HTMLElement | null = null;
+	let friendsScanBarCleanup: (() => void) | null = null;
+	let groupsScanBarCleanup: (() => void) | null = null;
 
 	function shouldBlurOutfit(status: CombinedStatus<UserStatus>): boolean {
 		for (const result of status.values()) {
@@ -123,8 +129,8 @@
 
 		await Promise.all([
 			setupFriendWarning(),
-			setupCarousel(),
-			setupGroupsShowcase(),
+			setupCarousel().then(setupFriendsScanBar),
+			setupGroupsShowcase().then(setupGroupsScanBar),
 			setupCipherIndicator()
 		]);
 	}
@@ -179,7 +185,7 @@
 		try {
 			const titleResult = await waitForElement(PROFILE_SELECTORS.HEADER_TITLE);
 
-			if (!titleResult.success || !titleResult.element) {
+			if (!titleResult.success) {
 				logger.warn('Could not find profile header title container');
 				return;
 			}
@@ -403,6 +409,67 @@
 		}
 	}
 
+	async function setupFriendsScanBar() {
+		if (!showCarousel) return;
+		if (!get(settings)[SETTINGS_KEYS.FRIENDS_CHECK_ENABLED]) return;
+		const isOwnProfile = userId === getLoggedInUserId();
+		if (get(restrictedAccessStore).isRestricted && !isOwnProfile) return;
+
+		try {
+			const result = await waitForElement(FRIENDS_CAROUSEL_SELECTORS.HEADER);
+			if (!result.success) return;
+
+			const heading = result.element.querySelector('h2');
+			if (!heading) return;
+
+			const container = document.createElement('span');
+			container.className = COMPONENT_CLASSES.SCAN_HOST;
+			heading.insertAdjacentElement('afterend', container);
+
+			const component = mount(FriendsScanBar, {
+				target: container,
+				props: { userId, isOwnFriends: userId === getLoggedInUserId() }
+			});
+
+			friendsScanBarCleanup = () => {
+				void unmount(component);
+				container.remove();
+			};
+		} catch (error) {
+			logger.error('Failed to setup friends scan bar:', error);
+		}
+	}
+
+	async function setupGroupsScanBar() {
+		if (!showGroupsShowcase) return;
+		if (!get(settings)[SETTINGS_KEYS.GROUPS_CHECK_ENABLED]) return;
+		const isOwnProfile = userId === getLoggedInUserId();
+		if (get(restrictedAccessStore).isRestricted && !isOwnProfile) return;
+
+		try {
+			const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.HEADER_TITLE);
+			if (!result.success) return;
+
+			// Roblox's communities-carousel parent stacks children vertically, so a sibling span lands on the next row
+			// Append inside the h2 (Roblox's own .friends-count pattern) to stay inline with the heading
+			const container = document.createElement('span');
+			container.className = COMPONENT_CLASSES.SCAN_HOST;
+			result.element.appendChild(container);
+
+			const component = mount(GroupsScanBar, {
+				target: container,
+				props: { userId }
+			});
+
+			groupsScanBarCleanup = () => {
+				void unmount(component);
+				container.remove();
+			};
+		} catch (error) {
+			logger.error('Failed to setup groups scan bar:', error);
+		}
+	}
+
 	async function setupCipherIndicator() {
 		const currentSettings = get(settings);
 		if (!currentSettings[SETTINGS_KEYS.CIPHER_DECODING_ENABLED]) {
@@ -556,6 +623,11 @@
 		if (statusComponent) void unmount(statusComponent);
 		if (cipherComponent) void unmount(cipherComponent);
 		unmountMembershipPill();
+
+		friendsScanBarCleanup?.();
+		friendsScanBarCleanup = null;
+		groupsScanBarCleanup?.();
+		groupsScanBarCleanup = null;
 
 		if (statusContainer) {
 			if (statusContainer.dataset['rotectorOwned'] === 'true') {

@@ -9,6 +9,7 @@ import {
 	parseGroupThumbnailBatchResponse,
 	parseMembersResponse,
 	parseRolesApiResponse,
+	parseUserGroupRolesResponse,
 	parseUserPresencesResponse
 } from '../../schemas/roblox-api';
 
@@ -113,6 +114,35 @@ export async function getUserPresences(userIds: number[]): Promise<Map<number, U
 	}
 
 	return presenceMap;
+}
+
+export async function fetchAllUserGroupIds(
+	userId: string,
+	onProgress?: (fetched: number) => void,
+	signal?: AbortSignal
+): Promise<number[]> {
+	if (signal?.aborted) {
+		throw new DOMException('Aborted', 'AbortError');
+	}
+
+	const init: RequestInit = { credentials: 'include' };
+	if (signal) {
+		init.signal = signal;
+	}
+
+	const response = await fetch(
+		`${ROBLOX_API.GROUPS}/v1/users/${userId}/groups/roles?includeLocked=true`,
+		init
+	);
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch user groups: ${String(response.status)}`);
+	}
+
+	const data = parseUserGroupRolesResponse(await response.json());
+	const ids = data.data.map((entry) => entry.group.id).filter((id) => id > 0);
+	onProgress?.(ids.length);
+	return ids;
 }
 
 export async function getMemberThumbnails(userIds: number[]): Promise<Map<number, string>> {

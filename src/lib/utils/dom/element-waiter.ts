@@ -10,11 +10,15 @@ interface WaitForElementOptions {
 	onRetry?: (attempt: number, delay: number) => void;
 }
 
+export type WaitForElementResult =
+	| { element: HTMLElement; attempts: number; totalTime: number; success: true }
+	| { element: null; attempts: number; totalTime: number; success: false };
+
 // Wait for an element to appear in the DOM with exponential backoff retry
 export async function waitForElement(
 	selector: string,
 	options: WaitForElementOptions = {}
-): Promise<{ element: HTMLElement | null; attempts: number; totalTime: number; success: boolean }> {
+): Promise<WaitForElementResult> {
 	const {
 		maxRetries = RETRY_CONFIG.MAX_RETRIES,
 		baseDelay = RETRY_CONFIG.BASE_DELAY,
@@ -48,7 +52,7 @@ export async function waitForElement(
 				}
 			});
 
-			const result = {
+			const result: WaitForElementResult = {
 				element,
 				attempts: attempt,
 				totalTime,
@@ -79,7 +83,7 @@ export async function waitForElement(
 		finalDelay: currentDelay
 	});
 
-	const result = {
+	const result: WaitForElementResult = {
 		element: null,
 		attempts: attempt,
 		totalTime,

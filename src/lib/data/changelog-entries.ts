@@ -2,9 +2,9 @@ import type { Changelog } from '@/lib/types/changelog';
 
 export const CHANGELOGS: Changelog[] = [
 	{
-		id: 'v2.16.1',
-		version: '2.16.1',
-		date: '2026-05-08',
+		id: 'v2.17.0',
+		version: '2.17.0',
+		date: '2026-05-15',
 		title: '',
 		summary: '',
 		changes: [
@@ -17,6 +17,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Queue history user identity - Each entry shows the user’s avatar, display name, and @username instead of just a numeric ID'
+			},
+			{
+				type: 'added',
+				description:
+					'Profile scan bars - Friends and Communities carousels on profile pages now show a bulk scan summary inline with each section heading, mirroring the friends list page'
 			},
 			{
 				type: 'changed',

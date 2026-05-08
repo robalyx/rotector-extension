@@ -1,5 +1,6 @@
 export const FRIENDS_CAROUSEL_SELECTORS = {
 	CONTAINER: '.friends-carousel-container',
+	HEADER: '.react-friends-carousel-container .container-header.people-list-header',
 	TILE: '.friends-carousel-tile',
 	TILE_CONTENT: '.friend-tile-content',
 	PROFILE_LINK: '.avatar-card-link',

@@ -56,7 +56,7 @@
 		try {
 			const ownerResult = await waitForElement(GROUP_HEADER_SELECTORS.OWNER_NAME);
 
-			if (!ownerResult.success || !ownerResult.element) {
+			if (!ownerResult.success) {
 				logger.warn('Could not find group owner element for status indicator');
 				return;
 			}

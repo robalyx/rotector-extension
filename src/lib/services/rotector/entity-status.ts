@@ -239,9 +239,6 @@ class EntityStatusService<T extends EntityStatus> {
 			data: status,
 			timestamp: Date.now()
 		});
-		logger.info(`${this.entityType}StatusService`, 'Status manually updated', {
-			entityId
-		});
 	}
 
 	public invalidateCache(entityId: string): void {
@@ -268,7 +265,8 @@ class EntityStatusService<T extends EntityStatus> {
 export const userStatusService = new EntityStatusService<UserStatus>(
 	'user',
 	async (id, options) => apiClient.checkUser(id, options),
-	async (ids: string[]) => apiClient.checkMultipleUsers(ids)
+	async (ids: string[], lookupContext?: string) =>
+		apiClient.checkMultipleUsers(ids, { lookupContext })
 );
 
 export const groupStatusService = new EntityStatusService<GroupStatus>(

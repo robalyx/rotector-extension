@@ -147,7 +147,7 @@ export const COMPONENT_CLASSES = {
 	REPORT_HELPER: 'rotector-report-helper',
 	GROUP_STATUS_CONTAINER: 'rotector-group-status-container',
 	EXPORT_BUTTON: 'rotector-export-button',
-	FRIENDS_SCAN: 'rotector-friends-scan',
+	SCAN_HOST: 'rotector-scan-host',
 	CIPHER_INDICATOR: 'rotector-cipher-indicator',
 	MEMBERSHIP_BADGE_PILL: 'rotector-membership-badge-pill'
 } as const;

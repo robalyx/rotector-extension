@@ -57,21 +57,19 @@
 		return tab === '' || tab === 'friends';
 	}
 
-	// Inject scan bar into friends page header
 	async function setupScanBar() {
 		if (!isFriendsTab()) return;
 
 		const userId = getUserIdFromUrl();
 		if (!userId) return;
 
-		// Wait for Roblox to render the friends content header
 		const headerResult = await waitForElement('.friends-content .container-header');
-		if (!headerResult.success || !headerResult.element) return;
+		if (!headerResult.success) return;
 
 		const header = headerResult.element;
 
 		const container = document.createElement('span');
-		container.className = COMPONENT_CLASSES.FRIENDS_SCAN;
+		container.className = COMPONENT_CLASSES.SCAN_HOST;
 
 		// Roseal extension splits the header into .friends-left and .friends-right
 		// sections, moving .friends-filter out of the direct header children

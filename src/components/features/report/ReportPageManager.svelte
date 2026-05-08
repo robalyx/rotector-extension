@@ -97,12 +97,12 @@
 	}
 
 	async function mountReportHelper(): Promise<void> {
-		const { element: innerForm, success } = await waitForElement(REPORT_PAGE_SELECTORS.INNER_FORM);
-		if (!success || !innerForm) return;
+		const result = await waitForElement(REPORT_PAGE_SELECTORS.INNER_FORM);
+		if (!result.success) return;
 
 		const container = document.createElement('div');
 		container.className = COMPONENT_CLASSES.REPORT_HELPER;
-		innerForm.insertBefore(container, innerForm.firstChild);
+		result.element.insertBefore(container, result.element.firstChild);
 
 		const { mount, unmount } = await import('svelte');
 		const component = mount(ReportHelper, {

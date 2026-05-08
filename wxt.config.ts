@@ -59,7 +59,7 @@ export default defineConfig({
 			name: '__MSG_extensionName__',
 			description: '__MSG_extensionDescription__',
 			default_locale: 'en',
-			version: '2.16.1',
+			version: '2.17.0',
 			permissions: ['storage', 'notifications'],
 			host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
 			...(manifestVersion === 2

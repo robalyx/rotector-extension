@@ -38,7 +38,7 @@
 
 	async function injectExportButton() {
 		const headerResult = await waitForElement(GROUP_CONFIGURE_SELECTORS.HEADER);
-		if (!headerResult.success || !headerResult.element) {
+		if (!headerResult.success) {
 			logger.warn('Group configure header not found for export button');
 			return;
 		}

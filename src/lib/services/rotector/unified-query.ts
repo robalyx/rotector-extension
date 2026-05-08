@@ -12,7 +12,7 @@ import { TRACE_CATEGORIES } from '../../types/performance';
 import { chunkArray } from '../../utils/array';
 import { abortableSleep, getAbortError } from '../../utils/abort';
 import { asApiError } from '../../utils/api/api-error';
-import { API_CONFIG, STATUS } from '../../types/constants';
+import { API_CONFIG, LOOKUP_CONTEXT, STATUS } from '../../types/constants';
 import { SETTINGS_KEYS } from '../../types/settings';
 import { get } from 'svelte/store';
 
@@ -120,7 +120,7 @@ export function queryUserProgressive(
 	};
 }
 
-// Fans batched user IDs across every enabled API, warming the Rotector cache and honoring restricted-access mode
+// Fans user IDs across every enabled API, routing Rotector through the cache-aware userStatusService and honoring restricted-access mode
 export async function queryMultipleUsers(
 	userIds: string[],
 	options?: QueryMultipleUsersOptions
@@ -134,7 +134,7 @@ export async function queryMultipleUsers(
 	}
 
 	const { isRestricted } = get(restrictedAccessStore);
-	if (isRestricted && lookupContext !== 'friends') {
+	if (isRestricted && lookupContext !== LOOKUP_CONTEXT.FRIENDS) {
 		const restrictedResult = createRestrictedResult();
 		return new Map(userIds.map((userId) => [userId, restrictedResult]));
 	}
@@ -163,103 +163,129 @@ export async function queryMultipleUsers(
 		);
 	});
 
-	const chunks = chunkArray(userIds, API_CONFIG.BATCH_SIZE);
-
-	logger.debug('Unified batch query starting:', {
-		userCount: userIds.length,
-		chunks: chunks.length,
-		totalApis: enabledApis.length
-	});
-
-	const emitUpdate = (userId: string) => {
+	const setApiResult = (
+		userId: string,
+		api: CustomApiConfig,
+		partial: { data?: UserStatus; error?: string }
+	) => {
 		const combined = results.get(userId);
 		if (!combined) return;
+		combined.set(api.id, {
+			apiId: api.id,
+			apiName: api.name,
+			...partial,
+			loading: false,
+			timestamp: Date.now(),
+			landscapeImageDataUrl: api.landscapeImageDataUrl
+		});
 		onUpdate?.(userId, new Map(combined));
 	};
 
-	for (const [i, chunk] of chunks.entries()) {
-		if (i > 0) {
-			await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
-		}
+	const rotectorApi = enabledApis.find((api) => api.isSystem && api.id === ROTECTOR_API_ID);
+	const nonRotectorApis = enabledApis.filter(
+		(api) => !(api.isSystem && api.id === ROTECTOR_API_ID)
+	);
 
-		if (signal?.aborted) {
-			throw getAbortError(signal);
-		}
+	logger.debug('Unified batch query starting:', {
+		userCount: userIds.length,
+		totalApis: enabledApis.length
+	});
 
-		const apiRequests = enabledApis.map(async (api) => {
-			const isRotector = api.isSystem && api.id === ROTECTOR_API_ID;
+	const rotectorPromise = (async () => {
+		if (!rotectorApi) return;
+
+		const toFetch: string[] = [];
+		for (const userId of userIds) {
+			const cached = userStatusService.getCachedStatus(userId);
+			if (cached) {
+				setApiResult(userId, rotectorApi, { data: cached });
+			} else {
+				toFetch.push(userId);
+			}
+		}
+		if (toFetch.length === 0) return;
+
+		const chunks = chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
+		for (const [i, chunk] of chunks.entries()) {
+			if (i > 0) {
+				await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
+			}
+			if (signal?.aborted) throw getAbortError(signal);
 
 			try {
-				const apiStatuses = await apiClient.checkMultipleUsers(chunk, {
-					signal,
-					...(isRotector ? { lookupContext } : { apiConfig: api })
-				});
-
+				const apiStatuses = await apiClient.checkMultipleUsers(chunk, { signal, lookupContext });
 				if (signal?.aborted) return;
-
-				const userMap = new Map(apiStatuses.map((status) => [status.id.toString(), status]));
-
-				if (isRotector) {
-					for (const status of apiStatuses) {
-						userStatusService.updateStatus(status.id.toString(), status);
-					}
+				const userMap = new Map(apiStatuses.map((s) => [s.id.toString(), s]));
+				for (const status of apiStatuses) {
+					userStatusService.updateStatus(status.id.toString(), status);
 				}
-
 				chunk.forEach((userId) => {
-					const combined = results.get(userId);
-					if (!combined) return;
-
 					const userStatus = userMap.get(userId);
-
-					combined.set(api.id, {
-						apiId: api.id,
-						apiName: api.name,
-						...(userStatus && { data: userStatus }),
-						loading: false,
-						timestamp: Date.now(),
-						landscapeImageDataUrl: api.landscapeImageDataUrl
-					});
-					emitUpdate(userId);
+					setApiResult(userId, rotectorApi, userStatus ? { data: userStatus } : {});
 				});
 			} catch (error) {
 				if (signal?.aborted) return;
-
 				const errorMessage = asApiError(error).message;
-
 				chunk.forEach((userId) => {
-					const combined = results.get(userId);
-					if (!combined) return;
-
-					combined.set(api.id, {
-						apiId: api.id,
-						apiName: api.name,
-						error: errorMessage,
-						loading: false,
-						timestamp: Date.now(),
-						landscapeImageDataUrl: api.landscapeImageDataUrl
-					});
-					emitUpdate(userId);
+					setApiResult(userId, rotectorApi, { error: errorMessage });
 				});
-
-				logger.error('API batch error:', {
+				logger.error('Rotector batch error:', {
 					chunkSize: chunk.length,
-					apiId: api.id,
-					apiName: api.name,
 					error: errorMessage
 				});
 			}
-		});
-
-		await Promise.all(apiRequests);
-
-		if (signal?.aborted) {
-			throw getAbortError(signal);
 		}
-	}
+	})();
+
+	const nonRotectorPromise = (async () => {
+		if (nonRotectorApis.length === 0) return;
+		const chunks = chunkArray(userIds, API_CONFIG.BATCH_SIZE);
+
+		for (const [i, chunk] of chunks.entries()) {
+			if (i > 0) {
+				await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
+			}
+			if (signal?.aborted) throw getAbortError(signal);
+
+			await Promise.all(
+				nonRotectorApis.map(async (api) => {
+					try {
+						const apiStatuses = await apiClient.checkMultipleUsers(chunk, {
+							signal,
+							apiConfig: api
+						});
+						if (signal?.aborted) return;
+						const userMap = new Map(apiStatuses.map((s) => [s.id.toString(), s]));
+						chunk.forEach((userId) => {
+							const userStatus = userMap.get(userId);
+							setApiResult(userId, api, userStatus ? { data: userStatus } : {});
+						});
+					} catch (error) {
+						if (signal?.aborted) return;
+						const errorMessage = asApiError(error).message;
+						chunk.forEach((userId) => {
+							setApiResult(userId, api, { error: errorMessage });
+						});
+						logger.error('API batch error:', {
+							chunkSize: chunk.length,
+							apiId: api.id,
+							apiName: api.name,
+							error: errorMessage
+						});
+					}
+				})
+			);
+
+			if (signal?.aborted) throw getAbortError(signal);
+		}
+	})();
+
+	await Promise.all([rotectorPromise, nonRotectorPromise]);
+
+	if (signal?.aborted) throw getAbortError(signal);
 
 	logger.debug('Unified batch query completed:', {
 		userCount: userIds.length,
-		chunks: chunks.length,
 		totalApis: enabledApis.length
 	});
 

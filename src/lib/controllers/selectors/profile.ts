@@ -10,6 +10,7 @@ export const PROFILE_SELECTORS = {
 
 export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
 	SECTION: '.profile-communities',
+	HEADER_TITLE: '.profile-communities h2.content-emphasis',
 	ITEMS_CONTAINER: '[data-rotector-carousel-container]',
 	ITEM: '#collection-carousel-item',
 	ITEM_UNPROCESSED: `#collection-carousel-item:not(.${STATUS_SELECTORS.PROCESSED_CLASS})`,

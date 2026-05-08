@@ -120,6 +120,14 @@ const GroupThumbnailBatchResponseSchema = v.object({
 	)
 });
 
+const UserGroupRolesResponseSchema = v.object({
+	data: v.array(
+		v.object({
+			group: v.object({ id: v.number() })
+		})
+	)
+});
+
 export type GroupRole = v.InferOutput<typeof RolesApiResponseSchema>['roles'][number];
 export type GroupMember = v.InferOutput<typeof MembersResponseSchema>['data'][number];
 export type MembersResponse = v.InferOutput<typeof MembersResponseSchema>;
@@ -139,3 +147,4 @@ export const parseGroupErrorBody = v.parser(GroupErrorBodySchema);
 export const parseMembersResponse = v.parser(MembersResponseSchema);
 export const parseUserPresencesResponse = v.parser(UserPresencesResponseSchema);
 export const parseGroupThumbnailBatchResponse = v.parser(GroupThumbnailBatchResponseSchema);
+export const parseUserGroupRolesResponse = v.parser(UserGroupRolesResponseSchema);

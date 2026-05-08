@@ -403,6 +403,8 @@
 				return { full: $_('tooltip_header_past_offender', { values: { 0: entityType } }) };
 			case STATUS.FLAGS.SAFE:
 				return { full: $_('tooltip_header_safe', { values: { 0: entityType } }) };
+			case STATUS.FLAGS.UNKNOWN:
+				return { full: $_('tooltip_header_update_required', { values: { 0: entityType } }) };
 			default:
 				return { full: $_('tooltip_header_unavailable') };
 		}
@@ -442,7 +444,8 @@
 			!activeStatus?.reasons ||
 			activeStatus.flagType === STATUS.FLAGS.SAFE ||
 			activeStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
-			activeStatus.flagType === STATUS.FLAGS.REDACTED
+			activeStatus.flagType === STATUS.FLAGS.REDACTED ||
+			activeStatus.flagType === STATUS.FLAGS.UNKNOWN
 		)
 			return [];
 		return formatViolationReasons(activeStatus.reasons);

@@ -7,7 +7,8 @@ export const STATUS = {
 		PROVISIONAL: 4,
 		MIXED: 5,
 		PAST_OFFENDER: 6,
-		REDACTED: 8
+		REDACTED: 8,
+		UNKNOWN: -1
 	}
 } as const;
 

@@ -20,9 +20,12 @@ const CustomApiBadgeSchema = v.object({
 
 const UserStatusResponseSchema = v.object({
 	id: v.number('Missing or invalid "id" field (must be number)'),
-	flagType: v.picklist(
-		KNOWN_FLAGS,
-		`Missing or invalid "flagType" field (must be one of ${KNOWN_FLAGS.join(', ')})`
+	flagType: v.fallback(
+		v.picklist(
+			KNOWN_FLAGS,
+			`Missing or invalid "flagType" field (must be one of ${KNOWN_FLAGS.join(', ')})`
+		),
+		STATUS.FLAGS.UNKNOWN
 	),
 	confidence: v.optional(v.number('Invalid "confidence" field (must be number if present)')),
 	reasons: v.optional(

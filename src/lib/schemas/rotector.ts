@@ -9,7 +9,8 @@ const GROUP_FLAG_VALUES = [
 	STATUS.FLAGS.UNSAFE,
 	STATUS.FLAGS.QUEUED,
 	STATUS.FLAGS.MIXED,
-	STATUS.FLAGS.PAST_OFFENDER
+	STATUS.FLAGS.PAST_OFFENDER,
+	STATUS.FLAGS.UNKNOWN
 ];
 
 export const ReviewerInfoSchema = v.object({
@@ -34,7 +35,7 @@ const VersionCompatibilitySchema = v.picklist(['current', 'compatible', 'outdate
 
 const UserStatusBaseSchema = v.object({
 	id: v.number(),
-	flagType: v.picklist(USER_FLAG_VALUES),
+	flagType: v.fallback(v.picklist(USER_FLAG_VALUES), STATUS.FLAGS.UNKNOWN),
 	confidence: v.optional(v.number(), 0),
 	reasons: v.optional(v.record(v.string(), ReasonSchema), () => ({})),
 	reviewer: v.optional(ReviewerInfoSchema),
@@ -59,7 +60,7 @@ const UserStatusBaseSchema = v.object({
 
 const GroupStatusBaseSchema = v.object({
 	id: v.number(),
-	flagType: v.picklist(GROUP_FLAG_VALUES),
+	flagType: v.fallback(v.picklist(GROUP_FLAG_VALUES), STATUS.FLAGS.UNKNOWN),
 	confidence: v.optional(v.number(), 0),
 	reasons: v.optional(v.record(v.string(), ReasonSchema), () => ({}))
 });

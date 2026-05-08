@@ -63,6 +63,11 @@
 			icon: 'integration',
 			color: 'var(--color-status-integration)'
 		},
+		unknown: {
+			labelKey: 'tooltip_status_update_required',
+			icon: 'unknown',
+			color: 'var(--color-status-pending)'
+		},
 		safe: {
 			labelKey: 'tooltip_status_not_checked',
 			icon: 'safe',

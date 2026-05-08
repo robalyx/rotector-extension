@@ -22,6 +22,7 @@ export type ScanCategory =
 	| 'queued'
 	| 'outfit'
 	| 'integration'
+	| 'unknown'
 	| 'safe';
 export type ScanCounts = Map<ScanCategory, number>;
 
@@ -41,8 +42,10 @@ function flagToCategory(flagType: number): ScanCategory {
 			return 'provisional';
 		case STATUS.FLAGS.QUEUED:
 			return 'queued';
-		default:
+		case STATUS.FLAGS.SAFE:
 			return 'safe';
+		default:
+			return 'unknown';
 	}
 }
 

@@ -82,6 +82,13 @@ export const STATUS_FLAG_PRESENTATION: Record<StatusFlag, FlagPresentation> = {
 		textKey: 'tooltip_status_redacted',
 		textClass: 'status-text-unsafe',
 		badgeClass: 'unsafe'
+	},
+	[STATUS.FLAGS.UNKNOWN]: {
+		iconName: 'unknown',
+		iconColor: '#f97316',
+		textKey: 'tooltip_status_update_required',
+		textClass: 'status-text-pending',
+		badgeClass: 'pending'
 	}
 };
 

@@ -27,7 +27,6 @@
 
 @utility rotector-scan-progress-fill {
 	@apply h-full rounded-full;
-	transition: width 200ms ease-out;
 	background-color: var(--color-primary);
 }
 

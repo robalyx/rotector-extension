@@ -7,6 +7,10 @@ import type { UserStatus } from '../../types/api';
 import { LOOKUP_CONTEXT, STATUS } from '../../types/constants';
 import { calculateStatusBadges } from '../../utils/status/status-utils';
 
+const SCAN_PHASE_CHECK_START = 30;
+const SCAN_PHASE_CHECK_RANGE = 70;
+const FRIEND_SCAN_PROGRESS_MAX = 95;
+
 export type ScanCategory =
 	| 'unsafe'
 	| 'redacted'
@@ -61,22 +65,32 @@ export async function scanFriendsForUser(
 
 	const friendIds = await fetchAllFriendIds(
 		userId,
-		(fetched) => onProgress(Math.min(fetched * 0.15, 30)),
+		(fetched) => onProgress(Math.min(fetched * 0.15, SCAN_PHASE_CHECK_START)),
 		signal
 	);
 
 	if (friendIds.length === 0) return counts;
 
-	onProgress(30);
+	onProgress(SCAN_PHASE_CHECK_START);
 
 	const lookupContext = isOwnFriends ? LOOKUP_CONTEXT.FRIENDS : undefined;
+	const completed = new Set<string>();
+	const total = friendIds.length;
 
 	const results = await queryMultipleUsers(
 		friendIds.map((id) => id.toString()),
-		{ lookupContext, signal }
+		{
+			lookupContext,
+			signal,
+			onUpdate: (friendId, combined) => {
+				const r = combined.get(ROTECTOR_API_ID);
+				if (!r || r.loading || completed.has(friendId)) return;
+				completed.add(friendId);
+				const pct = SCAN_PHASE_CHECK_START + (completed.size / total) * SCAN_PHASE_CHECK_RANGE;
+				onProgress(Math.min(pct, FRIEND_SCAN_PROGRESS_MAX));
+			}
+		}
 	);
-
-	onProgress(80);
 
 	for (const combined of results.values()) {
 		const data = combined.get(ROTECTOR_API_ID)?.data;
@@ -84,7 +98,6 @@ export async function scanFriendsForUser(
 		increment(counts, userResultToCategory(data));
 	}
 
-	onProgress(100);
 	return counts;
 }
 
@@ -97,26 +110,29 @@ export async function scanGroupsForUser(
 
 	const groupIds = await fetchAllUserGroupIds(
 		userId,
-		(fetched) => onProgress(Math.min(fetched * 0.15, 30)),
+		(fetched) => onProgress(Math.min(fetched * 0.15, SCAN_PHASE_CHECK_START)),
 		signal
 	);
 
 	if (groupIds.length === 0) return counts;
 
-	onProgress(30);
+	onProgress(SCAN_PHASE_CHECK_START);
 
 	const results = await groupStatusService.getStatuses(
 		groupIds.map((id) => id.toString()),
-		{ lookupContext: LOOKUP_CONTEXT.GROUPS, signal }
+		{
+			lookupContext: LOOKUP_CONTEXT.GROUPS,
+			signal,
+			onProgress: (completed, total) => {
+				onProgress(SCAN_PHASE_CHECK_START + (completed / total) * SCAN_PHASE_CHECK_RANGE);
+			}
+		}
 	);
-
-	onProgress(80);
 
 	for (const status of results.values()) {
 		if (!status) continue;
 		increment(counts, flagToCategory(status.flagType));
 	}
 
-	onProgress(100);
 	return counts;
 }

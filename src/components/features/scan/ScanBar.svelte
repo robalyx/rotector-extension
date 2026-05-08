@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { SvelteMap } from 'svelte/reactivity';
+	import { Tween } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
 	import { _ } from 'svelte-i18n';
 	import { createAbortableBatch } from '@/lib/utils/api/abortable-batch';
 	import { getAssetUrl } from '@/lib/utils/assets';
@@ -68,7 +70,7 @@
 	let { scan, label }: Props = $props();
 
 	let phase = $state<'scanning' | 'complete' | 'error'>('scanning');
-	let progress = $state(0);
+	const progress = new Tween(0, { duration: 600, easing: cubicOut });
 	let counts = new SvelteMap<ScanCategory, number>();
 	const scanBatch = createAbortableBatch();
 
@@ -83,15 +85,16 @@
 		const signal = scanBatch.nextSignal();
 
 		phase = 'scanning';
-		progress = 0;
+		void progress.set(0, { duration: 0 });
 		counts.clear();
 
 		try {
 			const result = await scan((pct) => {
-				progress = pct;
+				void progress.set(pct);
 			}, signal);
 			for (const [k, v] of result) counts.set(k, v);
-			progress = 100;
+			await progress.set(100);
+			if (signal.aborted) return;
 			phase = 'complete';
 		} catch (err) {
 			if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -109,12 +112,13 @@
 			aria-label={$_('scan_progress_aria')}
 			aria-valuemax="100"
 			aria-valuemin="0"
-			aria-valuenow={Math.round(progress)}
+			aria-valuenow={Math.round(progress.current)}
 			role="progressbar"
 		>
-			<span style:width="{Math.round(progress)}%" class="rotector-scan-progress-fill"></span>
+			<span style:width="{Math.round(progress.current)}%" class="rotector-scan-progress-fill"
+			></span>
 		</span>
-		<span class="rotector-scan-progress-text">{Math.round(progress)}%</span>
+		<span class="rotector-scan-progress-text">{Math.round(progress.current)}%</span>
 	</span>
 {:else if phase === 'complete'}
 	<span class="rotector-scan-results">

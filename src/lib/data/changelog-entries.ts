@@ -51,6 +51,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Scan bar progress - Bar now fills smoothly as each batch of friends or groups is checked instead of jumping to 30% and disappearing'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Self-fetched status - A locally cached status no longer keeps the indicator stuck in the loading state'
 			},
 			{

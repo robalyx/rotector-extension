@@ -24,6 +24,7 @@ interface GetStatusOptions {
 interface GetStatusesOptions {
 	lookupContext?: string | undefined;
 	signal?: AbortSignal | undefined;
+	onProgress?: ((completed: number, total: number) => void) | undefined;
 }
 
 // The controller short-circuits the shared fetch only when every queued waiter has aborted,
@@ -167,6 +168,9 @@ class EntityStatusService<T extends EntityStatus> {
 			}
 		}
 
+		const cachedCount = results.size;
+		options?.onProgress?.(cachedCount, entityIds.length);
+
 		if (toFetch.length > 0) {
 			const chunks = chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
 
@@ -174,6 +178,8 @@ class EntityStatusService<T extends EntityStatus> {
 				count: toFetch.length,
 				chunks: chunks.length
 			});
+
+			let processed = 0;
 
 			for (const [i, chunk] of chunks.entries()) {
 				if (i > 0) {
@@ -185,6 +191,8 @@ class EntityStatusService<T extends EntityStatus> {
 				}
 
 				await this.fetchChunk(chunk, i, results, options);
+				processed += chunk.length;
+				options?.onProgress?.(cachedCount + processed, entityIds.length);
 			}
 
 			toFetch.forEach((entityId) => {

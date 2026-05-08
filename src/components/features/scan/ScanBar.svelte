@@ -20,26 +20,46 @@
 	}
 
 	const CATEGORIES: Record<ScanCategory, CategoryConfig> = {
-		safe: {
-			labelKey: 'tooltip_status_not_checked',
-			icon: 'safe',
-			color: 'var(--color-status-safe)'
-		},
-		pending: {
-			labelKey: 'tooltip_status_under_review',
-			icon: 'pending',
-			color: 'var(--color-status-pending)'
-		},
 		unsafe: {
 			labelKey: 'tooltip_status_unsafe',
 			icon: 'unsafe',
 			color: 'var(--color-status-unsafe)'
 		},
+		redacted: {
+			labelKey: 'tooltip_status_redacted',
+			icon: 'redacted',
+			color: 'var(--color-status-unsafe)'
+		},
 		mixed: { labelKey: 'tooltip_status_mixed', icon: 'mixed', color: 'var(--color-status-mixed)' },
+		pending: {
+			labelKey: 'tooltip_status_under_review',
+			icon: 'pending',
+			color: 'var(--color-status-pending)'
+		},
 		past: {
 			labelKey: 'tooltip_status_past_offender',
 			icon: 'past-offender',
 			color: 'var(--color-status-past-offender)'
+		},
+		provisional: {
+			labelKey: 'tooltip_status_provisional',
+			icon: 'provisional',
+			color: 'var(--color-status-safe)'
+		},
+		queued: {
+			labelKey: 'tooltip_status_checking',
+			icon: 'checking',
+			color: 'var(--color-status-queued)'
+		},
+		outfit: {
+			labelKey: 'tooltip_status_outfit_detected',
+			icon: 'outfit',
+			color: 'var(--color-status-outfit)'
+		},
+		safe: {
+			labelKey: 'tooltip_status_not_checked',
+			icon: 'safe',
+			color: 'var(--color-status-safe)'
 		}
 	};
 

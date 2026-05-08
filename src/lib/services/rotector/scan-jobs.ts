@@ -3,9 +3,20 @@ import { fetchAllUserGroupIds } from '../roblox/groups';
 import { groupStatusService } from './entity-status';
 import { queryMultipleUsers } from './unified-query';
 import { ROTECTOR_API_ID } from '../../stores/custom-apis';
+import type { UserStatus } from '../../types/api';
 import { LOOKUP_CONTEXT, STATUS } from '../../types/constants';
+import { calculateStatusBadges } from '../../utils/status/status-utils';
 
-export type ScanCategory = 'safe' | 'pending' | 'unsafe' | 'mixed' | 'past';
+export type ScanCategory =
+	| 'unsafe'
+	| 'redacted'
+	| 'mixed'
+	| 'pending'
+	| 'past'
+	| 'provisional'
+	| 'queued'
+	| 'outfit'
+	| 'safe';
 export type ScanCounts = Map<ScanCategory, number>;
 
 function flagToCategory(flagType: number): ScanCategory {
@@ -13,15 +24,27 @@ function flagToCategory(flagType: number): ScanCategory {
 		case STATUS.FLAGS.PENDING:
 			return 'pending';
 		case STATUS.FLAGS.UNSAFE:
-		case STATUS.FLAGS.REDACTED:
 			return 'unsafe';
+		case STATUS.FLAGS.REDACTED:
+			return 'redacted';
 		case STATUS.FLAGS.MIXED:
 			return 'mixed';
 		case STATUS.FLAGS.PAST_OFFENDER:
 			return 'past';
+		case STATUS.FLAGS.PROVISIONAL:
+			return 'provisional';
+		case STATUS.FLAGS.QUEUED:
+			return 'queued';
 		default:
 			return 'safe';
 	}
+}
+
+// Layers outfit-only and queued+processed overrides on top of the flag mapping
+function userResultToCategory(status: UserStatus): ScanCategory {
+	if (calculateStatusBadges(status).isOutfitOnly) return 'outfit';
+	if (status.flagType === STATUS.FLAGS.QUEUED && status.processed === true) return 'safe';
+	return flagToCategory(status.flagType);
 }
 
 function increment(counts: ScanCounts, category: ScanCategory): void {
@@ -56,9 +79,9 @@ export async function scanFriendsForUser(
 	onProgress(80);
 
 	for (const combined of results.values()) {
-		const flagType = combined.get(ROTECTOR_API_ID)?.data?.flagType;
-		if (flagType === undefined) continue;
-		increment(counts, flagToCategory(flagType));
+		const data = combined.get(ROTECTOR_API_ID)?.data;
+		if (!data) continue;
+		increment(counts, userResultToCategory(data));
 	}
 
 	onProgress(100);

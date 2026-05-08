@@ -26,6 +26,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'changed',
 				description:
+					'Scan bar granularity - Now shows a separate chip for each status type instead of grouping several together'
+			},
+			{
+				type: 'changed',
+				description:
 					'Progressive status indicators - Lists leave the loading spinner as soon as Rotector resolves, without waiting for every enabled custom API'
 			},
 			{

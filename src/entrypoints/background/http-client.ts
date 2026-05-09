@@ -5,6 +5,7 @@ import { buildCustomApiAuthHeaders } from '@/lib/utils/api/api-auth';
 import { logger } from '@/lib/utils/logging/logger';
 import { type ApiError, asApiError, buildHttpError } from '@/lib/utils/api/api-error';
 import { getStorage } from '@/lib/utils/storage';
+import { getInstallationId } from '@/lib/utils/installation-id';
 import { markSessionRestricted } from '@/lib/stores/session-state';
 
 async function getApiKey(): Promise<string | null> {
@@ -68,6 +69,8 @@ async function buildRotectorHeaders(
 	if (apiKey) {
 		headers.set('X-Auth-Token', apiKey);
 	}
+
+	headers.set('X-Installation-ID', await getInstallationId());
 
 	if (clientId) {
 		headers.set('X-Client-ID', clientId);

@@ -11,7 +11,7 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
-					'Tooltip export - Save the expanded tooltip as a PNG or copy it to the clipboard from the 3-dot menu'
+					'Tooltip export - Save the expanded tooltip as PNG, JPG, WebP, or SVG, or copy it to the clipboard, from the new Export submenu in the 3-dot menu'
 			},
 			{
 				type: 'added',

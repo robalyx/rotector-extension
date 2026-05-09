@@ -8,6 +8,9 @@ import { ENGINE_STATUS_KEY, type EngineStatus } from '@/lib/utils/status/engine-
 const CANVAS_MAX_DIM = 32767;
 const CAPTURE_SCALE = 2;
 
+export type ExportFormat = 'png' | 'jpg' | 'webp' | 'svg';
+export type ExportMode = 'clipboard' | ExportFormat;
+
 // Selectors removed from the capture: interactive UI that has no meaning in a static image
 const EXCLUDE_SELECTORS = [
 	'.tooltip-options-container',
@@ -28,7 +31,7 @@ const EXCLUDE_SELECTORS = [
 ];
 
 interface ExportOpts {
-	mode: 'download' | 'clipboard';
+	mode: ExportMode;
 	kind: 'user' | 'group';
 	identifier: string;
 	engineStatus: EngineStatus;
@@ -40,11 +43,11 @@ export async function exportTooltipImage(node: HTMLElement, opts: ExportOpts): P
 	try {
 		if (opts.mode === 'clipboard') {
 			await navigator.clipboard.write([
-				new ClipboardItem({ 'image/png': renderTooltipBlob(node, opts) })
+				new ClipboardItem({ 'image/png': renderTooltipBlob(node, opts, 'png') })
 			]);
 		} else {
-			const blob = await renderTooltipBlob(node, opts);
-			triggerDownload(blob, buildFilename(opts));
+			const blob = await renderTooltipBlob(node, opts, opts.mode);
+			triggerDownload(blob, buildFilename(opts, opts.mode));
 		}
 		return true;
 	} catch (err) {
@@ -59,7 +62,11 @@ export async function exportTooltipImage(node: HTMLElement, opts: ExportOpts): P
 	}
 }
 
-async function renderTooltipBlob(node: HTMLElement, opts: ExportOpts): Promise<Blob> {
+async function renderTooltipBlob(
+	node: HTMLElement,
+	opts: ExportOpts,
+	format: ExportFormat
+): Promise<Blob> {
 	const t = get(_);
 	const host = document.createElement('div');
 
@@ -105,11 +112,13 @@ async function renderTooltipBlob(node: HTMLElement, opts: ExportOpts): Promise<B
 		await document.fonts.ready;
 		await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-		const heightLimit = Math.floor(CANVAS_MAX_DIM / (CAPTURE_SCALE * window.devicePixelRatio));
-		if (clone.scrollHeight > heightLimit) throw new TooTallError();
+		if (format !== 'svg') {
+			const heightLimit = Math.floor(CANVAS_MAX_DIM / (CAPTURE_SCALE * window.devicePixelRatio));
+			if (clone.scrollHeight > heightLimit) throw new TooTallError();
+		}
 
 		return await snapdom.toBlob(clone, {
-			type: 'png',
+			type: format,
 			scale: CAPTURE_SCALE,
 			embedFonts: true,
 			exclude: EXCLUDE_SELECTORS,
@@ -127,9 +136,9 @@ function getExportMountTarget(node: HTMLElement): HTMLElement {
 	return body;
 }
 
-function buildFilename(opts: ExportOpts): string {
+function buildFilename(opts: ExportOpts, format: ExportFormat): string {
 	const date = new Date().toISOString().slice(0, 10);
-	return `rotector-${opts.kind}-${opts.identifier}-${date}.png`;
+	return `rotector-${opts.kind}-${opts.identifier}-${date}.${format}`;
 }
 
 function triggerDownload(blob: Blob, filename: string): void {

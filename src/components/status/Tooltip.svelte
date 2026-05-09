@@ -82,6 +82,7 @@
 		type HoverPopoverKind
 	} from './hover-popover-types';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+	import { tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import { _ } from 'svelte-i18n';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
@@ -91,7 +92,18 @@
 	import { settings, updateSetting, removeSetting } from '@/lib/stores/settings';
 	import { themeManager } from '@/lib/utils/theme';
 	import { guardWatermark, renderWatermarkTile } from './watermark';
-	import { exportTooltipImage } from '@/lib/utils/tooltip-export';
+	import {
+		exportTooltipImage,
+		type ExportFormat,
+		type ExportMode
+	} from '@/lib/utils/tooltip-export';
+
+	const SAVE_AS_FORMATS: { format: ExportFormat; labelKey: string }[] = [
+		{ format: 'png', labelKey: 'tooltip_export_save_png' },
+		{ format: 'jpg', labelKey: 'tooltip_export_save_jpg' },
+		{ format: 'webp', labelKey: 'tooltip_export_save_webp' },
+		{ format: 'svg', labelKey: 'tooltip_export_save_svg' }
+	];
 
 	const effectiveTheme = themeManager.effectiveTheme;
 
@@ -194,10 +206,13 @@
 
 	let expandedOriginals = new SvelteSet<string>();
 
-	type ExportMode = 'download' | 'clipboard';
-
 	let optionsMenuRef = $state<HTMLElement>();
+	let exportRowRef = $state<HTMLElement>();
+	let exportSubmenuRef = $state<HTMLElement>();
 	let showOptionsMenu = $state(false);
+	let showExportSubmenu = $state(false);
+	let submenuOpenTimer: ReturnType<typeof setTimeout> | null = null;
+	let submenuCloseTimer: ReturnType<typeof setTimeout> | null = null;
 	let activeExportMode = $state<ExportMode | null>(null);
 	let exportSuccessMode = $state<ExportMode | null>(null);
 
@@ -890,6 +905,78 @@
 		}
 	}
 
+	function cancelSubmenuTimers() {
+		if (submenuOpenTimer !== null) {
+			clearTimeout(submenuOpenTimer);
+			submenuOpenTimer = null;
+		}
+		if (submenuCloseTimer !== null) {
+			clearTimeout(submenuCloseTimer);
+			submenuCloseTimer = null;
+		}
+	}
+
+	function scheduleSubmenuOpen() {
+		if (submenuCloseTimer !== null) {
+			clearTimeout(submenuCloseTimer);
+			submenuCloseTimer = null;
+		}
+		if (showExportSubmenu || submenuOpenTimer !== null) return;
+		submenuOpenTimer = setTimeout(() => {
+			submenuOpenTimer = null;
+			showExportSubmenu = true;
+		}, 120);
+	}
+
+	function scheduleSubmenuClose() {
+		if (submenuOpenTimer !== null) {
+			clearTimeout(submenuOpenTimer);
+			submenuOpenTimer = null;
+		}
+		if (!showExportSubmenu || submenuCloseTimer !== null) return;
+		submenuCloseTimer = setTimeout(() => {
+			submenuCloseTimer = null;
+			showExportSubmenu = false;
+		}, 280);
+	}
+
+	function toggleExportSubmenu(event: MouseEvent) {
+		event.stopPropagation();
+		cancelSubmenuTimers();
+		showExportSubmenu = !showExportSubmenu;
+	}
+
+	async function focusFirstSubmenuItem() {
+		await tick();
+		exportSubmenuRef?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
+	}
+
+	async function handleExportRowKeydown(event: KeyboardEvent) {
+		if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			event.stopPropagation();
+			cancelSubmenuTimers();
+			showExportSubmenu = true;
+			await focusFirstSubmenuItem();
+		} else if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+			if (!showExportSubmenu) return;
+			event.preventDefault();
+			event.stopPropagation();
+			cancelSubmenuTimers();
+			showExportSubmenu = false;
+		}
+	}
+
+	function handleSubmenuKeydown(event: KeyboardEvent) {
+		if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+			event.preventDefault();
+			event.stopPropagation();
+			cancelSubmenuTimers();
+			showExportSubmenu = false;
+			exportRowRef?.focus();
+		}
+	}
+
 	function handleOptionsMenuClickOutside(event: MouseEvent) {
 		const target = event.composedPath()[0];
 		if (
@@ -912,6 +999,18 @@
 		void reasonEntries;
 		showOptionsMenu = false;
 		expandedOriginals.clear();
+	});
+
+	$effect(() => {
+		if (showOptionsMenu) return;
+		showExportSubmenu = false;
+		cancelSubmenuTimers();
+	});
+
+	$effect(() => {
+		return () => {
+			cancelSubmenuTimers();
+		};
 	});
 
 	const translation = useTooltipTranslation({
@@ -1692,36 +1791,74 @@
 											<span>{$_('outfit_viewer_button')}</span>
 										</button>
 									{/if}
-									<button
-										class="tooltip-options-item"
-										disabled={activeExportMode !== null}
-										onclick={(e) => handleExportTooltip(e, 'download')}
-										type="button"
+									<div
+										class="tooltip-options-export-wrapper"
+										onmouseenter={scheduleSubmenuOpen}
+										onmouseleave={scheduleSubmenuClose}
+										role="presentation"
 									>
-										{#if exportSuccessMode === 'download'}
-											<Check class="tooltip-options-icon success" size={15} />
-										{:else if activeExportMode === 'download'}
-											<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
-										{:else}
+										<button
+											bind:this={exportRowRef}
+											class="tooltip-options-item"
+											aria-expanded={showExportSubmenu}
+											aria-haspopup="menu"
+											onclick={toggleExportSubmenu}
+											onkeydown={handleExportRowKeydown}
+											type="button"
+										>
 											<ImageDown class="tooltip-options-icon" size={15} />
+											<span>{$_('tooltip_export_action')}</span>
+											<ChevronRight class="tooltip-options-chevron" size={14} />
+										</button>
+										{#if showExportSubmenu}
+											<div
+												bind:this={exportSubmenuRef}
+												class="tooltip-options-submenu"
+												onkeydown={handleSubmenuKeydown}
+												onmouseenter={cancelSubmenuTimers}
+												onmouseleave={scheduleSubmenuClose}
+												role="menu"
+												tabindex="-1"
+											>
+												<button
+													class="tooltip-options-item"
+													disabled={activeExportMode !== null}
+													onclick={(e) => handleExportTooltip(e, 'clipboard')}
+													role="menuitem"
+													type="button"
+												>
+													{#if exportSuccessMode === 'clipboard'}
+														<Check class="tooltip-options-icon success" size={15} />
+													{:else if activeExportMode === 'clipboard'}
+														<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
+													{:else}
+														<Copy class="tooltip-options-icon" size={15} />
+													{/if}
+													<span>{$_('tooltip_export_copy_clipboard')}</span>
+												</button>
+												<div class="tooltip-options-divider"></div>
+												{#each SAVE_AS_FORMATS as { format, labelKey } (format)}
+													<button
+														class="tooltip-options-item"
+														disabled={activeExportMode !== null}
+														onclick={(e) => handleExportTooltip(e, format)}
+														role="menuitem"
+														type="button"
+													>
+														{#if exportSuccessMode === format}
+															<Check class="tooltip-options-icon success" size={15} />
+														{:else if activeExportMode === format}
+															<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
+														{:else}
+															<ImageDown class="tooltip-options-icon" size={15} />
+														{/if}
+														<span>{$_(labelKey)}</span>
+														<span class="tooltip-options-item-suffix">.{format}</span>
+													</button>
+												{/each}
+											</div>
 										{/if}
-										<span>{$_('tooltip_export_download')}</span>
-									</button>
-									<button
-										class="tooltip-options-item"
-										disabled={activeExportMode !== null}
-										onclick={(e) => handleExportTooltip(e, 'clipboard')}
-										type="button"
-									>
-										{#if exportSuccessMode === 'clipboard'}
-											<Check class="tooltip-options-icon success" size={15} />
-										{:else if activeExportMode === 'clipboard'}
-											<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
-										{:else}
-											<Copy class="tooltip-options-icon" size={15} />
-										{/if}
-										<span>{$_('tooltip_export_copy')}</span>
-									</button>
+									</div>
 									{#if activeUserStatus?.engineVersion}
 										<div class="tooltip-options-divider"></div>
 										<div class="tooltip-options-engine">

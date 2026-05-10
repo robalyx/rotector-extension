@@ -887,6 +887,9 @@
 		event.stopPropagation();
 		if (!expandedCardRef || activeExportMode !== null) return;
 		activeExportMode = mode;
+		const prevShowSafeReasons = showSafeReasons;
+		showSafeReasons = true;
+		await tick();
 		try {
 			const success = await exportTooltipImage(expandedCardRef, {
 				mode,
@@ -902,6 +905,7 @@
 			}
 		} finally {
 			activeExportMode = null;
+			showSafeReasons = prevShowSafeReasons;
 		}
 	}
 

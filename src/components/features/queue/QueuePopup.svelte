@@ -4,9 +4,10 @@
 	import { sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
-	import { STATUS, CAPTCHA_MESSAGES } from '@/lib/types/constants';
-	import { Clipboard, User, Users } from '@lucide/svelte';
+	import { STATUS, CAPTCHA_MESSAGES, KOFI_URL } from '@/lib/types/constants';
+	import { Ban, Check, Clipboard, Clock, Database, Search, User, Users } from '@lucide/svelte';
 	import AckCheckbox from '@/components/ui/AckCheckbox.svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import Modal from '../../ui/Modal.svelte';
 	import QueueLimitsDisplay from './QueueLimitsDisplay.svelte';
 	import OutfitPicker from '../outfit/OutfitPicker.svelte';
@@ -89,23 +90,45 @@
 	] as const;
 
 	const ackItems = [
-		{ key: 'scope', labelKey: 'queue_popup_ack_scope' },
-		{ key: 'notInnocent', labelKey: 'queue_popup_ack_not_innocent' },
 		{ key: 'dynamicLimits', labelKey: 'queue_popup_ack_dynamic_limits' },
 		{ key: 'reviewProcess', labelKey: 'queue_popup_ack_review_process' },
 		{ key: 'accuracy', labelKey: 'queue_popup_ack_accuracy' },
-		{ key: 'notIdentity', labelKey: 'queue_popup_ack_not_identity' },
-		{ key: 'noRetaliation', labelKey: 'queue_popup_ack_no_retaliation' },
 		{ key: 'noExploit', labelKey: 'queue_popup_ack_no_exploit' },
-		{ key: 'confidentiality', labelKey: 'queue_popup_ack_confidentiality' },
-		{ key: 'inaccuracyRestriction', labelKey: 'queue_popup_ack_inaccuracy_restriction' },
-		{ key: 'misuse', labelKey: 'queue_popup_ack_misuse' }
+		{ key: 'confidentiality', labelKey: 'queue_popup_ack_confidentiality' }
+	] as const;
+
+	const howItWorksRows = [
+		{ icon: Database, labelKey: 'queue_popup_how_database' },
+		{ icon: Search, labelKey: 'queue_popup_how_hunter' },
+		{ icon: Clock, labelKey: 'queue_popup_how_capacity' }
+	] as const;
+
+	const doRowsKey = [
+		'queue_popup_do_investigating',
+		'queue_popup_do_concerning_content',
+		'queue_popup_do_not_already_flagged'
+	] as const;
+
+	const dontRowsKey = [
+		'queue_popup_dont_random_friends',
+		'queue_popup_dont_just_to_check',
+		'queue_popup_dont_drama',
+		'queue_popup_dont_identity',
+		'queue_popup_dont_social_callouts',
+		'queue_popup_dont_out_of_scope'
 	] as const;
 	type AckKey = (typeof ackItems)[number]['key'];
 	let ackState = $state<Record<AckKey, boolean>>(
 		Object.fromEntries(ackItems.map((i) => [i.key, false])) as Record<AckKey, boolean>
 	);
 	const allAcknowledged = $derived(ackItems.every((i) => ackState[i.key]));
+
+	const thoroughCount = $derived(
+		(profileCheck === 'thorough' ? 1 : 0) +
+			(friendsCheck === 'thorough' ? 1 : 0) +
+			(groupsCheck === 'thorough' ? 1 : 0)
+	);
+	const projectedCost = $derived(thoroughCount === 0 ? 1 : thoroughCount * 3);
 
 	let ackSectionEl = $state<HTMLDivElement>();
 	let submitting = $state(false);
@@ -140,7 +163,7 @@
 	const canSubmit = $derived.by(() => {
 		if (submitting || awaitingCaptcha) return false;
 		if (hideQueueLimits) return true;
-		return !queueLimitsLoading && queueLimits !== null && queueLimits.remaining > 0;
+		return !queueLimitsLoading && queueLimits !== null && queueLimits.remaining >= projectedCost;
 	});
 
 	function toggleAll() {
@@ -297,6 +320,60 @@
 		{/if}
 	</p>
 
+	<div class="first-detection-hero mt-3">
+		<p class="first-detection-hero-text">{$_('queue_popup_hero')}</p>
+	</div>
+
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_popup_how_it_works_heading')}</h3>
+		</header>
+		<ul class="first-detection-row-list">
+			{#each howItWorksRows as row (row.labelKey)}
+				<li class="first-detection-row">
+					<span class="first-detection-row-icon-info" aria-hidden="true">
+						<row.icon size={16} strokeWidth={2.5} />
+					</span>
+					<span>{$_(row.labelKey)}</span>
+				</li>
+			{/each}
+		</ul>
+	</div>
+
+	<div class="modal-section">
+		<header class="modal-section-head">
+			<h3 class="modal-section-title">{$_('queue_popup_when_heading')}</h3>
+		</header>
+		<div class="first-detection-do-dont">
+			<div class="first-detection-do-dont-col">
+				<span class="first-detection-do-dont-label-do">{$_('queue_popup_do_label')}</span>
+				<ul class="first-detection-row-list">
+					{#each doRowsKey as key (key)}
+						<li class="first-detection-row">
+							<span class="first-detection-row-icon-yes" aria-hidden="true">
+								<Check size={16} strokeWidth={2.5} />
+							</span>
+							<span>{$_(key)}</span>
+						</li>
+					{/each}
+				</ul>
+			</div>
+			<div class="first-detection-do-dont-col">
+				<span class="first-detection-do-dont-label-dont">{$_('queue_popup_dont_label')}</span>
+				<ul class="first-detection-row-list">
+					{#each dontRowsKey as key (key)}
+						<li class="first-detection-row">
+							<span class="first-detection-row-icon-deny" aria-hidden="true">
+								<Ban size={16} strokeWidth={2.5} />
+							</span>
+							<span>{$_(key)}</span>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		</div>
+	</div>
+
 	{#if !hideQueueLimits}
 		<div class="modal-section">
 			<QueueLimitsDisplay
@@ -344,6 +421,9 @@
 								value="thorough"
 							/>
 							{$_('queue_popup_threshold_thorough')}
+							<span class="queue-cost-badge">
+								{$_('queue_popup_thorough_cost_badge')}
+							</span>
 						</label>
 					</div>
 				</div>
@@ -363,6 +443,15 @@
 		<header class="modal-section-head">
 			<h3 class="modal-section-title">{$_('queue_popup_acknowledgment_heading')}</h3>
 		</header>
+		<div class="queue-misuse-warning">
+			<p class="queue-misuse-warning-title">{$_('queue_popup_misuse_warning_title')}</p>
+			<p class="queue-misuse-warning-body">
+				{$_('queue_popup_misuse_warning_body')}
+				<ExtLink class="queue-misuse-warning-link" href={KOFI_URL}>
+					{$_('queue_popup_misuse_warning_link')}
+				</ExtLink>
+			</p>
+		</div>
 		<div class="queue-ack-list">
 			<AckCheckbox checked={allAcknowledged} onchange={toggleAll} variant="all">
 				{#snippet label()}
@@ -381,6 +470,17 @@
 	</div>
 
 	{#snippet actions()}
+		{#if !hideQueueLimits && queueLimits !== null}
+			<span class="queue-cost-summary">
+				<span>{$_('queue_popup_submission_cost_label')}</span>
+				<span
+					class="queue-cost-value"
+					class:queue-cost-value-over={queueLimits.remaining < projectedCost}
+				>
+					{projectedCost}
+				</span>
+			</span>
+		{/if}
 		<button class="modal-button-cancel" onclick={handleCancel} type="button">
 			{$_('queue_popup_cancel_button')}
 		</button>

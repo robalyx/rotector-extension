@@ -3,6 +3,7 @@
 	import { BookOpen, ExternalLink, CircleQuestionMark, FileText } from '@lucide/svelte';
 	import SiDiscord from '@icons-pack/svelte-simple-icons/icons/SiDiscord';
 	import SiGithub from '@icons-pack/svelte-simple-icons/icons/SiGithub';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import { LEGAL_URLS } from '@/lib/types/constants';
 	import { setStorage } from '@/lib/utils/storage';
 
@@ -14,35 +15,20 @@
 
 <div class="footer-container">
 	<div class="footer-link-row">
-		<a
-			class="footer-link"
-			href="https://discord.gg/2Cn7kXqqhY"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
+		<ExtLink class="footer-link" href="https://discord.gg/2Cn7kXqqhY">
 			<SiDiscord class="footer-link-icon" size={14} />
 			{$_('footer_discord')}
-		</a>
+		</ExtLink>
 		<span class="footer-link-dot">&middot;</span>
-		<a
-			class="footer-link"
-			href="https://github.com/robalyx"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
+		<ExtLink class="footer-link" href="https://github.com/robalyx">
 			<SiGithub class="footer-link-icon" size={14} />
 			{$_('footer_github')}
-		</a>
+		</ExtLink>
 		<span class="footer-link-dot">&middot;</span>
-		<a
-			class="footer-link"
-			href="https://github.com/robalyx/rotector-extension"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
+		<ExtLink class="footer-link" href="https://github.com/robalyx/rotector-extension">
 			<ExternalLink class="footer-link-icon" />
 			{$_('footer_source_code')}
-		</a>
+		</ExtLink>
 	</div>
 
 	<div class="footer-link-row">
@@ -51,30 +37,21 @@
 			{$_('footer_view_guide')}
 		</button>
 		<span class="footer-link-dot">&middot;</span>
-		<a
-			class="footer-link"
-			href="https://roscoe.rotector.com/docs"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
+		<ExtLink class="footer-link" href="https://roscoe.rotector.com/docs">
 			<FileText class="footer-link-icon" />
 			{$_('footer_docs')}
-		</a>
+		</ExtLink>
 		<span class="footer-link-dot">&middot;</span>
-		<a class="footer-link" href="https://rotector.com" rel="noopener noreferrer" target="_blank">
+		<ExtLink class="footer-link" href="https://rotector.com">
 			<CircleQuestionMark class="footer-link-icon" />
 			{$_('footer_help')}
-		</a>
+		</ExtLink>
 	</div>
 
 	<div class="footer-legal-section">
-		<a class="footer-legal-link" href={LEGAL_URLS.privacy} rel="noopener noreferrer" target="_blank"
-			>{$_('footer_privacy')}</a
-		>
+		<ExtLink class="footer-legal-link" href={LEGAL_URLS.privacy}>{$_('footer_privacy')}</ExtLink>
 		<span class="footer-legal-divider">|</span>
-		<a class="footer-legal-link" href={LEGAL_URLS.terms} rel="noopener noreferrer" target="_blank"
-			>{$_('footer_terms')}</a
-		>
+		<ExtLink class="footer-legal-link" href={LEGAL_URLS.terms}>{$_('footer_terms')}</ExtLink>
 	</div>
 
 	<p class="footer-credit">{$_('footer_made_by')}</p>

@@ -5,6 +5,7 @@
 	import 'svelte-highlight/styles/github-dark.css';
 	import TurndownService from 'turndown';
 	import { _ } from 'svelte-i18n';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import { logger } from '@/lib/utils/logging/logger';
 
 	const ROTECTOR_DOCS_URL = 'https://roscoe.rotector.com/docs';
@@ -270,15 +271,10 @@
 				<p class="docs-note">{$_('custom_api_docs_note_overview_what')}</p>
 				<p class="docs-note">{$_('custom_api_docs_note_overview_scope')}</p>
 				<p class="docs-note">{$_('custom_api_docs_note_overview_reference')}</p>
-				<a
-					class="docs-external-link-block"
-					href={ROTECTOR_DOCS_URL}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<ExtLink class="docs-external-link-block" href={ROTECTOR_DOCS_URL}>
 					<span>{ROTECTOR_DOCS_URL}</span>
 					<ExternalLink size={11} />
-				</a>
+				</ExtLink>
 			</section>
 
 			<section id="section-authentication" class="docs-section">

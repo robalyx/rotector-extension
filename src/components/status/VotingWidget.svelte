@@ -4,6 +4,7 @@
 	import { logger } from '@/lib/utils/logging/logger';
 	import { _ } from 'svelte-i18n';
 	import { ArrowUp, ArrowDown, Flag } from '@lucide/svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 
 	interface Props {
 		voteData?: VoteData | null;
@@ -108,17 +109,15 @@
 		</button>
 
 		{#if confirmed}
-			<a
+			<ExtLink
 				class="voting-downvote voting-button"
 				aria-label={$_('voting_aria_dispute')}
 				href="https://rotector.com"
-				onclick={(e) => e.stopPropagation()}
-				rel="noopener noreferrer"
-				target="_blank"
+				onclick={(e: MouseEvent) => e.stopPropagation()}
 			>
 				<Flag class="voting-icon-downvote" size={14} strokeWidth={2.5} />
 				<span class="voting-label">{$_('voting_button_dispute')}</span>
-			</a>
+			</ExtLink>
 		{:else}
 			<button
 				class="voting-downvote voting-button"

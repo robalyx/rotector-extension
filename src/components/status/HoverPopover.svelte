@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import { settings, updateSetting } from '@/lib/stores/settings';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
 	import { logger } from '@/lib/utils/logging/logger';
@@ -174,11 +175,10 @@
 			<strong>{$_('tooltip_trap_info_title')}</strong>
 			<p>
 				{$_('tooltip_trap_info_message')}
-				<a
+				<ExtLink
 					href="https://rotector.com/blog/trap-game-detection-explained"
-					onclick={(event) => event.stopPropagation()}
-					rel="noopener noreferrer"
-					target="_blank">{$_('tooltip_trap_info_link')}</a
+					onclick={(event: MouseEvent) => event.stopPropagation()}
+					>{$_('tooltip_trap_info_link')}</ExtLink
 				>
 			</p>
 		{:else if active.kind === 'discord-info'}

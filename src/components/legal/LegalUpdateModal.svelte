@@ -4,6 +4,7 @@
 	import AckCheckbox from '@/components/ui/AckCheckbox.svelte';
 	import AppLogo from '@/components/ui/AppLogo.svelte';
 	import ConfirmDialog from '@/components/ui/ConfirmDialog.svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import Modal from '@/components/ui/Modal.svelte';
 	import { acceptLegal, declineLegal, shouldShowLegalModal } from '@/lib/stores/legal';
 	import { LEGAL_URLS } from '@/lib/types/constants';
@@ -62,15 +63,15 @@
 
 	<p class="legal-modal-section-heading">{$_('legal_modal_links_heading')}</p>
 	<p class="legal-modal-link-row">
-		<a href={LEGAL_URLS.terms} rel="noopener noreferrer" target="_blank">
+		<ExtLink href={LEGAL_URLS.terms}>
 			{$_('legal_modal_link_terms')}
 			<ExternalLink aria-hidden="true" size={12} />
-		</a>
+		</ExtLink>
 		<span>·</span>
-		<a href={LEGAL_URLS.privacy} rel="noopener noreferrer" target="_blank">
+		<ExtLink href={LEGAL_URLS.privacy}>
 			{$_('legal_modal_link_privacy')}
 			<ExternalLink aria-hidden="true" size={12} />
-		</a>
+		</ExtLink>
 	</p>
 
 	<div class="mt-4">

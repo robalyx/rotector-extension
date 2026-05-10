@@ -48,6 +48,7 @@
 	} from './tooltip-positioning';
 	import { detectEncoding, makeDecoder } from '@/lib/services/cipher/encoding-detector';
 	import type { EncodingResult } from '@/lib/services/cipher/encoding-detector';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import MembershipPill from '@/components/ui/membership/MembershipPill.svelte';
 	import { tierNameOf, tierOf } from '@/lib/utils/membership-designs';
 	import {
@@ -1336,14 +1337,9 @@
 			<div class="restricted-access-text">
 				<strong>{$_('tooltip_restricted_title')}</strong>
 				<p>{$_('tooltip_restricted_message')}</p>
-				<a
-					class="restricted-appeal-link"
-					href="https://rotector.com"
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<ExtLink class="restricted-appeal-link" href="https://rotector.com">
 					{$_('tooltip_restricted_appeal')}
-				</a>
+				</ExtLink>
 			</div>
 		</div>
 	{:else if activeError}
@@ -1398,12 +1394,11 @@
 								{$_('tooltip_safe_reason_condo_groups')}
 							</li>
 							<li class="safe-reasons-item">
-								{parts[0]}<a
+								{parts[0]}<ExtLink
 									class="safe-reasons-link"
 									href="https://rotector.com"
-									onclick={(e) => e.stopPropagation()}
-									rel="noopener noreferrer"
-									target="_blank">{$_('tooltip_safe_reason_contact_us')}</a
+									onclick={(e: MouseEvent) => e.stopPropagation()}
+									>{$_('tooltip_safe_reason_contact_us')}</ExtLink
 								>{parts[1]}
 							</li>
 						</ul>
@@ -1510,16 +1505,14 @@
 									{/if}
 									{#if activeTab === ROTECTOR_API_ID && !isGroup}
 										{#if reason.typeName === REASON_KEYS.USER_PROFILE && badgeStatus.isReportable}
-											<a
+											<ExtLink
 												class="reportable-pill"
 												href="https://www.roblox.com/report-abuse/?targetId={sanitizedUserId}&submitterId=0&abuseVector=userprofile&nl=true"
-												onclick={(e) => e.stopPropagation()}
-												rel="noopener noreferrer"
-												target="_blank"
+												onclick={(e: MouseEvent) => e.stopPropagation()}
 											>
 												<Flag size={12} />
 												{$_('tooltip_reportable_report_button')}
-											</a>
+											</ExtLink>
 										{/if}
 										{#if reason.typeName === REASON_KEYS.AVATAR_OUTFIT && badgeStatus.isOutfitOnly}
 											<button

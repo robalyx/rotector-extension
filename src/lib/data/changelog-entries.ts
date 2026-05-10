@@ -29,6 +29,16 @@ export const CHANGELOGS: Changelog[] = [
 					'Integration scan bar chip - Friends scan bar adds a teal chip for Not Flagged friends caught by an enabled integration API'
 			},
 			{
+				type: 'added',
+				description:
+					'Queue popup explainer - New sections explain how our database works, when (and when not) to queue, and the consequences of misuse'
+			},
+			{
+				type: 'added',
+				description:
+					'Queue submission cost - Thorough checks count as 3× against your queue limit, with the cost shown next to the Submit button'
+			},
+			{
 				type: 'changed',
 				description:
 					'Scan bar granularity - Now shows a separate chip for each status type instead of grouping several together'
@@ -52,6 +62,15 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'changed',
 				description:
 					'Reliability improvements - Several core parts of the extension were rewritten behind the scenes for better stability and smoother day-to-day use'
+			},
+			{
+				type: 'changed',
+				description:
+					'Queue popup acknowledgments - Trimmed from 11 to 5 items as dropped rules are now conveyed by the new explainer sections'
+			},
+			{
+				type: 'changed',
+				description: 'Ko-fi URL - Membership and funding links now point to ko-fi.com/rotector'
 			},
 			{
 				type: 'fixed',

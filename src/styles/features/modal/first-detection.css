@@ -50,6 +50,11 @@
 	color: var(--color-success);
 }
 
+@utility first-detection-row-icon-info {
+	@apply first-detection-row-icon;
+	color: var(--color-primary);
+}
+
 /* =================================
    DO / DON'T TWO-COLUMN GRID
    ================================= */

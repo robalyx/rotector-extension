@@ -76,6 +76,62 @@
 }
 
 /* =================================
+   MISUSE WARNING CALLOUT
+   ================================= */
+
+@utility queue-misuse-warning {
+	@apply flex flex-col;
+	gap: 0.25rem;
+}
+
+@utility queue-misuse-warning-title {
+	@apply m-0 text-sm font-semibold;
+	color: var(--color-warning);
+}
+
+@utility queue-misuse-warning-body {
+	@apply m-0 text-xs;
+	line-height: 1.5;
+	color: var(--color-text-subtle);
+}
+
+@utility queue-misuse-warning-link {
+	@apply font-medium;
+	color: var(--color-primary);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+/* =================================
+   SUBMISSION COST
+   ================================= */
+
+@utility queue-cost-badge {
+	@apply text-2xs ml-1 inline-flex items-center justify-center rounded-sm font-semibold;
+	padding: 0.0625rem 0.3125rem;
+	background-color: color-mix(in srgb, var(--color-warning) 14%, transparent);
+	color: var(--color-warning);
+}
+
+@utility queue-cost-summary {
+	@apply mr-auto inline-flex items-center text-xs;
+	gap: 0.25rem;
+	color: var(--color-text-subtle);
+}
+
+@utility queue-cost-value {
+	@apply font-semibold tabular-nums;
+	color: var(--color-text-heading);
+}
+
+@utility queue-cost-value-over {
+	color: var(--color-error);
+}
+
+/* =================================
    ACKNOWLEDGMENT CHECKBOXES
    ================================= */
 

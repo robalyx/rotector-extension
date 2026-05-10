@@ -18,6 +18,7 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';
 	import RoVerIcon from '@/components/icons/RoVerIcon.svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import { getDiscordData } from '@/lib/services/third-party/discord-data';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
@@ -299,16 +300,14 @@
 						{account.id}
 					</span>
 					{#each sourceInfo as source (source.code)}
-						<a
+						<ExtLink
 							class="discord-source-link"
 							href={source.url}
-							onclick={(e) => e.stopPropagation()}
-							rel="noopener noreferrer"
-							target="_blank"
+							onclick={(e: MouseEvent) => e.stopPropagation()}
 							title={source.name}
 						>
 							{@render sourceIcon(source.code)}
-						</a>
+						</ExtLink>
 					{/each}
 					<span class="discord-server-count">
 						{$_(
@@ -379,27 +378,19 @@
 			<div class="discord-account-card">
 				<div class="discord-alt-header-static">
 					<span class="discord-roblox-icon"><SiRoblox size={14} /></span>
-					<a
+					<ExtLink
 						class="discord-alt-link"
 						href="https://www.roblox.com/users/{alt.robloxUserId}/profile"
-						rel="noopener noreferrer"
-						target="_blank"
 					>
 						{alt.robloxUsername}
-					</a>
+					</ExtLink>
 					<span class="discord-alt-id"
 						>{$_('tooltip_discord_id_label', { values: { 0: alt.robloxUserId } })}</span
 					>
 					{#each altSourceInfo as source (source.code)}
-						<a
-							class="discord-source-link"
-							href={source.url}
-							rel="noopener noreferrer"
-							target="_blank"
-							title={source.name}
-						>
+						<ExtLink class="discord-source-link" href={source.url} title={source.name}>
 							{@render sourceIcon(source.code)}
-						</a>
+						</ExtLink>
 					{/each}
 					<span class="discord-server-count">
 						{$_('tooltip_discord_updated', { values: { 0: formatTimestamp(alt.updatedAt) } })}

@@ -19,6 +19,8 @@ export const ENTITY_TYPES = {
 	GROUP: 'group'
 } as const;
 
+export const KOFI_URL = 'https://ko-fi.com/rotector';
+
 const API_DOMAIN =
 	import.meta.env.USE_DEV_API === 'true' ? 'roscoe-dev.rotector.com' : 'roscoe.rotector.com';
 

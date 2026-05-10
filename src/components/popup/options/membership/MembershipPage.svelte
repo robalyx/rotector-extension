@@ -21,7 +21,9 @@
 		MembershipVerificationChallenge
 	} from '@/lib/types/api';
 	import { settings, updateSetting } from '@/lib/stores/settings';
+	import { KOFI_URL } from '@/lib/types/constants';
 	import { SETTINGS_KEYS } from '@/lib/types/settings';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import {
 		clearBadge,
 		confirmVerification,
@@ -50,7 +52,6 @@
 		type IconDesignKey
 	} from '@/lib/utils/membership-designs';
 
-	const KOFI_URL = 'https://ko-fi.com/jaxron';
 	const DISCORD_URL = 'https://discord.gg/rotector';
 	const ctaRows = [
 		{ href: KOFI_URL, labelKey: 'membership_cta_kofi', variant: 'kofi' },
@@ -529,19 +530,13 @@
 		<p class="membership-section-description">{$_('membership_how_description')}</p>
 		<ol class="membership-steps-list">
 			<li>
-				{step1Parts[0]}<a
-					class="membership-inline-link"
-					href={KOFI_URL}
-					rel="noopener noreferrer"
-					target="_blank">{$_('membership_step_1_link')}</a
+				{step1Parts[0]}<ExtLink class="membership-inline-link" href={KOFI_URL}
+					>{$_('membership_step_1_link')}</ExtLink
 				>{step1Parts[1]}
 			</li>
 			<li>
-				{step2Parts[0]}<a
-					class="membership-inline-link"
-					href={DISCORD_URL}
-					rel="noopener noreferrer"
-					target="_blank">{$_('membership_step_2_link')}</a
+				{step2Parts[0]}<ExtLink class="membership-inline-link" href={DISCORD_URL}
+					>{$_('membership_step_2_link')}</ExtLink
 				>{step2Parts[1]}
 			</li>
 			<li>{$_('membership_step_3')}</li>
@@ -550,15 +545,10 @@
 		</ol>
 		<div class="membership-cta-row">
 			{#each ctaRows as cta (cta.variant)}
-				<a
-					class="membership-cta-button {cta.variant}"
-					href={cta.href}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<ExtLink class="membership-cta-button {cta.variant}" href={cta.href}>
 					<span>{$_(cta.labelKey)}</span>
 					<ExternalLink size={14} />
-				</a>
+				</ExtLink>
 			{/each}
 		</div>
 	</section>

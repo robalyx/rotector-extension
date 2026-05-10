@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import AppLogo from '@/components/ui/AppLogo.svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import Modal from '@/components/ui/Modal.svelte';
 
 	interface FinishModalProps {
@@ -35,8 +36,8 @@
 
 	<p class="onboarding-agreement-text">
 		{$_('onboarding_finish_feedback')}
-		<a href="https://discord.gg/2Cn7kXqqhY" rel="noopener noreferrer" target="_blank">
+		<ExtLink href="https://discord.gg/2Cn7kXqqhY">
 			{$_('onboarding_finish_discord')}
-		</a>.
+		</ExtLink>.
 	</p>
 </Modal>

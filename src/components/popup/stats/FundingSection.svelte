@@ -2,6 +2,7 @@
 	import SiKofi from '@icons-pack/svelte-simple-icons/icons/SiKofi';
 	import { _ } from 'svelte-i18n';
 	import { stats } from '@/lib/stores/stats';
+	import { KOFI_URL } from '@/lib/types/constants';
 	import { calculatePercentage, formatCurrency } from '@/lib/utils/format';
 
 	const donations = $derived($stats?.funding.donations ?? 0);
@@ -10,7 +11,7 @@
 	const isFullyFunded = $derived(goal > 0 && donations >= goal);
 
 	function handleKofiClick() {
-		window.open('https://ko-fi.com/jaxron', '_blank', 'noopener,noreferrer');
+		window.open(KOFI_URL, '_blank', 'noopener,noreferrer');
 	}
 </script>
 

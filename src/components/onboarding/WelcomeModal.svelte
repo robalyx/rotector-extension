@@ -3,6 +3,7 @@
 	import { LEGAL_URLS } from '@/lib/types/constants';
 	import AckCheckbox from '@/components/ui/AckCheckbox.svelte';
 	import AppLogo from '@/components/ui/AppLogo.svelte';
+	import ExtLink from '@/components/ui/ExtLink.svelte';
 	import Modal from '@/components/ui/Modal.svelte';
 
 	interface WelcomeModalProps {
@@ -40,13 +41,13 @@
 		<AckCheckbox textClass="onboarding-agreement-text" bind:checked={tosAccepted}>
 			{#snippet label()}
 				{$_('onboarding_welcome_agree_tos')}
-				<a href={LEGAL_URLS.terms} rel="noopener noreferrer" target="_blank">
+				<ExtLink href={LEGAL_URLS.terms}>
 					{$_('onboarding_welcome_terms')}
-				</a>
+				</ExtLink>
 				{$_('onboarding_welcome_and')}
-				<a href={LEGAL_URLS.privacy} rel="noopener noreferrer" target="_blank">
+				<ExtLink href={LEGAL_URLS.privacy}>
 					{$_('onboarding_welcome_privacy')}
-				</a>
+				</ExtLink>
 			{/snippet}
 		</AckCheckbox>
 

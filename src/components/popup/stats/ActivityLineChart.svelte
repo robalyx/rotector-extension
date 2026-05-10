@@ -60,7 +60,7 @@
 
 	function computeXRange(): [number, number] | null {
 		if (entries.length < 2) return null;
-		const first = entries[0];
+		const first = entries[1];
 		const last = entries[entries.length - 1];
 		if (!first || !last) return null;
 		return [toUnixSec(first.timestamp), toUnixSec(last.timestamp)];
@@ -79,7 +79,7 @@
 		return {
 			width,
 			height,
-			padding: [8, 24, 4, 8],
+			padding: [8, 20, 4, 8],
 			cursor: {
 				drag: { x: false, y: false },
 				points: { size: 5 }
@@ -108,7 +108,9 @@
 					grid: { stroke: gridColor, width: 1 },
 					ticks: { show: false },
 					font: '10px system-ui, sans-serif',
-					size: 36,
+					size: 28,
+					space: 20,
+					incrs: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000],
 					values: (_u, ticks) => ticks.map((t) => Math.round(t).toString())
 				}
 			],

@@ -56,6 +56,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Firefox feature loading - Friend scans, group roles, and other Roblox-powered features now work on Firefox instead of failing to load'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Scan bar progress - Bar now fills smoothly as each batch of friends or groups is checked instead of jumping to 30% and disappearing'
 			},
 			{
@@ -97,6 +102,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Group members carousel stuck indicators - Switching tabs or filters quickly no longer leaves status indicators stuck on the loading spinner'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Firefox debug logs - Error details that were previously skipped now appear in downloadable debug logs'
 			},
 			{
 				type: 'removed',

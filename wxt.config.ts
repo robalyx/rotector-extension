@@ -55,12 +55,13 @@ export default defineConfig({
 	}),
 	manifest: ({ browser, manifestVersion }) => {
 		const optionalHosts = ['https://*/*', 'https://translate.googleapis.com/*'];
+		const robloxFetch = browser === 'firefox' ? ['https://*.roblox.com/*'] : [];
 		return {
 			name: '__MSG_extensionName__',
 			description: '__MSG_extensionDescription__',
 			default_locale: 'en',
 			version: '2.17.0',
-			permissions: ['storage', 'notifications'],
+			permissions: ['storage', 'notifications', ...robloxFetch],
 			host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
 			...(manifestVersion === 2
 				? { optional_permissions: optionalHosts }

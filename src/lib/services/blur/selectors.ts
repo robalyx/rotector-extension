@@ -16,7 +16,10 @@ export const BLUR_SELECTORS = {
 
 	PROFILE_OUTFIT_2D: '.thumbnail-holder .thumbnail-2d-container',
 	PROFILE_OUTFIT_3D: '.thumbnail-holder .thumbnail-3d-container',
-	PROFILE_CURRENTLY_WEARING: '.profile-item-card .thumbnail-2d-container',
+	PROFILE_CURRENTLY_WEARING_STANDARD: '.profile-item-card .thumbnail-2d-container',
+	PROFILE_CURRENTLY_WEARING_ROVALRA: '.rovalra-item-card .rovalra-item-thumb-container',
+	PROFILE_CURRENTLY_WEARING:
+		'.profile-item-card .thumbnail-2d-container, .rovalra-item-card .rovalra-item-thumb-container',
 
 	// Avatar selectors
 	CAROUSEL_AVATAR: '.friends-carousel-tile .avatar-card-image',

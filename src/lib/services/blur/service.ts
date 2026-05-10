@@ -82,6 +82,8 @@ const SELECTOR_PAGES: Record<string, PageKey[]> = {
 	[BLUR_SELECTORS.SEARCH_AVATAR]: ['search'],
 	[BLUR_SELECTORS.PROFILE_AVATAR]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD]: ['profile'],
+	[BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_2D]: ['profile'],
 	[BLUR_SELECTORS.PROFILE_OUTFIT_3D]: ['profile'],
 	[BLUR_SELECTORS.MEMBER_CAROUSEL_AVATAR]: ['groups'],
@@ -192,6 +194,9 @@ function buildBlurCSS(allEnabled = false): string {
 		rules.push(
 			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_3D} { filter: none !important; }`
 		);
+		rules.push(
+			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA} { filter: none !important; }`
+		);
 		rules.push(`.avatar-card-label:not([data-blur-user-id]) { filter: none !important; }`);
 	}
 
@@ -244,19 +249,21 @@ function buildBlurCSS(allEnabled = false): string {
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_AVATAR}`,
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}`,
 				`.blur-revealed ${BLUR_SELECTORS.PROFILE_OUTFIT_3D}`,
-				`.blur-revealed ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING}`,
+				`.blur-revealed ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD}`,
+				`.blur-revealed ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA}`,
 				`${BLUR_SELECTORS.PROFILE_AVATAR}.blur-revealed`,
-				'.thumbnail-holder .thumbnail-2d-container.blur-revealed',
-				'.thumbnail-holder .thumbnail-3d-container.blur-revealed',
-				'.profile-item-card .thumbnail-2d-container.blur-revealed'
+				`${BLUR_SELECTORS.PROFILE_OUTFIT_2D}.blur-revealed`,
+				`${BLUR_SELECTORS.PROFILE_OUTFIT_3D}.blur-revealed`,
+				`${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD}.blur-revealed`,
+				`${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA}.blur-revealed`
 			);
 		}
 
 		// Page-specific thumbnail reveal selectors
 		const thumbnailRevealSelectors = filterByPage(
 			[
-				'.list-item.avatar-card .thumbnail-2d-container.blur-revealed',
-				'li.player-item.avatar-card .thumbnail-2d-container.blur-revealed'
+				`${BLUR_SELECTORS.FRIENDS_LIST_AVATAR}.blur-revealed`,
+				`${BLUR_SELECTORS.SEARCH_AVATAR}.blur-revealed`
 			],
 			ps
 		);

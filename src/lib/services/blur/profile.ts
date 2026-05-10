@@ -7,6 +7,8 @@ import {
 	markElementForUser,
 	PROFILE_BLUR_CLASS_FLAGGED,
 	PROFILE_BLUR_CLASS_SAFE,
+	PROFILE_TEXT_BLUR_CLASS_FLAGGED,
+	PROFILE_TEXT_BLUR_CLASS_SAFE,
 	revealAndCleanup,
 	revealedGroups,
 	revealedUsers,
@@ -20,7 +22,7 @@ import type { CombinedStatus } from '../../types/custom-api';
 
 const WAIT_FOR_PROFILE_ITEMS = { maxRetries: 10, baseDelay: 200, maxDelay: 1000 };
 
-export function setProfileBlurState(state: 'flagged' | 'safe' | null): void {
+export function setProfileOutfitBlurState(state: 'flagged' | 'safe' | null): void {
 	const root = document.documentElement;
 	root.classList.remove(PROFILE_BLUR_CLASS_FLAGGED, PROFILE_BLUR_CLASS_SAFE);
 
@@ -28,6 +30,17 @@ export function setProfileBlurState(state: 'flagged' | 'safe' | null): void {
 		root.classList.add(PROFILE_BLUR_CLASS_FLAGGED);
 	} else if (state === 'safe') {
 		root.classList.add(PROFILE_BLUR_CLASS_SAFE);
+	}
+}
+
+export function setProfileTextBlurState(state: 'flagged' | 'safe' | null): void {
+	const root = document.documentElement;
+	root.classList.remove(PROFILE_TEXT_BLUR_CLASS_FLAGGED, PROFILE_TEXT_BLUR_CLASS_SAFE);
+
+	if (state === 'flagged') {
+		root.classList.add(PROFILE_TEXT_BLUR_CLASS_FLAGGED);
+	} else if (state === 'safe') {
+		root.classList.add(PROFILE_TEXT_BLUR_CLASS_SAFE);
 	}
 }
 
@@ -70,7 +83,10 @@ export function markProfileElementsForBlur(userId: string): void {
 }
 
 async function markCurrentlyWearingItems(userId: string, groupId: string): Promise<void> {
-	const result = await waitForElement('.profile-item-card', WAIT_FOR_PROFILE_ITEMS);
+	const result = await waitForElement(
+		BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING,
+		WAIT_FOR_PROFILE_ITEMS
+	);
 
 	if (!result.success) return;
 	if (revealedUsers.has(userId)) return;
@@ -136,10 +152,17 @@ export function observeProfileBlur(userId: string): () => void {
 	const headerGroup = `${PROFILE_BLUR_GROUPS.HEADER}:${userId}`;
 	const outfitGroup = `${PROFILE_BLUR_GROUPS.OUTFIT}:${userId}`;
 	const outfitIsSafe = () => document.documentElement.classList.contains(PROFILE_BLUR_CLASS_SAFE);
-	const { displayNames, usernames } = getBlurSettings();
+	const textIsSafe = () =>
+		document.documentElement.classList.contains(PROFILE_TEXT_BLUR_CLASS_SAFE);
+	const { displayNames, usernames, avatars } = getBlurSettings();
 
 	const entries: ObserveEntry[] = [
-		{ selector: BLUR_SELECTORS.PROFILE_DESCRIPTION, type: 'description', group: headerGroup },
+		{
+			selector: BLUR_SELECTORS.PROFILE_DESCRIPTION,
+			type: 'description',
+			group: headerGroup,
+			isSafe: textIsSafe
+		},
 		{
 			selector: BLUR_SELECTORS.PROFILE_AVATAR,
 			type: 'avatar',
@@ -159,28 +182,41 @@ export function observeProfileBlur(userId: string): () => void {
 			isSafe: outfitIsSafe
 		}
 	];
+	if (avatars) {
+		entries.push({
+			selector: BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING,
+			type: 'avatar',
+			group: outfitGroup,
+			isSafe: outfitIsSafe
+		});
+	}
 	if (displayNames) {
 		entries.push({
 			selector: BLUR_SELECTORS.PROFILE_DISPLAY_NAME,
 			type: 'displayName',
-			group: headerGroup
+			group: headerGroup,
+			isSafe: textIsSafe
 		});
 	}
 	if (usernames) {
 		entries.push({
 			selector: BLUR_SELECTORS.PROFILE_USERNAME,
 			type: 'username',
-			group: headerGroup
+			group: headerGroup,
+			isSafe: textIsSafe
 		});
 	}
 	return observeSelectors(userId, entries);
 }
 
 async function revealProfileAvatars(): Promise<void> {
-	const sel = `${BLUR_SELECTORS.PROFILE_AVATAR}, ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, ${BLUR_SELECTORS.PROFILE_OUTFIT_3D}`;
+	const sel = `${BLUR_SELECTORS.PROFILE_AVATAR}, ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, ${BLUR_SELECTORS.PROFILE_OUTFIT_3D}, ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING}`;
 	document.querySelectorAll(sel).forEach(revealAndCleanup);
 
-	const result = await waitForElement('.profile-item-card', WAIT_FOR_PROFILE_ITEMS);
+	const result = await waitForElement(
+		BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING,
+		WAIT_FOR_PROFILE_ITEMS
+	);
 	if (result.success) {
 		document.querySelectorAll(BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING).forEach(revealAndCleanup);
 	}

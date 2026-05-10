@@ -28,6 +28,8 @@ export type PageKey = keyof PageSettings;
 export const BLUR_REVEALED_CLASS = 'blur-revealed';
 export const PROFILE_BLUR_CLASS_FLAGGED = 'rotector-profile-flagged';
 export const PROFILE_BLUR_CLASS_SAFE = 'rotector-profile-safe';
+export const PROFILE_TEXT_BLUR_CLASS_FLAGGED = 'rotector-profile-text-flagged';
+export const PROFILE_TEXT_BLUR_CLASS_SAFE = 'rotector-profile-text-safe';
 
 // Session-based sets for tracking manually revealed elements where both tile and
 // profile blur read these to skip already-revealed targets

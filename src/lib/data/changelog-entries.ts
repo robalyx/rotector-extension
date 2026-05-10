@@ -125,6 +125,16 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'fixed',
 				description:
+					'Profile blur - Slow page loads no longer leave description text or store items blurred on innocent profiles'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Rovalra currently-wearing carousel - Items rendered by the Rovalra extension are now blurred and revealed alongside the rest of the avatar items'
+			},
+			{
+				type: 'fixed',
+				description:
 					'Firefox debug logs - Error details that were previously skipped now appear in downloadable debug logs'
 			},
 			{

@@ -30,7 +30,8 @@
 	import {
 		markProfileElementsForBlur,
 		revealProfileElements,
-		setProfileBlurState,
+		setProfileOutfitBlurState,
+		setProfileTextBlurState,
 		observeProfileBlur
 	} from '@/lib/services/blur/profile';
 	import { isFlagged } from '@/lib/utils/status/status-utils';
@@ -94,9 +95,18 @@
 		return false;
 	}
 
+	function shouldBlurText(status: CombinedStatus<UserStatus>): boolean {
+		for (const result of status.values()) {
+			if (result.loading) return true;
+			if (result.data?.reasons && REASON_KEYS.USER_PROFILE in result.data.reasons) return true;
+		}
+		return false;
+	}
+
 	function applyStatus(status: CombinedStatus<UserStatus>) {
 		userStatus = status;
-		setProfileBlurState(shouldBlurOutfit(status) ? 'flagged' : 'safe');
+		setProfileOutfitBlurState(shouldBlurOutfit(status) ? 'flagged' : 'safe');
+		setProfileTextBlurState(shouldBlurText(status) ? 'flagged' : 'safe');
 		revealProfileElements(status);
 	}
 
@@ -608,7 +618,8 @@
 	}
 
 	function cleanup() {
-		setProfileBlurState(null);
+		setProfileOutfitBlurState(null);
+		setProfileTextBlurState(null);
 
 		const friendButton = document.querySelector<HTMLElement>(
 			PROFILE_SELECTORS.HEADER_FRIEND_BUTTON

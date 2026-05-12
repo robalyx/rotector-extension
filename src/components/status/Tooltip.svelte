@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { ENTITY_TYPES, REASON_KEYS, STATUS, type VoteType } from '@/lib/types/constants';
 	import { MIXED_GROUP, STATUS_FLAG_PRESENTATION } from '@/lib/utils/status/status-config';
-	import type { ReviewerInfo, UserStatus, VoteData } from '@/lib/types/api';
-	import { asApiError } from '@/lib/utils/api/api-error';
+	import type { ReviewerInfo, UserStatus } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
 	import { calculateStatusBadges } from '@/lib/utils/status/status-utils';
 	import { ENGINE_STATUS_BY_COMPAT, ENGINE_STATUS_KEY } from '@/lib/utils/status/engine-status';
-	import { apiClient } from '@/lib/services/rotector/api-client';
 	import {
 		outfitSnapshotService,
 		type SnapshotKey,
@@ -18,7 +16,7 @@
 		getRotectorMembershipBadge,
 		getRotectorOutfitEvidence
 	} from '@/lib/utils/status/status-projection';
-	import { getVoteData, updateCachedVoteData } from '@/lib/services/third-party/vote-data';
+	import { getVoteState, loadVoteData, submitVoteData } from '@/lib/services/third-party/vote-data';
 	import { useTooltipTranslation } from './useTooltipTranslation.svelte';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
@@ -183,10 +181,6 @@
 	let stickyHeaderRef = $state<HTMLElement>();
 	let profileHeaderRef = $state<HTMLElement>();
 	let hoverPopover: HoverPopoverInstance | undefined = $state();
-	let voteData: VoteData | null = $state(null);
-	let loadingVotes = $state(false);
-	let voteError = $state<string | null>(null);
-	let voteAccessDenied = $state(false);
 	let userInfo: UserInfo | null = $state(null);
 	let groupInfo: GroupInfo | null = $state(null);
 	let activeTab = $state<string>(ROTECTOR_API_ID);
@@ -262,6 +256,12 @@
 	});
 
 	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
+
+	const voteState = $derived(getVoteState(sanitizedUserId));
+	const voteData = $derived(voteState.data);
+	const loadingVotes = $derived(voteState.loading);
+	const voteError = $derived(voteState.error);
+	const voteAccessDenied = $derived(voteState.accessDenied);
 
 	const isGroup = $derived(entityType === ENTITY_TYPES.GROUP);
 
@@ -675,28 +675,6 @@
 		return isExpanded ? expandedCardRef : tooltipRef;
 	}
 
-	async function loadVoteData() {
-		if (!shouldShowVoting || loadingVotes) return;
-
-		loadingVotes = true;
-		voteError = null;
-
-		try {
-			const votes = await getVoteData(sanitizedUserId);
-			voteData = votes;
-			logger.debug('Loaded vote data for user', { userId: sanitizedUserId, votes });
-		} catch (err) {
-			if (asApiError(err).type === 'AbuseDetectionError') {
-				voteAccessDenied = true;
-				return;
-			}
-			voteError = 'Failed to load voting data';
-			logger.error('Failed to load vote data:', err);
-		} finally {
-			loadingVotes = false;
-		}
-	}
-
 	// A newer load supersedes any in-flight fetch so stale results never overwrite the maps
 	async function loadOutfitSnapshots() {
 		const loadId = ++latestSnapshotLoadId;
@@ -737,33 +715,8 @@
 		};
 	}
 
-	async function handleVoteSubmit(voteType: VoteType) {
-		if (loadingVotes) return;
-
-		try {
-			loadingVotes = true;
-			voteError = null;
-
-			const result = await apiClient.submitVote(sanitizedUserId, voteType);
-			voteData = result.newVoteData;
-
-			updateCachedVoteData(sanitizedUserId, result.newVoteData);
-
-			logger.userAction('vote_submitted', {
-				userId: sanitizedUserId,
-				voteType,
-				success: true
-			});
-		} catch (err) {
-			if (asApiError(err).type === 'AbuseDetectionError') {
-				voteAccessDenied = true;
-				return;
-			}
-			logger.error('Failed to submit vote:', err);
-			voteError = 'Failed to submit vote';
-		} finally {
-			loadingVotes = false;
-		}
+	function handleVoteSubmit(voteType: VoteType) {
+		void submitVoteData(sanitizedUserId, voteType);
 	}
 
 	function handleQueueSubmit() {
@@ -1105,15 +1058,9 @@
 		};
 	});
 
-	let hasLoadedVoteData = $state(false);
-
 	$effect(() => {
-		if (shouldShowVoting && !hasLoadedVoteData && !loadingVotes) {
-			hasLoadedVoteData = true;
-			loadVoteData().catch((error: unknown) => {
-				logger.error('Failed to load vote data:', error);
-			});
-		}
+		if (!shouldShowVoting) return;
+		void loadVoteData(sanitizedUserId);
 	});
 
 	$effect(() => {

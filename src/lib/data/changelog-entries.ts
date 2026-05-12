@@ -143,6 +143,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Firefox debug logs - Error details that were previously skipped now appear in downloadable debug logs'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Tooltip vote totals - Vote counts now refresh in the expanded tooltip after voting instead of needing to reopen it'
+			},
+			{
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'

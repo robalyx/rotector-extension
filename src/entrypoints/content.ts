@@ -1,4 +1,5 @@
 import '../styles/index.css';
+import shadowCssRaw from '../styles/index.css?inline';
 import { mount } from 'svelte';
 import { get } from 'svelte/store';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
@@ -133,12 +134,7 @@ export default defineContentScript({
 
 			themeManager.initializeRobloxTheme();
 
-			const cssUrl = browser.runtime.getURL(
-				'/content-scripts/content.css' as Parameters<typeof browser.runtime.getURL>[0]
-			);
-			const cssResponse = await fetch(cssUrl);
-			const rawCss = await cssResponse.text();
-			const cssText = rawCss.split(':root').join(':host');
+			const cssText = shadowCssRaw.replaceAll(':root', ':host');
 
 			const ui = await createShadowRootUi(ctx, {
 				name: 'rotector-overlay',

@@ -34,22 +34,9 @@ export default defineConfig({
 		},
 		server: {
 			watch: {
-				usePolling: true,
-				interval: 1000,
-				ignored: [
-					'**/node_modules/**',
-					'**/.git/**',
-					'**/dist/**',
-					'**/.wxt/**',
-					'**/.output/**',
-					'**/bun.lock',
-					'**/.env',
-					'**/.env.example',
-					'**/web-ext.config.ts',
-					'**/*.md',
-					'**/docs/**',
-					'**/assets/**'
-				]
+				usePolling: process.env['WXT_USE_POLLING'] === '1',
+				...(process.env['WXT_USE_POLLING'] === '1' ? { interval: 1000 } : {}),
+				ignored: ['**/.git/**', '**/.output/**', '**/.wxt/**', '**/bun.lock', '**/docs/**']
 			}
 		}
 	}),
@@ -73,13 +60,7 @@ export default defineConfig({
 			}),
 			web_accessible_resources: [
 				{
-					resources: [
-						'assets/*',
-						'icon/*',
-						'locales/*/*',
-						'fonts/*',
-						'content-scripts/content.css'
-					],
+					resources: ['assets/*', 'icon/*', 'locales/*/*', 'fonts/*'],
 					matches: ['https://*.roblox.com/*']
 				}
 			],

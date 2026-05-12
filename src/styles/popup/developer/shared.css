@@ -3,20 +3,16 @@
    ================================= */
 
 @utility developer-panel-container {
-	@apply relative flex w-full flex-col;
-	gap: 0.75rem;
+	@apply relative flex w-full flex-col gap-3;
 }
 
 @utility developer-panel-header {
-	@apply flex items-center justify-between;
-	padding-bottom: 0.5rem;
+	@apply flex items-center justify-between pb-2;
 	border-bottom: 1px solid var(--color-border-subtle);
 }
 
 @utility developer-panel-back-button {
-	@apply flex cursor-pointer items-center rounded bg-transparent text-xs font-medium;
-	gap: 0.25rem;
-	padding: 0.25rem 0.5rem;
+	@apply flex cursor-pointer items-center gap-1 rounded bg-transparent px-2 py-1 text-xs font-medium;
 	color: var(--color-text-subtle);
 	border: 1px solid var(--color-border);
 	transition: all 0.2s ease;
@@ -49,13 +45,13 @@
 	}
 
 	&:disabled {
-		@apply cursor-not-allowed opacity-40;
+		@apply cursor-not-allowed opacity-60;
 	}
 
 	&.developer-panel-action-danger:hover:not(:disabled) {
 		background-color: var(--color-error);
 		border-color: var(--color-error);
-		color: white;
+		color: var(--primitive-white);
 	}
 }
 

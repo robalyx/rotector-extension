@@ -83,7 +83,7 @@
 	}
 
 	&:disabled {
-		@apply cursor-not-allowed opacity-50;
+		@apply cursor-not-allowed opacity-60;
 	}
 
 	&:disabled:hover {
@@ -107,9 +107,8 @@
 }
 
 @utility voting-description {
-	@apply text-2xs text-center leading-normal;
+	@apply text-2xs mt-2 text-center leading-normal;
 	color: var(--color-text-tertiary);
-	margin: 0.5rem 0 0;
 }
 
 @utility voting-error {
@@ -174,7 +173,7 @@
 }
 
 @utility tooltip-options-icon {
-	@apply flex-shrink-0 transition-all duration-200;
+	@apply shrink-0 transition-all duration-200;
 	color: var(--color-text-subtle);
 
 	&.success {
@@ -202,7 +201,7 @@
 }
 
 @utility tooltip-options-chevron {
-	@apply ml-auto flex-shrink-0;
+	@apply ml-auto shrink-0;
 	color: var(--color-text-subtle);
 }
 

@@ -65,7 +65,7 @@
    ================================= */
 
 @utility modal-header {
-	@apply flex flex-shrink-0 items-center;
+	@apply flex shrink-0 items-center;
 	gap: 0.625rem;
 	padding: 0.9375rem 1.125rem;
 }
@@ -81,13 +81,11 @@
    ================================= */
 
 @utility modal-status-chip {
-	@apply inline-flex flex-shrink-0 items-center justify-center rounded;
-	width: 1.25rem;
-	height: 1.25rem;
+	@apply inline-flex h-5 w-5 shrink-0 items-center justify-center rounded;
 }
 
 @utility modal-status-chip-icon {
-	@apply block flex-shrink-0;
+	@apply block shrink-0;
 }
 
 @utility modal-status-chip-info {
@@ -115,7 +113,7 @@
    ================================= */
 
 @utility modal-close {
-	@apply inline-flex flex-shrink-0 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
+	@apply inline-flex shrink-0 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
 	width: 1.625rem;
 	height: 1.625rem;
 	color: var(--color-text-subtle);
@@ -139,7 +137,7 @@
    ================================= */
 
 @utility modal-divider {
-	@apply flex-shrink-0;
+	@apply shrink-0;
 	height: 1px;
 	background-color: var(--color-border-subtle);
 }
@@ -160,7 +158,7 @@
 	color: var(--color-text);
 
 	& + & {
-		margin-top: 0.5rem;
+		@apply mt-2;
 	}
 
 	& strong {
@@ -174,20 +172,16 @@
    ================================= */
 
 @utility modal-section {
-	@apply flex flex-col;
-	gap: 0.5rem;
-	padding: 0.5rem 0;
+	@apply flex flex-col gap-2 py-2;
 
 	& + & {
+		@apply mt-1 pt-3.5;
 		border-top: 1px solid var(--color-border-subtle);
-		padding-top: 0.875rem;
-		margin-top: 0.25rem;
 	}
 }
 
 @utility modal-section-head {
-	@apply flex items-baseline justify-between;
-	gap: 0.5rem;
+	@apply flex items-baseline justify-between gap-2;
 }
 
 @utility modal-section-title {
@@ -197,8 +191,7 @@
 }
 
 @utility modal-section-body {
-	@apply flex flex-col;
-	gap: 0.375rem;
+	@apply flex flex-col gap-1.5;
 }
 
 /* =================================
@@ -206,20 +199,16 @@
    ================================= */
 
 @utility modal-list {
-	@apply m-0 flex list-none flex-col p-0;
-	gap: 0.5rem;
+	@apply m-0 flex list-none flex-col gap-2 p-0;
 }
 
 @utility modal-list-item {
-	@apply flex items-start text-sm leading-relaxed;
-	gap: 0.5rem;
+	@apply flex items-start gap-2 text-sm leading-relaxed;
 	color: var(--color-text);
 }
 
 @utility modal-list-bullet {
-	@apply inline-block flex-shrink-0 rounded-[1px];
-	width: 0.375rem;
-	height: 0.375rem;
+	@apply inline-block h-1.5 w-1.5 shrink-0 rounded-[1px];
 	margin-top: 0.5625rem;
 	background-color: var(--color-primary);
 }
@@ -244,9 +233,7 @@
    ================================= */
 
 @utility modal-actions {
-	@apply flex flex-shrink-0 flex-row items-center justify-end;
-	gap: 0.5rem;
-	padding: 0.75rem 1rem;
+	@apply flex shrink-0 flex-row items-center justify-end gap-2 px-4 py-3;
 }
 
 /* =================================
@@ -269,7 +256,7 @@
 	}
 
 	&:disabled {
-		@apply cursor-not-allowed opacity-50;
+		@apply cursor-not-allowed opacity-60;
 	}
 }
 

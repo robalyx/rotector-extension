@@ -22,7 +22,7 @@
    STATUS ICON STYLES
    ================================= */
 @utility status-icon-wrapper {
-	@apply relative mr-1 block h-5 w-5 flex-shrink-0;
+	@apply relative mr-1 block h-5 w-5 shrink-0;
 }
 
 @utility status-icon-base {

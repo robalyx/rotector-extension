@@ -2,19 +2,16 @@
    NUMBER INPUT CONTAINER
    ================================= */
 @utility number-input-container {
-	@apply flex flex-col;
-	gap: 0.5rem;
+	@apply flex flex-col gap-2;
 }
 
 @utility number-input-label {
-	@apply flex items-center text-sm;
-	gap: 0.5rem;
+	@apply flex items-center gap-2 text-sm;
 	color: var(--color-text-secondary);
 }
 
 @utility number-input-wrapper {
-	@apply flex items-center;
-	gap: 0.5rem;
+	@apply flex items-center gap-2;
 }
 
 /* =================================
@@ -22,9 +19,8 @@
    ================================= */
 
 @utility number-input {
-	@apply rounded text-sm;
+	@apply rounded p-2 text-sm;
 	width: 80px;
-	padding: 0.5rem;
 	border: 1px solid var(--color-border);
 	background-color: var(--color-background);
 	color: var(--color-text);

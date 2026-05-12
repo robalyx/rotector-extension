@@ -3,15 +3,12 @@
    ================================= */
 
 @utility totals-band {
-	@apply grid;
+	@apply grid gap-2 pt-3 pb-2;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 0.5rem;
-	padding: 0.75rem 0 0.5rem;
 }
 
 @utility totals-band-item {
-	@apply flex flex-col items-center justify-start text-center;
-	gap: 0.25rem;
+	@apply flex flex-col items-center justify-start gap-1 text-center;
 }
 
 @utility totals-band-value {
@@ -39,13 +36,11 @@
 }
 
 @utility activity-section-head {
-	@apply flex items-baseline justify-between;
-	gap: 0.5rem;
+	@apply flex items-baseline justify-between gap-2;
 }
 
 @utility activity-section-titles {
-	@apply flex items-baseline;
-	gap: 0.5rem;
+	@apply flex items-baseline gap-2;
 }
 
 @utility activity-section-subtitle {
@@ -83,8 +78,7 @@
 }
 
 @utility activity-error {
-	@apply rounded-md text-xs;
-	padding: 0.5rem;
+	@apply rounded-md p-2 text-xs;
 	color: var(--color-error);
 	background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
 }
@@ -124,9 +118,7 @@
 }
 
 @utility activity-legend-dot {
-	@apply inline-block rounded-full;
-	width: 0.5rem;
-	height: 0.5rem;
+	@apply inline-block h-2 w-2 rounded-full;
 }
 
 @utility activity-legend-label {
@@ -138,7 +130,7 @@
 }
 
 @utility activity-community {
-	gap: 0.25rem;
+	@apply gap-1;
 }
 
 @utility activity-community-line {
@@ -167,11 +159,9 @@
 }
 
 @utility activity-chart-empty {
-	@apply text-xs-plus flex items-center justify-center rounded-md;
-	min-height: 80px;
+	@apply text-xs-plus flex min-h-20 items-center justify-center rounded-md p-4;
 	color: var(--color-text-subtle);
 	border: 1px dashed var(--color-border-subtle);
-	padding: 1rem;
 }
 
 /* uPlot overrides (inside canvas container) */
@@ -189,9 +179,7 @@
    ================================= */
 
 @utility funding-section {
-	@apply flex flex-col;
-	gap: 0.5rem;
-	padding: 0.25rem 0;
+	@apply flex flex-col gap-2 py-1;
 }
 
 @utility funding-head {
@@ -252,14 +240,11 @@
    ================================= */
 
 @utility changelog-compact {
-	@apply flex flex-col;
-	gap: 0.25rem;
-	padding: 0.25rem 0 0.5rem;
+	@apply flex flex-col gap-1 pt-1 pb-2;
 }
 
 @utility changelog-compact-row {
-	@apply flex cursor-pointer items-center border-none bg-transparent;
-	gap: 0.5rem;
+	@apply flex cursor-pointer items-center gap-2 border-none bg-transparent;
 	padding: 0.375rem 0;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
@@ -293,12 +278,11 @@
 }
 
 @utility changelog-compact-body {
-	padding: 0.5rem 0;
+	@apply py-2;
 }
 
 @utility changelog-compact-empty {
-	@apply m-0 text-center text-xs;
-	padding: 0.5rem 0;
+	@apply m-0 py-2 text-center text-xs;
 	color: var(--color-text-subtle);
 }
 

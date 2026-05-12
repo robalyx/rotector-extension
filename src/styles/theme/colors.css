@@ -72,6 +72,9 @@
 	--primitive-brown-500: #8b4513;
 	--primitive-brown-600: #cd853f;
 
+	/* Brand colors */
+	--primitive-discord-blurple: #5865f2;
+
 	/* Dark theme surfaces */
 	--primitive-dark-bg: #121212;
 	--primitive-dark-surface: #1e1e1e;
@@ -198,6 +201,9 @@
 	--color-status-integration: var(--primitive-teal-500);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-500);
+
+	/* Brand */
+	--color-brand-discord: var(--primitive-discord-blurple);
 
 	/* Membership tiers */
 	--color-tier-1: var(--primitive-gold-600);
@@ -515,6 +521,9 @@
 	--color-status-integration: var(--primitive-teal-500);
 	--color-status-past-offender: var(--primitive-blue-past-offender);
 	--color-status-mixed: var(--primitive-yellow-tailwind-500);
+
+	/* Brand */
+	--color-brand-discord: var(--primitive-discord-blurple);
 
 	/* Membership tiers */
 	--color-tier-1: var(--primitive-gold-600);

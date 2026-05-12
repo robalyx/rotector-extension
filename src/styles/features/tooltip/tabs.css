@@ -3,9 +3,7 @@
    ================================= */
 
 @utility tooltip-tabs {
-	@apply flex gap-1;
-	padding: 0.25rem 0.5rem 0;
-	margin-bottom: 0.25rem;
+	@apply mb-1 flex gap-1 pt-1 pr-2 pb-0 pl-2;
 }
 
 @utility tooltip-tab {
@@ -54,7 +52,7 @@
 	}
 
 	&:disabled {
-		@apply cursor-not-allowed opacity-50;
+		@apply cursor-not-allowed opacity-60;
 	}
 
 	&:disabled:hover {
@@ -69,12 +67,12 @@
 }
 
 @utility tooltip-tab-error-indicator {
-	@apply flex-shrink-0;
+	@apply shrink-0;
 	color: var(--color-status-unsafe);
 }
 
-@utility tooltipTabHasImage {
-	padding: 0.25rem 0.5rem;
+@utility tooltip-tab-has-image {
+	@apply px-2 py-1;
 }
 
 @utility tooltip-tab-image {

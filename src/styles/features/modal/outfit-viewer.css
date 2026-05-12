@@ -3,26 +3,23 @@
    ================================= */
 
 @utility outfit-viewer-two-panel {
-	@apply flex;
-	gap: 1rem;
+	@apply flex gap-4;
 }
 
 @utility outfit-viewer-left-panel {
-	@apply flex flex-shrink-0 flex-col;
-	gap: 0.75rem;
+	@apply flex shrink-0 flex-col gap-3;
 	width: 460px;
 }
 
 @utility outfit-viewer-right-panel {
-	@apply flex flex-shrink-0 flex-col;
+	@apply flex shrink-0 flex-col;
 	gap: 0.625rem;
 	width: 400px;
 }
 
 @utility outfit-viewer-header-logo {
-	@apply inline-flex flex-shrink-0 items-center;
+	@apply mr-0.5 inline-flex shrink-0 items-center;
 	padding-right: 0.625rem;
-	margin-right: 0.125rem;
 	border-right: 1px solid var(--color-border-subtle);
 
 	& img {
@@ -35,30 +32,30 @@
 	color: var(--color-text-subtle);
 }
 
-@utility outfit-viewer-meta-stack {
+@utility outfit-meta-stack {
 	@apply flex w-full flex-col gap-4;
 }
 
-@utility outfit-viewer-meta {
+@utility outfit-meta {
 	@apply flex flex-col gap-1;
 }
 
-@utility outfit-viewer-meta-label-row {
+@utility outfit-meta-label-row {
 	@apply flex items-baseline justify-between gap-2;
 }
 
-@utility outfit-viewer-meta-label {
+@utility outfit-meta-label {
 	@apply text-2xs font-semibold uppercase;
 	letter-spacing: 0.18em;
 	color: var(--color-text-subtle);
 }
 
-@utility outfit-viewer-meta-content {
+@utility outfit-meta-content {
 	@apply m-0 text-sm leading-snug;
 	color: var(--color-text);
 }
 
-@utility outfit-viewer-meta-confidence {
+@utility outfit-meta-confidence {
 	@apply text-xs font-semibold;
 	color: var(--color-text);
 	font-family: ui-monospace, monospace;
@@ -96,9 +93,7 @@
    ================================= */
 
 @utility outfit-viewer-brightness {
-	@apply flex items-center;
-	gap: 0.5rem;
-	padding: 0 0.25rem;
+	@apply flex items-center gap-2 px-1;
 	color: var(--color-text-subtle);
 }
 
@@ -108,17 +103,13 @@
 	background: var(--color-bg-tertiary);
 
 	&::-webkit-slider-thumb {
-		@apply cursor-pointer appearance-none rounded-full;
-		width: 0.75rem;
-		height: 0.75rem;
+		@apply h-3 w-3 cursor-pointer appearance-none rounded-full;
 		background: var(--color-text-subtle);
 		transition: background-color 0.15s ease;
 	}
 
 	&::-moz-range-thumb {
-		@apply cursor-pointer rounded-full border-none;
-		width: 0.75rem;
-		height: 0.75rem;
+		@apply h-3 w-3 cursor-pointer rounded-full border-none;
 		background: var(--color-text-subtle);
 		transition: background-color 0.15s ease;
 	}
@@ -137,16 +128,13 @@
    ================================= */
 
 @utility outfit-viewer-loading {
-	@apply flex flex-col items-center justify-center;
+	@apply flex flex-col items-center justify-center py-8;
 	gap: 0.625rem;
-	padding: 2rem 0;
 	color: var(--color-text-subtle);
 }
 
 @utility outfit-viewer-progress {
-	@apply flex w-full flex-col items-center;
-	gap: 0.5rem;
-	max-width: 18rem;
+	@apply flex w-full max-w-72 flex-col items-center gap-2;
 }
 
 @utility outfit-viewer-progress-bar {
@@ -185,15 +173,13 @@
 }
 
 @utility outfit-viewer-error {
-	@apply flex flex-col items-center text-center text-xs;
+	@apply flex flex-col items-center py-6 text-center text-xs;
 	gap: 0.625rem;
-	padding: 1.5rem 0;
 	color: var(--color-error);
 }
 
 @utility outfit-viewer-retry {
-	@apply cursor-pointer rounded text-xs font-medium;
-	padding: 0.375rem 0.75rem;
+	@apply cursor-pointer rounded px-3 py-1.5 text-xs font-medium;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
@@ -208,9 +194,7 @@
 }
 
 @utility outfit-viewer-empty {
-	@apply flex flex-col items-center text-center text-xs;
-	gap: 0.5rem;
-	padding: 2rem 0;
+	@apply flex flex-col items-center gap-2 py-8 text-center text-xs;
 	color: var(--color-text-subtle);
 }
 
@@ -219,9 +203,8 @@
    ================================= */
 
 @utility outfit-viewer-grid {
-	@apply grid;
+	@apply grid py-1;
 	gap: 0.625rem;
-	padding: 0.25rem 0;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -230,17 +213,15 @@
    ================================= */
 
 @utility outfit-stack-container {
-	@apply flex flex-col items-center;
-	gap: 0.375rem;
+	@apply flex flex-col items-center gap-1.5;
 }
 
 @utility outfit-stack-primary {
-	@apply relative overflow-hidden rounded-md p-0;
+	@apply relative cursor-default overflow-hidden rounded-md p-0;
 	width: 120px;
 	height: 120px;
 	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-tertiary);
-	cursor: default;
 	transition:
 		border-color 0.15s ease,
 		background-color 0.15s ease;
@@ -288,10 +269,9 @@
 }
 
 @utility outfit-stack-count-badge {
-	@apply text-2xs absolute inline-flex items-center rounded-full font-semibold text-white;
+	@apply text-2xs absolute inline-flex items-center gap-0.5 rounded-full font-semibold text-white;
 	bottom: 4px;
 	right: 4px;
-	gap: 0.125rem;
 	padding: 1px 6px;
 	background-color: var(--color-primary);
 }
@@ -303,10 +283,8 @@
 }
 
 @utility outfit-stack-expanded {
-	@apply grid w-full;
+	@apply mt-1.5 grid w-full gap-1.5;
 	grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-	gap: 0.375rem;
-	margin-top: 0.375rem;
 }
 
 @utility outfit-stack-expanded-item {

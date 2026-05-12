@@ -85,14 +85,8 @@
 	color: var(--color-primary);
 
 	&::after {
-		@apply pointer-events-none absolute rounded-full;
+		@apply pointer-events-none absolute top-1/2 left-1/2 -mt-2 -ml-2 h-4 w-4 rounded-full;
 		content: '';
-		top: 50%;
-		left: 50%;
-		width: 1rem;
-		height: 1rem;
-		margin-top: -0.5rem;
-		margin-left: -0.5rem;
 		border: 1.5px solid color-mix(in srgb, var(--color-primary) 60%, transparent);
 		animation: info-hint-ping 2.4s ease-out infinite;
 	}
@@ -308,7 +302,7 @@
 		background-color 0.15s ease,
 		color 0.15s ease;
 
-	&:hover {
+	&:hover:not(.queue-button-disabled) {
 		background-color: var(--color-primary-hover);
 	}
 
@@ -319,14 +313,9 @@
 }
 
 @utility queue-button-disabled {
-	@apply cursor-not-allowed;
+	@apply cursor-not-allowed opacity-60;
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-subtle);
-	opacity: 0.7;
-
-	&:hover {
-		background-color: var(--color-bg-tertiary);
-	}
 }
 
 /* =================================
@@ -474,13 +463,11 @@
 }
 
 @utility decoded-evidence-original {
-	@apply text-xs leading-normal;
+	@apply mt-0.5 pt-1 text-xs leading-normal;
 	color: var(--color-text-subtle);
 	overflow-wrap: break-word;
 	font-family: ui-monospace, monospace;
 	border-top: 1px solid var(--color-border-subtle);
-	padding-top: 0.25rem;
-	margin-top: 0.125rem;
 }
 
 @utility source-evidence-item {
@@ -590,7 +577,7 @@
 }
 
 @utility outfit-snapshot-thumb {
-	@apply relative flex h-14 w-14 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border bg-transparent p-0;
+	@apply relative flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border bg-transparent p-0;
 	border-color: color-mix(in srgb, var(--color-status-outfit) 35%, transparent);
 	transition: border-color 180ms ease;
 

@@ -26,24 +26,24 @@
 		<span class="outfit-viewer-3d-name">{outfit.name}</span>
 
 		{#if flagInfo}
-			<div class="outfit-viewer-meta-stack">
-				<div class="outfit-viewer-meta">
-					<span class="outfit-viewer-meta-label">
+			<div class="outfit-meta-stack">
+				<div class="outfit-meta">
+					<span class="outfit-meta-label">
 						{$_('outfit_viewer_caveat_label')}
 					</span>
-					<p class="outfit-viewer-meta-content">
+					<p class="outfit-meta-content">
 						{$_('outfit_viewer_disclaimer')}
 					</p>
 				</div>
 
-				<div class="outfit-viewer-meta">
-					<div class="outfit-viewer-meta-label-row">
-						<span class="outfit-viewer-meta-label">
+				<div class="outfit-meta">
+					<div class="outfit-meta-label-row">
+						<span class="outfit-meta-label">
 							{$_('outfit_viewer_reason_label')}
 						</span>
-						<span class="outfit-viewer-meta-confidence">{flagInfo.confidence}%</span>
+						<span class="outfit-meta-confidence">{flagInfo.confidence}%</span>
 					</div>
-					<p class="outfit-viewer-meta-content">{flagInfo.reason}</p>
+					<p class="outfit-meta-content">{flagInfo.reason}</p>
 				</div>
 			</div>
 		{/if}

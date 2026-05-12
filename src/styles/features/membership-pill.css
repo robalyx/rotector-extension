@@ -11,14 +11,11 @@
 );
 
 @utility membership-pill {
-	@apply inline-flex cursor-help items-center gap-1.5 rounded px-2 py-1 align-middle whitespace-nowrap;
-	position: relative;
+	@apply relative isolate inline-flex cursor-help items-center gap-1.5 overflow-hidden rounded px-2 py-1 align-middle whitespace-nowrap;
 	color: var(--color-tier);
 	border: 1px solid color-mix(in srgb, var(--color-tier) 40%, transparent);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 	font-family: inherit;
-	isolation: isolate;
-	overflow: hidden;
 }
 
 /* =================================
@@ -137,11 +134,9 @@
    ================================= */
 
 @utility membership-pill-icon {
-	@apply inline-flex shrink-0 items-center justify-center;
+	@apply relative z-[1] inline-flex shrink-0 items-center justify-center;
 	width: 12px;
 	height: 12px;
-	position: relative;
-	z-index: 1;
 
 	& img,
 	& svg {
@@ -154,23 +149,21 @@
    ================================= */
 
 @utility membership-pill-label {
-	@apply text-2xs leading-none font-extrabold uppercase;
+	@apply text-2xs relative z-[1] leading-none font-extrabold uppercase;
 	letter-spacing: 0.06em;
-	position: relative;
-	z-index: 1;
 }
 
 @utility text-brackets {
 	&::before {
+		@apply mr-1;
 		content: '［';
-		margin-right: 0.25rem;
 		color: var(--color-tier);
 		opacity: 0.85;
 	}
 
 	&::after {
+		@apply ml-1;
 		content: '］';
-		margin-left: 0.25rem;
 		color: var(--color-tier);
 		opacity: 0.85;
 	}
@@ -178,57 +171,57 @@
 
 @utility text-stars {
 	&::before {
+		@apply mr-1.5;
 		content: '✦';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '✦';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 	}
 }
 
 @utility text-chevrons {
 	&::before {
+		@apply mr-1.5;
 		content: '‹';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '›';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 	}
 }
 
 @utility text-guillemets {
 	&::before {
+		@apply mr-1.5;
 		content: '«';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '»';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 	}
 }
 
 @utility text-dashes {
 	&::before {
+		@apply mr-1.5;
 		content: '—';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 		opacity: 0.85;
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '—';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 		opacity: 0.85;
 	}
@@ -236,33 +229,32 @@
 
 @utility text-lozenges {
 	&::before {
+		@apply mr-1.5;
 		content: '◆';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '◆';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 	}
 }
 
 @utility text-florette {
 	&::before {
+		@apply mr-1.5;
 		content: '✤';
-		margin-right: 0.375rem;
 		color: var(--color-tier);
 	}
 
 	&::after {
+		@apply ml-1.5;
 		content: '✤';
-		margin-left: 0.375rem;
 		color: var(--color-tier);
 	}
 }
 
 @utility rotector-membership-badge-pill {
-	display: block;
-	margin-top: 0.375rem;
+	@apply mt-1.5 block;
 }

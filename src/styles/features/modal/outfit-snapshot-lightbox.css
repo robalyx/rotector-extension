@@ -97,32 +97,3 @@
 		background-color: var(--color-status-outfit);
 	}
 }
-
-@utility outfit-snapshot-lightbox-meta-stack {
-	@apply flex w-full max-w-[420px] flex-col gap-4;
-}
-
-@utility outfit-snapshot-lightbox-meta {
-	@apply flex flex-col gap-1;
-}
-
-@utility outfit-snapshot-lightbox-meta-label-row {
-	@apply flex items-baseline justify-between gap-2;
-}
-
-@utility outfit-snapshot-lightbox-meta-label {
-	@apply text-2xs font-semibold uppercase;
-	letter-spacing: 0.18em;
-	color: var(--color-text-subtle);
-}
-
-@utility outfit-snapshot-lightbox-meta-content {
-	@apply m-0 text-sm leading-snug;
-	color: var(--color-text);
-}
-
-@utility outfit-snapshot-lightbox-meta-confidence {
-	@apply text-xs font-semibold;
-	color: var(--color-text);
-	font-family: ui-monospace, monospace;
-}

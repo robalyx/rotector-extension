@@ -3,9 +3,7 @@
    ================================= */
 
 @utility roblox-account-cta-row {
-	@apply flex flex-wrap items-center;
-	gap: 0.5rem;
-	margin-top: 0.5rem;
+	@apply mt-2 flex flex-wrap items-center gap-2;
 }
 
 @utility roblox-account-meta {
@@ -38,17 +36,14 @@
 }
 
 @utility roblox-account-preview-cell {
-	@apply inline-flex items-center self-start rounded;
-	gap: 0.5rem;
+	@apply inline-flex items-center gap-2 self-start rounded;
 	padding: 0.5rem 0.625rem;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility roblox-account-preview-avatar {
-	@apply flex flex-none items-center justify-center overflow-hidden rounded;
-	width: 1.5rem;
-	height: 1.5rem;
+	@apply flex h-6 w-6 flex-none items-center justify-center overflow-hidden rounded;
 	background-color: var(--color-bg-content);
 
 	& img {
@@ -62,10 +57,8 @@
 }
 
 @utility roblox-account-totals {
-	@apply grid;
+	@apply grid gap-2 py-2;
 	grid-template-columns: repeat(5, 1fr);
-	gap: 0.5rem;
-	padding: 0.5rem 0;
 }
 
 /* =================================
@@ -78,9 +71,7 @@
 }
 
 @utility roblox-account-session-row {
-	@apply flex items-center;
-	gap: 0.5rem;
-	padding: 0.5rem 0;
+	@apply flex items-center gap-2 py-2;
 	border-top: 1px solid var(--color-border-subtle);
 
 	&:first-child {
@@ -114,10 +105,9 @@
    ================================= */
 
 @utility roblox-auth-expiry-line {
-	@apply text-2xs font-semibold uppercase;
+	@apply text-2xs mt-1 font-semibold uppercase;
 	letter-spacing: 0.06em;
 	color: var(--color-text-subtle);
-	margin-top: 0.25rem;
 
 	&.warning {
 		color: var(--color-warning);

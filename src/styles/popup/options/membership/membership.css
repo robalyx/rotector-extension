@@ -38,10 +38,8 @@
 }
 
 @utility membership-perks-list {
-	@apply flex flex-col;
+	@apply flex flex-col gap-1 p-0;
 	margin: 0.125rem 0 0;
-	padding: 0;
-	gap: 0.25rem;
 }
 
 @utility membership-perk-row {
@@ -55,8 +53,7 @@
 	}
 
 	& dd {
-		font-weight: 700;
-		font-variant-numeric: tabular-nums;
+		@apply font-bold tabular-nums;
 		margin: 0;
 		color: var(--color-text-heading);
 	}
@@ -119,8 +116,7 @@
 	}
 
 	&:disabled:not(.locked) {
-		cursor: wait;
-		opacity: 0.6;
+		@apply cursor-wait opacity-60;
 	}
 }
 
@@ -159,8 +155,7 @@
 }
 
 @utility membership-section {
-	@apply flex flex-col rounded-md;
-	gap: 0.5rem;
+	@apply flex flex-col gap-2 rounded-md;
 	padding: 0.875rem 1rem;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
@@ -183,9 +178,7 @@
    ================================= */
 
 @utility membership-key-row {
-	@apply flex items-stretch;
-	gap: 0.375rem;
-	margin-top: 0.25rem;
+	@apply mt-1 flex items-stretch gap-1.5;
 }
 
 @utility membership-key-input {
@@ -208,8 +201,7 @@
 }
 
 @utility membership-key-icon-button {
-	@apply inline-flex cursor-pointer items-center justify-center rounded border-none;
-	width: 2rem;
+	@apply inline-flex w-8 cursor-pointer items-center justify-center rounded border-none;
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-subtle);
 	border: 1px solid var(--color-border-subtle);
@@ -246,17 +238,13 @@
    ================================= */
 
 @utility membership-assignment-card {
-	@apply flex items-center rounded-md;
-	gap: 0.75rem;
-	padding: 0.75rem;
+	@apply flex items-center gap-3 rounded-md p-3;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility membership-assignment-avatar {
-	@apply flex flex-none items-center justify-center overflow-hidden rounded-full;
-	width: 3rem;
-	height: 3rem;
+	@apply flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full;
 	background-color: var(--color-bg-content);
 
 	& img {
@@ -338,8 +326,7 @@
 	}
 
 	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.5;
+		@apply cursor-not-allowed opacity-60;
 	}
 }
 
@@ -348,12 +335,8 @@
    ================================= */
 
 @utility membership-steps-list {
-	@apply text-xs-plus flex flex-col;
-	gap: 0.375rem;
-	margin: 0.25rem 0 0.25rem 1.25rem;
-	padding: 0;
+	@apply text-xs-plus my-1 ml-5 flex list-decimal flex-col gap-1.5 p-0;
 	color: var(--color-text);
-	list-style: decimal;
 
 	& li {
 		line-height: 1.5;
@@ -378,9 +361,7 @@
 }
 
 @utility membership-cta-row {
-	@apply flex flex-wrap items-center;
-	gap: 0.5rem;
-	margin-top: 0.25rem;
+	@apply mt-1 flex flex-wrap items-center gap-2;
 }
 
 @utility membership-cta-button {
@@ -412,9 +393,7 @@
    ================================= */
 
 @utility membership-modal-field {
-	@apply flex flex-col;
-	gap: 0.375rem;
-	margin-top: 0.5rem;
+	@apply mt-2 flex flex-col gap-1.5;
 }
 
 @utility membership-modal-label {
@@ -464,7 +443,7 @@
 }
 
 @utility membership-verify-copy-button {
-	@apply inline-flex flex-shrink-0 cursor-pointer items-center rounded text-xs font-medium;
+	@apply inline-flex shrink-0 cursor-pointer items-center rounded text-xs font-medium;
 	gap: 0.3125rem;
 	padding: 0.375rem 0.625rem;
 	background-color: var(--color-bg-content);
@@ -489,8 +468,7 @@
 }
 
 @utility membership-inline-banner {
-	@apply flex items-start rounded;
-	gap: 0.5rem;
+	@apply flex items-start gap-2 rounded;
 	padding: 0.5rem 0.625rem;
 	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-tertiary);
@@ -519,7 +497,7 @@
 }
 
 @utility membership-inline-banner-icon {
-	@apply mt-px flex-shrink-0;
+	@apply mt-px shrink-0;
 }
 
 @utility membership-inline-banner-text {
@@ -544,7 +522,7 @@
 	}
 
 	& dd {
-		font-variant-numeric: tabular-nums;
+		@apply tabular-nums;
 		color: var(--color-text-heading);
 		margin: 0;
 	}

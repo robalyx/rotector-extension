@@ -121,18 +121,14 @@
    ================================= */
 
 @utility tooltip-sticky-header {
-	@apply sticky top-0 z-[3] overflow-visible border-b;
+	@apply sticky top-0 z-[3] overflow-visible rounded-t-lg border-b;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
 }
 
 @utility tooltip-profile-header {
-	@apply relative mb-2 flex items-center overflow-visible border-b-0 px-5 pt-5 pb-0;
+	@apply relative mb-2 flex items-center overflow-visible rounded-t-lg border-b-0 px-5 pt-5 pb-0;
 	background-color: var(--color-bg-content);
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
 
 	&.compact {
 		@apply mb-0 pt-3 pr-12 pb-3 pl-4;
@@ -156,7 +152,7 @@
 }
 
 @utility tooltip-avatar {
-	@apply relative z-[1] h-20 w-20 flex-shrink-0 overflow-hidden rounded-full border-2;
+	@apply relative z-[1] h-20 w-20 shrink-0 overflow-hidden rounded-full border-2;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	box-shadow: 0 1px 3px var(--shadow-subtle);
@@ -171,7 +167,7 @@
 }
 
 @utility tooltip-header-right {
-	@apply ml-auto flex flex-shrink-0 flex-grow flex-col justify-center overflow-hidden pl-4 text-left;
+	@apply ml-auto flex shrink-0 flex-grow flex-col justify-center overflow-hidden pl-4 text-left;
 	max-width: 50%;
 
 	.reviewer-section {

@@ -3,8 +3,7 @@
    ================================= */
 
 @utility leaderboard-page {
-	@apply flex flex-col;
-	gap: 0.5rem;
+	@apply flex flex-col gap-2;
 }
 
 /* =================================
@@ -12,8 +11,7 @@
    ================================= */
 
 @utility leaderboard-cta-bar {
-	@apply text-xs-plus flex w-full cursor-pointer items-center rounded font-medium;
-	gap: 0.5rem;
+	@apply text-xs-plus flex w-full cursor-pointer items-center gap-2 rounded font-medium;
 	padding: 0.5rem 0.625rem;
 	color: var(--color-text);
 	background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
@@ -38,22 +36,19 @@
 }
 
 @utility leaderboard-cta-arrow {
-	@apply flex-shrink-0;
+	@apply shrink-0;
 	color: var(--color-primary);
 }
 
 @utility leaderboard-you-bar {
-	@apply flex w-full items-center rounded;
-	gap: 0.5rem;
+	@apply flex w-full items-center gap-2 rounded;
 	padding: 0.5rem 0.625rem;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility leaderboard-you-avatar {
-	@apply flex flex-none items-center justify-center overflow-hidden rounded-full;
-	width: 2rem;
-	height: 2rem;
+	@apply flex h-8 w-8 flex-none items-center justify-center overflow-hidden rounded-full;
 	background-color: var(--color-bg-content);
 
 	& img {
@@ -77,9 +72,7 @@
 }
 
 @utility leaderboard-you-gear {
-	@apply inline-flex flex-none cursor-pointer items-center justify-center rounded border-none;
-	width: 1.75rem;
-	height: 1.75rem;
+	@apply inline-flex h-7 w-7 flex-none cursor-pointer items-center justify-center rounded border-none;
 	background: transparent;
 	color: var(--color-text-subtle);
 	transition:
@@ -112,14 +105,12 @@
    ================================= */
 
 @utility leaderboard-window-row {
-	@apply flex flex-wrap items-center justify-between;
-	gap: 0.375rem;
+	@apply flex flex-wrap items-center justify-between gap-1.5;
 	padding: 0.125rem 0;
 }
 
 @utility leaderboard-window-pills {
-	@apply flex flex-wrap items-center;
-	gap: 0.25rem;
+	@apply flex flex-wrap items-center gap-1;
 }
 
 @utility leaderboard-resets-clock {
@@ -128,8 +119,7 @@
 }
 
 @utility leaderboard-window-pill {
-	@apply text-2xs cursor-pointer rounded border-none bg-transparent font-semibold uppercase;
-	padding: 0.25rem 0.5rem;
+	@apply text-2xs cursor-pointer rounded border-none bg-transparent px-2 py-1 font-semibold uppercase;
 	letter-spacing: 0.06em;
 	color: var(--color-text-subtle);
 	transition:
@@ -161,9 +151,7 @@
 }
 
 @utility leaderboard-row {
-	@apply flex items-center rounded;
-	gap: 0.5rem;
-	padding: 0.25rem 0.5rem;
+	@apply flex items-center gap-2 rounded px-2 py-1;
 	transition: background-color 0.15s ease;
 
 	&.you {
@@ -172,15 +160,12 @@
 }
 
 @utility leaderboard-rank {
-	@apply text-xs-plus inline-flex flex-none items-center justify-end font-bold tabular-nums;
-	min-width: 1.75rem;
+	@apply text-xs-plus inline-flex min-w-7 flex-none items-center justify-end font-bold tabular-nums;
 	color: var(--color-text-heading);
 }
 
 @utility leaderboard-avatar {
-	@apply flex flex-none items-center justify-center overflow-hidden rounded;
-	width: 1.5rem;
-	height: 1.5rem;
+	@apply flex h-6 w-6 flex-none items-center justify-center overflow-hidden rounded;
 	background-color: var(--color-bg-content);
 
 	& img {
@@ -194,8 +179,7 @@
 }
 
 @utility leaderboard-you-tag {
-	@apply text-2xs font-semibold uppercase;
-	margin-left: 0.25rem;
+	@apply text-2xs ml-1 font-semibold uppercase;
 	color: var(--color-primary);
 	letter-spacing: 0.06em;
 }
@@ -232,21 +216,16 @@
 }
 
 @utility leaderboard-loading {
-	@apply text-xs-plus flex items-center justify-center;
-	gap: 0.375rem;
-	padding: 0.75rem 0;
+	@apply text-xs-plus flex items-center justify-center gap-1.5 py-3;
 	color: var(--color-text-subtle);
 }
 
 @utility leaderboard-empty {
-	@apply text-xs-plus text-center;
-	padding: 0.75rem 0;
+	@apply text-xs-plus py-3 text-center;
 	color: var(--color-text-subtle);
 }
 
 @utility leaderboard-you-section {
-	@apply mt-2 flex flex-col;
-	gap: 0.25rem;
-	padding-top: 0.5rem;
+	@apply mt-2 flex flex-col gap-1 pt-2;
 	border-top: 1px solid var(--color-border-subtle);
 }

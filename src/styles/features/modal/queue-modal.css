@@ -3,9 +3,7 @@
    ================================= */
 
 @utility queue-threshold-card {
-	@apply flex flex-col rounded-md;
-	gap: 0.5rem;
-	padding: 0.75rem 0.875rem;
+	@apply flex flex-col gap-2 rounded-md px-3.5 py-3;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 	transition:
@@ -18,15 +16,12 @@
 }
 
 @utility queue-threshold-header {
-	@apply flex items-center;
-	gap: 0.5rem;
+	@apply flex items-center gap-2;
 	color: var(--color-text-heading);
 }
 
 @utility queue-threshold-icon {
-	@apply inline-flex flex-shrink-0 items-center justify-center;
-	width: 1rem;
-	height: 1rem;
+	@apply inline-flex h-4 w-4 shrink-0 items-center justify-center;
 	color: var(--color-text-subtle);
 }
 
@@ -42,8 +37,7 @@
 }
 
 @utility queue-threshold-options {
-	@apply inline-flex items-center self-start rounded-[5px];
-	gap: 0.25rem;
+	@apply inline-flex items-center gap-1 self-start rounded-[5px];
 	padding: 0.1875rem;
 	background-color: var(--color-bg-tertiary);
 }
@@ -80,8 +74,7 @@
    ================================= */
 
 @utility queue-misuse-warning {
-	@apply flex flex-col;
-	gap: 0.25rem;
+	@apply flex flex-col gap-1;
 }
 
 @utility queue-misuse-warning-title {
@@ -96,12 +89,11 @@
 }
 
 @utility queue-misuse-warning-link {
-	@apply font-medium;
+	@apply font-medium no-underline;
 	color: var(--color-primary);
-	text-decoration: none;
 
 	&:hover {
-		text-decoration: underline;
+		@apply underline;
 	}
 }
 
@@ -117,8 +109,7 @@
 }
 
 @utility queue-cost-summary {
-	@apply mr-auto inline-flex items-center text-xs;
-	gap: 0.25rem;
+	@apply mr-auto inline-flex items-center gap-1 text-xs;
 	color: var(--color-text-subtle);
 }
 
@@ -136,8 +127,7 @@
    ================================= */
 
 @utility queue-ack-list {
-	@apply flex flex-col;
-	gap: 0.25rem;
+	@apply flex flex-col gap-1;
 }
 
 @utility queue-ack-item {
@@ -151,9 +141,7 @@
 }
 
 @utility queue-ack-item-all {
-	@apply queue-ack-item;
-	padding-bottom: 0.5rem;
-	margin-bottom: 0.125rem;
+	@apply queue-ack-item mb-0.5 pb-2;
 	border-bottom: 1px solid var(--color-border-subtle);
 
 	& .queue-ack-text {
@@ -172,10 +160,9 @@
 }
 
 @utility queue-ack-checkmark {
-	@apply inline-flex flex-shrink-0 items-center justify-center rounded bg-transparent;
+	@apply mt-0.5 inline-flex shrink-0 items-center justify-center rounded bg-transparent;
 	width: 1.125rem;
 	height: 1.125rem;
-	margin-top: 0.125rem;
 	border: 1px solid var(--color-border);
 	color: var(--primitive-white);
 	transition:
@@ -206,8 +193,7 @@
 }
 
 @utility queue-error-meta-row {
-	@apply flex text-xs;
-	gap: 0.5rem;
+	@apply flex gap-2 text-xs;
 	color: var(--color-text-subtle);
 
 	& dt {
@@ -228,6 +214,5 @@
    ================================= */
 
 @utility queue-loading-body {
-	@apply flex items-center justify-center;
-	padding: 1.5rem 0 1rem;
+	@apply flex items-center justify-center pt-6 pb-4;
 }

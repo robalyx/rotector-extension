@@ -3,15 +3,12 @@
    ================================= */
 
 @utility queue-section-root {
-	@apply flex flex-col;
+	@apply flex flex-col pt-1;
 	gap: 0.875rem;
-	padding-top: 0.25rem;
 }
 
 @utility queue-section-header {
-	@apply flex flex-col;
-	gap: 0.25rem;
-	padding-bottom: 0.75rem;
+	@apply flex flex-col gap-1 pb-3;
 	border-bottom: 1px solid var(--color-border-subtle);
 }
 
@@ -22,8 +19,7 @@
 }
 
 @utility queue-section-summary {
-	@apply flex items-center justify-between text-xs;
-	gap: 0.5rem;
+	@apply flex items-center justify-between gap-2 text-xs;
 	color: var(--color-text);
 }
 
@@ -44,22 +40,17 @@
 }
 
 @utility queue-loading {
-	@apply text-sm-plus flex flex-col items-center;
-	gap: 0.75rem;
-	padding: 2rem 0;
+	@apply text-sm-plus flex flex-col items-center gap-3 py-8;
 	color: var(--color-text-subtle);
 }
 
 @utility queue-empty {
-	@apply flex flex-col items-center text-center;
-	gap: 0.25rem;
-	padding: 1.75rem 0;
+	@apply flex flex-col items-center gap-1 py-7 text-center;
 }
 
 @utility queue-empty-icon {
-	@apply opacity-50;
+	@apply mb-1 opacity-50;
 	color: var(--color-text-subtle);
-	margin-bottom: 0.25rem;
 }
 
 @utility queue-empty-title {
@@ -83,8 +74,7 @@
 }
 
 @utility queue-group-label {
-	@apply text-2xs flex items-baseline font-semibold uppercase;
-	gap: 0.5rem;
+	@apply text-2xs flex items-baseline gap-2 font-semibold uppercase;
 	letter-spacing: 0.08em;
 	color: var(--color-text-subtle);
 }
@@ -100,8 +90,7 @@
 }
 
 @utility queue-row {
-	@apply flex items-center rounded-md;
-	gap: 0.5rem;
+	@apply flex items-center gap-2 rounded-md;
 	padding: 0.375rem 0.125rem 0.375rem 0.25rem;
 	transition: background-color 0.15s ease;
 
@@ -115,8 +104,7 @@
 }
 
 @utility queue-row-identity {
-	@apply flex flex-1 cursor-pointer items-center border-none bg-transparent p-0 text-left;
-	gap: 0.5rem;
+	@apply flex flex-1 cursor-pointer items-center gap-2 border-none bg-transparent p-0 text-left;
 	min-width: 0;
 
 	&:focus-visible {
@@ -127,7 +115,7 @@
 }
 
 @utility queue-row-avatar {
-	@apply relative flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full;
+	@apply relative flex shrink-0 items-center justify-center overflow-hidden rounded-full;
 	width: 2.25rem;
 	height: 2.25rem;
 	background-color: var(--color-bg-tertiary);
@@ -183,29 +171,24 @@
 }
 
 @utility queue-row-skeleton-name {
-	@apply queue-row-skeleton;
-	width: 5rem;
+	@apply queue-row-skeleton w-20;
 	height: 0.625rem;
 }
 
 @utility queue-row-skeleton-meta {
-	@apply queue-row-skeleton;
+	@apply queue-row-skeleton mt-1 h-2;
 	width: 7.5rem;
-	height: 0.5rem;
-	margin-top: 0.25rem;
 }
 
 @utility queue-row-actions {
-	@apply flex flex-shrink-0 items-center;
+	@apply flex shrink-0 items-center;
 	gap: 0.125rem;
 	opacity: 0.55;
 	transition: opacity 0.15s ease;
 }
 
 @utility queue-row-action {
-	@apply inline-flex cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
-	width: 1.5rem;
-	height: 1.5rem;
+	@apply inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
 	transition:
 		background-color 0.15s ease,

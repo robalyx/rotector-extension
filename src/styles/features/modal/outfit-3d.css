@@ -23,8 +23,7 @@
 }
 
 @utility outfit-3d-blocked {
-	@apply absolute inset-0 flex flex-col items-center justify-center text-xs;
-	gap: 0.5rem;
+	@apply absolute inset-0 flex flex-col items-center justify-center gap-2 text-xs;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }

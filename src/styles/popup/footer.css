@@ -34,7 +34,7 @@
 }
 
 @utility footer-link-icon {
-	@apply h-3.5 w-3.5 flex-shrink-0;
+	@apply h-3.5 w-3.5 shrink-0;
 }
 
 /* =================================

@@ -37,9 +37,8 @@
 	color: var(--color-text-subtle);
 }
 
-@utility perf-longtasks-list {
+@utility perf-scroll-list {
 	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
-	max-height: 80px;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	scrollbar-width: thin;
@@ -57,6 +56,10 @@
 		background-color: var(--color-border);
 		border-radius: 2px;
 	}
+}
+
+@utility perf-longtasks-list {
+	@apply perf-scroll-list max-h-20;
 }
 
 @utility perf-longtask-item {
@@ -131,25 +134,8 @@
    ================================= */
 
 @utility perf-slowest-list {
-	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
+	@apply perf-scroll-list;
 	max-height: 150px;
-	border-color: var(--color-border-subtle);
-	background-color: var(--color-bg-content);
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-border) transparent;
-
-	&::-webkit-scrollbar {
-		width: 4px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: var(--color-border);
-		border-radius: 2px;
-	}
 }
 
 @utility perf-slowest-item {
@@ -186,25 +172,8 @@
    ================================= */
 
 @utility perf-traces-list {
-	@apply flex flex-col overflow-hidden overflow-y-auto rounded-lg border;
+	@apply perf-scroll-list;
 	max-height: 120px;
-	border-color: var(--color-border-subtle);
-	background-color: var(--color-bg-content);
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-border) transparent;
-
-	&::-webkit-scrollbar {
-		width: 4px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: var(--color-border);
-		border-radius: 2px;
-	}
 }
 
 @utility perf-trace-entry {
@@ -246,9 +215,8 @@
 }
 
 @utility perf-trace-metadata {
-	@apply text-3xs mx-2 mt-0 mb-1 overflow-x-auto rounded p-2 break-words whitespace-pre-wrap;
+	@apply text-3xs mx-2 mt-0 mb-1 max-h-20 overflow-x-auto rounded p-2 break-words whitespace-pre-wrap;
 	background-color: var(--color-bg);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text-subtle);
-	max-height: 80px;
 }

@@ -3,14 +3,11 @@
    ================================= */
 
 @utility popup-section {
-	@apply flex flex-col;
-	gap: 0.5rem;
-	padding: 0.25rem 0;
+	@apply flex flex-col gap-2 py-1;
 }
 
 @utility popup-section-head {
-	@apply flex items-baseline justify-between;
-	gap: 0.5rem;
+	@apply flex items-baseline justify-between gap-2;
 }
 
 @utility popup-section-title {
@@ -25,13 +22,11 @@
 }
 
 @utility popup-section-body {
-	@apply flex flex-col;
-	gap: 0.25rem;
+	@apply flex flex-col gap-1;
 }
 
 @utility popup-divider {
-	@apply flex-shrink-0;
+	@apply my-2 shrink-0;
 	height: 1px;
 	background-color: var(--color-border-subtle);
-	margin: 0.5rem 0;
 }

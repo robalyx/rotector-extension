@@ -38,7 +38,7 @@
 				class:error={!hasImage && tab.error}
 				class:loading={!hasImage && tab.loading}
 				class:no-data={!hasImage && tab.noData}
-				class:tooltipTabHasImage={hasImage}
+				class:tooltip-tab-has-image={hasImage}
 				onclick={(e) => {
 					e.stopPropagation();
 					selectTab(tab.id);

@@ -3,9 +3,7 @@
    ================================= */
 
 @utility rate-limits-section {
-	@apply flex flex-col;
-	gap: 0.5rem;
-	padding: 0.25rem 0;
+	@apply flex flex-col gap-2 py-1;
 }
 
 @utility rate-limits-head {
@@ -18,9 +16,7 @@
 }
 
 @utility rate-limits-row {
-	@apply flex flex-col;
-	gap: 0.25rem;
-	padding-top: 0.25rem;
+	@apply flex flex-col gap-1 pt-1;
 }
 
 @utility rate-limits-label {
@@ -45,15 +41,12 @@
 }
 
 @utility rate-limits-loading {
-	@apply text-xs;
-	padding: 0.5rem 0;
+	@apply py-2 text-xs;
 	color: var(--color-text-subtle);
 }
 
 @utility rate-limits-error {
-	@apply flex items-center text-xs;
-	gap: 0.5rem;
-	padding: 0.5rem 0;
+	@apply flex items-center gap-2 py-2 text-xs;
 	color: var(--color-error);
 }
 

@@ -81,10 +81,7 @@
 }
 
 @utility rotector-scan-retry {
-	@apply cursor-pointer !text-[12px] !font-medium underline underline-offset-2;
-	background: transparent;
-	border: 0;
-	padding: 0;
+	@apply cursor-pointer border-0 bg-transparent p-0 !text-[12px] !font-medium underline underline-offset-2;
 	color: var(--color-status-error);
 
 	&:hover {

@@ -3,20 +3,18 @@
    ================================= */
 
 @utility changelog-modal-item {
-	@apply flex flex-col;
-	gap: 0.5rem;
+	@apply flex flex-col gap-2;
 	padding-top: 0.625rem;
 	border-top: 1px solid var(--color-border-subtle);
 
 	&:first-child {
-		padding-top: 0;
+		@apply pt-0;
 		border-top: none;
 	}
 }
 
 @utility changelog-modal-disable {
-	@apply mr-auto flex cursor-pointer items-center text-xs select-none;
-	gap: 0.5rem;
+	@apply mr-auto flex cursor-pointer items-center gap-2 text-xs select-none;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 

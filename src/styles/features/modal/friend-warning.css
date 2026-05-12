@@ -3,17 +3,13 @@
    ================================= */
 
 @utility friend-warning-user-card {
-	@apply flex items-center rounded-md;
-	gap: 0.75rem;
-	padding: 0.75rem 0.875rem;
+	@apply flex items-center gap-3 rounded-md px-3.5 py-3;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility friend-warning-avatar {
-	@apply inline-flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full;
-	width: 2.5rem;
-	height: 2.5rem;
+	@apply inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 
@@ -23,8 +19,7 @@
 }
 
 @utility friend-warning-user-meta {
-	@apply flex min-w-0 flex-col;
-	gap: 0.125rem;
+	@apply flex min-w-0 flex-col gap-0.5;
 }
 
 @utility friend-warning-user-name {
@@ -42,18 +37,15 @@
    ================================= */
 
 @utility friend-warning-violation {
-	@apply flex items-start;
-	gap: 0.5rem;
+	@apply flex items-start gap-2;
 }
 
 @utility friend-warning-violation-body {
-	@apply flex min-w-0 flex-1 flex-col;
-	gap: 0.25rem;
+	@apply flex min-w-0 flex-1 flex-col gap-1;
 }
 
 @utility friend-warning-violation-head {
-	@apply flex items-baseline;
-	gap: 0.5rem;
+	@apply flex items-baseline gap-2;
 }
 
 @utility friend-warning-violation-name {
@@ -62,7 +54,7 @@
 }
 
 @utility friend-warning-violation-confidence {
-	@apply flex-shrink-0 text-sm;
+	@apply shrink-0 text-sm;
 	color: var(--color-text-tertiary);
 }
 
@@ -76,7 +68,7 @@
 	color: var(--color-text-subtle);
 
 	& li + li {
-		margin-top: 0.25rem;
+		@apply mt-1;
 	}
 }
 
@@ -85,8 +77,7 @@
    ================================= */
 
 @utility friend-warning-high-risk {
-	@apply text-xs;
-	margin-top: 0.5rem;
+	@apply mt-2 text-xs;
 	line-height: 1.5;
 	color: var(--color-error);
 }

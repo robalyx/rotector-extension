@@ -155,27 +155,27 @@
 			</div>
 		{/if}
 
-		<div class="outfit-snapshot-lightbox-meta-stack">
-			<div class="outfit-snapshot-lightbox-meta">
-				<span class="outfit-snapshot-lightbox-meta-label">
+		<div class="outfit-meta-stack max-w-[420px]">
+			<div class="outfit-meta">
+				<span class="outfit-meta-label">
 					{$_('outfit_snapshot_lightbox_caveat_label')}
 				</span>
-				<p class="outfit-snapshot-lightbox-meta-content">
+				<p class="outfit-meta-content">
 					{$_('outfit_snapshot_lightbox_caveat')}
 				</p>
 			</div>
 
 			{#if reason}
-				<div class="outfit-snapshot-lightbox-meta">
-					<div class="outfit-snapshot-lightbox-meta-label-row">
-						<span class="outfit-snapshot-lightbox-meta-label">
+				<div class="outfit-meta">
+					<div class="outfit-meta-label-row">
+						<span class="outfit-meta-label">
 							{$_('outfit_snapshot_lightbox_reason_label')}
 						</span>
 						{#if confidence !== null}
-							<span class="outfit-snapshot-lightbox-meta-confidence">{confidence}%</span>
+							<span class="outfit-meta-confidence">{confidence}%</span>
 						{/if}
 					</div>
-					<p class="outfit-snapshot-lightbox-meta-content">{reason}</p>
+					<p class="outfit-meta-content">{reason}</p>
 				</div>
 			{/if}
 		</div>

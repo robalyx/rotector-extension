@@ -34,8 +34,7 @@
    ================================= */
 
 @utility export-format-group {
-	@apply inline-flex items-center self-start rounded-[5px];
-	gap: 0.25rem;
+	@apply inline-flex items-center gap-1 self-start rounded-[5px];
 	padding: 0.1875rem;
 	background-color: var(--color-bg-tertiary);
 }
@@ -84,14 +83,11 @@
 }
 
 @utility export-columns-grid {
-	@apply grid grid-cols-2;
-	gap: 0.25rem;
+	@apply grid grid-cols-2 gap-1;
 }
 
 @utility export-column-item {
-	@apply text-sm-plus flex cursor-pointer items-center rounded select-none;
-	gap: 0.5rem;
-	padding: 0.375rem 0.5rem;
+	@apply text-sm-plus flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 select-none;
 	color: var(--color-text);
 	transition: background-color 0.15s ease;
 
@@ -101,9 +97,7 @@
 }
 
 @utility export-column-checkbox {
-	@apply shrink-0 cursor-pointer;
-	width: 1rem;
-	height: 1rem;
+	@apply h-4 w-4 shrink-0 cursor-pointer;
 	accent-color: var(--color-primary);
 }
 
@@ -112,8 +106,7 @@
    ================================= */
 
 @utility export-sort-row {
-	@apply flex items-center;
-	gap: 0.5rem;
+	@apply flex items-center gap-2;
 }
 
 @utility export-select {
@@ -161,9 +154,8 @@
    ================================= */
 
 @utility export-error {
-	@apply rounded text-xs;
+	@apply mt-2 rounded text-xs;
 	padding: 0.625rem 0.75rem;
-	margin-top: 0.5rem;
 	line-height: 1.5;
 	color: var(--color-error);
 	background-color: color-mix(in srgb, var(--color-error) 10%, transparent);

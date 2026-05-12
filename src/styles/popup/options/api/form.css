@@ -8,13 +8,11 @@
 }
 
 @utility form-field {
-	@apply flex flex-col;
-	gap: 0.25rem;
+	@apply flex flex-col gap-1;
 }
 
 @utility form-label {
-	@apply flex items-center text-xs font-medium;
-	gap: 0.25rem;
+	@apply flex items-center gap-1 text-xs font-medium;
 	color: var(--color-text);
 
 	& .required {
@@ -103,8 +101,7 @@
    ================================= */
 
 @utility api-form-image-preview {
-	@apply flex flex-col items-start rounded;
-	gap: 0.5rem;
+	@apply flex flex-col items-start gap-2 rounded;
 	padding: 0.625rem;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);

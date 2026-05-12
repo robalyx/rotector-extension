@@ -3,13 +3,10 @@
    ================================= */
 
 @utility report-bar {
-	@apply relative flex items-center rounded-md;
+	@apply relative mb-3 flex min-h-10 items-center rounded-md px-3 py-2;
 	gap: 0.625rem;
-	padding: 0.5rem 0.75rem;
-	margin-bottom: 0.75rem;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
-	min-height: 2.5rem;
 }
 
 /* =================================
@@ -32,15 +29,12 @@
    ================================= */
 
 @utility report-bar-content {
-	@apply flex min-w-0 flex-1 items-center;
-	gap: 0.5rem;
+	@apply flex min-w-0 flex-1 items-center gap-2;
 }
 
 @utility report-bar-status {
-	@apply inline-flex items-center whitespace-nowrap;
-	gap: 0.375rem;
+	@apply inline-flex items-center gap-1.5 font-medium whitespace-nowrap;
 	font-size: 13px;
-	font-weight: 500;
 
 	&.reportable {
 		color: var(--color-error);
@@ -61,16 +55,13 @@
    ================================= */
 
 @utility report-bar-actions {
-	@apply ml-auto flex shrink-0 items-center;
-	gap: 0.375rem;
+	@apply ml-auto flex shrink-0 items-center gap-1.5;
 }
 
 @utility report-bar-btn-evidence {
-	@apply inline-flex cursor-pointer items-center rounded;
-	gap: 0.25rem;
+	@apply inline-flex cursor-pointer items-center gap-1 rounded font-medium;
 	padding: 0.3125rem 0.5rem;
 	font-size: 12px;
-	font-weight: 500;
 	color: var(--color-text-subtle);
 	background-color: transparent;
 	border: 1px solid var(--color-border-subtle);
@@ -87,12 +78,9 @@
 }
 
 @utility report-bar-btn-fill {
-	@apply inline-flex cursor-pointer items-center justify-center rounded;
-	gap: 0.375rem;
+	@apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded font-medium text-white;
 	padding: 0.3125rem 0.625rem;
 	font-size: 12px;
-	font-weight: 500;
-	color: white;
 	background-color: var(--color-primary);
 	border: 1px solid transparent;
 	transition: background-color 0.15s ease;
@@ -111,9 +99,7 @@
    ================================= */
 
 @utility report-bar-footnote {
-	@apply text-2xs;
-	margin: 0.25rem 0 0.5rem;
-	padding: 0 0.25rem;
+	@apply text-2xs mt-1 mb-2 px-1;
 	color: var(--color-text-subtle);
 	opacity: 0.7;
 }
@@ -123,9 +109,7 @@
    ================================= */
 
 @utility report-bar-evidence {
-	@apply flex flex-col rounded-md;
-	gap: 0.5rem;
-	margin-bottom: 0.5rem;
+	@apply mb-2 flex flex-col gap-2 rounded-md;
 	padding: 0.625rem 0.75rem;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
@@ -140,9 +124,8 @@
 	line-height: 1.5;
 
 	& strong {
-		@apply font-semibold;
+		@apply mr-1 font-semibold;
 		color: var(--color-text-heading);
-		margin-right: 0.25rem;
 	}
 }
 
@@ -150,28 +133,24 @@
 	font-size: 13px;
 
 	& strong {
-		@apply block font-semibold;
+		@apply mb-1 block font-semibold;
 		color: var(--color-text-heading);
-		margin-bottom: 0.25rem;
 	}
 }
 
 @utility report-bar-evidence-list {
-	@apply list-none p-0;
-	margin: 0.25rem 0 0;
+	@apply mt-1 list-none p-0;
 }
 
 @utility report-bar-evidence-item {
-	@apply rounded break-words;
-	padding: 0.25rem 0.5rem;
-	margin-bottom: 0.25rem;
+	@apply mb-1 rounded px-2 py-1 break-words;
 	font-size: 12px;
 	color: var(--color-text);
 	background-color: color-mix(in srgb, var(--color-error) 6%, transparent);
 	line-height: 1.4;
 
 	&:last-child {
-		margin-bottom: 0;
+		@apply mb-0;
 	}
 }
 
@@ -180,8 +159,7 @@
    ================================= */
 
 @utility report-bar-feedback {
-	@apply flex w-full items-center font-medium;
-	gap: 0.5rem;
+	@apply flex w-full items-center gap-2 font-medium;
 	font-size: 13px;
 
 	&.success {

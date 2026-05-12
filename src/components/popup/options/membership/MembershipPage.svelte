@@ -33,12 +33,13 @@
 		updateBadge
 	} from '@/lib/stores/membership';
 	import { apiClient } from '@/lib/services/rotector/api-client';
-	import { asApiError } from '@/lib/utils/api/api-error';
+	import { asApiError, getErrorDetailCode } from '@/lib/utils/api/api-error';
 	import { getCurrentAvatarInfo } from '@/lib/services/roblox/api';
 	import { showError, showSuccess } from '@/lib/stores/toast';
 	import { logger } from '@/lib/utils/logging/logger';
 	import LoadingSpinner from '../../../ui/LoadingSpinner.svelte';
 	import Modal from '../../../ui/Modal.svelte';
+	import UserThumbnail from '../../../ui/UserThumbnail.svelte';
 	import MembershipIcon from '@/components/ui/membership/MembershipIcon.svelte';
 	import MembershipPill from '@/components/ui/membership/MembershipPill.svelte';
 	import {
@@ -233,11 +234,10 @@
 	// Branches on backend error codes to either retry inline, fall through to the fatal step, or close the modal entirely
 	function applyVerifyError(error: unknown) {
 		const err = asApiError(error);
-		const details = err.details;
-		const detailCode = typeof details?.['code'] === 'string' ? details['code'] : undefined;
+		const detailCode = getErrorDetailCode(err);
 
 		if (err.code === 'VALIDATION_ERROR' && detailCode === 'VERIFICATION_PHRASE_NOT_FOUND') {
-			const echoedPhrase = details?.['phrase'];
+			const echoedPhrase = err.details?.['phrase'];
 			if (verifyChallenge && typeof echoedPhrase === 'string' && echoedPhrase.length > 0) {
 				verifyChallenge = { ...verifyChallenge, phrase: echoedPhrase };
 			}
@@ -272,6 +272,10 @@
 		verifyChallenge = null;
 		verifyError = null;
 		verifyFatalMessage = null;
+	}
+
+	function openRobloxProfile() {
+		void browser.tabs.create({ url: 'https://www.roblox.com/users/profile' });
 	}
 
 	// Design fields are preserved and only the assignment is cleared
@@ -400,11 +404,7 @@
 			{#if hasAssignment}
 				<div class="membership-assignment-card">
 					<div class="membership-assignment-avatar">
-						{#if avatarInfo?.thumbnailUrl}
-							<img alt="" src={avatarInfo.thumbnailUrl} />
-						{:else}
-							<div class="membership-assignment-avatar-placeholder"></div>
-						{/if}
+						<UserThumbnail src={avatarInfo?.thumbnailUrl} />
 					</div>
 					<div class="membership-assignment-info">
 						<div class="membership-assignment-name">
@@ -626,7 +626,12 @@
 				{$_('membership_verify_steps_heading')}
 			</span>
 			<ol class="membership-steps-list">
-				<li>{$_('membership_verify_steps_open_profile')}</li>
+				<li>
+					{$_('membership_verify_steps_open_profile_prefix')}
+					<button class="membership-inline-link" onclick={openRobloxProfile} type="button">
+						{$_('membership_verify_steps_open_profile_link')}
+					</button>
+				</li>
 				<li>{$_('membership_verify_steps_edit')}</li>
 				<li>{$_('membership_verify_steps_paste')}</li>
 				<li>{$_('membership_verify_steps_return')}</li>

@@ -198,6 +198,100 @@ export const MembershipVerificationChallengeSchema = v.object({
 	instructions: v.string()
 });
 
+export const RobloxAuthChallengeSchema = v.object({
+	challenge_id: v.string(),
+	phrase: v.string(),
+	expires_at: v.number(),
+	instructions: v.optional(v.string())
+});
+
+// `alias` is absent from /verify and /exchange responses (those return Roblox
+// identity only) but gets populated when we cache a /me/profile snapshot so
+// first-paint after popup boot already shows the user's chosen alias.
+export const RobloxAuthProfileSchema = v.object({
+	roblox_user_id: v.number(),
+	username: v.string(),
+	display_name: v.string(),
+	thumbnail_url: NullableString,
+	alias: v.optional(v.nullable(v.string()))
+});
+
+export const RobloxAuthSessionTokenSchema = v.object({
+	token: v.string(),
+	expires_at: v.number(),
+	profile: RobloxAuthProfileSchema
+});
+
+export const RobloxAuthLogoutAllSchema = v.object({
+	revoked_sessions: v.number()
+});
+
+const MeStatsSchema = v.object({
+	total_flags: v.number(),
+	today: v.number(),
+	week: v.number(),
+	month: v.number(),
+	year: v.number(),
+	last_flagged_at: v.nullable(v.number())
+});
+
+export const MeProfileSchema = v.object({
+	roblox_user_id: v.number(),
+	username: v.string(),
+	display_name: v.string(),
+	thumbnail_url: NullableString,
+	alias: v.nullable(v.string()),
+	show_username: v.boolean(),
+	show_thumbnail: v.boolean(),
+	stats: MeStatsSchema
+});
+
+export const MeSettingsResponseSchema = v.object({
+	alias: v.nullable(v.string()),
+	show_username: v.boolean(),
+	show_thumbnail: v.boolean()
+});
+
+export const MeRefreshSchema = v.object({
+	username: v.string(),
+	display_name: v.string(),
+	thumbnail_url: NullableString
+});
+
+export const MeSessionSchema = v.object({
+	id: v.string(),
+	created_at: v.number(),
+	last_used_at: v.number(),
+	expires_at: v.number(),
+	user_agent: v.nullable(v.string()),
+	current: v.boolean()
+});
+
+const MeSessionsSchema = v.array(MeSessionSchema);
+
+const LeaderboardEntrySchema = v.object({
+	rank: v.number(),
+	display_name: v.string(),
+	thumbnail_url: NullableString,
+	flag_count: v.number()
+});
+
+const ViewerRankSchema = v.nullable(
+	v.object({
+		rank: v.nullable(v.number()),
+		flag_count: v.number()
+	})
+);
+
+export const LeaderboardSchema = v.object({
+	window: v.picklist(['daily', 'weekly', 'monthly', 'yearly', 'all_time']),
+	window_start_utc: v.nullable(v.number()),
+	window_end_utc: v.nullable(v.number()),
+	entries: v.array(LeaderboardEntrySchema),
+	next_cursor: v.nullable(v.number()),
+	viewer_rank: ViewerRankSchema
+});
+
 export const parseUserStatus = v.parser(UserStatusSchema);
 export const parseUserStatusMap = v.parser(v.record(v.string(), UserStatusSchema));
 export const parseGroupStatus = v.parser(GroupStatusSchema);
@@ -212,3 +306,11 @@ export const parseOutfitSnapshotByName = v.parser(OutfitSnapshotByNameRawSchema)
 export const parseOutfitSnapshotById = v.parser(OutfitSnapshotByIdRawSchema);
 export const parseMembershipStatus = v.parser(MembershipStatusSchema);
 export const parseMembershipVerificationChallenge = v.parser(MembershipVerificationChallengeSchema);
+export const parseRobloxAuthChallenge = v.parser(RobloxAuthChallengeSchema);
+export const parseRobloxAuthSessionToken = v.parser(RobloxAuthSessionTokenSchema);
+export const parseRobloxAuthLogoutAll = v.parser(RobloxAuthLogoutAllSchema);
+export const parseMeProfile = v.parser(MeProfileSchema);
+export const parseMeSettingsResponse = v.parser(MeSettingsResponseSchema);
+export const parseMeRefresh = v.parser(MeRefreshSchema);
+export const parseMeSessions = v.parser(MeSessionsSchema);
+export const parseLeaderboard = v.parser(LeaderboardSchema);

@@ -3,8 +3,10 @@
 	import StatsPage from '@/components/popup/stats/StatsPage.svelte';
 	import SettingsSection from '@/components/popup/settings/SettingsSection.svelte';
 	import QueueHistorySection from '@/components/popup/queue/QueueHistorySection.svelte';
+	import LeaderboardPage from '@/components/popup/leaderboard/LeaderboardPage.svelte';
 	import CustomApiManagement from '@/components/popup/options/api/CustomApiManagement.svelte';
 	import MembershipPage from '@/components/popup/options/membership/MembershipPage.svelte';
+	import RobloxAccountPage from '@/components/popup/options/roblox-account/RobloxAccountPage.svelte';
 	import FooterSection from '@/components/popup/FooterSection.svelte';
 	import LegalPausedBanner from '@/components/popup/LegalPausedBanner.svelte';
 	import LoadingSpinner from '@/components/ui/LoadingSpinner.svelte';
@@ -12,6 +14,7 @@
 	import { loadStoredLanguagePreference } from '@/lib/stores/i18n';
 	import { loadQueueHistory } from '@/lib/stores/queue-history';
 	import { loadDeveloperLogs } from '@/lib/stores/developer-logs';
+	import { bootstrapRobloxAuth } from '@/lib/stores/roblox-auth';
 	import { themeManager } from '@/lib/utils/theme';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { getStorage, removeStorage, setStorage, subscribeStorageKey } from '@/lib/utils/storage';
@@ -24,18 +27,21 @@
 		| 'stats'
 		| 'settings'
 		| 'queue'
+		| 'leaderboard'
 		| 'custom-apis'
 		| 'custom-api-docs'
 		| 'membership'
+		| 'roblox-account'
 		| 'performance';
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
-	const POPUP_PAGES: readonly Page[] = ['stats', 'settings', 'queue', 'performance'];
+	const POPUP_PAGES: readonly Page[] = ['stats', 'settings', 'queue', 'leaderboard', 'performance'];
 
 	const optionsTabs: Array<{ id: Page; labelKey: string }> = [
 		{ id: 'custom-apis', labelKey: 'custom_api_tab_manage' },
 		{ id: 'membership', labelKey: 'membership_tab_label' },
+		{ id: 'roblox-account', labelKey: 'roblox_account_tab_label' },
 		{ id: 'custom-api-docs', labelKey: 'custom_api_tab_docs' }
 	];
 
@@ -49,13 +55,22 @@
 	const isOptionsSurface = $derived(surface === 'options');
 	let currentPage = $state<Page | null>(null);
 
+	const OPTIONS_PAGES: readonly Page[] = optionsTabs.map((tab) => tab.id);
+
+	function resolveOptionsDeepLink(target: unknown): Page {
+		if (typeof target === 'string' && OPTIONS_PAGES.includes(target as Page)) {
+			return target as Page;
+		}
+		return 'custom-apis';
+	}
+
 	// Resolve the initial options page from a pending deep link on cold start
 	$effect(() => {
 		if (!isOptionsSurface || currentPage !== null) return;
 		void (async () => {
 			const target = await getStorage<string | undefined>('local', 'optionsDeepLink', undefined);
 			await removeStorage('local', 'optionsDeepLink');
-			currentPage = target === 'membership' ? 'membership' : 'custom-apis';
+			currentPage = resolveOptionsDeepLink(target);
 		})();
 	});
 
@@ -63,7 +78,7 @@
 	$effect(() => {
 		if (!isOptionsSurface) return;
 		return subscribeStorageKey<Page>('local', 'optionsDeepLink', (newValue) => {
-			if (typeof newValue === 'string') {
+			if (typeof newValue === 'string' && OPTIONS_PAGES.includes(newValue)) {
 				currentPage = newValue;
 				void removeStorage('local', 'optionsDeepLink');
 			}
@@ -84,6 +99,11 @@
 		await browser.runtime.openOptionsPage();
 	}
 
+	async function openRobloxAccountOptionsPage() {
+		await setStorage('local', 'optionsDeepLink', 'roblox-account');
+		await browser.runtime.openOptionsPage();
+	}
+
 	$effect(() => {
 		loadStoredLanguagePreference().catch((error: unknown) => {
 			logger.error('Failed to load language preference:', error);
@@ -94,6 +114,7 @@
 		loadDeveloperLogs().catch((error: unknown) => {
 			logger.error('Failed to load developer logs:', error);
 		});
+		void bootstrapRobloxAuth();
 	});
 
 	// Load last visited page from storage
@@ -193,12 +214,15 @@
 						onNavigateToCustomApis={openCustomApisOptionsPage}
 						onNavigateToMembership={openMembershipOptionsPage}
 						onNavigateToPerformance={IS_DEV ? () => handlePageChange('performance') : undefined}
+						onNavigateToRobloxAccount={openRobloxAccountOptionsPage}
 					/>
 				</div>
 			{:else if currentPage === 'queue'}
 				<div class="queue-page">
 					<QueueHistorySection />
 				</div>
+			{:else if currentPage === 'leaderboard'}
+				<LeaderboardPage onOpenAccountPage={openRobloxAccountOptionsPage} />
 			{:else if currentPage === 'custom-apis'}
 				<CustomApiManagement />
 			{:else if currentPage === 'custom-api-docs'}
@@ -210,6 +234,8 @@
 				{/await}
 			{:else if currentPage === 'membership'}
 				<MembershipPage />
+			{:else if currentPage === 'roblox-account'}
+				<RobloxAccountPage />
 			{:else if IS_DEV && currentPage === 'performance'}
 				{#await import('@/components/popup/developer/PerformanceDashboard.svelte')}
 					<LoadingSpinner size="medium" />

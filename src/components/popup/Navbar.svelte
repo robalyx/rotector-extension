@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import { unprocessedCount } from '@/lib/stores/queue-history';
 
-	type NavPage = 'stats' | 'settings' | 'queue';
+	type NavPage = 'stats' | 'settings' | 'queue' | 'leaderboard';
 
 	interface NavbarProps {
 		currentPage: string | null;
@@ -14,6 +14,7 @@
 	const tabs: Array<{ id: NavPage; labelKey: string }> = [
 		{ id: 'stats', labelKey: 'navbar_tab_stats' },
 		{ id: 'queue', labelKey: 'navbar_tab_queue' },
+		{ id: 'leaderboard', labelKey: 'navbar_tab_leaderboard' },
 		{ id: 'settings', labelKey: 'navbar_tab_settings' }
 	];
 </script>

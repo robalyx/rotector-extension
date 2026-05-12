@@ -1,0 +1,252 @@
+/* =================================
+   LEADERBOARD PAGE
+   ================================= */
+
+@utility leaderboard-page {
+	@apply flex flex-col;
+	gap: 0.5rem;
+}
+
+/* =================================
+   YOU BAR + CTA BAR
+   ================================= */
+
+@utility leaderboard-cta-bar {
+	@apply text-xs-plus flex w-full cursor-pointer items-center rounded font-medium;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	color: var(--color-text);
+	background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
+
+	&:hover {
+		background-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
+		border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+@utility leaderboard-cta-text {
+	@apply min-w-0 flex-1 text-left;
+}
+
+@utility leaderboard-cta-arrow {
+	@apply flex-shrink-0;
+	color: var(--color-primary);
+}
+
+@utility leaderboard-you-bar {
+	@apply flex w-full items-center rounded;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility leaderboard-you-avatar {
+	@apply flex flex-none items-center justify-center overflow-hidden rounded-full;
+	width: 2rem;
+	height: 2rem;
+	background-color: var(--color-bg-content);
+
+	& img {
+		@apply h-full w-full object-cover;
+	}
+}
+
+@utility leaderboard-you-info {
+	@apply flex min-w-0 flex-1 flex-col;
+	gap: 0.0625rem;
+}
+
+@utility leaderboard-you-name {
+	@apply text-xs-plus truncate font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility leaderboard-you-meta {
+	@apply text-2xs truncate;
+	color: var(--color-text-subtle);
+}
+
+@utility leaderboard-you-gear {
+	@apply inline-flex flex-none cursor-pointer items-center justify-center rounded border-none;
+	width: 1.75rem;
+	height: 1.75rem;
+	background: transparent;
+	color: var(--color-text-subtle);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+/* =================================
+   TAGLINE
+   ================================= */
+
+@utility leaderboard-tagline {
+	@apply text-xs-plus m-0;
+	line-height: 1.45;
+	color: var(--color-text-subtle);
+}
+
+/* =================================
+   WINDOW PICKER
+   ================================= */
+
+@utility leaderboard-window-row {
+	@apply flex flex-wrap items-center justify-between;
+	gap: 0.375rem;
+	padding: 0.125rem 0;
+}
+
+@utility leaderboard-window-pills {
+	@apply flex flex-wrap items-center;
+	gap: 0.25rem;
+}
+
+@utility leaderboard-resets-clock {
+	@apply text-2xs font-medium;
+	color: var(--color-text-tertiary);
+}
+
+@utility leaderboard-window-pill {
+	@apply text-2xs cursor-pointer rounded border-none bg-transparent font-semibold uppercase;
+	padding: 0.25rem 0.5rem;
+	letter-spacing: 0.06em;
+	color: var(--color-text-subtle);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	&:hover:not(.active) {
+		color: var(--color-text);
+	}
+
+	&.active {
+		background-color: var(--color-primary);
+		color: var(--primitive-white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+}
+
+/* =================================
+   ROWS
+   ================================= */
+
+@utility leaderboard-list {
+	@apply m-0 flex list-none flex-col p-0;
+	gap: 0.125rem;
+}
+
+@utility leaderboard-row {
+	@apply flex items-center rounded;
+	gap: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	transition: background-color 0.15s ease;
+
+	&.you {
+		background-color: color-mix(in srgb, var(--color-primary) 6%, transparent);
+	}
+}
+
+@utility leaderboard-rank {
+	@apply text-xs-plus inline-flex flex-none items-center justify-end font-bold tabular-nums;
+	min-width: 1.75rem;
+	color: var(--color-text-heading);
+}
+
+@utility leaderboard-avatar {
+	@apply flex flex-none items-center justify-center overflow-hidden rounded;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-color: var(--color-bg-content);
+
+	& img {
+		@apply h-full w-full object-cover;
+	}
+}
+
+@utility leaderboard-name {
+	@apply text-xs-plus min-w-0 flex-1 truncate;
+	color: var(--color-text);
+}
+
+@utility leaderboard-you-tag {
+	@apply text-2xs font-semibold uppercase;
+	margin-left: 0.25rem;
+	color: var(--color-primary);
+	letter-spacing: 0.06em;
+}
+
+@utility leaderboard-count {
+	@apply text-xs-plus flex-none font-semibold tabular-nums;
+	color: var(--color-text-heading);
+}
+
+@utility leaderboard-load-more {
+	@apply text-2xs mt-1 inline-flex cursor-pointer items-center justify-center rounded border-none font-semibold uppercase;
+	letter-spacing: 0.08em;
+	padding: 0.375rem 0.75rem;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-subtle);
+	border: 1px solid var(--color-border-subtle);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-hover);
+		color: var(--color-text);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 1px;
+	}
+
+	&:disabled {
+		@apply cursor-not-allowed opacity-60;
+	}
+}
+
+@utility leaderboard-loading {
+	@apply text-xs-plus flex items-center justify-center;
+	gap: 0.375rem;
+	padding: 0.75rem 0;
+	color: var(--color-text-subtle);
+}
+
+@utility leaderboard-empty {
+	@apply text-xs-plus text-center;
+	padding: 0.75rem 0;
+	color: var(--color-text-subtle);
+}
+
+@utility leaderboard-you-section {
+	@apply mt-2 flex flex-col;
+	gap: 0.25rem;
+	padding-top: 0.5rem;
+	border-top: 1px solid var(--color-border-subtle);
+}

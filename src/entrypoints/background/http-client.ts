@@ -7,6 +7,15 @@ import { type ApiError, asApiError, buildHttpError } from '@/lib/utils/api/api-e
 import { getStorage } from '@/lib/utils/storage';
 import { getInstallationId } from '@/lib/utils/installation-id';
 import { markSessionRestricted } from '@/lib/stores/session-state';
+import {
+	bumpStoredAuthExpires,
+	clearStoredAuthToken,
+	getStoredAuthToken
+} from '@/lib/utils/roblox-auth-storage';
+
+type BearerOverride =
+	| { kind: 'membership' } // use X-Auth-Token (membership key) as Authorization
+	| { kind: 'none' }; // omit Authorization entirely
 
 async function getApiKey(): Promise<string | null> {
 	try {
@@ -53,21 +62,38 @@ interface HttpRequestOptions<T = unknown> extends RequestInit {
 	// unwrap path is skipped entirely. Used for non-JSON responses (file
 	// downloads). Implies maxRetries=1 because partial downloads aren't retryable.
 	parseResponse?: ((response: Response) => Promise<T>) | undefined;
+	// Auth bearer policy. Default uses the stored session token if present.
+	bearerOverride?: BearerOverride | undefined;
 }
 
 interface RotectorHeaderOptions {
 	clientId: string | undefined;
 	lookupContext: string | undefined;
 	readPrimary: boolean | undefined;
+	bearerOverride: BearerOverride | undefined;
+}
+
+async function resolveBearer(
+	override: BearerOverride | undefined,
+	apiKey: string | null
+): Promise<string | null> {
+	if (override?.kind === 'none') return null;
+	if (override?.kind === 'membership') return apiKey;
+	return getStoredAuthToken();
 }
 
 async function buildRotectorHeaders(
 	headers: Headers,
-	{ clientId, lookupContext, readPrimary }: RotectorHeaderOptions
+	{ clientId, lookupContext, readPrimary, bearerOverride }: RotectorHeaderOptions
 ): Promise<void> {
-	const apiKey = (await getApiKey())?.trim();
+	const apiKey = (await getApiKey())?.trim() ?? null;
 	if (apiKey) {
 		headers.set('X-Auth-Token', apiKey);
+	}
+
+	const bearer = await resolveBearer(bearerOverride, apiKey);
+	if (bearer) {
+		headers.set('Authorization', `Bearer ${bearer}`);
 	}
 
 	headers.set('X-Installation-ID', await getInstallationId());
@@ -98,6 +124,14 @@ function normalizeFetchError(error: unknown, timeout: number): ApiError {
 	}
 
 	return asApiError(error);
+}
+
+async function processRotectorResponseHeaders(headers: Headers): Promise<void> {
+	const expires = headers.get('X-Token-Expires');
+	if (!expires) return;
+	const parsed = Number(expires);
+	if (!Number.isFinite(parsed) || parsed <= 0) return;
+	await bumpStoredAuthExpires(parsed);
 }
 
 async function prepareHeaders(
@@ -183,6 +217,28 @@ async function handleRotectorForbidden(error: ApiError, endpoint: string): Promi
 	}
 }
 
+// Endpoints whose 401 specifically means the session token is invalid or
+// revoked. Other endpoints attach the bearer opportunistically (queue,
+// leaderboard) or authenticate via the membership key, so a 401 there must
+// not nuke the session.
+function isSessionAuthEndpoint(endpoint: string): boolean {
+	return (
+		endpoint.startsWith('/v1/me/') ||
+		endpoint === '/v1/auth/roblox/logout' ||
+		endpoint === '/v1/auth/roblox/logout-all'
+	);
+}
+
+async function handleSessionUnauthorized(
+	error: ApiError,
+	sentBearer: boolean,
+	endpoint: string
+): Promise<void> {
+	if (!sentBearer || error.status !== 401) return;
+	if (!isSessionAuthEndpoint(endpoint)) return;
+	await clearStoredAuthToken();
+}
+
 // Owns retries, Retry-After honoring, safe-method gating, envelope unwrapping, and Rotector restricted-access detection
 export async function makeHttpRequest<T = unknown>(
 	endpoint: string,
@@ -200,6 +256,7 @@ export async function makeHttpRequest<T = unknown>(
 		rawResponse = false,
 		parse,
 		parseResponse,
+		bearerOverride,
 		...fetchOptions
 	} = options;
 
@@ -211,8 +268,10 @@ export async function makeHttpRequest<T = unknown>(
 	const headers = await prepareHeaders(fetchOptions.headers, customApi, {
 		clientId,
 		lookupContext,
-		readPrimary
+		readPrimary,
+		bearerOverride
 	});
+	const sentBearer = !isCustomApi && headers.has('Authorization');
 
 	const method = (fetchOptions.method ?? 'GET').toUpperCase();
 	const isSafeMethod = ['GET', 'HEAD', 'OPTIONS'].includes(method);
@@ -238,6 +297,10 @@ export async function makeHttpRequest<T = unknown>(
 
 			if (!response.ok) {
 				throw await buildHttpError(response);
+			}
+
+			if (!isCustomApi) {
+				await processRotectorResponseHeaders(response.headers);
 			}
 
 			if (parseResponse) {
@@ -279,6 +342,7 @@ export async function makeHttpRequest<T = unknown>(
 
 			if (!isCustomApi) {
 				await handleRotectorForbidden(lastError, endpoint);
+				await handleSessionUnauthorized(lastError, sentBearer, endpoint);
 			}
 
 			break;

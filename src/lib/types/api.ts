@@ -5,6 +5,11 @@ import type {
 	DiscordAccountInfoSchema,
 	GroupStatusSchema,
 	GroupTrackedUsersSchema,
+	LeaderboardSchema,
+	MeProfileSchema,
+	MeRefreshSchema,
+	MeSessionSchema,
+	MeSettingsResponseSchema,
 	MembershipStatusSchema,
 	MembershipVerificationChallengeSchema,
 	QueueLimitsSchema,
@@ -12,6 +17,10 @@ import type {
 	ReasonSchema,
 	ReviewerInfoSchema,
 	RobloxAltAccountSchema,
+	RobloxAuthChallengeSchema,
+	RobloxAuthLogoutAllSchema,
+	RobloxAuthProfileSchema,
+	RobloxAuthSessionTokenSchema,
 	RobloxUserDiscordLookupSchema,
 	TrackedUserSchema,
 	UserStatusSchema,
@@ -159,3 +168,21 @@ export interface ExportResult {
 export type DiscordAccountInfo = v.InferOutput<typeof DiscordAccountInfoSchema>;
 export type RobloxAltAccount = v.InferOutput<typeof RobloxAltAccountSchema>;
 export type RobloxUserDiscordLookup = v.InferOutput<typeof RobloxUserDiscordLookupSchema>;
+
+export type RobloxAuthChallenge = v.InferOutput<typeof RobloxAuthChallengeSchema>;
+export type RobloxAuthProfile = v.InferOutput<typeof RobloxAuthProfileSchema>;
+export type RobloxAuthSessionToken = v.InferOutput<typeof RobloxAuthSessionTokenSchema>;
+export type RobloxAuthLogoutAll = v.InferOutput<typeof RobloxAuthLogoutAllSchema>;
+export type MeProfile = v.InferOutput<typeof MeProfileSchema>;
+export type MeSettingsResponse = v.InferOutput<typeof MeSettingsResponseSchema>;
+export type MeRefreshResult = v.InferOutput<typeof MeRefreshSchema>;
+export type MeSession = v.InferOutput<typeof MeSessionSchema>;
+export type Leaderboard = v.InferOutput<typeof LeaderboardSchema>;
+export type LeaderboardWindow = Leaderboard['window'];
+export type LeaderboardEntry = Leaderboard['entries'][number];
+
+export interface MeSettingsPatch {
+	alias?: string | null;
+	show_username?: boolean;
+	show_thumbnail?: boolean;
+}

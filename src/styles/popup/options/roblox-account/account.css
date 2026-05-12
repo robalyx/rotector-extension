@@ -1,0 +1,125 @@
+/* =================================
+   ROBLOX ACCOUNT PAGE
+   ================================= */
+
+@utility roblox-account-cta-row {
+	@apply flex flex-wrap items-center;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+@utility roblox-account-meta {
+	@apply text-xs;
+	margin-top: 0.125rem;
+	color: var(--color-text-tertiary);
+}
+
+@utility roblox-account-field-row {
+	@apply flex flex-col;
+	gap: 0.375rem;
+	margin-top: 0.125rem;
+}
+
+@utility roblox-account-field-label {
+	@apply text-xs font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility roblox-account-field-hint {
+	@apply m-0 text-xs;
+	color: var(--color-text-subtle);
+	line-height: 1.5;
+}
+
+@utility roblox-account-preview-row {
+	@apply flex flex-col;
+	gap: 0.375rem;
+	margin-top: 0.125rem;
+}
+
+@utility roblox-account-preview-cell {
+	@apply inline-flex items-center self-start rounded;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility roblox-account-preview-avatar {
+	@apply flex flex-none items-center justify-center overflow-hidden rounded;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-color: var(--color-bg-content);
+
+	& img {
+		@apply h-full w-full object-cover;
+	}
+}
+
+@utility roblox-account-preview-name {
+	@apply text-xs-plus font-semibold;
+	color: var(--color-text-heading);
+}
+
+@utility roblox-account-totals {
+	@apply grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+}
+
+/* =================================
+   SESSIONS LIST
+   ================================= */
+
+@utility roblox-account-sessions {
+	@apply m-0 flex list-none flex-col p-0;
+	gap: 0.125rem;
+}
+
+@utility roblox-account-session-row {
+	@apply flex items-center;
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+	border-top: 1px solid var(--color-border-subtle);
+
+	&:first-child {
+		border-top: 0;
+	}
+}
+
+@utility roblox-account-session-info {
+	@apply flex min-w-0 flex-1 flex-col;
+	gap: 0.125rem;
+}
+
+@utility roblox-account-session-ua {
+	@apply text-xs-plus truncate font-medium;
+	color: var(--color-text);
+}
+
+@utility roblox-account-session-meta {
+	@apply text-2xs;
+	color: var(--color-text-subtle);
+}
+
+@utility roblox-account-session-current {
+	@apply text-2xs font-semibold uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-primary);
+}
+
+/* =================================
+   VERIFY MODAL EXTRAS
+   ================================= */
+
+@utility roblox-auth-expiry-line {
+	@apply text-2xs font-semibold uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-text-subtle);
+	margin-top: 0.25rem;
+
+	&.warning {
+		color: var(--color-warning);
+	}
+}

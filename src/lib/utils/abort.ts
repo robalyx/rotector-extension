@@ -3,6 +3,10 @@ export function getAbortError(signal?: AbortSignal): Error {
 	return reason instanceof Error ? reason : new DOMException('Aborted', 'AbortError');
 }
 
+export function isAbortError(error: unknown): boolean {
+	return error instanceof Error && error.name === 'AbortError';
+}
+
 // Resolves after ms or rejects immediately if the signal aborts, with no leaked timer
 export async function abortableSleep(ms: number, signal?: AbortSignal): Promise<void> {
 	return new Promise((resolve, reject) => {

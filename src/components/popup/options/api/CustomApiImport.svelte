@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { importApi } from '@/lib/stores/custom-apis';
 	import { showError } from '@/lib/stores/toast';
 	import { asApiError } from '@/lib/utils/api/api-error';
-	import { importCustomApi } from '@/lib/utils/api/api-export';
+	import { importApi, importCustomApi } from '@/lib/utils/api/api-export';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { _ } from 'svelte-i18n';
 	import { Upload } from '@lucide/svelte';

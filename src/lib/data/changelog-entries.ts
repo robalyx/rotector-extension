@@ -11,6 +11,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Leaderboard - New tab in the popup ranks submitters by queue submissions that ended up flagged'
+			},
+			{
+				type: 'added',
+				description:
 					'Tooltip export - Save the expanded tooltip as PNG, JPG, WebP, or SVG, or copy it to the clipboard, from the new Export submenu in the 3-dot menu'
 			},
 			{

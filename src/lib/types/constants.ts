@@ -40,7 +40,17 @@ export const API_CONFIG = {
 		LOOKUP_OUTFITS_BY_ID: '/v1/lookup/outfits/by-id',
 		EXTENSION_MEMBERSHIP_STATUS: '/v1/extension/membership/status',
 		EXTENSION_MEMBERSHIP_BADGE: '/v1/extension/membership/badge',
-		EXTENSION_MEMBERSHIP_VERIFICATION: '/v1/extension/membership/verification'
+		EXTENSION_MEMBERSHIP_VERIFICATION: '/v1/extension/membership/verification',
+		AUTH_ROBLOX_CHALLENGE: '/v1/auth/roblox/challenge',
+		AUTH_ROBLOX_VERIFY: '/v1/auth/roblox/verify',
+		AUTH_ROBLOX_EXCHANGE: '/v1/auth/roblox/exchange',
+		AUTH_ROBLOX_LOGOUT: '/v1/auth/roblox/logout',
+		AUTH_ROBLOX_LOGOUT_ALL: '/v1/auth/roblox/logout-all',
+		ME_PROFILE: '/v1/me/profile',
+		ME_SETTINGS: '/v1/me/settings',
+		ME_REFRESH: '/v1/me/refresh',
+		ME_SESSIONS: '/v1/me/sessions',
+		LEADERBOARD: '/v1/leaderboard'
 	},
 	BATCH_SIZE: 100,
 	BATCH_DELAY: 250, // ms between batches
@@ -79,7 +89,18 @@ export const API_ACTIONS = {
 	EXTENSION_GET_MEMBERSHIP_VERIFICATION: 'extensionGetMembershipVerification',
 	EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION: 'extensionConfirmMembershipVerification',
 	HAS_TRANSLATE_PERMISSION: 'hasTranslatePermission',
-	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission'
+	REQUEST_TRANSLATE_PERMISSION: 'requestTranslatePermission',
+	ROBLOX_AUTH_CHALLENGE: 'robloxAuthChallenge',
+	ROBLOX_AUTH_VERIFY: 'robloxAuthVerify',
+	ROBLOX_AUTH_EXCHANGE: 'robloxAuthExchange',
+	ROBLOX_AUTH_LOGOUT: 'robloxAuthLogout',
+	ROBLOX_AUTH_LOGOUT_ALL: 'robloxAuthLogoutAll',
+	ME_GET_PROFILE: 'meGetProfile',
+	ME_UPDATE_SETTINGS: 'meUpdateSettings',
+	ME_REFRESH_IDENTITY: 'meRefreshIdentity',
+	ME_LIST_SESSIONS: 'meListSessions',
+	ME_REVOKE_SESSION: 'meRevokeSession',
+	GET_LEADERBOARD: 'getLeaderboard'
 } as const;
 
 export const CAPTCHA_EXTERNAL_MESSAGES = {

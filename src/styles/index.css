@@ -44,6 +44,8 @@
 @import url('./popup/options/api/import.css');
 @import url('./popup/options/api/documentation.css');
 @import url('./popup/options/membership/membership.css');
+@import url('./popup/options/roblox-account/account.css');
+@import url('./popup/leaderboard.css');
 @import url('./popup/footer.css');
 @import url('./popup/legal-paused.css');
 

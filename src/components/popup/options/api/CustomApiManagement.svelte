@@ -22,10 +22,10 @@
 		deleteCustomApi,
 		reorderCustomApi,
 		updateTestResult,
-		exportApi,
 		setCustomApiEnabled,
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
+	import { exportApi } from '@/lib/utils/api/api-export';
 	import { testCustomApiConnection } from './test-connection';
 	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
 	import {

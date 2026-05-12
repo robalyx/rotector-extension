@@ -4,7 +4,6 @@ import type { CustomApiConfig } from '../types/custom-api';
 import { SETTINGS_KEYS } from '../types/settings';
 import { API_CONFIG } from '../types/constants';
 import { logger } from '../utils/logging/logger';
-import { exportCustomApi, importCustomApi } from '../utils/api/api-export';
 import {
 	hasPermissionsForOrigins,
 	requestPermissionsForOrigins,
@@ -267,52 +266,4 @@ export async function updateTestResult(id: string, success: boolean): Promise<vo
 		lastTested: Date.now(),
 		lastTestSuccess: success
 	});
-}
-
-// Compresses to a base64 string for share/transfer
-export function exportApi(id: string): string {
-	const current = get(customApis);
-
-	const api = current.find((api) => api.id === id);
-	if (!api) {
-		throw new Error(`Custom API not found: ${id}`);
-	}
-
-	if (api.isSystem) {
-		throw new Error('Cannot export system APIs');
-	}
-
-	return exportCustomApi(api);
-}
-
-// Imported APIs are forced to disabled so the user must opt in before traffic flows
-export async function importApi(encodedData: string): Promise<CustomApiConfig> {
-	const decodedConfig = importCustomApi(encodedData);
-
-	// Auto-rename on duplicate so import never silently overwrites an existing entry
-	const current = get(customApis);
-	let newName = decodedConfig.name;
-	let counter = 1;
-
-	while (current.some((api) => api.name === newName)) {
-		newName = `${decodedConfig.name} (${String(counter)})`;
-		counter++;
-	}
-
-	const configToAdd = {
-		...decodedConfig,
-		name: newName,
-		enabled: false
-	};
-
-	const newApi = await addCustomApi(configToAdd);
-
-	logger.info('Imported custom API:', {
-		id: newApi.id,
-		originalName: decodedConfig.name,
-		finalName: newName,
-		wasRenamed: newName !== decodedConfig.name
-	});
-
-	return newApi;
 }

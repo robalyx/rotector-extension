@@ -22,6 +22,13 @@ export function asApiError(value: unknown): ApiError {
 	return value instanceof Error ? value : new Error(String(value));
 }
 
+// Lifts the nested `details.code` string off an ApiError so call sites can
+// switch on it without re-doing the typeof narrowing every time
+export function getErrorDetailCode(value: unknown): string | undefined {
+	const code = asApiError(value).details?.['code'];
+	return typeof code === 'string' ? code : undefined;
+}
+
 // HTTP Response -> ApiError. Reads JSON body for structured error fields and
 // sets rateLimitReset from the Retry-After header for 429 responses.
 export async function buildHttpError(response: Response): Promise<ApiError> {

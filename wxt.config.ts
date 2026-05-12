@@ -60,7 +60,13 @@ export default defineConfig({
 			}),
 			web_accessible_resources: [
 				{
-					resources: ['assets/*', 'icon/*', 'locales/*/*', 'fonts/*'],
+					resources: [
+						'assets/*',
+						'icon/*',
+						'locales/*/*',
+						'fonts/*',
+						'content-scripts/content.css'
+					],
 					matches: ['https://*.roblox.com/*']
 				}
 			],

@@ -1,5 +1,4 @@
 import '../styles/index.css';
-import shadowCssRaw from '../styles/index.css?inline';
 import { mount } from 'svelte';
 import { get } from 'svelte/store';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
@@ -134,6 +133,10 @@ export default defineContentScript({
 
 			themeManager.initializeRobloxTheme();
 
+			const cssUrl = browser.runtime.getURL(
+				'/content-scripts/content.css' as Parameters<typeof browser.runtime.getURL>[0]
+			);
+			const shadowCssRaw = await (await fetch(cssUrl)).text();
 			const cssText = shadowCssRaw.replaceAll(':root', ':host');
 
 			const ui = await createShadowRootUi(ctx, {

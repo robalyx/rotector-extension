@@ -75,6 +75,7 @@
 	import OutfitSnapshotLightbox from '../features/outfit/OutfitSnapshotLightbox.svelte';
 	import TooltipTabs from './TooltipTabs.svelte';
 	import HoverPopover from './HoverPopover.svelte';
+	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
 	import {
 		SOURCE_INFO_MAP,
 		type HoverPopoverInstance,
@@ -206,6 +207,7 @@
 	let exportSubmenuRef = $state<HTMLElement>();
 	let showOptionsMenu = $state(false);
 	let showExportSubmenu = $state(false);
+	let submenuPos = $state<{ top: number; left: number } | null>(null);
 	let submenuOpenTimer: ReturnType<typeof setTimeout> | null = null;
 	let submenuCloseTimer: ReturnType<typeof setTimeout> | null = null;
 	let activeExportMode = $state<ExportMode | null>(null);
@@ -941,7 +943,8 @@
 			showOptionsMenu &&
 			optionsMenuRef &&
 			target instanceof Node &&
-			!optionsMenuRef.contains(target)
+			!optionsMenuRef.contains(target) &&
+			!exportSubmenuRef?.contains(target)
 		) {
 			showOptionsMenu = false;
 		}
@@ -963,6 +966,32 @@
 		if (showOptionsMenu) return;
 		showExportSubmenu = false;
 		cancelSubmenuTimers();
+	});
+
+	$effect(() => {
+		if (!showExportSubmenu) {
+			submenuPos = null;
+			return;
+		}
+
+		void tick().then(() => {
+			if (!exportRowRef || !exportSubmenuRef) return;
+			const rowRect = exportRowRef.getBoundingClientRect();
+			const { width, height } = exportSubmenuRef.getBoundingClientRect();
+
+			let left = rowRect.left - width - 6;
+			if (left < 8) left = rowRect.right + 6;
+			left = Math.min(left, window.innerWidth - width - 8);
+			if (left < 8) left = 8;
+
+			let top = rowRect.top;
+			if (top + height > window.innerHeight - 8) {
+				top = rowRect.bottom - height;
+			}
+			if (top < 8) top = 8;
+
+			submenuPos = { top, left };
+		});
 	});
 
 	$effect(() => {
@@ -1754,54 +1783,59 @@
 											<span>{$_('tooltip_export_action')}</span>
 											<ChevronRight class="tooltip-options-chevron" size={14} />
 										</button>
-										{#if showExportSubmenu}
-											<div
-												bind:this={exportSubmenuRef}
-												class="tooltip-options-submenu"
-												onkeydown={handleSubmenuKeydown}
-												onmouseenter={cancelSubmenuTimers}
-												onmouseleave={scheduleSubmenuClose}
-												role="menu"
-												tabindex="-1"
-											>
-												<button
-													class="tooltip-options-item"
-													disabled={activeExportMode !== null}
-													onclick={(e) => handleExportTooltip(e, 'clipboard')}
-													role="menuitem"
-													type="button"
+										<OverlayPortal>
+											{#if showExportSubmenu}
+												<div
+													bind:this={exportSubmenuRef}
+													style:top={submenuPos ? `${String(submenuPos.top)}px` : undefined}
+													style:left={submenuPos ? `${String(submenuPos.left)}px` : undefined}
+													class="tooltip-options-submenu"
+													class:is-positioned={submenuPos !== null}
+													onkeydown={handleSubmenuKeydown}
+													onmouseenter={cancelSubmenuTimers}
+													onmouseleave={scheduleSubmenuClose}
+													role="menu"
+													tabindex="-1"
 												>
-													{#if exportSuccessMode === 'clipboard'}
-														<Check class="tooltip-options-icon success" size={15} />
-													{:else if activeExportMode === 'clipboard'}
-														<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
-													{:else}
-														<Copy class="tooltip-options-icon" size={15} />
-													{/if}
-													<span>{$_('tooltip_export_copy_clipboard')}</span>
-												</button>
-												<div class="tooltip-options-divider"></div>
-												{#each SAVE_AS_FORMATS as { format, labelKey } (format)}
 													<button
 														class="tooltip-options-item"
 														disabled={activeExportMode !== null}
-														onclick={(e) => handleExportTooltip(e, format)}
+														onclick={(e) => handleExportTooltip(e, 'clipboard')}
 														role="menuitem"
 														type="button"
 													>
-														{#if exportSuccessMode === format}
+														{#if exportSuccessMode === 'clipboard'}
 															<Check class="tooltip-options-icon success" size={15} />
-														{:else if activeExportMode === format}
+														{:else if activeExportMode === 'clipboard'}
 															<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
 														{:else}
-															<ImageDown class="tooltip-options-icon" size={15} />
+															<Copy class="tooltip-options-icon" size={15} />
 														{/if}
-														<span>{$_(labelKey)}</span>
-														<span class="tooltip-options-item-suffix">.{format}</span>
+														<span>{$_('tooltip_export_copy_clipboard')}</span>
 													</button>
-												{/each}
-											</div>
-										{/if}
+													<div class="tooltip-options-divider"></div>
+													{#each SAVE_AS_FORMATS as { format, labelKey } (format)}
+														<button
+															class="tooltip-options-item"
+															disabled={activeExportMode !== null}
+															onclick={(e) => handleExportTooltip(e, format)}
+															role="menuitem"
+															type="button"
+														>
+															{#if exportSuccessMode === format}
+																<Check class="tooltip-options-icon success" size={15} />
+															{:else if activeExportMode === format}
+																<LoaderCircle class="tooltip-options-icon animate-spin" size={15} />
+															{:else}
+																<ImageDown class="tooltip-options-icon" size={15} />
+															{/if}
+															<span>{$_(labelKey)}</span>
+															<span class="tooltip-options-item-suffix">.{format}</span>
+														</button>
+													{/each}
+												</div>
+											{/if}
+										</OverlayPortal>
 									</div>
 									{#if activeUserStatus?.engineVersion}
 										<div class="tooltip-options-divider"></div>

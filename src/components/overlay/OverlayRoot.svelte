@@ -6,11 +6,13 @@
 	import OutfitViewerModal from '@/components/features/outfit/OutfitViewerModal.svelte';
 	import FirstDetectionModal from '@/components/features/profile/FirstDetectionModal.svelte';
 	import RestrictionNoticeModal from '@/components/features/report/RestrictionNoticeModal.svelte';
+	import ReviewPromptModal from '@/components/features/review-prompt/ReviewPromptModal.svelte';
 	import Toast from '@/components/ui/Toast.svelte';
 	import { shouldShowChangelogModal } from '@/lib/stores/changelog';
 	import { shouldShowLegalModal, triggerLegalReview } from '@/lib/stores/legal';
 	import { shouldShowFirstDetection } from '@/lib/stores/first-detection';
 	import { shouldShowRestrictionNotice } from '@/lib/stores/restricted-access';
+	import { loadReviewPromptState, shouldShowReviewPrompt } from '@/lib/stores/review-prompt';
 	import { triggerOnboardingReplay } from '@/lib/stores/onboarding';
 
 	import { closeOutfitViewer, outfitViewerRequest } from '@/lib/stores/outfit-viewer';
@@ -40,6 +42,7 @@
 	}
 
 	void checkPopupRequests();
+	void loadReviewPromptState();
 </script>
 
 {#if $shouldShowOnboarding}
@@ -60,6 +63,10 @@
 
 {#if $shouldShowFirstDetection}
 	<FirstDetectionModal />
+{/if}
+
+{#if $shouldShowReviewPrompt}
+	<ReviewPromptModal />
 {/if}
 
 {#if $outfitViewerRequest}

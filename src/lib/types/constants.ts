@@ -21,6 +21,11 @@ export const ENTITY_TYPES = {
 
 export const KOFI_URL = 'https://ko-fi.com/rotector';
 
+export const CHROME_STORE_REVIEW_URL =
+	'https://chromewebstore.google.com/detail/rotector-roblox-safety-wa/ilegibonffbmecfchpcmcmknocboagan/reviews';
+export const FIREFOX_STORE_REVIEW_URL =
+	'https://addons.mozilla.org/en-US/firefox/addon/rotector/reviews/';
+
 const API_DOMAIN =
 	import.meta.env.USE_DEV_API === 'true' ? 'roscoe-dev.rotector.com' : 'roscoe.rotector.com';
 

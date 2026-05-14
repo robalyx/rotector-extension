@@ -1,0 +1,68 @@
+@utility review-prompt-stars {
+	@apply inline-flex shrink-0 text-sm;
+	color: var(--color-warning);
+}
+
+@utility review-prompt-stars-empty {
+	color: var(--color-text-tertiary);
+	opacity: 0.5;
+}
+
+/* =================================
+   1-STAR QUOTE LIST
+   ================================= */
+
+@utility review-prompt-quote {
+	@apply flex items-start gap-2 text-sm leading-snug;
+	color: var(--color-text);
+}
+
+@utility review-prompt-quote-text {
+	@apply italic;
+	color: var(--color-text-subtle);
+
+	&::before {
+		content: '“';
+	}
+
+	&::after {
+		content: '”';
+	}
+}
+
+/* =================================
+   REVIEW VOLUME GAP
+   ================================= */
+
+@utility review-prompt-gap-block {
+	@apply flex flex-col gap-2 rounded-md px-4 py-3;
+	background-color: var(--color-bg-tertiary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility review-prompt-gap-row {
+	@apply grid items-center gap-3;
+	grid-template-columns: 5rem 1fr auto;
+}
+
+@utility review-prompt-gap-label {
+	@apply text-xs font-semibold uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-text-subtle);
+}
+
+@utility review-prompt-gap-bar {
+	@apply relative h-2 w-full overflow-hidden rounded-full;
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-border-subtle);
+}
+
+@utility review-prompt-gap-bar-fill {
+	@apply absolute inset-y-0 left-0 rounded-full;
+	background-color: var(--color-warning);
+}
+
+@utility review-prompt-gap-note {
+	@apply text-xs italic;
+	color: var(--color-text-tertiary);
+}

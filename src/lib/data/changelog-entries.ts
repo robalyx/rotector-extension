@@ -44,6 +44,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Queue submission cost - Thorough checks count as 3× against your queue limit, with the cost shown next to the Submit button'
 			},
 			{
+				type: 'added',
+				description:
+					'Review prompt - Modal asking you to leave a store review once you have helped flag a few users'
+			},
+			{
 				type: 'changed',
 				description:
 					'Scan bar granularity - Now shows a separate chip for each status type instead of grouping several together'

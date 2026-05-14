@@ -15,6 +15,7 @@
 		showCancel?: boolean;
 		showConfirm?: boolean;
 		showClose?: boolean;
+		closeOnOverlayClick?: boolean;
 		confirmText?: string;
 		cancelText?: string;
 		confirmDanger?: boolean;
@@ -37,6 +38,7 @@
 		showCancel = true,
 		showConfirm = true,
 		showClose = true,
+		closeOnOverlayClick = true,
 		confirmText = 'Confirm',
 		cancelText = 'Cancel',
 		confirmDanger = false,
@@ -85,7 +87,7 @@
 
 	function handleOverlayClick(e: MouseEvent) {
 		const target = e.composedPath()[0];
-		if (target === overlayElement && showClose) {
+		if (target === overlayElement && showClose && closeOnOverlayClick) {
 			closeModal(false);
 		}
 	}

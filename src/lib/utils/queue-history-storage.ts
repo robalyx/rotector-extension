@@ -1,5 +1,6 @@
 import type { QueueHistoryEntry, QueueStatusItem } from '@/lib/types/queue-history';
 import { getStorage, setStorage } from '@/lib/utils/storage';
+import { incrementSuccessfulFlagCount } from '@/lib/utils/review-prompt-storage';
 
 export const QUEUE_HISTORY_KEY = 'queueHistory';
 const MAX_QUEUE_HISTORY_SIZE = 50;
@@ -91,6 +92,10 @@ export async function applyQueueStatusUpdate(
 	};
 
 	await writeQueueHistory(updated);
+
+	if (crossingProcessed && status.flagged) {
+		await incrementSuccessfulFlagCount();
+	}
 
 	return crossingProcessed ? (updated[index] ?? null) : null;
 }

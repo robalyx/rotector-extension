@@ -61,6 +61,7 @@
 @import url('./features/modal/outfit-viewer.css');
 @import url('./features/modal/outfit-3d.css');
 @import url('./features/modal/outfit-snapshot-lightbox.css');
+@import url('./features/modal/review-prompt.css');
 @import url('./features/tooltip/base.css');
 @import url('./features/tooltip/content.css');
 @import url('./features/tooltip/voting.css');

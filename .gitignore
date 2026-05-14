@@ -5,3 +5,4 @@ web-ext.config.ts
 .env
 .eslintcache
 .stylelintcache
+.svelte-check

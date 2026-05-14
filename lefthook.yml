@@ -13,6 +13,10 @@ pre-commit:
       glob: '**/*.{json,md,yml,yaml}'
       run: bunx oxfmt {staged_files} && git add {staged_files}
 
+    - name: typecheck
+      glob: '**/*.{ts,svelte}'
+      run: bun run check
+
 commit-msg:
   jobs:
     - name: commitlint

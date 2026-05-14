@@ -10,7 +10,13 @@
 		"src/components/popup/options/api/CustomApiDocumentation.svelte"
 	],
 	"project": ["src/**/*.{ts,svelte}", "!src/**/*.d.ts"],
-	"ignoreDependencies": ["dotenv", "lightningcss", "tslib", "webgl-obj-loader"],
+	"ignoreDependencies": [
+		"@typescript/native-preview",
+		"dotenv",
+		"lightningcss",
+		"tslib",
+		"webgl-obj-loader"
+	],
 	"rules": {
 		"files": "error",
 		"dependencies": "error",

@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Згоден",
 	"voting_button_disagree": "Не згоден",
 	"voting_button_dispute": "Оскаржити",
-	"voting_count_plural": "{0} голосів",
-	"voting_count_singular": "{0} голос",
 	"voting_description": "Допоможіть іншим, підтвердивши, чи статус цього користувача точний.",
 	"voting_description_confirmed": "Підтверджено як неприйнятне. Не згодні? Подайте апеляцію.",
-	"voting_header_title": "Відгуки спільноти",
-	"voting_loading": "Завантаження..."
+	"voting_header_title": "Відгуки спільноти"
 }

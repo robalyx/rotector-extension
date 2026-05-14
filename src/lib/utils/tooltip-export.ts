@@ -23,6 +23,8 @@ const EXCLUDE_SELECTORS = [
 	'.reportable-pill',
 	'.voting-buttons',
 	'.voting-description',
+	'.discord-summary-actions',
+	'.discord-chevron-wrapper',
 	'.queue-button',
 	'.tooltip-metadata-reprocess',
 	'.translation-toggle-container',
@@ -79,7 +81,17 @@ async function renderTooltipBlob(
 	const clone = node.cloneNode(true) as HTMLElement;
 	clone.setAttribute('data-tooltip-export', 'true');
 
-	// Screenshots record the user's actual encoded text and not our decode
+	// Canvas pixels rasterize blurry in exports so restore the original text via aria-label
+	for (const canvas of clone.querySelectorAll('canvas')) {
+		const text = canvas.getAttribute('aria-label');
+		if (text === null) continue;
+		const replacement = document.createElement('span');
+		replacement.textContent = text;
+		if (canvas.hasAttribute('data-multiline')) replacement.setAttribute('data-multiline', '');
+		canvas.replaceWith(replacement);
+	}
+
+	// Screenshot exports show the original encoded text and not the decoded version
 	for (const item of clone.querySelectorAll<HTMLElement>('.decoded-evidence-item')) {
 		const encoded = item.dataset['encodedOriginal'];
 		if (encoded === undefined) {

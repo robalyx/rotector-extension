@@ -70,6 +70,7 @@
 		Copy
 	} from '@lucide/svelte';
 	import LoadingSpinner from '../ui/LoadingSpinner.svelte';
+	import CanvasText from '../ui/CanvasText.svelte';
 	import VotingWidget from './VotingWidget.svelte';
 	import DiscordAccountsEvidence from './DiscordAccountsEvidence.svelte';
 	import OutfitSnapshotLightbox from '../features/outfit/OutfitSnapshotLightbox.svelte';
@@ -1179,8 +1180,8 @@
 	<div class="tooltip-header-right">
 		{#if activeStatus || isNoData}
 			<div class="tooltip-inline-message">
-				<div class="header-message">
-					{@render headerMessageSection(headerMessage)}
+				<div class="header-message tooltip-header-message tooltip-header-message-canvas">
+					{@render headerMessageSection(headerMessage, true, 'start')}
 				</div>
 			</div>
 		{/if}
@@ -1193,12 +1194,12 @@
 		<div class="reviewer-section">
 			<User class="reviewer-icon" size={14} />
 			<span class="reviewer-text">
-				{$_('tooltip_reviewer_reviewed_by')}
+				<CanvasText text={$_('tooltip_reviewer_reviewed_by')} />
 				<span class="reviewer-name">
 					{#if reviewerInfo.displayName && reviewerInfo.username && reviewerInfo.displayName !== reviewerInfo.username}
-						{reviewerInfo.displayName} (@{reviewerInfo.username})
+						<CanvasText text={`${reviewerInfo.displayName} (@${reviewerInfo.username})`} />
 					{:else}
-						{reviewerInfo.displayName || reviewerInfo.username}
+						<CanvasText text={reviewerInfo.displayName || reviewerInfo.username} />
 					{/if}
 				</span>
 			</span>
@@ -1383,14 +1384,14 @@
 
 				<div class="mt-2 flex gap-2">
 					{#if queueCooldownInfo.isInCooldown}
-						<button class="queue-button queue-button-disabled w-full" disabled type="button">
+						<button class="queue-button queue-button-disabled inline-full" disabled type="button">
 							{$_('tooltip_queue_cooldown', {
 								values: { 0: queueCooldownInfo.daysRemaining.toString() }
 							})}
 						</button>
 					{:else}
 						<button
-							class="queue-button w-full"
+							class="queue-button inline-full"
 							onclick={(e) => {
 								e.stopPropagation();
 								handleQueueSubmit();
@@ -1464,7 +1465,7 @@
 						{#each reasonEntries as reason (reason.typeName)}
 							<div class="reason-item">
 								<div class="reason-header">
-									{reason.typeName} ({reason.confidence}%)
+									<CanvasText text={`${reason.typeName} (${String(reason.confidence)}%)`} />
 									{#if reason.typeName === REASON_KEYS.USER_PROFILE && badgeStatus.hasCrossSignal}
 										<button
 											class="cross-signal-indicator"
@@ -1517,7 +1518,9 @@
 													{@const sourceInfo = SOURCE_INFO_MAP[group.source.toLowerCase()]}
 													<div class="source-evidence-item">
 														<div class="source-evidence-header">
-															<span class="source-evidence-badge">{group.source}</span>
+															<span class="source-evidence-badge"
+																><CanvasText text={group.source} /></span
+															>
 															{#if sourceInfo}
 																<button
 																	class="source-info-indicator"
@@ -1533,22 +1536,30 @@
 																</button>
 															{/if}
 														</div>
-														<div class="source-evidence-description">{group.description}</div>
+														<div class="source-evidence-description">
+															<CanvasText multiline text={group.description} />
+														</div>
 														{#if group.subItems.length > 0}
 															<div class="source-evidence-subitems">
 																{#each group.subItems as subItem, si (si)}
-																	<div class="source-evidence-subitem">{subItem}</div>
+																	<div class="source-evidence-subitem">
+																		<CanvasText multiline text={subItem} />
+																	</div>
 																{/each}
 															</div>
 														{/if}
 													</div>
 												{:else}
-													<div class="evidence-item">{group.text}</div>
+													<div class="evidence-item">
+														<CanvasText multiline text={group.text} />
+													</div>
 												{/if}
 											{/each}
 										</div>
 									{:else}
-										<div class="reason-message">{displayMessage}</div>
+										<div class="reason-message">
+											<CanvasText multiline text={displayMessage} />
+										</div>
 									{/if}
 								{/if}
 								{#if reason.evidence && reason.evidence.length > 0}
@@ -1630,7 +1641,9 @@
 																</div>
 															{/if}
 														</div>
-														<div class="outfit-reason">{getDisplayText(outfitReason)}</div>
+														<div class="outfit-reason">
+															<CanvasText multiline text={getDisplayText(outfitReason)} />
+														</div>
 													</div>
 												</div>
 											{:else}
@@ -1642,7 +1655,7 @@
 														data-encoded-original={evidence.content}
 													>
 														<div class="decoded-evidence-text">
-															{getDisplayText(decodeEntry.decoded)}
+															<CanvasText multiline text={getDisplayText(decodeEntry.decoded)} />
 														</div>
 														<button
 															class="decoded-evidence-chip"
@@ -1668,11 +1681,15 @@
 															{/if}
 														</button>
 														{#if isOriginalShown}
-															<div class="decoded-evidence-original">{evidence.content}</div>
+															<div class="decoded-evidence-original">
+																<CanvasText multiline text={evidence.content} />
+															</div>
 														{/if}
 													</div>
 												{:else}
-													<div class="evidence-item">{getDisplayText(evidence.content)}</div>
+													<div class="evidence-item">
+														<CanvasText multiline text={getDisplayText(evidence.content)} />
+													</div>
 												{/if}
 											{/if}
 										{/each}
@@ -1690,13 +1707,25 @@
 	{/if}
 {/snippet}
 
-{#snippet headerMessageSection(headerMessage: HeaderMessage)}
+{#snippet headerMessageSection(
+	headerMessage: HeaderMessage,
+	useCanvas: boolean,
+	align: 'start' | 'center' = 'center'
+)}
 	{#if headerMessage.parts}
 		{#each headerMessage.parts as part, i (i)}
 			<span class={part.class}>
-				{part.text}
+				{#if useCanvas}
+					<CanvasText {align} multiline text={part.text} />
+				{:else}
+					{part.text}
+				{/if}
 			</span>
 		{/each}
+	{:else if useCanvas && headerMessage.full}
+		<span>
+			<CanvasText {align} multiline text={headerMessage.full} />
+		</span>
 	{:else}
 		{headerMessage.full}
 	{/if}
@@ -1860,7 +1889,9 @@
 									<img alt="" src={groupInfo.groupImageUrl} />
 								</div>
 								<div class="tooltip-user-info">
-									<div class="tooltip-username">{groupInfo.groupName}</div>
+									<div class="tooltip-username">
+										<CanvasText text={groupInfo.groupName} />
+									</div>
 									<div class="tooltip-user-id">
 										{$_('tooltip_profile_group_id')}
 										{sanitizedUserId}
@@ -1868,7 +1899,7 @@
 									{#if !effectivelyRestricted && !activeError && activeStatus}
 										<div class="tooltip-status-badge {statusBadgeClass}">
 											<span class="status-indicator"></span>
-											{statusBadgeText}
+											<CanvasText text={statusBadgeText} />
 										</div>
 									{/if}
 								</div>
@@ -1888,17 +1919,24 @@
 								</div>
 								<div class="tooltip-user-info">
 									<div class="tooltip-username">
-										{userInfo.displayName ||
-											(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
+										<CanvasText
+											text={userInfo.displayName ||
+												(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
+										/>
 										{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
-											<span class="tooltip-user-handle">@{userInfo.username}</span>
+											<span class="tooltip-user-handle">
+												<CanvasText text={`@${userInfo.username}`} />
+											</span>
 										{/if}
 									</div>
-									<div class="tooltip-user-id">{$_('tooltip_profile_id')} {sanitizedUserId}</div>
+									<div class="tooltip-user-id">
+										{$_('tooltip_profile_id')}
+										{sanitizedUserId}
+									</div>
 									{#if !effectivelyRestricted && !activeError && activeStatus}
 										<div class="tooltip-status-badge {statusBadgeClass}">
 											<span class="status-indicator"></span>
-											{statusBadgeText}
+											<CanvasText text={statusBadgeText} />
 										</div>
 										{@render membershipBadgeSection()}
 									{/if}
@@ -1913,8 +1951,8 @@
 						<div class="tooltip-standard-header" class:is-hidden={showCompactColumns}>
 							{#if (userInfo || groupInfo) && (activeStatus || isNoData)}
 								<div class="tooltip-header">
-									<div class="header-message">
-										{@render headerMessageSection(headerMessage)}
+									<div class="header-message tooltip-header-message tooltip-header-message-canvas">
+										{@render headerMessageSection(headerMessage, true, 'center')}
 									</div>
 								</div>
 							{/if}
@@ -1987,8 +2025,8 @@
 		<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">
 			<!-- Simple header -->
 			<div id="tooltip-header" class="tooltip-header">
-				<div class="header-message">
-					{@render headerMessageSection(headerMessage)}
+				<div class="header-message tooltip-header-message">
+					{@render headerMessageSection(headerMessage, false)}
 				</div>
 			</div>
 
@@ -2000,7 +2038,7 @@
 		<div
 			bind:this={scrollContentRef}
 			style:max-height={tooltipDimensions.height ? 'none' : undefined}
-			class="tooltip-scrollable-content px-3 py-2 text-left"
+			class="tooltip-scrollable-content px-3 py-2 text-start"
 			class:flex-1={!!tooltipDimensions.height}
 		>
 			{@render tooltipContent()}

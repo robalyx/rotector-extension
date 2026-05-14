@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Concordar",
 	"voting_button_disagree": "Discordar",
 	"voting_button_dispute": "Contestar",
-	"voting_count_plural": "{0} votos",
-	"voting_count_singular": "{0} voto",
 	"voting_description": "Ajude outros confirmando se o status deste usuário está correto.",
 	"voting_description_confirmed": "Confirmado como inapropriado. Discorda? Apresente um recurso.",
-	"voting_header_title": "Feedback da Comunidade",
-	"voting_loading": "Carregando..."
+	"voting_header_title": "Feedback da Comunidade"
 }

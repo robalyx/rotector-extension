@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "同意",
 	"voting_button_disagree": "不同意",
 	"voting_button_dispute": "申訴",
-	"voting_count_plural": "{0} 票",
-	"voting_count_singular": "{0} 票",
 	"voting_description": "確認此使用者的狀態是否準確以協助其他人。",
 	"voting_description_confirmed": "已確認為不當內容。有異議？請提交申訴。",
-	"voting_header_title": "社群回饋",
-	"voting_loading": "載入中..."
+	"voting_header_title": "社群回饋"
 }

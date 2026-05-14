@@ -152,7 +152,7 @@
 }
 
 @utility tooltip-avatar {
-	@apply relative z-[1] h-20 w-20 shrink-0 overflow-hidden rounded-full border-2;
+	@apply relative z-1 h-20 w-20 shrink-0 overflow-hidden rounded-full border-2;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 	box-shadow: 0 1px 3px var(--shadow-subtle);
@@ -163,7 +163,7 @@
 }
 
 @utility tooltip-user-info {
-	@apply relative z-[1] ml-4 flex-shrink overflow-hidden text-left;
+	@apply relative z-1 ml-4 min-w-0 shrink overflow-hidden text-left;
 }
 
 @utility tooltip-header-right {
@@ -180,6 +180,10 @@
 
 	.reviewer-text {
 		@apply text-xs;
+	}
+
+	.tooltip-header-message-canvas {
+		@apply text-left;
 	}
 }
 
@@ -209,6 +213,24 @@
 	border-bottom: none;
 	margin: 8px 0;
 	gap: 8px;
+}
+
+@utility tooltip-header-message {
+	@apply w-full min-w-0;
+	overflow-wrap: anywhere;
+	white-space: normal;
+
+	& > span {
+		white-space: normal;
+	}
+}
+
+@utility tooltip-header-message-canvas {
+	@apply flex flex-col gap-1 text-center;
+
+	& > span {
+		@apply block max-w-full min-w-0;
+	}
 }
 
 @utility tooltip-scrollable-content {
@@ -262,10 +284,14 @@
 		}
 
 		& .header-message {
-			@apply flex w-full max-w-xl flex-col items-center gap-1 text-center;
+			@apply flex w-full max-w-xl flex-col flex-nowrap items-center gap-1 text-center;
 
 			& > * {
 				@apply whitespace-nowrap;
+			}
+
+			& > [data-multiline] {
+				white-space: normal;
 			}
 		}
 
@@ -279,5 +305,16 @@
 	& .header-message,
 	& .moderators-text {
 		text-decoration-line: none;
+	}
+
+	& .reason-header,
+	& .discord-alt-id,
+	& .discord-server-count,
+	& .discord-server-date > span {
+		@apply whitespace-nowrap;
+	}
+
+	& .discord-account-content[hidden] {
+		display: block;
 	}
 }

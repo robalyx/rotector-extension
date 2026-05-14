@@ -32,6 +32,16 @@ export const SUPPORTED_LOCALES = [
 
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
+export const RTL_LOCALES: ReadonlySet<string> = new Set<SupportedLocale>(['ar']);
+
+export const NO_WORD_BREAK_LOCALES: ReadonlySet<string> = new Set<SupportedLocale>([
+	'zh-CN',
+	'zh-TW',
+	'ja',
+	'ko',
+	'th'
+]);
+
 export const LOCALE_DISPLAY_NAMES: Record<SupportedLocale, string> = {
 	en: 'English',
 	ar: 'العربية',

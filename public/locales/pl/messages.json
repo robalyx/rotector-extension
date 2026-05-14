@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Zgadzam się",
 	"voting_button_disagree": "Nie zgadzam się",
 	"voting_button_dispute": "Zakwestionuj",
-	"voting_count_plural": "{0} głosów",
-	"voting_count_singular": "{0} głos",
 	"voting_description": "Pomóż innym, potwierdzając, czy status tego użytkownika jest dokładny.",
 	"voting_description_confirmed": "Potwierdzone jako nieodpowiednie. Nie zgadzasz się? Złóż odwołanie.",
-	"voting_header_title": "Opinia społeczności",
-	"voting_loading": "Ładowanie..."
+	"voting_header_title": "Opinia społeczności"
 }

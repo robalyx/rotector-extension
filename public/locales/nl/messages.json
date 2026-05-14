@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Eens",
 	"voting_button_disagree": "Oneens",
 	"voting_button_dispute": "Betwisten",
-	"voting_count_plural": "{0} stemmen",
-	"voting_count_singular": "{0} stem",
 	"voting_description": "Help anderen door te bevestigen of de status van deze gebruiker correct is.",
 	"voting_description_confirmed": "Bevestigd als ongepast. Niet mee eens? Dien een bezwaar in.",
-	"voting_header_title": "Community-feedback",
-	"voting_loading": "Laden..."
+	"voting_header_title": "Community-feedback"
 }

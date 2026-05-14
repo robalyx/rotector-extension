@@ -21,6 +21,11 @@ export const CHANGELOGS: Changelog[] = [
 			{
 				type: 'added',
 				description:
+					'Inspect-resistant tooltip text - The most-fakeable fields now render as canvas pixels so they cannot be edited via inspect-element'
+			},
+			{
+				type: 'added',
+				description:
 					'Queue history user identity - Each entry shows the user’s avatar, display name, and @username instead of just a numeric ID'
 			},
 			{

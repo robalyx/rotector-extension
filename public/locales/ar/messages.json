@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "موافق",
 	"voting_button_disagree": "غير موافق",
 	"voting_button_dispute": "الطعن",
-	"voting_count_plural": "{0} صوت",
-	"voting_count_singular": "{0} صوت",
 	"voting_description": "ساعد الآخرين من خلال تأكيد ما إذا كانت حالة هذا المستخدم دقيقة.",
 	"voting_description_confirmed": "تم التأكيد كمحتوى غير لائق. غير موافق؟ قدّم التماسًا.",
-	"voting_header_title": "ملاحظات المجتمع",
-	"voting_loading": "جارٍ التحميل..."
+	"voting_header_title": "ملاحظات المجتمع"
 }

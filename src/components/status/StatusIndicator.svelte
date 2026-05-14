@@ -6,6 +6,7 @@
 	import { logger } from '@/lib/utils/logging/logger';
 	import { sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
 	import { getStatusConfig } from '@/lib/utils/status/status-config';
+	import CanvasText from '@/components/ui/CanvasText.svelte';
 	import { groupStatusService, userStatusService } from '@/lib/services/rotector/entity-status';
 	import { countCustomApiFlags } from '@/lib/services/rotector/unified-query';
 	import { ROTECTOR_API_ID } from '@/lib/stores/custom-apis';
@@ -315,7 +316,7 @@
 
 	{#if showText}
 		<span class={statusConfig.textClass}>
-			{statusConfig.textContent}
+			<CanvasText text={statusConfig.textContent} />
 		</span>
 	{/if}
 </button>

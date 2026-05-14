@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Agree",
 	"voting_button_disagree": "Disagree",
 	"voting_button_dispute": "Dispute",
-	"voting_count_plural": "{0} votes",
-	"voting_count_singular": "{0} vote",
 	"voting_description": "Help others by confirming if this user's status is accurate.",
 	"voting_description_confirmed": "Confirmed as inappropriate. Disagree? File an appeal.",
-	"voting_header_title": "Community Feedback",
-	"voting_loading": "Loading..."
+	"voting_header_title": "Community Feedback"
 }

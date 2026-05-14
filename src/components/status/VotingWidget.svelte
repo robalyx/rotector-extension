@@ -5,6 +5,7 @@
 	import { _ } from 'svelte-i18n';
 	import { ArrowUp, ArrowDown, Flag } from '@lucide/svelte';
 	import ExtLink from '@/components/ui/ExtLink.svelte';
+	import CanvasText from '@/components/ui/CanvasText.svelte';
 
 	interface Props {
 		voteData?: VoteData | null;
@@ -64,15 +65,6 @@
 	<!-- Header -->
 	<div class="voting-header">
 		<span class="voting-title">{$_('voting_header_title')}</span>
-		<span class="voting-count" aria-atomic="true" aria-live="polite">
-			{#if loading}
-				{$_('voting_loading')}
-			{:else}
-				{$_(voteStats.totalVotes === 1 ? 'voting_count_singular' : 'voting_count_plural', {
-					values: { 0: voteStats.totalVotes.toString() }
-				})}
-			{/if}
-		</span>
 	</div>
 
 	<!-- Vote bar and stats -->
@@ -82,10 +74,12 @@
 		</div>
 		<div class="voting-stats">
 			<span>
-				{loading ? '-' : `${String(voteStats.percentage)}%`}
+				<CanvasText text={loading ? '-' : `${String(voteStats.percentage)}%`} />
 			</span>
 			<span>
-				{loading ? '-' : `${String(voteStats.upvotes)} / ${String(voteStats.totalVotes)}`}
+				<CanvasText
+					text={loading ? '-' : `${String(voteStats.upvotes)} / ${String(voteStats.totalVotes)}`}
+				/>
 			</span>
 		</div>
 	</div>
@@ -145,7 +139,7 @@
 	<!-- Error display -->
 	{#if error}
 		<div class="voting-error" role="alert">
-			{error}
+			<CanvasText multiline text={error} />
 		</div>
 	{/if}
 </div>

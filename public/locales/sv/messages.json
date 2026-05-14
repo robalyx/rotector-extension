@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Håller med",
 	"voting_button_disagree": "Håller inte med",
 	"voting_button_dispute": "Bestrid",
-	"voting_count_plural": "{0} röster",
-	"voting_count_singular": "{0} röst",
 	"voting_description": "Hjälp andra genom att bekräfta om denna användares status är korrekt.",
 	"voting_description_confirmed": "Bekräftad som olämplig. Håller du inte med? Lämna in ett överklagande.",
-	"voting_header_title": "Gemenskapsfeedback",
-	"voting_loading": "Laddar..."
+	"voting_header_title": "Gemenskapsfeedback"
 }

@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Katılıyorum",
 	"voting_button_disagree": "Katılmıyorum",
 	"voting_button_dispute": "İtiraz Et",
-	"voting_count_plural": "{0} oy",
-	"voting_count_singular": "{0} oy",
 	"voting_description": "Bu kullanıcının durumunun doğru olup olmadığını onaylayarak diğerlerine yardımcı olun.",
 	"voting_description_confirmed": "Uygunsuz olarak onaylandı. Katılmıyor musunuz? İtirazda bulunun.",
-	"voting_header_title": "Topluluk Geri Bildirimi",
-	"voting_loading": "Yükleniyor..."
+	"voting_header_title": "Topluluk Geri Bildirimi"
 }

@@ -19,6 +19,7 @@
 	import BloxlinkIcon from '@/components/icons/BloxlinkIcon.svelte';
 	import RoVerIcon from '@/components/icons/RoVerIcon.svelte';
 	import ExtLink from '@/components/ui/ExtLink.svelte';
+	import CanvasText from '@/components/ui/CanvasText.svelte';
 	import { getDiscordData } from '@/lib/services/third-party/discord-data';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
@@ -194,40 +195,46 @@
 	{#if isLoading}
 		<div class="discord-loading">
 			<div class="discord-loading-shimmer"></div>
-			<span class="discord-loading-text">{$_('tooltip_discord_loading')}</span>
+			<span class="discord-loading-text"><CanvasText text={$_('tooltip_discord_loading')} /></span>
 		</div>
 	{:else if hasData}
 		<!-- Summary bar -->
 		<div class="discord-summary">
 			<span class="discord-summary-item">
 				<Users size={12} />
-				{$_(
-					discordAccounts.length === 1
-						? 'tooltip_discord_accounts_singular'
-						: 'tooltip_discord_accounts_plural',
-					{ values: { 0: discordAccounts.length } }
-				)}
+				<CanvasText
+					text={$_(
+						discordAccounts.length === 1
+							? 'tooltip_discord_accounts_singular'
+							: 'tooltip_discord_accounts_plural',
+						{ values: { 0: discordAccounts.length } }
+					)}
+				/>
 			</span>
 			<span class="discord-summary-separator"></span>
 			<span class="discord-summary-item">
 				<Server size={12} />
-				{$_(
-					totalServers === 1
-						? 'tooltip_discord_servers_singular'
-						: 'tooltip_discord_servers_plural',
-					{ values: { 0: totalServers } }
-				)}
+				<CanvasText
+					text={$_(
+						totalServers === 1
+							? 'tooltip_discord_servers_singular'
+							: 'tooltip_discord_servers_plural',
+						{ values: { 0: totalServers } }
+					)}
+				/>
 			</span>
 			{#if altAccounts.length > 0}
 				<span class="discord-summary-separator"></span>
 				<span class="discord-summary-item">
 					<span class="discord-roblox-icon"><SiRoblox size={12} /></span>
-					{$_(
-						altAccounts.length === 1
-							? 'tooltip_discord_alts_singular'
-							: 'tooltip_discord_alts_plural',
-						{ values: { 0: altAccounts.length } }
-					)}
+					<CanvasText
+						text={$_(
+							altAccounts.length === 1
+								? 'tooltip_discord_alts_singular'
+								: 'tooltip_discord_alts_plural',
+							{ values: { 0: altAccounts.length } }
+						)}
+					/>
 				</span>
 			{/if}
 			{#if discordAccounts.length > 0}
@@ -310,65 +317,71 @@
 						</ExtLink>
 					{/each}
 					<span class="discord-server-count">
-						{$_(
-							account.servers.length === 1
-								? 'tooltip_discord_servers_singular'
-								: 'tooltip_discord_servers_plural',
-							{ values: { 0: account.servers.length } }
-						)}
+						<CanvasText
+							text={$_(
+								account.servers.length === 1
+									? 'tooltip_discord_servers_singular'
+									: 'tooltip_discord_servers_plural',
+								{ values: { 0: account.servers.length } }
+							)}
+						/>
 					</span>
 				</button>
 
-				{#if isExpanded}
-					<div class="discord-account-content">
-						{#each account.servers as server (server.serverId)}
-							<div class="discord-server-item">
-								<div class="discord-server-info">
-									<span class="discord-server-name">{server.serverName}</span>
-									{#if server.isTase}
-										<span class="discord-tase-icon" title={$_('tooltip_discord_tase_description')}>
-											<Eye size={12} strokeWidth={2.5} />
-										</span>
-									{/if}
-									{#if server.inGracePeriod}
-										<span class="discord-grace-icon" title={$_('tooltip_discord_grace_period')}>
-											<Hourglass size={12} strokeWidth={2.5} />
-										</span>
-									{/if}
-								</div>
-								<div class="discord-server-date">
-									{#if server.joinedAt != null}
-										<span title={$_('tooltip_discord_joined_description')}
-											>{$_('tooltip_discord_joined', {
+				<div class="discord-account-content" hidden={!isExpanded}>
+					{#each account.servers as server (server.serverId)}
+						<div class="discord-server-item">
+							<div class="discord-server-info">
+								<span class="discord-server-name"><CanvasText text={server.serverName} /></span>
+								{#if server.isTase}
+									<span class="discord-tase-icon" title={$_('tooltip_discord_tase_description')}>
+										<Eye size={12} strokeWidth={2.5} />
+									</span>
+								{/if}
+								{#if server.inGracePeriod}
+									<span class="discord-grace-icon" title={$_('tooltip_discord_grace_period')}>
+										<Hourglass size={12} strokeWidth={2.5} />
+									</span>
+								{/if}
+							</div>
+							<div class="discord-server-date">
+								{#if server.joinedAt != null}
+									<span title={$_('tooltip_discord_joined_description')}>
+										<CanvasText
+											text={$_('tooltip_discord_joined', {
 												values: {
 													0: formatShortDate(server.joinedAt) ?? $_('tooltip_discord_unknown')
 												}
-											})}</span
-										>
-									{:else}
-										<span title={$_('tooltip_discord_seen_description')}
-											>{$_('tooltip_discord_seen', {
+											})}
+										/>
+									</span>
+								{:else}
+									<span title={$_('tooltip_discord_seen_description')}>
+										<CanvasText
+											text={$_('tooltip_discord_seen', {
 												values: {
 													0: formatTimestamp(server.firstSeenAt)
 												}
-											})}</span
-										>
-									{/if}
-									<span class="discord-date-separator">•</span>
-									<span title={$_('tooltip_discord_updated_description')}
-										>{$_('tooltip_discord_updated', {
+											})}
+										/>
+									</span>
+								{/if}
+								<span class="discord-date-separator">•</span>
+								<span title={$_('tooltip_discord_updated_description')}>
+									<CanvasText
+										text={$_('tooltip_discord_updated', {
 											values: {
 												0: server.updatedAt
 													? formatTimestamp(server.updatedAt)
 													: $_('tooltip_discord_unknown')
 											}
-										})}</span
-									>
-								</div>
+										})}
+									/>
+								</span>
 							</div>
-						{/each}
-					</div>
-				{/if}
+						</div>
+					{/each}
+				</div>
 			</div>
 		{/each}
 
@@ -382,25 +395,29 @@
 						class="discord-alt-link"
 						href="https://www.roblox.com/users/{alt.robloxUserId}/profile"
 					>
-						{alt.robloxUsername}
+						<CanvasText text={alt.robloxUsername} />
 					</ExtLink>
-					<span class="discord-alt-id"
-						>{$_('tooltip_discord_id_label', { values: { 0: alt.robloxUserId } })}</span
-					>
+					<span class="discord-alt-id">
+						{$_('tooltip_discord_id_label', { values: { 0: alt.robloxUserId } })}
+					</span>
 					{#each altSourceInfo as source (source.code)}
 						<ExtLink class="discord-source-link" href={source.url} title={source.name}>
 							{@render sourceIcon(source.code)}
 						</ExtLink>
 					{/each}
 					<span class="discord-server-count">
-						{$_('tooltip_discord_updated', { values: { 0: formatTimestamp(alt.updatedAt) } })}
+						<CanvasText
+							text={$_('tooltip_discord_updated', {
+								values: { 0: formatTimestamp(alt.updatedAt) }
+							})}
+						/>
 					</span>
 				</div>
 			</div>
 		{/each}
 	{:else}
 		{#each fallbackEvidence as evidence, index (index)}
-			<div class="evidence-item">{evidence}</div>
+			<div class="evidence-item"><CanvasText multiline text={evidence} /></div>
 		{/each}
 	{/if}
 </div>

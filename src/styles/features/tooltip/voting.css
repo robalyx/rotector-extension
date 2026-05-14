@@ -14,7 +14,7 @@
 		@apply relative opacity-70;
 
 		&::after {
-			@apply shimmer absolute inset-0 z-[1] rounded-md;
+			@apply shimmer absolute inset-0 z-1 rounded-md;
 			content: '';
 			background: linear-gradient(90deg, transparent, rgb(255 255 255 / 10%), transparent);
 			background-size: 200% 100%;
@@ -30,11 +30,6 @@
 	@apply text-xs-plus font-semibold whitespace-nowrap uppercase;
 	letter-spacing: 0.08em;
 	color: var(--color-text-subtle);
-}
-
-@utility voting-count {
-	@apply text-xs-plus font-medium whitespace-nowrap;
-	color: var(--color-text-tertiary);
 }
 
 @utility voting-bar {

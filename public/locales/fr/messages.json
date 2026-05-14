@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "D'accord",
 	"voting_button_disagree": "Pas d'accord",
 	"voting_button_dispute": "Contester",
-	"voting_count_plural": "{0} votes",
-	"voting_count_singular": "{0} vote",
 	"voting_description": "Aidez les autres en confirmant si le statut de cet utilisateur est exact.",
 	"voting_description_confirmed": "Confirmé comme inapproprié. Pas d'accord ? Déposez un appel.",
-	"voting_header_title": "Retour de la Communauté",
-	"voting_loading": "Chargement..."
+	"voting_header_title": "Retour de la Communauté"
 }

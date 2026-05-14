@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "सहमत",
 	"voting_button_disagree": "असहमत",
 	"voting_button_dispute": "चुनौती दें",
-	"voting_count_plural": "{0} मत",
-	"voting_count_singular": "{0} मत",
 	"voting_description": "यह पुष्टि करके दूसरों की मदद करें कि क्या यह उपयोगकर्ता की स्थिति सटीक है।",
 	"voting_description_confirmed": "अनुचित के रूप में पुष्टि की गई। असहमत हैं? अपील दर्ज करें।",
-	"voting_header_title": "समुदाय फीडबैक",
-	"voting_loading": "लोड हो रहा है..."
+	"voting_header_title": "समुदाय फीडबैक"
 }

@@ -134,7 +134,7 @@
    ================================= */
 
 @utility membership-pill-icon {
-	@apply relative z-[1] inline-flex shrink-0 items-center justify-center;
+	@apply relative z-1 inline-flex shrink-0 items-center justify-center;
 	width: 12px;
 	height: 12px;
 
@@ -149,7 +149,7 @@
    ================================= */
 
 @utility membership-pill-label {
-	@apply text-2xs relative z-[1] leading-none font-extrabold uppercase;
+	@apply text-2xs relative z-1 leading-none font-extrabold uppercase;
 	letter-spacing: 0.06em;
 }
 

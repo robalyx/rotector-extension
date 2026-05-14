@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "De acuerdo",
 	"voting_button_disagree": "En desacuerdo",
 	"voting_button_dispute": "Impugnar",
-	"voting_count_plural": "{0} votos",
-	"voting_count_singular": "{0} voto",
 	"voting_description": "Ayuda a otros confirmando si el estado de este usuario es preciso.",
 	"voting_description_confirmed": "Confirmado como inapropiado. ¿No estás de acuerdo? Presenta una apelación.",
-	"voting_header_title": "Opinión de la Comunidad",
-	"voting_loading": "Cargando..."
+	"voting_header_title": "Opinión de la Comunidad"
 }

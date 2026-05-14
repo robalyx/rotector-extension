@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Согласен",
 	"voting_button_disagree": "Не согласен",
 	"voting_button_dispute": "Оспорить",
-	"voting_count_plural": "{0} голосов",
-	"voting_count_singular": "{0} голос",
 	"voting_description": "Помогите другим, подтвердив, правильный ли статус этого пользователя.",
 	"voting_description_confirmed": "Подтверждено как недопустимое. Не согласны? Подайте апелляцию.",
-	"voting_header_title": "Отзывы сообщества",
-	"voting_loading": "Загрузка..."
+	"voting_header_title": "Отзывы сообщества"
 }

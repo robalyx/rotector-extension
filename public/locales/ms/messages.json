@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "Setuju",
 	"voting_button_disagree": "Tidak Setuju",
 	"voting_button_dispute": "Pertikai",
-	"voting_count_plural": "{0} undian",
-	"voting_count_singular": "{0} undian",
 	"voting_description": "Bantu orang lain dengan mengesahkan jika status pengguna ini tepat.",
 	"voting_description_confirmed": "Disahkan sebagai tidak sesuai. Tidak setuju? Failkan rayuan.",
-	"voting_header_title": "Maklum Balas Komuniti",
-	"voting_loading": "Memuatkan..."
+	"voting_header_title": "Maklum Balas Komuniti"
 }

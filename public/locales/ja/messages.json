@@ -1082,10 +1082,7 @@
 	"voting_button_agree": "賛成",
 	"voting_button_disagree": "反対",
 	"voting_button_dispute": "異議申立",
-	"voting_count_plural": "{0}票",
-	"voting_count_singular": "{0}票",
 	"voting_description": "このユーザーのステータスが正確かどうかを確認して、他のユーザーを支援してください。",
 	"voting_description_confirmed": "不適切として確定されています。同意できませんか？異議を申し立ててください。",
-	"voting_header_title": "コミュニティフィードバック",
-	"voting_loading": "読み込み中..."
+	"voting_header_title": "コミュニティフィードバック"
 }

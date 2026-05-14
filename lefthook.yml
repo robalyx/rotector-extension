@@ -3,15 +3,15 @@ pre-commit:
   jobs:
     - name: scripts
       glob: '**/*.{ts,js,svelte}'
-      run: bunx eslint --cache --fix {staged_files} && bunx prettier --write {staged_files} && git add {staged_files}
+      run: bunx eslint --cache --fix {staged_files} && bunx oxfmt {staged_files} && git add {staged_files}
 
     - name: styles
       glob: 'src/styles/**/*.css'
-      run: bunx stylelint --cache --fix {staged_files} && bunx prettier --write {staged_files} && git add {staged_files}
+      run: bunx stylelint --cache --fix {staged_files} && bunx oxfmt {staged_files} && git add {staged_files}
 
     - name: other
       glob: '**/*.{json,md,yml,yaml}'
-      run: bunx prettier --write {staged_files} && git add {staged_files}
+      run: bunx oxfmt {staged_files} && git add {staged_files}
 
 commit-msg:
   jobs:

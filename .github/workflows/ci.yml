@@ -52,3 +52,6 @@ jobs:
 
       - name: Run i18n validation
         run: bun run validate:i18n
+
+      - name: Verify production build
+        run: bun run build

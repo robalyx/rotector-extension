@@ -45,8 +45,8 @@ export async function loadVoteData(userId: string | number): Promise<void> {
 			accessDenied: false,
 			timestamp: Date.now()
 		});
-	} catch (err) {
-		applyError(key, err, 'Failed to load voting data');
+	} catch (error) {
+		applyError(key, error, 'Failed to load voting data');
 	}
 }
 
@@ -67,8 +67,8 @@ export async function submitVoteData(userId: string | number, voteType: VoteType
 			timestamp: Date.now()
 		});
 		logger.userAction('vote_submitted', { userId: key, voteType, success: true });
-	} catch (err) {
-		applyError(key, err, 'Failed to submit vote');
+	} catch (error) {
+		applyError(key, error, 'Failed to submit vote');
 	}
 }
 

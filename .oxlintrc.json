@@ -1,0 +1,14 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"overrides": [
+		{
+			"files": ["src/lib/services/cipher/**/*.ts"],
+			"rules": {
+				"no-control-regex": "off"
+			}
+		}
+	],
+	"rules": {
+		"no-unassigned-vars": "off"
+	}
+}

@@ -19,7 +19,7 @@
 	border-right: 1px solid var(--color-border-subtle);
 
 	& img {
-		@apply block w-auto;
+		@apply block inline-auto;
 		height: 28px;
 	}
 }
@@ -55,11 +55,11 @@
    ================================= */
 
 @utility report-bar-actions {
-	@apply ml-auto flex shrink-0 items-center gap-1.5;
+	@apply ms-auto flex shrink-0 items-center gap-1.5;
 }
 
 @utility report-bar-btn-evidence {
-	@apply inline-flex cursor-pointer items-center gap-1 rounded font-medium;
+	@apply inline-flex cursor-pointer items-center gap-1 rounded-sm font-medium;
 	padding: 0.3125rem 0.5rem;
 	font-size: 12px;
 	color: var(--color-text-subtle);
@@ -78,7 +78,7 @@
 }
 
 @utility report-bar-btn-fill {
-	@apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded font-medium text-white;
+	@apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-sm font-medium text-white;
 	padding: 0.3125rem 0.625rem;
 	font-size: 12px;
 	background-color: var(--color-primary);
@@ -143,7 +143,7 @@
 }
 
 @utility report-bar-evidence-item {
-	@apply mb-1 rounded px-2 py-1 break-words;
+	@apply mb-1 rounded-sm px-2 py-1 wrap-break-word;
 	font-size: 12px;
 	color: var(--color-text);
 	background-color: color-mix(in srgb, var(--color-error) 6%, transparent);
@@ -159,7 +159,7 @@
    ================================= */
 
 @utility report-bar-feedback {
-	@apply flex w-full items-center gap-2 font-medium;
+	@apply flex items-center gap-2 font-medium inline-full;
 	font-size: 13px;
 
 	&.success {

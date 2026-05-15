@@ -25,7 +25,7 @@ const pendingRequests = new Map<string, Promise<PaginatedOutfitsResult>>();
 // Returns a page of outfits using cached cursor chains and dedupes concurrent fetches per page
 export async function getUserOutfits(
 	userId: string | number,
-	page: number = 1,
+	page = 1,
 	itemsPerPage?: number
 ): Promise<PaginatedOutfitsResult> {
 	const buildKey = (p: number) => {

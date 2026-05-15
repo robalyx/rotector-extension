@@ -3,7 +3,7 @@
    ================================= */
 
 @utility outfit-picker-card {
-	@apply w-full overflow-hidden rounded-md;
+	@apply overflow-hidden rounded-md inline-full;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 	transition:
@@ -25,7 +25,7 @@
 }
 
 @utility outfit-picker-header {
-	@apply flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-3.5 py-3;
+	@apply flex cursor-pointer items-center justify-between border-none bg-transparent px-3.5 py-3 inline-full;
 	color: var(--color-text-heading);
 	transition: background-color 0.15s ease;
 
@@ -93,7 +93,7 @@
 }
 
 @utility outfit-picker-retry {
-	@apply cursor-pointer rounded px-3 py-1.5 text-xs font-medium;
+	@apply cursor-pointer rounded-sm px-3 py-1.5 text-xs font-medium;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
@@ -117,7 +117,7 @@
    ================================= */
 
 @utility outfit-picker-grid {
-	@apply grid w-full gap-2 py-2;
+	@apply grid gap-2 py-2 inline-full;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -156,7 +156,7 @@
 }
 
 @utility outfit-thumbnail-container {
-	@apply relative w-full;
+	@apply relative inline-full;
 	aspect-ratio: 1 / 1;
 
 	&:hover .view-3d-button {
@@ -166,16 +166,16 @@
 }
 
 @utility outfit-thumbnail {
-	@apply h-full w-full rounded object-cover;
+	@apply rounded-sm object-cover block-full inline-full;
 }
 
 @utility outfit-thumbnail-pending {
-	@apply flex h-full w-full items-center justify-center rounded;
+	@apply flex items-center justify-center rounded-sm block-full inline-full;
 	background-color: var(--color-bg-secondary);
 }
 
 @utility outfit-thumbnail-placeholder {
-	@apply flex h-full w-full items-center justify-center rounded;
+	@apply flex items-center justify-center rounded-sm block-full inline-full;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
@@ -190,12 +190,12 @@
 }
 
 @utility outfit-name {
-	@apply w-full overflow-hidden text-center text-xs text-ellipsis whitespace-nowrap;
+	@apply truncate text-center text-xs inline-full;
 	color: var(--color-text);
 }
 
 @utility outfit-name-container {
-	@apply flex w-full flex-col items-center gap-0;
+	@apply flex flex-col items-center gap-0 inline-full;
 }
 
 @utility outfit-current-label {
@@ -224,7 +224,7 @@
 }
 
 @utility outfit-pagination-btn {
-	@apply inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded;
+	@apply inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);

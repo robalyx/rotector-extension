@@ -33,7 +33,7 @@
 	}
 
 	&:focus-visible {
-		@apply rounded;
+		@apply rounded-sm;
 		outline: 2px solid var(--color-primary);
 		outline-offset: 2px;
 	}
@@ -104,7 +104,7 @@
 }
 
 @utility queue-row-identity {
-	@apply flex flex-1 cursor-pointer items-center gap-2 border-none bg-transparent p-0 text-left;
+	@apply flex flex-1 cursor-pointer items-center gap-2 border-none bg-transparent p-0 text-start;
 	min-width: 0;
 
 	&:focus-visible {
@@ -122,7 +122,7 @@
 	box-shadow: 0 0 0 2px var(--color-border-subtle);
 
 	& img {
-		@apply h-full w-full object-cover;
+		@apply object-cover block-full inline-full;
 	}
 }
 
@@ -144,12 +144,12 @@
 }
 
 @utility queue-row-name {
-	@apply overflow-hidden text-xs font-semibold text-ellipsis whitespace-nowrap;
+	@apply truncate text-xs font-semibold;
 	color: var(--color-text-heading);
 }
 
 @utility queue-row-meta {
-	@apply text-2xs overflow-hidden text-ellipsis whitespace-nowrap;
+	@apply text-2xs truncate;
 	color: var(--color-text-tertiary);
 }
 
@@ -188,7 +188,7 @@
 }
 
 @utility queue-row-action {
-	@apply inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
+	@apply inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
 	transition:
 		background-color 0.15s ease,

@@ -60,9 +60,9 @@
 
 	let userStatus = $state<CombinedStatus<UserStatus> | null>(null);
 
-	let userDisplayName = $state<string | undefined>(undefined);
-	let userUsername = $state<string | undefined>(undefined);
-	let userAvatarUrl = $state<string | undefined>(undefined);
+	let userDisplayName = $state<string | undefined>();
+	let userUsername = $state<string | undefined>();
+	let userAvatarUrl = $state<string | undefined>();
 
 	const userIsFlagged = $derived(isFlagged(userStatus));
 
@@ -222,7 +222,7 @@
 				container.className = COMPONENT_CLASSES.PROFILE_STATUS;
 				container.dataset['rotectorOwned'] = 'true';
 
-				titleContainer.appendChild(container);
+				titleContainer.append(container);
 			}
 
 			statusContainer = container;
@@ -238,7 +238,7 @@
 		try {
 			if (statusComponent) void unmount(statusComponent);
 
-			statusContainer.innerHTML = '';
+			statusContainer.replaceChildren();
 
 			statusComponent = mount(StatusIndicator, {
 				target: statusContainer,
@@ -292,11 +292,11 @@
 		try {
 			if (pillComponent) void unmount(pillComponent);
 
-			if (!membershipPillContainer || !membershipPillContainer.isConnected) {
+			if (!membershipPillContainer?.isConnected) {
 				const container = document.createElement('div');
 				container.className = COMPONENT_CLASSES.MEMBERSHIP_BADGE_PILL;
 				container.dataset['rotectorOwned'] = 'true';
-				textColumn.appendChild(container);
+				textColumn.append(container);
 				membershipPillContainer = container;
 			}
 
@@ -434,7 +434,7 @@
 
 			const container = document.createElement('span');
 			container.className = COMPONENT_CLASSES.SCAN_HOST;
-			heading.insertAdjacentElement('afterend', container);
+			heading.after(container);
 
 			const component = mount(FriendsScanBar, {
 				target: container,
@@ -464,7 +464,7 @@
 			// Append inside the h2 (Roblox's own .friends-count pattern) to stay inline with the heading
 			const container = document.createElement('span');
 			container.className = COMPONENT_CLASSES.SCAN_HOST;
-			result.element.appendChild(container);
+			result.element.append(container);
 
 			const component = mount(GroupsScanBar, {
 				target: container,
@@ -502,7 +502,7 @@
 		const container = document.createElement('div');
 		container.className = COMPONENT_CLASSES.CIPHER_INDICATOR;
 		container.dataset['rotectorOwned'] = 'true';
-		descEl.insertAdjacentElement('afterend', container);
+		descEl.after(container);
 		cipherContainer = container;
 
 		cipherComponent = mount(CipherIndicator, {
@@ -611,7 +611,7 @@
 
 		try {
 			await blockUser(userId);
-			window.location.reload();
+			globalThis.location.reload();
 		} catch (error) {
 			logger.error('Failed to block user:', error);
 		}
@@ -644,7 +644,7 @@
 			if (statusContainer.dataset['rotectorOwned'] === 'true') {
 				statusContainer.remove();
 			} else {
-				statusContainer.innerHTML = '';
+				statusContainer.replaceChildren();
 			}
 		}
 

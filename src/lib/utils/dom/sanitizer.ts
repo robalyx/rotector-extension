@@ -1,10 +1,10 @@
-const ALLOWED_PROTOCOLS = ['http:', 'https:'];
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
 
 // Returns null for non-positive, NaN, or beyond-safe-integer ids so callers can fail closed
 export function sanitizeEntityId(entityId: string | number): string | null {
-	const parsed = typeof entityId === 'string' ? parseInt(entityId, 10) : entityId;
+	const parsed = typeof entityId === 'string' ? Number.parseInt(entityId, 10) : entityId;
 
-	if (isNaN(parsed) || parsed <= 0 || parsed > Number.MAX_SAFE_INTEGER) {
+	if (Number.isNaN(parsed) || parsed <= 0 || parsed > Number.MAX_SAFE_INTEGER) {
 		return null;
 	}
 
@@ -45,7 +45,7 @@ export function sanitizeUrl(url: string): string | null {
 	try {
 		const parsed = new URL(url);
 
-		if (!ALLOWED_PROTOCOLS.includes(parsed.protocol)) {
+		if (!ALLOWED_PROTOCOLS.has(parsed.protocol)) {
 			return null;
 		}
 

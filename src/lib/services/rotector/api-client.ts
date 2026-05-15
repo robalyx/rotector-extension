@@ -101,7 +101,7 @@ class RotectorApiClient {
 	async getGroupTrackedUsers(
 		groupId: string | number,
 		cursor?: string,
-		limit: number = 24,
+		limit = 24,
 		active?: 'true' | 'false'
 	): Promise<GroupTrackedUsersResponse> {
 		return sendMessage<GroupTrackedUsersResponse>(API_ACTIONS.GET_GROUP_TRACKED_USERS, {
@@ -187,7 +187,7 @@ class RotectorApiClient {
 	async translateTexts(
 		texts: string[],
 		targetLanguage: string,
-		sourceLanguage: string = 'en'
+		sourceLanguage = 'en'
 	): Promise<TranslationResult> {
 		return sendMessage<TranslationResult>(API_ACTIONS.TRANSLATE_TEXT, {
 			texts,

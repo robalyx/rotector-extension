@@ -64,16 +64,17 @@
 		];
 
 		if ($latestSnapshot) {
-			lines.push('=== System Metrics ===');
-			lines.push(`Observers: ${String($latestSnapshot.observerCount)}`);
-			lines.push(`DOM Nodes: ${formatNumber($latestSnapshot.domNodeCount)}`);
+			lines.push(
+				'=== System Metrics ===',
+				`Observers: ${String($latestSnapshot.observerCount)}`,
+				`DOM Nodes: ${formatNumber($latestSnapshot.domNodeCount)}`
+			);
 			if ($latestSnapshot.memory) {
 				lines.push(
 					`JS Heap: ${formatBytes($latestSnapshot.memory.usedJSHeapSize)} / ${formatBytes($latestSnapshot.memory.jsHeapSizeLimit)}`
 				);
 			}
-			lines.push(`Long Tasks: ${String($longTaskCount)}`);
-			lines.push('');
+			lines.push(`Long Tasks: ${String($longTaskCount)}`, '');
 		}
 
 		if ($recentLongTasks.length > 0) {
@@ -99,11 +100,11 @@
 
 		if ($slowestOperations.length > 0) {
 			lines.push('=== Slowest Operations ===');
-			$slowestOperations.forEach((entry, i) => {
+			for (const [i, entry] of $slowestOperations.entries()) {
 				lines.push(
 					`${String(i + 1)}. [${entry.category}] ${entry.operation} - ${formatDurationMs(entry.duration)}`
 				);
-			});
+			}
 			lines.push('');
 		}
 
@@ -301,7 +302,7 @@
 				{#each recentTraces as entry (entry.id)}
 					<div>
 						<button
-							class="perf-trace-entry w-full text-left"
+							class="perf-trace-entry text-start inline-full"
 							onclick={() => entry.metadata && toggleExpand(entry.id)}
 							type="button"
 						>

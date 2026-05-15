@@ -35,8 +35,8 @@
 		const selector = `#${CSS.escape(listboxId)}`;
 
 		return new Promise((resolve) => {
-			const existing = document.querySelector(selector);
-			if (existing?.getAttribute('data-state') === 'open') {
+			const existing = document.querySelector<HTMLElement>(selector);
+			if (existing?.dataset['state'] === 'open') {
 				resolve(true);
 				return;
 			}
@@ -48,8 +48,8 @@
 			}, 3000);
 
 			pendingObserver = new MutationObserver(() => {
-				const listbox = document.querySelector(selector);
-				if (listbox?.getAttribute('data-state') === 'open') {
+				const listbox = document.querySelector<HTMLElement>(selector);
+				if (listbox?.dataset['state'] === 'open') {
 					clearTimeout(pendingTimeout);
 					pendingObserver?.disconnect();
 					pendingObserver = null;
@@ -82,9 +82,9 @@
 			return;
 		}
 
-		const option = Array.from(
-			document.querySelectorAll<HTMLElement>(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
-		).find((el) => {
+		const option = [
+			...document.querySelectorAll<HTMLElement>(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION)
+		].find((el) => {
 			const text = el.querySelector(REPORT_PAGE_SELECTORS.DROPDOWN_OPTION_TEXT);
 			return text?.textContent.includes(REPORT_CATEGORY);
 		});

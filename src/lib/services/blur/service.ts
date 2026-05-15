@@ -162,13 +162,12 @@ function buildBlurCSS(allEnabled = false): string {
 		'filter: blur(4px) !important; clip-path: inset(0); user-select: none;'
 	);
 	if (bs.descriptions) {
-		[BLUR_SELECTORS.PROFILE_DESCRIPTION_STANDARD, BLUR_SELECTORS.PROFILE_DESCRIPTION_BTR].forEach(
-			(sel) => {
-				rules.push(
-					`${sel}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`
-				);
-			}
-		);
+		for (const sel of [
+			BLUR_SELECTORS.PROFILE_DESCRIPTION_STANDARD,
+			BLUR_SELECTORS.PROFILE_DESCRIPTION_BTR
+		]) {
+			rules.push(`${sel}:not([data-blur-user-id]) { filter: none !important; user-select: auto; }`);
+		}
 	}
 
 	// Avatar blur
@@ -189,25 +188,17 @@ function buildBlurCSS(allEnabled = false): string {
 			'filter: blur(6px) !important; clip-path: inset(0);'
 		);
 		rules.push(
-			`html.${PROFILE_BLUR_CLASS_FLAGGED} ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, html.${PROFILE_BLUR_CLASS_FLAGGED} ${BLUR_SELECTORS.PROFILE_OUTFIT_3D} { filter: blur(12px) !important; }`
+			`html.${PROFILE_BLUR_CLASS_FLAGGED} ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, html.${PROFILE_BLUR_CLASS_FLAGGED} ${BLUR_SELECTORS.PROFILE_OUTFIT_3D} { filter: blur(12px) !important; }`,
+			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_3D} { filter: none !important; }`,
+			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA} { filter: none !important; }`,
+			`.avatar-card-label:not([data-blur-user-id]) { filter: none !important; }`
 		);
-		rules.push(
-			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_2D}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_OUTFIT_3D} { filter: none !important; }`
-		);
-		rules.push(
-			`html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_STANDARD}, html.${PROFILE_BLUR_CLASS_SAFE} ${BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING_ROVALRA} { filter: none !important; }`
-		);
-		rules.push(`.avatar-card-label:not([data-blur-user-id]) { filter: none !important; }`);
 	}
 
 	// Reveal override
-	rules.push(`.blur-revealed { filter: none !important; user-select: auto; }`);
-
-	// Click-to-reveal cursor
-	rules.push(`[${BLUR_SELECTORS.BLUR_USER_ID}] { cursor: pointer; }`);
-
-	// Disable link overlays
 	rules.push(
+		`.blur-revealed { filter: none !important; user-select: auto; }`,
+		`[${BLUR_SELECTORS.BLUR_USER_ID}] { cursor: pointer; }`,
 		`.avatar-container:has([${BLUR_SELECTORS.BLUR_USER_ID}]) > a { pointer-events: none; }`
 	);
 
@@ -278,19 +269,19 @@ function buildBlurCSS(allEnabled = false): string {
 }
 
 function getOrCreateStyleElement(): HTMLStyleElement {
-	const existing = document.getElementById(BLUR_STYLE_ID);
+	const existing = document.querySelector(`#${BLUR_STYLE_ID}`);
 	if (existing instanceof HTMLStyleElement) return existing;
 	const el = document.createElement('style');
 	el.id = BLUR_STYLE_ID;
 	// At document_start, document.head may not be parsed yet so fall back to documentElement
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- document.head is typed non-null but is null at document_start before <head> parses
-	(document.head ?? document.documentElement).appendChild(el);
+	(document.head ?? document.documentElement).append(el);
 	return el;
 }
 
 export function injectBlurStyles(): void {
 	if (!isBlurEnabled()) {
-		document.getElementById(BLUR_STYLE_ID)?.remove();
+		document.querySelector(`#${BLUR_STYLE_ID}`)?.remove();
 		return;
 	}
 	getOrCreateStyleElement().textContent = buildBlurCSS();
@@ -327,13 +318,13 @@ export function markUserElementForBlur(element: Element, userId: string, pageTyp
 
 export function resetElementBlur(element: Element): void {
 	element.classList.remove(BLUR_REVEALED_CLASS);
-	element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
+	for (const el of element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`)) {
 		el.classList.remove(BLUR_REVEALED_CLASS);
 		cleanupBlurElement(el);
 		if (el instanceof HTMLElement) {
 			el.style.removeProperty('filter');
 		}
-	});
+	}
 }
 
 // Reveals descendants whose blur-type matches a missing reason in status, leaving still-flagged ones blurred
@@ -347,12 +338,12 @@ export function revealUserElement(element: Element, status: CombinedStatus<UserS
 		element.classList.add(BLUR_REVEALED_CLASS);
 	}
 
-	element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`).forEach((el) => {
+	for (const el of element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`)) {
 		const type = el.getAttribute(BLUR_SELECTORS.BLUR_TYPE);
 		if (type === 'avatar' ? !blurAvatars : !blurNames) {
 			el.classList.add(BLUR_REVEALED_CLASS);
 			cleanupBlurElement(el);
 		}
-	});
+	}
 	endTrace();
 }

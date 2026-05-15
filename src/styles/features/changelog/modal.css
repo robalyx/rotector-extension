@@ -14,7 +14,7 @@
 }
 
 @utility changelog-modal-disable {
-	@apply mr-auto flex cursor-pointer items-center gap-2 text-xs select-none;
+	@apply me-auto flex cursor-pointer items-center gap-2 text-xs select-none;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 

@@ -7,7 +7,7 @@ import { initializeSettings } from '@/lib/stores/settings';
 import { logger } from '@/lib/utils/logging/logger';
 
 async function initializePopup() {
-	const appElement = document.getElementById('app');
+	const appElement = document.querySelector('#app');
 	if (!appElement) {
 		throw new Error('Failed to find app container element');
 	}

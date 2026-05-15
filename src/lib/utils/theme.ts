@@ -25,7 +25,7 @@ class ThemeManager {
 	private mediaQuery: MediaQueryList | null = null;
 	private mediaQueryHandler: ((e: MediaQueryListEvent) => void) | null = null;
 	private robloxObserver: MutationObserver | null = null;
-	private readonly portalContainers: Set<HTMLElement> = new Set();
+	private readonly portalContainers = new Set<HTMLElement>();
 
 	constructor() {
 		this.initializeSystemThemeDetection();
@@ -57,7 +57,7 @@ class ThemeManager {
 		this.portalContainers.add(container);
 
 		const currentTheme = this.getCurrentTheme();
-		container.setAttribute('data-theme', currentTheme);
+		container.dataset['theme'] = currentTheme;
 		logger.debug('Portal container registered for theme updates');
 	}
 
@@ -110,12 +110,12 @@ class ThemeManager {
 	}
 
 	private isRobloxPage(): boolean {
-		return window.location.hostname.includes('roblox.com');
+		return globalThis.location.hostname.includes('roblox.com');
 	}
 
 	private initializeSystemThemeDetection(): void {
 		try {
-			this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+			this.mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)');
 			this.updateSystemTheme();
 
 			this.mediaQueryHandler = (e: MediaQueryListEvent) => {
@@ -183,8 +183,8 @@ class ThemeManager {
 	private setupThemePersistence(): void {
 		this.effectiveTheme.subscribe((theme) => {
 			if (this.isRobloxPage()) {
-				this.storeContentScriptTheme(theme).catch((err: unknown) => {
-					logger.error('Failed to store content script theme:', err);
+				this.storeContentScriptTheme(theme).catch((error: unknown) => {
+					logger.error('Failed to store content script theme:', error);
 				});
 			}
 		});
@@ -194,15 +194,15 @@ class ThemeManager {
 		try {
 			const { documentElement } = document;
 
-			documentElement.setAttribute('data-theme', theme);
+			documentElement.dataset['theme'] = theme;
 
-			this.portalContainers.forEach((portal) => {
+			for (const portal of this.portalContainers) {
 				try {
-					portal.setAttribute('data-theme', theme);
+					portal.dataset['theme'] = theme;
 				} catch (error) {
 					logger.error('Failed to apply theme to portal container:', error);
 				}
-			});
+			}
 
 			logger.debug(
 				`Applied ${theme} theme to document and ${String(this.portalContainers.size)} portal containers`

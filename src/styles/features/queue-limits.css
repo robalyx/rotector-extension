@@ -29,13 +29,13 @@
 }
 
 @utility rate-limits-bar {
-	@apply w-full overflow-hidden rounded-full;
+	@apply overflow-hidden rounded-full inline-full;
 	height: 4px;
 	background-color: var(--color-bg-tertiary);
 }
 
 @utility rate-limits-bar-fill {
-	@apply h-full rounded-full;
+	@apply rounded-full block-full;
 	background-color: var(--color-primary);
 	transition: width 0.3s ease;
 }

@@ -124,9 +124,9 @@
 			currentPage = result.currentPage;
 			hasNextPage = result.hasNextPage;
 			logger.debug('Loaded outfits', { page, count: outfits.length, hasNextPage });
-		} catch (err) {
+		} catch (error_) {
 			error = 'Failed to load outfits';
-			logger.error('Failed to load outfits:', err);
+			logger.error('Failed to load outfits:', error_);
 		} finally {
 			isLoading = false;
 		}

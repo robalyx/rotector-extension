@@ -91,7 +91,7 @@
 		{
 			success: true,
 			data: {
-				id: 123456789,
+				id: 123_456_789,
 				flagType: 2,
 				confidence: 0.85,
 				reasons: {
@@ -109,7 +109,7 @@
 				versionCompatibility: 'current',
 				isReportable: true,
 				isLocked: false,
-				lastUpdated: 1762158166,
+				lastUpdated: 1_762_158_166,
 				badges: [
 					{
 						text: 'Verified Unsafe',
@@ -126,14 +126,14 @@
 		2
 	);
 
-	const BATCH_REQUEST_EXAMPLE = JSON.stringify({ ids: [123456789, 987654321] }, null, 2);
+	const BATCH_REQUEST_EXAMPLE = JSON.stringify({ ids: [123_456_789, 987_654_321] }, null, 2);
 
 	const BATCH_SUCCESS_EXAMPLE = JSON.stringify(
 		{
 			success: true,
 			data: {
-				'123456789': { id: 123456789, flagType: 2, confidence: 0.85 },
-				'987654321': { id: 987654321, flagType: 0, confidence: 0.1 }
+				'123456789': { id: 123_456_789, flagType: 2, confidence: 0.85 },
+				'987654321': { id: 987_654_321, flagType: 0, confidence: 0.1 }
 			}
 		},
 		null,
@@ -204,7 +204,7 @@
 			(entries) => {
 				const visible = entries
 					.filter((entry) => entry.isIntersecting)
-					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+					.toSorted((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 				const [first] = visible;
 				if (first) {
 					activeSection = first.target.id.replace(/^section-/, '');

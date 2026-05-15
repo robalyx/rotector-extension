@@ -169,9 +169,9 @@
 		if (diff < 60) return $_('roblox_account_time_just_now');
 		if (diff < 3600)
 			return $_('roblox_account_time_minutes', { values: { n: Math.floor(diff / 60) } });
-		if (diff < 86400)
+		if (diff < 86_400)
 			return $_('roblox_account_time_hours', { values: { n: Math.floor(diff / 3600) } });
-		return $_('roblox_account_time_days', { values: { n: Math.floor(diff / 86400) } });
+		return $_('roblox_account_time_days', { values: { n: Math.floor(diff / 86_400) } });
 	}
 
 	const stats = $derived(profile?.stats ?? null);
@@ -447,7 +447,7 @@
 		showSignInModal = false;
 		void (async () => {
 			if ($robloxAuthStore.kind === 'signed-in') {
-				await refreshProfile().catch(() => undefined);
+				await refreshProfile().catch(() => {});
 				await loadSessions();
 			}
 		})();

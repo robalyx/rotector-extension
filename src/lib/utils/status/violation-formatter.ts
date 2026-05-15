@@ -66,11 +66,11 @@ function parseOutfitEvidence(evidenceText: string): ParsedOutfitEvidence | null 
 		outfitId = rawId;
 	}
 
-	const confidence = parseFloat(confidenceStr);
+	const confidence = Number.parseFloat(confidenceStr);
 	return {
 		name,
 		reason,
-		confidence: isNaN(confidence) ? null : Math.round(confidence * 100),
+		confidence: Number.isNaN(confidence) ? null : Math.round(confidence * 100),
 		outfitId
 	};
 }

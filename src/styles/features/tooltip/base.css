@@ -3,7 +3,7 @@
    ================================= */
 
 @utility rtcr-tooltip-container {
-	@apply text-sm-plus pointer-events-auto visible fixed z-[9999] flex max-h-[520px] cursor-pointer flex-col rounded-md border p-0 text-center break-words whitespace-normal opacity-100;
+	@apply text-sm-plus pointer-events-auto visible fixed z-9999 flex cursor-pointer flex-col rounded-md border p-0 text-center wrap-break-word whitespace-normal opacity-100 max-block-[520px];
 	background-color: var(--color-bg-content);
 	color: var(--color-text);
 	border-color: var(--color-border-subtle);
@@ -21,7 +21,7 @@
 	overflow: visible;
 
 	&::before {
-		@apply pointer-events-auto absolute bottom-full left-1/2 h-10 w-20;
+		@apply pointer-events-auto absolute inset-s-1/2 inset-be-full h-10 w-20;
 		content: '';
 
 		/* noinspection CssUnresolvedCustomProperty */
@@ -34,7 +34,7 @@
 
 	&[style*='--tooltip-positioned-above: 1'] {
 		&::before {
-			@apply top-full bottom-auto;
+			@apply inset-bs-full inset-be-auto;
 		}
 	}
 }
@@ -44,7 +44,7 @@
    ================================= */
 
 @utility expanded-tooltip-overlay {
-	@apply invisible fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300;
+	@apply invisible fixed inset-0 z-10000 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300;
 	transition:
 		opacity 0.3s ease,
 		visibility 0s linear 0.3s;
@@ -58,7 +58,7 @@
 }
 
 @utility expanded-tooltip-positioner {
-	@apply fixed w-[90%] max-w-2xl;
+	@apply fixed max-w-2xl inline-[90%];
 	width: var(--tooltip-width, 90%);
 	max-width: var(--tooltip-max-width, 42rem);
 	transition:
@@ -74,7 +74,7 @@
 }
 
 @utility expanded-tooltip {
-	@apply flex w-full cursor-auto flex-col overflow-hidden rounded-lg border p-0;
+	@apply flex cursor-auto flex-col overflow-hidden rounded-lg border p-0 inline-full;
 	height: var(--tooltip-height, auto);
 	max-height: var(--tooltip-max-height, 80vh);
 	border-color: var(--color-border-subtle);
@@ -84,7 +84,7 @@
 }
 
 @utility tooltip-export-host {
-	@apply pointer-events-none absolute top-0 -left-[10000px];
+	@apply pointer-events-none absolute inset-s-[-10000px] top-0;
 }
 
 @utility expanded-tooltip-content {
@@ -93,7 +93,7 @@
 }
 
 @utility tooltip-resize-handle {
-	@apply absolute right-1 bottom-1 z-[4] h-3 w-3 cursor-nwse-resize;
+	@apply absolute right-1 bottom-1 z-4 h-3 w-3 cursor-nwse-resize;
 	opacity: 0.4;
 	transition: opacity 0.15s ease;
 	background-image: radial-gradient(circle, var(--color-text-subtle) 1.5px, transparent 1.5px);
@@ -106,7 +106,7 @@
 }
 
 @utility tooltip-header-toggle {
-	@apply absolute bottom-0 left-0 z-[4] h-1 w-full cursor-pointer border-none p-0;
+	@apply absolute bottom-0 left-0 z-4 h-1 cursor-pointer border-none p-0 inline-full;
 	opacity: 0;
 	transition: opacity 0.15s ease;
 	background: var(--color-border);
@@ -121,13 +121,13 @@
    ================================= */
 
 @utility tooltip-sticky-header {
-	@apply sticky top-0 z-[3] overflow-visible rounded-t-lg border-b;
+	@apply sticky top-0 z-3 overflow-visible rounded-t-lg border-be;
 	border-color: var(--color-border-subtle);
 	background-color: var(--color-bg-content);
 }
 
 @utility tooltip-profile-header {
-	@apply relative mb-2 flex items-center overflow-visible rounded-t-lg border-b-0 px-5 pt-5 pb-0;
+	@apply relative mb-2 flex items-center overflow-visible rounded-t-lg border-be-0 px-5 pt-5 pb-0;
 	background-color: var(--color-bg-content);
 
 	&.compact {
@@ -158,16 +158,16 @@
 	box-shadow: 0 1px 3px var(--shadow-subtle);
 
 	img {
-		@apply h-full w-full object-cover transition-all duration-300;
+		@apply object-cover transition-all duration-300 block-full inline-full;
 	}
 }
 
 @utility tooltip-user-info {
-	@apply relative z-1 ml-4 min-w-0 shrink overflow-hidden text-left;
+	@apply relative z-1 ml-4 min-w-0 shrink overflow-hidden text-start;
 }
 
 @utility tooltip-header-right {
-	@apply ml-auto flex shrink-0 flex-grow flex-col justify-center overflow-hidden pl-4 text-left;
+	@apply ms-auto flex shrink-0 grow flex-col justify-center overflow-hidden pl-4 text-start;
 	max-width: 50%;
 
 	.reviewer-section {
@@ -183,7 +183,7 @@
 	}
 
 	.tooltip-header-message-canvas {
-		@apply text-left;
+		@apply text-start;
 	}
 }
 
@@ -193,7 +193,7 @@
 }
 
 @utility tooltip-username {
-	@apply mb-0 overflow-hidden text-lg font-semibold text-ellipsis whitespace-nowrap;
+	@apply mb-0 truncate text-lg font-semibold;
 	color: var(--color-text-heading);
 	letter-spacing: -0.005em;
 }
@@ -216,7 +216,7 @@
 }
 
 @utility tooltip-header-message {
-	@apply w-full min-w-0;
+	@apply min-w-0 inline-full;
 	overflow-wrap: anywhere;
 	white-space: normal;
 
@@ -229,7 +229,7 @@
 	@apply flex flex-col gap-1 text-center;
 
 	& > span {
-		@apply block max-w-full min-w-0;
+		@apply block min-w-0 max-inline-full;
 	}
 }
 
@@ -280,11 +280,11 @@
 		@apply flex flex-col items-center gap-3 pb-3;
 
 		& .tooltip-header {
-			@apply m-0 w-full p-0 leading-snug;
+			@apply m-0 p-0 leading-snug inline-full;
 		}
 
 		& .header-message {
-			@apply flex w-full max-w-xl flex-col flex-nowrap items-center gap-1 text-center;
+			@apply flex max-w-xl flex-col flex-nowrap items-center gap-1 text-center inline-full;
 
 			& > * {
 				@apply whitespace-nowrap;

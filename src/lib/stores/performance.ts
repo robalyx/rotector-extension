@@ -47,7 +47,7 @@ export const categoryStats = derived(performanceEntries, ($entries): CategorySta
 });
 
 export const slowestOperations = derived(performanceEntries, ($entries): PerformanceEntry[] => {
-	return [...$entries].sort((a, b) => b.duration - a.duration).slice(0, 10);
+	return $entries.toSorted((a, b) => b.duration - a.duration).slice(0, 10);
 });
 
 // ID is auto-generated and callers pass everything else

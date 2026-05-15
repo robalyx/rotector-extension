@@ -42,7 +42,7 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
 	}
 
 	const data = parseRolesApiResponse(await response.json());
-	return data.roles.sort((a, b) => a.rank - b.rank);
+	return data.roles.toSorted((a, b) => a.rank - b.rank);
 }
 
 // Throws ApiError carrying status and Roblox error code on failure so callers can branch on robloxErrorCode
@@ -50,7 +50,7 @@ export async function getGroupMembers(
 	groupId: string,
 	roleId: number,
 	cursor?: string | null,
-	limit: number = 25,
+	limit = 25,
 	sortOrder: SortOrder = 'Desc'
 ): Promise<MembersResponse> {
 	const params = new URLSearchParams({

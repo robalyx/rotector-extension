@@ -17,7 +17,7 @@
 	let encodedData = $state('');
 	let importing = $state(false);
 
-	function handleFileUpload(event: Event) {
+	async function handleFileUpload(event: Event) {
 		const input = event.target as HTMLInputElement;
 		const file = input.files?.[0];
 
@@ -31,17 +31,14 @@
 			return;
 		}
 
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			const content = e.target?.result as string;
+		try {
+			const content = await file.text();
 			encodedData = content.trim();
-			input.value = '';
-		};
-		reader.onerror = () => {
+		} catch {
 			showError($_('custom_api_import_error_file_read_failed'));
+		} finally {
 			input.value = '';
-		};
-		reader.readAsText(file);
+		}
 	}
 
 	async function handleImport() {

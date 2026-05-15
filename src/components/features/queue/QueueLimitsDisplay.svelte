@@ -57,9 +57,9 @@
 		error = null;
 		try {
 			queueLimits = await apiClient.getQueueLimits();
-		} catch (err) {
+		} catch (error_) {
 			error = $_('stats_queue_error');
-			logger.error('Failed to load queue limits:', err);
+			logger.error('Failed to load queue limits:', error_);
 		} finally {
 			isLoading = false;
 		}

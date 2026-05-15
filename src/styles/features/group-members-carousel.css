@@ -36,7 +36,7 @@
 }
 
 @utility group-members-tab {
-	@apply cursor-pointer rounded border-none bg-transparent px-3 py-1.5 font-medium whitespace-nowrap;
+	@apply cursor-pointer rounded-sm border-none bg-transparent px-3 py-1.5 font-medium whitespace-nowrap;
 	font-size: 12px;
 	color: var(--roblox-text-muted);
 	transition:
@@ -69,7 +69,7 @@
 }
 
 @utility group-members-tracked-filter {
-	@apply cursor-pointer rounded px-2 py-1 font-medium outline-none;
+	@apply cursor-pointer rounded-sm px-2 py-1 font-medium outline-none;
 	font-size: 12px;
 	background: var(--roblox-bg-surface);
 	color: var(--roblox-text-primary);
@@ -94,7 +94,7 @@
 }
 
 @utility group-members-tracked-count {
-	@apply ml-auto font-medium;
+	@apply ms-auto font-medium;
 	font-size: 13px;
 	color: var(--roblox-text-primary);
 }
@@ -137,7 +137,7 @@
 }
 
 @utility group-members-dropdown-sort {
-	@apply w-auto shrink-0;
+	@apply shrink-0 inline-auto;
 }
 
 /* =================================
@@ -175,7 +175,7 @@
 
 	& img,
 	& .group-member-avatar-placeholder {
-		@apply h-full w-full rounded-full object-cover;
+		@apply rounded-full object-cover block-full inline-full;
 	}
 }
 
@@ -196,7 +196,7 @@
 }
 
 @utility group-member-display-name {
-	@apply mt-0.5 overflow-hidden text-center font-normal text-ellipsis whitespace-nowrap;
+	@apply mt-0.5 truncate text-center font-normal;
 	font-size: 12.8px;
 	line-height: 22.4px;
 	max-width: 92px;
@@ -204,7 +204,7 @@
 }
 
 @utility rotector-member-presence {
-	@apply absolute right-0 bottom-0 z-[2];
+	@apply absolute right-0 bottom-0 z-2;
 }
 
 /* =================================
@@ -212,7 +212,7 @@
    ================================= */
 
 @utility group-members-nav {
-	@apply mt-3 flex items-center justify-between border-t;
+	@apply mt-3 flex items-center justify-between border-bs;
 	padding: 12px 4px 0;
 	border-color: var(--roblox-border);
 }
@@ -241,7 +241,7 @@
 }
 
 @utility group-members-page-btn {
-	@apply cursor-pointer rounded border-none bg-none px-2 py-1;
+	@apply cursor-pointer rounded-sm border-none bg-none px-2 py-1;
 	transition: background-color 0.15s;
 
 	&:hover {
@@ -250,7 +250,7 @@
 }
 
 @utility group-members-page-input {
-	@apply rounded text-center text-sm outline-none;
+	@apply rounded-sm text-center text-sm outline-none;
 	width: 40px;
 	padding: 2px 4px;
 	margin: 0 4px;

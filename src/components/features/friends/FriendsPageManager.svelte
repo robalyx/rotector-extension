@@ -26,10 +26,10 @@
 		void setupScanBar();
 		onMount?.(cleanup);
 
-		window.addEventListener('hashchange', handleHashChange);
+		globalThis.addEventListener('hashchange', handleHashChange);
 
 		return () => {
-			window.removeEventListener('hashchange', handleHashChange);
+			globalThis.removeEventListener('hashchange', handleHashChange);
 			cleanup();
 		};
 	});
@@ -43,7 +43,7 @@
 	}
 
 	function getUserIdFromUrl(): string | null {
-		const pathname = normalizePathname(window.location.pathname);
+		const pathname = normalizePathname(globalThis.location.pathname);
 		const userId = extractIdFromUrl(pathname, /\/users\/(\d+)\/friends/);
 		if (userId) return userId;
 		if (pathname === '/users/friends' || pathname === '/users/friends/') {
@@ -53,7 +53,7 @@
 	}
 
 	function isFriendsTab(): boolean {
-		const tab = window.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
+		const tab = globalThis.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
 		return tab === '' || tab === 'friends';
 	}
 
@@ -75,7 +75,7 @@
 		// sections, moving .friends-filter out of the direct header children
 		const friendsLeft = header.querySelector('.friends-left');
 		if (friendsLeft) {
-			friendsLeft.appendChild(container);
+			friendsLeft.append(container);
 		} else {
 			const filter = header.querySelector('.friends-filter');
 			if (!filter?.parentNode) return;

@@ -243,7 +243,7 @@ function extractUsedKeys() {
 			const assignment = match[0];
 			// Pick up any translation-key-shaped string literal in the assignment.
 			// `]` and `}` are included so the last entry in an array or object literal is caught.
-			const keyStringRegex = /['"]([a-z][a-z0-9_]*_[a-z0-9_]+)['"](?=\s*[;,:\?\)\]\}]|\s*$)/g;
+			const keyStringRegex = /['"]([a-z][a-z0-9_]*_[a-z0-9_]+)['"](?=\s*[;,:?)\]}]|\s*$)/g;
 			let keyMatch;
 			while ((keyMatch = keyStringRegex.exec(assignment)) !== null) {
 				usedKeys.add(keyMatch[1]);

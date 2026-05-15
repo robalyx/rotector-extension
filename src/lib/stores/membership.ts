@@ -69,14 +69,14 @@ async function doLoad(forceRefresh: boolean): Promise<void> {
 }
 
 // Load membership status, deduping concurrent callers via an in-flight promise
-export async function loadMembershipStatus(forceRefresh: boolean = false): Promise<void> {
+export async function loadMembershipStatus(forceRefresh = false): Promise<void> {
 	if (pendingLoad && !forceRefresh) return pendingLoad;
 
 	// A forced refresh must wait for any in-flight load to settle as reusing the
 	// existing promise would let the old key's stale response win
 	const priorLoad = pendingLoad;
 	const task = (async () => {
-		if (priorLoad) await priorLoad.catch(() => undefined);
+		if (priorLoad) await priorLoad.catch(() => {});
 		await doLoad(forceRefresh);
 	})();
 	pendingLoad = task.finally(() => {

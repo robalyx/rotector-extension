@@ -141,9 +141,9 @@ export function markAllElements(
 	groupId?: string
 ): void {
 	if (!selector) return;
-	container.querySelectorAll(selector).forEach((el) => {
+	for (const el of container.querySelectorAll(selector)) {
 		if (el instanceof HTMLElement) markElementForUser(el, userId, type, groupId);
-	});
+	}
 }
 
 export function cleanupBlurElement(el: Element): void {

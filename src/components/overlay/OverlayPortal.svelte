@@ -6,11 +6,11 @@
 
 	function portal(el: HTMLElement) {
 		const target = getOverlayContainer() ?? document.body;
-		target.appendChild(el);
+		target.append(el);
 		el.hidden = false;
 		return {
 			destroy() {
-				el.parentNode?.removeChild(el);
+				el.remove();
 			}
 		};
 	}

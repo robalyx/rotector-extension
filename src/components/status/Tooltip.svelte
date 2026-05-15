@@ -217,9 +217,9 @@
 	let isResizing = $state(false);
 	let resizeStartPos = $state<{ x: number; y: number } | null>(null);
 	let resizeStartSize = $state<{ width: number; height: number } | null>(null);
-	let customWidth = $state<number | undefined>(undefined);
-	let customHeight = $state<number | undefined>(undefined);
-	let measuredCardWidth = $state<number | undefined>(undefined);
+	let customWidth = $state<number | undefined>();
+	let customHeight = $state<number | undefined>();
+	let measuredCardWidth = $state<number | undefined>();
 	let headerCompact = $state(false);
 	let previewPositionFrame: number | null = null;
 
@@ -278,7 +278,7 @@
 		const flagged = getRotectorOutfitEvidence(userStatus);
 		if (!flagged) return [];
 		return flagged.map((info) =>
-			info.outfitId !== null ? { kind: 'id', id: info.outfitId } : { kind: 'name', name: info.name }
+			info.outfitId === null ? { kind: 'name', name: info.name } : { kind: 'id', id: info.outfitId }
 		);
 	});
 
@@ -286,8 +286,8 @@
 		flaggedOutfitLookups.length > 0
 			? flaggedOutfitLookups
 					.map((k) => (k.kind === 'id' ? `id:${k.id}` : `name:${k.name}`))
-					.sort()
-					.join('\x00')
+					.toSorted()
+					.join('\u0000')
 			: ''
 	);
 
@@ -403,7 +403,7 @@
 					})
 				};
 			}
-			case STATUS.FLAGS.QUEUED:
+			case STATUS.FLAGS.QUEUED: {
 				return {
 					full: $_(
 						currentStatus?.processed === true
@@ -412,20 +412,28 @@
 						{ values: { 0: entityType } }
 					)
 				};
-			case STATUS.FLAGS.PROVISIONAL:
+			}
+			case STATUS.FLAGS.PROVISIONAL: {
 				return { full: $_('tooltip_header_provisional') };
-			case STATUS.FLAGS.REDACTED:
+			}
+			case STATUS.FLAGS.REDACTED: {
 				return { full: $_('tooltip_header_redacted') };
-			case STATUS.FLAGS.MIXED:
+			}
+			case STATUS.FLAGS.MIXED: {
 				return { full: $_(isGroup ? 'tooltip_header_mixed_group' : 'tooltip_header_mixed_user') };
-			case STATUS.FLAGS.PAST_OFFENDER:
+			}
+			case STATUS.FLAGS.PAST_OFFENDER: {
 				return { full: $_('tooltip_header_past_offender', { values: { 0: entityType } }) };
-			case STATUS.FLAGS.SAFE:
+			}
+			case STATUS.FLAGS.SAFE: {
 				return { full: $_('tooltip_header_safe', { values: { 0: entityType } }) };
-			case STATUS.FLAGS.UNKNOWN:
+			}
+			case STATUS.FLAGS.UNKNOWN: {
 				return { full: $_('tooltip_header_update_required', { values: { 0: entityType } }) };
-			default:
+			}
+			default: {
 				return { full: $_('tooltip_header_unavailable') };
+			}
 		}
 	}
 
@@ -556,14 +564,18 @@
 
 	function getDecodedChipLabel(encoding: EncodingResult): string {
 		switch (encoding.type) {
-			case 'caesar':
+			case 'caesar': {
 				return $_('cipher_chip_decoded', { values: { shift: encoding.shift } });
-			case 'morse':
+			}
+			case 'morse': {
 				return $_('cipher_chip_decoded_morse');
-			case 'morse+caesar':
+			}
+			case 'morse+caesar': {
 				return $_('cipher_chip_decoded_morse_caesar', { values: { shift: encoding.shift } });
-			case 'binary':
+			}
+			case 'binary': {
 				return $_('cipher_chip_decoded_binary');
+			}
 		}
 	}
 
@@ -591,7 +603,7 @@
 	});
 
 	const isReviewed = $derived.by(() => {
-		if (!activeStatus || activeStatus.flagType !== STATUS.FLAGS.UNSAFE) return false;
+		if (activeStatus?.flagType !== STATUS.FLAGS.UNSAFE) return false;
 		return isGroup || !!activeUserStatus?.reviewer;
 	});
 
@@ -686,8 +698,8 @@
 			const maps = await outfitSnapshotService.getSnapshots(sanitizedUserId, flaggedOutfitLookups);
 			if (loadId !== latestSnapshotLoadId) return;
 			outfitSnapshotMaps = maps;
-		} catch (err) {
-			logger.error('Failed to load outfit snapshots:', err);
+		} catch (error_) {
+			logger.error('Failed to load outfit snapshots:', error_);
 		} finally {
 			if (loadId === latestSnapshotLoadId) {
 				loadingOutfitSnapshots = false;
@@ -787,13 +799,13 @@
 
 		const config = getResizeConfig();
 		if (customWidth !== undefined) {
-			updateSetting(config.widthKey, customWidth).catch((err: unknown) => {
-				logger.error('Failed to save tooltip width:', err);
+			updateSetting(config.widthKey, customWidth).catch((error_: unknown) => {
+				logger.error('Failed to save tooltip width:', error_);
 			});
 		}
 		if (customHeight !== undefined) {
-			updateSetting(config.heightKey, customHeight).catch((err: unknown) => {
-				logger.error('Failed to save tooltip height:', err);
+			updateSetting(config.heightKey, customHeight).catch((error_: unknown) => {
+				logger.error('Failed to save tooltip height:', error_);
 			});
 		}
 	}
@@ -811,11 +823,11 @@
 		const config = getResizeConfig();
 		customWidth = undefined;
 		customHeight = undefined;
-		removeSetting(config.widthKey).catch((err: unknown) => {
-			logger.error('Failed to remove tooltip width setting:', err);
+		removeSetting(config.widthKey).catch((error_: unknown) => {
+			logger.error('Failed to remove tooltip width setting:', error_);
 		});
-		removeSetting(config.heightKey).catch((err: unknown) => {
-			logger.error('Failed to remove tooltip height setting:', err);
+		removeSetting(config.heightKey).catch((error_: unknown) => {
+			logger.error('Failed to remove tooltip height setting:', error_);
 		});
 
 		if (!isExpanded) {
@@ -828,8 +840,8 @@
 		event.stopPropagation();
 		headerCompact = !headerCompact;
 		updateSetting(SETTINGS_KEYS.EXPANDED_HEADER_HEIGHT, headerCompact ? 1 : 0).catch(
-			(err: unknown) => {
-				logger.error('Failed to save header compact state:', err);
+			(error_: unknown) => {
+				logger.error('Failed to save header compact state:', error_);
 			}
 		);
 	}
@@ -1115,7 +1127,9 @@
 		);
 		const cleanups = targets.map((el) => guardWatermark(el, dataUri));
 
-		return () => cleanups.forEach((fn) => fn());
+		return () => {
+			for (const fn of cleanups) fn();
+		};
 	});
 
 	$effect(() => {
@@ -1178,7 +1192,7 @@
 
 {#snippet compactHeaderRight()}
 	<div class="tooltip-header-right">
-		{#if activeStatus || isNoData}
+		{#if activeStatus ?? isNoData}
 			<div class="tooltip-inline-message">
 				<div class="header-message tooltip-header-message tooltip-header-message-canvas">
 					{@render headerMessageSection(headerMessage, true, 'start')}
@@ -1576,7 +1590,7 @@
 												fallbackEvidence={discordIdEvidence.map((e) =>
 													getDisplayText(getDecodedContent(e.content))
 												)}
-												robloxUserId={parseInt(sanitizedUserId, 10)}
+												robloxUserId={Number.parseInt(sanitizedUserId, 10)}
 											/>
 										{/if}
 										{#each renderedEvidence as evidence, index (index)}

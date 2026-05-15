@@ -3,13 +3,13 @@
    ================================= */
 
 @utility status-container {
-	@apply relative inline-flex w-auto cursor-help items-center overflow-visible align-middle leading-normal;
+	@apply relative inline-flex cursor-help items-center overflow-visible align-middle leading-normal inline-auto;
 	background: transparent !important;
 	border: none !important;
 }
 
 @utility status-positioned-absolute {
-	@apply pointer-events-auto absolute top-1 right-1 z-[1000] flex h-5 w-5 items-center justify-center rounded-full p-0;
+	@apply pointer-events-auto absolute top-1 right-1 z-1000 flex h-5 w-5 items-center justify-center rounded-full p-0;
 	background-color: var(--status-badge-bg);
 	box-shadow: var(--status-badge-shadow);
 
@@ -105,7 +105,7 @@
    BADGE STYLES
    ================================= */
 @utility badge-base {
-	@apply pointer-events-auto absolute flex h-[15px] w-[15px] items-center justify-center rounded-full shadow-sm transition-all duration-400;
+	@apply pointer-events-auto absolute flex items-center justify-center rounded-full shadow-sm transition-all duration-400 block-[15px] inline-[15px];
 	transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	top: 0;
 	left: 0;
@@ -177,7 +177,7 @@
    BADGE CLASSES
    ================================= */
 @utility badge-container {
-	@apply pointer-events-none absolute -bottom-1 left-4 h-[15px] w-[15px];
+	@apply pointer-events-none absolute -bottom-1 left-4 block-[15px] inline-[15px];
 }
 
 @utility reportable-badge {

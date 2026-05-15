@@ -137,7 +137,7 @@
 
 		const cleanupInterval = setInterval(() => {
 			cleanupOrphanedComponents();
-		}, 10000);
+		}, 10_000);
 
 		return () => {
 			clearInterval(cleanupInterval);
@@ -149,34 +149,48 @@
 		if (destroyed) return;
 
 		try {
-			if (pageType === PAGE_TYPES.FRIENDS_LIST) {
-				await initializePaginatedPageObserver({
-					pageName: 'Friends',
-					containerSelector: FRIENDS_SELECTORS.CONTAINER,
-					itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
-					observerName: 'friends-list-observer'
-				});
-			} else if (pageType === PAGE_TYPES.MEMBERS) {
-				await initializeGroupsModalObserver();
-			} else if (pageType === PAGE_TYPES.SEARCH_USER) {
-				await initializePaginatedPageObserver({
-					pageName: 'Search',
-					containerSelector: SEARCH_SELECTORS.CONTAINER,
-					itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
-					observerName: 'search-list-observer'
-				});
-			} else if (pageType === PAGE_TYPES.GROUP_CONFIGURE_MEMBERS) {
-				await initializePaginatedPageObserver({
-					pageName: 'GroupConfigure',
-					containerSelector: GROUP_CONFIGURE_SELECTORS.CONTAINER,
-					itemSelector: GROUP_CONFIGURE_SELECTORS.CARD.CONTAINER,
-					observerName: 'group-configure-list-observer'
-				});
-			} else {
-				const config = createObserverConfig();
+			switch (pageType) {
+				case PAGE_TYPES.FRIENDS_LIST: {
+					await initializePaginatedPageObserver({
+						pageName: 'Friends',
+						containerSelector: FRIENDS_SELECTORS.CONTAINER,
+						itemSelector: FRIENDS_SELECTORS.CARD.CONTAINER,
+						observerName: 'friends-list-observer'
+					});
 
-				observer = observerFactory.createListObserver(config);
-				await observer.start();
+					break;
+				}
+				case PAGE_TYPES.MEMBERS: {
+					await initializeGroupsModalObserver();
+
+					break;
+				}
+				case PAGE_TYPES.SEARCH_USER: {
+					await initializePaginatedPageObserver({
+						pageName: 'Search',
+						containerSelector: SEARCH_SELECTORS.CONTAINER,
+						itemSelector: SEARCH_SELECTORS.CARD.CONTAINER,
+						observerName: 'search-list-observer'
+					});
+
+					break;
+				}
+				case PAGE_TYPES.GROUP_CONFIGURE_MEMBERS: {
+					await initializePaginatedPageObserver({
+						pageName: 'GroupConfigure',
+						containerSelector: GROUP_CONFIGURE_SELECTORS.CONTAINER,
+						itemSelector: GROUP_CONFIGURE_SELECTORS.CARD.CONTAINER,
+						observerName: 'group-configure-list-observer'
+					});
+
+					break;
+				}
+				default: {
+					const config = createObserverConfig();
+
+					observer = observerFactory.createListObserver(config);
+					await observer.start();
+				}
 			}
 
 			logger.debug(`UserListManager observer started for ${pageType}`);
@@ -197,7 +211,7 @@
 			containerSelector: pageConfig.containerSelector,
 			onContainerAdded: (container: Element) => {
 				// Process all items in the new container
-				const items = Array.from(container.querySelectorAll(pageConfig.itemSelector));
+				const items = [...container.querySelectorAll(pageConfig.itemSelector)];
 				if (items.length > 0) {
 					void handleNewUsers(items);
 				}
@@ -297,7 +311,7 @@
 
 		modalCloseObserver = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
-				for (const node of Array.from(mutation.removedNodes)) {
+				for (const node of mutation.removedNodes) {
 					if (node === modal || (node instanceof Element && node.contains(modal))) {
 						logger.debug('Groups modal closed, cleaning up observer');
 						cleanupActiveModal();
@@ -382,7 +396,7 @@
 			const newUsers: UserDetails[] = [];
 			const returningUsers: UserDetails[] = [];
 
-			allUserDetails.forEach((user) => {
+			for (const user of allUserDetails) {
 				if (processedUsers.has(user.userId)) {
 					// We've seen this user before, just need to re-mount their indicator
 					returningUsers.push(user);
@@ -390,51 +404,51 @@
 					// First time seeing this user, need to fetch their data
 					newUsers.push(user);
 				}
-			});
+			}
 
-			allUserDetails.forEach((user) => {
+			for (const user of allUserDetails) {
 				user.element.setAttribute(STATUS_SELECTORS.DATA_PROCESSED, 'true');
 				user.element.setAttribute(STATUS_SELECTORS.DATA_USER_ID, user.userId);
-			});
+			}
 
 			if (newUsers.length > 0) {
 				const { isRestricted } = $restrictedAccessStore;
 				const showRestricted = isRestricted && !isOwnFriendsLookup();
 
-				newUsers.forEach((user) => processedUsers.add(user.userId));
+				for (const user of newUsers) processedUsers.add(user.userId);
 
 				if (showRestricted) {
 					const restrictedStatus = createErrorCombinedStatus<UserStatus>('restricted_access');
-					newUsers.forEach((user) => {
+					for (const user of newUsers) {
 						userStatuses.set(user.userId, restrictedStatus);
 						mountStatusIndicator(user, false);
-					});
+					}
 				} else {
-					newUsers.forEach((user) => {
+					for (const user of newUsers) {
 						markUserElementForBlur(user.element, user.userId, pageType);
-					});
+					}
 
-					newUsers.forEach((user) => {
+					for (const user of newUsers) {
 						mountStatusIndicator(user, true);
-					});
+					}
 
 					await loadUserStatuses(newUsers);
 
-					newUsers.forEach((user) => {
-						if (user.element.getAttribute(STATUS_SELECTORS.DATA_USER_ID) !== user.userId) return;
+					for (const user of newUsers) {
+						if (user.element.getAttribute(STATUS_SELECTORS.DATA_USER_ID) !== user.userId) continue;
 
 						const status = userStatuses.get(user.userId);
-						if (!status) return;
+						if (!status) continue;
 
 						revealUserElement(user.element, status);
 						if (isFlagged(status)) {
 							user.element.setAttribute(STATUS_SELECTORS.DATA_FLAGGED, 'true');
 						}
-					});
+					}
 				}
 			}
 
-			returningUsers.forEach((user) => {
+			for (const user of returningUsers) {
 				const status = userStatuses.get(user.userId);
 				markUserElementForBlur(user.element, user.userId, pageType);
 				if (status) {
@@ -444,7 +458,7 @@
 					}
 				}
 				mountStatusIndicator(user, false);
-			});
+			}
 		} catch (error) {
 			logger.error('Failed to process new users:', error);
 		} finally {
@@ -458,11 +472,9 @@
 
 			const isModalItem = element.closest(GROUPS_MODAL_SELECTORS.MODAL) !== null;
 
-			if (isModalItem) {
-				profileLink = element.querySelector(GROUPS_MODAL_SELECTORS.PROFILE_LINK);
-			} else {
-				profileLink = element.querySelector(getPageConfig().profileLinkSelector);
-			}
+			profileLink = isModalItem
+				? element.querySelector(GROUPS_MODAL_SELECTORS.PROFILE_LINK)
+				: element.querySelector(getPageConfig().profileLinkSelector);
 
 			if (!profileLink) {
 				return null;
@@ -494,7 +506,7 @@
 
 		// Friends list page: check URL
 		if (pageType === PAGE_TYPES.FRIENDS_LIST) {
-			const pathname = window.location.pathname;
+			const pathname = globalThis.location.pathname;
 			// /users/friends = own friends list (no user ID in URL)
 			// /users/{userId}/friends = specific user's friends list
 			if (pathname === '/users/friends' || pathname === '/users/friends/') {
@@ -529,9 +541,9 @@
 				}
 			});
 
-			customApiResults.forEach((combinedStatus, userId) => {
+			for (const [userId, combinedStatus] of customApiResults.entries()) {
 				onUserProcessed?.(userId, combinedStatus);
-			});
+			}
 
 			logger.debug(`Loaded ${String(customApiResults.size)} user statuses for ${pageType}`);
 		} catch (error) {
@@ -619,10 +631,10 @@
 					}
 				}
 
-				targetElement.appendChild(container);
+				targetElement.append(container);
 			}
 
-			container.innerHTML = '';
+			container.replaceChildren();
 			const component = mount(StatusIndicator, {
 				target: container,
 				props: {
@@ -664,10 +676,10 @@
 		// Diffing against mountedComponents keys is O(n) instead of N querySelectorAll
 		// scans of the whole document
 		const liveUserIds = new SvelteSet<string>();
-		document.querySelectorAll(`[${STATUS_SELECTORS.DATA_PROCESSED}]`).forEach((el) => {
+		for (const el of document.querySelectorAll(`[${STATUS_SELECTORS.DATA_PROCESSED}]`)) {
 			const id = el.getAttribute(STATUS_SELECTORS.DATA_USER_ID);
 			if (id) liveUserIds.add(id);
-		});
+		}
 
 		const removed = mountedComponents.removeOrphans(liveUserIds);
 		if (removed.length > 0) {

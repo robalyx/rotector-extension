@@ -47,7 +47,7 @@
    ================================= */
 
 @utility view-3d-button {
-	@apply absolute inline-flex cursor-pointer items-center justify-center rounded border-none p-0 text-white;
+	@apply absolute inline-flex cursor-pointer items-center justify-center rounded-sm border-none p-0 text-white;
 	bottom: 4px;
 	left: 4px;
 	width: 22px;

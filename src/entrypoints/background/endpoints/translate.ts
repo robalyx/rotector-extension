@@ -6,7 +6,7 @@ import { logger } from '@/lib/utils/logging/logger';
 // Shape: [[["translated", "original", null, null, n], ...], null, "src-lang", ...]
 function extractTranslatedText(data: unknown): string {
 	if (!Array.isArray(data) || !Array.isArray(data[0]) || !Array.isArray(data[0][0])) {
-		throw new Error('Invalid translation response format');
+		throw new TypeError('Invalid translation response format');
 	}
 	const translated: unknown = data[0][0][0];
 	if (typeof translated !== 'string' || !translated) {
@@ -68,7 +68,7 @@ function setCachedTranslation(
 async function translateBatch(
 	texts: string[],
 	targetLanguage: string,
-	sourceLanguage: string = 'en'
+	sourceLanguage = 'en'
 ): Promise<Record<string, string>> {
 	const DELIMITER = '|||';
 
@@ -136,7 +136,7 @@ async function fetchTranslation(
 async function translateParallel(
 	texts: string[],
 	targetLanguage: string,
-	sourceLanguage: string = 'en'
+	sourceLanguage = 'en'
 ): Promise<Record<string, string>> {
 	logger.debug('Translating texts in parallel', {
 		count: texts.length,
@@ -168,7 +168,7 @@ async function translateParallel(
 export async function translateTexts(
 	texts: string[],
 	targetLanguage: string,
-	sourceLanguage: string = 'en'
+	sourceLanguage = 'en'
 ): Promise<TranslationResult> {
 	if (texts.length === 0) {
 		throw new Error('No texts provided for translation');

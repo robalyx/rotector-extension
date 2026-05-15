@@ -21,7 +21,7 @@
 
 	const reasons = $derived(
 		userStatus?.reasons
-			? formatViolationReasons(userStatus.reasons).sort((a, b) => b.confidence - a.confidence)
+			? formatViolationReasons(userStatus.reasons).toSorted((a, b) => b.confidence - a.confidence)
 			: []
 	);
 

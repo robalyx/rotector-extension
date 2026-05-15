@@ -12,7 +12,7 @@
 
 	let { outfit, flagInfo }: Props = $props();
 
-	let brightness = $state(1.0);
+	let brightness = $state(1);
 </script>
 
 <div class="outfit-viewer-right-panel">

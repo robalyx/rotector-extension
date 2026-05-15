@@ -3,7 +3,7 @@
    ================================= */
 
 @utility developer-panel-container {
-	@apply relative flex w-full flex-col gap-3;
+	@apply relative flex flex-col gap-3 inline-full;
 }
 
 @utility developer-panel-header {
@@ -12,7 +12,7 @@
 }
 
 @utility developer-panel-back-button {
-	@apply flex cursor-pointer items-center gap-1 rounded bg-transparent px-2 py-1 text-xs font-medium;
+	@apply flex cursor-pointer items-center gap-1 rounded-sm bg-transparent px-2 py-1 text-xs font-medium;
 	color: var(--color-text-subtle);
 	border: 1px solid var(--color-border);
 	transition: all 0.2s ease;
@@ -33,7 +33,7 @@
 }
 
 @utility developer-panel-action-button {
-	@apply flex h-7 w-7 cursor-pointer items-center justify-center rounded border transition-all duration-200;
+	@apply flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm border transition-all duration-200;
 	border-color: var(--color-border);
 	background-color: var(--color-bg-content);
 	color: var(--color-text-subtle);
@@ -80,7 +80,7 @@
 }
 
 @utility developer-panel-toast {
-	@apply absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium shadow-lg;
+	@apply absolute inset-s-1/2 bottom-2 flex -translate-x-1/2 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium shadow-lg;
 	background-color: var(--color-success);
 	color: white;
 	animation: developer-panel-toast-slide-up 0.3s ease;

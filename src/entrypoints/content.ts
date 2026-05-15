@@ -27,8 +27,8 @@ async function registerBuilderSans(): Promise<void> {
 		const face = new FontFace('Builder Sans', `url("${url}")`, { weight: '400' });
 		await face.load();
 		document.fonts.add(face);
-	} catch (err) {
-		logger.warn('Builder Sans font registration failed; falling back to system font', err);
+	} catch (error) {
+		logger.warn('Builder Sans font registration failed; falling back to system font', error);
 	}
 }
 
@@ -136,13 +136,14 @@ export default defineContentScript({
 			const cssUrl = browser.runtime.getURL(
 				'/content-scripts/content.css' as Parameters<typeof browser.runtime.getURL>[0]
 			);
-			const shadowCssRaw = await (await fetch(cssUrl)).text();
+			const cssResponse = await fetch(cssUrl);
+			const shadowCssRaw = await cssResponse.text();
 			const cssText = shadowCssRaw.replaceAll(':root', ':host');
 
 			const ui = await createShadowRootUi(ctx, {
 				name: 'rotector-overlay',
 				position: 'overlay',
-				zIndex: 10000,
+				zIndex: 10_000,
 				css: cssText,
 				onMount(uiContainer, _shadow, shadowHost) {
 					registerOverlayContainer(uiContainer);
@@ -175,26 +176,26 @@ export default defineContentScript({
 
 				metricsCollector.start();
 
-				let currentUrl = window.location.href;
+				let currentUrl = globalThis.location.href;
 				const checkForNavigation = () => {
-					if (window.location.href !== currentUrl) {
-						currentUrl = window.location.href;
+					if (globalThis.location.href !== currentUrl) {
+						currentUrl = globalThis.location.href;
 						logger.debug('Navigation detected', {
 							newUrl: currentUrl,
-							pathname: window.location.pathname,
-							hash: window.location.hash
+							pathname: globalThis.location.pathname,
+							hash: globalThis.location.hash
 						});
 						void pageManager.handleNavigation(currentUrl);
 					}
 				};
 
-				window.addEventListener('popstate', () => {
+				globalThis.addEventListener('popstate', () => {
 					logger.debug('Popstate event detected');
 					checkForNavigation();
 				});
 
-				window.addEventListener('hashchange', () => {
-					logger.debug('Hash change detected', { hash: window.location.hash });
+				globalThis.addEventListener('hashchange', () => {
+					logger.debug('Hash change detected', { hash: globalThis.location.hash });
 					checkForNavigation();
 				});
 

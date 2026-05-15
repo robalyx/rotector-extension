@@ -149,20 +149,23 @@
 			}
 
 			switch (result.reason) {
-				case 'invalid_url':
+				case 'invalid_url': {
 					showError($_('custom_api_mgmt_alert_invalid_url'));
 					break;
-				case 'permission_denied':
+				}
+				case 'permission_denied': {
 					perApiPermissions = { ...perApiPermissions, [api.id]: false };
 					showWarning($_('custom_api_mgmt_alert_permission_denied'));
 					break;
-				case 'error':
+				}
+				case 'error': {
 					showError(
 						$_('custom_api_mgmt_alert_toggle_error', {
 							values: { 0: result.message ?? $_('custom_api_form_error_unknown') }
 						})
 					);
 					break;
+				}
 			}
 		} finally {
 			togglingApiId = null;
@@ -194,16 +197,16 @@
 	function handleExportFile(api: CustomApiConfig) {
 		try {
 			const exported = exportApi(api.id);
-			const filename = `${api.name.replace(/[^a-z0-9]/gi, '-')}.rotector-api`;
+			const filename = `${api.name.replaceAll(/[^a-z0-9]/gi, '-')}.rotector-api`;
 
 			const blob = new Blob([exported], { type: 'text/plain' });
 			const url = URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
 			a.download = filename;
-			document.body.appendChild(a);
+			document.body.append(a);
 			a.click();
-			document.body.removeChild(a);
+			a.remove();
 			URL.revokeObjectURL(url);
 
 			showSuccess($_('custom_api_mgmt_alert_export_file_success'));

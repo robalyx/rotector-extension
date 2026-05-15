@@ -3,7 +3,7 @@
    ================================= */
 
 @utility rotector-scan-host {
-	@apply inline-flex items-center self-baseline align-middle !proportional-nums;
+	@apply inline-flex items-center self-baseline align-middle proportional-nums!;
 }
 
 /* =================================
@@ -11,7 +11,7 @@
    ================================= */
 
 @utility rotector-scan-progress-wrapper {
-	@apply !ml-3 inline-flex items-center gap-1.5 align-middle;
+	@apply ml-3! inline-flex items-center gap-1.5 align-middle;
 
 	& img {
 		@apply shrink-0;
@@ -26,12 +26,12 @@
 }
 
 @utility rotector-scan-progress-fill {
-	@apply h-full rounded-full;
+	@apply rounded-full block-full;
 	background-color: var(--color-primary);
 }
 
 @utility rotector-scan-progress-text {
-	@apply !ml-1.5 align-middle !text-[12px] !font-medium whitespace-nowrap;
+	@apply ml-1.5! align-middle text-[12px]! font-medium! whitespace-nowrap;
 	color: var(--color-text-subtle);
 }
 
@@ -40,7 +40,7 @@
    ================================= */
 
 @utility rotector-scan-results {
-	@apply !ml-3 inline-flex items-center gap-2 align-middle;
+	@apply ml-3! inline-flex items-center gap-2 align-middle;
 
 	& img {
 		@apply shrink-0;
@@ -54,7 +54,7 @@
 }
 
 @utility rotector-scan-segment {
-	@apply h-full;
+	@apply block-full;
 	min-width: 2px;
 }
 
@@ -63,11 +63,11 @@
 }
 
 @utility rotector-scan-chip {
-	@apply inline-flex items-center gap-0.5 !text-[12px] !font-semibold whitespace-nowrap;
+	@apply inline-flex items-center gap-0.5 text-[12px]! font-semibold! whitespace-nowrap;
 }
 
 @utility rotector-scan-chip-empty {
-	@apply !font-medium;
+	@apply font-medium!;
 	color: var(--color-text-subtle);
 }
 
@@ -76,15 +76,15 @@
    ================================= */
 
 @utility rotector-scan-error {
-	@apply !ml-3 inline-flex items-center gap-1.5 align-middle !text-[12px];
+	@apply ml-3! inline-flex items-center gap-1.5 align-middle text-[12px]!;
 	color: var(--color-status-error);
 }
 
 @utility rotector-scan-retry {
-	@apply cursor-pointer border-0 bg-transparent p-0 !text-[12px] !font-medium underline underline-offset-2;
+	@apply cursor-pointer border-0 bg-transparent p-0 text-[12px]! font-medium! underline underline-offset-2;
 	color: var(--color-status-error);
 
 	&:hover {
-		@apply !font-semibold;
+		@apply font-semibold!;
 	}
 }

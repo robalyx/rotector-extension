@@ -8,12 +8,14 @@ export function buildCustomApiAuthHeaders(
 	if (!key) return {};
 
 	switch (api.authHeaderType ?? 'x-auth-token') {
-		case 'authorization-bearer':
+		case 'authorization-bearer': {
 			return { Authorization: `Bearer ${key}` };
-		case 'authorization-plain':
+		}
+		case 'authorization-plain': {
 			return { Authorization: key };
-		case 'x-auth-token':
-		default:
+		}
+		case 'x-auth-token': {
 			return { 'X-Auth-Token': key };
+		}
 	}
 }

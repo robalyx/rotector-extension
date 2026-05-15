@@ -101,7 +101,7 @@ async function pollQueueStatus(): Promise<void> {
 		for (const [userIdStr, status] of Object.entries(response)) {
 			if (!status.queued) continue;
 
-			const completedEntry = await applyQueueStatusUpdate(parseInt(userIdStr, 10), status);
+			const completedEntry = await applyQueueStatusUpdate(Number.parseInt(userIdStr, 10), status);
 
 			if (completedEntry) {
 				await sendQueueNotification(completedEntry);
@@ -161,7 +161,7 @@ async function handleCaptchaStart(
 		Object.keys(allItems).filter((key) => {
 			if (!key.startsWith('captcha_session_')) return false;
 			const stored = allItems[key];
-			return !isCaptchaSession(stored) || now - stored.timestamp > 600000;
+			return !isCaptchaSession(stored) || now - stored.timestamp > 600_000;
 		})
 	);
 
@@ -212,7 +212,7 @@ async function handleCaptchaSuccess(
 			return;
 		}
 
-		if (Date.now() - session.timestamp > 600000) {
+		if (Date.now() - session.timestamp > 600_000) {
 			logger.error('Captcha session expired:', sessionId);
 			await removeStorage('local', storageKey);
 			return;
@@ -238,12 +238,12 @@ async function handleCaptchaSuccess(
 			}
 		};
 
-		if (session.senderTabId !== undefined) {
-			await browser.tabs.sendMessage(session.senderTabId, message).catch((err: unknown) => {
-				logger.error('Failed to deliver captcha token to content script:', err);
-			});
-		} else {
+		if (session.senderTabId === undefined) {
 			logger.error('No sender tab ID in captcha session — cannot deliver token');
+		} else {
+			await browser.tabs.sendMessage(session.senderTabId, message).catch((error: unknown) => {
+				logger.error('Failed to deliver captcha token to content script:', error);
+			});
 		}
 
 		logger.info('Captcha completed for session:', sessionId);
@@ -275,8 +275,8 @@ async function handleCaptchaError(
 			error,
 			sessionId
 		};
-		await browser.tabs.sendMessage(senderTabId, message).catch((err: unknown) => {
-			logger.error('Failed to deliver captcha cancellation to content script:', err);
+		await browser.tabs.sendMessage(senderTabId, message).catch((error_: unknown) => {
+			logger.error('Failed to deliver captcha cancellation to content script:', error_);
 		});
 	}
 
@@ -298,20 +298,20 @@ export default defineBackground(() => {
 		id: browser.runtime.id
 	});
 
-	clearDevDataOnStartup().catch((err: unknown) => {
-		logger.warn('Failed to clear dev data:', err);
+	clearDevDataOnStartup().catch((error: unknown) => {
+		logger.warn('Failed to clear dev data:', error);
 	});
 
-	seedDefaultSettings().catch((err: unknown) => {
-		logger.error('Failed to seed default settings:', err);
+	seedDefaultSettings().catch((error: unknown) => {
+		logger.error('Failed to seed default settings:', error);
 	});
 
-	loadCustomApis().catch((err: unknown) => {
-		logger.error('Failed to load custom APIs:', err);
+	loadCustomApis().catch((error: unknown) => {
+		logger.error('Failed to load custom APIs:', error);
 	});
 
-	initializeQueuePolling().catch((err: unknown) => {
-		logger.error('Failed to initialize queue polling:', err);
+	initializeQueuePolling().catch((error: unknown) => {
+		logger.error('Failed to initialize queue polling:', error);
 	});
 
 	async function dispatchCaptchaMessage(

@@ -10,16 +10,17 @@ import { settings } from '@/lib/stores/settings';
 import { type Component, mount, unmount } from 'svelte';
 
 export abstract class PageController {
+	readonly pageType: PageType;
+	protected url: string;
 	protected isInitialized = false;
 	protected mountedComponents: Array<{ element: HTMLElement; cleanup: () => void }> = [];
 
 	// Checked once at init and runtime toggling does not retroactively initialize/cleanup
 	protected readonly settingsKey?: SettingsKey;
 
-	constructor(
-		public readonly pageType: PageType,
-		protected url: string
-	) {
+	constructor(pageType: PageType, url: string) {
+		this.pageType = pageType;
+		this.url = url;
 		logger.debug(`Creating ${this.constructor.name}`, { pageType, url });
 	}
 
@@ -151,7 +152,7 @@ export abstract class PageController {
 		for (const component of this.mountedComponents) {
 			try {
 				component.cleanup();
-				component.element.parentNode?.removeChild(component.element);
+				component.element.remove();
 			} catch (error) {
 				logger.error('Failed to cleanup component:', error);
 			}

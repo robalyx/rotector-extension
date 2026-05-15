@@ -98,7 +98,7 @@
 }
 
 @utility settings-select {
-	@apply cursor-pointer rounded text-xs font-medium;
+	@apply cursor-pointer rounded-sm text-xs font-medium;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 	padding: 0.1875rem 0.5rem;
@@ -133,7 +133,7 @@
 	}
 
 	&:focus-visible {
-		@apply rounded;
+		@apply rounded-sm;
 		outline: 2px solid var(--color-primary);
 		outline-offset: 1px;
 	}
@@ -144,14 +144,14 @@
 }
 
 @utility settings-nav-button-count {
-	@apply text-xs-plus inline-flex h-4 min-w-4 items-center justify-center rounded font-medium;
+	@apply text-xs-plus inline-flex h-4 min-w-4 items-center justify-center rounded-sm font-medium;
 	padding: 0 0.375rem;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
 
 @utility settings-section-collapser {
-	@apply flex w-full cursor-pointer items-center justify-between gap-2 border-none bg-transparent py-1;
+	@apply flex cursor-pointer items-center justify-between gap-2 border-none bg-transparent py-1 inline-full;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 
@@ -160,7 +160,7 @@
 	}
 
 	&:focus-visible {
-		@apply rounded;
+		@apply rounded-sm;
 		outline: 2px solid var(--color-primary);
 		outline-offset: 1px;
 	}

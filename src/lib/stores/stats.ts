@@ -24,10 +24,7 @@ function cacheFor(hours: ActivityHours) {
 }
 
 // Drops the response if the user switched range mid-fetch and skips the null-flash on poll refreshes
-export async function loadStats(
-	hours: ActivityHours,
-	forceRefresh: boolean = false
-): Promise<void> {
+export async function loadStats(hours: ActivityHours, forceRefresh = false): Promise<void> {
 	statsState.set('loading');
 
 	const cache = cacheFor(hours);
@@ -58,7 +55,7 @@ export async function loadStats(
 		logger.error('Failed to load stats:', error);
 		const currentStats = get(stats);
 		statsState.set(
-			!currentStats ? 'error' : currentStats.activity.entries.length === 0 ? 'empty' : 'loaded'
+			currentStats ? (currentStats.activity.entries.length === 0 ? 'empty' : 'loaded') : 'error'
 		);
 	}
 }

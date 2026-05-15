@@ -66,7 +66,7 @@ export function createPersistentListStore<T>(
 			try {
 				const current = await getStorage<T[]>('local', storageKey, []);
 				// Newest-first: reverse the batch so the last add() ends up at index 0
-				const merged = [...batch].reverse().concat(current).slice(0, maxEntries);
+				const merged = [...batch.toReversed(), ...current].slice(0, maxEntries);
 				await save(merged);
 			} catch (error) {
 				logger.warn(`Failed to flush ${storageKey} batch:`, error);
@@ -77,14 +77,10 @@ export function createPersistentListStore<T>(
 
 	function add(entry: T): Promise<void> {
 		pending.push(entry);
-		if (!pendingFlush) {
-			pendingFlush = new Promise<void>((resolve) => {
-				resolvePendingFlush = resolve;
-			});
-		}
-		if (!flushTimer) {
-			flushTimer = setTimeout(flushPending, FLUSH_DELAY_MS);
-		}
+		pendingFlush ??= new Promise<void>((resolve) => {
+			resolvePendingFlush = resolve;
+		});
+		flushTimer ??= setTimeout(flushPending, FLUSH_DELAY_MS);
 		return pendingFlush;
 	}
 

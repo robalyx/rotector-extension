@@ -3,7 +3,7 @@
    ================================= */
 
 @utility tooltip-status-badge {
-	@apply text-sm-plus mt-2 inline-flex items-center rounded py-0.5 font-semibold whitespace-nowrap;
+	@apply text-sm-plus mt-2 inline-flex items-center rounded-sm py-0.5 font-semibold whitespace-nowrap;
 	padding-left: 0.5rem;
 	padding-right: 0.625rem;
 
@@ -85,7 +85,7 @@
 	color: var(--color-primary);
 
 	&::after {
-		@apply pointer-events-none absolute top-1/2 left-1/2 -mt-2 -ml-2 h-4 w-4 rounded-full;
+		@apply pointer-events-none absolute inset-s-1/2 inset-bs-1/2 -mt-2 -ml-2 h-4 w-4 rounded-full;
 		content: '';
 		border: 1.5px solid color-mix(in srgb, var(--color-primary) 60%, transparent);
 		animation: info-hint-ping 2.4s ease-out infinite;
@@ -118,12 +118,12 @@
    ================================= */
 
 @utility tooltip-divider {
-	@apply my-2 border-t;
+	@apply my-2 border-bs;
 	border-color: var(--color-border-subtle);
 }
 
 @utility reportable-pill {
-	@apply ml-auto inline-flex cursor-pointer items-center gap-1 border-none bg-transparent text-xs font-medium no-underline;
+	@apply ms-auto inline-flex cursor-pointer items-center gap-1 border-none bg-transparent text-xs font-medium no-underline;
 	color: var(--color-status-unsafe);
 	opacity: 0.8;
 	transition: opacity 0.15s ease;
@@ -135,7 +135,7 @@
 }
 
 @utility tooltip-hover-popover {
-	@apply pointer-events-auto fixed z-[10006] rounded-md;
+	@apply pointer-events-auto fixed z-10006 rounded-md;
 	width: 240px;
 	padding: 0.5rem 0.625rem;
 	border: 1px solid var(--color-border-subtle);
@@ -145,7 +145,7 @@
 }
 
 @utility outfit-only-indicator {
-	@apply relative ml-auto inline-flex cursor-help items-center gap-1 border-none bg-transparent p-0 text-xs font-medium;
+	@apply relative ms-auto inline-flex cursor-help items-center gap-1 border-none bg-transparent p-0 text-xs font-medium;
 	color: var(--color-status-outfit);
 	opacity: 0.8;
 
@@ -180,15 +180,15 @@
 }
 
 @utility restricted-access-text {
-	@apply flex-1 text-left;
+	@apply flex-1 text-start;
 
 	strong {
-		@apply mb-1 block text-left text-base;
+		@apply mb-1 block text-start text-base;
 		color: var(--color-status-unsafe);
 	}
 
 	p {
-		@apply m-0 text-left text-sm leading-normal;
+		@apply m-0 text-start text-sm leading-normal;
 		color: var(--color-text);
 	}
 }
@@ -241,7 +241,7 @@
 }
 
 @utility tooltip-metadata-reprocess {
-	@apply text-2xs flex cursor-pointer items-center gap-1.5 rounded border-none bg-transparent px-2 py-1 font-medium;
+	@apply text-2xs flex cursor-pointer items-center gap-1.5 rounded-sm border-none bg-transparent px-2 py-1 font-medium;
 	color: var(--color-warning);
 	transition:
 		background-color 0.15s ease,
@@ -262,7 +262,7 @@
    ================================= */
 
 @utility safe-reasons-toggle {
-	@apply mb-2 flex w-full cursor-pointer items-center justify-center gap-1.5 border-none bg-transparent p-0 text-sm font-medium;
+	@apply mb-2 flex cursor-pointer items-center justify-center gap-1.5 border-none bg-transparent p-0 text-sm font-medium inline-full;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 
@@ -341,7 +341,7 @@
 }
 
 @utility translation-toggle-button {
-	@apply text-2xs flex cursor-pointer items-center gap-1 rounded border-none bg-transparent px-2 py-0.5 font-medium;
+	@apply text-2xs flex cursor-pointer items-center gap-1 rounded-sm border-none bg-transparent px-2 py-0.5 font-medium;
 	color: var(--color-text-subtle);
 	transition: color 0.15s ease;
 
@@ -370,7 +370,7 @@
 }
 
 @utility reasons-container {
-	@apply mt-2 flex flex-col gap-2 text-left;
+	@apply mt-2 flex flex-col gap-2 text-start;
 }
 
 @utility reason-item {
@@ -438,7 +438,7 @@
 }
 
 @utility decoded-evidence-chip {
-	@apply text-2xs inline-flex cursor-pointer items-center gap-1 rounded border-none font-medium;
+	@apply text-2xs inline-flex cursor-pointer items-center gap-1 rounded-sm border-none font-medium;
 	padding: 0.1875rem 0.4375rem;
 	letter-spacing: 0.02em;
 	color: var(--color-text-subtle);
@@ -479,13 +479,13 @@
 }
 
 @utility source-evidence-badge {
-	@apply rounded px-1.5 py-0.5 text-xs font-bold whitespace-nowrap uppercase;
+	@apply rounded-sm px-1.5 py-0.5 text-xs font-bold whitespace-nowrap uppercase;
 	background-color: var(--color-evidence-border);
 	color: var(--color-text);
 }
 
 @utility source-info-indicator {
-	@apply relative ml-auto inline-flex cursor-help items-center border-none bg-transparent p-0;
+	@apply relative ms-auto inline-flex cursor-help items-center border-none bg-transparent p-0;
 	color: var(--color-text-subtle);
 	font: inherit;
 	line-height: inherit;
@@ -560,12 +560,12 @@
 }
 
 @utility outfit-evidence-name {
-	@apply min-w-0 flex-1 truncate text-left text-sm font-semibold;
+	@apply min-w-0 flex-1 truncate text-start text-sm font-semibold;
 	color: var(--color-text);
 }
 
 @utility outfit-confidence-badge {
-	@apply text-2xs rounded px-1.5 py-0.5 font-bold;
+	@apply text-2xs rounded-sm px-1.5 py-0.5 font-bold;
 	background-color: var(--color-status-outfit);
 	color: white;
 	letter-spacing: 0.02em;
@@ -600,12 +600,12 @@
 }
 
 @utility outfit-snapshot-img {
-	@apply block h-full w-full object-cover;
+	@apply block object-cover block-full inline-full;
 	transition: transform 320ms ease-out;
 }
 
 @utility outfit-snapshot-skeleton {
-	@apply relative h-full w-full overflow-hidden;
+	@apply relative overflow-hidden block-full inline-full;
 	background-color: color-mix(in srgb, var(--color-status-outfit) 12%, transparent);
 
 	&::after {
@@ -685,6 +685,6 @@
 }
 
 @utility error-details {
-	@apply text-xs-plus text-left break-words whitespace-pre-wrap;
+	@apply text-xs-plus text-start wrap-break-word whitespace-pre-wrap;
 	color: var(--color-text-subtle);
 }

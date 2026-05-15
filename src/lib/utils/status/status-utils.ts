@@ -128,7 +128,7 @@ export function isFlagged<T extends UserStatus | GroupStatus>(
 	status: CombinedStatus<T> | null
 ): boolean {
 	if (!status) return false;
-	return Array.from(status.values()).some(isActionableResult);
+	return [...status.values()].some(isActionableResult);
 }
 
 // First actionable API result. Prefers Rotector, then any custom API.

@@ -95,13 +95,13 @@
 	// Focus trap restricted to popup contents
 	function trapFocus(e: KeyboardEvent) {
 		if (e.key !== 'Tab' || !popupElement) return;
-		const focusable = Array.from(
-			popupElement.querySelectorAll<HTMLElement>(
+		const focusable = [
+			...popupElement.querySelectorAll<HTMLElement>(
 				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 			)
-		).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+		].filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
 		const first = focusable[0];
-		const last = focusable[focusable.length - 1];
+		const last = focusable.at(-1);
 		if (!first || !last) return;
 		const root = popupElement.getRootNode() as Document | ShadowRoot;
 		const active = root.activeElement instanceof HTMLElement ? root.activeElement : null;
@@ -205,7 +205,7 @@
 					{@render children()}
 				</div>
 
-				{#if actions || showCancel || showConfirm}
+				{#if actions ?? (showCancel || showConfirm)}
 					<div class="modal-divider"></div>
 					<div class="modal-actions">
 						{#if actions}

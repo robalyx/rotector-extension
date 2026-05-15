@@ -10,7 +10,7 @@ export async function fetchImageAsDataUrl(url: string): Promise<string> {
 	const buffer = await response.arrayBuffer();
 	const bytes = new Uint8Array(buffer);
 
-	const chunkSize = 0x8000;
+	const chunkSize = 0x80_00;
 	let binary = '';
 	for (let i = 0; i < bytes.length; i += chunkSize) {
 		const chunk = bytes.subarray(i, i + chunkSize);

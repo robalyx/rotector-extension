@@ -55,7 +55,7 @@
 }
 
 @utility activity-range-button {
-	@apply text-2xs cursor-pointer rounded border-none bg-transparent font-semibold;
+	@apply text-2xs cursor-pointer rounded-sm border-none bg-transparent font-semibold;
 	padding: 0.1875rem 0.4375rem;
 	color: var(--color-text-subtle);
 	transition:
@@ -111,7 +111,7 @@
 	}
 
 	&:focus-visible {
-		@apply rounded;
+		@apply rounded-sm;
 		outline: 2px solid var(--color-primary);
 		outline-offset: 1px;
 	}
@@ -151,11 +151,11 @@
 }
 
 @utility activity-chart {
-	@apply relative w-full;
+	@apply relative inline-full;
 }
 
 @utility activity-chart-canvas {
-	@apply w-full;
+	@apply inline-full;
 }
 
 @utility activity-chart-empty {
@@ -192,13 +192,13 @@
 }
 
 @utility funding-bar {
-	@apply w-full overflow-hidden rounded-full;
+	@apply overflow-hidden rounded-full inline-full;
 	height: 6px;
 	background-color: var(--color-bg-tertiary);
 }
 
 @utility funding-bar-fill {
-	@apply h-full rounded-full;
+	@apply rounded-full block-full;
 	background-color: var(--color-primary);
 	transition: width 0.3s ease;
 
@@ -254,7 +254,7 @@
 	}
 
 	&:focus-visible {
-		@apply rounded;
+		@apply rounded-sm;
 		outline: 2px solid var(--color-primary);
 		outline-offset: 1px;
 	}

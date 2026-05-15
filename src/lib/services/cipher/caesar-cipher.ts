@@ -18,7 +18,7 @@ const LABEL_MATCH_PATTERN =
 	/\b(?:caesar\s*(?:cipher|shift)?\s*\d{1,2}|rot\s*\d{1,2}|cc\s*\d{1,2}|shift\s*\d{1,2})\b/gi;
 
 export function caesarShift(text: string, shift: number): string {
-	return text.replace(/[a-zA-Z]/g, (char) => {
+	return text.replaceAll(/[a-zA-Z]/g, (char) => {
 		const base = char <= 'Z' ? 65 : 97;
 		return String.fromCharCode(((char.charCodeAt(0) - base + shift + 26) % 26) + base);
 	});
@@ -57,7 +57,7 @@ function countEnglishWords(words: string[]): number {
 function isPlaintext(text: string): boolean {
 	const words = extractWords(text);
 	if (words.length === 0) {
-		return text.replace(/\s/g, '').length < 5;
+		return text.replaceAll(/\s/g, '').length < 5;
 	}
 	return countEnglishWords(words) / words.length > 0.4;
 }
@@ -74,7 +74,7 @@ function detectLabel(bio: string): number | null {
 	for (const pattern of patterns) {
 		const match = bio.match(pattern);
 		if (match?.[1]) {
-			const shift = parseInt(match[1], 10);
+			const shift = Number.parseInt(match[1], 10);
 			if (shift >= 1 && shift <= 25) return shift;
 		}
 	}

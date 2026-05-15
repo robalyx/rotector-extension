@@ -23,7 +23,7 @@
 	border-right: 1px solid var(--color-border-subtle);
 
 	& img {
-		@apply block h-8 w-auto;
+		@apply block h-8 inline-auto;
 	}
 }
 
@@ -33,7 +33,7 @@
 }
 
 @utility outfit-meta-stack {
-	@apply flex w-full flex-col gap-4;
+	@apply flex flex-col gap-4 inline-full;
 }
 
 @utility outfit-meta {
@@ -134,17 +134,17 @@
 }
 
 @utility outfit-viewer-progress {
-	@apply flex w-full max-w-72 flex-col items-center gap-2;
+	@apply flex max-w-72 flex-col items-center gap-2 inline-full;
 }
 
 @utility outfit-viewer-progress-bar {
-	@apply w-full overflow-hidden rounded-full;
+	@apply overflow-hidden rounded-full inline-full;
 	height: 4px;
 	background-color: var(--color-bg-tertiary);
 }
 
 @utility outfit-viewer-progress-fill {
-	@apply h-full rounded-full;
+	@apply rounded-full block-full;
 	width: 30%;
 	background-color: var(--color-primary);
 	animation: progress-indeterminate 1.5s ease-in-out infinite;
@@ -179,7 +179,7 @@
 }
 
 @utility outfit-viewer-retry {
-	@apply cursor-pointer rounded px-3 py-1.5 text-xs font-medium;
+	@apply cursor-pointer rounded-sm px-3 py-1.5 text-xs font-medium;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text);
@@ -245,16 +245,16 @@
 }
 
 @utility outfit-stack-thumbnail {
-	@apply h-full w-full object-cover;
+	@apply object-cover block-full inline-full;
 }
 
 @utility outfit-stack-thumbnail-pending {
-	@apply flex h-full w-full items-center justify-center;
+	@apply flex items-center justify-center block-full inline-full;
 	background-color: var(--color-bg-secondary);
 }
 
 @utility outfit-stack-thumbnail-placeholder {
-	@apply flex h-full w-full items-center justify-center;
+	@apply flex items-center justify-center block-full inline-full;
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-subtle);
 }
@@ -277,18 +277,18 @@
 }
 
 @utility outfit-stack-name {
-	@apply m-0 w-full overflow-hidden text-center text-xs text-ellipsis whitespace-nowrap;
+	@apply m-0 truncate text-center text-xs inline-full;
 	max-width: 120px;
 	color: var(--color-text);
 }
 
 @utility outfit-stack-expanded {
-	@apply mt-1.5 grid w-full gap-1.5;
+	@apply mt-1.5 grid gap-1.5 inline-full;
 	grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
 }
 
 @utility outfit-stack-expanded-item {
-	@apply cursor-pointer overflow-hidden rounded p-0;
+	@apply cursor-pointer overflow-hidden rounded-sm p-0;
 	aspect-ratio: 1 / 1;
 	border: 1px solid var(--color-border-subtle);
 	background-color: var(--color-bg-tertiary);

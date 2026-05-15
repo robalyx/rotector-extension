@@ -241,8 +241,8 @@
 
 	$effect(() => {
 		if (isOpen && queueLimitsRef && !hideQueueLimits) {
-			queueLimitsRef.refresh().catch((err: unknown) => {
-				logger.error('Failed to load queue limits:', err);
+			queueLimitsRef.refresh().catch((error: unknown) => {
+				logger.error('Failed to load queue limits:', error);
 			});
 		} else if (!isOpen && !awaitingCaptcha) {
 			resetAllState();
@@ -271,8 +271,8 @@
 
 					Promise.resolve(
 						onConfirm?.(
-							message.queueData.outfitNames.length ? message.queueData.outfitNames : undefined,
-							message.queueData.outfitIds.length ? message.queueData.outfitIds : undefined,
+							message.queueData.outfitNames.length > 0 ? message.queueData.outfitNames : undefined,
+							message.queueData.outfitIds.length > 0 ? message.queueData.outfitIds : undefined,
 							message.queueData.inappropriateProfile,
 							message.queueData.inappropriateFriends,
 							message.queueData.inappropriateGroups,
@@ -288,12 +288,13 @@
 							submitting = false;
 						});
 				}
-			} else if (message.type === CAPTCHA_MESSAGES.CAPTCHA_CANCELLED) {
-				if (message.sessionId === captchaSessionId) {
-					awaitingCaptcha = false;
-					captchaSessionId = null;
-					logger.warn('Captcha was cancelled:', message.error);
-				}
+			} else if (
+				message.type === CAPTCHA_MESSAGES.CAPTCHA_CANCELLED &&
+				message.sessionId === captchaSessionId
+			) {
+				awaitingCaptcha = false;
+				captchaSessionId = null;
+				logger.warn('Captcha was cancelled:', message.error);
 			}
 		};
 

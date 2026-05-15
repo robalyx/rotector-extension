@@ -19,7 +19,7 @@
    ================================= */
 
 @utility number-input {
-	@apply rounded p-2 text-sm;
+	@apply rounded-sm p-2 text-sm;
 	width: 80px;
 	border: 1px solid var(--color-border);
 	background-color: var(--color-background);

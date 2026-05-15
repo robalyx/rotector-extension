@@ -18,9 +18,7 @@ interface SnapshotCacheEntry {
 	timestamp: number;
 }
 
-interface SnapshotCache {
-	[userId: string]: SnapshotCacheEntry;
-}
+type SnapshotCache = Record<string, SnapshotCacheEntry>;
 
 class OutfitSnapshotService {
 	private cache: SnapshotCache = {};
@@ -54,8 +52,8 @@ class OutfitSnapshotService {
 			return this.buildSubset(cached.maps, ids, names);
 		}
 
-		const sortedIds = [...ids].sort();
-		const sortedNames = [...names].sort();
+		const sortedIds = ids.toSorted();
+		const sortedNames = names.toSorted();
 		const pendingKey = `${normalizedUserId}:ids=${sortedIds.join(',')}:names=${sortedNames.join(',')}`;
 		const existingPromise = this.pendingRequests[pendingKey];
 		if (existingPromise !== undefined) {

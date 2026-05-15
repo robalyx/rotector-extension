@@ -38,7 +38,7 @@
 			await triggerLegalReview();
 			logger.debug('Legal review triggered from popup');
 		}
-		if (toRemove.length) await removeStorage('local', toRemove);
+		if (toRemove.length > 0) await removeStorage('local', toRemove);
 	}
 
 	void checkPopupRequests();

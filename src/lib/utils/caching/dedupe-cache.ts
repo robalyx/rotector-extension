@@ -10,8 +10,11 @@
 export class DedupeCache<K, V> {
 	private cache = new Map<K, { value: V; timestamp: number }>();
 	private pending = new Map<K, Promise<V>>();
+	private getTTL: () => number;
 
-	constructor(private getTTL: () => number) {}
+	constructor(getTTL: () => number) {
+		this.getTTL = getTTL;
+	}
 
 	async get(key: K, fetcher: () => Promise<V>): Promise<V> {
 		const cached = this.cache.get(key);

@@ -7,7 +7,7 @@
 }
 
 @utility tooltip-tab {
-	@apply text-xs-plus flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded border-none bg-transparent font-semibold;
+	@apply text-xs-plus flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-sm border-none bg-transparent font-semibold;
 	padding: 0.3125rem 0.5rem;
 	letter-spacing: 0.02em;
 	color: var(--color-text-subtle);
@@ -62,7 +62,7 @@
 }
 
 @utility tooltip-tab-name {
-	@apply overflow-hidden text-ellipsis whitespace-nowrap;
+	@apply truncate;
 	max-width: 8rem;
 }
 
@@ -76,7 +76,7 @@
 }
 
 @utility tooltip-tab-image {
-	@apply h-7 max-w-full rounded object-contain;
+	@apply h-7 rounded-sm object-contain max-inline-full;
 	background-color: var(--color-surface-primary);
 }
 

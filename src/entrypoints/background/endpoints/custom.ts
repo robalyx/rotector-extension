@@ -70,7 +70,7 @@ export async function customApiCheckMultipleUsers(
 
 	return makeHttpRequest<UserStatus[]>(apiConfig.batchUrl, {
 		method: 'POST',
-		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => parseInt(id, 10)) }),
+		body: JSON.stringify({ ids: sanitizedUserIds.map((id) => Number.parseInt(id, 10)) }),
 		customApi: apiConfig,
 		timeout: apiConfig.timeout,
 		rawResponse: true,

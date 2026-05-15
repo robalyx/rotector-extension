@@ -43,30 +43,34 @@
 
 	const chipLabels = $derived.by(() => {
 		switch (encoding.type) {
-			case 'caesar':
+			case 'caesar': {
 				return {
 					detected: $_('cipher_chip_detected'),
 					decoded: $_('cipher_chip_decoded', { values: { shift: encoding.shift } }),
 					aria: $_('cipher_chip_show_aria')
 				};
-			case 'morse':
+			}
+			case 'morse': {
 				return {
 					detected: $_('cipher_chip_detected_morse'),
 					decoded: $_('cipher_chip_decoded_morse'),
 					aria: $_('cipher_chip_show_aria_morse')
 				};
-			case 'morse+caesar':
+			}
+			case 'morse+caesar': {
 				return {
 					detected: $_('cipher_chip_detected_morse_caesar'),
 					decoded: $_('cipher_chip_decoded_morse_caesar', { values: { shift: encoding.shift } }),
 					aria: $_('cipher_chip_show_aria_morse_caesar')
 				};
-			case 'binary':
+			}
+			case 'binary': {
 				return {
 					detected: $_('cipher_chip_detected_binary'),
 					decoded: $_('cipher_chip_decoded_binary'),
 					aria: $_('cipher_chip_show_aria_binary')
 				};
+			}
 		}
 	});
 
@@ -77,14 +81,14 @@
 			return;
 		}
 
-		if (!shared.decoded) {
-			applyDecode(nodeMap);
-			if (modalNodeMap) applyDecode(modalNodeMap);
-			shared.decoded = true;
-		} else {
+		if (shared.decoded) {
 			restoreOriginal(nodeMap);
 			if (modalNodeMap) restoreOriginal(modalNodeMap);
 			shared.decoded = false;
+		} else {
+			applyDecode(nodeMap);
+			if (modalNodeMap) applyDecode(modalNodeMap);
+			shared.decoded = true;
 		}
 	}
 
@@ -112,7 +116,7 @@
 
 					if (!modalInstance) {
 						const container = document.createElement('div');
-						modalDesc.insertAdjacentElement('afterend', container);
+						modalDesc.after(container);
 						modalInstance = mount(CipherIndicator, {
 							target: container,
 							props: {

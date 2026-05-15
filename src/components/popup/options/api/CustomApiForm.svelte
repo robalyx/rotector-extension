@@ -19,7 +19,7 @@
 	let name = $state(untrack(() => editingApi?.name || ''));
 	let singleUrl = $state(untrack(() => editingApi?.singleUrl || ''));
 	let batchUrl = $state(untrack(() => editingApi?.batchUrl || ''));
-	let timeout = $state(untrack(() => editingApi?.timeout || 5000));
+	let timeout = $state(untrack(() => editingApi?.timeout ?? 5000));
 	let landscapeImageDataUrl = $state(untrack(() => editingApi?.landscapeImageDataUrl || ''));
 	let imageFiles = $state<FileList | null>(null);
 	let imageInputEl = $state<HTMLInputElement | null>(null);
@@ -123,7 +123,7 @@
 			return false;
 		}
 
-		if (timeout > 60000) {
+		if (timeout > 60_000) {
 			timeoutError = $_('custom_api_form_error_timeout_max');
 			return false;
 		}
@@ -158,13 +158,13 @@
 		}
 
 		const reader = new FileReader();
-		reader.onload = (e) => {
+		reader.addEventListener('load', (e) => {
 			landscapeImageDataUrl = e.target?.result as string;
-		};
-		reader.onerror = () => {
+		});
+		reader.addEventListener('error', () => {
 			imageError = $_('custom_api_form_error_image_read');
 			landscapeImageDataUrl = '';
-		};
+		});
 		reader.readAsDataURL(file);
 	}
 

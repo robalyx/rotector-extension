@@ -2,39 +2,36 @@
 	"extends": "./.wxt/tsconfig.json",
 	"compilerOptions": {
 		/* === Module System === */
-		"module": "esnext", // Use latest ES module syntax
-		"moduleResolution": "bundler", // Use bundler-specific resolution (Vite/Webpack)
-		"target": "es2017", // Target ES2017 for good browser compatibility
-		"lib": ["ES2022", "DOM"], // Type defs ahead of emit target so modern APIs (Error cause) typecheck
-		"verbatimModuleSyntax": true, // Enforce explicit import/export types
-		"isolatedModules": true, // Each file can be transpiled independently
-		"resolveJsonModule": true, // Allow importing JSON files
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"target": "ES2022",
+		"lib": ["ES2025", "DOM"],
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"erasableSyntaxOnly": true,
+		"noUncheckedSideEffectImports": true,
 
 		/* === Build Options === */
-		"sourceMap": true, // Generate source maps for debugging
-		"esModuleInterop": true, // Enable interop between CommonJS and ES modules
-		"skipLibCheck": true, // Skip type checking of declaration files for faster builds
-		"useDefineForClassFields": true, // Use standard class field behavior
-		"forceConsistentCasingInFileNames": true, // Enforce consistent file name casing
-
-		/* === Core Strict Mode === */
-		"strict": true, // Enable all strict type checking options
-
-		/* === Additional Safety === */
-		"noImplicitReturns": true, // Require all code paths to return a value
-		"noImplicitOverride": true, // Require 'override' modifier for inherited methods
-		"allowUnusedLabels": false, // Disallow unused labels (potential bugs)
-		"allowUnreachableCode": false, // Disallow unreachable code after return/throw
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"useDefineForClassFields": true,
+		"forceConsistentCasingInFileNames": true,
 
 		/* === Code Quality === */
-		"noUnusedLocals": true, // Report unused local variables
-		"noUnusedParameters": true, // Report unused function parameters
-
-		/* === Type Checking === */
-		"noUncheckedIndexedAccess": true, // arr[i] and obj[key] typed as T | undefined
-		"exactOptionalPropertyTypes": true, // foo?: string disallows assigning undefined
-		"noFallthroughCasesInSwitch": true, // Require break/return in non-empty case blocks
-		"noPropertyAccessFromIndexSignature": true // Force obj["k"] for index signatures
+		"strict": true,
+		"noImplicitReturns": true,
+		"noImplicitOverride": true,
+		"allowUnusedLabels": false,
+		"allowUnreachableCode": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noPropertyAccessFromIndexSignature": true
 	},
 	"include": ["**/*", ".wxt/wxt.d.ts"],
 	"exclude": [".output", ".wxt/chrome-data", "node_modules"]

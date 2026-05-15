@@ -86,7 +86,8 @@ async function buildRotectorHeaders(
 	headers: Headers,
 	{ clientId, lookupContext, readPrimary, bearerOverride }: RotectorHeaderOptions
 ): Promise<void> {
-	const apiKey = (await getApiKey())?.trim() ?? null;
+	const rawApiKey = await getApiKey();
+	const apiKey = rawApiKey?.trim() ?? null;
 	if (apiKey) {
 		headers.set('X-Auth-Token', apiKey);
 	}
@@ -145,9 +146,9 @@ async function prepareHeaders(
 	});
 
 	if (fetchHeaders) {
-		new Headers(fetchHeaders).forEach((value, key) => {
+		for (const [key, value] of new Headers(fetchHeaders).entries()) {
 			headers.set(key, value);
-		});
+		}
 	}
 
 	if (customApi) {

@@ -71,10 +71,10 @@
 			const data = await apiClient.getLeaderboard(window, { limit: PAGE_SIZE, cursor: 0, signal });
 			if (signal.aborted) return;
 			applyResponse(data, false);
-		} catch (e) {
-			if (isAbortError(e)) return;
-			logger.error('Leaderboard fetch failed:', e);
-			error = asApiError(e).message || $_('leaderboard_load_failed');
+		} catch (error_) {
+			if (isAbortError(error_)) return;
+			logger.error('Leaderboard fetch failed:', error_);
+			error = asApiError(error_).message || $_('leaderboard_load_failed');
 		} finally {
 			if (!signal.aborted) loading = false;
 		}
@@ -91,9 +91,9 @@
 			});
 			if (fetchWindow !== activeWindow) return;
 			applyResponse(data, true);
-		} catch (e) {
-			logger.error('Leaderboard load-more failed:', e);
-			error = asApiError(e).message || $_('leaderboard_load_failed');
+		} catch (error_) {
+			logger.error('Leaderboard load-more failed:', error_);
+			error = asApiError(error_).message || $_('leaderboard_load_failed');
 		} finally {
 			loadingMore = false;
 		}
@@ -117,8 +117,8 @@
 		if (windowEnd === null) return '';
 		const diff = windowEnd - Math.floor(Date.now() / 1000);
 		if (diff <= 0) return $_('leaderboard_resets_now');
-		const days = Math.floor(diff / 86400);
-		const hours = Math.floor((diff % 86400) / 3600);
+		const days = Math.floor(diff / 86_400);
+		const hours = Math.floor((diff % 86_400) / 3600);
 		const mins = Math.floor((diff % 3600) / 60);
 		if (days > 0) {
 			return $_('leaderboard_resets_in_days', { values: { d: days, h: hours } });

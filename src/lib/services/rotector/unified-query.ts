@@ -51,7 +51,7 @@ function getEnabledCustomApis(): CustomApiConfig[] {
 
 	return get(customApis)
 		.filter((api) => api.enabled && (api.isSystem || experimentalCustomApisEnabled))
-		.sort((a, b) => a.order - b.order);
+		.toSorted((a, b) => a.order - b.order);
 }
 
 // Query a single user with progressive updates as each API completes
@@ -147,7 +147,7 @@ export async function queryMultipleUsers(
 	const enabledApis = getEnabledCustomApis();
 
 	const results = new Map<string, CombinedStatus<UserStatus>>();
-	userIds.forEach((userId) => {
+	for (const userId of userIds) {
 		results.set(
 			userId,
 			new Map(
@@ -162,7 +162,7 @@ export async function queryMultipleUsers(
 				])
 			)
 		);
-	});
+	}
 
 	const setApiResult = (
 		userId: string,
@@ -206,13 +206,7 @@ export async function queryMultipleUsers(
 		}
 		if (toFetch.length === 0) return;
 
-		const chunks = chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
-		for (const [i, chunk] of chunks.entries()) {
-			if (i > 0) {
-				await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
-			}
-			if (signal?.aborted) throw getAbortError(signal);
-
+		const processChunk = async (chunk: string[]): Promise<void> => {
 			try {
 				const apiStatuses = await apiClient.checkMultipleUsers(chunk, { signal, lookupContext });
 				if (signal?.aborted) return;
@@ -220,21 +214,25 @@ export async function queryMultipleUsers(
 				for (const status of apiStatuses) {
 					userStatusService.updateStatus(status.id.toString(), status);
 				}
-				chunk.forEach((userId) => {
+				for (const userId of chunk) {
 					const userStatus = userMap.get(userId);
 					setApiResult(userId, rotectorApi, userStatus ? { data: userStatus } : {});
-				});
+				}
 			} catch (error) {
 				if (signal?.aborted) return;
 				const errorMessage = asApiError(error).message;
-				chunk.forEach((userId) => {
+				for (const userId of chunk) {
 					setApiResult(userId, rotectorApi, { error: errorMessage });
-				});
-				logger.error('Rotector batch error:', {
-					chunkSize: chunk.length,
-					error: errorMessage
-				});
+				}
+				logger.error('Rotector batch error:', { chunkSize: chunk.length, error: errorMessage });
 			}
+		};
+
+		const chunks = chunkArray(toFetch, API_CONFIG.BATCH_SIZE);
+		for (const [i, chunk] of chunks.entries()) {
+			if (i > 0) await abortableSleep(API_CONFIG.BATCH_DELAY, signal);
+			if (signal?.aborted) throw getAbortError(signal);
+			await processChunk(chunk);
 		}
 	})();
 
@@ -257,16 +255,16 @@ export async function queryMultipleUsers(
 						});
 						if (signal?.aborted) return;
 						const userMap = new Map(apiStatuses.map((s) => [s.id.toString(), s]));
-						chunk.forEach((userId) => {
+						for (const userId of chunk) {
 							const userStatus = userMap.get(userId);
 							setApiResult(userId, api, userStatus ? { data: userStatus } : {});
-						});
+						}
 					} catch (error) {
 						if (signal?.aborted) return;
 						const errorMessage = asApiError(error).message;
-						chunk.forEach((userId) => {
+						for (const userId of chunk) {
 							setApiResult(userId, api, { error: errorMessage });
-						});
+						}
 						logger.error('API batch error:', {
 							chunkSize: chunk.length,
 							apiId: api.id,
@@ -312,7 +310,7 @@ export function pickDefaultTab<T extends UserStatus | GroupStatus>(
 ): string | null {
 	if (preferred && combined.has(preferred)) return preferred;
 
-	const values = Array.from(combined.values());
+	const values = [...combined.values()];
 	const allSettled = values.every((result) => !result.loading);
 	if (!allSettled) return null;
 
@@ -322,7 +320,7 @@ export function pickDefaultTab<T extends UserStatus | GroupStatus>(
 	);
 
 	if (rotector?.data?.flagType === STATUS.FLAGS.SAFE && combined.size > 1 && !allApisSafe) {
-		const firstCustomWithDetection = Array.from(combined.entries()).find(
+		const firstCustomWithDetection = [...combined.entries()].find(
 			([id, result]) =>
 				id !== ROTECTOR_API_ID && result.data && result.data.flagType !== STATUS.FLAGS.SAFE
 		);

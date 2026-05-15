@@ -59,9 +59,9 @@
 		btn.type = 'button';
 		btn.title = $_('export_tracked_button_tooltip');
 		btn.append(icon, label);
-		btn.onclick = () => (showExportModal = true);
+		btn.addEventListener('click', () => (showExportModal = true));
 
-		row.appendChild(btn);
+		row.append(btn);
 		exportButton = btn;
 	}
 

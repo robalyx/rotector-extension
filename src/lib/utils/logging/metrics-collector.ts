@@ -4,11 +4,11 @@ import { getObserverCount } from '../dom/observer';
 import { getLogSource, IS_DEV } from './log-source';
 import { generateLocalId } from '../id';
 
-const SAMPLE_INTERVAL = 30000; // 30 seconds
+const SAMPLE_INTERVAL = 30_000; // 30 seconds
 
 class MetricsCollector {
 	private longTaskObserver: PerformanceObserver | null = null;
-	private sampleTimer: number | null = null;
+	private sampleTimer: ReturnType<typeof setInterval> | null = null;
 
 	start(): void {
 		if (!IS_DEV) return;
@@ -37,7 +37,7 @@ class MetricsCollector {
 	}
 
 	private setupLongTaskObserver(): void {
-		if (!('PerformanceObserver' in window)) return;
+		if (!('PerformanceObserver' in globalThis)) return;
 
 		try {
 			this.longTaskObserver = new PerformanceObserver((list) => {
@@ -63,7 +63,7 @@ class MetricsCollector {
 	private startPeriodicSampling(): void {
 		this.takeSnapshot('periodic');
 
-		this.sampleTimer = window.setInterval(() => {
+		this.sampleTimer = setInterval(() => {
 			this.takeSnapshot('periodic');
 		}, SAMPLE_INTERVAL);
 	}
@@ -72,7 +72,7 @@ class MetricsCollector {
 		return {
 			id: generateLocalId(),
 			timestamp: Date.now(),
-			pageUrl: window.location.href,
+			pageUrl: globalThis.location.href,
 			source: getLogSource(),
 			type,
 			observerCount: getObserverCount(),
@@ -82,7 +82,7 @@ class MetricsCollector {
 	}
 
 	private getDomNodeCount(): number {
-		return document.getElementsByTagName('*').length;
+		return document.querySelectorAll('*').length;
 	}
 
 	private getMemorySnapshot(): MemorySnapshot | undefined {
@@ -100,7 +100,7 @@ class MetricsCollector {
 		const snapshot: MetricsSnapshot = {
 			id: generateLocalId(),
 			timestamp: Date.now(),
-			pageUrl: window.location.href,
+			pageUrl: globalThis.location.href,
 			source: getLogSource(),
 			type: 'longtask',
 			observerCount: getObserverCount(),

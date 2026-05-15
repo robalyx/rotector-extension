@@ -90,7 +90,9 @@ function buildReport(systemInfo: SystemInfo): string {
 		'Settings (snapshot):'
 	];
 
-	const settingEntries = Object.entries(settingsSnapshot).sort(([a], [b]) => a.localeCompare(b));
+	const settingEntries = Object.entries(settingsSnapshot).toSorted(([a], [b]) =>
+		a.localeCompare(b)
+	);
 	for (const [key, value] of settingEntries) {
 		if (SENSITIVE_SETTING_KEYS.has(key)) continue;
 		lines.push(`- ${key}: ${formatSettingValue(value)}`);
@@ -126,8 +128,8 @@ export function downloadDebugLogs(): void {
 	const a = document.createElement('a');
 	a.href = url;
 	a.download = filename;
-	document.body.appendChild(a);
+	document.body.append(a);
 	a.click();
-	document.body.removeChild(a);
+	a.remove();
 	URL.revokeObjectURL(url);
 }

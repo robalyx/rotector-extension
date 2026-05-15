@@ -93,11 +93,11 @@ async function markCurrentlyWearingItems(userId: string, groupId: string): Promi
 	if (revealedGroups.has(groupId)) return;
 
 	const items = document.querySelectorAll(BLUR_SELECTORS.PROFILE_CURRENTLY_WEARING);
-	items.forEach((el) => {
+	for (const el of items) {
 		if (el instanceof HTMLElement) {
 			markElementForUser(el, userId, 'avatar', groupId);
 		}
-	});
+	}
 }
 
 interface ObserveEntry {
@@ -119,22 +119,25 @@ function observeSelectors(userId: string, entries: ObserveEntry[]): () => void {
 		}
 	};
 
+	const processNode = (node: HTMLElement) => {
+		for (const entry of entries) {
+			if (node.matches(entry.selector)) processElement(node, entry);
+			for (const el of node.querySelectorAll(entry.selector)) {
+				if (el instanceof HTMLElement) processElement(el, entry);
+			}
+		}
+	};
+
 	for (const entry of entries) {
-		document.querySelectorAll(entry.selector).forEach((el) => {
+		for (const el of document.querySelectorAll(entry.selector)) {
 			if (el instanceof HTMLElement) processElement(el, entry);
-		});
+		}
 	}
 
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
 			for (const node of mutation.addedNodes) {
-				if (!(node instanceof HTMLElement)) continue;
-				for (const entry of entries) {
-					if (node.matches(entry.selector)) processElement(node, entry);
-					node.querySelectorAll(entry.selector).forEach((el) => {
-						if (el instanceof HTMLElement) processElement(el, entry);
-					});
-				}
+				if (node instanceof HTMLElement) processNode(node);
 			}
 		}
 	});

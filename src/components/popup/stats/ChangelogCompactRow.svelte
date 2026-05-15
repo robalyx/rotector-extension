@@ -27,11 +27,7 @@
 	async function handleToggleNotifications(event: MouseEvent) {
 		event.stopPropagation();
 		try {
-			if (isModalDisabled) {
-				await enableChangelogModal();
-			} else {
-				await disableChangelogModal();
-			}
+			await (isModalDisabled ? enableChangelogModal() : disableChangelogModal());
 		} catch (error) {
 			logger.error('Failed to toggle changelog notifications:', error);
 		}

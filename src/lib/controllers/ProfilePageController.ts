@@ -29,7 +29,7 @@ export class ProfilePageController extends PageController {
 
 		const container = this.createComponentContainer(COMPONENT_CLASSES.PROFILE_STATUS);
 		container.style.display = 'none';
-		document.body.appendChild(container);
+		document.body.append(container);
 
 		this.mountComponent(ProfilePageManager, container, {
 			userId,

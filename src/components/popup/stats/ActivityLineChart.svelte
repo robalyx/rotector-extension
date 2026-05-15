@@ -61,7 +61,7 @@
 	function computeXRange(): [number, number] | null {
 		if (entries.length < 2) return null;
 		const first = entries[1];
-		const last = entries[entries.length - 1];
+		const last = entries.at(-1);
 		if (!first || !last) return null;
 		return [toUnixSec(first.timestamp), toUnixSec(last.timestamp)];
 	}
@@ -110,7 +110,7 @@
 					font: '10px system-ui, sans-serif',
 					size: 28,
 					space: 20,
-					incrs: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000],
+					incrs: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10_000],
 					values: (_u, ticks) => ticks.map((t) => Math.round(t).toString())
 				}
 			],
@@ -154,9 +154,9 @@
 	$effect(() => {
 		const shows = categories.map((cat) => visibility[cat.key] !== false);
 		if (!chartInstance) return;
-		shows.forEach((show, idx) => {
-			chartInstance?.setSeries(idx + 1, { show });
-		});
+		for (const [idx, show] of shows.entries()) {
+			chartInstance.setSeries(idx + 1, { show });
+		}
 	});
 
 	onDestroy(destroyChart);

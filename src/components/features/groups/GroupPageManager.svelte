@@ -20,7 +20,7 @@
 	let { groupId, pageType, querySubscription = null }: Props = $props();
 
 	function checkIsAboutTab(): boolean {
-		const tab = window.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
+		const tab = globalThis.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
 		return tab === '' || tab === 'about';
 	}
 
@@ -30,8 +30,8 @@
 		const handler = () => {
 			isAboutTab = checkIsAboutTab();
 		};
-		window.addEventListener('hashchange', handler);
-		return () => window.removeEventListener('hashchange', handler);
+		globalThis.addEventListener('hashchange', handler);
+		return () => globalThis.removeEventListener('hashchange', handler);
 	});
 
 	let groupStatus = $state<CombinedStatus<GroupStatus> | null>(null);

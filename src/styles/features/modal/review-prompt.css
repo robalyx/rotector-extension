@@ -52,7 +52,7 @@
 }
 
 @utility review-prompt-gap-bar {
-	@apply relative h-2 w-full overflow-hidden rounded-full;
+	@apply relative h-2 overflow-hidden rounded-full inline-full;
 	background-color: var(--color-bg-secondary);
 	border: 1px solid var(--color-border-subtle);
 }

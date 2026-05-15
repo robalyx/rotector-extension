@@ -48,6 +48,7 @@ export default defineConfig({
 			description: '__MSG_extensionDescription__',
 			default_locale: 'en',
 			version: '2.17.0',
+			minimum_chrome_version: '128',
 			permissions: ['storage', 'notifications', ...robloxFetch],
 			host_permissions: [`https://${apiDomain}/*`, 'https://cdn.rotector.com/*'],
 			...(manifestVersion === 2
@@ -73,7 +74,8 @@ export default defineConfig({
 			...(browser === 'firefox' && {
 				browser_specific_settings: {
 					gecko: {
-						id: 'rotector@jaxron.me'
+						id: 'rotector@jaxron.me',
+						strict_min_version: '129.0'
 					}
 				}
 			})

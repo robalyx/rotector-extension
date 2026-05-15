@@ -36,18 +36,18 @@
 }
 
 @utility roblox-account-preview-cell {
-	@apply inline-flex items-center gap-2 self-start rounded;
+	@apply inline-flex items-center gap-2 self-start rounded-sm;
 	padding: 0.5rem 0.625rem;
 	background-color: var(--color-bg-tertiary);
 	border: 1px solid var(--color-border-subtle);
 }
 
 @utility roblox-account-preview-avatar {
-	@apply flex h-6 w-6 flex-none items-center justify-center overflow-hidden rounded;
+	@apply flex h-6 w-6 flex-none items-center justify-center overflow-hidden rounded-sm;
 	background-color: var(--color-bg-content);
 
 	& img {
-		@apply h-full w-full object-cover;
+		@apply object-cover block-full inline-full;
 	}
 }
 

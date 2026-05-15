@@ -11,7 +11,7 @@
 );
 
 @utility membership-pill {
-	@apply relative isolate inline-flex cursor-help items-center gap-1.5 overflow-hidden rounded px-2 py-1 align-middle whitespace-nowrap;
+	@apply relative isolate inline-flex cursor-help items-center gap-1.5 overflow-hidden rounded-sm px-2 py-1 align-middle whitespace-nowrap;
 	color: var(--color-tier);
 	border: 1px solid color-mix(in srgb, var(--color-tier) 40%, transparent);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);

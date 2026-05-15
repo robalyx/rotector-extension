@@ -19,7 +19,7 @@
 	let { isOpen, name, reason, confidence, primaryDataUrl, rawUrls, onClose }: Props = $props();
 
 	// undefined = awaiting lazy fetch, null = fetch failed, string = data URL ready
-	let dataUrls = $state<Array<string | null | undefined>>([]);
+	let dataUrls = $state<(string | null | undefined)[]>([]);
 	let currentIndex = $state(0);
 
 	const isCarousel = $derived(rawUrls.length > 1);
@@ -155,7 +155,7 @@
 			</div>
 		{/if}
 
-		<div class="outfit-meta-stack max-w-[420px]">
+		<div class="outfit-meta-stack max-inline-[420px]">
 			<div class="outfit-meta">
 				<span class="outfit-meta-label">
 					{$_('outfit_snapshot_lightbox_caveat_label')}

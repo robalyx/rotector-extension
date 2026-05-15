@@ -27,7 +27,7 @@ function logTrace(data: TraceData): void {
 	if (!IS_DEV) return;
 
 	const source = getLogSource();
-	const pageUrl = source === LOG_SOURCES.CONTENT ? window.location.href : undefined;
+	const pageUrl = source === LOG_SOURCES.CONTENT ? globalThis.location.href : undefined;
 	const { category, operation, duration, success = true, ...rest } = data;
 
 	addPerformanceEntry({

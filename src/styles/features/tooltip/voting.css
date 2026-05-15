@@ -3,7 +3,7 @@
    ================================= */
 
 @utility voting-container {
-	@apply relative w-full overflow-hidden rounded-md p-3;
+	@apply relative overflow-hidden rounded-md p-3 inline-full;
 	background-color: var(--color-reason-bg);
 	border: 1px solid var(--color-border-subtle);
 	transition:
@@ -43,7 +43,7 @@
 }
 
 @utility voting-meter-fill {
-	@apply absolute top-0 left-0 h-full rounded-full;
+	@apply absolute top-0 left-0 rounded-full block-full;
 	background-color: var(--color-success);
 	transition: width 0.3s ease;
 }
@@ -150,7 +150,7 @@
 }
 
 @utility tooltip-options-item {
-	@apply flex w-full cursor-pointer items-center gap-2 rounded border-none bg-transparent text-left text-xs font-medium;
+	@apply flex cursor-pointer items-center gap-2 rounded-sm border-none bg-transparent text-start text-xs font-medium inline-full;
 	padding: 0.4375rem 0.5rem;
 	color: var(--color-text);
 	transition:
@@ -177,7 +177,7 @@
 }
 
 @utility tooltip-options-divider {
-	@apply my-1 h-px;
+	@apply my-1 block-px;
 	background-color: var(--color-border-subtle);
 }
 
@@ -199,12 +199,12 @@
 }
 
 @utility tooltip-options-chevron {
-	@apply ml-auto shrink-0;
+	@apply ms-auto shrink-0;
 	color: var(--color-text-subtle);
 }
 
 @utility tooltip-options-item-suffix {
-	@apply text-2xs ml-auto font-mono;
+	@apply text-2xs ms-auto font-mono;
 	color: var(--color-text-subtle);
 }
 
@@ -213,7 +213,7 @@
 }
 
 @utility tooltip-options-engine-tag {
-	@apply text-2xs inline-flex items-center justify-center gap-1 rounded leading-none font-semibold;
+	@apply text-2xs inline-flex items-center justify-center gap-1 rounded-sm leading-none font-semibold;
 	padding: 0.1875rem 0.4375rem;
 	letter-spacing: 0.02em;
 

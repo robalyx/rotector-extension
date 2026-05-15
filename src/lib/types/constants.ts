@@ -61,9 +61,9 @@ export const API_CONFIG = {
 	BATCH_DELAY: 250, // ms between batches
 	MAX_RETRIES: 3,
 	RETRY_DELAY: 1000, // base delay in ms
-	TIMEOUT: 10000, // 10 seconds
-	EXPORT_TIMEOUT: 30000, // 30 seconds for large export downloads
-	QUEUE_POLL_INTERVAL: 30000, // background queue-status poll cadence
+	TIMEOUT: 10_000, // 10 seconds
+	EXPORT_TIMEOUT: 30_000, // 30 seconds for large export downloads
+	QUEUE_POLL_INTERVAL: 30_000, // background queue-status poll cadence
 	PROGRESSIVE_API_TIMEOUT: 15_000, // per-API timeout when racing custom + system APIs
 	OUTFIT_SNAPSHOT_MAX_ITEMS: 50, // upper bound on outfit-name lookups per snapshot
 	TRANSLATION_CACHE_MAX: 100, // in-memory translation cache size

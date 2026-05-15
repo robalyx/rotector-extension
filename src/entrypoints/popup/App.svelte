@@ -36,9 +36,9 @@
 
 	const LAST_PAGE_STORAGE_KEY = 'lastVisitedPage';
 
-	const POPUP_PAGES: readonly Page[] = ['stats', 'settings', 'queue', 'leaderboard', 'performance'];
+	const POPUP_PAGES = new Set<Page>(['stats', 'settings', 'queue', 'leaderboard', 'performance']);
 
-	const optionsTabs: Array<{ id: Page; labelKey: string }> = [
+	const optionsTabs: { id: Page; labelKey: string }[] = [
 		{ id: 'custom-apis', labelKey: 'custom_api_tab_manage' },
 		{ id: 'membership', labelKey: 'membership_tab_label' },
 		{ id: 'roblox-account', labelKey: 'roblox_account_tab_label' },
@@ -55,10 +55,10 @@
 	const isOptionsSurface = $derived(surface === 'options');
 	let currentPage = $state<Page | null>(null);
 
-	const OPTIONS_PAGES: readonly Page[] = optionsTabs.map((tab) => tab.id);
+	const OPTIONS_PAGES = new Set<Page>(optionsTabs.map((tab) => tab.id));
 
 	function resolveOptionsDeepLink(target: unknown): Page {
-		if (typeof target === 'string' && OPTIONS_PAGES.includes(target as Page)) {
+		if (typeof target === 'string' && OPTIONS_PAGES.has(target as Page)) {
 			return target as Page;
 		}
 		return 'custom-apis';
@@ -78,7 +78,7 @@
 	$effect(() => {
 		if (!isOptionsSurface) return;
 		return subscribeStorageKey<Page>('local', 'optionsDeepLink', (newValue) => {
-			if (typeof newValue === 'string' && OPTIONS_PAGES.includes(newValue)) {
+			if (typeof newValue === 'string' && OPTIONS_PAGES.has(newValue)) {
 				currentPage = newValue;
 				void removeStorage('local', 'optionsDeepLink');
 			}
@@ -123,15 +123,10 @@
 
 		getStorage<Page | undefined>('local', LAST_PAGE_STORAGE_KEY, undefined)
 			.then((savedPage) => {
-				if (
-					savedPage &&
-					POPUP_PAGES.includes(savedPage) &&
-					(IS_DEV || savedPage !== 'performance')
-				) {
-					currentPage = savedPage;
-				} else {
-					currentPage = 'stats';
-				}
+				currentPage =
+					savedPage && POPUP_PAGES.has(savedPage) && (IS_DEV || savedPage !== 'performance')
+						? savedPage
+						: 'stats';
 			})
 			.catch((error: unknown) => {
 				logger.error('Failed to load last visited page:', error);
@@ -158,8 +153,8 @@
 
 <div
 	class={isOptionsSurface
-		? 'app mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 overflow-x-clip px-4 py-6'
-		: 'app flex min-h-[400px] w-[350px] flex-col gap-3 p-3'}
+		? 'app mx-auto flex max-w-3xl flex-col gap-4 overflow-x-clip px-4 py-6 inline-full min-block-screen'
+		: 'app flex flex-col gap-3 p-3 inline-[350px] min-block-[400px]'}
 >
 	<!-- Toast Notifications -->
 	<Toast />
@@ -168,7 +163,11 @@
 		<!-- Header Section -->
 		<div class="pb-2 text-center">
 			<div class="mb-2 flex justify-center">
-				<img class="h-20 w-auto max-w-[260px] object-contain" alt="Rotector" src={logoSrc} />
+				<img
+					class="h-20 object-contain inline-auto max-inline-[260px]"
+					alt="Rotector"
+					src={logoSrc}
+				/>
 			</div>
 			<p
 				class="

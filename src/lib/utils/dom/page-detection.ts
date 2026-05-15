@@ -107,7 +107,7 @@ export function detectPageContext(anchorElement: HTMLElement): PageDetectionResu
 	const isGroupCard = anchorElement.closest(PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM);
 	const isBTRobloxGroupCard = anchorElement.closest(BTROBLOX_GROUPS_SELECTORS.ITEM);
 
-	const normalizedPath = normalizePathname(window.location.pathname);
+	const normalizedPath = normalizePathname(globalThis.location.pathname);
 	const isProfilePage = normalizedPath.includes('/users/');
 	const isGroupPage =
 		normalizedPath.includes('/groups/') || normalizedPath.includes('/communities/');

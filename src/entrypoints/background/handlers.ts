@@ -55,26 +55,32 @@ export async function dispatchContentMessage(msg: ContentMessage): Promise<unkno
 				return customApiCheckUser(msg.apiConfig, msg.userId);
 			}
 			// Use primary database if user is queued but not yet processed
-			const userId = typeof msg.userId === 'string' ? parseInt(msg.userId, 10) : msg.userId;
+			const userId = typeof msg.userId === 'string' ? Number.parseInt(msg.userId, 10) : msg.userId;
 			const readPrimary = await isUserBeingProcessedInStorage(userId);
 			return checkUserStatus(msg.userId, msg.clientId, readPrimary);
 		}
-		case API_ACTIONS.CHECK_GROUP_STATUS:
+		case API_ACTIONS.CHECK_GROUP_STATUS: {
 			return checkGroupStatus(msg.groupId, msg.clientId);
+		}
 		case API_ACTIONS.CHECK_MULTIPLE_USERS: {
 			if (msg.apiConfig) {
 				return customApiCheckMultipleUsers(msg.apiConfig, msg.userIds);
 			}
 			// Use primary database if any user is queued but not yet processed
-			const userIds = msg.userIds.map((id) => (typeof id === 'string' ? parseInt(id, 10) : id));
-			const readPrimary = (await getUnprocessedUserIdsFromStorage(userIds)).length > 0;
+			const userIds = msg.userIds.map((id) =>
+				typeof id === 'string' ? Number.parseInt(id, 10) : id
+			);
+			const unprocessed = await getUnprocessedUserIdsFromStorage(userIds);
+			const readPrimary = unprocessed.length > 0;
 			return checkMultipleUsers(msg.userIds, msg.clientId, msg.lookupContext, readPrimary);
 		}
-		case API_ACTIONS.CHECK_MULTIPLE_GROUPS:
+		case API_ACTIONS.CHECK_MULTIPLE_GROUPS: {
 			return checkMultipleGroups(msg.groupIds, msg.clientId, msg.lookupContext);
-		case API_ACTIONS.GET_GROUP_TRACKED_USERS:
+		}
+		case API_ACTIONS.GET_GROUP_TRACKED_USERS: {
 			return getGroupTrackedUsers(msg.groupId, msg.cursor, msg.limit, msg.active);
-		case API_ACTIONS.QUEUE_USER:
+		}
+		case API_ACTIONS.QUEUE_USER: {
 			return queueUser(
 				msg.userId,
 				msg.outfitNames ?? [],
@@ -85,16 +91,22 @@ export async function dispatchContentMessage(msg: ContentMessage): Promise<unkno
 				msg.clientId,
 				msg.captchaToken
 			);
-		case API_ACTIONS.GET_QUEUE_LIMITS:
+		}
+		case API_ACTIONS.GET_QUEUE_LIMITS: {
 			return getQueueLimits(msg.clientId);
-		case API_ACTIONS.SUBMIT_VOTE:
+		}
+		case API_ACTIONS.SUBMIT_VOTE: {
 			return submitVote(msg.userId, msg.voteType, msg.clientId);
-		case API_ACTIONS.GET_VOTES:
+		}
+		case API_ACTIONS.GET_VOTES: {
 			return getVotes(msg.userId, msg.clientId);
-		case API_ACTIONS.GET_STATS:
+		}
+		case API_ACTIONS.GET_STATS: {
 			return getStats(msg.hours);
-		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS:
+		}
+		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_STATUS: {
 			return getMembershipStatus();
+		}
 		case API_ACTIONS.EXTENSION_UPDATE_MEMBERSHIP_BADGE: {
 			const payload: MembershipBadgeUpdatePayload = {
 				...(msg.badgeDesign !== undefined && { badgeDesign: msg.badgeDesign }),
@@ -106,29 +118,38 @@ export async function dispatchContentMessage(msg: ContentMessage): Promise<unkno
 			}
 			return updateMembershipBadge(payload);
 		}
-		case API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE:
+		case API_ACTIONS.EXTENSION_CLEAR_MEMBERSHIP_BADGE: {
 			return clearMembershipBadge();
-		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION:
+		}
+		case API_ACTIONS.EXTENSION_GET_MEMBERSHIP_VERIFICATION: {
 			return getMembershipVerification(msg.robloxUserId);
-		case API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION:
+		}
+		case API_ACTIONS.EXTENSION_CONFIRM_MEMBERSHIP_VERIFICATION: {
 			return confirmMembershipVerification(msg.robloxUserId);
-		case API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD:
+		}
+		case API_ACTIONS.LOOKUP_ROBLOX_USER_DISCORD: {
 			return lookupRobloxUserDiscord(msg.userId, msg.clientId);
-		case API_ACTIONS.LOOKUP_OUTFITS_BY_NAME:
+		}
+		case API_ACTIONS.LOOKUP_OUTFITS_BY_NAME: {
 			return lookupOutfitsByName(msg.userId, msg.names, msg.clientId);
-		case API_ACTIONS.LOOKUP_OUTFITS_BY_ID:
+		}
+		case API_ACTIONS.LOOKUP_OUTFITS_BY_ID: {
 			return lookupOutfitsById(msg.userId, msg.ids, msg.clientId);
-		case API_ACTIONS.FETCH_OUTFIT_IMAGES:
+		}
+		case API_ACTIONS.FETCH_OUTFIT_IMAGES: {
 			return fetchOutfitImages(msg.imageUrls);
-		case API_ACTIONS.EXPORT_GROUP_TRACKED_USERS:
+		}
+		case API_ACTIONS.EXPORT_GROUP_TRACKED_USERS: {
 			return exportGroupTrackedUsers(msg.groupId, {
 				format: msg.exportFormat,
 				columns: msg.exportColumns,
 				sort: msg.exportSort,
 				order: msg.exportOrder
 			});
-		case API_ACTIONS.TRANSLATE_TEXT:
+		}
+		case API_ACTIONS.TRANSLATE_TEXT: {
 			return translateTexts(msg.texts, msg.targetLanguage, msg.sourceLanguage);
+		}
 		case API_ACTIONS.HAS_TRANSLATE_PERMISSION: {
 			const hasPermission = await browser.permissions.contains({
 				origins: ['https://translate.googleapis.com/*']
@@ -141,18 +162,24 @@ export async function dispatchContentMessage(msg: ContentMessage): Promise<unkno
 			});
 			return { granted };
 		}
-		case API_ACTIONS.ROBLOX_AUTH_CHALLENGE:
+		case API_ACTIONS.ROBLOX_AUTH_CHALLENGE: {
 			return requestRobloxAuthChallenge(msg.robloxUserId);
-		case API_ACTIONS.ROBLOX_AUTH_VERIFY:
+		}
+		case API_ACTIONS.ROBLOX_AUTH_VERIFY: {
 			return verifyRobloxAuth(msg.challengeId);
-		case API_ACTIONS.ROBLOX_AUTH_EXCHANGE:
+		}
+		case API_ACTIONS.ROBLOX_AUTH_EXCHANGE: {
 			return exchangeMembershipForSession();
-		case API_ACTIONS.ROBLOX_AUTH_LOGOUT:
+		}
+		case API_ACTIONS.ROBLOX_AUTH_LOGOUT: {
 			return logoutRobloxAuth();
-		case API_ACTIONS.ROBLOX_AUTH_LOGOUT_ALL:
+		}
+		case API_ACTIONS.ROBLOX_AUTH_LOGOUT_ALL: {
 			return logoutAllRobloxAuth();
-		case API_ACTIONS.ME_GET_PROFILE:
+		}
+		case API_ACTIONS.ME_GET_PROFILE: {
 			return getMeProfile();
+		}
 		case API_ACTIONS.ME_UPDATE_SETTINGS: {
 			const patch: MeSettingsPatch = {};
 			if (msg.alias !== undefined) patch.alias = msg.alias;
@@ -163,13 +190,17 @@ export async function dispatchContentMessage(msg: ContentMessage): Promise<unkno
 			}
 			return updateMeSettings(patch);
 		}
-		case API_ACTIONS.ME_REFRESH_IDENTITY:
+		case API_ACTIONS.ME_REFRESH_IDENTITY: {
 			return refreshMeIdentity();
-		case API_ACTIONS.ME_LIST_SESSIONS:
+		}
+		case API_ACTIONS.ME_LIST_SESSIONS: {
 			return listMeSessions();
-		case API_ACTIONS.ME_REVOKE_SESSION:
+		}
+		case API_ACTIONS.ME_REVOKE_SESSION: {
 			return revokeMeSession(msg.sessionId);
-		case API_ACTIONS.GET_LEADERBOARD:
+		}
+		case API_ACTIONS.GET_LEADERBOARD: {
 			return getLeaderboard(msg.window, msg.limit, msg.cursor);
+		}
 	}
 }

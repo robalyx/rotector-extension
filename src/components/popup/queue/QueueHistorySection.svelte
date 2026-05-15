@@ -68,13 +68,13 @@
 		const now = Date.now();
 		const diff = now - timestamp;
 
-		if (diff < 60000) return $_('queue_history_time_just_now');
-		if (diff < 3600000) {
-			const mins = Math.floor(diff / 60000);
+		if (diff < 60_000) return $_('queue_history_time_just_now');
+		if (diff < 3_600_000) {
+			const mins = Math.floor(diff / 60_000);
 			return $_('queue_history_time_minutes_ago', { values: { 0: mins } });
 		}
-		if (diff < 86400000) {
-			const hours = Math.floor(diff / 3600000);
+		if (diff < 86_400_000) {
+			const hours = Math.floor(diff / 3_600_000);
 			return $_('queue_history_time_hours_ago', { values: { 0: hours } });
 		}
 

@@ -11,7 +11,7 @@
 
 	let { currentPage, onPageChange }: NavbarProps = $props();
 
-	const tabs: Array<{ id: NavPage; labelKey: string }> = [
+	const tabs: { id: NavPage; labelKey: string }[] = [
 		{ id: 'stats', labelKey: 'navbar_tab_stats' },
 		{ id: 'queue', labelKey: 'navbar_tab_queue' },
 		{ id: 'leaderboard', labelKey: 'navbar_tab_leaderboard' },

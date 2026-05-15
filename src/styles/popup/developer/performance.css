@@ -82,7 +82,7 @@
 }
 
 @utility perf-longtask-duration {
-	@apply shrink-0 rounded px-1 py-0.5 font-semibold;
+	@apply shrink-0 rounded-sm px-1 py-0.5 font-semibold;
 	background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
 	color: var(--color-warning);
 	font-size: 0.5rem;
@@ -102,7 +102,7 @@
 }
 
 @utility perf-category-row {
-	@apply flex items-center gap-2 rounded px-2 py-1.5;
+	@apply flex items-center gap-2 rounded-sm px-2 py-1.5;
 	background-color: var(--color-bg-content);
 	border: 1px solid var(--color-border-subtle);
 }
@@ -114,17 +114,17 @@
 }
 
 @utility perf-category-bar-container {
-	@apply h-3 flex-1 overflow-hidden rounded;
+	@apply h-3 flex-1 overflow-hidden rounded-sm;
 	background-color: var(--color-hover);
 }
 
 @utility perf-category-bar {
-	@apply h-full rounded transition-all duration-300;
+	@apply rounded-sm transition-all duration-300 block-full;
 	min-width: 2px;
 }
 
 @utility perf-category-stats {
-	@apply text-3xs shrink-0 text-right font-medium;
+	@apply text-3xs shrink-0 text-end font-medium;
 	width: 90px;
 	color: var(--color-text-subtle);
 }
@@ -153,7 +153,7 @@
 }
 
 @utility perf-slowest-category {
-	@apply text-3xs shrink-0 rounded px-1 py-0.5 font-semibold uppercase;
+	@apply text-3xs shrink-0 rounded-sm px-1 py-0.5 font-semibold uppercase;
 	font-size: 0.5rem;
 }
 
@@ -195,7 +195,7 @@
 }
 
 @utility perf-trace-category {
-	@apply text-3xs shrink-0 rounded px-1 py-0.5 font-semibold uppercase;
+	@apply text-3xs shrink-0 rounded-sm px-1 py-0.5 font-semibold uppercase;
 	font-size: 0.5rem;
 }
 
@@ -215,7 +215,7 @@
 }
 
 @utility perf-trace-metadata {
-	@apply text-3xs mx-2 mt-0 mb-1 max-h-20 overflow-x-auto rounded p-2 break-words whitespace-pre-wrap;
+	@apply text-3xs mx-2 mt-0 mb-1 max-h-20 overflow-x-auto rounded-sm p-2 wrap-break-word whitespace-pre-wrap;
 	background-color: var(--color-bg);
 	border: 1px solid var(--color-border-subtle);
 	color: var(--color-text-subtle);

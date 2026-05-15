@@ -72,7 +72,7 @@ export async function checkMultipleUsers(
 	));
 
 	const requestBody: Record<string, unknown> = {
-		ids: sanitizedUserIds.map((id) => parseInt(id, 10)),
+		ids: sanitizedUserIds.map((id) => Number.parseInt(id, 10)),
 		...(excludeInfo && { excludeInfo: true })
 	};
 
@@ -96,7 +96,7 @@ export async function checkMultipleGroups(
 	const sanitizedGroupIds = processBatchEntityIds(groupIds);
 
 	const requestBody = {
-		ids: sanitizedGroupIds.map((id) => parseInt(id, 10))
+		ids: sanitizedGroupIds.map((id) => Number.parseInt(id, 10))
 	};
 
 	const map = await makeHttpRequest(API_CONFIG.ENDPOINTS.GROUP_CHECK, {
@@ -114,16 +114,16 @@ export async function queueUser(
 	userId: string | number,
 	outfitNames: string[] = [],
 	outfitIds: number[] = [],
-	inappropriateProfile: boolean = false,
-	inappropriateFriends: boolean = false,
-	inappropriateGroups: boolean = false,
+	inappropriateProfile = false,
+	inappropriateFriends = false,
+	inappropriateGroups = false,
 	clientId?: string,
 	captchaToken?: string
 ): Promise<QueueResult> {
 	const sanitizedUserId = validateEntityId(userId);
 
 	const requestBody = {
-		id: parseInt(sanitizedUserId, 10),
+		id: Number.parseInt(sanitizedUserId, 10),
 		inappropriate_profile: inappropriateProfile,
 		inappropriate_friends: inappropriateFriends,
 		inappropriate_groups: inappropriateGroups,
@@ -161,7 +161,7 @@ export async function submitVote(
 
 	return {
 		success: true,
-		userId: parseInt(sanitizedUserId, 10),
+		userId: Number.parseInt(sanitizedUserId, 10),
 		voteType,
 		newVoteData: voteData
 	};
@@ -206,7 +206,7 @@ export async function getQueueStatus(
 export async function getGroupTrackedUsers(
 	groupId: string | number,
 	cursor?: string,
-	limit: number = 24,
+	limit = 24,
 	active?: 'true' | 'false'
 ): Promise<GroupTrackedUsersResponse> {
 	const sanitizedGroupId = validateEntityId(groupId);

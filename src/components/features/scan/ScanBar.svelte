@@ -106,9 +106,9 @@
 			await progress.set(100);
 			if (signal.aborted) return;
 			phase = 'complete';
-		} catch (err) {
-			if (err instanceof DOMException && err.name === 'AbortError') return;
-			logger.error(`Scan failed (${label})`, err);
+		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') return;
+			logger.error(`Scan failed (${label})`, error);
 			phase = 'error';
 		}
 	}

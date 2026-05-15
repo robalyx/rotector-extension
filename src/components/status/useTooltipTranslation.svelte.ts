@@ -88,8 +88,8 @@ export function useTooltipTranslation(opts: Options): TooltipTranslation {
 						const result = await apiClient.translateTexts(textsForReason, targetLanguage, 'auto');
 						Object.assign(allTranslations, result.translations);
 						totalTextsCount += textsForReason.length;
-					} catch (err) {
-						logger.warn('Translation failed for reason, keeping original:', err);
+					} catch (error) {
+						logger.warn('Translation failed for reason, keeping original:', error);
 					}
 				}
 			}
@@ -102,9 +102,9 @@ export function useTooltipTranslation(opts: Options): TooltipTranslation {
 					to: targetLanguage
 				});
 			}
-		} catch (err) {
-			logger.error('Auto-translation failed:', err);
-			translationError = extractErrorMessage(err);
+		} catch (error) {
+			logger.error('Auto-translation failed:', error);
+			translationError = extractErrorMessage(error);
 		} finally {
 			isTranslating = false;
 			translationAttempted = true;

@@ -3,7 +3,7 @@
    ================================= */
 
 @utility rotector-export-button {
-	@apply !text-sm-plus !ml-3 inline-flex cursor-pointer items-center gap-1.5 rounded border-none px-2.5 py-1 align-middle !font-medium whitespace-nowrap transition-colors duration-150;
+	@apply text-sm-plus! ml-3! inline-flex cursor-pointer items-center gap-1.5 rounded-sm border-none px-2.5 py-1 align-middle font-medium! whitespace-nowrap transition-colors duration-150;
 	background-color: #2b2d33 !important;
 	color: #f5f5f5 !important;
 
@@ -87,7 +87,7 @@
 }
 
 @utility export-column-item {
-	@apply text-sm-plus flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 select-none;
+	@apply text-sm-plus flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 select-none;
 	color: var(--color-text);
 	transition: background-color 0.15s ease;
 
@@ -110,7 +110,7 @@
 }
 
 @utility export-select {
-	@apply text-sm-plus flex-1 cursor-pointer rounded;
+	@apply text-sm-plus flex-1 cursor-pointer rounded-sm;
 	padding: 0.4375rem 0.625rem;
 	font-family: inherit;
 	color: var(--color-text);
@@ -129,7 +129,7 @@
 }
 
 @utility export-order-btn {
-	@apply text-sm-plus inline-flex cursor-pointer items-center justify-center rounded font-medium whitespace-nowrap;
+	@apply text-sm-plus inline-flex cursor-pointer items-center justify-center rounded-sm font-medium whitespace-nowrap;
 	padding: 0.4375rem 0.75rem;
 	color: var(--color-text);
 	background-color: var(--color-bg-tertiary);
@@ -154,7 +154,7 @@
    ================================= */
 
 @utility export-error {
-	@apply mt-2 rounded text-xs;
+	@apply mt-2 rounded-sm text-xs;
 	padding: 0.625rem 0.75rem;
 	line-height: 1.5;
 	color: var(--color-error);
@@ -163,6 +163,6 @@
 }
 
 @utility export-cooldown {
-	@apply mr-auto text-xs;
+	@apply me-auto text-xs;
 	color: var(--color-text-subtle);
 }

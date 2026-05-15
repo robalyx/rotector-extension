@@ -96,13 +96,12 @@
 	async function handleCopyDiscordSummary(event: MouseEvent) {
 		event.stopPropagation();
 
-		const lines: string[] = [];
-
-		lines.push(`Roblox User ID: ${String(robloxUserId)}`);
-		lines.push('');
-
-		lines.push(`Discord Accounts: ${String(discordAccounts.length)}`);
-		lines.push(`Total Servers: ${String(totalServers)}`);
+		const lines: string[] = [
+			`Roblox User ID: ${String(robloxUserId)}`,
+			'',
+			`Discord Accounts: ${String(discordAccounts.length)}`,
+			`Total Servers: ${String(totalServers)}`
+		];
 		if (altAccounts.length > 0) {
 			lines.push(`Alt Accounts: ${String(altAccounts.length)}`);
 		}
@@ -121,9 +120,9 @@
 				const taseTag = server.isTase ? ' [TASE]' : '';
 				const graceTag = server.inGracePeriod ? ' [GRACE]' : '';
 				const dateStr =
-					server.joinedAt != null
-						? `Joined ${formatShortDate(server.joinedAt) ?? 'Unknown'}`
-						: `First seen ${formatTimestamp(server.firstSeenAt)}`;
+					server.joinedAt == null
+						? `First seen ${formatTimestamp(server.firstSeenAt)}`
+						: `Joined ${formatShortDate(server.joinedAt) ?? 'Unknown'}`;
 				const updatedStr = server.updatedAt ? formatTimestamp(server.updatedAt) : 'Unknown';
 				lines.push(
 					`  - ${server.serverName}${taseTag}${graceTag} - ${dateStr} - Updated ${updatedStr}`

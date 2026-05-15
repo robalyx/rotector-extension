@@ -50,7 +50,7 @@
 		const reasons = flaggingData?.reasons;
 		if (!reasons || isRedacted) return [];
 		return formatViolationReasons(reasons)
-			.sort((a, b) => b.confidence - a.confidence)
+			.toSorted((a, b) => b.confidence - a.confidence)
 			.slice(0, 3);
 	});
 
@@ -84,7 +84,7 @@
 	function extractUserInfo(): UserInfo | null {
 		if (!sanitizedUserId) return null;
 
-		const isProfilePage = window.location.pathname.includes('/users/');
+		const isProfilePage = globalThis.location.pathname.includes('/users/');
 		const container = isProfilePage
 			? document.querySelector(PROFILE_SELECTORS.HEADER)
 			: document.querySelector(
@@ -98,7 +98,7 @@
 			: [SEARCH_SELECTORS.CARD.USERNAME, SEARCH_SELECTORS.CARD.AVATAR_IMG];
 
 		let username = container.querySelector(usernameSel)?.textContent.trim() ?? '';
-		if (isProfilePage && username.startsWith('@')) username = username.substring(1);
+		if (isProfilePage && username.startsWith('@')) username = username.slice(1);
 
 		const avatarImg = container.querySelector(avatarSel);
 		const avatarUrl =
@@ -182,7 +182,7 @@
 		<button class="modal-button-danger-outline" onclick={handleBlock} type="button">
 			{$_('friend_warning_block_button')}
 		</button>
-		<button class="modal-button-cancel ml-auto" onclick={handleCancel} type="button">
+		<button class="modal-button-cancel ms-auto" onclick={handleCancel} type="button">
 			{$_('friend_warning_cancel_button')}
 		</button>
 		<button class="modal-button-danger" onclick={handleProceed} type="button">

@@ -145,7 +145,7 @@ export async function t(key: string, params?: Record<string, string | number>): 
 
 	if (params) {
 		for (const [paramKey, value] of Object.entries(params)) {
-			message = message.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(value));
+			message = message.replaceAll(new RegExp(String.raw`\{${paramKey}\}`, 'g'), String(value));
 		}
 	}
 

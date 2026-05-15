@@ -37,12 +37,19 @@ interface PendingEntry<T> {
 class EntityStatusService<T extends EntityStatus> {
 	private readonly cache = new Map<string, CacheEntry<T>>();
 	private readonly pendingRequests = new Map<string, PendingEntry<T>>();
+	private readonly entityType: 'user' | 'group';
+	private readonly fetchSingle: (id: string, options?: GetStatusOptions) => Promise<T>;
+	private readonly fetchMultiple: (ids: string[], lookupContext?: string) => Promise<T[]>;
 
 	constructor(
-		private readonly entityType: 'user' | 'group',
-		private readonly fetchSingle: (id: string, options?: GetStatusOptions) => Promise<T>,
-		private readonly fetchMultiple: (ids: string[], lookupContext?: string) => Promise<T[]>
-	) {}
+		entityType: 'user' | 'group',
+		fetchSingle: (id: string, options?: GetStatusOptions) => Promise<T>,
+		fetchMultiple: (ids: string[], lookupContext?: string) => Promise<T[]>
+	) {
+		this.entityType = entityType;
+		this.fetchSingle = fetchSingle;
+		this.fetchMultiple = fetchMultiple;
+	}
 
 	// Joins an in-flight fetch when one exists for entityId, otherwise starts one and dedupes waiters
 	public async getStatus(entityId: string, options?: GetStatusOptions): Promise<T | null> {
@@ -125,10 +132,10 @@ class EntityStatusService<T extends EntityStatus> {
 				});
 			}
 			return result;
-		} catch (err) {
+		} catch (error) {
 			logger.error(`${this.entityType}StatusService: failed to fetch status`, {
 				entityId,
-				error: err
+				error
 			});
 			return null;
 		}
@@ -195,11 +202,11 @@ class EntityStatusService<T extends EntityStatus> {
 				options?.onProgress?.(cachedCount + processed, entityIds.length);
 			}
 
-			toFetch.forEach((entityId) => {
+			for (const entityId of toFetch) {
 				if (!results.has(entityId)) {
 					results.set(entityId, null);
 				}
-			});
+			}
 		}
 
 		return results;
@@ -220,7 +227,7 @@ class EntityStatusService<T extends EntityStatus> {
 				throw getAbortError(options.signal);
 			}
 
-			batchStatuses.forEach((status) => {
+			for (const status of batchStatuses) {
 				if (status.id) {
 					const entityId = status.id.toString();
 					this.cache.set(entityId, {
@@ -229,7 +236,7 @@ class EntityStatusService<T extends EntityStatus> {
 					});
 					results.set(entityId, status);
 				}
-			});
+			}
 		} catch (error) {
 			if (error instanceof DOMException && error.name === 'AbortError') {
 				throw error;

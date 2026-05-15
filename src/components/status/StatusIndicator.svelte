@@ -131,7 +131,7 @@
 
 	const rotector = $derived(entityStatus?.get(ROTECTOR_API_ID));
 	const rotectorLoading = $derived(rotector?.loading ?? false);
-	const hasData = $derived(!!(rotector?.data || cachedStatus));
+	const hasData = $derived(!!(rotector?.data ?? cachedStatus));
 	const tooltipBlocked = $derived(
 		rotectorLoading || (!hasData && !error && !isRestricted && !isSelfLookup)
 	);

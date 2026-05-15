@@ -5,16 +5,16 @@ export function formatBytes(bytes: number): string {
 }
 
 export function formatNumber(num: number | undefined): string {
-	if (num === undefined || isNaN(num)) return '—';
+	if (num === undefined || Number.isNaN(num)) return '—';
 	return num.toLocaleString();
 }
 
 // Compact notation (256K, 3.4K, 1.2M) for hero displays
 export function formatCompact(num: number | undefined): string {
-	if (num === undefined || isNaN(num)) return '—';
+	if (num === undefined || Number.isNaN(num)) return '—';
 	if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
-	if (num >= 10_000) return `${String(Math.round(num / 1_000))}K`;
-	if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+	if (num >= 10_000) return `${String(Math.round(num / 1000))}K`;
+	if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
 	return num.toString();
 }
 

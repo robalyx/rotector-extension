@@ -45,15 +45,15 @@ interface ListObserverConfig {
 export class Observer {
 	private readonly name: string;
 	private readonly config: Required<ObserverConfig>;
-	private active: boolean = false;
+	private active = false;
 	private observer: MutationObserver | null = null;
-	private reconnectTimer: number | null = null;
-	private healthCheckTimer: number | null = null;
-	private resizeTimer: number | null = null;
+	private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+	private healthCheckTimer: ReturnType<typeof setInterval> | null = null;
+	private resizeTimer: ReturnType<typeof setTimeout> | null = null;
 	private resizeHandler: (() => void) | null = null;
-	private isResizing: boolean = false;
-	private retryCount: number = 0;
-	private resizeListenerAdded: boolean = false;
+	private isResizing = false;
+	private retryCount = 0;
+	private resizeListenerAdded = false;
 
 	constructor(config: ObserverConfig) {
 		this.name = config.name;
@@ -110,7 +110,7 @@ export class Observer {
 			registerObserver();
 
 			if (this.reconnectTimer) {
-				window.clearTimeout(this.reconnectTimer);
+				clearTimeout(this.reconnectTimer);
 				this.reconnectTimer = null;
 			}
 
@@ -144,17 +144,17 @@ export class Observer {
 		}
 
 		if (this.reconnectTimer) {
-			window.clearTimeout(this.reconnectTimer);
+			clearTimeout(this.reconnectTimer);
 			this.reconnectTimer = null;
 		}
 
 		if (this.healthCheckTimer) {
-			window.clearInterval(this.healthCheckTimer);
+			clearInterval(this.healthCheckTimer);
 			this.healthCheckTimer = null;
 		}
 
 		if (this.resizeTimer) {
-			window.clearTimeout(this.resizeTimer);
+			clearTimeout(this.resizeTimer);
 			this.resizeTimer = null;
 		}
 
@@ -200,13 +200,13 @@ export class Observer {
 
 		this.resizeHandler = () => {
 			if (this.resizeTimer) {
-				window.clearTimeout(this.resizeTimer);
+				clearTimeout(this.resizeTimer);
 			}
 
 			this.isResizing = true;
 			logger.debug(`${this.name} observer: Resize detected, pausing mutations`);
 
-			this.resizeTimer = window.setTimeout(() => {
+			this.resizeTimer = setTimeout(() => {
 				this.isResizing = false;
 				logger.debug(`${this.name} observer: Resize complete, resuming mutations`);
 
@@ -229,21 +229,21 @@ export class Observer {
 	// Schedules a restart attempt with exponential backoff capped at 30 seconds
 	private scheduleRestart(delay?: number): void {
 		if (this.reconnectTimer) {
-			window.clearTimeout(this.reconnectTimer);
+			clearTimeout(this.reconnectTimer);
 		}
 
 		this.retryCount++;
 
 		const exponentialDelay =
 			(this.config.restartDelay ?? OBSERVER_CONFIG.DEFAULT_RESTART_DELAY) * this.retryCount;
-		const maxBackoffDelay = 30000;
+		const maxBackoffDelay = 30_000;
 		const actualDelay = delay ?? Math.min(exponentialDelay, maxBackoffDelay);
 
 		logger.debug(
 			`${this.name} observer: Scheduling restart in ${String(actualDelay)}ms (attempt ${String(this.retryCount)})`
 		);
 
-		this.reconnectTimer = window.setTimeout(() => {
+		this.reconnectTimer = setTimeout(() => {
 			logger.debug(`${this.name} observer: Attempting restart...`);
 			void this.start();
 		}, actualDelay);
@@ -264,10 +264,10 @@ export class Observer {
 
 	private startHealthCheck(): void {
 		if (this.healthCheckTimer) {
-			window.clearInterval(this.healthCheckTimer);
+			clearInterval(this.healthCheckTimer);
 		}
 
-		this.healthCheckTimer = window.setInterval(() => {
+		this.healthCheckTimer = setInterval(() => {
 			this.checkHealth();
 		}, this.config.healthCheckInterval);
 
@@ -295,7 +295,7 @@ export const observerFactory = {
 			const container = document.querySelector(containerSelector);
 			if (!container) return;
 
-			const unprocessedItems = Array.from(container.querySelectorAll(unprocessedItemSelector));
+			const unprocessedItems = [...container.querySelectorAll(unprocessedItemSelector)];
 			if (unprocessedItems.length > 0) {
 				logger.debug(`${name}: Processing ${String(unprocessedItems.length)} items`);
 				await processItems(unprocessedItems);
@@ -359,7 +359,7 @@ export const observerFactory = {
 			callback: (mutations) => {
 				for (const mutation of mutations) {
 					if (mutation.type === 'childList') {
-						for (const node of Array.from(mutation.addedNodes)) {
+						for (const node of mutation.addedNodes) {
 							if (node instanceof Element) {
 								if (node.matches(containerSelector)) {
 									onContainerAdded(node);

@@ -3,7 +3,7 @@
    ================================= */
 
 @utility cipher-indicator-chip {
-	@apply !inline-flex !cursor-pointer !items-center !gap-1.5 !rounded-lg !border !px-2.5 !py-0.5 !text-[11px] !font-medium;
+	@apply inline-flex! cursor-pointer! items-center! gap-1.5! rounded-lg! border! px-2.5! py-0.5! text-[11px]! font-medium!;
 	background-color: var(--roblox-bg-surface) !important;
 	border-color: var(--roblox-border) !important;
 	color: var(--roblox-text-muted) !important;
@@ -21,7 +21,7 @@
 }
 
 @utility cipher-indicator-action {
-	@apply !font-semibold;
+	@apply font-semibold!;
 	color: var(--roblox-accent) !important;
 }
 

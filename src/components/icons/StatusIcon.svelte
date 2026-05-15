@@ -26,7 +26,7 @@
 
 	// Lucide's LucideProps.color is string (not string | undefined), so conditional spread
 	// is required under exactOptionalPropertyTypes when color is not provided
-	const colorProp = $derived(color !== undefined ? { color } : {});
+	const colorProp = $derived(color === undefined ? {} : { color });
 
 	const ICON_BY_NAME: Partial<Record<StatusIconName, typeof CircleCheck>> = {
 		safe: CircleCheck,

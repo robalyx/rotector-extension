@@ -107,15 +107,13 @@
 				const itemsContainer = container.parentElement;
 				if (!itemsContainer) return;
 
-				const items = Array.from(
-					itemsContainer.querySelectorAll(PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM)
-				);
+				const items = [...itemsContainer.querySelectorAll(PROFILE_GROUPS_SHOWCASE_SELECTORS.ITEM)];
 				if (items.length > 0) {
 					void handleNewGroups(items);
 				}
 
 				carouselObserver?.stop();
-				itemsContainer.setAttribute('data-rotector-carousel-container', '');
+				itemsContainer.dataset['rotectorCarouselContainer'] = '';
 				carouselObserver = createCarouselObserver(false);
 				void carouselObserver.start();
 			}
@@ -128,7 +126,7 @@
 		const itemsContainer = existingItem?.parentElement;
 
 		if (itemsContainer) {
-			itemsContainer.setAttribute('data-rotector-carousel-container', '');
+			itemsContainer.dataset['rotectorCarouselContainer'] = '';
 			carouselObserver = createCarouselObserver(true);
 			await carouselObserver.start();
 			logger.debug('Carousel groups observer initialized');
@@ -169,7 +167,7 @@
 			nameElement = element.querySelector(BTROBLOX_GROUPS_SELECTORS.GROUP_NAME);
 		} else {
 			groupLink =
-				Array.from(element.querySelectorAll('a')).find((link) => {
+				[...element.querySelectorAll('a')].find((link) => {
 					const href = link.getAttribute('href');
 					return href?.includes('/communities/') || href?.includes('/groups/');
 				}) ?? null;
@@ -257,7 +255,7 @@
 			imageElement.style.position = 'relative';
 		}
 
-		imageElement.appendChild(container);
+		imageElement.append(container);
 
 		const component = mount(StatusIndicator, {
 			target: container,

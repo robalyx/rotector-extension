@@ -14,13 +14,11 @@ interface SimplePageConfig<TProps extends Record<string, unknown>> {
 
 export class SimplePageController<TProps extends Record<string, unknown>> extends PageController {
 	protected override readonly settingsKey: SettingsKey;
+	private readonly config: SimplePageConfig<TProps>;
 
-	constructor(
-		pageType: PageType,
-		url: string,
-		private readonly config: SimplePageConfig<TProps>
-	) {
+	constructor(pageType: PageType, url: string, config: SimplePageConfig<TProps>) {
 		super(pageType, url);
+		this.config = config;
 		this.settingsKey = config.settingsKey;
 	}
 

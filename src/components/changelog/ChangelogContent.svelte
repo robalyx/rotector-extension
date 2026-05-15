@@ -38,9 +38,9 @@
 
 	const groupedChanges = $derived.by(() => {
 		const groups: Record<string, ChangelogEntry[]> = {};
-		changelog.changes.forEach((change) => {
+		for (const change of changelog.changes) {
 			(groups[change.type] ??= []).push(change);
-		});
+		}
 		return groups;
 	});
 

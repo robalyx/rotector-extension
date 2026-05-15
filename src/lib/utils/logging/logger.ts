@@ -7,11 +7,11 @@ import { getStorage, subscribeStorageKey } from '../storage';
 const MAX_DATA_LENGTH = 1000;
 
 class Logger {
-	private debugEnabled: boolean = false;
+	private debugEnabled = false;
 
 	constructor() {
-		this.initializeDebugMode().catch((err: unknown) => {
-			console.error('Failed to initialize debug mode:', err);
+		this.initializeDebugMode().catch((error: unknown) => {
+			console.error('Failed to initialize debug mode:', error);
 		});
 
 		subscribeStorageKey<boolean>('sync', 'debugModeEnabled', (newValue) => {
@@ -96,7 +96,7 @@ class Logger {
 
 	private writeToStore(level: LogLevel, message: string, data?: unknown[]): void {
 		const source = getLogSource();
-		const pageUrl = source === LOG_SOURCES.CONTENT ? window.location.href : undefined;
+		const pageUrl = source === LOG_SOURCES.CONTENT ? globalThis.location.href : undefined;
 
 		addLogEntry({
 			timestamp: Date.now(),

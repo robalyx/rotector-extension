@@ -115,19 +115,22 @@
 			}
 
 			switch (result.reason) {
-				case 'invalid_url':
+				case 'invalid_url': {
 					showError($_('custom_api_mgmt_alert_invalid_url'));
 					break;
-				case 'permission_denied':
+				}
+				case 'permission_denied': {
 					showWarning($_('custom_api_mgmt_alert_permission_denied'));
 					break;
-				case 'error':
+				}
+				case 'error': {
 					showError(
 						$_('custom_api_mgmt_alert_toggle_error', {
 							values: { 0: result.message ?? $_('custom_api_form_error_unknown') }
 						})
 					);
 					break;
+				}
 			}
 		} finally {
 			togglingApiId = null;
@@ -144,14 +147,18 @@
 	const membershipState = $derived($membershipStore);
 	const membershipStatusLabel = $derived.by(() => {
 		switch (membershipState.kind) {
-			case 'member':
+			case 'member': {
 				return membershipState.status.tierName;
-			case 'not-member':
+			}
+			case 'not-member': {
 				return $_('membership_settings_status_not_member');
-			case 'invalid-key':
+			}
+			case 'invalid-key': {
 				return $_('membership_settings_status_invalid_key');
-			default:
+			}
+			default: {
 				return '';
+			}
 		}
 	});
 

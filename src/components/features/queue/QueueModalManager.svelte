@@ -45,7 +45,7 @@
 	) {
 		// Capture userId locally to avoid races with concurrent submissions mutating module state
 		const userIdStr = queueUserId;
-		const parsedUserId = parseInt(userIdStr, 10);
+		const parsedUserId = Number.parseInt(userIdStr, 10);
 		if (!Number.isInteger(parsedUserId) || parsedUserId <= 0) {
 			logger.error('handleQueueConfirm called with invalid queueUserId', {
 				queueUserId: userIdStr

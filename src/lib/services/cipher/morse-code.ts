@@ -86,7 +86,7 @@ export function detectMorse(bio: string): boolean {
 	const hasLabel = /\bmorse|m0rse\b/i.test(bio);
 
 	// Morse-alphabet coverage ratio
-	const morseChars = bio.replace(/[^.\-\s/]/g, '').length;
+	const morseChars = bio.replaceAll(/[^.\-\s/]/g, '').length;
 	const coverage = morseChars / bio.length;
 	const coverageThreshold = hasLabel ? LABEL_MIN_COVERAGE : MIN_COVERAGE;
 	if (coverage < coverageThreshold) return false;
@@ -145,10 +145,10 @@ export function decodeMorse(text: string): string {
 // Normalize word separators and strip non-morse content
 function extractMorsePortion(bio: string): string | null {
 	// Replace word separators with boundary token
-	let normalized = bio.replace(/\s*\/\s*/g, WORD_BOUNDARY).replace(/\s{2,}/g, WORD_BOUNDARY);
+	let normalized = bio.replaceAll(/\s*\/\s*/g, WORD_BOUNDARY).replaceAll(/\s{2,}/g, WORD_BOUNDARY);
 
 	// Strip characters outside the morse alphabet
-	normalized = normalized.replace(/[^.\-\s|]/g, '').trim();
+	normalized = normalized.replaceAll(/[^.\-\s|]/g, '').trim();
 	if (normalized.length === 0) return null;
 
 	return normalized;

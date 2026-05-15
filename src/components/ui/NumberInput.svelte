@@ -23,15 +23,15 @@
 
 	function handleInput(event: Event) {
 		if (!(event.target instanceof HTMLInputElement)) return;
-		const parsed = parseInt(event.target.value, 10);
-		const newValue = Math.max(min, Math.min(max, isNaN(parsed) ? min : parsed));
+		const parsed = Number.parseInt(event.target.value, 10);
+		const newValue = Math.max(min, Math.min(max, Number.isNaN(parsed) ? min : parsed));
 		value = newValue;
 		onChange(newValue);
 	}
 
 	function handleBlur(event: FocusEvent) {
 		if (!(event.target instanceof HTMLInputElement)) return;
-		if (parseInt(event.target.value, 10) !== value) {
+		if (Number.parseInt(event.target.value, 10) !== value) {
 			event.target.value = String(value);
 		}
 	}

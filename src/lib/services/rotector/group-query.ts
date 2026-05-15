@@ -19,9 +19,9 @@ export function startGroupQuery(groupId: string): GroupQuerySubscription {
 
 	function emit(status: CombinedStatus<GroupStatus>) {
 		currentStatus = status;
-		subscribers.forEach((cb) => {
+		for (const cb of subscribers) {
 			cb(status);
-		});
+		}
 	}
 
 	const { isRestricted } = get(restrictedAccessStore);

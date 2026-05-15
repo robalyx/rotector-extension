@@ -1,4 +1,5 @@
 import prettier from 'eslint-config-prettier';
+import css from '@eslint/css';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
@@ -6,7 +7,10 @@ import globals from 'globals';
 import unusedImports from 'eslint-plugin-unused-imports';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import sonarjs from 'eslint-plugin-sonarjs';
+import unicorn from 'eslint-plugin-unicorn';
+import oxlint from 'eslint-plugin-oxlint';
 import svelteEslintParser from 'svelte-eslint-parser';
+import { tailwind4 } from 'tailwind-csstree';
 
 export default tseslint.config(
 	// ── Ignore patterns ──────────────────────────────────────────────
@@ -34,11 +38,40 @@ export default tseslint.config(
 	},
 
 	// ── Base presets ─────────────────────────────────────────────────
-	js.configs.recommended,
-	...tseslint.configs.strictTypeChecked,
+	{ files: ['**/*.{js,ts,mjs,cjs,svelte}'], ...js.configs.recommended },
+	...tseslint.configs.strictTypeChecked.map((c) => ({
+		files: ['**/*.{js,ts,mjs,cjs,svelte}'],
+		...c
+	})),
+	...tseslint.configs.stylisticTypeChecked.map((c) => ({
+		files: ['**/*.{js,ts,mjs,cjs,svelte}'],
+		...c
+	})),
 
-	// ── strictTypeChecked overrides ──────────────────────────────────
+	// ── Unicorn ──────────────────────────────────────────────────────
 	{
+		files: ['**/*.{js,ts,mjs,cjs,svelte}'],
+		plugins: { unicorn },
+		rules: {
+			...unicorn.configs.recommended.rules,
+			'unicorn/filename-case': 'off',
+			'unicorn/prevent-abbreviations': 'off',
+			'unicorn/no-null': 'off',
+			'unicorn/consistent-function-scoping': 'off',
+			'unicorn/no-array-for-each': 'off',
+			'unicorn/no-negated-condition': 'warn',
+			'unicorn/prefer-ternary': 'warn',
+			'unicorn/no-array-callback-reference': 'off',
+			'unicorn/no-array-sort': 'warn',
+			'unicorn/prefer-top-level-await': 'off',
+			'unicorn/prefer-code-point': 'off',
+			'unicorn/no-useless-undefined': 'off'
+		}
+	},
+
+	// ── strict/stylistic preset overrides ────────────────────────────
+	{
+		files: ['**/*.{js,ts,mjs,cjs,svelte}'],
 		rules: {
 			'@typescript-eslint/no-confusing-void-expression': [
 				'error',
@@ -46,7 +79,18 @@ export default tseslint.config(
 			],
 			'@typescript-eslint/no-dynamic-delete': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'warn',
-			'@typescript-eslint/no-deprecated': 'warn'
+			'@typescript-eslint/no-deprecated': 'warn',
+			'@typescript-eslint/no-empty-function': 'off',
+			'@typescript-eslint/prefer-regexp-exec': 'off',
+			'@typescript-eslint/no-inferrable-types': 'warn',
+			'@typescript-eslint/prefer-nullish-coalescing': [
+				'error',
+				{
+					ignoreConditionalTests: true,
+					ignoreMixedLogicalExpressions: true,
+					ignorePrimitives: { string: true, boolean: true }
+				}
+			]
 		}
 	},
 
@@ -190,8 +234,8 @@ export default tseslint.config(
 	},
 
 	// ── Svelte files ─────────────────────────────────────────────────
-	...svelte.configs['flat/recommended'],
-	...svelte.configs.prettier,
+	...svelte.configs['flat/recommended'].map((c) => ({ files: ['**/*.svelte'], ...c })),
+	...svelte.configs.prettier.map((c) => ({ files: ['**/*.svelte'], ...c })),
 	{
 		files: ['**/*.svelte'],
 		plugins: { 'unused-imports': unusedImports },
@@ -306,20 +350,44 @@ export default tseslint.config(
 		},
 		plugins: { 'better-tailwindcss': betterTailwindcss },
 		rules: {
-			// Correctness
 			'better-tailwindcss/no-duplicate-classes': 'error',
 			'better-tailwindcss/no-conflicting-classes': 'error',
-			'better-tailwindcss/no-unregistered-classes': 'off',
+			'better-tailwindcss/no-unknown-classes': 'off',
 			'better-tailwindcss/no-restricted-classes': 'off',
-
-			// Stylistic
 			'better-tailwindcss/no-unnecessary-whitespace': 'warn',
 			'better-tailwindcss/no-deprecated-classes': 'warn',
+			'better-tailwindcss/enforce-canonical-classes': 'warn',
 			'better-tailwindcss/enforce-consistent-class-order': 'off',
 			'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
 			'better-tailwindcss/enforce-consistent-variable-syntax': 'warn',
+			'better-tailwindcss/enforce-consistent-variant-order': 'warn',
 			'better-tailwindcss/enforce-consistent-important-position': 'warn',
-			'better-tailwindcss/enforce-shorthand-classes': 'warn'
+			'better-tailwindcss/enforce-shorthand-classes': 'warn',
+			'better-tailwindcss/enforce-logical-properties': 'warn'
+		}
+	},
+
+	// ── Tailwind CSS in @apply blocks ────────────────────────────────
+	{
+		files: ['**/*.css'],
+		language: 'css/css',
+		languageOptions: { customSyntax: tailwind4, tolerant: true },
+		plugins: { css, 'better-tailwindcss': betterTailwindcss },
+		rules: {
+			'better-tailwindcss/no-duplicate-classes': 'error',
+			'better-tailwindcss/no-conflicting-classes': 'error',
+			'better-tailwindcss/no-unknown-classes': 'off',
+			'better-tailwindcss/no-restricted-classes': 'off',
+			'better-tailwindcss/no-unnecessary-whitespace': 'warn',
+			'better-tailwindcss/no-deprecated-classes': 'warn',
+			'better-tailwindcss/enforce-canonical-classes': 'warn',
+			'better-tailwindcss/enforce-consistent-class-order': 'off',
+			'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+			'better-tailwindcss/enforce-consistent-variable-syntax': 'warn',
+			'better-tailwindcss/enforce-consistent-variant-order': 'warn',
+			'better-tailwindcss/enforce-consistent-important-position': 'warn',
+			'better-tailwindcss/enforce-shorthand-classes': 'warn',
+			'better-tailwindcss/enforce-logical-properties': 'warn'
 		}
 	},
 
@@ -349,5 +417,8 @@ export default tseslint.config(
 	},
 
 	// ── Prettier integration ─────────────────────────────────────────
-	prettier
+	prettier,
+
+	// ── Oxlint ───────────────────────────────────────────────────────
+	...oxlint.configs['flat/recommended']
 );

@@ -118,10 +118,8 @@
 	});
 
 	$effect(() => {
-		if (portalTarget && contentWrapper) {
-			if (!portalTarget.contains(contentWrapper)) {
-				portalTarget.appendChild(contentWrapper);
-			}
+		if (portalTarget && contentWrapper && !portalTarget.contains(contentWrapper)) {
+			portalTarget.append(contentWrapper);
 		}
 	});
 
@@ -245,10 +243,10 @@
 					userStatuses.set(userId, status);
 				}
 			});
-			statuses.forEach((status, userId) => {
+			for (const [userId, status] of statuses.entries()) {
 				revealTileForStatus(userId, status);
 				onUserProcessed?.(userId, status);
-			});
+			}
 		} catch (error) {
 			if (error instanceof DOMException && error.name === 'AbortError') return;
 			logger.error('Failed to load user statuses:', error);
@@ -359,7 +357,7 @@
 		trackedPreviousCursors = cursorsClone;
 		trackedCurrentPage--;
 
-		const cursor = trackedCurrentPage === 1 ? null : cursorsClone[cursorsClone.length - 1];
+		const cursor = trackedCurrentPage === 1 ? null : cursorsClone.at(-1);
 		void loadTrackedUsers(cursor);
 	}
 
@@ -367,7 +365,7 @@
 		isFetchingTrackedCursors = true;
 
 		try {
-			let cursor: string | null = trackedCursorCache[trackedCursorCache.length - 1] ?? null;
+			let cursor: string | null = trackedCursorCache.at(-1) ?? null;
 
 			while (trackedCursorCache.length < targetPage) {
 				const response = await apiClient.getGroupTrackedUsers(
@@ -431,10 +429,10 @@
 
 	function handleTrackedPageInputKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			const targetPage = parseInt(trackedPageInputValue, 10);
+			const targetPage = Number.parseInt(trackedPageInputValue, 10);
 			if (trackedTotalCount === null) return;
 			const totalPages = Math.ceil(trackedTotalCount / DISPLAY_LIMIT);
-			if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
+			if (!Number.isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
 				trackedShowPageInput = false;
 				void goToTrackedPage(targetPage);
 			}
@@ -448,9 +446,9 @@
 		if (!contentWrapper) return;
 
 		const tiles = contentWrapper.querySelectorAll(GROUP_MEMBERS_CAROUSEL_SELECTORS.MEMBER_TILE);
-		tiles.forEach((tile) => {
+		for (const tile of tiles) {
 			const userId = tile.getAttribute(STATUS_SELECTORS.DATA_USER_ID);
-			if (!userId || !(tile instanceof HTMLElement)) return;
+			if (!userId || !(tile instanceof HTMLElement)) continue;
 
 			mountStatusIndicator(tile, userId);
 			markUserElementForBlur(tile, userId, PAGE_TYPES.GROUP_MEMBERS_CAROUSEL);
@@ -459,7 +457,7 @@
 			if (status) {
 				revealUserElement(tile, status);
 			}
-		});
+		}
 	}
 
 	function mountStatusIndicator(tileElement: HTMLElement, userId: string) {
@@ -470,10 +468,10 @@
 		if (!container) {
 			container = document.createElement('div');
 			container.className = `${COMPONENT_CLASSES.STATUS_CONTAINER} ${COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE}`;
-			tileElement.appendChild(container);
+			tileElement.append(container);
 		}
 
-		container.innerHTML = '';
+		container.replaceChildren();
 		const component = mount(StatusIndicator, {
 			target: container,
 			props: {
@@ -508,8 +506,8 @@
 
 	function handleRoleChange(event: Event) {
 		if (!(event.target instanceof HTMLSelectElement)) return;
-		const roleId = parseInt(event.target.value, 10);
-		if (isNaN(roleId) || roleId === selectedRoleId) return;
+		const roleId = Number.parseInt(event.target.value, 10);
+		if (Number.isNaN(roleId) || roleId === selectedRoleId) return;
 
 		selectedRoleId = roleId;
 		currentPage = 1;
@@ -542,9 +540,9 @@
 
 		try {
 			// Start from the last cached cursor and carryover
-			let lastCursor = cursorCache[cursorCache.length - 1];
+			let lastCursor = cursorCache.at(-1);
 			let cursor: string | null = lastCursor === CARRYOVER_ONLY ? null : (lastCursor ?? null);
-			let currentCarryover: GroupMember[] = carryoverCache[carryoverCache.length - 1] ?? [];
+			let currentCarryover: GroupMember[] = carryoverCache.at(-1) ?? [];
 
 			while (cursorCache.length < targetPage) {
 				// Handle carryover-only page
@@ -665,9 +663,9 @@
 
 	function handlePageInputKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			const targetPage = parseInt(pageInputValue, 10);
+			const targetPage = Number.parseInt(pageInputValue, 10);
 			const totalPages = selectedRole ? Math.ceil(selectedRole.memberCount / DISPLAY_LIMIT) : 1;
-			if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
+			if (!Number.isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
 				showPageInput = false;
 				void goToPage(targetPage);
 			}

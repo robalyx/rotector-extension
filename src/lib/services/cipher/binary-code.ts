@@ -5,7 +5,7 @@ const MIN_GROUPS = 3;
 const MIN_COVERAGE = 0.9;
 
 function decodeGroups(groups: string[]): string {
-	const bytes = new Uint8Array(groups.map((g) => parseInt(g, 2)));
+	const bytes = new Uint8Array(groups.map((g) => Number.parseInt(g, 2)));
 	return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 
@@ -20,7 +20,7 @@ function extractBinaryGroups(bio: string): string[] | null {
 	}
 
 	// Continuous format: "011101000111001001100001"
-	const stripped = trimmed.replace(/\s/g, '');
+	const stripped = trimmed.replaceAll(/\s/g, '');
 	if (!/^[01]+$/.test(stripped)) return null;
 
 	// 8-bit grouping preferred, fall back to 7-bit
@@ -39,7 +39,7 @@ export function detectBinary(bio: string): boolean {
 	if (bio.length < 7) return false;
 
 	// Binary-alphabet coverage ratio
-	const binaryChars = bio.replace(/[^01\s]/g, '').length;
+	const binaryChars = bio.replaceAll(/[^01\s]/g, '').length;
 	const coverage = binaryChars / bio.length;
 	if (coverage < MIN_COVERAGE) return false;
 
@@ -49,8 +49,7 @@ export function detectBinary(bio: string): boolean {
 	// Decoded output must contain printable characters and no control bytes
 	try {
 		const decoded = decodeGroups(groups);
-		// eslint-disable-next-line no-control-regex
-		if (/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/.test(decoded)) return false;
+		if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(decoded)) return false;
 		return /\S/.test(decoded);
 	} catch {
 		return false;

@@ -36,7 +36,7 @@ export class ReportPageController extends PageController {
 
 	private extractUserId(): string | null {
 		try {
-			const urlParams = new URLSearchParams(window.location.search);
+			const urlParams = new URLSearchParams(globalThis.location.search);
 			const sources = [
 				{ source: 'targetId URL parameter', getValue: () => urlParams.get('targetId') },
 				{ source: 'id URL parameter', getValue: () => urlParams.get('id') },

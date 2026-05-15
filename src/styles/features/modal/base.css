@@ -3,7 +3,7 @@
    ================================= */
 
 @utility modal-overlay {
-	@apply invisible fixed inset-0 z-[10000] flex items-center justify-center p-5 opacity-0;
+	@apply invisible fixed inset-0 z-10000 flex items-center justify-center p-5 opacity-0;
 	background-color: var(--overlay-modal);
 	backdrop-filter: blur(2px);
 	transition:
@@ -27,7 +27,7 @@
    ================================= */
 
 @utility modal-popup {
-	@apply flex max-w-[95%] flex-col rounded-md opacity-0;
+	@apply flex flex-col rounded-md opacity-0 max-inline-[95%];
 	width: 480px;
 	max-height: min(85vh, 720px);
 	background-color: var(--color-bg-content);
@@ -71,7 +71,7 @@
 }
 
 @utility modal-title {
-	@apply m-0 flex-grow text-left text-base font-semibold;
+	@apply m-0 grow text-start text-base font-semibold;
 	color: var(--color-text-heading);
 	letter-spacing: -0.005em;
 }
@@ -81,7 +81,7 @@
    ================================= */
 
 @utility modal-status-chip {
-	@apply inline-flex h-5 w-5 shrink-0 items-center justify-center rounded;
+	@apply inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm;
 }
 
 @utility modal-status-chip-icon {
@@ -113,7 +113,7 @@
    ================================= */
 
 @utility modal-close {
-	@apply inline-flex shrink-0 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0;
+	@apply inline-flex shrink-0 cursor-pointer items-center justify-center rounded-sm border-none bg-transparent p-0;
 	width: 1.625rem;
 	height: 1.625rem;
 	color: var(--color-text-subtle);
@@ -241,7 +241,7 @@
    ================================= */
 
 @utility modal-button {
-	@apply text-sm-plus inline-flex cursor-pointer items-center justify-center rounded font-medium;
+	@apply text-sm-plus inline-flex cursor-pointer items-center justify-center rounded-sm font-medium;
 	padding: 0.4375rem 0.875rem;
 	font-family: inherit;
 	border: 1px solid transparent;

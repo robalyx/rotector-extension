@@ -63,7 +63,7 @@ const ImportedApiConfigSchema = v.object({
 	timeout: v.pipe(
 		v.number('Missing or invalid "timeout" field'),
 		v.minValue(1000, 'Timeout must be between 1000 and 60000 milliseconds'),
-		v.maxValue(60000, 'Timeout must be between 1000 and 60000 milliseconds')
+		v.maxValue(60_000, 'Timeout must be between 1000 and 60000 milliseconds')
 	),
 	reasonFormat: v.optional(
 		v.picklist(REASON_FORMATS, 'reasonFormat must be "numeric" or "string"')

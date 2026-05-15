@@ -39,7 +39,7 @@
 	let { text, multiline = false, align = 'start' }: Props = $props();
 
 	let canvas = $state<HTMLCanvasElement>();
-	let dpr = $state(typeof window !== 'undefined' ? window.devicePixelRatio : 1);
+	let dpr = $state(window.devicePixelRatio);
 	let parentWidth = $state(0);
 
 	let inherited = $state<InheritedStyle>({
@@ -57,14 +57,18 @@
 	const rawText = $derived(text ?? '');
 	const resolvedText = $derived.by(() => {
 		switch (inherited.textTransform) {
-			case 'uppercase':
+			case 'uppercase': {
 				return rawText.toUpperCase();
-			case 'lowercase':
+			}
+			case 'lowercase': {
 				return rawText.toLowerCase();
-			case 'capitalize':
-				return rawText.replace(/\b\w/g, (c) => c.toUpperCase());
-			default:
+			}
+			case 'capitalize': {
+				return rawText.replaceAll(/\b\w/g, (c) => c.toUpperCase());
+			}
+			default: {
 				return rawText;
+			}
 		}
 	});
 	const fontSpec = $derived(
@@ -73,6 +77,9 @@
 	const letterSpacingPx = $derived(`${String(inherited.letterSpacing)}px`);
 
 	function tokenize(line: string): string[] {
+		// Array.from on a string iterates code points so emoji/surrogate pairs stay paired,
+		// which is the whole point here as [...line] trips @typescript-eslint/no-misused-spread
+		// eslint-disable-next-line unicorn/prefer-spread
 		if (NO_WORD_BREAK_LOCALES.has(currentLocale)) return Array.from(line);
 		return line.split(/(\s+)/).filter((s) => s.length > 0);
 	}
@@ -177,8 +184,8 @@
 		ctx.textAlign = textAlign;
 
 		const baselineOffset = (lineHeightPx - inherited.fontSize) / 2;
-		for (let i = 0; i < lines.length; i++) {
-			ctx.fillText(lines[i] ?? '', x, i * lineHeightPx + baselineOffset);
+		for (const [i, line] of lines.entries()) {
+			ctx.fillText(line, x, i * lineHeightPx + baselineOffset);
 		}
 	}
 
@@ -208,10 +215,10 @@
 			requestAnimationFrame(() => {
 				if (!parent.isConnected) return;
 				const cs = getComputedStyle(parent);
-				const fontSize = parseFloat(cs.fontSize);
-				const parsedLineHeight = parseFloat(cs.lineHeight);
-				const parsedLetterSpacing = parseFloat(cs.letterSpacing);
-				const lineHeight = isNaN(parsedLineHeight)
+				const fontSize = Number.parseFloat(cs.fontSize);
+				const parsedLineHeight = Number.parseFloat(cs.lineHeight);
+				const parsedLetterSpacing = Number.parseFloat(cs.letterSpacing);
+				const lineHeight = Number.isNaN(parsedLineHeight)
 					? 1.4
 					: cs.lineHeight.endsWith('px')
 						? parsedLineHeight / fontSize
@@ -219,10 +226,10 @@
 				const next = {
 					color: cs.color,
 					fontSize,
-					fontWeight: parseInt(cs.fontWeight, 10),
+					fontWeight: Number.parseInt(cs.fontWeight, 10),
 					fontFamily: cs.fontFamily,
 					lineHeight,
-					letterSpacing: isNaN(parsedLetterSpacing) ? 0 : parsedLetterSpacing,
+					letterSpacing: Number.isNaN(parsedLetterSpacing) ? 0 : parsedLetterSpacing,
 					textTransform: cs.textTransform
 				};
 				const prev = inherited;

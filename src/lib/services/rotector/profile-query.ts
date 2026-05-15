@@ -15,9 +15,9 @@ export function startProfileQuery(userId: string): ProfileQuerySubscription {
 
 	function emit(status: CombinedStatus<UserStatus>): void {
 		currentStatus = status;
-		subscribers.forEach((cb) => {
+		for (const cb of subscribers) {
 			cb(status);
-		});
+		}
 	}
 
 	let cancelQuery = queryUserProgressive(userId, emit);

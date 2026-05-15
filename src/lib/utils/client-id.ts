@@ -8,11 +8,11 @@ export function getLoggedInUserId(): string | null {
 		}
 
 		// Remove surrounding quotes from the stored value
-		const userId = cachedUserId.replace(/^"|"$/g, '');
+		const userId = cachedUserId.replaceAll(/^"|"$/g, '');
 
 		// Validate it's a numeric ID
-		const parsed = parseInt(userId, 10);
-		if (isNaN(parsed) || parsed <= 0) {
+		const parsed = Number.parseInt(userId, 10);
+		if (Number.isNaN(parsed) || parsed <= 0) {
 			return null;
 		}
 

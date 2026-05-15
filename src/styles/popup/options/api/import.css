@@ -18,7 +18,7 @@
 }
 
 @utility import-textarea {
-	@apply text-sm-plus w-full rounded;
+	@apply text-sm-plus rounded-sm inline-full;
 	padding: 0.5rem 0.625rem;
 	font-family: inherit;
 	color: var(--color-text);
@@ -52,7 +52,7 @@
 	&::after {
 		content: '';
 
-		@apply h-px flex-1;
+		@apply flex-1 block-px;
 		background-color: var(--color-border-subtle);
 	}
 }

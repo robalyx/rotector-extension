@@ -97,8 +97,8 @@
 				if (existing.includes(kind)) return;
 				return updateSetting(SETTINGS_KEYS.INFO_POPOVER_HINTS_SEEN, [...existing, kind]);
 			})
-			.catch((err: unknown) => {
-				logger.error('Failed to mark info hint seen:', err);
+			.catch((error: unknown) => {
+				logger.error('Failed to mark info hint seen:', error);
 			});
 	}
 

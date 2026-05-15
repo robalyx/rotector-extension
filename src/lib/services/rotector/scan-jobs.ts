@@ -28,24 +28,33 @@ export type ScanCounts = Map<ScanCategory, number>;
 
 function flagToCategory(flagType: number): ScanCategory {
 	switch (flagType) {
-		case STATUS.FLAGS.PENDING:
+		case STATUS.FLAGS.PENDING: {
 			return 'pending';
-		case STATUS.FLAGS.UNSAFE:
+		}
+		case STATUS.FLAGS.UNSAFE: {
 			return 'unsafe';
-		case STATUS.FLAGS.REDACTED:
+		}
+		case STATUS.FLAGS.REDACTED: {
 			return 'redacted';
-		case STATUS.FLAGS.MIXED:
+		}
+		case STATUS.FLAGS.MIXED: {
 			return 'mixed';
-		case STATUS.FLAGS.PAST_OFFENDER:
+		}
+		case STATUS.FLAGS.PAST_OFFENDER: {
 			return 'past';
-		case STATUS.FLAGS.PROVISIONAL:
+		}
+		case STATUS.FLAGS.PROVISIONAL: {
 			return 'provisional';
-		case STATUS.FLAGS.QUEUED:
+		}
+		case STATUS.FLAGS.QUEUED: {
 			return 'queued';
-		case STATUS.FLAGS.SAFE:
+		}
+		case STATUS.FLAGS.SAFE: {
 			return 'safe';
-		default:
+		}
+		default: {
 			return 'unknown';
+		}
 	}
 }
 

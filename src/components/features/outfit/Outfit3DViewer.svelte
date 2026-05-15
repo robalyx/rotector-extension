@@ -21,7 +21,7 @@
 		brightness?: number;
 	}
 
-	let { outfitId, userId, width = 120, height = 120, brightness = 1.0 }: Props = $props();
+	let { outfitId, userId, width = 120, height = 120, brightness = 1 }: Props = $props();
 
 	let canvasContainer: HTMLDivElement;
 	let isLoading = $state(true);
@@ -86,13 +86,13 @@
 			if (!canvasContainer.isConnected) return;
 
 			await loadScene(metadata);
-		} catch (err) {
+		} catch (error) {
 			if (!canvasContainer.isConnected) return;
 
-			if (err instanceof Roblox3DBlockedError) {
+			if (error instanceof Roblox3DBlockedError) {
 				isBlocked = true;
 			} else {
-				logger.error('Failed to load 3D viewer:', err);
+				logger.error('Failed to load 3D viewer:', error);
 				hasError = true;
 			}
 			isLoading = false;
@@ -118,7 +118,7 @@
 		const gl = renderer.gl;
 		glRef = gl;
 		// eslint-disable-next-line svelte/no-dom-manipulating -- OGL requires direct DOM access for its canvas
-		canvasContainer.appendChild(gl.canvas);
+		canvasContainer.append(gl.canvas);
 
 		const camera = new Camera(gl, {
 			fov: metadata.camera.fov,
@@ -175,7 +175,7 @@
 		}
 
 		// Roblox MTL includes non-standard "Material" directive
-		mtlContent = mtlContent.replace(/^Material .+$/gm, '');
+		mtlContent = mtlContent.replaceAll(/^Material .+$/gm, '');
 		const mtlLib = new MaterialLibrary(mtlContent);
 
 		const objUrl = resolveCdnUrl(metadata.objHash);
@@ -184,7 +184,7 @@
 		let objContent = await objResponse.text();
 
 		// Roblox OBJ includes vertex colors (v x y z r g b a), keep only position
-		objContent = objContent.replace(/^(v\s+\S+\s+\S+\s+\S+)\s.+$/gm, '$1');
+		objContent = objContent.replaceAll(/^(v\s+\S+\s+\S+\s+\S+)\s.+$/gm, '$1');
 
 		const objMesh = new OBJMesh(objContent);
 
@@ -206,8 +206,8 @@
 
 			const img = new Image();
 			await new Promise<void>((resolve, reject) => {
-				img.onload = () => resolve();
-				img.onerror = reject;
+				img.addEventListener('load', () => resolve());
+				img.addEventListener('error', reject);
 				img.src = blobUrl;
 			});
 
@@ -231,7 +231,7 @@
 				diffuseTexture = await loadTexture(material.mapDiffuse.filename);
 			}
 
-			const diffuseColor = material?.diffuse || [1, 1, 1];
+			const diffuseColor = material?.diffuse ?? [1, 1, 1];
 
 			const geometry = new Geometry(gl, {
 				position: { size: 3, data: positions },

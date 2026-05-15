@@ -3,7 +3,7 @@
    ================================= */
 
 @utility footer-container {
-	@apply mt-auto flex flex-col items-center gap-2 pt-3 text-xs;
+	@apply mbs-auto flex flex-col items-center gap-2 pt-3 text-xs;
 }
 
 /* =================================
@@ -20,7 +20,7 @@
 }
 
 @utility footer-link {
-	@apply inline-flex cursor-pointer items-center gap-1 rounded border-none bg-transparent px-1.5 py-0.5 no-underline;
+	@apply inline-flex cursor-pointer items-center gap-1 rounded-sm border-none bg-transparent px-1.5 py-0.5 no-underline;
 	color: var(--color-text-subtle);
 	font-size: inherit;
 	transition:

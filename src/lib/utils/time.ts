@@ -3,7 +3,7 @@ export function getDaysSinceTimestamp(timestamp: number): number {
 	if (!timestamp) return 0;
 
 	const date = new Date(timestamp * 1000);
-	if (isNaN(date.getTime())) return 0;
+	if (Number.isNaN(date.getTime())) return 0;
 
 	const now = new Date();
 
@@ -17,7 +17,7 @@ export function getDaysSinceTimestamp(timestamp: number): number {
 // Input is in seconds
 export function formatTimestamp(timestamp: number): string {
 	const date = new Date(timestamp * 1000);
-	if (isNaN(date.getTime())) return 'unknown time';
+	if (Number.isNaN(date.getTime())) return 'unknown time';
 
 	const now = new Date();
 	const diffMs = now.getTime() - date.getTime();
@@ -58,7 +58,7 @@ export function getDurationSince(timestamp: number): string {
 export function formatShortDate(timestamp: number | null): string | null {
 	if (!timestamp) return null;
 	const date = new Date(timestamp * 1000);
-	if (isNaN(date.getTime())) return null;
+	if (Number.isNaN(date.getTime())) return null;
 
 	const now = new Date();
 	const dateYear = date.getFullYear();
@@ -67,13 +67,13 @@ export function formatShortDate(timestamp: number | null): string | null {
 	return date.toLocaleDateString('en-US', {
 		month: 'short',
 		day: 'numeric',
-		year: dateYear !== currentYear ? 'numeric' : undefined
+		year: dateYear === currentYear ? undefined : 'numeric'
 	});
 }
 
 export function formatExactTimestamp(timestamp: number): string {
 	const date = new Date(timestamp * 1000);
-	if (isNaN(date.getTime())) return 'unknown time';
+	if (Number.isNaN(date.getTime())) return 'unknown time';
 
 	return date.toLocaleString('en-US', {
 		month: 'short',

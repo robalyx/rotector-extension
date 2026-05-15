@@ -14,7 +14,7 @@
 	border: 1px solid var(--color-border-subtle);
 
 	& img {
-		@apply h-full w-full object-cover;
+		@apply object-cover block-full inline-full;
 	}
 }
 
@@ -23,7 +23,7 @@
 }
 
 @utility modal-user-card-name {
-	@apply overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap;
+	@apply truncate text-sm font-semibold;
 	color: var(--color-text-heading);
 }
 
@@ -33,7 +33,7 @@
 }
 
 @utility modal-user-card-chip {
-	@apply inline-flex shrink-0 items-center gap-[5px] self-center rounded px-2 py-1 text-xs font-semibold;
+	@apply inline-flex shrink-0 items-center gap-[5px] self-center rounded-sm px-2 py-1 text-xs font-semibold;
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-heading);
 }
@@ -47,7 +47,7 @@
 }
 
 @utility modal-reason-item {
-	@apply flex items-baseline gap-2.5 rounded px-3 py-2;
+	@apply flex items-baseline gap-2.5 rounded-sm px-3 py-2;
 	background-color: var(--color-bg-tertiary);
 }
 

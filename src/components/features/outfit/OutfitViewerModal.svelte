@@ -72,7 +72,7 @@
 
 		for (const outfit of allOutfits) {
 			const idFlag = getFlagInfoById(outfit.id);
-			const groupKey = `${outfit.name}\x00${idFlag?.outfitId ?? ''}`;
+			const groupKey = `${outfit.name}\u0000${idFlag?.outfitId ?? ''}`;
 			const existing = groups[groupKey];
 			if (existing) {
 				existing.outfits.push(outfit);
@@ -155,10 +155,10 @@
 			currentPage = 1;
 			hasLoadedOnce = true;
 			logger.debug('Loaded all outfits for viewer', { total: allOutfits.length });
-		} catch (err) {
+		} catch (error) {
 			hasError = true;
 			hasLoadedOnce = true;
-			logger.error('Failed to load outfits:', err);
+			logger.error('Failed to load outfits:', error);
 		} finally {
 			isLoading = false;
 		}

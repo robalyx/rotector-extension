@@ -75,7 +75,7 @@ export class PageControllerManager {
 					component: GroupConfigurePageManager,
 					containerClass: COMPONENT_CLASSES.GROUP_CONFIGURE_MANAGER,
 					getProps: () => {
-						const params = new URLSearchParams(window.location.search);
+						const params = new URLSearchParams(globalThis.location.search);
 						const id = params.get('id');
 						return { groupId: id ? (sanitizeEntityId(id) ?? null) : null };
 					}
@@ -104,11 +104,9 @@ export class PageControllerManager {
 
 			const pageType = detectPageType(sanitizedUrl);
 
-			if (pageType && this.controllers.has(pageType)) {
-				await this.switchToController(pageType, sanitizedUrl);
-			} else {
-				await this.cleanupCurrentController();
-			}
+			await (pageType && this.controllers.has(pageType)
+				? this.switchToController(pageType, sanitizedUrl)
+				: this.cleanupCurrentController());
 		} catch (error) {
 			logger.error('Failed to handle navigation:', error, { url });
 		} finally {

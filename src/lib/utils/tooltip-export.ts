@@ -5,7 +5,7 @@ import { showError } from '@/lib/stores/toast';
 import { logger } from '@/lib/utils/logging/logger';
 import { ENGINE_STATUS_KEY, type EngineStatus } from '@/lib/utils/status/engine-status';
 
-const CANVAS_MAX_DIM = 32767;
+const CANVAS_MAX_DIM = 32_767;
 const CAPTURE_SCALE = 2;
 
 export type ExportFormat = 'png' | 'jpg' | 'webp' | 'svg';
@@ -52,12 +52,12 @@ export async function exportTooltipImage(node: HTMLElement, opts: ExportOpts): P
 			triggerDownload(blob, buildFilename(opts, opts.mode));
 		}
 		return true;
-	} catch (err) {
+	} catch (error) {
 		const t = get(_);
-		if (err instanceof TooTallError) {
+		if (error instanceof TooTallError) {
 			showError(t('tooltip_export_error_too_tall'));
 		} else {
-			logger.error('Tooltip export failed:', err);
+			logger.error('Tooltip export failed:', error);
 			showError(t('tooltip_export_error_generic'));
 		}
 		return false;
@@ -75,11 +75,11 @@ async function renderTooltipBlob(
 	const liveRect = node.getBoundingClientRect();
 	host.className = 'tooltip-export-host';
 	host.setAttribute('aria-hidden', 'true');
-	host.setAttribute('data-tooltip-export-host', 'true');
+	host.dataset['tooltipExportHost'] = 'true';
 	host.style.width = `${String(liveRect.width)}px`;
 
 	const clone = node.cloneNode(true) as HTMLElement;
-	clone.setAttribute('data-tooltip-export', 'true');
+	clone.dataset['tooltipExport'] = 'true';
 
 	// Canvas pixels rasterize blurry in exports so restore the original text via aria-label
 	for (const canvas of clone.querySelectorAll('canvas')) {
@@ -87,7 +87,7 @@ async function renderTooltipBlob(
 		if (text === null) continue;
 		const replacement = document.createElement('span');
 		replacement.textContent = text;
-		if (canvas.hasAttribute('data-multiline')) replacement.setAttribute('data-multiline', '');
+		if (Object.hasOwn(canvas.dataset, 'multiline')) replacement.dataset['multiline'] = '';
 		canvas.replaceWith(replacement);
 	}
 
@@ -112,12 +112,12 @@ async function renderTooltipBlob(
 		const tag = document.createElement('span');
 		tag.className = `tooltip-options-engine-tag ${opts.engineStatus}`;
 		tag.textContent = t(ENGINE_STATUS_KEY[opts.engineStatus]);
-		pill.appendChild(tag);
-		scrollContent.appendChild(pill);
+		pill.append(tag);
+		scrollContent.append(pill);
 	}
 
-	host.appendChild(clone);
-	getExportMountTarget(node).appendChild(host);
+	host.append(clone);
+	getExportMountTarget(node).append(host);
 
 	try {
 		await document.fonts.load('14px "Builder Sans"');
@@ -158,7 +158,7 @@ function triggerDownload(blob: Blob, filename: string): void {
 	const a = document.createElement('a');
 	a.href = url;
 	a.download = filename;
-	document.body.appendChild(a);
+	document.body.append(a);
 	a.click();
 	a.remove();
 	URL.revokeObjectURL(url);

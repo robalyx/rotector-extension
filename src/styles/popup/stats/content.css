@@ -28,7 +28,7 @@
 }
 
 @utility changelog-version {
-	@apply rounded px-1.5 py-0.5 font-medium;
+	@apply rounded-sm px-1.5 py-0.5 font-medium;
 	background-color: var(--color-secondary);
 	color: var(--color-text);
 }
@@ -119,7 +119,7 @@
 	color: var(--color-text);
 
 	&::before {
-		@apply absolute top-[6px] left-[-20px] h-1.5 w-1.5 rounded-full;
+		@apply absolute inset-s-[-20px] inset-bs-[6px] h-1.5 w-1.5 rounded-full;
 		content: '';
 		background-color: var(--color-border);
 	}
@@ -134,7 +134,7 @@
 	color: var(--color-text-subtle);
 
 	&::before {
-		@apply absolute top-[7px] left-[-12px] h-1 w-1 rounded-full;
+		@apply absolute inset-s-[-12px] inset-bs-[7px] h-1 w-1 rounded-full;
 		content: '';
 		background-color: var(--color-border-subtle);
 	}

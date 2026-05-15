@@ -12,16 +12,20 @@ export type EncodingResult =
 
 export function makeDecoder(result: EncodingResult): (text: string) => string {
 	switch (result.type) {
-		case 'caesar':
+		case 'caesar': {
 			return result.labelDetected
 				? (t) => labelPreservingShift(t, -result.shift)
 				: (t) => caesarShift(t, -result.shift);
-		case 'morse':
+		}
+		case 'morse': {
 			return decodeMorse;
-		case 'morse+caesar':
+		}
+		case 'morse+caesar': {
 			return (t) => caesarShift(decodeMorse(t), -result.shift);
-		case 'binary':
+		}
+		case 'binary': {
 			return decodeBinary;
+		}
 	}
 }
 

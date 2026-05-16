@@ -101,6 +101,10 @@
 	@apply status-text-base text-status-mixed;
 }
 
+@utility status-text-category {
+	@apply status-text-base -ms-px opacity-70;
+}
+
 /* =================================
    BADGE STYLES
    ================================= */

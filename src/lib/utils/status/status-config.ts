@@ -10,6 +10,7 @@ interface StatusConfig {
 	iconColor: string;
 	textContent: string;
 	textClass: string;
+	categoryLabel: string | null;
 	confidence: number | null;
 	isReportable: boolean;
 	isQueued: boolean;
@@ -105,6 +106,20 @@ export const MIXED_GROUP: FlagPresentation = {
 const t = (key: string, values?: Record<string, string | number>): string =>
 	get(_)(key, { values });
 
+const CATEGORY_TEXT_KEY: Record<number, string> = {
+	[STATUS.CATEGORIES.CSAM]: 'tooltip_category_csam',
+	[STATUS.CATEGORIES.SEXUAL]: 'tooltip_category_sexual',
+	[STATUS.CATEGORIES.KINK]: 'tooltip_category_kink',
+	[STATUS.CATEGORIES.RACEPLAY]: 'tooltip_category_raceplay',
+	[STATUS.CATEGORIES.CONDO]: 'tooltip_category_condo',
+	[STATUS.CATEGORIES.OTHER]: 'tooltip_category_other'
+};
+
+export function getCategoryTextKey(category: number | undefined): string | null {
+	if (category === undefined) return null;
+	return CATEGORY_TEXT_KEY[category] ?? null;
+}
+
 function getFlagStyle(flagType: StatusFlag, entityType: 'user' | 'group') {
 	const base =
 		flagType === STATUS.FLAGS.MIXED && entityType === 'group'
@@ -139,6 +154,7 @@ export function getStatusConfig(
 				iconColor: '#888888',
 				textContent: t('tooltip_restricted_title'),
 				textClass: STATUS_TEXT_SAFE_CLASS,
+				categoryLabel: null,
 				confidence: null,
 				isReportable: false,
 				isQueued: false,
@@ -150,6 +166,7 @@ export function getStatusConfig(
 			iconColor: '#6b7280',
 			textContent: t('tooltip_status_unknown'),
 			textClass: 'status-text-error',
+			categoryLabel: null,
 			confidence: null,
 			isReportable: false,
 			isQueued: false,
@@ -165,6 +182,7 @@ export function getStatusConfig(
 			iconColor: '#666',
 			textContent: t('tooltip_status_checking'),
 			textClass: '',
+			categoryLabel: null,
 			confidence: null,
 			isReportable: false,
 			isQueued: false,
@@ -175,7 +193,9 @@ export function getStatusConfig(
 	const confidence = Math.round(activeStatus.confidence * 100);
 	const userStatus = entityType === 'user' ? (activeStatus as UserStatus) : null;
 	const { isReportable, isOutfitOnly } = calculateStatusBadges(userStatus);
-	const baseConfig = { confidence, isReportable, isQueued: false, isOutfitOnly };
+	const categoryKey = getCategoryTextKey(userStatus?.category);
+	const categoryLabel = categoryKey ? t(categoryKey) : null;
+	const baseConfig = { categoryLabel, confidence, isReportable, isQueued: false, isOutfitOnly };
 
 	// Outfit-only users show distinct dashed indicator
 	if (isOutfitOnly) {

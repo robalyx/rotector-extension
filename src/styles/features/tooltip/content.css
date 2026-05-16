@@ -3,7 +3,8 @@
    ================================= */
 
 @utility tooltip-status-badge {
-	@apply text-sm-plus mt-2 inline-flex items-center rounded-sm py-0.5 font-semibold whitespace-nowrap;
+	@apply text-sm-plus mt-2 inline-flex items-center rounded-sm py-0.5 font-medium whitespace-nowrap;
+	letter-spacing: -0.005em;
 	padding-left: 0.5rem;
 	padding-right: 0.625rem;
 
@@ -64,6 +65,11 @@
 			background-color: var(--color-status-mixed);
 		}
 	}
+}
+
+@utility tooltip-status-category {
+	@apply text-sm-plus ms-0.5 whitespace-nowrap opacity-70;
+	letter-spacing: -0.005em;
 }
 
 @utility custom-api-badges {

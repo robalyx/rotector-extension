@@ -3,6 +3,7 @@ interface TooltipPosition {
 	top: number;
 	isAbove: boolean;
 	bridgeOffsetX: number;
+	anchorWidth: number;
 }
 
 interface TransformOrigin {
@@ -37,7 +38,7 @@ export function calculateTooltipPosition(
 	const intendedLeft = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
 	const bridgeOffsetX = left - intendedLeft;
 
-	return { left, top, isAbove, bridgeOffsetX };
+	return { left, top, isAbove, bridgeOffsetX, anchorWidth: anchorRect.width };
 }
 
 // Calculate transform origin for expanded tooltip animation
@@ -57,4 +58,5 @@ export function applyTooltipPosition(tooltipRef: HTMLElement, position: TooltipP
 	tooltipRef.style.top = `${String(position.top)}px`;
 	tooltipRef.style.setProperty('--tooltip-positioned-above', position.isAbove ? '1' : '0');
 	tooltipRef.style.setProperty('--bridge-offset-x', `${String(-position.bridgeOffsetX)}px`);
+	tooltipRef.style.setProperty('--bridge-width', `${String(position.anchorWidth)}px`);
 }

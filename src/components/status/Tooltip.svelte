@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { ENTITY_TYPES, REASON_KEYS, STATUS, type VoteType } from '@/lib/types/constants';
-	import { MIXED_GROUP, STATUS_FLAG_PRESENTATION } from '@/lib/utils/status/status-config';
+	import {
+		getCategoryTextKey,
+		MIXED_GROUP,
+		STATUS_FLAG_PRESENTATION
+	} from '@/lib/utils/status/status-config';
 	import type { ReviewerInfo, UserStatus } from '@/lib/types/api';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { extractErrorMessage, sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
@@ -465,6 +469,8 @@
 			return $_('tooltip_status_not_flagged');
 		return $_(STATUS_FLAG_PRESENTATION[activeStatus.flagType].textKey);
 	});
+
+	const statusBadgeCategoryKey = $derived(getCategoryTextKey(activeUserStatus?.category));
 
 	const reasonEntries = $derived.by((): FormattedReasonEntry[] => {
 		if (
@@ -1950,7 +1956,18 @@
 									{#if !effectivelyRestricted && !activeError && activeStatus}
 										<div class="tooltip-status-badge {statusBadgeClass}">
 											<span class="status-indicator"></span>
-											<CanvasText text={statusBadgeText} />
+											<!-- Bare wrapper gives the flag canvas the same inline-formatting context as the category spans below cuz without it flex baseline-aligns the canvas inconsistently with the span-wrapped siblings -->
+											<span>
+												<CanvasText text={statusBadgeText} />
+											</span>
+											{#if statusBadgeCategoryKey}
+												<span class="tooltip-status-category">
+													<CanvasText text="·" />
+												</span>
+												<span class="tooltip-status-category">
+													<CanvasText text={$_(statusBadgeCategoryKey)} />
+												</span>
+											{/if}
 										</div>
 										{@render membershipBadgeSection()}
 									{/if}

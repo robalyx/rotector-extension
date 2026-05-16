@@ -27,6 +27,7 @@ const UserStatusResponseSchema = v.object({
 		),
 		STATUS.FLAGS.UNKNOWN
 	),
+	category: v.optional(v.number('Invalid "category" field (must be number if present)')),
 	confidence: v.optional(v.number('Invalid "confidence" field (must be number if present)')),
 	reasons: v.optional(
 		v.record(v.string(), v.unknown(), 'Invalid "reasons" field (must be object)')

@@ -36,6 +36,7 @@ const VersionCompatibilitySchema = v.picklist(['current', 'compatible', 'outdate
 const UserStatusBaseSchema = v.object({
 	id: v.number(),
 	flagType: v.fallback(v.picklist(USER_FLAG_VALUES), STATUS.FLAGS.UNKNOWN),
+	category: v.optional(v.number()),
 	confidence: v.optional(v.number(), 0),
 	reasons: v.optional(v.record(v.string(), ReasonSchema), () => ({})),
 	reviewer: v.optional(ReviewerInfoSchema),

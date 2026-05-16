@@ -4,9 +4,10 @@ export const CHANGELOGS: Changelog[] = [
 	{
 		id: 'v2.17.0',
 		version: '2.17.0',
-		date: '2026-05-15',
-		title: '',
-		summary: '',
+		date: '2026-05-20',
+		title: 'New tools, sharper insights, smoother performance',
+		summary:
+			'This release brings new ways to share and contribute, including a leaderboard, tooltip image exports, and a clearer queue experience. Scan bars, indicators, and carousels load more progressively, and a long list of fixes tightens up Firefox support, tooltips, and blur handling.',
 		changes: [
 			{
 				type: 'added',
@@ -22,6 +23,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'added',
 				description:
 					'Inspect-resistant tooltip text - The most-fakeable fields now render as canvas pixels so they cannot be edited via inspect-element'
+			},
+			{
+				type: 'added',
+				description:
+					'Content categories - Flagged users now show a category label (CSAM, Sexual, Kink, Raceplay, Condo, or Other) alongside their status in the indicator and tooltip'
 			},
 			{
 				type: 'added',

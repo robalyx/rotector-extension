@@ -9,6 +9,14 @@ export const STATUS = {
 		PAST_OFFENDER: 6,
 		REDACTED: 8,
 		UNKNOWN: -1
+	},
+	CATEGORIES: {
+		CSAM: 1,
+		SEXUAL: 2,
+		KINK: 3,
+		RACEPLAY: 4,
+		CONDO: 5,
+		OTHER: 6
 	}
 } as const;
 

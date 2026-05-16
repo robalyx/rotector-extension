@@ -21,8 +21,11 @@
 	overflow: visible;
 
 	&::before {
-		@apply pointer-events-auto absolute inset-s-1/2 inset-be-full h-10 w-20;
+		@apply pointer-events-auto absolute inset-s-1/2 inset-be-full h-10;
 		content: '';
+
+		/* noinspection CssUnresolvedCustomProperty */
+		width: var(--bridge-width, 5rem);
 
 		/* noinspection CssUnresolvedCustomProperty */
 		transform: translateX(calc(-50% + var(--bridge-offset-x, 0px)));

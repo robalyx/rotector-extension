@@ -93,6 +93,7 @@
 			data: {
 				id: 123_456_789,
 				flagType: 2,
+				category: 2,
 				confidence: 0.85,
 				reasons: {
 					'User Profile': {
@@ -343,6 +344,7 @@
 
 				<h5 class="docs-subtitle">{$_('custom_api_docs_subtitle_optional_fields')}</h5>
 				<ul class="docs-list">
+					<li><code>category</code> &mdash; {$_('custom_api_docs_field_category')}</li>
 					<li><code>confidence</code> &mdash; {$_('custom_api_docs_field_confidence')}</li>
 					<li>
 						<code>reasons</code> &mdash; {$_('custom_api_docs_field_reasons')}

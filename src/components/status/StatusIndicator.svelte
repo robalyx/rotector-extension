@@ -267,7 +267,13 @@
 	bind:this={container}
 	class="status-container"
 	class:badge-expanded={showBadgeExpansion}
-	aria-label={$_('status_indicator_aria_label', { values: { 0: statusConfig.textContent } })}
+	aria-label={$_('status_indicator_aria_label', {
+		values: {
+			0: statusConfig.categoryLabel
+				? `${statusConfig.textContent}, ${statusConfig.categoryLabel}`
+				: statusConfig.textContent
+		}
+	})}
 	data-status-flag={rotector?.data?.flagType}
 	data-user-id={sanitizedEntityId}
 	onclick={handleClick}
@@ -317,6 +323,14 @@
 	{#if showText}
 		<span class={statusConfig.textClass}>
 			<CanvasText text={statusConfig.textContent} />
+			{#if statusConfig.categoryLabel}
+				<span class="status-text-category">
+					<CanvasText text="·" />
+				</span>
+				<span class="status-text-category">
+					<CanvasText text={statusConfig.categoryLabel} />
+				</span>
+			{/if}
 		</span>
 	{/if}
 </button>

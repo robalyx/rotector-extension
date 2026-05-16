@@ -167,6 +167,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'removed',
 				description:
 					'Tooltip "Copy Link" menu item - Replaced by the new tooltip image export which captures the full content as a PNG instead of just a link'
+			},
+			{
+				type: 'removed',
+				description:
+					'Onboarding feature showcase - Dropped the step that walked through tooltips, queue, and voting since those features are visible in the live UI'
 			}
 		]
 	}

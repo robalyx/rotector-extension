@@ -4,7 +4,6 @@
 	import Modal from '@/components/ui/Modal.svelte';
 	import GuideStepStatus from './steps/GuideStepStatus.svelte';
 	import GuideStepBadges from './steps/GuideStepBadges.svelte';
-	import GuideStepFeatures from './steps/GuideStepFeatures.svelte';
 	import GuideStepScope from './steps/GuideStepScope.svelte';
 
 	interface GuideModalProps {
@@ -14,7 +13,7 @@
 
 	let { onDismiss, onFinish }: GuideModalProps = $props();
 
-	const TOTAL_STEPS = 4;
+	const TOTAL_STEPS = 3;
 	let currentStepIndex = $state(0);
 	let isOpen = $state(true);
 
@@ -68,8 +67,6 @@
 	{:else if currentStepIndex === 1}
 		<GuideStepBadges />
 	{:else if currentStepIndex === 2}
-		<GuideStepFeatures />
-	{:else if currentStepIndex === 3}
 		<GuideStepScope />
 	{/if}
 

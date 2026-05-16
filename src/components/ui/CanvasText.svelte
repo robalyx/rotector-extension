@@ -195,11 +195,14 @@
 
 	$effect(() => {
 		if (!multiline || !canvas?.parentElement) return;
-		const parent = canvas.parentElement;
+		let widthRef: HTMLElement = canvas.parentElement;
+		while (getComputedStyle(widthRef).display === 'contents' && widthRef.parentElement) {
+			widthRef = widthRef.parentElement;
+		}
 		const observer = new ResizeObserver((entries) => {
 			for (const entry of entries) parentWidth = entry.contentRect.width;
 		});
-		observer.observe(parent);
+		observer.observe(widthRef);
 		return () => observer.disconnect();
 	});
 

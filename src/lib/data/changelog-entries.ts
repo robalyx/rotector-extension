@@ -94,6 +94,11 @@ export const CHANGELOGS: Changelog[] = [
 				description: 'Ko-fi URL - Membership and funding links now point to ko-fi.com/rotector'
 			},
 			{
+				type: 'changed',
+				description:
+					'Tooltip compact header - Shows the unique @username instead of the display name so a truncated header still identifies the right user'
+			},
+			{
 				type: 'fixed',
 				description:
 					'Firefox feature loading - Friend scans, group roles, and other Roblox-powered features now work on Firefox instead of failing to load'

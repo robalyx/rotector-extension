@@ -1939,14 +1939,22 @@
 								</div>
 								<div class="tooltip-user-info">
 									<div class="tooltip-username">
-										<CanvasText
-											text={userInfo.displayName ||
-												(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
-										/>
-										{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
-											<span class="tooltip-user-handle">
-												<CanvasText text={`@${userInfo.username}`} />
-											</span>
+										{#if showCompactColumns}
+											<CanvasText
+												text={userInfo.username
+													? `@${userInfo.username}`
+													: userInfo.displayName || 'Unknown User'}
+											/>
+										{:else}
+											<CanvasText
+												text={userInfo.displayName ||
+													(userInfo.username ? `@${userInfo.username}` : 'Unknown User')}
+											/>
+											{#if userInfo.username && userInfo.displayName && userInfo.username !== userInfo.displayName}
+												<span class="tooltip-user-handle">
+													<CanvasText text={`@${userInfo.username}`} />
+												</span>
+											{/if}
 										{/if}
 									</div>
 									<div class="tooltip-user-id">

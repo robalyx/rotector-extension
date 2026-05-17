@@ -4,6 +4,7 @@
 	import {
 		ChevronRight,
 		CircleUserRound,
+		Database,
 		Eye,
 		Hourglass,
 		Users,
@@ -27,13 +28,15 @@
 	const VERIFICATION_SOURCE_NAMES: Record<number, string> = {
 		0: 'Bloxlink',
 		1: 'RoVer',
-		2: 'Profile'
+		2: 'Profile',
+		3: 'Rotector'
 	};
 
 	const VERIFICATION_SOURCE_URLS: Record<number, string> = {
 		0: 'https://blox.link/',
 		1: 'https://rover.link/',
-		2: 'https://discord.com'
+		2: 'https://discord.com',
+		3: 'https://rotector.com'
 	};
 
 	interface Props {
@@ -185,6 +188,8 @@
 		<BloxlinkIcon size={14} />
 	{:else if code === 1}
 		<RoVerIcon size={14} />
+	{:else if code === 3}
+		<Database size={14} />
 	{:else}
 		<CircleUserRound size={14} />
 	{/if}

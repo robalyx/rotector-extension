@@ -60,6 +60,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Review prompt - Modal asking you to leave a store review once you have helped flag a few users'
 			},
 			{
+				type: 'added',
+				description:
+					'Rotector verification source - Discord and alt account entries linked by our own database now show a Rotector label'
+			},
+			{
 				type: 'changed',
 				description:
 					'Scan bar granularity - Now shows a separate chip for each status type instead of grouping several together'

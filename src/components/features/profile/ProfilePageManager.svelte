@@ -457,14 +457,22 @@
 		if (get(restrictedAccessStore).isRestricted && !isOwnProfile) return;
 
 		try {
-			const result = await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.HEADER_TITLE);
+			const btrContainer = document.querySelector(BTROBLOX_GROUPS_SELECTORS.CONTAINER);
+			const result = btrContainer
+				? await waitForElement(BTROBLOX_GROUPS_SELECTORS.HEADER_TITLE)
+				: await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.HEADER_TITLE);
 			if (!result.success) return;
 
-			// Roblox's communities-carousel parent stacks children vertically, so a sibling span lands on the next row
-			// Append inside the h2 (Roblox's own .friends-count pattern) to stay inline with the heading
 			const container = document.createElement('span');
 			container.className = COMPONENT_CLASSES.SCAN_HOST;
-			result.element.append(container);
+
+			if (btrContainer) {
+				result.element.after(container);
+			} else {
+				// Roblox's communities-carousel parent stacks children vertically, so a sibling span lands on the next row
+				// Append inside the h2 (Roblox's own .friends-count pattern) to stay inline with the heading
+				result.element.append(container);
+			}
 
 			const component = mount(GroupsScanBar, {
 				target: container,

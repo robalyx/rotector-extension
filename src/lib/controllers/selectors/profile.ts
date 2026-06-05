@@ -24,6 +24,7 @@ export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
 // BTRoblox extension's modified groups view where the third-party DOM differs from native
 export const BTROBLOX_GROUPS_SELECTORS = {
 	CONTAINER: '.btr-profile-groups',
+	HEADER_TITLE: '.btr-profile-groups .container-header h2',
 	SECTION_CONTENT: '.section-content',
 	ITEMS_CONTAINER: '.hlist[ng-non-bindable]',
 	ITEM: '.list-item.game-card',

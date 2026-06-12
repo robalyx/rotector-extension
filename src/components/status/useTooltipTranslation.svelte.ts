@@ -59,7 +59,7 @@ export function useTooltipTranslation(opts: Options): TooltipTranslation {
 			translationError = null;
 
 			const currentLanguage = get(locale) ?? 'en';
-			const isEnglishUser = currentLanguage.split('-')[0]?.toLowerCase() === 'en';
+			const isEnglishUser = currentLanguage.split('-', 1)[0]?.toLowerCase() === 'en';
 			const targetLanguage = isEnglishUser ? 'en' : currentLanguage;
 
 			const allTranslations: Record<string, string> = {};

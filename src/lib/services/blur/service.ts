@@ -318,7 +318,7 @@ export function markUserElementForBlur(element: Element, userId: string, pageTyp
 
 export function resetElementBlur(element: Element): void {
 	element.classList.remove(BLUR_REVEALED_CLASS);
-	for (const el of element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`)) {
+	for (const el of element.querySelectorAll(`[${CSS.escape(BLUR_SELECTORS.BLUR_USER_ID)}]`)) {
 		el.classList.remove(BLUR_REVEALED_CLASS);
 		cleanupBlurElement(el);
 		if (el instanceof HTMLElement) {
@@ -338,7 +338,7 @@ export function revealUserElement(element: Element, status: CombinedStatus<UserS
 		element.classList.add(BLUR_REVEALED_CLASS);
 	}
 
-	for (const el of element.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}]`)) {
+	for (const el of element.querySelectorAll(`[${CSS.escape(BLUR_SELECTORS.BLUR_USER_ID)}]`)) {
 		const type = el.getAttribute(BLUR_SELECTORS.BLUR_TYPE);
 		if (type === 'avatar' ? !blurAvatars : !blurNames) {
 			el.classList.add(BLUR_REVEALED_CLASS);

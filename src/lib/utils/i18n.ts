@@ -83,7 +83,7 @@ export function normalizeLocale(browserLocale: string): SupportedLocale {
 		return 'zh-CN';
 	}
 
-	const baseLocale = browserLocale.split(/[-_]/)[0];
+	const baseLocale = browserLocale.split(/[-_]/, 1)[0];
 	if (SUPPORTED_LOCALES.includes(baseLocale as SupportedLocale)) {
 		return baseLocale as SupportedLocale;
 	}

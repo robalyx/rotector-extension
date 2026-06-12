@@ -178,11 +178,11 @@ export async function translateTexts(
 		throw new Error('Target language is required');
 	}
 
-	const normalizedTarget = (targetLanguage.split('-')[0] ?? targetLanguage).toLowerCase();
+	const normalizedTarget = (targetLanguage.split('-', 1)[0] ?? targetLanguage).toLowerCase();
 	const normalizedSource =
 		sourceLanguage === 'auto'
 			? 'auto'
-			: (sourceLanguage.split('-')[0] ?? sourceLanguage).toLowerCase();
+			: (sourceLanguage.split('-', 1)[0] ?? sourceLanguage).toLowerCase();
 
 	if (normalizedSource !== 'auto' && normalizedSource === normalizedTarget) {
 		const translations: Record<string, string> = {};

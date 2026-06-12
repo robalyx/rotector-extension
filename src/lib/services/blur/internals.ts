@@ -84,14 +84,14 @@ export function revealSingleElement(el: Element): void {
 function revealUser(userId: string): void {
 	revealedUsers.add(userId);
 	document
-		.querySelectorAll(`[${BLUR_SELECTORS.BLUR_USER_ID}="${userId}"]`)
+		.querySelectorAll(`[${CSS.escape(BLUR_SELECTORS.BLUR_USER_ID)}="${CSS.escape(userId)}"]`)
 		.forEach(revealSingleElement);
 }
 
 function revealGroup(groupId: string): void {
 	revealedGroups.add(groupId);
 	document
-		.querySelectorAll(`[${BLUR_SELECTORS.BLUR_GROUP}="${groupId}"]`)
+		.querySelectorAll(`[${CSS.escape(BLUR_SELECTORS.BLUR_GROUP)}="${CSS.escape(groupId)}"]`)
 		.forEach(revealSingleElement);
 }
 

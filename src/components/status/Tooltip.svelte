@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { ENTITY_TYPES, REASON_KEYS, STATUS, type VoteType } from '@/lib/types/constants';
+	import {
+		ENTITY_TYPES,
+		REASON_KEYS,
+		STATUS,
+		type StatusFlag,
+		type VoteType
+	} from '@/lib/types/constants';
 	import {
 		getCategoryTextKey,
 		MIXED_GROUP,
@@ -295,14 +301,18 @@
 			: ''
 	);
 
+	const VOTABLE_FLAGS: readonly StatusFlag[] = [
+		STATUS.FLAGS.UNSAFE,
+		STATUS.FLAGS.PENDING,
+		STATUS.FLAGS.MIXED
+	];
+
 	const shouldShowVoting = $derived(
 		!isGroup &&
 			!voteAccessDenied &&
 			activeTab === ROTECTOR_API_ID && // Only show voting on Rotector tab
 			activeUserStatus &&
-			(activeUserStatus.flagType === STATUS.FLAGS.UNSAFE ||
-				activeUserStatus.flagType === STATUS.FLAGS.PENDING ||
-				activeUserStatus.flagType === STATUS.FLAGS.MIXED)
+			VOTABLE_FLAGS.includes(activeUserStatus.flagType)
 	);
 
 	const isSafeUserWithQueueOnly = $derived(
@@ -319,14 +329,18 @@
 			activeUserStatus.processed === true
 	);
 
+	const MINIMAL_ENTITY_FLAGS: readonly StatusFlag[] = [
+		STATUS.FLAGS.SAFE,
+		STATUS.FLAGS.QUEUED,
+		STATUS.FLAGS.PROVISIONAL,
+		STATUS.FLAGS.REDACTED
+	];
+
 	// Minimal tooltip entities skip saved height
 	const isMinimalEntity = $derived(
 		activeTab === ROTECTOR_API_ID &&
 			activeStatus &&
-			(activeStatus.flagType === STATUS.FLAGS.SAFE ||
-				activeStatus.flagType === STATUS.FLAGS.QUEUED ||
-				activeStatus.flagType === STATUS.FLAGS.PROVISIONAL ||
-				activeStatus.flagType === STATUS.FLAGS.REDACTED)
+			MINIMAL_ENTITY_FLAGS.includes(activeStatus.flagType)
 	);
 
 	let showSafeReasons = $state(false);
@@ -931,7 +945,7 @@
 	}
 
 	async function handleExportRowKeydown(event: KeyboardEvent) {
-		if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
+		if (['ArrowRight', 'Enter', ' '].includes(event.key)) {
 			event.preventDefault();
 			event.stopPropagation();
 			cancelSubmenuTimers();

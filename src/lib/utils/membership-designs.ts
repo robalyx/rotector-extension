@@ -20,6 +20,8 @@ export const TIER_ALLOWLIST = {
 
 export type DesignAxis = keyof typeof TIER_ALLOWLIST;
 
+const MEMBERSHIP_TIERS: readonly MembershipTier[] = [1, 2, 3];
+
 const TIER_NAMES: Readonly<Record<MembershipTier, MembershipTierName>> = {
 	1: 'Supporter',
 	2: 'Patron',
@@ -88,7 +90,7 @@ export function designKey<A extends DesignAxis>(
 
 // Coerce unknown tier numbers to Supporter so the extension degrades gracefully on new server tiers
 export function tierOf(raw: number): MembershipTier {
-	return raw === 1 || raw === 2 || raw === 3 ? raw : 1;
+	return MEMBERSHIP_TIERS.find((tier) => tier === raw) ?? 1;
 }
 
 export function tierNameOf(raw: number): MembershipTierName {
@@ -97,7 +99,7 @@ export function tierNameOf(raw: number): MembershipTierName {
 
 // Lowest tier that unlocks a given index, for "Unlocks at Patron" hints on locked tiles
 export function indexUnlockTierName(index: number, axis: DesignAxis): MembershipTierName | null {
-	for (const tier of [1, 2, 3] as const) {
+	for (const tier of MEMBERSHIP_TIERS) {
 		if (TIER_ALLOWLIST[axis][tier].includes(index)) return TIER_NAMES[tier];
 	}
 	return null;

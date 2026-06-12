@@ -4,7 +4,7 @@
 	import { sanitizeEntityId } from '@/lib/utils/dom/sanitizer';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { restrictedAccessStore } from '@/lib/stores/restricted-access';
-	import { STATUS, CAPTCHA_MESSAGES, KOFI_URL } from '@/lib/types/constants';
+	import { STATUS, CAPTCHA_MESSAGES, KOFI_URL, type StatusFlag } from '@/lib/types/constants';
 	import { Ban, Check, Clipboard, Clock, Database, Search, User, Users } from '@lucide/svelte';
 	import AckCheckbox from '@/components/ui/AckCheckbox.svelte';
 	import ExtLink from '@/components/ui/ExtLink.svelte';
@@ -141,12 +141,14 @@
 
 	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
+	const REANALYSIS_FLAGS: readonly StatusFlag[] = [
+		STATUS.FLAGS.UNSAFE,
+		STATUS.FLAGS.PENDING,
+		STATUS.FLAGS.MIXED
+	];
+
 	const isReanalysis = $derived(
-		isReprocess ||
-			(userStatus &&
-				(userStatus.flagType === STATUS.FLAGS.UNSAFE ||
-					userStatus.flagType === STATUS.FLAGS.PENDING ||
-					userStatus.flagType === STATUS.FLAGS.MIXED))
+		isReprocess || (userStatus && REANALYSIS_FLAGS.includes(userStatus.flagType))
 	);
 
 	const isRestricted = $derived($restrictedAccessStore.isRestricted);

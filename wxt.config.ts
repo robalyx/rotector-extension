@@ -10,7 +10,26 @@ export default defineConfig({
 	manifestVersion: 3,
 	modules: ['@wxt-dev/module-svelte'],
 	vite: () => ({
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			{
+				// Chrome refuses to load content scripts containing Unicode non-characters
+				// ("It isn't UTF-8 encoded") as some deps ship them raw inside regex literals
+				// (e.g. https://github.com/zumerlab/snapdom/issues/432), so re-escape them in
+				// emitted chunks.
+				name: 'escape-unicode-non-characters',
+				generateBundle(_options, bundle) {
+					for (const chunk of Object.values(bundle)) {
+						if (chunk.type === 'chunk') {
+							chunk.code = chunk.code.replaceAll(
+								/[\uFDD0-\uFDEF\uFFFE\uFFFF]/g,
+								(ch) => `\\u${ch.charCodeAt(0).toString(16).toUpperCase().padStart(4, '0')}`
+							);
+						}
+					}
+				}
+			}
+		],
 		define: {
 			'import.meta.env.USE_DEV_API': JSON.stringify(isDev ? 'true' : 'false')
 		},

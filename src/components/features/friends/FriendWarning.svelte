@@ -88,7 +88,7 @@
 		const container = isProfilePage
 			? document.querySelector(PROFILE_SELECTORS.HEADER)
 			: document.querySelector(
-					`${SEARCH_SELECTORS.CARD.CONTAINER}[${STATUS_SELECTORS.DATA_USER_ID}="${String(userId)}"]`
+					`${SEARCH_SELECTORS.CARD.CONTAINER}[${CSS.escape(STATUS_SELECTORS.DATA_USER_ID)}="${CSS.escape(String(userId))}"]`
 				);
 
 		if (!container) return { userId: sanitizedUserId, username: '', avatarUrl: undefined };

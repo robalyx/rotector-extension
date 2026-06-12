@@ -29,7 +29,7 @@ const PAGE_PATTERNS: ReadonlyArray<{ pattern: RegExp; type: PageType; hash?: str
 ];
 
 export function stripHash(url: string): string {
-	return url.split('#')[0] ?? url;
+	return url.split('#', 1)[0] ?? url;
 }
 
 export function detectPageType(url: string): PageType | null {

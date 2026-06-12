@@ -98,6 +98,13 @@
 		[PAGE_TYPES.HOME]: FRIENDS_CAROUSEL_CONFIG
 	};
 
+	const ABSOLUTE_POSITION_PAGES: ReadonlySet<PageType> = new Set([
+		PAGE_TYPES.FRIENDS_CAROUSEL,
+		PAGE_TYPES.HOME,
+		PAGE_TYPES.FRIENDS_LIST,
+		PAGE_TYPES.SEARCH_USER
+	]);
+
 	function getPageConfig() {
 		if (!(pageType in PAGE_CONFIGS)) {
 			throw new Error(`UserListManager does not support page type: ${pageType}`);
@@ -614,12 +621,7 @@
 				container = document.createElement('div');
 				container.className = COMPONENT_CLASSES.STATUS_CONTAINER;
 
-				const needsAbsolutePosition =
-					!isModalItem &&
-					(pageType === PAGE_TYPES.FRIENDS_CAROUSEL ||
-						pageType === PAGE_TYPES.HOME ||
-						pageType === PAGE_TYPES.FRIENDS_LIST ||
-						pageType === PAGE_TYPES.SEARCH_USER);
+				const needsAbsolutePosition = !isModalItem && ABSOLUTE_POSITION_PAGES.has(pageType);
 
 				if (needsAbsolutePosition) {
 					container.classList.add(COMPONENT_CLASSES.STATUS_POSITIONED_ABSOLUTE);
@@ -676,7 +678,9 @@
 		// Diffing against mountedComponents keys is O(n) instead of N querySelectorAll
 		// scans of the whole document
 		const liveUserIds = new SvelteSet<string>();
-		for (const el of document.querySelectorAll(`[${STATUS_SELECTORS.DATA_PROCESSED}]`)) {
+		for (const el of document.querySelectorAll(
+			`[${CSS.escape(STATUS_SELECTORS.DATA_PROCESSED)}]`
+		)) {
 			const id = el.getAttribute(STATUS_SELECTORS.DATA_USER_ID);
 			if (id) liveUserIds.add(id);
 		}

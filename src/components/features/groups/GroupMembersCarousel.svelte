@@ -255,7 +255,7 @@
 
 	function revealTileForStatus(userId: string, status: CombinedStatus<UserStatus>) {
 		const tile = contentWrapper?.querySelector<HTMLElement>(
-			`[${STATUS_SELECTORS.DATA_USER_ID}="${userId}"]`
+			`[${CSS.escape(STATUS_SELECTORS.DATA_USER_ID)}="${CSS.escape(userId)}"]`
 		);
 		if (tile) {
 			revealUserElement(tile, status);

@@ -136,6 +136,7 @@ export async function queueUser(
 		method: 'POST',
 		body: JSON.stringify(requestBody),
 		clientId,
+		maxRetries: 1,
 		rawResponse: true,
 		parse: parseQueueResult
 	});

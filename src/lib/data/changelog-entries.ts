@@ -2,6 +2,20 @@ import type { Changelog } from '@/lib/types/changelog';
 
 export const CHANGELOGS: Changelog[] = [
 	{
+		id: 'v2.17.1',
+		version: '2.17.1',
+		date: '2026-06-22',
+		title: '',
+		summary: '',
+		changes: [
+			{
+				type: 'fixed',
+				description:
+					'Profile communities indicator position - Status indicators on community tiles now stay pinned to the thumbnail corner instead of appearing centered on the right edge'
+			}
+		]
+	},
+	{
 		id: 'v2.17.0',
 		version: '2.17.0',
 		date: '2026-05-20',

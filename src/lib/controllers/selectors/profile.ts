@@ -17,7 +17,7 @@ export const PROFILE_GROUPS_SHOWCASE_SELECTORS = {
 	TILE: '.base-tile',
 	GROUP_LINK: 'a[href*="/communities/"]',
 	GROUP_NAME: '.base-tile-title',
-	IMAGE_CONTAINER: '.base-tile-thumbnail',
+	IMAGE_CONTAINER: '.base-tile-thumbnail-wrapper',
 	THUMBNAIL: '.base-tile-thumbnail img'
 } as const;
 

@@ -458,9 +458,10 @@
 
 		try {
 			const btrContainer = document.querySelector(BTROBLOX_GROUPS_SELECTORS.CONTAINER);
-			const result = btrContainer
-				? await waitForElement(BTROBLOX_GROUPS_SELECTORS.HEADER_TITLE)
-				: await waitForElement(PROFILE_GROUPS_SHOWCASE_SELECTORS.HEADER_TITLE);
+			const headerSelector = btrContainer
+				? BTROBLOX_GROUPS_SELECTORS.HEADER_TITLE
+				: PROFILE_GROUPS_SHOWCASE_SELECTORS.HEADER_TITLE;
+			const result = await waitForElement(headerSelector);
 			if (!result.success) return;
 
 			const container = document.createElement('span');

@@ -20,7 +20,7 @@ export const shouldShowChangelogModal = derived(
 	([$settings, $unread]) => {
 		if (!$settings[SETTINGS_KEYS.ONBOARDING_COMPLETED]) return false;
 		if ($settings[SETTINGS_KEYS.CHANGELOG_MODAL_DISABLED]) return false;
-		return $unread.length > 0;
+		return $unread.some((cl) => !cl.silent);
 	}
 );
 

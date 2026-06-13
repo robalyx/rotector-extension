@@ -11,4 +11,5 @@ export interface Changelog {
 	title: string;
 	summary: string;
 	changes: ChangelogEntry[];
+	silent?: boolean;
 }

@@ -4,9 +4,10 @@ export const CHANGELOGS: Changelog[] = [
 	{
 		id: 'v2.17.1',
 		version: '2.17.1',
-		date: '2026-06-22',
-		title: '',
-		summary: '',
+		date: '2026-06-16',
+		title: 'Small fix',
+		summary: 'A quick patch for status indicator positioning on profile community tiles.',
+		silent: true,
 		changes: [
 			{
 				type: 'fixed',

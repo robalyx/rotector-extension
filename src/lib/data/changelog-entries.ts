@@ -5,14 +5,20 @@ export const CHANGELOGS: Changelog[] = [
 		id: 'v2.17.1',
 		version: '2.17.1',
 		date: '2026-06-16',
-		title: 'Small fix',
-		summary: 'A quick patch for status indicator positioning on profile community tiles.',
+		title: 'Small fixes',
+		summary:
+			'A quick patch fixing status indicator positioning on profile community tiles and restoring the Communities scan bar for BTRoblox users.',
 		silent: true,
 		changes: [
 			{
 				type: 'fixed',
 				description:
 					'Profile communities indicator position - Status indicators on community tiles now stay pinned to the thumbnail corner instead of appearing centered on the right edge'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Communities scan bar on BTRoblox - The bulk scan summary on profile Communities sections now appears for users running the BTRoblox extension'
 			}
 		]
 	},

@@ -23,6 +23,7 @@
 	import CanvasText from '@/components/ui/CanvasText.svelte';
 	import { getDiscordData } from '@/lib/services/third-party/discord-data';
 	import type { DiscordAccountInfo, RobloxAltAccount } from '@/lib/types/api';
+	import { logger } from '@/lib/utils/logging/logger';
 	import { formatShortDate, formatTimestamp } from '@/lib/utils/time';
 
 	const VERIFICATION_SOURCE_NAMES: Record<number, string> = {
@@ -165,17 +166,24 @@
 		}
 	}
 
+	let latestDiscordLoadId = 0;
+
 	$effect(() => {
+		const userId = robloxUserId;
+		const loadId = ++latestDiscordLoadId;
+
 		async function fetchDiscordData() {
 			try {
 				isLoading = true;
-				const result = await getDiscordData(robloxUserId);
+				const result = await getDiscordData(userId);
+				if (loadId !== latestDiscordLoadId) return;
 				discordAccounts = result.discordAccounts.filter((account) => account.servers.length > 0);
 				altAccounts = result.altAccounts;
-			} catch {
+			} catch (error_) {
+				logger.error('Failed to load Discord data:', error_);
 				// Empty discordAccounts/altAccounts trigger the fallbackEvidence branch in the template
 			} finally {
-				isLoading = false;
+				if (loadId === latestDiscordLoadId) isLoading = false;
 			}
 		}
 

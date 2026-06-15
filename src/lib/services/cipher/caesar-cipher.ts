@@ -17,6 +17,9 @@ export interface TextNodeEntry {
 const LABEL_MATCH_PATTERN =
 	/\b(?:caesar\s*(?:cipher|shift)?\s*\d{1,2}|rot\s*\d{1,2}|cc\s*\d{1,2}|shift\s*\d{1,2})\b/gi;
 
+// Keyword that announces a cipher even without an explicit shift number
+const LABEL_KEYWORD_PATTERN = /\b(?:caesar|cipher|decode|decrypt|decipher)\b/i;
+
 export function caesarShift(text: string, shift: number): string {
 	return text.replaceAll(/[a-zA-Z]/g, (char) => {
 		const base = char <= 'Z' ? 65 : 97;
@@ -97,29 +100,34 @@ export function detectCaesarShift(bio: string): CipherDetection | null {
 		}
 	}
 
-	// Dictionary brute force
 	const words = extractWords(bio);
 	if (words.length < 3) return null;
 
-	// Skip if the bio is already mostly English
-	const baselineRatio = countEnglishWords(words) / words.length;
-	if (baselineRatio > 0.3) return null;
+	const hasLabel = LABEL_KEYWORD_PATTERN.test(bio);
+
+	// A mostly-English bio is plaintext, unless a cipher label hints at embedded ciphertext
+	if (!hasLabel && countEnglishWords(words) / words.length > 0.3) return null;
+
+	// Count only newly-decoded words so a plaintext instruction prefix can't dilute the ciphertext
+	const encoded = words.filter((w) => !COMMON_WORDS.has(w));
+	if (encoded.length < 3) return null;
 
 	let bestShift = 0;
-	let bestRatio = 0;
-
+	let bestCount = 0;
 	for (let shift = 1; shift <= 25; shift++) {
-		const decoded = words.map((w) => caesarShift(w, -shift));
-		const ratio = countEnglishWords(decoded) / decoded.length;
-		if (ratio > bestRatio) {
-			bestRatio = ratio;
+		const count = countEnglishWords(encoded.map((w) => caesarShift(w, -shift)));
+		if (count > bestCount) {
+			bestCount = count;
 			bestShift = shift;
 		}
 	}
 
-	if (bestShift === 0 || bestRatio < 0.25) return null;
+	const ratio = bestCount / encoded.length;
+	const minWords = hasLabel ? 2 : 3;
+	const minRatio = hasLabel ? 0.2 : 0.25;
+	if (bestShift === 0 || bestCount < minWords || ratio < minRatio) return null;
 
-	return { shift: bestShift, confidence: bestRatio, labelDetected: false };
+	return { shift: bestShift, confidence: ratio, labelDetected: false };
 }
 
 // Walk text nodes in a description element and pair each non-plaintext

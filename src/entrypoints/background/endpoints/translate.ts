@@ -91,10 +91,11 @@ async function translateBatch(
 	const translatedParts = translatedCombined.split(DELIMITER);
 
 	if (translatedParts.length !== texts.length) {
-		logger.warn('Translation part count mismatch', {
+		logger.warn('Translation part count mismatch, falling back to parallel requests', {
 			expected: texts.length,
 			received: translatedParts.length
 		});
+		return translateParallel(texts, targetLanguage, sourceLanguage);
 	}
 
 	const translations: Record<string, string> = {};
@@ -126,11 +127,21 @@ async function fetchTranslation(
 	});
 
 	const url = `https://translate.googleapis.com/translate_a/single?${params.toString()}`;
-	const response = await fetch(url);
-	if (!response.ok) {
-		throw new Error(`Translation API returned status ${String(response.status)}`);
+
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => {
+		controller.abort();
+	}, API_CONFIG.TIMEOUT);
+
+	try {
+		const response = await fetch(url, { signal: controller.signal });
+		if (!response.ok) {
+			throw new Error(`Translation API returned status ${String(response.status)}`);
+		}
+		return extractTranslatedText(await response.json());
+	} finally {
+		clearTimeout(timeoutId);
 	}
-	return extractTranslatedText(await response.json());
 }
 
 async function translateParallel(

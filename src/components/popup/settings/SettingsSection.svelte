@@ -123,6 +123,10 @@
 					showWarning($_('custom_api_mgmt_alert_permission_denied'));
 					break;
 				}
+				case 'test_failed': {
+					showError($_('custom_api_mgmt_test_failed', { values: { 0: api.name } }));
+					break;
+				}
 				case 'error': {
 					showError(
 						$_('custom_api_mgmt_alert_toggle_error', {

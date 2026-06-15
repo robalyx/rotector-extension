@@ -146,7 +146,9 @@
 		border-color: var(--color-border);
 	}
 
-	&.disabled {
+	&.disabled .api-card-header-left,
+	&.disabled .api-card-endpoints,
+	&.disabled .api-meta-line {
 		opacity: 0.6;
 	}
 }

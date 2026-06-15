@@ -18,6 +18,7 @@
 	let showFriendsList = $state(false);
 	let scanBarContainer: HTMLElement | null = null;
 	let scanBarCleanup: (() => void) | null = null;
+	let scanBarSetupInFlight = false;
 
 	$effect(() => {
 		void waitForElement(FRIENDS_SELECTORS.CONTAINER).then((r) => {
@@ -59,38 +60,44 @@
 
 	async function setupScanBar() {
 		if (!isFriendsTab()) return;
+		if (scanBarContainer || scanBarSetupInFlight) return;
 
 		const userId = getUserIdFromUrl();
 		if (!userId) return;
 
-		const headerResult = await waitForElement('.friends-content .container-header');
-		if (!headerResult.success) return;
+		scanBarSetupInFlight = true;
+		try {
+			const headerResult = await waitForElement('.friends-content .container-header');
+			if (!headerResult.success) return;
 
-		const header = headerResult.element;
+			const header = headerResult.element;
 
-		const container = document.createElement('span');
-		container.className = COMPONENT_CLASSES.SCAN_HOST;
+			const container = document.createElement('span');
+			container.className = COMPONENT_CLASSES.SCAN_HOST;
 
-		// Roseal extension splits the header into .friends-left and .friends-right
-		// sections, moving .friends-filter out of the direct header children
-		const friendsLeft = header.querySelector('.friends-left');
-		if (friendsLeft) {
-			friendsLeft.append(container);
-		} else {
-			const filter = header.querySelector('.friends-filter');
-			if (!filter?.parentNode) return;
-			filter.parentNode.insertBefore(container, filter);
+			// Roseal extension splits the header into .friends-left and .friends-right
+			// sections, moving .friends-filter out of the direct header children
+			const friendsLeft = header.querySelector('.friends-left');
+			if (friendsLeft) {
+				friendsLeft.append(container);
+			} else {
+				const filter = header.querySelector('.friends-filter');
+				if (!filter?.parentNode) return;
+				filter.parentNode.insertBefore(container, filter);
+			}
+			scanBarContainer = container;
+
+			const component = mount(FriendsScanBar, {
+				target: container,
+				props: { userId, isOwnFriends: userId === getLoggedInUserId() }
+			});
+
+			scanBarCleanup = () => {
+				void unmount(component);
+			};
+		} finally {
+			scanBarSetupInFlight = false;
 		}
-		scanBarContainer = container;
-
-		const component = mount(FriendsScanBar, {
-			target: container,
-			props: { userId }
-		});
-
-		scanBarCleanup = () => {
-			void unmount(component);
-		};
 	}
 
 	function cleanupScanBar() {

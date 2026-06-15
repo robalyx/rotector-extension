@@ -23,20 +23,17 @@
 		await setLanguage(value);
 	}
 
-	async function ensureTranslatePermission(): Promise<void> {
-		const hasPermission = await hasTranslatePermission();
-		if (!hasPermission) {
-			await requestTranslatePermission();
-		}
-	}
-
-	function handleTranslateChange(checked: boolean) {
-		translateEnabled = checked;
-		void updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, checked);
-
+	async function handleTranslateChange(checked: boolean) {
+		// Request host permission before enabling so a denial leaves the feature off
 		if (checked) {
-			void ensureTranslatePermission();
+			const hasPermission = await hasTranslatePermission();
+			if (!hasPermission && !(await requestTranslatePermission())) {
+				translateEnabled = false;
+				return;
+			}
 		}
+		translateEnabled = checked;
+		await updateSetting(SETTINGS_KEYS.TRANSLATE_VIOLATIONS_ENABLED, checked);
 	}
 </script>
 

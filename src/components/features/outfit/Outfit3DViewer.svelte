@@ -35,6 +35,7 @@
 	let geometries: Geometry[] = [];
 	let textures: Texture[] = [];
 	let glRef: WebGL2RenderingContext | WebGLRenderingContext | null = null;
+	let destroyed = false;
 
 	onMount(() => {
 		void initializeViewer();
@@ -50,6 +51,7 @@
 	});
 
 	function cleanup(): void {
+		destroyed = true;
 		if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
 		if (orbitControls) orbitControls.remove();
 
@@ -263,6 +265,14 @@
 			const mesh = new Mesh(gl, { geometry, program });
 			mesh.setParent(scene);
 		}
+		// Unmounted mid-load as cleanup already ran, so free what we created and skip the render loop
+		if (destroyed) {
+			for (const program of newPrograms) program.remove();
+			for (const geometry of geometries) geometry.remove();
+			for (const tex of textures) gl.deleteTexture(tex.texture);
+			return;
+		}
+
 		programs = newPrograms;
 
 		isLoading = false;

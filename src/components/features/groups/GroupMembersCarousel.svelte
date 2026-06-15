@@ -355,9 +355,9 @@
 		const cursorsClone = [...trackedPreviousCursors];
 		cursorsClone.pop();
 		trackedPreviousCursors = cursorsClone;
-		trackedCurrentPage--;
 
-		const cursor = trackedCurrentPage === 1 ? null : cursorsClone.at(-1);
+		const cursor = cursorsClone.at(-1) ?? null;
+		trackedCurrentPage = cursor === null ? 1 : trackedCurrentPage - 1;
 		void loadTrackedUsers(cursor);
 	}
 

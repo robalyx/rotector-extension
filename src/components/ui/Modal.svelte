@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import OverlayPortal from '@/components/overlay/OverlayPortal.svelte';
 	import { CircleCheckBig, CircleX, Info, TriangleAlert, X } from '@lucide/svelte';
 
@@ -68,9 +69,12 @@
 	const popupClass = $derived(POPUP_CLASS[size]);
 	const renderStatusChip = $derived(showStatusChip && status !== undefined);
 
+	let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
 	function closeModal(result?: boolean) {
 		isClosing = true;
-		setTimeout(() => {
+		closeTimer = setTimeout(() => {
+			closeTimer = null;
 			isOpen = false;
 			isClosing = false;
 			(result === true ? onConfirm : result === false ? onCancel : undefined)?.();
@@ -78,6 +82,10 @@
 			previouslyFocusedElement?.focus();
 		}, 250);
 	}
+
+	onDestroy(() => {
+		if (closeTimer) clearTimeout(closeTimer);
+	});
 
 	function handleEscape(e: KeyboardEvent) {
 		if (e.key === 'Escape' && isOpen && showClose) {

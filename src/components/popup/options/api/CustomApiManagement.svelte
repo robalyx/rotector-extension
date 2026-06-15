@@ -26,7 +26,7 @@
 		MAX_CUSTOM_APIS
 	} from '@/lib/stores/custom-apis';
 	import { exportApi } from '@/lib/utils/api/api-export';
-	import { testCustomApiConnection } from './test-connection';
+	import { testCustomApiConnection } from '@/lib/services/custom-api-test';
 	import { showError, showSuccess, showWarning } from '@/lib/stores/toast';
 	import {
 		hasPermissionsForOrigins,
@@ -156,6 +156,10 @@
 				case 'permission_denied': {
 					perApiPermissions = { ...perApiPermissions, [api.id]: false };
 					showWarning($_('custom_api_mgmt_alert_permission_denied'));
+					break;
+				}
+				case 'test_failed': {
+					showError($_('custom_api_mgmt_test_failed', { values: { 0: api.name } }));
 					break;
 				}
 				case 'error': {

@@ -3,7 +3,7 @@
    ================================= */
 
 @utility loading-spinner {
-	@apply animate-spin-smooth inline-block rounded-full border-2;
+	@apply animate-spin-smooth inline-block shrink-0 rounded-full border-2;
 	border-color: var(--color-text);
 	border-top-color: transparent;
 

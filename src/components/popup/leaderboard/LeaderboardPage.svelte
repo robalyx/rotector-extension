@@ -83,15 +83,17 @@
 	async function loadMore() {
 		if (loadingMore || nextCursor === null) return;
 		loadingMore = true;
-		const fetchWindow = activeWindow;
+		const signal = batch.nextSignal();
 		try {
-			const data = await apiClient.getLeaderboard(fetchWindow, {
+			const data = await apiClient.getLeaderboard(activeWindow, {
 				limit: PAGE_SIZE,
-				cursor: nextCursor
+				cursor: nextCursor,
+				signal
 			});
-			if (fetchWindow !== activeWindow) return;
+			if (signal.aborted) return;
 			applyResponse(data, true);
 		} catch (error_) {
+			if (isAbortError(error_)) return;
 			logger.error('Leaderboard load-more failed:', error_);
 			error = asApiError(error_).message || $_('leaderboard_load_failed');
 		} finally {
@@ -105,7 +107,6 @@
 		entries = [];
 		viewer = null;
 		nextCursor = null;
-		void loadInitial(next);
 	}
 
 	function updateClock() {

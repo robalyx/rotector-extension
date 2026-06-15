@@ -137,8 +137,9 @@
 		// Mark ready before async setup so blur marking and observers don't wait for initialize() to finish
 		profileElementsReady = true;
 
+		setupFriendWarning();
+
 		await Promise.all([
-			setupFriendWarning(),
 			setupCarousel().then(setupFriendsScanBar),
 			setupGroupsShowcase().then(setupGroupsScanBar),
 			setupCipherIndicator()
@@ -345,28 +346,23 @@
 		}
 	});
 
-	async function setupFriendWarning() {
-		try {
-			const { element: friendButton } = await waitForElement(
+	function setupFriendWarning() {
+		friendButtonHandler = (event: Event) => {
+			if (!(event.target instanceof Element)) return;
+			const friendButton = event.target.closest<HTMLElement>(
 				PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
 			);
 			if (!friendButton) return;
 
-			friendButtonHandler = (event: Event) => {
-				// Status may not be loaded at setup time so gate on the flag per click
-				if (!userIsFlagged) return;
-				if (consumeSkipWarning(friendButton)) return;
+			if (!userIsFlagged) return;
+			if (consumeSkipWarning(friendButton)) return;
 
-				event.preventDefault();
-				event.stopPropagation();
-				friendWarningOpen = true;
-			};
+			event.preventDefault();
+			event.stopPropagation();
+			friendWarningOpen = true;
+		};
 
-			// Capture phase to intercept before other handlers
-			friendButton.addEventListener('click', friendButtonHandler, true);
-		} catch (error) {
-			logger.error('Failed to setup friend warning:', error);
-		}
+		document.addEventListener('click', friendButtonHandler, true);
 	}
 
 	async function setupCarousel() {
@@ -630,11 +626,8 @@
 		setProfileOutfitBlurState(null);
 		setProfileTextBlurState(null);
 
-		const friendButton = document.querySelector<HTMLElement>(
-			PROFILE_SELECTORS.HEADER_FRIEND_BUTTON
-		);
-		if (friendButton && friendButtonHandler) {
-			friendButton.removeEventListener('click', friendButtonHandler, true);
+		if (friendButtonHandler) {
+			document.removeEventListener('click', friendButtonHandler, true);
 		}
 
 		headerReinjectObserver?.disconnect();

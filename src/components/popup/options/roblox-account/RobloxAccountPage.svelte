@@ -38,11 +38,15 @@
 	let sessionsLoading = $state(false);
 	let revokingId = $state<string | null>(null);
 
-	// Re-seed the draft inputs whenever the backend hands us a freshly-fetched
-	// profile. We always replace the profile object atomically, so reading any
-	// field re-runs the effect on the next fetch.
+	let draftsSeeded = $state(false);
+
 	$effect(() => {
-		if (!profile) return;
+		if (!profile) {
+			draftsSeeded = false;
+			return;
+		}
+		if (draftsSeeded) return;
+		draftsSeeded = true;
 		aliasDraft = profile.alias ?? '';
 		showUsernameDraft = profile.show_username;
 		showThumbnailDraft = profile.show_thumbnail;

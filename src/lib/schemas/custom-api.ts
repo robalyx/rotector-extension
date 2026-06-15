@@ -69,7 +69,12 @@ const ImportedApiConfigSchema = v.object({
 	reasonFormat: v.optional(
 		v.picklist(REASON_FORMATS, 'reasonFormat must be "numeric" or "string"')
 	),
-	landscapeImageDataUrl: v.optional(v.string('landscapeImageDataUrl must be a string')),
+	landscapeImageDataUrl: v.optional(
+		v.pipe(
+			v.string('landscapeImageDataUrl must be a string'),
+			v.startsWith('data:image/', 'landscapeImageDataUrl must be an inline data:image/ URL')
+		)
+	),
 	authHeaderType: v.optional(
 		v.picklist(
 			AUTH_HEADER_TYPES,
@@ -91,7 +96,7 @@ export const PersistedCustomApiSchema = v.object({
 	lastTestSuccess: v.optional(v.boolean()),
 	isSystem: v.optional(v.boolean()),
 	reasonFormat: v.optional(v.picklist(REASON_FORMATS)),
-	landscapeImageDataUrl: v.optional(v.string()),
+	landscapeImageDataUrl: v.optional(v.pipe(v.string(), v.startsWith('data:image/'))),
 	apiKey: v.optional(v.string()),
 	authHeaderType: v.optional(v.picklist(AUTH_HEADER_TYPES))
 });

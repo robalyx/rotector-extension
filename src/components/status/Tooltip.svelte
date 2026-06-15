@@ -240,7 +240,9 @@
 
 	const activeApiResult = $derived(userStatus?.get(activeTab) ?? null);
 	const activeStatus = $derived(activeApiResult?.data ?? null);
-	const activeError = $derived(activeApiResult?.error ?? error ?? null);
+	const activeError = $derived(
+		activeApiResult?.error ?? (activeTab === ROTECTOR_API_ID ? (error ?? null) : null)
+	);
 	const activeLoading = $derived(activeApiResult?.loading ?? false);
 
 	const tabs = $derived.by(() => {
@@ -267,6 +269,11 @@
 		activeTab = next;
 		lastSelectedForUserId = userId;
 	});
+
+	// Mark the tab as user-chosen so the default-tab effect above won't override a manual selection
+	function handleTabSelect() {
+		lastSelectedForUserId = userId;
+	}
 
 	const sanitizedUserId = $derived(sanitizeEntityId(userId) ?? '');
 
@@ -599,11 +606,11 @@
 		}
 	}
 
-	function toggleOriginal(content: string) {
-		if (expandedOriginals.has(content)) {
-			expandedOriginals.delete(content);
+	function toggleOriginal(key: string) {
+		if (expandedOriginals.has(key)) {
+			expandedOriginals.delete(key);
 		} else {
-			expandedOriginals.add(content);
+			expandedOriginals.add(key);
 		}
 	}
 
@@ -1683,7 +1690,8 @@
 											{:else}
 												{@const decodeEntry = evidenceEncodingMap.get(evidence.content)}
 												{#if decodeEntry}
-													{@const isOriginalShown = expandedOriginals.has(evidence.content)}
+													{@const toggleKey = `${reason.typeName}:${String(index)}`}
+													{@const isOriginalShown = expandedOriginals.has(toggleKey)}
 													<div
 														class="decoded-evidence-item"
 														data-encoded-original={evidence.content}
@@ -1696,7 +1704,7 @@
 															onmousedown={(e) => {
 																e.stopPropagation();
 																e.preventDefault();
-																toggleOriginal(evidence.content);
+																toggleOriginal(toggleKey);
 															}}
 															type="button"
 														>
@@ -1803,7 +1811,7 @@
 				class:has-tabs={tabs.length > 1}
 				bind:clientWidth={measuredCardWidth}
 			>
-				<TooltipTabs {tabs} bind:activeTab />
+				<TooltipTabs onSelect={handleTabSelect} {tabs} bind:activeTab />
 
 				<div
 					style:max-height={tooltipDimensions.height ? 'none' : undefined}
@@ -2072,7 +2080,7 @@
 		role="button"
 		tabindex="0"
 	>
-		<TooltipTabs {tabs} bind:activeTab />
+		<TooltipTabs onSelect={handleTabSelect} {tabs} bind:activeTab />
 
 		<!-- Sticky header -->
 		<div bind:this={stickyHeaderRef} class="tooltip-sticky-header">

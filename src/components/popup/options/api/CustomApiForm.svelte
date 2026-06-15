@@ -155,11 +155,14 @@
 			imageError = $_('custom_api_form_error_image_size', {
 				values: { 0: Math.round(fileSizeKB).toString() }
 			});
+			landscapeImageDataUrl = '';
+			resetImageInput();
+			return;
 		}
 
 		const reader = new FileReader();
 		reader.addEventListener('load', (e) => {
-			landscapeImageDataUrl = e.target?.result as string;
+			if (typeof e.target?.result === 'string') landscapeImageDataUrl = e.target.result;
 		});
 		reader.addEventListener('error', () => {
 			imageError = $_('custom_api_form_error_image_read');
@@ -180,7 +183,7 @@
 		);
 	}
 
-	// Auto-disables the API when its URLs change so the user must retest before traffic resumes against the new endpoint
+	// URL changes auto-disable and clear the test result, forcing a retest before re-enable
 	async function handleSave() {
 		if (!validateForm()) {
 			return;
@@ -190,7 +193,6 @@
 
 		try {
 			if (isEditing && editingApi) {
-				// Changing URLs auto-disables the API so the user must retest before it runs again
 				const urlChanged =
 					singleUrl.trim() !== editingApi.singleUrl || batchUrl.trim() !== editingApi.batchUrl;
 
@@ -199,7 +201,9 @@
 					singleUrl: singleUrl.trim(),
 					batchUrl: batchUrl.trim(),
 					timeout,
-					...(urlChanged ? { enabled: false } : {}),
+					...(urlChanged
+						? { enabled: false, lastTested: undefined, lastTestSuccess: undefined }
+						: {}),
 					landscapeImageDataUrl: landscapeImageDataUrl || undefined,
 					apiKey: apiKey.trim() || undefined,
 					authHeaderType: apiKey.trim() ? authHeaderType : undefined

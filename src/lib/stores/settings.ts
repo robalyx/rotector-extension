@@ -66,11 +66,14 @@ export async function updateSetting<K extends SettingsKey>(
 const validKeysForSync = new Set<string>(Object.values(SETTINGS_KEYS));
 for (const key of validKeysForSync) {
 	subscribeStorageKey<unknown>('sync', key, (newValue) => {
-		if (newValue === undefined) return;
-		settings.update((current) => ({
-			...current,
-			[key]: newValue
-		}));
+		settings.update((current) => {
+			if (newValue === undefined) {
+				const updated = { ...current };
+				delete (updated as Record<string, unknown>)[key];
+				return updated;
+			}
+			return { ...current, [key]: newValue };
+		});
 	});
 }
 

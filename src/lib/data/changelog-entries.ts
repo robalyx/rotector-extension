@@ -4,11 +4,10 @@ export const CHANGELOGS: Changelog[] = [
 	{
 		id: 'v2.17.1',
 		version: '2.17.1',
-		date: '2026-06-16',
-		title: 'Small fixes',
+		date: '2026-06-19',
+		title: 'Detection and reliability fixes',
 		summary:
-			'A quick patch fixing status indicator positioning on profile community tiles and restoring the Communities scan bar for BTRoblox users.',
-		silent: true,
+			'A round of fixes for cipher detection, the friend warning, custom APIs, and the leaderboard.',
 		changes: [
 			{
 				type: 'fixed',
@@ -19,6 +18,45 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'fixed',
 				description:
 					'Communities scan bar on BTRoblox - The bulk scan summary on profile Communities sections now appears for users running the BTRoblox extension'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Cipher detection - More hidden messages using Caesar, binary, and morse ciphers are now caught and decoded'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Friend request warning - The warning before adding a flagged user no longer stops appearing after the profile page updates'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Auto-translation - Translated reasons no longer show the wrong translation, and a slow request no longer leaves the tooltip stuck loading'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Custom API enabling - Turning on a custom API now runs a connection test first and only enables it if the test passes'
+			},
+			{
+				type: 'fixed',
+				description: 'Custom API tooltips - Each API tab now shows only its own error message'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Leaderboard - Switching time windows no longer leaves stale results or a stuck Load More button'
+			},
+			{
+				type: 'fixed',
+				description:
+					'Account settings - Edits to your alias and display options are no longer overwritten by a background refresh'
+			},
+			{
+				type: 'security',
+				description:
+					'Custom API import - Imported configurations no longer load images from remote servers'
 			}
 		]
 	},

@@ -10,6 +10,7 @@ import {
 	extractApiOrigins
 } from '../utils/permissions';
 import { asApiError } from '../utils/api/api-error';
+import { testCustomApiConnection } from '../services/custom-api-test';
 import { getAssetUrl } from '../utils/assets';
 import { getStorage, setStorage } from '../utils/storage';
 import { generateLocalId } from '../utils/id';
@@ -162,7 +163,7 @@ type SetEnabledResult =
 	| { ok: true; granted: boolean }
 	| {
 			ok: false;
-			reason: 'invalid_url' | 'permission_denied' | 'error';
+			reason: 'invalid_url' | 'permission_denied' | 'test_failed' | 'error';
 			message?: string | undefined;
 	  };
 
@@ -188,6 +189,15 @@ export async function setCustomApiEnabled(
 	}
 
 	try {
+		// Turning on an untested API runs a connection test first and only enables it on success
+		if (api.lastTestSuccess !== true) {
+			const success = await testCustomApiConnection(api);
+			await updateTestResult(api.id, success);
+			if (!success) {
+				return { ok: false, reason: 'test_failed' };
+			}
+		}
+
 		const hasPerms = await hasPermissionsForOrigins(origins);
 		const granted = hasPerms || (await requestPermissionsForOrigins(origins));
 		if (!granted) {

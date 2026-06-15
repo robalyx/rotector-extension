@@ -16,12 +16,14 @@
 	interface Props {
 		tabs: TabInfo[];
 		activeTab: string;
+		onSelect?: (id: string) => void;
 	}
 
-	let { tabs, activeTab = $bindable() }: Props = $props();
+	let { tabs, activeTab = $bindable(), onSelect }: Props = $props();
 
 	function selectTab(id: string) {
 		activeTab = id;
+		onSelect?.(id);
 		updateSetting('lastSelectedCustomApiTab', id).catch((error: unknown) => {
 			logger.error('Failed to save tab preference:', error);
 		});

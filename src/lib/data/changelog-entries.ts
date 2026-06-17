@@ -7,7 +7,7 @@ export const CHANGELOGS: Changelog[] = [
 		date: '2026-06-19',
 		title: 'Detection and reliability fixes',
 		summary:
-			'A round of fixes for cipher detection, the friend warning, custom APIs, and the leaderboard.',
+			'A round of fixes for cipher detection, the friend warning, custom APIs, and the leaderboard, plus stronger anti-abuse protections.',
 		changes: [
 			{
 				type: 'fixed',
@@ -57,6 +57,11 @@ export const CHANGELOGS: Changelog[] = [
 				type: 'security',
 				description:
 					'Custom API import - Imported configurations no longer load images from remote servers'
+			},
+			{
+				type: 'security',
+				description:
+					'Anti-abuse - Strengthened protections that detect and prevent misuse of the extension'
 			}
 		]
 	},

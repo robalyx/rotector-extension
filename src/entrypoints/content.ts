@@ -15,6 +15,7 @@ import {
 	setupRestrictedAccessListener
 } from '@/lib/stores/restricted-access';
 import { injectBlurStyles, injectDefaultBlurStyles } from '@/lib/services/blur/service';
+import { computeAndCacheDeviceFingerprint } from '@/lib/utils/device-fingerprint';
 import { metricsCollector } from '@/lib/utils/logging/metrics-collector';
 import { registerOverlayContainer } from '@/lib/utils/overlay-portal-registry';
 import OverlayRoot from '@/components/overlay/OverlayRoot.svelte';
@@ -170,6 +171,8 @@ export default defineContentScript({
 			function initializePageHandling() {
 				if (pageManagerInitialized) return;
 				pageManagerInitialized = true;
+
+				void computeAndCacheDeviceFingerprint();
 
 				const pageManager = new PageControllerManager();
 				logger.debug('Page controller manager initialized');

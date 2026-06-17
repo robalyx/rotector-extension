@@ -6,6 +6,7 @@ import { logger } from '@/lib/utils/logging/logger';
 import { type ApiError, asApiError, buildHttpError } from '@/lib/utils/api/api-error';
 import { getStorage } from '@/lib/utils/storage';
 import { getInstallationId } from '@/lib/utils/installation-id';
+import { getCachedDeviceFingerprint } from '@/lib/utils/device-fingerprint';
 import { markSessionRestricted } from '@/lib/stores/session-state';
 import {
 	bumpStoredAuthExpires,
@@ -98,6 +99,11 @@ async function buildRotectorHeaders(
 	}
 
 	headers.set('X-Installation-ID', await getInstallationId());
+
+	const deviceFingerprint = await getCachedDeviceFingerprint();
+	if (deviceFingerprint) {
+		headers.set('X-Device-FP', deviceFingerprint);
+	}
 
 	if (clientId) {
 		headers.set('X-Client-ID', clientId);

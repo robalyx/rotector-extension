@@ -94,7 +94,11 @@ export default defineConfig({
 				browser_specific_settings: {
 					gecko: {
 						id: 'rotector@jaxron.me',
-						strict_min_version: '129.0'
+						strict_min_version: '129.0',
+						// See src/lib/utils/device-fingerprint.ts for what this declares and why
+						data_collection_permissions: {
+							optional: ['technicalAndInteraction']
+						}
 					}
 				}
 			})

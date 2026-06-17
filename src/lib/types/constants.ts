@@ -217,7 +217,7 @@ export const LOOKUP_CONTEXT = {
 	GROUPS: 'groups'
 } as const;
 
-export const REQUIRED_LEGAL_VERSION = '2.16.0';
+export const REQUIRED_LEGAL_VERSION = '2.17.1';
 
 export const LEGAL_URLS = {
 	terms: 'https://rotector.com/terms',

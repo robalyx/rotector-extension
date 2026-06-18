@@ -25,6 +25,7 @@
 	import { asApiError } from '@/lib/utils/api/api-error';
 	import { createAbortableBatch } from '@/lib/utils/api/abortable-batch';
 	import { extractIdFromUrl } from '@/lib/utils/dom/sanitizer';
+	import { getFriendsListTab, type FriendsListTab } from '@/lib/utils/dom/page-detection';
 	import { logger } from '@/lib/utils/logging/logger';
 	import { startTrace } from '@/lib/utils/logging/perf-tracer';
 	import { TRACE_CATEGORIES } from '@/lib/types/performance';
@@ -61,6 +62,7 @@
 	let processedUsers = new SvelteSet<string>();
 	let userStatuses = new SvelteMap<string, CombinedStatus<UserStatus>>();
 	const mountedComponents = new MountedComponentRegistry<string>();
+	let lastFriendsTab: FriendsListTab | null = null;
 	let destroyed = $state(false);
 	const batch = createAbortableBatch();
 
@@ -352,6 +354,8 @@
 			pageType
 		});
 		try {
+			resetIfFriendsTabChanged();
+
 			const unprocessedElements: Element[] = [];
 			const reusedElements: { element: Element; oldUserId: string; newUserId: string }[] = [];
 
@@ -504,18 +508,29 @@
 		}
 	}
 
+	// Drops cached statuses/indicators on a friends sub-tab switch so each tab re-derives restriction state
+	function resetIfFriendsTabChanged() {
+		if (pageType !== PAGE_TYPES.FRIENDS_LIST) return;
+
+		const tab = getFriendsListTab();
+		if (lastFriendsTab !== null && lastFriendsTab !== tab) {
+			mountedComponents.destroyAll();
+			processedUsers.clear();
+			userStatuses.clear();
+		}
+		lastFriendsTab = tab;
+	}
+
 	function isOwnFriendsLookup(): boolean {
 		const loggedInUserId = getLoggedInUserId();
 		if (!loggedInUserId) return false;
 
-		// Home page always shows own friends
 		if (pageType === PAGE_TYPES.HOME) return true;
 
-		// Friends list page: check URL
 		if (pageType === PAGE_TYPES.FRIENDS_LIST) {
+			if (getFriendsListTab() !== 'friends') return false;
+
 			const pathname = globalThis.location.pathname;
-			// /users/friends = own friends list (no user ID in URL)
-			// /users/{userId}/friends = specific user's friends list
 			if (pathname === '/users/friends' || pathname === '/users/friends/') {
 				return true;
 			}
@@ -523,7 +538,6 @@
 			return userIdFromUrl === loggedInUserId;
 		}
 
-		// Profile carousel: check if viewing own profile
 		if (pageType === PAGE_TYPES.FRIENDS_CAROUSEL) {
 			return profileOwnerId === loggedInUserId;
 		}

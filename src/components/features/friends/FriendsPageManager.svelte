@@ -4,7 +4,7 @@
 	import { COMPONENT_CLASSES, PAGE_TYPES } from '@/lib/types/constants';
 	import { FRIENDS_SELECTORS } from '@/lib/controllers/selectors/friends';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
-	import { normalizePathname } from '@/lib/utils/dom/page-detection';
+	import { getFriendsListTab, normalizePathname } from '@/lib/utils/dom/page-detection';
 	import { extractIdFromUrl } from '@/lib/utils/dom/sanitizer';
 	import UserListManager from '../lists/UserListManager.svelte';
 	import FriendsScanBar from './FriendsScanBar.svelte';
@@ -54,8 +54,7 @@
 	}
 
 	function isFriendsTab(): boolean {
-		const tab = globalThis.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1] ?? '';
-		return tab === '' || tab === 'friends';
+		return getFriendsListTab() === 'friends';
 	}
 
 	async function setupScanBar() {

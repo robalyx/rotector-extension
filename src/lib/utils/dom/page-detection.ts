@@ -50,6 +50,15 @@ export function detectPageType(url: string): PageType | null {
 	}
 }
 
+export type FriendsListTab = 'friends' | 'followers' | 'following';
+
+export function getFriendsListTab(): FriendsListTab {
+	const tab = globalThis.location.hash.match(/^#!?\/?([^/#?&]*)/)?.[1];
+	if (tab === 'followers') return 'followers';
+	if (tab === 'following') return 'following';
+	return 'friends';
+}
+
 export interface UserInfo {
 	userId: string;
 	username?: string | undefined;

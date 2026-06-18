@@ -54,6 +54,11 @@ export const CHANGELOGS: Changelog[] = [
 					'Account settings - Edits to your alias and display options are no longer overwritten by a background refresh'
 			},
 			{
+				type: 'fixed',
+				description:
+					'Restriction notice - The notice explaining why an account was flagged now loads its specific reasons instead of showing a load error'
+			},
+			{
 				type: 'security',
 				description:
 					'Custom API import - Imported configurations no longer load images from remote servers'

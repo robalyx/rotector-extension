@@ -214,7 +214,8 @@ export const USER_ACTIONS = {
 // Lookup context for request headers
 export const LOOKUP_CONTEXT = {
 	FRIENDS: 'friends',
-	GROUPS: 'groups'
+	GROUPS: 'groups',
+	PROFILE: 'profile'
 } as const;
 
 export const REQUIRED_LEGAL_VERSION = '2.17.1';

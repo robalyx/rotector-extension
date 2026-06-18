@@ -4,7 +4,8 @@
 	import Modal from '../../ui/Modal.svelte';
 	import StatusIcon from '@/components/icons/StatusIcon.svelte';
 	import { restrictedAccessStore, markRestrictionNoticeSeen } from '@/lib/stores/restricted-access';
-	import { userStatusService } from '@/lib/services/rotector/entity-status';
+	import { apiClient } from '@/lib/services/rotector/api-client';
+	import { LOOKUP_CONTEXT } from '@/lib/types/constants';
 	import { getCurrentAvatarInfo } from '@/lib/services/roblox/api';
 	import { getLoggedInUserId } from '@/lib/utils/client-id';
 	import { getStatusConfig } from '@/lib/utils/status/status-config';
@@ -39,11 +40,14 @@
 		}
 
 		let cancelled = false;
-		Promise.all([getCurrentAvatarInfo(userId), userStatusService.getStatus(userId)])
-			.then(([info, status]) => {
+		Promise.all([
+			getCurrentAvatarInfo(userId),
+			apiClient.checkMultipleUsers([userId], { lookupContext: LOOKUP_CONTEXT.PROFILE })
+		])
+			.then(([info, statuses]) => {
 				if (cancelled) return;
 				userInfo = info;
-				userStatus = status;
+				userStatus = statuses[0] ?? null;
 				reasonsLoading = false;
 			})
 			.catch((error: unknown) => {

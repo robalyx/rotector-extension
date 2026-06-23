@@ -80,7 +80,8 @@
 		"webgl-obj-loader": "^2.0.8"
 	},
 	"overrides": {
-		"vite": "npm:rolldown-vite@7.2.9",
-		"@sveltejs/vite-plugin-svelte": "^7.1.2"
+		"vite": "^8.1.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"esrap": "2.2.11"
 	}
 }
